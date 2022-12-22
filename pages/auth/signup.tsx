@@ -16,7 +16,7 @@ export default function SignUp() {
                         />
                         <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">CREATE</h2>
                         <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-4xl">NEW ACCOUNT</h2>
-                        <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">Already Registered ? <Link href="/auth/signin">Login</Link></h4>
+                        <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">Already Registered ? <Link href="/auth/signin" className='underline'>Login</Link></h4>
                         <br />
                         <hr className="w-1/3"></hr>
                         <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Veified By Blockchain Technology</h4>
@@ -40,8 +40,8 @@ export default function SignUp() {
                         <form action="" className="flex flex-col items-center">
                             <input className="p-2 mt-8 rounded-xl border w-3/4" type="text" name="name" placeholder="Name" />
                             <input className="p-2 mt-8 rounded-xl border w-3/4" type="email" name="email" placeholder="Email" />
-                            <button className="md:w-4/9 mt-8 bg-button1 text-white py-2 px-4 rounded-xl">Connect Wallet</button>
-                            <button className="md:w-4/9 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Sign Up</button>
+                            <button className="w-40 mt-8 bg-button1 text-white py-2 px-4 rounded-xl">Connect Wallet</button>
+                            <button className="w-40 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Sign Up</button>
                         </form>
                     </div>
                 </div>

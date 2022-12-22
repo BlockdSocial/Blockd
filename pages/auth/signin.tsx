@@ -16,7 +16,7 @@ export default function SignIn() {
                         />
                         <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">LOGIN</h2>
                         <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-3xl">SIGN IN TO CONTINUE</h2>
-                        <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">You are not Registered ? <Link href="/auth/signup">Register Now</Link></h4>
+                        <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">You are not Registered ? <Link href="/auth/signup" className='underline'>Register Now</Link></h4>
                         <br />
                         <hr className="w-1/3"></hr>
                         <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Veified By Blockchain Technology</h4>
@@ -38,7 +38,7 @@ export default function SignIn() {
                             <h2 className="font-bold text-white mt-2 ml-2 pb-3 text-4xl lg:text-5xl">Sign In</h2>
                         </div>
                         <form action="" className="flex flex-col items-center">
-                            <button className="md:w-4/9 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Connect Wallet</button>
+                            <button className="w-40 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Connect Wallet</button>
                         </form>
                     </div>
                 </div>
