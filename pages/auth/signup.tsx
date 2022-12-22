@@ -4,22 +4,24 @@ import Link from 'next/link';
 export default function SignUp() {
     return (
         <section className="flex flex-col md:flex-row h-screen bg-image">
-            <div className="h-screen hidden md:block md:w-1/2 lg:w-1/2 xl:w-1/2">
-                <div className="h-full w-full rounded-2xl p-10 ml-10 xl:ml-24">
-                    <Image
-                        src="/images/logo.png"
-                        alt="Blockd Logo"
-                        className="self-center mt-10 md:w-30 md:h-14"
-                        width={80}
-                        height={50}
-                    />
-                    <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">CREATE</h2>
-                    <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-4xl">NEW ACCOUNT</h2>
-                    <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">Already Registered ? <Link href="/auth/signin">Login</Link></h4>
-                    <br />
-                    <hr className="w-1/3"></hr>
-                    <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Veified By Blockchain Technology</h4>
-                    <button className="md:w-4/9 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Learn more</button>
+            <div className="h-screen hidden md:flex items-center w-full md:w-1/2 lg:w-1/2 xl:w-1/2">
+                <div className="flex items-center w-full">
+                    <div className="h-full w-full rounded-2xl p-10 ml-10 xl:ml-28">
+                        <Image
+                            src="/images/logo.png"
+                            alt="Blockd Logo"
+                            className="self-center md:w-30 md:h-14"
+                            width={80}
+                            height={50}
+                        />
+                        <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">CREATE</h2>
+                        <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-4xl">NEW ACCOUNT</h2>
+                        <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">Already Registered ? <Link href="/auth/signin">Login</Link></h4>
+                        <br />
+                        <hr className="w-1/3"></hr>
+                        <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Veified By Blockchain Technology</h4>
+                        <button className="md:w-4/9 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Learn more</button>
+                    </div>
                 </div>
             </div>
             <div className="h-screen block w-full md:w-1/2 lg:w-1/2 xl:w-1/2 p-12">
