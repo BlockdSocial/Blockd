@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React from 'react'
+import React, { useState } from 'react'
 import {
     CalendarIcon,
     FaceSmileIcon,
@@ -9,8 +9,11 @@ import {
 } from '@heroicons/react/24/outline'
 
 function TweetBox() {
+
+    const [input, setInput] = useState<string>('')
+
     return (
-        <div className='flex space-x-2 p-5 border-y mt-4'>
+        <div className='flex space-x-2 p-5 border-y mt-4 dark:bg-lightgray md:dark:rounded-md md:dark:border'>
             <Image
                 src="/images/pfp1.jpg"
                 alt="PFP"
@@ -20,7 +23,14 @@ function TweetBox() {
             />
             <div className='flex flex-1 items-center pl-2'>
                 <form className='flex flex-col flex-1'>
-                    <input type="text" placeholder="What's on the block ?" className='h-24 w-full text-xl outline-none placeholder:text:xl'/>
+                    <input 
+                        value={input} 
+                        onChange={e => setInput(e.target.value)}
+                        type="text" 
+                        placeholder="What's the word on the block ?" 
+                        className='h-24 w-full text-xl outline-none placeholder:text:xl bg-transparent'
+                    />
+                    <hr className='mb-4'></hr>
                     <div className='flex items-center'>
                         <div className='flex space-x-2 text-blockd flex-1'>
                             <CalendarIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' /> 
@@ -29,7 +39,12 @@ function TweetBox() {
                             <CameraIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             <GifIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                         </div>
-                        <button className='bg-blockd px-5 py-2 font-bold text-white rounded-full'>Tweet</button>
+                        <button 
+                            disabled={!input}
+                            className='bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]'
+                        >
+                                Post
+                        </button>
                     </div>
                 </form>
             </div>

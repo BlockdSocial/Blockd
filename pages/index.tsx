@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar';
 
 const Home: NextPage = () => {
   return (
-    <div className='mx-auto max-h-screen h-screen overflow-hidden'>
+    <div className='z-[-4] bg-white dark:bg-darkgray mx-auto max-h-screen h-screen overflow-hidden'>
       <Head>
         <title>Blockd</title>
       </Head>
