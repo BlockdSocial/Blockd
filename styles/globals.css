@@ -2,52 +2,54 @@
 @tailwind components;
 @tailwind utilities;
 
-.bg-image{
-    background-image: url('../public/images/bg.jpg');
-    background-size: cover;
-  }
-  
-  .bg-color{
-    background-color: rgba(216, 213, 213, 0.199);
-  }
-  
-  input{
-    background-color: rgba(230, 230, 230, 0.397);
-    border: none;
-    -webkit-transition: 0.5s;
-    transition: 0.5s;
-    outline: none;
-  }
-  
-  input::placeholder {
-    color: white;
-  }
-  
-  input:focus {
-    border: white;
-    background-color: rgb(99, 97, 97);
-  }
-  
-  input, select, textarea{
-    color: white;
-  }
-  
-  .bg-button1{
-    background-color: rgba(230, 230, 230, 0.397);
-    border: none;
-    color: white;
-    font-family: Arial, sans-serif;
-  }
-  
-  .bg-button1:hover{
-    background-color: rgb(99, 97, 97);
-  }
-  
-  .bg-button2{
-    background: #ff6c14;
-    font-family: Arial, sans-serif;
-  }
-  
-  .bg-button2:hover{
-    background: #f75a00;
-  }
+.bg-image {
+  background-image: url('../public/images/bg.jpg');
+  background-size: cover;
+}
+
+.bg-color {
+  background-color: rgba(216, 213, 213, 0.199);
+}
+
+input.sign-up {
+  background-color: rgba(230, 230, 230, 0.397);
+  border: none;
+  -webkit-transition: 0.5s;
+  transition: 0.5s;
+  outline: none;
+}
+
+input.sign-up::placeholder {
+  color: white;
+}
+
+input.sign-up:focus {
+  border: white;
+  background-color: rgb(99, 97, 97);
+}
+
+input.sign-up,
+select,
+textarea {
+  color: white;
+}
+
+.bg-button1 {
+  background-color: rgba(230, 230, 230, 0.397);
+  border: none;
+  color: white;
+  font-family: Arial, sans-serif;
+}
+
+.bg-button1:hover {
+  background-color: rgb(99, 97, 97);
+}
+
+.bg-button2 {
+  background: #ff6c14;
+  font-family: Arial, sans-serif;
+}
+
+.bg-button2:hover {
+  background: #f75a00;
+}

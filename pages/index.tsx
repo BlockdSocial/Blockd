@@ -1,9 +1,26 @@
+import { NextPage } from 'next';
+import Head from 'next/head';
 import Link from 'next/link';
+import Sidebar from '../components/Sidebar';
+import Feed from '../components/Feed';
+import Widgets from '../components/Widgets';
+import Navbar from '../components/Navbar';
 
-export default function Home() {
+const Home: NextPage = () => {
   return (
-    <h1 className="text-5xl font-bold">
-      <Link href="/auth/signup">Sign Up</Link>
-    </h1>
+    <div className='mx-auto max-h-screen h-screen overflow-hidden'>
+      <Head>
+        <title>Blockd</title>
+      </Head>
+      <Navbar />
+      <main className='h-full grid grid-cols-9'>
+        <Sidebar />
+        <Feed />
+        <Widgets />
+      </main>
+    </div>
+    
   )
 }
+
+export default Home

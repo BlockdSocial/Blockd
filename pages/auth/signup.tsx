@@ -38,8 +38,8 @@ export default function SignUp() {
                             <h2 className="font-bold text-white mt-2 ml-2 pb-3 text-4xl lg:text-5xl">Sign Up</h2>
                         </div>
                         <form action="" className="flex flex-col items-center">
-                            <input className="p-2 mt-8 rounded-xl border w-3/4" type="text" name="name" placeholder="Name" />
-                            <input className="p-2 mt-8 rounded-xl border w-3/4" type="email" name="email" placeholder="Email" />
+                            <input className="p-2 mt-8 rounded-xl border w-3/4 sign-up" type="text" name="name" placeholder="Name" />
+                            <input className="p-2 mt-8 rounded-xl border w-3/4 sign-up" type="email" name="email" placeholder="Email" />
                             <button className="w-40 mt-8 bg-button1 text-white py-2 px-4 rounded-xl">Connect Wallet</button>
                             <button className="w-40 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Sign Up</button>
                         </form>
