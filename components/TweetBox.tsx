@@ -7,6 +7,7 @@ import {
     CameraIcon,
     GifIcon,
 } from '@heroicons/react/24/outline'
+import Picture from './Picture'
 
 function TweetBox() {
 
@@ -14,13 +15,7 @@ function TweetBox() {
 
     return (
         <div className='flex space-x-2 p-5 border-y mt-4 dark:bg-lightgray md:dark:rounded-md md:dark:border'>
-            <Image
-                src="/images/pfp1.jpg"
-                alt="PFP"
-                className="mt-4 h-14 w-14 rounded-full object-cover"
-                width={60}
-                height={60}
-            />
+            <Picture path='/images/pfp1.jpg' level={4} />
             <div className='flex flex-1 items-center pl-2'>
                 <form className='flex flex-col flex-1'>
                     <textarea 
