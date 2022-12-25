@@ -23,16 +23,17 @@ function TweetBox() {
             />
             <div className='flex flex-1 items-center pl-2'>
                 <form className='flex flex-col flex-1'>
-                    <input 
+                    <textarea 
+                        id="message" 
                         value={input} 
-                        onChange={e => setInput(e.target.value)}
-                        type="text" 
-                        placeholder="What's the word on the block ?" 
-                        className='h-24 w-full text-xl outline-none placeholder:text:xl bg-transparent'
-                    />
+                        onChange={e => setInput(e.target.value)} 
+                        data-rows="4" 
+                        className="h-24 w-full outline-none text-l placeholder:text-l md:text-xl md:placeholder:text-xl bg-transparent placeholder:pt-8 " 
+                        placeholder="What's the word on the block ?"
+                    ></textarea>
                     <hr className='mb-4'></hr>
                     <div className='flex items-center'>
-                        <div className='flex space-x-2 text-blockd flex-1'>
+                        <div className='flex space-x-2 text-blockd dark:text-white flex-1'>
                             <CalendarIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' /> 
                             <FaceSmileIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             <MapPinIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />

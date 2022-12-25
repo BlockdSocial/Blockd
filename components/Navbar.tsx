@@ -43,7 +43,7 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md top-0 left-0'>
-            <div className='md:flex items-center justify-between bg-gray-900 dark:bg-lightgray md:px-5 h-20'>
+            <div className='md:flex items-center justify-between bg-[#181c44] dark:bg-lightgray md:px-5 h-20'>
                 <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins]'>
                         <Image
                             src="/images/logo.png"
@@ -59,12 +59,13 @@ const Navbar = () => {
                 </div>
 
                 <div onClick={() => setOpen(!open)} className='text-3xl absolute right-4 md:right-8 top-6 cursor-pointer md:hidden'>
+                    <span className="text-white absolute text-xs -right-3 -top-2 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-gray-900 dark:border-lightgray"><span>13</span></span>
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 text-white" name={open ? 'close' : 'menu'}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
                 </div>
 
-                <ul className={`md:flex absolute items-center md:static z-[2] right-0 w-1/3 md:w-auto md:pl-0 transition-all ease-in ${open ? 'top-20 h-full bg-gray-900 dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
+                <ul className={`md:flex absolute items-center md:static z-[2] right-0 w-full md:w-auto md:pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-[#181c44] dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
                     <li className='hidden md:inline flex-col items-center text-l my-1'>
                         {renderThemeChanger()}
                     </li>

@@ -7,7 +7,7 @@ function Feed() {
   return (
     <div className='h-full col-span-8 md:col-span-5 md:p-4 border-x'>
       <div className='flex flex-col items-end'>
-        <ArrowPathIcon className='mr-5 mt-6 md:mt-3 h-6 w-6 cursor-pointer text-blockd transition-all duration-500 ease-out hover:rotate-180 active-scale' />
+        <ArrowPathIcon className='mr-5 mt-6 md:mt-3 h-6 w-6 cursor-pointer text-blockd dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale' />
       </div>
 
       <div>
