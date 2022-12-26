@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
-function Post() {
+function PostID() {
 
     const [commentBoxVisible, setCommentBoxVisible ] = useState<boolean>(false)
     const [input, setInput] = useState<string>('')
@@ -22,7 +22,7 @@ function Post() {
     }
 
     return (
-        <div className='flex flex-col space-x-3 mt-1 border-y p-4 dark:border-white'>
+        <div className='flex flex-col space-x-3 p-4'>
             <div className='w-full'>
                 <Link href="#" className='flex space-x-3 w-fit group'>
                     <Picture path="/images/pfp2.jpg" level={5} pwidth="w-12" pheight="w-12" ltop="top-12" />
@@ -34,14 +34,12 @@ function Post() {
                     </div>
                 </Link>
                 <div className='w-full'>
-                    <Link href="post">
-                        <Image
-                            src="/images/post1.jpg"
-                            alt='Post'
-                            className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
-                            width={2000}
-                            height={2000} />
-                    </Link>
+                    <Image
+                        src="/images/post1.jpg"
+                        alt='Post'
+                        className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
+                        width={2000}
+                        height={2000} />
                     <p className='pt-4 ml-3 font-semibold'>This is a Demo Post</p>
                 </div>
             </div>
@@ -55,7 +53,7 @@ function Post() {
                         <ArrowDownIcon className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                         <p className='text-xs'>10K</p>
                     </div>
-                    <div onClick={() => setCommentBoxVisible(!commentBoxVisible) } className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black'>
+                    <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black'>
                         <ChatBubbleBottomCenterTextIcon className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                         <p className='text-xs'>168</p>
                     </div>
@@ -71,25 +69,23 @@ function Post() {
                     />
                 </div>
             </div>
+   
+            <form onSubmit={handleSubmit} className='mt-3 flex space-x-3'>
+                <input  
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    className='flex-1 rounded-lg bg-gray-100 p-2 outline-none'
+                    type="text" 
+                    placeholder='Write a comment...' 
+                />
+                <button 
+                    disabled={!input}
+                    type="submit"
+                    className='text-blockd disabled:text-gray-200'>Post
+                </button>
+            </form>
 
-            {commentBoxVisible && (
-                <form onSubmit={handleSubmit} className='mt-3 flex space-x-3'>
-                    <input  
-                        value={input}
-                        onChange={(e) => setInput(e.target.value)}
-                        className='flex-1 rounded-lg bg-gray-100 p-2 outline-none'
-                        type="text" 
-                        placeholder='Write a comment...' 
-                    />
-                    <button 
-                        disabled={!input}
-                        type="submit"
-                        className='text-blockd disabled:text-gray-200'>Post
-                    </button>
-                </form>
-            )}
-
-            <div className='my-2 mt-5 max-h-44 space-y-5 overflow-scroll border-t border-gray-100 p-5 scrollbar-hide'>
+            <div className='my-2 mt-5 max-h-auto space-y-5 overflow-scroll border-t border-gray-100 p-5 scrollbar-hide'>
                 <div className='relative flex space-x-2'>
                     <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
                     <img src="/images/pfp1.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
@@ -149,4 +145,4 @@ function Post() {
     )
 }
 
-export default Post
+export default PostID

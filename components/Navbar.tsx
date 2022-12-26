@@ -43,7 +43,7 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md top-0 left-0'>
-            <div className='md:flex items-center justify-between bg-[#181c44] dark:bg-lightgray md:px-5 h-20'>
+            <div className='md:flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-20'>
                 <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins]'>
                         <Image
                             src="/images/logo.png"
@@ -65,7 +65,7 @@ const Navbar = () => {
                     </svg>
                 </div>
 
-                <ul className={`md:flex absolute items-center md:static z-[2] right-0 w-full md:w-auto md:pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-[#181c44] dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
+                <ul className={`md:flex absolute items-center md:static z-[2] right-0 w-full md:w-auto md:pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
                     <li className='hidden md:inline flex-col items-center text-l my-1'>
                         {renderThemeChanger()}
                     </li>

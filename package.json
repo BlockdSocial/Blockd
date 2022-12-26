@@ -5,15 +5,20 @@
     "build": "next build",
     "start": "next start"
   },
+  "resolutions": {
+    "@types/react": "~17.0.21"
+  },
   "dependencies": {
     "@heroicons/react": "^2.0.13",
     "emoji-mart": "^5.4.0",
+    "emoji-mart-next": "^2.11.2",
     "next": "latest",
     "next-themes": "^0.2.1",
     "react": "18.2.0",
     "react-dom": "18.2.0",
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1",
+    "react-input-emoji": "^4.3.0",
     "react-timeago": "^7.1.0",
     "tailwind-scrollbar-hide": "^1.1.7"
   },

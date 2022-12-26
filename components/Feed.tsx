@@ -15,7 +15,7 @@ function Feed() {
   }
   
   return (
-    <div className='max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 md:p-4 border-x'>
+    <div className='max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x'>
       <div className='flex flex-col items-end'>
         <ArrowPathIcon
           onClick={handleRefresh}

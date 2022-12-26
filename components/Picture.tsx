@@ -11,8 +11,8 @@ interface Props {
 
 function Picture({path, level, pwidth, pheight, ltop}: Props) {
   return (
-    <div>
-        <span className={`text-black dark:text-white relative text-xs ${ltop} right-1 h-6 w-6 rounded-full bg-white dark:bg-lightgray flex justify-center items-center items border-2 border-[#181c44] dark:border-gray-500`}><span>{level}</span></span>
+    <div className='-z-5'>
+        <span className={`text-black dark:text-white text-xs ${ltop} relative right-1 h-6 w-6 rounded-full bg-white dark:bg-lightgray flex justify-center items-center border-2 border-[#181c44] dark:border-gray-500`}><span>{level}</span></span>
         <Image
             src={path}
             alt="PFP"
