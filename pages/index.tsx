@@ -5,13 +5,15 @@ import Sidebar from '../components/Sidebar';
 import Feed from '../components/Feed';
 import Widgets from '../components/Widgets';
 import Navbar from '../components/Navbar';
+import { Toaster } from 'react-hot-toast';
 
 const Home: NextPage = () => {
   return (
-    <div className='z-[-4] bg-white dark:bg-darkgray mx-auto max-h-screen h-screen overflow-hidden'>
+    <div className='z-[-4] bg-white dark:bg-darkgray mx-auto max-h-screen h-screen overflow-hidden pb-20'>
       <Head>
         <title>Blockd</title>
       </Head>
+      <Toaster />
       <Navbar />
       <main className='h-full grid grid-cols-9'>
         <Sidebar />
