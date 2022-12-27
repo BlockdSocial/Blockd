@@ -29,7 +29,7 @@ function PostID() {
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
                             <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
-                            <CheckBadgeIcon className='h-7 w-7 fill-blockd' />
+                            <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
                         </div>
                     </div>
                 </Link>
