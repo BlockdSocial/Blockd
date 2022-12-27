@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, { useState, useEffect } from 'react'
-import Picture from './Picture'
+import Picture from '../Feed/Picture'
 import TimeAgo from 'react-timeago'
 import {
     ArrowUpIcon,

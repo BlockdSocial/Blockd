@@ -1,10 +1,10 @@
 import Head from 'next/head'
 import React from 'react'
-import Sidebar from '../components/Sidebar';
-import Widgets from '../components/Widgets';
-import Navbar from '../components/Navbar';
+import Sidebar from '../components/Sidebar/Sidebar';
+import Widgets from '../components/Widgets/Widgets';
+import Navbar from '../components/Navbar/Navbar';
 import { Toaster } from 'react-hot-toast';
-import PostPage from '../components/PostPage';
+import PostPage from '../components/Post/PostPage';
 
 function post() {
     return (
