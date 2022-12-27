@@ -1,16 +1,12 @@
 import Image from 'next/image'
-import React, { createRef, useRef, useState } from 'react'
+import React, { useRef, useState, useEffect } from 'react'
 import {
     CalendarIcon,
     FaceSmileIcon,
     MapPinIcon,
     FolderIcon,
-    GifIcon,
 } from '@heroicons/react/24/outline'
 import Picture from './Picture'
-// eslint-disable-next-line @typescript-eslint/ban-ts-comment
-// @ts-ignore
-import data from '@emoji-mart/data'
 import Picker from '@emoji-mart/react'
 
 function TweetBox() {
@@ -20,6 +16,8 @@ function TweetBox() {
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
     const imageInputRef = useRef<HTMLInputElement>(null)
+    const wrapperRef = useRef<HTMLInputElement>(null);
+    useOutsideAlerter(wrapperRef);
 
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
@@ -32,24 +30,41 @@ function TweetBox() {
         setImageUrlBoxIsOpen(false);
     }
 
-    const addEmoji = (e:any) => {
-        const sym = e.unified.split("-") 
-        const codesArray:any[] = []
-        sym.forEach((el : any) => codesArray.push("0x" + el))
+    function useOutsideAlerter(ref:any) {
+        useEffect(() => {
+            function handleClickOutside(event:any) {
+                if (ref.current && !ref.current.contains(event.target)) {
+                    setShowEmojis(showEmojis);
+                }
+            }
+            // Bind the event listener
+            document.addEventListener("mousedown", handleClickOutside);
+            return () => {
+                // Unbind the event listener on clean up
+                document.removeEventListener("mousedown", handleClickOutside);
+            };
+        }, [ref]);
+    }
+
+    const addEmoji = (e: any) => {
+        const sym = e.unified.split("-")
+        const codesArray: any[] = []
+        sym.forEach((el: any) => codesArray.push("0x" + el))
         const emoji = String.fromCodePoint(...codesArray)
         setInput(input + emoji)
     }
+    
 
     return (
         <div className='flex space-x-2 p-5 border-y mt-4 dark:bg-lightgray'>
-            <Picture path='/images/pfp1.jpg' level={4} pwidth="w-14" pheight="w-14" ltop="top-14" />
+            <Picture path='/images/pfp1.jpg' level={4} pictureCSS="w-14 w-14" levelCSS="top-14" />
             <div className='flex flex-1 items-center pl-2'>
                 <form className='flex flex-col flex-1'>
                     <textarea
                         id="message"
                         maxLength={255}
                         value={input}
-                        onChange={(e:any) => setInput(e.target.value)}
+                        onChange={(e: any) => setInput(e.target.value)}
                         data-rows="4"
                         className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-8 "
                         placeholder="What's the word on the block ?"
@@ -65,7 +80,7 @@ function TweetBox() {
                                 onClick={() => setShowEmojis(!showEmojis)}
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             {showEmojis && (
-                                <div className='absolute -left-14 top-7'>
+                                <div className='absolute -left-14 top-7' ref={wrapperRef}>
                                     <Picker
                                         onEmojiSelect={addEmoji}
                                         theme="dark"

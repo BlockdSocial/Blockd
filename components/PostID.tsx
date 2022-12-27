@@ -25,7 +25,7 @@ function PostID() {
         <div className='flex flex-col space-x-3 p-4'>
             <div className='w-full'>
                 <Link href="#" className='flex space-x-3 w-fit group'>
-                    <Picture path="/images/pfp2.jpg" level={5} pwidth="w-12" pheight="w-12" ltop="top-12" />
+                    <Picture path="/images/pfp2.jpg" level={5} pictureCSS="w-12 h-12" levelCSS="top-12" />
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
                             <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>

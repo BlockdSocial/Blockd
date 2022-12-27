@@ -4,19 +4,18 @@ import React, { DetailedHTMLProps, ImgHTMLAttributes } from 'react'
 interface Props {
     path: string,
     level: number,
-    pwidth: string,
-    pheight: string,
-    ltop:string
+    pictureCSS: string,
+    levelCSS:string
 }
 
-function Picture({path, level, pwidth, pheight, ltop}: Props) {
+function Picture({path, level, pictureCSS, levelCSS}: Props) {
   return (
     <div className='-z-5'>
-        <span className={`text-black dark:text-white text-xs ${ltop} relative right-1 h-6 w-6 rounded-full bg-white dark:bg-lightgray flex justify-center items-center border-2 border-[#181c44] dark:border-gray-500`}><span>{level}</span></span>
+        <span className={`text-black dark:text-white text-xs ${levelCSS} relative right-1 h-6 w-6 rounded-full bg-white dark:bg-lightgray flex justify-center items-center border-2 border-[#181c44] dark:border-gray-500`}><span>{level}</span></span>
         <Image
             src={path}
             alt="PFP"
-            className={`-mt-2 ${pwidth} ${pheight} rounded-full object-cover border-[#181c44] dark:border-gray-500 border-2`}
+            className={`-mt-2 ${pictureCSS} rounded-full object-cover border-[#181c44] dark:border-gray-500 border-2`}
             width={60}
             height={60}
         />

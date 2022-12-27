@@ -25,7 +25,7 @@ function PostFeed() {
         <div className='flex flex-col space-x-3 mt-1 border-y p-6 dark:border-white'>
             <div className='w-full'>
                 <Link href="#" className='flex space-x-3 w-fit group'>
-                    <Picture path="/images/pfp2.jpg" level={5} pwidth="w-12" pheight="w-12" ltop="top-12" />
+                    <Picture path="/images/pfp2.jpg" level={5} pictureCSS="w-12" levelCSS="top-12" />
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
                             <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
@@ -89,7 +89,7 @@ function PostFeed() {
                 </form>
             )}
 
-            <div className='my-2 mt-5 max-h-44 space-y-5 overflow-scroll border-t border-gray-100 p-5 scrollbar-hide'>
+            <Link href="post" className='my-2 mt-5 max-h-44 space-y-5 overflow-scroll border-t border-gray-100 p-5 scrollbar-hide'>
                 <div className='relative flex space-x-2'>
                     <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
                     <img src="/images/pfp1.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
@@ -144,7 +144,7 @@ function PostFeed() {
                         </p>
                     </div>
                 </div>
-            </div>
+            </Link>
         </div>
     )
 }
