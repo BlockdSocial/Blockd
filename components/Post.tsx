@@ -22,7 +22,7 @@ function Post() {
     }
 
     return (
-        <div className='flex flex-col space-x-3 mt-1 border-y p-4 dark:border-white'>
+        <div className='flex flex-col space-x-3 mt-1 border-y p-6 dark:border-white'>
             <div className='w-full'>
                 <Link href="#" className='flex space-x-3 w-fit group'>
                     <Picture path="/images/pfp2.jpg" level={5} pwidth="w-12" pheight="w-12" ltop="top-12" />

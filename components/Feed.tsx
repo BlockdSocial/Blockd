@@ -19,7 +19,7 @@ function Feed() {
       <div className='flex flex-col items-end'>
         <ArrowPathIcon
           onClick={handleRefresh}
-          className='mr-5 mt-6 md:mt-3 h-6 w-6 cursor-pointer text-blockd dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale' 
+          className='mr-5 mt-5 h-6 w-6 cursor-pointer text-blockd dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale' 
         />
       </div>
 

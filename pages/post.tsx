@@ -8,13 +8,13 @@ import PostPage from '../components/PostPage';
 
 function post() {
     return (
-        <div className='z-[-4] bg-white dark:bg-darkgray mx-auto max-h-screen h-screen overflow-hidden pb-20'>
+        <div className='bg-white dark:bg-darkgray mx-auto max-h-screen h-screen overflow-hidden pb-20'>
           <Head>
             <title>Blockd</title>
           </Head>
           <Toaster />
           <Navbar />
-          <main className='h-full grid grid-cols-9'>
+          <main className='h-full grid grid-cols-9 xl:max-w-6xl mx-auto'>
             <Sidebar />
             <PostPage />
             <Widgets />
