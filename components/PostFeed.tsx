@@ -11,7 +11,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
-function Post() {
+function PostFeed() {
 
     const [commentBoxVisible, setCommentBoxVisible ] = useState<boolean>(false)
     const [input, setInput] = useState<string>('')
@@ -149,4 +149,4 @@ function Post() {
     )
 }
 
-export default Post
+export default PostFeed

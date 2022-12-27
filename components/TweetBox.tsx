@@ -51,7 +51,7 @@ function TweetBox() {
                         value={input}
                         onChange={(e:any) => setInput(e.target.value)}
                         data-rows="4"
-                        className="h-24 w-full text-black dark:text-white outline-none text-l placeholder:text-l md:text-xl md:placeholder:text-xl bg-transparent placeholder:pt-8 "
+                        className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-8 "
                         placeholder="What's the word on the block ?"
                     ></textarea>
                     <hr className='mb-4'></hr>
