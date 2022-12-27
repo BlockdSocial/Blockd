@@ -4,7 +4,7 @@ import {
     CalendarIcon,
     FaceSmileIcon,
     MapPinIcon,
-    FolderIcon,
+    PhotoIcon,
 } from '@heroicons/react/24/outline'
 import Picture from './Picture'
 import Picker from '@emoji-mart/react'
@@ -17,8 +17,6 @@ function TweetBox() {
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
     const imageInputRef = useRef<HTMLInputElement>(null)
-    const wrapperRef = useRef<HTMLInputElement>(null);
-    useOutsideAlerter(wrapperRef);
 
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
@@ -31,22 +29,6 @@ function TweetBox() {
         setImageUrlBoxIsOpen(false);
     }
 
-    function useOutsideAlerter(ref:any) {
-        useEffect(() => {
-            function handleClickOutside(event:any) {
-                if (ref.current && !ref.current.contains(event.target)) {
-                    setShowEmojis(showEmojis);
-                }
-            }
-            // Bind the event listener
-            document.addEventListener("mousedown", handleClickOutside);
-            return () => {
-                // Unbind the event listener on clean up
-                document.removeEventListener("mousedown", handleClickOutside);
-            };
-        }, [ref]);
-    }
-
     const addEmoji = (e: any) => {
         const sym = e.unified.split("-")
         const codesArray: any[] = []
@@ -54,7 +36,7 @@ function TweetBox() {
         const emoji = String.fromCodePoint(...codesArray)
         setInput(input + emoji)
     }
-    
+
 
     return (
         <div className='flex space-x-2 p-5 border-y mt-4 dark:bg-lightgray'>
@@ -73,7 +55,7 @@ function TweetBox() {
                     <hr className='mb-4'></hr>
                     <div className='flex items-center'>
                         <div className='flex relative space-x-2 text-[#181c44] dark:text-white flex-1'>
-                            <FolderIcon
+                            <PhotoIcon
                                 onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                             />
@@ -81,13 +63,13 @@ function TweetBox() {
                                 onClick={() => setShowEmojis(!showEmojis)}
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             {showEmojis && (
-                                <div className='absolute -left-14 top-7' ref={wrapperRef}>
+                                <div className='absolute -left-14 top-7'>
                                     <Picker
                                         onEmojiSelect={addEmoji}
                                         theme="dark"
                                     />
                                 </div>
-                            )}
+                            )}   
                             <CalendarIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             <MapPinIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                         </div>
