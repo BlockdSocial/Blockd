@@ -1,7 +1,7 @@
 import React from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import TweetBox from './TweetBox'
-import PostFeed from './PostFeed'
+import PostFeed from '../Post/Post'
 import toast from 'react-hot-toast'
 
 function Feed() {

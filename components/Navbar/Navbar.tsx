@@ -44,7 +44,7 @@ const Navbar = () => {
     return (
         <div className='w-full shadow-md top-0 left-0'>
             <div className='md:flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-20'>
-                <div className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins]'>
+                <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins]'>
                         <Image
                             src="/images/logo.png"
                             alt="Blockd Logo"
@@ -52,7 +52,7 @@ const Navbar = () => {
                             width={60}
                             height={40}
                         />
-                </div>
+                </Link>
 
                 <div className='absolute right-14 md:hidden top-6 cursor-pointer flex flex-col items-center my-1'>
                     {renderThemeChanger()}
