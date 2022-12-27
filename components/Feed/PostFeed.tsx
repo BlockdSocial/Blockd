@@ -122,6 +122,60 @@ function PostFeed() {
                             />
                         </div>
                         <p>
+                            This is my First Comment
+                        </p>
+                    </div>
+                </div>
+                <div className='relative flex space-x-2'>
+                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
+                    <img src="/images/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
+                    <div >
+                        <div className='flex items-center space-x-1'>
+                            <p className='mr-1 font-semibold'>
+                                @EGOist
+                            </p>
+                            <TimeAgo
+                                date='Dec 25, 2022'
+                                className='text-sm text-gray-500'
+                            />
+                        </div>
+                        <p>
+                            This is my Second Comment
+                        </p>
+                    </div>
+                </div>
+                <div className='relative flex space-x-2'>
+                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
+                    <img src="/images/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
+                    <div >
+                        <div className='flex items-center space-x-1'>
+                            <p className='mr-1 font-semibold'>
+                                @EGOist
+                            </p>
+                            <TimeAgo
+                                date='Dec 25, 2022'
+                                className='text-sm text-gray-500'
+                            />
+                        </div>
+                        <p>
+                            This is my Third Comment
+                        </p>
+                    </div>
+                </div>
+                <div className='relative flex space-x-2'>
+                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
+                    <img src="/images/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
+                    <div >
+                        <div className='flex items-center space-x-1'>
+                            <p className='mr-1 font-semibold'>
+                                @EGOist
+                            </p>
+                            <TimeAgo
+                                date='Dec 25, 2022'
+                                className='text-sm text-gray-500'
+                            />
+                        </div>
+                        <p>
                             This is my Second Comment
                         </p>
                     </div>
