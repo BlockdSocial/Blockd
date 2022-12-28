@@ -2,7 +2,7 @@ import React from 'react'
 
 function MsgDropDown() {
     return (
-        <div className="absolute h-40 w-100 right-32 top-16 mt-2 bg-white rounded-md shadow-lg scrollbar-hide overflow-scroll  z-20">
+        <div className="absolute h-60 w-100 right-32 top-16 mt-2 bg-white rounded-md shadow-lg scrollbar-hide overflow-scroll  z-20">
             <div className="py-2 relative">
                 <a href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                     <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />
@@ -28,8 +28,8 @@ function MsgDropDown() {
                         <span className="font-bold">Abigail Bennett</span> Sent you a picture. 3h
                     </p>
                 </a>
-                <a href="/messages" className="absolute w-full bg-darkblue hover:bg-darkblue/80 dark:bg-gray-700 dark:hover:bg-gray-800 text-white dark:text-white text-center font-bold py-2">See all messages</a>
             </div>
+            <a href="/messages" className="absolute w-full bg-darkblue hover:bg-darkblue/80 dark:bg-gray-700 dark:hover:bg-gray-800 text-white dark:text-white text-center font-bold py-2">See all messages</a>
         </div>
     )
 }

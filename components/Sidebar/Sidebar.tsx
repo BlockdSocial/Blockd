@@ -6,7 +6,7 @@ import {
     ChatBubbleBottomCenterTextIcon,
     UserIcon,
     HomeIcon,
-    BellIcon,
+    CheckBadgeIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -16,7 +16,7 @@ function Sidebar() {
     let location = useRouter();
 
     return (
-        <div className='flex flex-col col-span-1 md:col-span-2 items-center px-4 mt-3 md:mt-0 md:p-4 lg:pl-10 md:items-start'>
+        <div className='relative flex flex-col col-span-1 md:col-span-2 items-center px-4 mt-3 md:mt-0 md:p-4 lg:pl-10 md:items-start'>
             <Link href="/" className='active'>
                 {location.pathname === '/' ? (
                     <SidebarRow Icon={HomeIcon} title="Home" active='bg-gray-100 dark:bg-lightgray'/>
@@ -40,6 +40,11 @@ function Sidebar() {
             <Link href="">
                 <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
             </Link>
+            <div className='md:flex items-center justify-center absolute bottom-0 hidden'>
+                <p className='p-3 text-sm items-center justify-start font-semibold'>
+                    Verified By Blockchain Technology, Blockd LLC.
+                </p>
+            </div>
         </div>
     )
 }
