@@ -119,7 +119,7 @@ const Navbar = () => {
                         <NotifDropDown />
                     </div>
                     {/* Sign Up */}
-                    <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-orange-600 md:hover:bg-transparent'>
+                    <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-gray-900 md:hover:bg-transparent'>
                         <Link href="/auth/signup"><KeyIcon className='w-6 h-6 inline md:hidden text-white m-3' /></Link>
                         <Link href="/auth/signup" className='hidden md:inline text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'>Sign Up</Link>
                     </li>
@@ -127,7 +127,7 @@ const Navbar = () => {
                         <hr className='w-1/2'></hr>
                     </li>
                     {/* Connect Wallet */}
-                    <li className='cursor-pointer md:ml-4 flex flex-col items-center text-l my-4 rounded-full hover:bg-orange-600'>
+                    <li className='cursor-pointer md:ml-4 flex flex-col items-center text-l my-4 rounded-full hover:bg-gray-900 '>
                         <WalletIcon className='w-6 h-6 inline md:hidden text-white m-3' />
                         <button className="hidden md:inline animate-pulse bg-transparent hover:bg-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 border rounded-full border-white dark:border-white hover:border-blockd">
                             Connect Wallet

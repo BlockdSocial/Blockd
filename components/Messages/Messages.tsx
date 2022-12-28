@@ -14,7 +14,7 @@ function Messages() {
             <p className="text-sm font-medium text-slate-900 dark:text-white">Sent you a private message, Say Hi back. 1h</p>
           </div>
         </div>
-        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-6 rounded-md'>
+        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
           <Link href="/profile" className="flex invisible group-hover/item:visible">
             <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
             <div className='flex items-center ml-2'>
@@ -30,7 +30,7 @@ function Messages() {
             <p className="text-sm font-medium text-slate-900 dark:text-white">Sent you a private message, Say Hi back. 1h</p>
           </div>
         </div>
-        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-6 rounded-md'>
+        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
           <Link href="/profile" className="flex invisible group-hover/item:visible">
             <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
             <div className='flex items-center ml-2'>
@@ -46,7 +46,7 @@ function Messages() {
             <p className="text-sm font-medium text-slate-900 dark:text-white">Sent you a private message, Say Hi back. 1h</p>
           </div>
         </div>
-        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-6 rounded-md'>
+        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
           <Link href="/profile" className="flex invisible group-hover/item:visible">
             <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
             <div className='flex items-center ml-2'>
