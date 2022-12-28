@@ -14,7 +14,7 @@ function post() {
           </Head>
           <Toaster />
           <Navbar />
-          <main className='h-full grid grid-cols-9 xl:max-w-6xl mx-auto'>
+          <main className='h-full grid grid-cols-9 xl:max-w-6xl mx-auto -z-20'>
             <Sidebar />
             <PostPage />
             <Widgets />

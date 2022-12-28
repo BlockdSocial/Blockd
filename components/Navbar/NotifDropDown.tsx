@@ -2,7 +2,7 @@ import React from 'react'
 
 function NotifDropDown() {
     return (
-        <div className="absolute w-100 h-60 right-20 top-16 mt-2 dark:border dark:border-white bg-white rounded-md shadow-lg scrollbar-hide overflow-scroll  z-20">
+        <div className="absolute w-100 h-60 right-20 top-16 mt-2 dark:border dark:border-white bg-white rounded-md shadow-lg scrollbar-hide overflow-scroll">
             <div className="py-2">
                 <a href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 -mx-2">
                     <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />

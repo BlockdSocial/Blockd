@@ -7,7 +7,7 @@ import Link from 'next/link'
 function TrendingStreams() {
     return (
         <div className='p-2'>
-            <div className='flex items-center justify-center rounded-md space-x-2 p-2 mt-2'>
+            <div className='flex items-center justify-start rounded-md space-x-2 p-2 mt-2'>
                 <ComputerDesktopIcon className='w-4 h-4 lg:w-5 lg:h-5' />
                 <p className='font-semibold text-xs lg:text-base'>
                     Trending Streamers
@@ -54,7 +54,7 @@ function TrendingStreams() {
                 </div>
             </Link>
             <div className='flex items-center justify-start'>
-                <Link href="/trendingstreams" className='flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1'>
+                <Link href="/trending" className='flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1'>
                     <p className='font-semibold text-sm'>
                         Show more
                     </p>

@@ -6,7 +6,7 @@ import {
     ChatBubbleBottomCenterTextIcon,
     UserIcon,
     HomeIcon,
-    CheckBadgeIcon,
+    ArrowTrendingUpIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -39,6 +39,9 @@ function Sidebar() {
             </Link>
             <Link href="">
                 <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
+            </Link>
+            <Link href="" className='inline md:hidden'>
+                <SidebarRow Icon={ArrowTrendingUpIcon} title="" active='' />
             </Link>
             <div className='md:flex items-center justify-center absolute bottom-0 hidden'>
                 <p className='p-3 text-sm items-center justify-start font-semibold'>
