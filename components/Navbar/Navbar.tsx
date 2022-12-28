@@ -119,7 +119,7 @@ const Navbar = () => {
                         <NotifDropDown />
                     </div>
                     {/* Sign Up */}
-                    <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-orange-600'>
+                    <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-orange-600 md:hover:bg-transparent'>
                         <Link href="/auth/signup"><KeyIcon className='w-6 h-6 inline md:hidden text-white m-3' /></Link>
                         <Link href="/auth/signup" className='hidden md:inline text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'>Sign Up</Link>
                     </li>

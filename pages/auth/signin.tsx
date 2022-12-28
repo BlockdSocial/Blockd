@@ -26,10 +26,6 @@ export default function SignIn() {
                         <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Veified By Blockchain Technology</h4>
                         <div className='flex mt-8 '>
                             <button className="md:w-4/9 bg-button2 text-white py-2 px-4 rounded-xl">Learn more</button>
-                            <Link href="/" className='flex py-2 px-4 group'>
-                                <HomeModernIcon className='w-6 h-6 text-white mr-2' />
-                                <p className='text-white text-xl font-semibold group-hover:underline'>Home</p>
-                            </Link>
                         </div>
                     </div>
                 </div>
@@ -49,20 +45,6 @@ export default function SignIn() {
                         </div>
                         <form action="" className="flex flex-col items-center">
                             <button className="w-40 mt-8 bg-button2 text-white py-2 px-4 rounded-xl">Connect Wallet</button>
-                            <div className='grid-cols-6 flex absolute bottom-0 md:hidden mt-4'>
-                                <div className='flex col-span-3 p-6 group'>
-                                    <Link href="/" className='flex'>
-                                        <HomeModernIcon className='w-6 h-6 text-white mr-2' />
-                                        <p className='text-white text-xl font-semibold group-hover:underline'>Home</p>
-                                    </Link>
-                                </div>
-                                <div className='flex col-span-3 p-6 group'>
-                                    <Link href="/auth/signup" className='flex'>
-                                        <KeyIcon className='w-6 h-6 text-white mr-2' />
-                                        <p className='text-white text-xl font-semibold group-hover:underline'>Sign Up</p>
-                                    </Link>       
-                                </div>    
-                            </div>
                         </form>
                     </div>
                 </div>
