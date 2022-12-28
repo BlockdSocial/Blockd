@@ -36,7 +36,7 @@ function InfoContainer() {
 
             </div>
             <circle className="col-span-2 -mt-36 mx-auto">
-                <Picture path='/images/pfp1.jpg' level={5} pictureCSS='h-16 w-16 md:w-20 md:h-20' levelCSS='top-14 md:top-20 md:w-8 md:h-8' />
+                <Picture path='/images/pfp2.jpg' level={5} pictureCSS='h-16 w-16 md:w-20 md:h-20' levelCSS='top-14 md:top-20 md:w-8 md:h-8' />
             </circle>
             <div className='col-span-3 place-self-start justify-self-end p-3'>
                 <div className='w-10 h-10 bg-white dark:bg-darkgray/50 flex items-center justify-center rounded-md'>

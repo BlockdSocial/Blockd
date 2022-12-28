@@ -3,14 +3,34 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import {
     BellIcon,
-    ChatBubbleBottomCenterTextIcon
+    ChatBubbleBottomCenterTextIcon,
+    KeyIcon,
+    WalletIcon
 } from '@heroicons/react/24/outline'
 import IconGroup from './IconGroup'
-import {useTheme} from 'next-themes'
+import { useTheme } from 'next-themes'
+import NotifDropDown from './NotifDropDown'
+import MsgDropDown from './MsgDropDown'
 
 const Navbar = () => {
-    const {systemTheme, theme, setTheme} = useTheme()
+    const { systemTheme, theme, setTheme } = useTheme()
     const [mounted, setMounted] = useState(false)
+    const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
+    const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false)
+
+    const handleMsg = () => {
+        setDropdownOpen(!dropdownOpen)
+        if(dropdownNotifOpen === true){
+            setDropdownNotifOpen(!dropdownNotifOpen)
+        }
+    }
+
+    const handleNotif = () => {
+        setDropdownNotifOpen(!dropdownNotifOpen)
+        if(dropdownOpen === true){
+            setDropdownOpen(!dropdownOpen)
+        }
+    }
 
     useEffect(() => {
         setMounted(true)
@@ -21,7 +41,7 @@ const Navbar = () => {
 
         const currentTheme = theme === 'system' ? systemTheme : theme;
 
-        if(currentTheme === 'dark'){
+        if (currentTheme === 'dark') {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6 fill-white" viewBox="0 0 20 20" fill="#9333ea" role="button" onClick={() => setTheme('light')}>
                     <path
@@ -31,7 +51,7 @@ const Navbar = () => {
                     />
                 </svg>
             )
-        }else{
+        } else {
             return (
                 <svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="#9333ea" className="w-6 h-6 fill-white" role="button" onClick={() => setTheme('dark')}>
                     <path fillRule="evenodd" d="M9.528 1.718a.75.75 0 01.162.819A8.97 8.97 0 009 6a9 9 0 009 9 8.97 8.97 0 003.463-.69.75.75 0 01.981.98 10.503 10.503 0 01-9.694 6.46c-5.799 0-10.5-4.701-10.5-10.5 0-4.368 2.667-8.112 6.46-9.694a.75.75 0 01.818.162z" clipRule="evenodd" />
@@ -43,18 +63,18 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md top-0 left-0'>
-            <div className='md:flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-20'>
+            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-20'>
                 <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins]'>
-                        <Image
-                            src="/images/logo.png"
-                            alt="Blockd Logo"
-                            className="m-6 ml-4 md:ml-8"
-                            width={60}
-                            height={40}
-                        />
+                    <Image
+                        src="/images/logo.png"
+                        alt="Blockd Logo"
+                        className="m-6 ml-4 md:ml-8"
+                        width={60}
+                        height={40}
+                    />
                 </Link>
 
-                <div className='absolute right-14 md:hidden top-6 cursor-pointer flex flex-col items-center my-1'>
+                {/*<div className='absolute right-14 md:hidden top-6 cursor-pointer flex flex-col items-center my-1'>
                     {renderThemeChanger()}
                 </div>
 
@@ -63,33 +83,56 @@ const Navbar = () => {
                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 text-white" name={open ? 'close' : 'menu'}>
                         <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
                     </svg>
-                </div>
+                </div>*/}
 
-                <ul className={`md:flex absolute items-center md:static z-[2] right-0 w-full md:w-auto md:pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
-                    <li className='hidden md:inline flex-col items-center text-l my-1'>
+                <ul className={`flex static items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
+                    {/* Dark/Light Mode */}
+                    <li className='flex-col items-center text-l my-1'>
                         {renderThemeChanger()}
                     </li>
-                    <li className='flex flex-col items-center text-l my-1'>
-                        <Link href="">
-                            <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10" name='Messages'></IconGroup>
+                    {/* Messages */}
+                    <li className='flex flex-col md:hidden items-center text-l my-1'>
+                        <Link href="/messages">
+                            <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
                         </Link>
                     </li>
-                    <li className='flex flex-col items-center text-l my-1'>
-                        <Link href="">
-                            <IconGroup Icon={BellIcon} notif="3" name='Notifications'></IconGroup>
+                    <li className='hidden md:flex md:flex-col items-center text-l my-1'>
+                        <Link href="" onClick={() => handleMsg()}>
+                            <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
                         </Link>
                     </li>
-                    <li className='flex flex-col items-center text-l my-1 md:ml-3'>
-                        <Link href="/auth/signup" className='text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'>Sign Up</Link>
+                    <div className={`${dropdownOpen ? 'hidden md:inline' : 'hidden'}`}>
+                        <MsgDropDown />
+                    </div>
+                    {/* Notifications */}
+                    <li className='flex flex-col md:hidden items-center text-l my-1'>
+                        <Link href="/notifications">
+                            <IconGroup Icon={BellIcon} notif="3"></IconGroup>
+                        </Link>
+                    </li>
+                    <li className='hidden md:flex md:flex-col items-center text-l my-1'>
+                        <Link href="" onClick={() => handleNotif()}>
+                            <IconGroup Icon={BellIcon} notif="3"></IconGroup>
+                        </Link>
+                    </li>
+                    <div className={`${dropdownNotifOpen ? 'hidden md:inline' : 'hidden'}`}>
+                        <NotifDropDown />
+                    </div>
+                    {/* Sign Up */}
+                    <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-orange-600'>
+                        <Link href="/auth/signup"><KeyIcon className='w-6 h-6 inline md:hidden text-white m-3' /></Link>
+                        <Link href="/auth/signup" className='hidden md:inline text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'>Sign Up</Link>
                     </li>
                     <li className='flex flex-col items-center text-l my-4'>
-                    <hr className='w-1/2'></hr>
-                    </li>     
-                    <li className='md:ml-4 flex flex-col items-center text-l my-4'>
-                        <button className="animate-pulse bg-transparent hover:bg-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 border rounded-full border-white dark:border-white hover:border-blockd">
+                        <hr className='w-1/2'></hr>
+                    </li>
+                    {/* Connect Wallet */}
+                    <li className='cursor-pointer md:ml-4 flex flex-col items-center text-l my-4 rounded-full hover:bg-orange-600'>
+                        <WalletIcon className='w-6 h-6 inline md:hidden text-white m-3' />
+                        <button className="hidden md:inline animate-pulse bg-transparent hover:bg-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 border rounded-full border-white dark:border-white hover:border-blockd">
                             Connect Wallet
                         </button>
-                    </li>              
+                    </li>
                 </ul>
             </div>
         </div>

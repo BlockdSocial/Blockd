@@ -32,9 +32,6 @@ function Sidebar() {
                 )}
             </Link>
             <Link href="">
-                <SidebarRow Icon={BellIcon} title="Notifications" active='' />
-            </Link>
-            <Link href="">
                 <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='' />
             </Link>
             <Link href="">

@@ -125,7 +125,7 @@ function PostFeed() {
                             onClick={() => setShowEmojis(!showEmojis)}
                             className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                         {showEmojis && (
-                            <div className='absolute -left-14 top-7 z-40'>
+                            <div className='absolute -left-6 top-7 z-40'>
                                 <Picker
                                     onEmojiSelect={addEmoji}
                                     theme="dark"

@@ -1,8 +1,11 @@
 import React from 'react'
+import Post from '../Post/Post'
 
 function Interactions() {
   return (
-    <div>Interactions</div>
+    <div>
+      <Post />
+    </div>
   )
 }
 
