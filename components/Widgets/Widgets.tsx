@@ -1,11 +1,14 @@
 import React from 'react'
+import dynamic from 'next/dynamic'
 import {
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
-import TrendingChatrooms from './TrendingChatrooms'
-import TrendingStreams from './TrendingStreams'
 
 function Widgets() {
+
+  const TrendingChatrooms = dynamic(() => import('./TrendingChatrooms'), { ssr: false })
+  const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
+
   return (
     <div className='h-full col-span-2 hidden md:inline max-h-screen scrollbar-hide overflow-scroll '>
       {/* Search */}
