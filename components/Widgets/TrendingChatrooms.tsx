@@ -6,8 +6,8 @@ import Link from 'next/link'
 
 function TrendingChatrooms() {
     return (
-        <div>
-            <div className='flex items-center justify-center rounded-md space-x-2 p-2 mt-3'>
+        <div className='p-2'>
+            <div className='flex items-center justify-center rounded-md space-x-2 p-2 mt-1'>
                 <ArrowTrendingUpIcon className='w-5 h-5' />
                 <p className='font-semibold'>
                     Trending Chatrooms

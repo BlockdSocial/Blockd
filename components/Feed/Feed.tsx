@@ -16,10 +16,10 @@ function Feed() {
   
   return (
     <div className='max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x'>
-      <div className='flex flex-col items-end'>
+      <div className='flex items-center justify-end p-4'>
         <ArrowPathIcon
           onClick={handleRefresh}
-          className='mr-5 mt-5 h-6 w-6 cursor-pointer text-blockd dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale' 
+          className='flex items-center justify-end h-6 w-6 cursor-pointer text-blockd dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale' 
         />
       </div>
 

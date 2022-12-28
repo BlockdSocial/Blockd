@@ -23,7 +23,7 @@ export default function SignIn() {
                         <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">You are not Registered ? <Link href="/auth/signup" className='underline'>Register Now</Link></h4>
                         <br />
                         <hr className="w-1/3"></hr>
-                        <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Veified By Blockchain Technology</h4>
+                        <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Verified By Blockchain Technology</h4>
                         <div className='flex mt-8 '>
                             <button className="md:w-4/9 bg-button2 text-white py-2 px-4 rounded-xl">Learn more</button>
                         </div>
