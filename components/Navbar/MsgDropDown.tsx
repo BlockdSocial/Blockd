@@ -29,7 +29,7 @@ function MsgDropDown() {
                     </p>
                 </a>
             </div>
-            <a href="/messages" className="absolute w-full bg-darkblue hover:bg-darkblue/80 dark:bg-darkgray dark:hover:bg-lightgray dark:border-t dark:border-t-white text-white dark:text-white text-center font-bold py-2">See all messages</a>
+            <a href="/messages" className="absolute w-full bg-darkblue hover:bg-darkblue/80 dark:bg-darkgray dark:hover:bg-lightgray dark:border-t dark:border-t-white text-white dark:text-white text-center font-bold p-2">See all messages</a>
         </div>
     )
 }

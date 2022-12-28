@@ -29,7 +29,7 @@ function NotifDropDown() {
                     </p>
                 </a>
             </div>
-            <a href="/notifications" className="absolute w-full bg-darkblue hover:bg-darkblue/80 dark:bg-darkgray dark:hover:bg-lightgray dark:border-t dark:border-t-white text-white dark:text-white text-center font-bold py-2">See all notifications</a>
+            <a href="/notifications" className="absolute w-full bg-darkblue hover:bg-darkblue/80 dark:bg-darkgray dark:hover:bg-lightgray dark:border-t dark:border-t-white text-white dark:text-white text-center font-bold p-2">See all notifications</a>
         </div>
     )
 }
