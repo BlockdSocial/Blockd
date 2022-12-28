@@ -2,7 +2,7 @@ import Head from 'next/head'
 import React from 'react'
 import { Toaster } from 'react-hot-toast'
 import Navbar from '../components/Navbar/Navbar'
-import Notifications from '../components/Notifications'
+import NotificationsPage from '../components/Notifications/NotificationsPage'
 import Sidebar from '../components/Sidebar/Sidebar'
 import Widgets from '../components/Widgets/Widgets'
 
@@ -16,7 +16,7 @@ function notifications() {
       <Navbar />
       <main className='h-full grid grid-cols-9 xl:max-w-6xl mx-auto'>
         <Sidebar />
-        <Notifications />
+        <NotificationsPage />
         <Widgets />
       </main>
     </div>

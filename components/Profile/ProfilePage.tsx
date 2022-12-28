@@ -12,20 +12,24 @@ import InfoContainer from './InfoContainer';
 import Feed from './Feed';
 import Interactions from './Interactions';
 import Followers from './Followers';
+import Following from './Following';
 
 function ProfilePage() {
 
   let [showFeed, setShowFeed] = useState<boolean>(true)
   let [showInteractions, setShowInteractions] = useState<boolean>(false)
   let [showFollowers, setShowFollowers] = useState<boolean>(false)
+  let [showFollowing, setShowFollowing] = useState<boolean>(false)
 
   const handleToggle1 = () => {
     if (showFeed == false) {
       setShowFeed(!showFeed)
       showInteractions = false
       showFollowers = false
+      showFollowing = false
       setShowInteractions(showInteractions)
       setShowFollowers(showFollowers)
+      setShowFollowing(showFollowing)
     }
   };
 
@@ -34,8 +38,10 @@ function ProfilePage() {
       setShowInteractions(!showInteractions)
       showFeed = false
       showFollowers = false
+      showFollowing = false
       setShowFeed(showFeed)
       setShowFollowers(showFollowers)
+      setShowFollowing(showFollowing)
     }
   };
 
@@ -44,8 +50,22 @@ function ProfilePage() {
       setShowFollowers(!showFollowers)
       showInteractions = false
       showFeed = false
+      showFollowing = false
       setShowFeed(showFeed)
       setShowInteractions(showInteractions)
+      setShowFollowing(showFollowing)
+    }
+  };
+
+  const handleToggle4 = () => {
+    if (showFollowing == false) {
+      setShowFollowing(!showFollowing)
+      showInteractions = false
+      showFeed = false
+      showFollowers = false
+      setShowFeed(showFeed)
+      setShowInteractions(showInteractions)
+      setShowFollowers(showFollowers)
     }
   };
 
@@ -64,6 +84,9 @@ function ProfilePage() {
         <button onClick={() => handleToggle3()} className={`font-semibold focus:outline-none ${showFollowers === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Followers
         </button>
+        <button onClick={() => handleToggle4()} className={`font-semibold focus:outline-none ${showFollowing === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+          Following
+        </button>
       </div>
 
       {showFeed && (
@@ -75,6 +98,9 @@ function ProfilePage() {
       {showFollowers && (
           <Followers />
         )}
+        {showFollowing && (
+            <Following />
+          )}
     </div >
   )
 }

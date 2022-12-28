@@ -30,7 +30,7 @@ function InfoContainer() {
                 <div className="w-full rounded bg-white h-2 mb-6 mt-4 relative">
                     <div className="bg-blockd h-2 rounded w-1/2"></div>
                     <div className='absolute text-sm mt-2'>
-                        <span className='font-semibold'>Level 4 :</span> 50%
+                        <span className='font-semibold'>Level 5 :</span> 50%
                     </div>
                 </div>
 

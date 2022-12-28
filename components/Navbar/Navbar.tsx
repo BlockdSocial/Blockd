@@ -63,12 +63,12 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md top-0 left-0'>
-            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-20'>
-                <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center font-[Poppins]'>
+            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-14 md:h-16'>
+                <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center justify-center font-[Poppins]'>
                     <Image
                         src="/images/logo.png"
                         alt="Blockd Logo"
-                        className="m-6 ml-4 md:ml-8"
+                        className="m-6 ml-4 md:ml-8 w-10 h-7 md:w-12 md:h-8"
                         width={60}
                         height={40}
                     />
