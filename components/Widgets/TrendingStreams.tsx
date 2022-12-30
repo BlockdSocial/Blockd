@@ -15,7 +15,7 @@ function TrendingStreams() {
             </div>
             <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-2'>
-                    <img src="/images/pfp1.jpg" className='rounded-full w-6 h-6 bg-blockd' />
+                    <img src="/images/pfp/pfp1.jpg" className='rounded-full w-6 h-6 bg-blockd' />
                     <p className='font-semibold text-sm'>
                         @Crypto_punk
                     </p>
@@ -23,7 +23,7 @@ function TrendingStreams() {
             </Link>
             <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-2'>
-                    <img src="/images/pfp2.jpg" className='rounded-full w-6 h-6 bg-blockd' />
+                    <img src="/images/pfp/pfp2.jpg" className='rounded-full w-6 h-6 bg-blockd' />
                     <p className='font-semibold text-sm'>
                         @Egoist
                     </p>
@@ -31,7 +31,7 @@ function TrendingStreams() {
             </Link>
             <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-2'>
-                    <img src="/images/pfp3.jpg" className='rounded-full w-6 h-6 bg-blockd' />
+                    <img src="/images/pfp/pfp3.jpg" className='rounded-full w-6 h-6 bg-blockd' />
                     <p className='font-semibold text-sm'>
                         @Crypto_crazy
                     </p>
@@ -39,7 +39,7 @@ function TrendingStreams() {
             </Link>
             <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-2'>
-                    <img src="/images/pfp1.jpg" className='rounded-full w-6 h-6 bg-blockd' />
+                    <img src="/images/pfp/pfp1.jpg" className='rounded-full w-6 h-6 bg-blockd' />
                     <p className='font-semibold text-sm'>
                         @Crypto_queen
                     </p>
@@ -47,7 +47,7 @@ function TrendingStreams() {
             </Link>
             <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-2'>
-                    <img src="/images/pfp1.jpg" className='rounded-full w-6 h-6 bg-blockd' />
+                    <img src="/images/pfp/pfp3.jpg" className='rounded-full w-6 h-6 bg-blockd' />
                     <p className='font-semibold text-sm'>
                         @Shiba_king
                     </p>

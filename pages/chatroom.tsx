@@ -8,7 +8,7 @@ import Navbar from '../components/Navbar/Navbar'
 
 function chatroom() {
   return (
-    <div className='bg-white dark:bg-darkgray grid grid-cols-12 mx-auto h-screen overflow-hidden'>
+    <div className='bg-white dark:bg-darkgray grid grid-cols-12 mx-auto overflow-hidden h-screen'>
         <Head>
           <title>Blockd</title>
         </Head>
