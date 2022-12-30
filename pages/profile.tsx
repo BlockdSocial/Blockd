@@ -6,20 +6,18 @@ import Navbar from '../components/Navbar/Navbar';
 import ProfilePage from '../components/Profile/ProfilePage';
 
 function profile() {
-    return (
-        <div className='bg-white dark:bg-darkgray mx-auto max-h-screen h-screen overflow-hidden pb-20'>
-          <Head>
-            <title>Blockd</title>
-          </Head>
-          <Navbar />
-          <main className='h-full grid grid-cols-9 xl:max-w-6xl mx-auto'>
-            <Sidebar />
-            <ProfilePage />
-            <Widgets />
-          </main>
-        </div>
-        
-      )
+  return (
+    <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto h-screen overflow-hidden'>
+      <Head>
+        <title>Blockd</title>
+      </Head>
+      <Navbar />
+      <Sidebar />
+      <ProfilePage />
+      <Widgets />
+    </div>
+
+  )
 }
 
 export default profile

@@ -61,7 +61,7 @@ function ProfilePage() {
   };
 
   return (
-    <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x mb-5'>
+    <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x'>
 
       <InfoContainer />
 

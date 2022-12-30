@@ -2,7 +2,7 @@ import React from 'react'
 
 function Widget() {
   return (
-    <div className='col-span-2'>
+    <div className='hidden md:flex md:col-span-2 h-screen'>
         Widget
     </div>
   )

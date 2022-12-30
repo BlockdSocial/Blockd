@@ -25,7 +25,7 @@ function PostPage() {
                 />
             </div>
 
-            <div className=' -z-20'>
+            <div className='z-0'>
                 <PostID />
             </div>
 

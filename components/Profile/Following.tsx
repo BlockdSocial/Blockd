@@ -10,7 +10,7 @@ function Following() {
       <div role="list" className="p-6 divide-y divide-slate-200 dark:divide-lightgray">
         <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
           <div className='flex'>
-            <img className="h-10 w-10 rounded-full" src="/images/pfp1.jpg" alt="" />
+            <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp1.jpg" alt="" />
             <div className="ml-3 overflow-hidden">
               <p className="text-sm font-medium text-slate-900 dark:text-white">@Crypto_crazy</p>
               <p className="text-sm text-slate-500 dark:text-slate-300 truncate">Level : 9</p>
@@ -27,7 +27,7 @@ function Following() {
         </Link>
         <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
           <div className='flex'>
-            <img className="h-10 w-10 rounded-full" src="/images/pfp2.jpg" alt="" />
+            <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp2.jpg" alt="" />
             <div className="ml-3 overflow-hidden">
               <p className="text-sm font-medium text-slate-900 dark:text-white">@Egoist</p>
               <p className="text-sm text-slate-500 dark:text-slate-300 truncate">Level : 18</p>
@@ -44,7 +44,7 @@ function Following() {
         </Link>
         <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
           <div className='flex'>
-            <img className="h-10 w-10 rounded-full" src="/images/pfp3.jpg" alt="" />
+            <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp3.jpg" alt="" />
             <div className="ml-3 overflow-hidden">
               <p className="text-sm font-medium text-slate-900 dark:text-white">@Monkey_Crypto</p>
               <p className="text-sm text-slate-500 dark:text-slate-300 truncate">Level : 5</p>
