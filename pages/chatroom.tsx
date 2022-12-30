@@ -1,6 +1,6 @@
 import Head from 'next/head'
 import React from 'react'
-import Chatbar from '../components/ChatRoom/Chatbar'
+import Chatbar from '../components/ChatRoom/Chatbar/Chatbar'
 import Chatbox from '../components/ChatRoom/Chatbox'
 import Sidebar from '../components/ChatRoom/Sidebar/Sidebar'
 import Widget from '../components/ChatRoom/Widget'
@@ -13,7 +13,7 @@ function chatroom() {
         <title>Blockd</title>
       </Head>
       <Navbar />
-      <main className='h-full grid grid-cols-10 mx-auto'>
+      <main className='h-full grid grid-cols-12 mx-auto'>
         <Sidebar />
         <Chatbar />
         <Chatbox />
