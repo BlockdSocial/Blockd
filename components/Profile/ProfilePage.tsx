@@ -1,13 +1,4 @@
 import React, { useState } from 'react'
-import Picture from '../Feed/Picture'
-import {
-  CheckBadgeIcon,
-  Cog8ToothIcon,
-  PencilSquareIcon,
-  EyeIcon,
-  QuestionMarkCircleIcon,
-} from '@heroicons/react/24/outline'
-import Link from 'next/link';
 import InfoContainer from './InfoContainer';
 import Feed from './Feed';
 import Interactions from './Interactions';
@@ -70,7 +61,7 @@ function ProfilePage() {
   };
 
   return (
-    <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x mb-5 p-6'>
+    <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x mb-5'>
 
       <InfoContainer />
 

@@ -66,9 +66,16 @@ const Navbar = () => {
             <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-14 md:h-16'>
                 <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center justify-center font-[Poppins]'>
                     <Image
+                        src="/images/long-logo.png"
+                        alt="Blockd Logo"
+                        className="ml-4 md:ml-8 hidden md:inline"
+                        width={100}
+                        height={40}
+                    />
+                    <Image
                         src="/images/logo.png"
                         alt="Blockd Logo"
-                        className="m-6 ml-4 md:ml-8 w-10 h-7 md:w-12 md:h-8"
+                        className="ml-4 md:ml-8 w-10 h-7 md:w-12 md:h-8 md:hidden"
                         width={60}
                         height={40}
                     />
@@ -129,7 +136,7 @@ const Navbar = () => {
                     {/* Connect Wallet */}
                     <li className='cursor-pointer md:ml-4 flex flex-col items-center text-l my-4 rounded-full hover:bg-gray-900 '>
                         <WalletIcon className='w-6 h-6 inline md:hidden text-white m-3' />
-                        <button className="hidden md:inline animate-pulse bg-transparent hover:bg-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 border rounded-full border-white dark:border-white hover:border-blockd">
+                        <button className="hidden md:inline animate-pulse bg-transparent bg-gradient-to-r from-orange-300 to-blockd hover:from-blockd hover:to-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 rounded-full">
                             Connect Wallet
                         </button>
                     </li>

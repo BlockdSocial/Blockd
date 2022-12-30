@@ -19,7 +19,7 @@ function InfoContainer() {
     };
 
     return (
-        <div className="grid grid-cols-8 relative bg-gray-100 dark:bg-lightgray items-center justify-center h-32 w-full mt-10 rounded-md border">
+        <div className="grid grid-cols-8 relative bg-gray-100 dark:bg-lightgray items-center justify-center h-32 w-full mt-14 border-y mx-auto">
             <div className='col-span-3 place-self-start p-3'>
                 <div className='flex items-center space-x-1'>
                     <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
@@ -49,7 +49,7 @@ function InfoContainer() {
                     <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><QuestionMarkCircleIcon className='w-5 h-5 mr-2' />Help Center</Link>
                 </ul>
             </div>
-            <div className={`absolute mx-auto z-50 w-full p-4 h-modal h-full ${isModalVisible ? '' : 'hidden'}`}>
+            <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-40 p-4 h-modal h-full ${isModalVisible ? '' : 'hidden'}`}>
                 <div className="relative w-full h-full rounded-lg max-w-md md:h-auto dark:border dark:border-white ">
                     <div className="relative bg-white rounded-lg shadow dark:bg-lightgray">
                         <button type="button" onClick={() => setIsModalVisible(!isModalVisible)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
