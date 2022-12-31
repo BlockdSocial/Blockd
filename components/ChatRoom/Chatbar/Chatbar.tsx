@@ -8,68 +8,30 @@ import {
 
 function Chatbar() {
   return (
-    <div className='relative flex flex-col col-span-2 md:col-span-3 items-center md:justify-start border-r scrollbar-hide overflow-scroll h-screen pb-20'>
-      <div className='flex items-center justify-center md:justify-start space-x-2 p-3 border-b w-full'>
+    <div className='relative flex flex-col col-span-2 md:col-span-2 lg:col-span-1 items-center border-r dark:border-lightgray scrollbar-hide overflow-scroll h-screen pb-20'>
+      <div className='flex items-center justify-center space-x-2 p-3 border-b w-full dark:border-lightgray'>
         <UsersIcon className="w-6 h-6" />
-        <p className='text-l font-semibold hidden md:inline'>Groups Chat</p>
       </div>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/chatLogo/Bitcoin.png' RoomName='Bitcoin Official' active='' />
+      <Link href="/" className='w-full'>
+        <ChatbarRow Picture='/images/chatLogo/Bitcoin.png' Notif={245} active='' />
       </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/chatLogo/Ethereum.png' RoomName='Ethereum Official' active='' />
+      <Link href="/" className='w-full'>
+        <ChatbarRow Picture='/images/chatLogo/Ethereum.png' Notif={15} active='' />
       </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/chatLogo/Polygon.png' RoomName='Polygon Official' active='' />
+      <Link href="/" className='w-full'>
+        <ChatbarRow Picture='/images/chatLogo/Polygon.png' Notif={2} active='' />
       </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/chatLogo/EGO.png' RoomName='EGO Official' active='' />
+      <Link href="/" className='w-full'>
+        <ChatbarRow Picture='/images/chatLogo/EGO.png' Notif={36} active='' />
       </Link>
-      <div className='flex items-center justify-center md:justify-start space-x-2 p-3 border-y w-full mt-2'>
+      <div className='flex items-center justify-center space-x-2 p-3 border-y w-full dark:border-lightgray'>
         <UserIcon className="w-6 h-6" />
-        <p className='text-l font-semibold hidden md:inline'>Users Chat</p>
       </div>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
+      <Link href="/" className='w-full'>
+        <ChatbarRow Picture='/images/pfp/pfp3.jpg' Notif={0} active='' />
       </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' RoomName='Crypto_Crazy' active='' />
-      </Link>
-      <Link href="/" className='w-full px-2'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' RoomName='Monkey_Crypto' active='' />
+      <Link href="/" className='w-full'>
+        <ChatbarRow Picture='/images/pfp/pfp1.jpg' Notif={2} active='' />
       </Link>
     </div>
   )

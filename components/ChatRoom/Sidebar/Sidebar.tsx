@@ -16,7 +16,7 @@ function Sidebar() {
     let location = useRouter();
 
     return (
-        <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-r h-full'>
+        <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-r h-full dark:border-lightgray'>
             <Link href="/" className='active'>
                 {location.pathname === '/' ? (
                     <SidebarRow Icon={HomeIcon} active='bg-gray-100 dark:bg-lightgray'/>

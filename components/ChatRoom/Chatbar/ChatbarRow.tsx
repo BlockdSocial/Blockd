@@ -1,17 +1,29 @@
 import React from 'react'
 
 interface Props {
-    Picture : string,
-    RoomName: string,
-    active: string
+  Picture: string,
+  Notif: number,
+  active: string
 }
 
-function ChatbarRow({Picture,RoomName, active}: Props) {
+function ChatbarRow({ Picture, Notif, active }: Props) {
   return (
-    <div 
-      className={`flex items-center justify-center md:justify-start md:w-full mt-1 space-x-2 p-2 ${active} rounded-md hover:bg-gray-100 dark:hover:bg-lightgray group`}>
-        <img src={Picture} className='h-6 w-6 md:mr-2 rounded-full' />
-        <p className="hidden md:inline-flex font-semibold text-l cursor-pointer">{RoomName}</p>
+    <div
+      className={`flex relative items-center justify-center md:w-full space-x-2 p-1 ${active} hover:bg-gray-100 dark:hover:bg-lightgray group`}>
+      <strong className="relative inline-flex items-center px-2.5 py-1.5">
+        <div className={`text-white absolute text-xs top-7 ${(Notif > 100) ? '-right-3' : 'right-0' }`}>
+          {Notif !== 0 && (Notif < 100) ? (
+            <div className='p-1 flex items-center justify-center w-6 h-6 text-xs font-semibold rounded-full bg-red-600 text-white group-hover:bg-red-800 border-2 border-white dark:border-darkgray'>{Notif}</div>
+          ) : (Notif !== 0 && (Notif > 100) ? (
+            <div className='p-1 flex items-center justify-center text-xs font-semibold rounded-full bg-red-600 text-white group-hover:bg-red-800 border-2 border-white dark:border-darkgray'>+100</div>
+          ) : (
+            <div className='p-1 hidden items-center justify-center text-xs font-semibold rounded-full bg-red-600 text-white group-hover:bg-red-800'></div>
+          ))}
+        </div>
+        <img src={Picture} className='h-10 w-10 rounded-full' />
+        {/*<p className='inline md:hidden text-white dark:text-white font-semibold group-hover:text-gray-300 py-1 px-2'>{name}</p>*/}
+      </strong>
+
     </div>
   )
 }
