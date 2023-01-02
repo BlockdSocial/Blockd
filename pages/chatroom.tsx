@@ -3,7 +3,7 @@ import React from 'react'
 import Chatbar from '../components/ChatRoom/Chatbar/Chatbar'
 import Chatbox from '../components/ChatRoom/Chatbox/Chatbox'
 import Sidebar from '../components/ChatRoom/Sidebar/Sidebar'
-import Widget from '../components/ChatRoom/Widget'
+import Widget from '../components/ChatRoom/Widget/Widget'
 import Navbar from '../components/Navbar/Navbar'
 
 function chatroom() {

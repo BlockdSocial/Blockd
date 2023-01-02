@@ -32,7 +32,7 @@ export default function Chat() {
             <div className="mt-5">
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4">
                     <div
-                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white group"
+                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group"
                     >
                         <div className='flex items-center justify-between w-full text-xm font-semibold'>
                             <p>@Egoist</p>
@@ -94,7 +94,7 @@ export default function Chat() {
                         />
                     </div>
                     <div
-                        className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#818589] dark:to-[#3a3a3a] rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
+                        className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#818589] dark:to-[#3a3a3a] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white"
                     >
                         <div className='flex items-center justify-between w-full text-xm font-semibold'>
                             <p>@Crypto_Crazy</p>
@@ -105,7 +105,7 @@ export default function Chat() {
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
                     <div
-                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white"
                     >
                         <div className='flex items-center justify-between w-full text-xm font-semibold'>
                             <p>@Egoist</p>
@@ -123,7 +123,7 @@ export default function Chat() {
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
                     <div
-                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white"
                     >
                         <div className='flex items-center justify-between w-full text-xm font-semibold'>
                             <p>@Egoist</p>
@@ -148,7 +148,7 @@ export default function Chat() {
                         />
                     </div>
                     <div
-                        className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#818589] dark:to-[#3a3a3a] rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
+                        className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#818589] dark:to-[#3a3a3a] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white"
                     >
                         <div className='flex items-center justify-between w-full text-xm font-semibold'>
                             <p>@Crypto_crazy</p>
@@ -159,7 +159,7 @@ export default function Chat() {
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
                     <div
-                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-3xl rounded-tl-3xl rounded-tr-xl text-white"
+                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-orange-600 via-orange-500 to-orange-400 dark:from-[#202020] dark:to-[#383838] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white"
                     >
                         <div className='flex items-center justify-between w-full text-xm font-semibold'>
                             <p>@Egoist</p>
@@ -184,7 +184,7 @@ export default function Chat() {
                         />
                     </div>
                     <div
-                        className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 from-darkblue to-[#363357] bg-gradient-to-r dark:from-[#818589] dark:to-[#3a3a3a] rounded-br-3xl rounded-tr-3xl rounded-tl-xl text-white"
+                        className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 from-darkblue to-[#363357] bg-gradient-to-r dark:from-[#818589] dark:to-[#3a3a3a] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white"
                     >
                         <div className='flex items-center space-x-4 justify-between w-full text-xm font-semibold'>
                             <p>@Monkey_crypto</p>
