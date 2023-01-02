@@ -69,7 +69,7 @@ const Navbar = () => {
                         src="/images/logo/long-logo.png"
                         alt="Blockd Logo"
                         className="ml-4 md:ml-0 hidden md:inline"
-                        width={100}
+                        width={120}
                         height={40}
                     />
                     <Image
