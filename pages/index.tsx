@@ -8,15 +8,17 @@ import { Toaster } from 'react-hot-toast';
 
 const Home: NextPage = () => {
   return (
-    <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto h-screen overflow-hidden'>
+    <div className='bg-white dark:bg-darkgray flex flex-col items-center justify-center mx-auto h-screen overflow-hidden'>
       <Head>
         <title>Blockd</title>
       </Head>
       <Toaster />
       <Navbar />
-      <Sidebar />
-      <Feed />
-      <Widgets />
+      <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto lg:max-w-7xl h-[90vh] overflow-hidden w-full'>
+        <Sidebar />
+        <Feed />
+        <Widgets />
+      </div>
     </div>
 
 

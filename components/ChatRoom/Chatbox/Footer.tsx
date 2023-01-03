@@ -20,7 +20,7 @@ function Footer() {
     }
 
     return (
-        <div className='flex px-3 flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray'>
+        <div className='flex flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray'>
             <div className='relative'>
 
                 {showEmojis && (
@@ -38,7 +38,7 @@ function Footer() {
                     </div>
                 )}
             </div>
-            <form className='flex space-x-3'>
+            <form className='flex space-x-1 p-2 w-full absolute bottom-1'>
                 <input
                     value={input}
                     onChange={(e: any) => setInput(e.target.value)}

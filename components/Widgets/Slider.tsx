@@ -60,7 +60,7 @@ function Slider() {
                     Most Shared
                 </p>
             </div>
-            <div className='h-40 w-full m-auto p-2 relative group'>
+            <div className='h-52 w-full m-auto p-2 relative group'>
                 <div
                     style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
                     className='w-full h-full relative rounded-md bg-center bg-cover duration-500'

@@ -11,7 +11,7 @@ function Widgets() {
   const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
 
   return (
-    <div className='h-full col-span-2 hidden md:inline max-h-screen scrollbar-hide overflow-scroll '>
+    <div className='col-span-2 hidden md:inline max-h-screen scrollbar-hide overflow-scroll '>
       {/* Search */}
       <div className='sticky p-2 top-0 backdrop-blur-md bg-white/30 dark:bg-darkgray/30 z-[1]'>
         <div className='flex items-center space-x-2 bg-gray-100 p-2 dark:bg-darkgray rounded-full dark:border-white dark:hover:border-blockd border group'>
