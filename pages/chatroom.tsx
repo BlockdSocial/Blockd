@@ -16,7 +16,7 @@ function chatroom() {
         <title>Blockd</title>
       </Head>
       <Navbar />
-      <div className='bg-white dark:bg-darkgray grid grid-cols-12 mx-auto h-[90vh] overflow-hidden'>
+      <div className='bg-white dark:bg-darkgray grid grid-cols-12 mx-auto h-[90vh] overflow-hidden w-full'>
         <Sidebar />
         <Chatbar />
         <Chatbox />

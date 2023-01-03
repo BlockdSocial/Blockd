@@ -28,7 +28,7 @@ export default function Chat() {
     }
 
     return (
-        <div className="scrollbar-hide overflow-scroll h-[74vh] p-4 dark:bg-darkgray">
+        <div className="scrollbar-hide overflow-scroll h-[77vh] p-4 dark:bg-darkgray">
             <div className="mt-5">
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4">
                     <div

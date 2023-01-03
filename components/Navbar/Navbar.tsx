@@ -63,7 +63,7 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md col-span-12'>
-            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-16'>
+            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-[10vh]'>
                 <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center justify-center font-[Poppins]'>
                     <Image
                         src="/images/logo/long-logo.png"

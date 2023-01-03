@@ -9,18 +9,35 @@ import {
 function Members() {
 
     let [input, setInput] = useState<string>('')
+    let [inputAdd, setInputAdd] = useState<string>('')
     let [showSearch, setShowSearch] = useState<boolean>(false)
+    let [showAddMember, setShowAddMember] = useState<boolean>(false)
   
     const toggleSearch = () => {
       input = ''
       setInput(input)
+      showAddMember = false
+      setShowAddMember(showAddMember)
       setShowSearch(!showSearch)
     }
+
+    const toggleAddMember = () => {
+        inputAdd = ''
+        setInputAdd(inputAdd)
+        showSearch = false
+        setShowSearch(showSearch)
+        setShowAddMember(!showAddMember)
+      }
   
     const refreshSearch = () => {
       input = ''
       setInput(input)
     }
+
+    const refreshAddMember = () => {
+        inputAdd = ''
+        setInputAdd(inputAdd)
+      }
 
     return (
         <div className='flex flex-col bg-white dark:bg-darkgray border-b dark:border-lightgray'>
@@ -31,7 +48,7 @@ function Members() {
                 </div>
                 <div className='flex items-center justify-end space-x-2 p-2'>
                     <MagnifyingGlassIcon onClick={() => toggleSearch()} className='w-5 h-5 cursor-pointer' />
-                    <UserPlusIcon className='w-5 h-5 cursor-pointer' />
+                    <UserPlusIcon onClick={() => toggleAddMember()} className='w-5 h-5 cursor-pointer' />
                 </div>
             </div>
             <div className={`items-center space-x-2 p-2 group ${showSearch ? 'flex' : 'hidden'}`}>
@@ -40,11 +57,23 @@ function Members() {
                     value={input}
                     onChange={(e: any) => setInput(e.target.value)}
                     type="text"
-                    placeholder="Search Blockd"
+                    placeholder="Search a member"
                     className='flex-1 outline-none bg-transparent' />
                 <XMarkIcon
                     onClick={() => refreshSearch()}
                     className={`w-5 h-5 cursor-pointer ${input ? 'inline' : 'hidden'}`} />
+            </div>
+            <div className={`items-center space-x-2 p-2 group ${showAddMember ? 'flex' : 'hidden'}`}>
+                <UserPlusIcon className="w-5 h-5" />
+                <input
+                    value={inputAdd}
+                    onChange={(e: any) => setInputAdd(e.target.value)}
+                    type="text"
+                    placeholder="Add a member"
+                    className='flex-1 outline-none bg-transparent' />
+                <XMarkIcon
+                    onClick={() => refreshAddMember()}
+                    className={`w-5 h-5 cursor-pointer ${inputAdd ? 'inline' : 'hidden'}`} />
             </div>
             <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer'>
                 <div className='flex items-center justify-start p-2'>

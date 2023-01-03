@@ -8,7 +8,7 @@ import {
 
 function Chatbar() {
   return (
-    <div className='relative flex flex-col col-span-2 md:col-span-2 lg:col-span-1 items-center border-r dark:border-lightgray scrollbar-hide overflow-scroll h-screen'>
+    <div className='relative flex flex-col col-span-2 md:col-span-2 lg:col-span-1 items-center border-r dark:border-lightgray scrollbar-hide overflow-scroll'>
       <div className='flex items-center justify-center space-x-2 h-[8vh] p-3 border-b w-full dark:border-lightgray'>
         <UsersIcon className="w-6 h-6" />
       </div>

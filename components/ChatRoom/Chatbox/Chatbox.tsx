@@ -6,7 +6,7 @@ import Footer from './Footer'
 function Chatbox() {
 
     return (
-        <div className='col-span-10 md:col-span-9 lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray h-screen pb-4'>
+        <div className='col-span-10 md:col-span-9 lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray'>
             <Navbar />
             <Chat />
             <Footer />           
