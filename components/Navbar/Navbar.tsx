@@ -63,7 +63,7 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md col-span-12'>
-            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-14 md:h-16'>
+            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-5 h-16'>
                 <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center justify-center font-[Poppins]'>
                     <Image
                         src="/images/logo/long-logo.png"
@@ -73,7 +73,7 @@ const Navbar = () => {
                         height={40}
                     />
                     <Image
-                        src="/images/logo.png"
+                        src="/images/logo/logo.png"
                         alt="Blockd Logo"
                         className="ml-4 md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
                         width={60}
@@ -94,16 +94,16 @@ const Navbar = () => {
 
                 <ul className={`flex static items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
                     {/* Dark/Light Mode */}
-                    <li className='flex-col items-center text-l my-1'>
+                    <li className='flex-col items-center text-l mr-2'>
                         {renderThemeChanger()}
                     </li>
                     {/* Messages */}
-                    <li className='flex flex-col md:hidden items-center text-l my-1'>
+                    <li className='flex flex-col md:hidden items-center text-l'>
                         <Link href="/messages">
                             <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
                         </Link>
                     </li>
-                    <li className='hidden md:flex md:flex-col items-center text-l my-1'>
+                    <li className='hidden md:flex md:flex-col items-center text-l'>
                         <Link href="" onClick={() => handleMsg()}>
                             <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
                         </Link>
@@ -112,12 +112,12 @@ const Navbar = () => {
                         <MsgDropDown />
                     </div>
                     {/* Notifications */}
-                    <li className='flex flex-col md:hidden items-center text-l my-1'>
+                    <li className='flex flex-col md:hidden items-center text-l'>
                         <Link href="/notifications">
                             <IconGroup Icon={BellIcon} notif="3"></IconGroup>
                         </Link>
                     </li>
-                    <li className='hidden md:flex md:flex-col items-center text-l my-1'>
+                    <li className='hidden md:flex md:flex-col items-center text-l'>
                         <Link href="" onClick={() => handleNotif()}>
                             <IconGroup Icon={BellIcon} notif="3"></IconGroup>
                         </Link>

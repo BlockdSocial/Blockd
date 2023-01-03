@@ -20,7 +20,7 @@ function Footer() {
     }
 
     return (
-        <div className='flex px-3 flex-col sticky bottom-0 h-[50px] w-full backdrop-blur-md bg-white/30 dark:bg-darkgray/30 '>
+        <div className='flex px-3 flex-col sticky bottom-0 h-[8vh] w-full backdrop-blur-md bg-white/30 dark:bg-darkgray/30 '>
             <div className='relative'>
 
                 {showEmojis && (

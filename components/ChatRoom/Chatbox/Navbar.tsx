@@ -15,7 +15,7 @@ function Navbar() {
         setIsDropdownVisible(!isDropdownVisible);
     }
     return (
-        <div className="flex items-center justify-between sticky top-0 h-[49px] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
+        <div className="flex items-center justify-between sticky top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
                 <img src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 rounded-full' />
                 <div className='flex flex-col items-center justify-center'>

@@ -8,8 +8,8 @@ import {
 
 function Chatbar() {
   return (
-    <div className='relative flex flex-col col-span-2 md:col-span-2 lg:col-span-1 items-center border-r dark:border-lightgray scrollbar-hide overflow-scroll h-screen pb-20'>
-      <div className='flex items-center justify-center space-x-2 p-3 border-b w-full dark:border-lightgray'>
+    <div className='relative flex flex-col col-span-2 md:col-span-2 lg:col-span-1 items-center border-r dark:border-lightgray scrollbar-hide overflow-scroll h-screen'>
+      <div className='flex items-center justify-center space-x-2 h-[8vh] p-3 border-b w-full dark:border-lightgray'>
         <UsersIcon className="w-6 h-6" />
       </div>
       <Link href="/" className='w-full'>
@@ -24,7 +24,7 @@ function Chatbar() {
       <Link href="/" className='w-full'>
         <ChatbarRow Picture='/images/chatLogo/EGO.png' Notif={36} active='' />
       </Link>
-      <div className='flex items-center justify-center space-x-2 p-3 border-y w-full dark:border-lightgray'>
+      <div className='flex items-center h-[8vh] justify-center space-x-2 p-3 border-y w-full dark:border-lightgray'>
         <UserIcon className="w-6 h-6" />
       </div>
       <Link href="/" className='w-full'>
