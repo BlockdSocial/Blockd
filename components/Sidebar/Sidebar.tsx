@@ -45,8 +45,8 @@ function Sidebar() {
                     <SidebarRow Icon={ArrowTrendingUpIcon} title="" active='' />
                 </Link>
             </div>
-                <div className='md:flex items-center justify-center absolute bottom-0 hidden'>
-                    <p className='p-10 text-sm items-center justify-start font-semibold'>
+                <div className='md:flex items-center justify-center absolute bottom-2 hidden'>
+                    <p className='p-2 text-xs items-center justify-center text-center font-semibold w-3/4'>
                         Verified By Blockchain Technology, Blockd LLC.
                     </p>
                 </div>

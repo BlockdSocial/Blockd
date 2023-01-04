@@ -13,6 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
+import Comments from './Comments'
 
 function PostFeed() {
 
@@ -129,6 +130,12 @@ function PostFeed() {
                                 <Picker
                                     onEmojiSelect={addEmoji}
                                     theme="dark"
+                                    set="apple"
+                                    icons="outline"
+                                    previewPosition="none"
+                                    size="1em"
+                                    perLine="6"
+                                    maxFrequentRows="2"
                                 />
                             </div>
                         )}
@@ -156,116 +163,11 @@ function PostFeed() {
                 <img className='mt-10 h-40 w-full rounded-xl object-contain shadow-lg' src={image} alt='' />
             )}
 
-            <Link href="post" className='my-2 mt-5 max-h-44 space-y-5 overflow-scroll border-t border-gray-100 dark:border-lightgray p-5 scrollbar-hide'>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp1.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @IsmailBzz
-                            </p>
-                            <TimeAgo
-                                date='Dec 23, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my first Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my First Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my Second Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my Third Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my Second Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-transparent' />
-                    <img src="/images/pfp/pfp3.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @Crypto_Crazy
-                            </p>
-                            <TimeAgo
-                                date='Dec 23, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            Intresting Blog !
-                        </p>
-                    </div>
-                </div>
-            </Link>
+            <div className='mt-5 max-h-44 space-y-3 overflow-scroll border-t border-gray-100 dark:border-lightgray p-2 scrollbar-hide'>
+                <Comments />
+                <Comments />
+                <Comments />
+            </div>
         </div>
     )
 }

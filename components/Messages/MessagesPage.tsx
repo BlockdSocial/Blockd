@@ -19,7 +19,7 @@ function MessagesPage() {
 
   return (
     <div className='max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x'>
-      <div className='flex sticky items-center justify-between top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
+      <div className='flex sticky items-center justify-between top-0 border-b p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
         <div className='flex items-center justify-start space-x-1'>
           <ChatBubbleBottomCenterTextIcon className='w-6 h-6' />
           <p className='text-xl font-semibold'>Messages</p>
@@ -31,7 +31,6 @@ function MessagesPage() {
           />
         </div>
       </div>
-      <hr></hr>
       <Messages />
       <Messages />
       <Messages />
