@@ -1,23 +1,23 @@
+import React, { useRef, useState } from 'react'
 import Image from 'next/image'
-import React, { useState, useRef } from 'react'
+import Link from 'next/link'
 import Picture from '../Feed/Picture'
-import TimeAgo from 'react-timeago'
 import {
     ArrowUpIcon,
     ArrowDownIcon,
     ChatBubbleBottomCenterTextIcon,
     ShareIcon,
     CheckBadgeIcon,
-    FaceSmileIcon,
     PhotoIcon,
+    FaceSmileIcon
 } from '@heroicons/react/24/outline'
-import Link from 'next/link'
+import TimeAgo from 'react-timeago'
 import Picker from '@emoji-mart/react'
-import Comments from './Comments'
 
-function PostFeed() {
+function Post() {
 
     const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
+
     const [input, setInput] = useState<string>('')
     const [image, setImage] = useState<string>('')
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
@@ -47,47 +47,44 @@ function PostFeed() {
         const emoji = String.fromCodePoint(...codesArray)
         setInput(input + emoji)
     }
-
     return (
-        <div className='flex flex-col space-x-3 mt-1 border-y p-6'>
+        <div className='flex flex-col space-x-3 p-4 -z-20 border-y'>
             <div className='w-full'>
-                <Link href="profile" className='flex space-x-3 w-fit group'>
-                    <Picture path="/images/pfp/pfp2.jpg" level={5} pictureCSS="w-12" levelCSS="top-12" />
+                <Link href="/profile" className='flex space-x-3 w-fit group'>
+                    <Picture path="/images/pfp/pfp2.jpg" level={5} pictureCSS="w-12 h-12" levelCSS="top-12" />
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
                             <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
-                            <CheckBadgeIcon className='h-7 w-7 fill-blockd' />
+                            <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
                         </div>
                     </div>
                 </Link>
                 <div className='w-full'>
-                    <Link href="post">
-                        <Image
-                            src="/images/post1.jpg"
-                            alt='Post'
-                            className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
-                            width={2000}
-                            height={2000} />
-                    </Link>
+                    <Image
+                        src="/images/post1.jpg"
+                        alt='Post'
+                        className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
+                        width={2000}
+                        height={2000} />
                     <p className='pt-4 ml-3 font-semibold'>This is a Demo Post</p>
                 </div>
             </div>
             <div className='flex justify-between mt-5'>
                 <div className='flex'>
-                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
+                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black'>
                         <p className='text-xs'>150K</p>
                         <ArrowUpIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                     </div>
-                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                        <ArrowDownIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
+                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black'>
+                        <ArrowDownIcon className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                         <p className='text-xs'>10K</p>
                     </div>
-                    <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
-                        <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
+                    <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black'>
+                        <ChatBubbleBottomCenterTextIcon onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                         <p className='text-xs'>168</p>
                     </div>
-                    <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
-                        <ShareIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
+                    <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black'>
+                        <ShareIcon className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                         <p className='text-xs'>10</p>
                     </div>
                 </div>
@@ -98,7 +95,6 @@ function PostFeed() {
                     />
                 </div>
             </div>
-
             {commentBoxVisible && (
                 <form onSubmit={handleSubmit} className='mt-3 flex space-x-3'>
                     <input
@@ -162,14 +158,8 @@ function PostFeed() {
             {image && (
                 <img className='mt-10 h-40 w-full rounded-xl object-contain shadow-lg' src={image} alt='' />
             )}
-
-            <div className='mt-5 max-h-44 space-y-3 overflow-scroll border-t border-gray-100 dark:border-lightgray p-2 scrollbar-hide'>
-                <Comments />
-                <Comments />
-                <Comments />
-            </div>
         </div>
     )
 }
 
-export default PostFeed
+export default Post
