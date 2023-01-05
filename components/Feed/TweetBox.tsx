@@ -39,7 +39,7 @@ function TweetBox() {
 
 
     return (
-        <div className='flex space-x-2 p-5 border-y dark:bg-lightgray'>
+        <div className='flex space-x-2 p-4 border-y dark:bg-lightgray'>
             <Link href="profile"><Picture path='/images/pfp/pfp1.jpg' level={4} pictureCSS="w-14 w-14" levelCSS="top-14" /></Link>
             <div className='flex flex-1 items-center pl-2'>
                 <form className='flex flex-col flex-1'>
