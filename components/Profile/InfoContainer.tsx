@@ -115,33 +115,33 @@ function InfoContainer() {
                         </div>
                         <div className="flex flex-col items-start p-4">
                             <h3 className='font-semibold py-2'>My collection</h3>
-                            <div className='grid grid-cols-8 w-full place-content-center'>
-                                <div onClick={() => changeFrameColor('bg-yellow-300')} className={`w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-yellow-300 rounded-md`}></div>
-                                <div onClick={() => changeFrameColor('bg-green-300')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-green-300 rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-blue-300')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-blue-300 rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-red-300')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-red-300 rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-green-700')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-green-700 rounded-md'></div>
+                            <div className='grid grid-cols-12 lg:grid-cols-8 w-full place-items-center'>
+                                <div onClick={() => changeFrameColor('bg-yellow-300')} className={`w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-yellow-300 rounded-md`}></div>
+                                <div onClick={() => changeFrameColor('bg-green-300')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-green-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-blue-300')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-blue-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-red-300')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-red-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-green-700')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-green-700 rounded-md'></div>
                             </div>
                         </div>
                         <div className="flex flex-col items-start p-4">
                             <h3 className='font-semibold py-2'>New Frames</h3>
-                            <div className='grid grid-cols-8 w-full place-content-center'>
-                                <div className='flex flex-col items-center justify-center col-span-2'>
-                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#FF512F] to-[#DD2476] rounded-md`}></div>
-                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#FF512F] to-[#DD2476] rounded-md text-white'>Unlock</p>
+                            <div className='grid grid-cols-12 lg:grid-cols-8 w-full place-items-center'>
+                                <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-2'>
+                                    <div className={`w-24 h-40 mt-3 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#FF512F] to-[#DD2476] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 hover:bg-orange-600 rounded-full hover:text-white'>Unlock</p>
                                 </div>
-                                <div className='flex flex-col items-center justify-center col-span-2'>
-                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#F09819] to-[#EDDE5D] rounded-md`}></div>
-                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#F09819] to-[#EDDE5D] rounded-md text-white'>Unlock</p>
+                                <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-2'>
+                                    <div className={`w-24 h-40 mt-3 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#F09819] to-[#EDDE5D] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 hover:bg-orange-600 rounded-full hover:text-white'>Unlock</p>
                                 </div>
-                                <div className='flex flex-col items-center justify-center col-span-2'>
-                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md`}></div>
-                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md text-white'>Unlock</p>
+                                <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-2'>
+                                    <div className={`w-24 h-40 mt-3 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 hover:bg-orange-600 rounded-full hover:text-white'>Unlock</p>
                                 </div>
-                                <div className='flex flex-col items-center justify-center col-span-2'>
-                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#3CA55C] to-[#B5AC49] rounded-md`}></div>
-                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#3CA55C] to-[#B5AC49] rounded-md text-white'>Unlock</p>
+                                <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-2'>
+                                    <div className={`w-24 h-40 mt-3 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#3CA55C] to-[#B5AC49] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 hover:bg-orange-600 rounded-full hover:text-white'>Unlock</p>
                                 </div>
                             </div>
                         </div>
