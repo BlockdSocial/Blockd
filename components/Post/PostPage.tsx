@@ -2,6 +2,7 @@ import React from 'react'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import PostID from './PostID'
 import { useRouter } from 'next/router'
+import CommentSection from './CommentSection'
 
 function PostPage() {
 
@@ -18,6 +19,10 @@ function PostPage() {
 
             <div className='z-0'>
                 <PostID />
+                <CommentSection />
+                <CommentSection />
+                <CommentSection />
+                <CommentSection />
             </div>
 
         </div>

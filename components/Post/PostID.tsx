@@ -48,7 +48,7 @@ function PostID() {
     }
 
     return (
-        <div className='flex flex-col space-x-3 p-4 -z-20'>
+        <div className='flex flex-col space-x-3 p-4 -z-20 border-y'>
             <div className='w-full'>
                 <Link href="/profile" className='flex space-x-3 w-fit group'>
                     <Picture path="/images/pfp/pfp2.jpg" level={5} pictureCSS="w-12 h-12" levelCSS="top-12" />
@@ -151,99 +151,6 @@ function PostID() {
             {image && (
                 <img className='mt-10 h-40 w-full rounded-xl object-contain shadow-lg' src={image} alt='' />
             )}
-
-            <div className='my-2 mt-5 max-h-auto space-y-5 overflow-scroll border-t border-gray-100 p-5 scrollbar-hide'>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp1.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @IsmailBzz
-                            </p>
-                            <TimeAgo
-                                date='Dec 23, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my first Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my First Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my Second Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-blockd/30 dark:border-gray-500' />
-                    <img src="/images/pfp/pfp2.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @EGOist
-                            </p>
-                            <TimeAgo
-                                date='Dec 25, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            This is my Third Comment
-                        </p>
-                    </div>
-                </div>
-                <div className='relative flex space-x-2'>
-                    <hr className='absolute left-5 top-10 h-8 border-x border-transparent' />
-                    <img src="/images/pfp/pfp3.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
-                    <div >
-                        <div className='flex items-center space-x-1'>
-                            <p className='mr-1 font-semibold'>
-                                @Crypto_Crazy
-                            </p>
-                            <TimeAgo
-                                date='Dec 23, 2022'
-                                className='text-sm text-gray-500'
-                            />
-                        </div>
-                        <p>
-                            Intresting Blog !
-                        </p>
-                    </div>
-                </div>
-            </div>
         </div>
     )
 }

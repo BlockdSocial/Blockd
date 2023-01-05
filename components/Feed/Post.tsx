@@ -1,6 +1,6 @@
 import Image from 'next/image'
 import React, { useState, useRef } from 'react'
-import Picture from '../Feed/Picture'
+import Picture from './Picture'
 import TimeAgo from 'react-timeago'
 import {
     ArrowUpIcon,
@@ -13,7 +13,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
-import Comments from './Comments'
+import Comments from '../Post/Comments'
 
 function PostFeed() {
 
@@ -49,13 +49,13 @@ function PostFeed() {
     }
 
     return (
-        <div className='flex flex-col space-x-3 mt-1 border-y p-6'>
+        <div className='flex flex-col space-x-3 border-b p-6'>
             <div className='w-full'>
                 <Link href="profile" className='flex space-x-3 w-fit group'>
                     <Picture path="/images/pfp/pfp2.jpg" level={5} pictureCSS="w-12" levelCSS="top-12" />
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
-                            <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
+                            <p className='mr-1 font-semibold text-l group-hover:underline underline-offset-2 decoration-2'>@Egoist</p>
                             <CheckBadgeIcon className='h-7 w-7 fill-blockd' />
                         </div>
                     </div>
@@ -162,12 +162,6 @@ function PostFeed() {
             {image && (
                 <img className='mt-10 h-40 w-full rounded-xl object-contain shadow-lg' src={image} alt='' />
             )}
-
-            <div className='mt-5 max-h-44 space-y-3 overflow-scroll border-t border-gray-100 dark:border-lightgray p-2 scrollbar-hide'>
-                <Comments />
-                <Comments />
-                <Comments />
-            </div>
         </div>
     )
 }

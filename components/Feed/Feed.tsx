@@ -1,7 +1,7 @@
 import React from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import TweetBox from './TweetBox'
-import PostFeed from '../Post/Post'
+import Post from './Post'
 import toast from 'react-hot-toast'
 
 function Feed() {
@@ -15,7 +15,7 @@ function Feed() {
   }
   
   return (
-    <div className='max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x '>
+    <div className='max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'>
       <div className='flex items-center justify-end p-4'>
         <ArrowPathIcon
           onClick={handleRefresh}
@@ -25,7 +25,9 @@ function Feed() {
 
       <div>
         <TweetBox />
-        <PostFeed />
+        <Post />
+        <Post />
+        <Post />
       </div>
 
     </div>
