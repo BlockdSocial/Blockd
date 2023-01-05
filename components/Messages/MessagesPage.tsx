@@ -31,10 +31,7 @@ function MessagesPage() {
           />
         </div>
       </div>
-      <Messages />
-      <Messages />
-      <Messages />
-      <Messages />
+      {Array.from({ length: 10 }, (_, i) => <Messages key={i} />)}
     </div>
   )
 }

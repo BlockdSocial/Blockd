@@ -32,10 +32,7 @@ function NotificationsPage() {
         </div>
       </div>
       <hr></hr>
-      <Notifications />
-      <Notifications />
-      <Notifications />
-      <Notifications />
+      {Array.from({ length: 10 }, (_, i) => <Notifications key={i} />)}
     </div>
   )
 }

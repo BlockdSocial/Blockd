@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import Picture from '../Feed/Picture'
 import {
     CheckBadgeIcon,
@@ -8,11 +8,25 @@ import {
     QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
+import Image from 'next/image';
 
 function InfoContainer() {
 
-    const [isDropdownVisible, setIsDropdownVisible] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState(false);
+    const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
+    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
+    const [color, setColor] = useState<string>('bg-yellow-300')
+
+    const changeFrameColor = (color: any) => {
+        setColor(color)
+    }
+
+    let [frameColor, setFrameColor] = useState<string>('')
+    useEffect(() => {
+        frameColor = color
+        setFrameColor(frameColor)
+        console.log(frameColor)
+    }, [color])
 
     const toggleDropdown = () => {
         setIsDropdownVisible(!isDropdownVisible);
@@ -37,7 +51,23 @@ function InfoContainer() {
 
             </div>
             <circle className="col-span-2 -mt-36 mx-auto">
-                <Picture path='/images/pfp2.jpg' level={5} pictureCSS='h-16 w-16 md:w-20 md:h-20' levelCSS='top-14 md:top-20 md:w-8 md:h-8' />
+                <div className='z-0'>
+                    <span className={`flex justify-center items-center text-black dark:text-white top-14 md:top-20 md:w-10 md:h-10 ${frameColor} relative right-1 h-6 w-6 rounded-full p-[6px]`}>
+                        <span className='flex justify-center items-center text-xs dark:text-black rounded-full w-full h-full bg-white'>
+                            5
+                        </span>
+                    </span>
+                    <div className={`-mt-2 h-20 w-20 md:w-20 md:h-20 rounded-full p-2 ${frameColor}`}>
+                        <Image
+                            src='/images/pfp2.jpg'
+                            alt="PFP"
+                            className="w-full h-full  rounded-full object-cover"
+                            width={60}
+                            height={60}
+                        />
+                    </div>
+
+                </div>
             </circle>
             <div className='col-span-3 place-self-start justify-self-end p-3'>
                 <div className='w-10 h-10 bg-white dark:bg-darkgray/50 flex items-center justify-center rounded-md'>
@@ -45,7 +75,7 @@ function InfoContainer() {
                 </div>
                 <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
                     <Link type='button' onClick={() => setIsModalVisible(!isModalVisible)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><PencilSquareIcon className='w-5 h-5 mr-2' />Edit Profile</Link>
-                    <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><EyeIcon className='w-5 h-5 mr-2' />Display</Link>
+                    <Link type='button' onClick={() => setIsDisplayModal(!isDisplayModal)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><EyeIcon className='w-5 h-5 mr-2' />Frame Color</Link>
                     <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><QuestionMarkCircleIcon className='w-5 h-5 mr-2' />Help Center</Link>
                 </ul>
             </div>
@@ -61,14 +91,59 @@ function InfoContainer() {
                             <form className="space-y-6" action="#">
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
-                                    <input type="text" name="Name" className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white" placeholder="Egoist"/>
+                                    <input type="text" name="Name" className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white" placeholder="Egoist" />
                                 </div>
                                 <div>
                                     <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                                    <input type="email" name="email" placeholder="Egoist@gmail.com" className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white"/>
+                                    <input type="email" name="email" placeholder="Egoist@gmail.com" className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white" />
                                 </div>
                                 <button type="submit" className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Edit</button>
                             </form>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-[50vh] p-4 ${isDisplayModal ? '' : 'hidden'}`}>
+                <div className="relative w-full rounded-lg max-w-md h-96 overflow-scroll scrollbar-hide dark:border dark:border-white ">
+                    <div className="relative bg-white rounded-lg shadow dark:bg-lightgray">
+                        <div className='sticky top-0 left-0 flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
+                            <h3 className="text-xl font-medium text-gray-900 dark:text-white">Change Frame Color</h3>
+                            <button type="button" onClick={() => setIsDisplayModal(!isDisplayModal)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+                                <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                                <span className="sr-only">Close modal</span>
+                            </button>
+                        </div>
+                        <div className="flex flex-col items-start p-4">
+                            <h3 className='font-semibold py-2'>My collection</h3>
+                            <div className='grid grid-cols-8 w-full place-content-center'>
+                                <div onClick={() => changeFrameColor('bg-yellow-300')} className={`w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-yellow-300 rounded-md`}></div>
+                                <div onClick={() => changeFrameColor('bg-green-300')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-green-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-blue-300')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-blue-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-red-300')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-red-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-green-700')} className='w-24 h-40 col-span-2 cursor-pointer mt-1 mr-1 bg-green-700 rounded-md'></div>
+                            </div>
+                        </div>
+                        <div className="flex flex-col items-start p-4">
+                            <h3 className='font-semibold py-2'>New Frames</h3>
+                            <div className='grid grid-cols-8 w-full place-content-center'>
+                                <div className='flex flex-col items-center justify-center col-span-2'>
+                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#FF512F] to-[#DD2476] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#FF512F] to-[#DD2476] rounded-md text-white'>Unlock</p>
+                                </div>
+                                <div className='flex flex-col items-center justify-center col-span-2'>
+                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#F09819] to-[#EDDE5D] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#F09819] to-[#EDDE5D] rounded-md text-white'>Unlock</p>
+                                </div>
+                                <div className='flex flex-col items-center justify-center col-span-2'>
+                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md text-white'>Unlock</p>
+                                </div>
+                                <div className='flex flex-col items-center justify-center col-span-2'>
+                                    <div className={`w-24 h-40 mt-1 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#3CA55C] to-[#B5AC49] rounded-md`}></div>
+                                    <p className='cursor-pointer font-semibold text-sm p-2 mt-2 bg-gradient-to-r from-[#3CA55C] to-[#B5AC49] rounded-md text-white'>Unlock</p>
+                                </div>
+                            </div>
                         </div>
                     </div>
                 </div>
