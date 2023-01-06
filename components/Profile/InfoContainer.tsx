@@ -1,5 +1,4 @@
 import React, { useState, useEffect } from 'react'
-import Picture from '../Feed/Picture'
 import {
     CheckBadgeIcon,
     Cog8ToothIcon,
@@ -15,7 +14,7 @@ function InfoContainer() {
     const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
-    const [color, setColor] = useState<string>('bg-yellow-300')
+    const [color, setColor] = useState<string>('bg-blue-300')
 
     const changeFrameColor = (color: any) => {
         setColor(color)
@@ -59,7 +58,7 @@ function InfoContainer() {
                     </span>
                     <div className={`-mt-2 h-20 w-20 md:w-20 md:h-20 rounded-full p-2 ${frameColor}`}>
                         <Image
-                            src='/images/pfp2.jpg'
+                            src='/images/pfp/pfp2.jpg'
                             alt="PFP"
                             className="w-full h-full  rounded-full object-cover"
                             width={60}
@@ -103,10 +102,10 @@ function InfoContainer() {
                     </div>
                 </div>
             </div>
-            <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-[50vh] p-4 ${isDisplayModal ? '' : 'hidden'}`}>
+            <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-[60vh] p-4 ${isDisplayModal ? '' : 'hidden'}`}>
                 <div className="relative w-full rounded-lg max-w-md h-96 overflow-scroll scrollbar-hide dark:border dark:border-white ">
                     <div className="relative bg-white rounded-lg shadow dark:bg-lightgray">
-                        <div className='sticky top-0 left-0 flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
+                        <div className='sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Change Frame Color</h3>
                             <button type="button" onClick={() => setIsDisplayModal(!isDisplayModal)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
                                 <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -115,13 +114,13 @@ function InfoContainer() {
                         </div>
                         <div className="flex flex-col items-start p-4">
                             <h3 className='font-semibold py-2'>My collection</h3>
-                            <div className='grid grid-cols-12 lg:grid-cols-8 w-full place-items-center'>
-                                <div onClick={() => changeFrameColor('bg-yellow-300')} className={`w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-yellow-300 rounded-md`}></div>
-                                <div onClick={() => changeFrameColor('bg-green-300')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-green-300 rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-blue-300')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-blue-300 rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-red-300')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-red-300 rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-md'></div>
-                                <div onClick={() => changeFrameColor('bg-green-700')} className='w-24 h-40 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-green-700 rounded-md'></div>
+                            <div className='grid grid-cols-12 z-0 lg:grid-cols-8 w-full place-items-center'>
+                                <div onClick={() => changeFrameColor('bg-gradient-to-r from-[#E55D87] to-[#5FC3E4]')} className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md"></div>
+                                <div onClick={() => changeFrameColor('bg-green-300')} className='w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-green-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor('bg-blue-300')} className='w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-blue-300 rounded-md'></div>
+                                <div onClick={() => changeFrameColor("bg-[url('/images/frames/frame2.jpg')]")} className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-[url('/images/frames/frame2.jpg')] rounded-md"></div>
+                                <div onClick={() => changeFrameColor('bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA]')} className='w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-md'></div>
+                                <div onClick={() => changeFrameColor("bg-[url('/images/frames/frame1.jpg')]")} className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-[url('/images/frames/frame1.jpg')] rounded-md"></div>
                             </div>
                         </div>
                         <div className="flex flex-col items-start p-4">
@@ -136,7 +135,7 @@ function InfoContainer() {
                                     <p className='cursor-pointer font-semibold text-sm p-2 mt-2 hover:bg-orange-600 rounded-full hover:text-white'>Unlock</p>
                                 </div>
                                 <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-2'>
-                                    <div className={`w-24 h-40 mt-3 mr-1 opacity-60 hover:opacity-100 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md`}></div>
+                                    <div className={`w-24 h-40 mt-3 mr-1 opacity-60 hover:opacity-100 bg-[url('/images/frames/frame3.jpg')] bg-cover object-contain rounded-md`}></div>
                                     <p className='cursor-pointer font-semibold text-sm p-2 mt-2 hover:bg-orange-600 rounded-full hover:text-white'>Unlock</p>
                                 </div>
                                 <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-2'>
