@@ -1,5 +1,5 @@
+import React, { useState, useEffect, useRef } from 'react'
 import Link from 'next/link'
-import React, { useState } from 'react'
 import {
     EllipsisHorizontalIcon,
     SpeakerWaveIcon,
@@ -15,11 +15,25 @@ function Navbar() {
     let [isDropdownVisible, setIsDropdownVisible] = useState(false);
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
-    const toggleDropdown = () => {
-        setIsDropdownVisible(!isDropdownVisible);
-    }
+    const dropdown = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the dropdown is opened
+        if (!isDropdownVisible) return;
+        function handleClick(event:any) {
+            if(isDropdownVisible === true) {
+                if (dropdown.current && !dropdown.current.contains(event.target)) {
+                  setIsDropdownVisible(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+      }, [isDropdownVisible]);
+
     return (
-        <div className="flex items-center justify-between sticky top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
+        <div className="flex items-center justify-between absolute top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
                 <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full lg:hidden' />
                 <img src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 rounded-full hidden lg:flex' />
@@ -51,12 +65,16 @@ function Navbar() {
                 </div>
             </div>
             <div className='flex items-center justify-center'>
-                <EllipsisHorizontalIcon onClick={() => toggleDropdown()} className='cursor-pointer w-8 h-8' />
-                <ul className={`absolute top-12 right-3 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
-                    <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-t-md dark:hover:bg-darkgray/50"><SpeakerWaveIcon className='w-5 h-5 mr-2' />Mute</Link>
-                    <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-darkgray/50"><EyeDropperIcon className='w-5 h-5 mr-2' />Pin Group</Link>
-                    <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-b-md dark:hover:bg-darkgray/50"><ArrowRightOnRectangleIcon className='w-5 h-5 mr-2' />Leave Group</Link>
-                </ul>
+                <div ref={dropdown} className='flex flex-col items-center justify-center'>
+                    <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='cursor-pointer w-8 h-8' />
+                    <div className='relative z-10 flex ite'>
+                        <ul className={`absolute top-0 -right-3 w-36 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
+                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-t-md dark:hover:bg-darkgray/50"><SpeakerWaveIcon className='w-5 h-5 mr-2' />Mute</Link>
+                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-darkgray/50"><EyeDropperIcon className='w-5 h-5 mr-2' />Pin Group</Link>
+                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-b-md dark:hover:bg-darkgray/50"><ArrowRightOnRectangleIcon className='w-5 h-5 mr-2' />Leave Group</Link>
+                        </ul>
+                    </div>
+                </div>
             </div>
         </div>
     )

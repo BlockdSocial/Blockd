@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     CheckBadgeIcon,
     Cog8ToothIcon,
@@ -15,6 +15,23 @@ function InfoContainer() {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
     const [color, setColor] = useState<string>('bg-blue-300')
+
+    const dropdown = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the dropdown is opened
+        if (!isDropdownVisible) return;
+        function handleClick(event:any) {
+            if(isDropdownVisible === true) {
+                if (dropdown.current && !dropdown.current.contains(event.target)) {
+                  setIsDropdownVisible(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+      }, [isDropdownVisible]);
 
     const changeFrameColor = (color: any) => {
         setColor(color)
@@ -68,9 +85,9 @@ function InfoContainer() {
 
                 </div>
             </circle>
-            <div className='col-span-3 place-self-start justify-self-end p-3'>
+            <div ref={dropdown} className='col-span-3 place-self-start justify-self-end p-3'>
                 <div className='w-10 h-10 bg-white dark:bg-darkgray/50 flex items-center justify-center rounded-md'>
-                    <Cog8ToothIcon onClick={toggleDropdown} className='h-8 w-8 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
+                    <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-8 w-8 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
                 </div>
                 <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
                     <Link type='button' onClick={() => setIsModalVisible(!isModalVisible)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><PencilSquareIcon className='w-5 h-5 mr-2' />Edit Profile</Link>

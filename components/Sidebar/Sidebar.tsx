@@ -32,8 +32,12 @@ function Sidebar() {
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
                     )}
                 </Link>
-                <Link href="">
-                    <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='' />
+                <Link href="/chatroom">
+                    {location.pathname === '/chatroom' ? (
+                        <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='bg-gray-100 dark:bg-lightgray' />
+                    ) : (
+                        <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='' />
+                    )}
                 </Link>
                 <Link href="">
                     <SidebarRow Icon={ComputerDesktopIcon} title="Streams" active='' />
@@ -45,11 +49,11 @@ function Sidebar() {
                     <SidebarRow Icon={ArrowTrendingUpIcon} title="" active='' />
                 </Link>
             </div>
-                <div className='md:flex items-center justify-center absolute bottom-2 hidden'>
-                    <p className='p-2 text-xs items-center justify-center text-center font-semibold w-3/4'>
-                        Verified By Blockchain Technology, Blockd LLC.
-                    </p>
-                </div>
+            <div className='md:flex items-center justify-center absolute bottom-2 hidden'>
+                <p className='p-2 text-xs items-center justify-center text-center font-semibold w-3/4'>
+                    Verified By Blockchain Technology, Blockd LLC.
+                </p>
+            </div>
         </div>
     )
 }
