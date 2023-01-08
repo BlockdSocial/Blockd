@@ -7,7 +7,7 @@ import Link from 'next/link'
 function Messages() {
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
-      <Link href="/profile" className="border-b flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
+      <Link href="/profile" className="flex items-center justify-between p-4 group/item border-b dark:border-lightgray hover:bg-slate-100 dark:hover:bg-lightgray cursor-pointer">
         <div className='flex mr-2'>
           <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp1.jpg" alt="" />
           <div className="ml-3 flex items-center justify-center">

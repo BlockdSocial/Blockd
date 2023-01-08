@@ -7,8 +7,8 @@ import Link from 'next/link'
 function Following() {
   return (
     <div>
-      <div role="list" className="p-6 divide-y divide-slate-200 dark:divide-lightgray">
-        <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
+      <div role="list" className="divide-y divide-slate-200 dark:divide-lightgray">
+        <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer">
           <div className='flex'>
             <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp1.jpg" alt="" />
             <div className="ml-3 overflow-hidden">
@@ -25,7 +25,7 @@ function Following() {
             </Link>
           </div>
         </Link>
-        <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
+        <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer">
           <div className='flex'>
             <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp2.jpg" alt="" />
             <div className="ml-3 overflow-hidden">
@@ -42,7 +42,7 @@ function Following() {
             </Link>
           </div>
         </Link>
-        <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray rounded-md p-4 cursor-pointer">
+        <Link href="/profile" className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer">
           <div className='flex'>
             <img className="h-10 w-10 rounded-full" src="/images/pfp/pfp3.jpg" alt="" />
             <div className="ml-3 overflow-hidden">

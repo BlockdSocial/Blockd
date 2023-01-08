@@ -49,24 +49,25 @@ function PostTest() {
     }
 
     return (
-        <div className='flex space-x-3 border-b p-6'>
+        <div className='flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-3 mb-2'>
             <div className='w-full flex'>
                 <div className='flex flex-col'>
-                    <Link href="profile" className='flex w-fit h-fit group'>
-                        <div className='p-1 bg-gradient-to-r from-[#6EE7B7] via-[#3B82F6] to-[#9333EA] rounded-lg'>
+                    <Link href="profile" className='relative flex flex-col w-fit h-fit group'>
+                        <div className='flex flex-col p-1 animate-colorChange rounded-lg'>
                             <Image
                                 src="/images/pfp/pfp2.jpg"
                                 alt='pfp'
-                                className='w-20 h-16 rounded-lg shadow-sm'
+                                className='w-20 h-16 rounded-t-lg shadow-sm'
                                 width={2000}
                                 height={2000} />
-
+                            <div className='flex items-center justify-center text-black font-semibold rounded-b-lg h-5 text-xs bg-white w-full'>
+                                Level 15
+                            </div>
                         </div>
                     </Link>
-                    <p className='text-center font-semibold text-sm mt-2'>Level 15</p>
                 </div>
                 <div className='flex flex-col px-4'>
-                    <div className='flex items-center justify-start space-x-1 mt-5 cursor-pointer group'>
+                    <div className='flex items-center justify-start space-x-1 mt-5 cursor-pointer group w-fit'>
                         <p className='mr-1 font-semibold text-l group-hover:font-bold'>@Egoist</p>
                         <Image
                             src="/images/badges/badge.svg"
@@ -93,7 +94,7 @@ function PostTest() {
                                 height={2000} />
                         </Link>
                     </div>
-                    <div className='flex items-center justify-start mt-5'>
+                    <div className='flex items-center justify-start mt-3 mb-3'>
                         <div className='flex'>
                             <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
                                 <p className='text-xs'>150K</p>
@@ -118,7 +119,7 @@ function PostTest() {
                             <input
                                 value={input}
                                 onChange={(e) => setInput(e.target.value)}
-                                className='flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none'
+                                className='flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none'
                                 type="text"
                                 placeholder='Write a comment...'
                             />

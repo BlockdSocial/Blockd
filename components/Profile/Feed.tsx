@@ -1,10 +1,10 @@
 import React from 'react'
-import Post from '../Feed/Post'
+import PostTest from '../Feed/PostTest'
 
 function Feed() {
   return (
-    <div>
-      <Post />
+    <div className='p-4'>
+      <PostTest />
     </div>
   )
 }
