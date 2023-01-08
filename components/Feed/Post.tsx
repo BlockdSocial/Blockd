@@ -56,7 +56,12 @@ function PostFeed() {
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
                             <p className='mr-1 font-semibold text-l group-hover:underline underline-offset-2 decoration-2'>@Egoist</p>
-                            <CheckBadgeIcon className='h-7 w-7 fill-blockd' />
+                            <Image
+                                src="/images/badge.png"
+                                alt='Post'
+                                className='w-6 h-6 rounded-lg max-h-80 shadow-sm'
+                                width={2000}
+                                height={2000} />
                         </div>
                     </div>
                 </Link>

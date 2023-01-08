@@ -88,7 +88,7 @@ export default function Chat() {
                                     className="bg-transparent cursor-pointer w-6 text-sm" disabled />
                                 <p className='text-xs'>5</p>
                             </div>
-                            <div className='hidden sticky group-hover:flex bg-transparent w-fit rounded-md'>
+                            <div className='hidden group-hover:flex items-center justify-center bg-transparent w-fit rounded-md'>
                                 <div className='flex p-1 rounded-full h-full group'>
                                     <FaceSmileIcon onClick={() => setShowReaction(!showReaction)} className='w-6 h-6 cursor-pointer fill-yellow-400 stroke-black' />
                                 </div>

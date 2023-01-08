@@ -7,6 +7,7 @@ import {
     UserIcon,
     HomeIcon,
     ArrowTrendingUpIcon,
+    LightBulbIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -18,21 +19,20 @@ function Sidebar() {
     return (
         <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-r dark:border-lightgray'>
             <Link href="/" className='active'>
-                {location.pathname === '/' ? (
-                    <SidebarRow Icon={HomeIcon} active='bg-gray-100 dark:bg-lightgray'/>
-                ):(
-                    <SidebarRow Icon={HomeIcon} active=''/>
-                )}     
+                <SidebarRow Icon={HomeIcon} active='' />
             </Link>
             <Link href="profile">
-                {location.pathname === '/profile' ? (
-                    <SidebarRow Icon={UserIcon} active='bg-gray-100 dark:bg-lightgray'/>
-                ):(
-                    <SidebarRow Icon={UserIcon} active=''/>
-                )}
+                <SidebarRow Icon={UserIcon} active='' />
             </Link>
-            <Link href="">
-                <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} active='' />
+            <Link href="suggestion">
+                <SidebarRow Icon={LightBulbIcon} active='' />
+            </Link>
+            <Link href="chatroom">
+                {location.pathname === '/chatroom' ? (
+                    <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} active='bg-gray-100 dark:bg-lightgray' />
+                ) : (
+                    <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} active='' />
+                )}
             </Link>
             <Link href="">
                 <SidebarRow Icon={ComputerDesktopIcon} active='' />

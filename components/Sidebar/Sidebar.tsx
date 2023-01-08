@@ -7,6 +7,7 @@ import {
     UserIcon,
     HomeIcon,
     ArrowTrendingUpIcon,
+    LightBulbIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -32,7 +33,14 @@ function Sidebar() {
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
                     )}
                 </Link>
-                <Link href="/chatroom">
+                <Link href="suggestion">
+                    {location.pathname === '/suggestion' ? (
+                        <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='bg-gray-100 dark:bg-lightgray' />
+                    ) : (
+                        <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='' />
+                    )}
+                </Link>
+                <Link href="chatroom">
                     {location.pathname === '/chatroom' ? (
                         <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
