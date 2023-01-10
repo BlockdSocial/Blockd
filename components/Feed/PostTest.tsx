@@ -1,19 +1,16 @@
 import Image from 'next/image'
-import React, { useState, useRef } from 'react'
-import Picture from './Picture'
+import React, { useState, useEffect, useRef } from 'react'
 import TimeAgo from 'react-timeago'
 import {
     ArrowUpIcon,
     ArrowDownIcon,
     ChatBubbleBottomCenterTextIcon,
     ShareIcon,
-    CheckCircleIcon,
     FaceSmileIcon,
     PhotoIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
-import Comments from '../Post/Comments'
 
 function PostTest() {
 
@@ -21,6 +18,24 @@ function PostTest() {
     const [input, setInput] = useState<string>('')
     const [image, setImage] = useState<string>('')
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
+
+    const dropdown = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the dropdown is opened
+        if (!showEmojis) return;
+        function handleClick(event:any) {
+            if(showEmojis === true) {
+                console.log('hello')
+                if (dropdown.current && !dropdown.current.contains(event.target)) {
+                    setShowEmojis(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+      }, [showEmojis]);
 
     const imageInputRef = useRef<HTMLInputElement>(null)
 
@@ -51,37 +66,43 @@ function PostTest() {
     return (
         <div className='flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-3 mb-2'>
             <div className='w-full flex'>
-                <div className='flex flex-col'>
-                    <Link href="profile" className='relative flex flex-col w-fit h-fit group'>
-                        <div className='flex flex-col p-1 animate-colorChange rounded-lg'>
-                            <Image
-                                src="/images/pfp/pfp2.jpg"
-                                alt='pfp'
-                                className='w-20 h-16 rounded-t-lg shadow-sm'
-                                width={2000}
-                                height={2000} />
-                            <div className='flex items-center justify-center text-black font-semibold rounded-b-lg h-5 text-xs bg-white w-full'>
-                                Level 15
+                <div className='flex flex-col px-4'>
+                    <div className='flex items-start space-x-2'>
+                        <div className='flex'>
+                            <Link href="profile" className='relative flex flex-col w-fit h-fit group'>
+                                <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
+                                    <Image
+                                        src="/images/pfp/pfp2.jpg"
+                                        alt='pfp'
+                                        className='min-w-16 min-h-16 rounded-md shadow-sm'
+                                        width={60}
+                                        height={60} />
+                                    <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
+                                        <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
+                                            15
+                                        </div>
+                                    </div>
+                                </div>
+                            </Link>
+                        </div>
+                        <div className='flex flex-col'>
+                            <div className='flex items-center justify-start space-x-1 mt-5 cursor-pointer group w-fit'>
+                                <p className='mr-1 font-semibold text-l group-hover:font-bold'>@Egoist</p>
+                                <Image
+                                    src="/images/badges/badge.svg"
+                                    alt='pfp'
+                                    className='w-5 h-5 rounded-lg shadow-sm'
+                                    width={2000}
+                                    height={2000}
+                                />
+                            </div>
+                            <div className='flex'>
+                                <TimeAgo
+                                    date='Aug 29, 2022'
+                                    className='text-xs text-gray-500'
+                                />
                             </div>
                         </div>
-                    </Link>
-                </div>
-                <div className='flex flex-col px-4'>
-                    <div className='flex items-center justify-start space-x-1 mt-5 cursor-pointer group w-fit'>
-                        <p className='mr-1 font-semibold text-l group-hover:font-bold'>@Egoist</p>
-                        <Image
-                            src="/images/badges/badge.svg"
-                            alt='pfp'
-                            className='w-5 h-5 rounded-lg shadow-sm'
-                            width={2000}
-                            height={2000} />
-                    </div>
-
-                    <div className='flex'>
-                        <TimeAgo
-                            date='Aug 29, 2022'
-                            className='text-xs text-gray-500'
-                        />
                     </div>
                     <div className='w-full'>
                         <p className='pt-4 font-semibold'>This is a Demo Post</p>
@@ -131,17 +152,18 @@ function PostTest() {
                         </form>
                     )}
                     {commentBoxVisible && (
-                        <div className='flex items-center'>
-                            <div className='flex relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2'>
+                        <div className='flex items-center justify-end'>
+                            <div className='flex items-center justify-end relative space-x-2 pr-10 text-[#181c44] dark:text-white flex-1 mt-2'>
                                 <PhotoIcon
                                     onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
                                     className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                                 />
                                 <FaceSmileIcon
+                                    ref={dropdown}
                                     onClick={() => setShowEmojis(!showEmojis)}
                                     className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                                 {showEmojis && (
-                                    <div className='absolute -left-6 top-7 z-40'>
+                                    <div className='absolute right-0 top-7 z-0'>
                                         <Picker
                                             onEmojiSelect={addEmoji}
                                             theme="dark"
@@ -151,6 +173,7 @@ function PostTest() {
                                             size="1em"
                                             perLine="6"
                                             maxFrequentRows="2"
+                                            searchPosition="none"
                                         />
                                     </div>
                                 )}

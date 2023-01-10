@@ -64,7 +64,7 @@ const Navbar = () => {
     return (
         <div className='w-full shadow-md'>
             <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-14 h-[10vh]'>
-                <Link href="/" className='font-bold text-2xl cursor-pointer flex items-center justify-center font-[Poppins]'>
+                <Link href="/" className='cursor-pointer flex items-center justify-center'>
                     <Image
                         src="/images/logo/long-logo.png"
                         alt="Blockd Logo"

@@ -53,3 +53,7 @@ textarea {
 .bg-button2:hover {
   background: #f75a00;
 }
+
+em-emoji-picker {
+  height: 30vh;
+}

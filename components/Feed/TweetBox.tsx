@@ -1,12 +1,11 @@
 import Image from 'next/image'
-import React, { useRef, useState, useEffect } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import {
     CalendarIcon,
     FaceSmileIcon,
     MapPinIcon,
     PhotoIcon,
 } from '@heroicons/react/24/outline'
-import Picture from './Picture'
 import Picker from '@emoji-mart/react'
 import Link from 'next/link'
 
@@ -17,6 +16,23 @@ function TweetBox() {
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
     const imageInputRef = useRef<HTMLInputElement>(null)
+    const dropdown = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the dropdown is opened
+        if (!showEmojis) return;
+        function handleClick(event:any) {
+            if(showEmojis === true) {
+                console.log('hello')
+                if (dropdown.current && !dropdown.current.contains(event.target)) {
+                    setShowEmojis(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+      }, [showEmojis]);
 
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
@@ -40,7 +56,21 @@ function TweetBox() {
 
     return (
         <div className='flex space-x-2 p-4 border-y dark:bg-lightgray'>
-            <Link href="profile"><Picture path='/images/pfp/pfp1.jpg' level={4} pictureCSS="w-14 w-14" levelCSS="top-14" /></Link>
+            <Link href="profile" className='relative flex flex-col group'>
+                <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
+                    <Image
+                        src="/images/pfp/pfp1.jpg"
+                        alt='pfp'
+                        className='w-16 h-16 rounded-md shadow-sm'
+                        width={2000}
+                        height={2000} />
+                    <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
+                        <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
+                            31
+                        </div>
+                    </div>
+                </div>
+            </Link>
             <div className='flex flex-1 items-center pl-2'>
                 <form className='flex flex-col flex-1'>
                     <textarea
@@ -49,8 +79,8 @@ function TweetBox() {
                         value={input}
                         onChange={(e: any) => setInput(e.target.value)}
                         data-rows="4"
-                        className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-8 "
-                        placeholder="What's the word on the block ?"
+                        className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-6 "
+                        placeholder="What's the word on the block?"
                     ></textarea>
                     <hr className='mb-4'></hr>
                     <div className='flex items-center'>
@@ -60,16 +90,24 @@ function TweetBox() {
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                             />
                             <FaceSmileIcon
-                                onClick={() => setShowEmojis(!showEmojis)}
+                                ref={dropdown}
+                                onClick={() => setShowEmojis(b => !b)}
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             {showEmojis && (
-                                <div className='absolute -left-14 top-7'>
+                                <div className='absolute left-5 top-7 z-0'>
                                     <Picker
                                         onEmojiSelect={addEmoji}
                                         theme="dark"
+                                        set="apple"
+                                        icons="outline"
+                                        previewPosition="none"
+                                        size="1em"
+                                        perLine="6"
+                                        maxFrequentRows="2"
+                                        searchPosition="none"
                                     />
                                 </div>
-                            )}   
+                            )}
                             <CalendarIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             <MapPinIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                         </div>

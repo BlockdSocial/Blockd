@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState, useRef } from 'react'
+import React, { useState, useEffect, useRef } from 'react'
 import Picture from '../Feed/Picture'
 import TimeAgo from 'react-timeago'
 import {
@@ -24,6 +24,24 @@ function PostID() {
     const imageInputRef = useRef<HTMLInputElement>(null)
 
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
+
+    const dropdown = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the dropdown is opened
+        if (!showEmojis) return;
+        function handleClick(event:any) {
+            if(showEmojis === true) {
+                console.log('hello')
+                if (dropdown.current && !dropdown.current.contains(event.target)) {
+                    setShowEmojis(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+      }, [showEmojis]);
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -51,10 +69,24 @@ function PostID() {
         <div className='flex flex-col space-x-3 p-4 -z-20 border-y'>
             <div className='w-full'>
                 <Link href="/profile" className='flex space-x-3 w-fit group'>
-                    <Picture path="/images/pfp/pfp2.jpg" level={5} pictureCSS="w-12 h-12" levelCSS="top-12" />
+                    <Link href="profile" className='flex flex-col w-fit h-fit group'>
+                        <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
+                            <Image
+                                src="/images/pfp/pfp2.jpg"
+                                alt='pfp'
+                                className='w-16 h-16 rounded-md shadow-sm'
+                                width={60}
+                                height={60} />
+                            <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
+                                <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
+                                    15
+                                </div>
+                            </div>
+                        </div>
+                    </Link>
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>
-                            <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
+                            <p className='mr-1 font-semibold text-l'>@Egoist</p>
                             <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
                         </div>
                     </div>
@@ -111,20 +143,28 @@ function PostID() {
                 </button>
             </form>
 
-            <div className='flex items-center'>
-                <div className='flex relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2'>
+            <div className='flex items-center justify-end'>
+                <div className='flex items-center justify-end relative space-x-2 pr-10 text-[#181c44] dark:text-white flex-1 mt-2'>
                     <PhotoIcon
                         onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
                         className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                     />
                     <FaceSmileIcon
+                        ref={dropdown}
                         onClick={() => setShowEmojis(!showEmojis)}
                         className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                     {showEmojis && (
-                        <div className='absolute -left-4 top-7 z-40'>
+                        <div className='absolute righy-0 top-7 z-40'>
                             <Picker
                                 onEmojiSelect={addEmoji}
                                 theme="dark"
+                                set="apple"
+                                icons="outline"
+                                previewPosition="none"
+                                size="1em"
+                                perLine="6"
+                                maxFrequentRows="2"
+                                searchPosition="none"
                             />
                         </div>
                     )}

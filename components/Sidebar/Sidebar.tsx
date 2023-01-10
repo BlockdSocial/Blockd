@@ -18,7 +18,7 @@ function Sidebar() {
 
     return (
         <div className='flex items-start justify-center col-span-1 md:col-span-2'>
-            <div className='relative flex flex-col items-center p-2 mt-3 md:items-start w-fit'>
+            <div className='relative flex flex-col items-start p-2 mt-3 md:items-start w-fit'>
                 <Link href="/" className='active'>
                     {location.pathname === '/' ? (
                         <SidebarRow Icon={HomeIcon} title="Home" active='bg-gray-100 dark:bg-lightgray' />

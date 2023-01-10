@@ -120,6 +120,7 @@ function MainComment() {
                                     size="1em"
                                     perLine="6"
                                     maxFrequentRows="2"
+                                    searchPosition="none"
                                 />
                             </div>
                         )}
