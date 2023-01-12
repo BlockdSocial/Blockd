@@ -63,14 +63,14 @@ const Navbar = () => {
     let [open, setOpen] = useState(false);
     return (
         <div className='w-full shadow-md'>
-            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-14 h-[10vh]'>
+            <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-2 xl:px-8 h-[10vh]'>
                 <Link href="/" className='cursor-pointer flex items-center justify-center'>
                     <Image
                         src="/images/logo/long-logo.png"
                         alt="Blockd Logo"
-                        className="ml-4 md:ml-0 hidden md:inline"
-                        width={110}
-                        height={40}
+                        className="w-26 h-10 ml-4 md:ml-0 hidden md:inline"
+                        width={140}
+                        height={50}
                     />
                     <Image
                         src="/images/logo/logo.png"

@@ -86,7 +86,7 @@ function TrendingChatrooms() {
             <div className='flex items-center justify-start'>
                 <Link href="/trending" className='flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1'>
                     <p className='font-semibold text-sm'>
-                        Show more
+                        See all chatrooms
                     </p>
                 </Link>
             </div>

@@ -79,13 +79,13 @@ function PostFeed() {
             </div>
             <div className='flex justify-between mt-5'>
                 <div className='flex'>
-                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                        <p className='text-xs'>150K</p>
+                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
+                        <p className='text-xs group-hover:text-green-600'>150K</p>
                         <ArrowUpIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                     </div>
-                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
+                    <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
                         <ArrowDownIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                        <p className='text-xs'>10K</p>
+                        <p className='text-xs group-hover:text-red-600'>10K</p>
                     </div>
                     <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                         <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
