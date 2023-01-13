@@ -9,6 +9,8 @@ import {
 } from '@heroicons/react/24/outline'
 import TimeAgo from 'react-timeago'
 import Picker from '@emoji-mart/react'
+import Link from 'next/link'
+import Image from 'next/image'
 
 function MainComment() {
 
@@ -45,9 +47,23 @@ function MainComment() {
     }
 
     return (
-        <div className='relative border-b flex flex-col space-x-2 rounded-lg p-4'>
+        <div className='relative border-b flex flex-col space-x-2  p-4'>
             <div className='flex space-x-2'>
-                <img src="/images/pfp/pfp1.jpg" className='mt-2 h-12 w-12 object-cover rounded-full' alt="" />
+                <Link href="profile" className='flex flex-col w-fit h-fit group'>
+                    <div className='relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg'>
+                        <Image
+                            src="/images/pfp/pfp1.jpg"
+                            alt='pfp'
+                            className='w-14 h-14 rounded-md shadow-sm'
+                            width={60}
+                            height={60} />
+                        <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
+                            <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
+                                15
+                            </div>
+                        </div>
+                    </div>
+                </Link>
                 <div >
                     <div className='flex items-center space-x-1'>
                         <p className='mr-1 font-semibold'>

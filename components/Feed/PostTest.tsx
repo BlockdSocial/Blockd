@@ -83,7 +83,7 @@ function PostTest() {
     }
 
     return (
-        <div className='flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-3 mb-2'>
+        <div className='flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
             <div className='w-full flex'>
                 <div className='flex flex-col px-4'>
                     <div className='flex items-center justify-between'>
@@ -105,38 +105,31 @@ function PostTest() {
                                     </div>
                                 </Link>
                             </div>
-                            <div className='flex flex-col'>
-                                <div className='flex items-center justify-start space-x-1 mt-5 cursor-pointer group w-fit'>
-                                    <p className='mr-1 font-semibold text-l group-hover:font-bold'>@Egoist</p>
-                                    <Image
-                                        src="/images/badges/badge.svg"
-                                        alt='pfp'
-                                        className='w-5 h-5 rounded-lg shadow-sm'
-                                        width={2000}
-                                        height={2000}
-                                    />
+                            <div className='flex flex-col items-start justify-center space-y-1'>
+                                <div className='flex items-center space-x-1'>
+                                    <p className='mr-1 font-semibold text-l'>@Egoist</p>
                                 </div>
-                                <div className='flex'>
-                                    <TimeAgo
-                                        date='Aug 29, 2022'
-                                        className='text-xs text-gray-500'
-                                    />
+                                <div>
+                                    <p className='text-sm text-gray-500'>14K followers</p>
+                                </div>
+                                <div>
+                                    <p className='text-xs text-gray-500'>15 min ago</p>
                                 </div>
                             </div>
                         </div>
-                        <div ref={dropdown} className='flex items-center justify-center'>
-                            <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
+                        <div ref={dropdown} className='flex items-start justify-start h-full'>
+                            <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 lg:w-10 lg:h-10 cursor-pointer' />
                             <div className='relative z-0 flex ite'>
                                 <ul className={`absolute top-4 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
-                                    <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-t-md dark:hover:bg-darkgray/50">Hide Post</div>
-                                    <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-darkgray/50">Report Post</div>
-                                    <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                                    <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">Hide Post</div>
+                                    <div className="flex items-center justify-start  p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
+                                    <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
                                 </ul>
                             </div>
                         </div>
                     </div>
-                    <div className='w-full'>
-                        <p className='pt-4 font-semibold'>This is a Demo Post</p>
+                    <div className='flex flex-col items-start justify-center space-y-2 w-full'>
+                        <p className='pt-8 font-semibold'>This is a Demo Post</p>
                         <Link href="post">
                             <Image
                                 src="/images/post1.jpg"
@@ -146,7 +139,7 @@ function PostTest() {
                                 height={2000} />
                         </Link>
                     </div>
-                    <div className='flex items-center justify-start mt-3 mb-3'>
+                    <div className='flex items-center justify-start mt-4 mb-2'>
                         <div className='flex'>
                             <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
                                 <p className='text-xs group-hover:text-green-600'>150K</p>

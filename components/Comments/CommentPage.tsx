@@ -3,9 +3,10 @@ import { useRouter } from 'next/router'
 import {
     ArrowLeftCircleIcon,
 } from '@heroicons/react/24/outline'
-import Post from './Post'
 import MainComment from './MainComment'
 import CommentSection from './CommentSection'
+import PostTest from '../Feed/PostTest'
+import PostID from '../Post/PostID'
 
 function CommentPage() {
 
@@ -22,7 +23,7 @@ function CommentPage() {
 
             <div className='z-0'>
 
-                <Post />
+                <PostID />
                 <MainComment />
                 <CommentSection />
                 <CommentSection />

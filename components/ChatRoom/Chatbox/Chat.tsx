@@ -22,17 +22,17 @@ export default function Chat() {
     useEffect(() => {
         // only add the event listener when the dropdown is opened
         if (!isDropdownVisible) return;
-        function handleClick(event:any) {
-            if(isDropdownVisible === true) {
+        function handleClick(event: any) {
+            if (isDropdownVisible === true) {
                 if (dropdown.current && !dropdown.current.contains(event.target)) {
-                  setIsDropdownVisible(false);
+                    setIsDropdownVisible(false);
                 }
             }
         }
         window.addEventListener("click", handleClick);
         // clean up
         return () => window.removeEventListener("click", handleClick);
-      }, [isDropdownVisible]);
+    }, [isDropdownVisible]);
 
     const removeReaction = () => {
         reaction = ''
@@ -52,70 +52,76 @@ export default function Chat() {
     return (
         <div className="scrollbar-hide overflow-scroll h-[77vh] mt-[8vh] p-4 dark:bg-darkgray">
             <div className="mt-5">
-                <div className="grid grid-cols-10 md:grid-cols-12 mb-4">
-                    <div
-                        className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group"
-                    >
-                        <div className='flex relative z-0 items-center justify-between w-full text-xm font-semibold'>
-                            <div>
-                                <p>@Egoist</p>
-                            </div>
-                            <div className='relative z-0 flex items-center justify-end space-x-2'>
-                                <p>23:01</p>
-                                <div ref={dropdown} className='flex relative rounded-md'>
-                                    {isDropdownVisible && (
-                                        <ul className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl`}>
-                                            <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-t-md"><TrashIcon className="w-5 h-5 mr-3" />Delete</div>
-                                            <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"><DocumentDuplicateIcon className="w-5 h-5 mr-3" />Copy</div>
-                                            <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"><EyeDropperIcon className="w-5 h-5 mr-3" />Pin</div>
-                                            <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"><ArrowUturnLeftIcon className="w-5 h-5 mr-3" />Reply</div>
-                                            <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md"><ExclamationCircleIcon className="w-5 h-5 mr-3" />Report</div>
-                                        </ul>
-                                    )}
-                                    <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
+                <div className='relative flex flex-col'>
+                    <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
+                        <div
+                            className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group"
+                        >
+                            <div className='flex relative z-0 items-center justify-between w-full text-xm font-semibold'>
+                                <div>
+                                    <p>@Egoist</p>
                                 </div>
+                                <div className='relative z-0 flex items-center justify-end space-x-2'>
+                                    <p>23:01</p>
+                                    <div ref={dropdown} className='flex relative rounded-md'>
+                                        {isDropdownVisible && (
+                                            <ul className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl`}>
+                                                <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-t-md"><TrashIcon className="w-5 h-5 mr-3" />Delete</div>
+                                                <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"><DocumentDuplicateIcon className="w-5 h-5 mr-3" />Copy</div>
+                                                <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"><EyeDropperIcon className="w-5 h-5 mr-3" />Pin</div>
+                                                <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"><ArrowUturnLeftIcon className="w-5 h-5 mr-3" />Reply</div>
+                                                <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md"><ExclamationCircleIcon className="w-5 h-5 mr-3" />Report</div>
+                                            </ul>
+                                        )}
+                                        <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
+                                    </div>
 
+                                </div>
+                            </div>
+                            <p className='flex items-center justify-end'>Welcome to group everyone !</p>
+                            <div className='relative flex items-center justify-start space-x-1 mt-1'>
+                                <div className='absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md'>
+                                    <div className='flex rounded-full h-full bg-white dark:bg-darkgray'>
+                                        <FaceSmileIcon onClick={() => setShowReaction(!showReaction)} className='w-6 h-6 cursor-pointer fill-yellow-400 stroke-black' />
+                                    </div>
+
+                                    {showReaction && (
+                                        <div className='absolute top-6 -left-6'>
+                                            <Picker
+                                                set="apple"
+                                                onEmojiSelect={addReaction}
+                                                theme="dark"
+                                                icons="outline"
+                                                previewPosition="none"
+                                                size="1em"
+                                                perLine="6"
+                                                maxFrequentRows="2"
+                                            />
+                                        </div>
+                                    )}
+                                </div>
                             </div>
                         </div>
-                        <p className='flex items-center justify-end'>Welcome to group everyone !</p>
-                        <div className='flex items-center justify-start space-x-1 mt-1'>
-                            <div
-                                onClick={() => removeReaction()}
-                                className={`mt-1 p-1 w-fit flex items-center justify-center bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? 'inline' : 'hidden'}`}>
-                                <input
-                                    value={reaction}
-                                    onChange={(e: any) => setReaction(e.target.value)}
-                                    className="bg-transparent cursor-pointer w-6 text-sm" disabled />
-                                <p className='text-xs'>5</p>
-                            </div>
-                            <div className='hidden group-hover:flex items-center justify-center bg-transparent w-fit rounded-md'>
-                                <div className='flex p-1 rounded-full h-full group'>
-                                    <FaceSmileIcon onClick={() => setShowReaction(!showReaction)} className='w-6 h-6 cursor-pointer fill-yellow-400 stroke-black' />
-                                </div>
-
-                                {showReaction && (
-                                    <div className='absolute top-8 right-0'>
-                                        <Picker
-                                            set="apple"
-                                            onEmojiSelect={addReaction}
-                                            theme="dark"
-                                            icons="outline"
-                                            previewPosition="none"
-                                            size="1em"
-                                            perLine="6"
-                                            maxFrequentRows="2"
-                                        />
-                                    </div>
-                                )}
-                            </div>
+                        <div className='col-span-1 flex items-end justify-end'>
+                            <img
+                                src="/images/pfp/pfp2.jpg"
+                                className="object-cover h-10 w-10 rounded-full"
+                                alt=""
+                            />
                         </div>
                     </div>
-                    <div className='col-span-1 flex items-end justify-end'>
-                        <img
-                            src="/images/pfp/pfp2.jpg"
-                            className="object-cover h-10 w-10 rounded-full"
-                            alt=""
-                        />
+                    <div className="grid grid-cols-10 md:grid-cols-12">
+                        <div
+                            onClick={() => removeReaction()}
+                            className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? 'inline' : 'hidden'}`}>
+                            <input
+                                value={reaction}
+                                onChange={(e: any) => setReaction(e.target.value)}
+                                className="bg-transparent cursor-pointer w-6 text-sm" disabled />
+                            <p className='text-xs font-bold text-white'>4</p>
+                        </div>
+                        <div className='col-span-1 flex items-end justify-end'>
+                        </div>
                     </div>
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">

@@ -7,41 +7,57 @@ import {
     ArrowDownIcon,
     ChatBubbleBottomCenterTextIcon,
     ShareIcon,
-    CheckBadgeIcon,
     FaceSmileIcon,
     PhotoIcon,
+    EllipsisHorizontalIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
 
 function PostID() {
 
-    const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
+    let [isDropdownVisible, setIsDropdownVisible] = useState(false);
+
     const [input, setInput] = useState<string>('')
     const [image, setImage] = useState<string>('')
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
-
-    const imageInputRef = useRef<HTMLInputElement>(null)
-
-    const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
     const dropdown = useRef<any>(null);
 
     useEffect(() => {
         // only add the event listener when the dropdown is opened
-        if (!showEmojis) return;
-        function handleClick(event:any) {
-            if(showEmojis === true) {
+        if (!isDropdownVisible) return;
+        function handleClick(event: any) {
+            if (isDropdownVisible === true) {
                 console.log('hello')
                 if (dropdown.current && !dropdown.current.contains(event.target)) {
-                    setShowEmojis(false);
+                    setIsDropdownVisible(false);
                 }
             }
         }
         window.addEventListener("click", handleClick);
         // clean up
         return () => window.removeEventListener("click", handleClick);
-      }, [showEmojis]);
+    }, [isDropdownVisible]);
+
+    const emoji = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the emoji is opened
+        if (!showEmojis) return;
+        function handleClick(event: any) {
+            if (emoji.current && !emoji.current.contains(event.target)) {
+                setShowEmojis(false);
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+    }, [showEmojis]);
+
+    const imageInputRef = useRef<HTMLInputElement>(null)
+
+    const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
     const handleSubmit = (e: React.FormEvent<HTMLFormElement>) => {
         e.preventDefault()
@@ -68,29 +84,52 @@ function PostID() {
     return (
         <div className='flex flex-col space-x-3 p-4 -z-20 border-y'>
             <div className='w-full'>
-                <Link href="/profile" className='flex space-x-3 w-fit group'>
-                    <Link href="profile" className='flex flex-col w-fit h-fit group'>
-                        <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
-                            <Image
-                                src="/images/pfp/pfp2.jpg"
-                                alt='pfp'
-                                className='w-16 h-16 rounded-md shadow-sm'
-                                width={60}
-                                height={60} />
-                            <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
-                                <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
-                                    15
+                <div className='flex items-center justify-between'>
+                    <div className='flex items-start space-x-2'>
+                        <div className='flex'>
+                            <Link href="profile" className='relative flex flex-col w-fit h-fit group'>
+                                <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
+                                    <Image
+                                        src="/images/pfp/pfp2.jpg"
+                                        alt='pfp'
+                                        className='min-w-16 min-h-16 rounded-md shadow-sm'
+                                        width={60}
+                                        height={60} />
+                                    <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
+                                        <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
+                                            15
+                                        </div>
+                                    </div>
                                 </div>
+                            </Link>
+                        </div>
+                        <div className='flex flex-col items-start justify-center space-y-1'>
+                            <div className='flex items-center space-x-1'>
+                                <p className='mr-1 font-semibold text-l'>@Egoist</p>
+                            </div>
+                            <div>
+                                <p className='text-sm text-gray-500'>14K followers</p>
+                            </div>
+                            <div>
+                                <p className='text-xs text-gray-500'>
+                                    <TimeAgo
+                                        date='Aug 29, 2022'
+                                    />
+                                </p>
                             </div>
                         </div>
-                    </Link>
-                    <div>
-                        <div className='flex items-center space-x-1 mt-7'>
-                            <p className='mr-1 font-semibold text-l'>@Egoist</p>
-                            <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
+                    </div>
+                    <div ref={dropdown} className='flex items-center justify-center'>
+                        <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
+                        <div className='relative z-0 flex ite'>
+                            <ul className={`absolute top-4 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
+                                <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-t-md dark:hover:bg-darkgray/50">Hide Post</div>
+                                <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-darkgray/50">Report Post</div>
+                                <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                            </ul>
                         </div>
                     </div>
-                </Link>
+                </div>
                 <div className='w-full'>
                     <Image
                         src="/images/post1.jpg"
@@ -120,12 +159,6 @@ function PostID() {
                         <p className='text-xs'>10</p>
                     </div>
                 </div>
-                <div>
-                    <TimeAgo
-                        date='Aug 29, 2022'
-                        className='text-sm text-gray-500'
-                    />
-                </div>
             </div>
 
             <form onSubmit={handleSubmit} className='mt-3 flex space-x-3'>
@@ -150,7 +183,7 @@ function PostID() {
                         className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                     />
                     <FaceSmileIcon
-                        ref={dropdown}
+                        ref={emoji}
                         onClick={() => setShowEmojis(!showEmojis)}
                         className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                     {showEmojis && (

@@ -50,7 +50,7 @@ function InfoContainer() {
 
     return (
         <div className="grid grid-cols-8 p-2 relative bg-gray-100 dark:bg-lightgray bg-cover items-center justify-center h-48 w-full mt-20 border-y mx-auto">
-            <div className=' rounded-md col-span-3 place-self-start p-3'>
+            <div className=' rounded-md col-span-3 place-self-start p-3 bg-white dark:bg-darkgray'>
                 <div className='flex items-center space-x-1'>
                     <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
                     <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
@@ -72,15 +72,15 @@ function InfoContainer() {
             </div>
             <circle className="col-span-2 -mt-36 mx-auto">
                 <div className='z-0'>
-                    <div className={`relative -mt-14 h-24 w-24 rounded-md p-2 ${frameColor}`}>
+                    <div className={`relative -mt-14 h-24 w-24 border-2 border-white rounded-md p-2 ${frameColor}`}>
                         <Image
                             src="/images/pfp/pfp1.jpg"
                             alt='pfp'
-                            className='w-fill h-fill rounded-md shadow-sm'
+                            className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
                             width={2000}
                             height={2000} />
-                        <div className={`absolute -bottom-3 -left-4 flex p-[6px] w-10 h-10 ${frameColor} rounded-lg`}>
-                            <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-sm bg-white '>
+                        <div className={`absolute -bottom-3 -left-4 flex p-[6px] w-10 h-10 border-2 border-white ${frameColor} rounded-lg`}>
+                            <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white '>
                                 31
                             </div>
                         </div>
@@ -88,7 +88,7 @@ function InfoContainer() {
                 </div>
             </circle>
             <div ref={dropdown} className='col-span-3 place-self-start justify-self-end'>
-                <div className='w-fit h-fit bg-transparent p-1 flex items-center justify-center rounded-md'>
+                <div className='w-fit h-fit p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
                     <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
                 </div>
                 <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
