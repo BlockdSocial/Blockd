@@ -43,7 +43,7 @@ function SuggestionBox() {
                                 value={input}
                                 onChange={(e: any) => setInput(e.target.value)}
                                 data-rows="4"
-                                className="h-28 w-full p-2 text-black outline-none text-l bg-gray-200 dark:bg-lightgray rounded-lg"
+                                className="h-28 w-full p-2 text-black dark:text-white outline-none text-l bg-gray-200 dark:bg-lightgray rounded-lg"
                                 placeholder="Write a suggestion in 255 characters or less."
                             ></textarea>
                         </div>

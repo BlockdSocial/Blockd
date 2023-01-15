@@ -1,30 +1,33 @@
 import Image from 'next/image'
 import React, { useState, useEffect, useRef } from 'react'
 import {
-    CalendarIcon,
+    GifIcon,
     FaceSmileIcon,
     MapPinIcon,
     PhotoIcon,
+    XMarkIcon,
 } from '@heroicons/react/24/outline'
 import Picker from '@emoji-mart/react'
 import Link from 'next/link'
+import ReactGiphySearchbox from 'react-giphy-searchbox'
 
 function TweetBox() {
 
     const [input, setInput] = useState<string>('')
     const [image, setImage] = useState<string>('')
     const [showEmojis, setShowEmojis] = useState<boolean>(false)
+    const [showGifs, setShowGifs] = useState<boolean>(false)
 
     const imageInputRef = useRef<HTMLInputElement>(null)
-    const dropdown = useRef<any>(null);
+
+    const emoji = useRef<any>(null);
 
     useEffect(() => {
-        // only add the event listener when the dropdown is opened
+        // only add the event listener when the emoji is opened
         if (!showEmojis) return;
-        function handleClick(event:any) {
-            if(showEmojis === true) {
-                console.log('hello')
-                if (dropdown.current && !dropdown.current.contains(event.target)) {
+        function handleClick(event: any) {
+            if (showEmojis === true) {
+                if (emoji.current && !emoji.current.contains(event.target)) {
                     setShowEmojis(false);
                 }
             }
@@ -32,7 +35,24 @@ function TweetBox() {
         window.addEventListener("click", handleClick);
         // clean up
         return () => window.removeEventListener("click", handleClick);
-      }, [showEmojis]);
+    }, [showEmojis]);
+
+    const gif = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the gif is opened
+        if (!showGifs) return;
+        function handleClick(event: any) {
+            if (showGifs === true) {
+                if (gif.current && !gif.current.contains(event.target)) {
+                    setShowGifs(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+    }, [showGifs]);
 
     const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
@@ -45,12 +65,30 @@ function TweetBox() {
         setImageUrlBoxIsOpen(false);
     }
 
+    const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false)
+    //Set a color for the frame   
+
     const addEmoji = (e: any) => {
         const sym = e.unified.split("-")
         const codesArray: any[] = []
         sym.forEach((el: any) => codesArray.push("0x" + el))
         const emoji = String.fromCodePoint(...codesArray)
         setInput(input + emoji)
+    }
+
+    let [gifUrl, setGifUrl] = useState<string>('')
+    const addGif = (gify: any) => {
+        if (gifBoxIsOpen === false) {
+            setGifBoxIsOpen(!gifBoxIsOpen)
+        }
+        let gifUrl = gify.images.downsized.url
+        setGifUrl(gifUrl)
+    }
+
+    const closeGif = () => {
+        gifUrl = ''
+        setGifUrl(gifUrl)
+        setGifBoxIsOpen(!gifBoxIsOpen)
     }
 
 
@@ -82,6 +120,15 @@ function TweetBox() {
                         className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-6 "
                         placeholder="What's the word on the block?"
                     ></textarea>
+                    <hr></hr>
+                    {gifBoxIsOpen && (
+                        <div className='relative my-2 w-full'>
+                            <img src={gifUrl} className="rounded-lg max-w-full h-auto" width="200px" height="200px"/>
+                            <div onClick={() => closeGif()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray'>
+                                <XMarkIcon className='w-5 h-5' />
+                            </div>
+                        </div>
+                    )}
                     <hr className='mb-4'></hr>
                     <div className='flex items-center'>
                         <div className='flex relative space-x-2 text-[#181c44] dark:text-white flex-1'>
@@ -90,7 +137,7 @@ function TweetBox() {
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                             />
                             <FaceSmileIcon
-                                ref={dropdown}
+                                ref={emoji}
                                 onClick={() => setShowEmojis(b => !b)}
                                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                             {showEmojis && (
@@ -108,7 +155,25 @@ function TweetBox() {
                                     />
                                 </div>
                             )}
-                            <CalendarIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                            <div ref={gif}>
+                                <GifIcon       
+                                    onClick={() => setShowGifs(b => !b)}
+                                    className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                                {showGifs && (
+                                    <div className='absolute left-5 top-7 z-0 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                                        <ReactGiphySearchbox
+                                            apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                                            onSelect={(item: any) => addGif(item)}
+                                            mansonryConfig={[
+                                                { columns: 2, imageWidth: 140, gutter: 10 },
+                                                { mq: '700px', columns: 3, imageWidth: 200, gutter: 10 },
+                                                { mq: '1000px', columns: 4, imageWidth: 220, gutter: 10 },
+                                            ]}
+                                            wrapperClassName="p-4"
+                                        />
+                                    </div>
+                                )}
+                            </div>
                             <MapPinIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                         </div>
                         <button

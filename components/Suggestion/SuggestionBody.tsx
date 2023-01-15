@@ -57,7 +57,7 @@ function SuggestionBody() {
                             <div className='flex flex-col items-center justify-center space-y-1'>
                                 <div className='flex flex-col items-center justify-center space-y-1'>
                                     <div className='cursor-pointer p-1 rounded-md'>
-                                        <ChevronDownIcon className='w-5 h-5 text-white' />
+                                        <ChevronDownIcon className='w-5 h-5 dark:text-white' />
                                     </div>
                                     <p className='text-xs'>{negVote}</p>
                                 </div>
@@ -68,7 +68,7 @@ function SuggestionBody() {
                             <div className='flex flex-col items-center justify-center space-y-1'>
                                 <div className='flex flex-col items-center justify-center space-y-1'>
                                     <div className='cursor-pointer p-1 rounded-md'>
-                                        <ChevronUpIcon className='w-5 h-5 text-white' />
+                                        <ChevronUpIcon className='w-5 h-5 dark:text-white' />
                                     </div>
                                     <p className='text-xs'>{posVote}</p>
                                 </div>
@@ -87,7 +87,7 @@ function SuggestionBody() {
                             <div className='flex flex-col items-center justify-center space-y-1'>
                                 <div className='flex flex-col items-center justify-center space-y-1'>
                                     <div onClick={() => upVote()} className='cursor-pointer p-1 hover:bg-gray-100 dark:hover:bg-lightgray rounded-md'>
-                                        <ChevronUpIcon className='w-5 h-5 text-white' />
+                                        <ChevronUpIcon className='w-5 h-5 dark:text-white' />
                                     </div>
                                     <p className='text-xs'>-</p>
                                 </div>
@@ -95,7 +95,7 @@ function SuggestionBody() {
                             <div className='flex flex-col items-center justify-center space-y-1'>
                                 <div className='flex flex-col items-center justify-center space-y-1'>
                                     <div onClick={() => downVote()} className='cursor-pointer p-1 hover:bg-gray-100 dark:hover:bg-lightgray rounded-md'>
-                                        <ChevronDownIcon className='w-5 h-5 text-white' />
+                                        <ChevronDownIcon className='w-5 h-5 dark:text-white' />
                                     </div>
                                     <p className='text-xs'>-</p>
                                 </div>

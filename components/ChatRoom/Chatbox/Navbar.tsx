@@ -13,32 +13,49 @@ import Members from '../Widget/Members';
 function Navbar() {
 
     let [isDropdownVisible, setIsDropdownVisible] = useState(false);
-    const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    let [isModalVisible, setIsModalVisible] = useState<boolean>(false);
 
     const dropdown = useRef<any>(null);
 
     useEffect(() => {
         // only add the event listener when the dropdown is opened
         if (!isDropdownVisible) return;
-        function handleClick(event:any) {
-            if(isDropdownVisible === true) {
+        function handleClick(event: any) {
+            if (isDropdownVisible === true) {
                 if (dropdown.current && !dropdown.current.contains(event.target)) {
-                  setIsDropdownVisible(false);
+                    setIsDropdownVisible(false);
                 }
             }
         }
         window.addEventListener("click", handleClick);
         // clean up
         return () => window.removeEventListener("click", handleClick);
-      }, [isDropdownVisible]);
+    }, [isDropdownVisible]);
+
+    const modal = useRef<any>(null);
+
+    useEffect(() => {
+        // only add the event listener when the modal is opened
+        if (!isModalVisible) return;
+        function handleClick(event: any) {
+            if (isModalVisible === true) {
+                if (modal.current && !modal.current.contains(event.target)) {
+                    setIsModalVisible(false);
+                }
+            }
+        }
+        window.addEventListener("click", handleClick);
+        // clean up
+        return () => window.removeEventListener("click", handleClick);
+    }, [isModalVisible]);
 
     return (
         <div className="flex items-center justify-between absolute top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
-                <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full lg:hidden' />
+                <img ref={modal} onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full lg:hidden' />
                 <img src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 rounded-full hidden lg:flex' />
-                <div className={`absolute left-2 top-14 ml-auto mr-auto w-96 z-50 ${isModalVisible ? '' : 'hidden'}`}>
-                    <div className="relative w-full h-96 overflow-scroll scrollbar-hide rounded-lg max-w-md dark:border dark:border-white bg-white shadow dark:bg-lightgray">
+                <div className={`absolute left-2 top-14 ml-auto mr-auto w-3/4 z-50 ${isModalVisible ? '' : 'hidden'}`}>
+                    <div className="relative w-full h-96 overflow-scroll scrollbar-hide rounded-lg max-w-md dark:border dark:border-lightgray bg-white dark:bg-lightgray">
                         <div className="relative">
                             <div className='flex items-center justify-start h-[8vh] p-2 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
                                 <div className='flex items-center justify-bteween space-x-2 p-1'>

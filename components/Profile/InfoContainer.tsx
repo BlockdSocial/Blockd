@@ -6,6 +6,9 @@ import {
     EyeIcon,
     QuestionMarkCircleIcon,
 } from '@heroicons/react/24/outline'
+import {
+    CameraIcon
+} from '@heroicons/react/24/solid'
 import Link from 'next/link';
 import Image from 'next/image';
 
@@ -15,6 +18,8 @@ function InfoContainer() {
     const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
     const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
     const [color, setColor] = useState<string>('bg-blue-300')
+
+    //Hide dropdown when clicking outside it
 
     const dropdown = useRef<any>(null);
 
@@ -33,6 +38,8 @@ function InfoContainer() {
         return () => window.removeEventListener("click", handleClick);
     }, [isDropdownVisible]);
 
+    //Set a color for the frame
+
     const changeFrameColor = (color: any) => {
         setColor(color)
     }
@@ -41,64 +48,98 @@ function InfoContainer() {
     useEffect(() => {
         frameColor = color
         setFrameColor(frameColor)
-        console.log(frameColor)
     }, [color])
 
-    const toggleDropdown = () => {
-        setIsDropdownVisible(!isDropdownVisible);
+    //Click on the Camera Icon to change Banner
+
+    const inputFileBanner = useRef<HTMLInputElement | null>(null);
+
+    const onBannerClick = () => {
+        // `current` points to the mounted file input element
+        if (inputFileBanner.current) {
+            inputFileBanner.current.click();
+        }
+    };
+
+    //Click on the Camera Icon to change Banner
+
+    const inputFilePfp = useRef<HTMLInputElement | null>(null);
+
+    const onPfpClick = () => {
+        // `current` points to the mounted file input element
+        if (inputFilePfp.current) {
+            inputFilePfp.current.click();
+        }
     };
 
     return (
-        <div className="grid grid-cols-8 p-2 relative bg-gray-100 dark:bg-lightgray bg-cover items-center justify-center h-48 w-full mt-20 border-y mx-auto">
-            <div className=' rounded-md col-span-3 place-self-start p-3 bg-white dark:bg-darkgray'>
-                <div className='flex items-center space-x-1'>
-                    <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
-                    <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
+        <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
+            <div className="relative flex items-center justify-center w-full bg-gray-200 dark:bg-lightgray border-y border-gray-200 dark:border-white group">
+                <img src='/images/blockdbg.jpg' alt="Banner" className="max-w-full h-auto group-hover:opacity-50" width="720" height="350" />
+                <div onClick={() => onBannerClick()} className='group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full'>
+                    <CameraIcon className='w-8 h-8 text-black' />
                 </div>
-                <div>
-                    <p className='mr-1 text-sm group-hover:underline mt-2'>10K followers</p>
-                </div>
-                <div className="flex items-center justify-start w-full lg:w-40 hover:h-5 rounded bg-gray-200 h-2 mb-2 relative group">
-                    <div className="flex items-center justify-center bg-blockd h-2 p-1 group-hover:h-5 rounded w-3/4">
-                        <span className='text-xs font-semibold text-white hidden lg:group-hover:inline'>120 XP</span>
-                    </div>
-                    <div className="hidden lg:group-hover:flex items-center justify-center w-1/4">
-                        <span className='text-xs font-semibold text-black'>60 XP</span>
-                    </div>
-                </div>
-                <div className='text-sm'>
-                    <span className='font-semibold'>Level 5 :</span> 75%
-                </div>
+                <input type='file' id='file' ref={inputFileBanner} className="hidden" />
             </div>
-            <circle className="col-span-2 -mt-36 mx-auto">
-                <div className='z-0'>
-                    <div className={`relative -mt-14 h-24 w-24 border-2 border-white rounded-md p-2 ${frameColor}`}>
-                        <Image
-                            src="/images/pfp/pfp1.jpg"
-                            alt='pfp'
-                            className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
-                            width={2000}
-                            height={2000} />
-                        <div className={`absolute -bottom-3 -left-4 flex p-[6px] w-10 h-10 border-2 border-white ${frameColor} rounded-lg`}>
-                            <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white '>
-                                31
+            <div className='flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray border-b dark:border-lightgray'>
+                <div className='flex items-center justify-start'>
+                    <circle className="flex items-center justify-start p-3">
+                        <div className='z-0'>
+                            <div className={`relative h-24 w-24 border-2 border-white rounded-md p-1 ${frameColor}`}>
+                                <Image
+                                    src="/images/pfp/pfp1.jpg"
+                                    alt='pfp'
+                                    className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
+                                    width={2000}
+                                    height={2000} />
+                                <div className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}>
+                                    <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white'>
+                                        31
+                                    </div>
+                                </div>
+                                <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>
+                                    <CameraIcon className='w-8 h-8 text-white dark:text-darkgray' />
+                                </div>
+                                <input type='file' id='file' ref={inputFilePfp} className="hidden" />
                             </div>
+                        </div>
+                    </circle>
+                    <div className='flex flex-col items-start justify-end rounded-md p-3'>
+                        <div className='flex items-center space-x-1'>
+                            <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
+                            <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
+                        </div>
+                        <div>
+                            <p className='mr-1 text-sm group-hover:underline mt-2'>10K followers</p>
+                        </div>
+                        <div className="flex items-center justify-start w-40 h-5 rounded bg-gray-200 mb-2 relative group">
+                            <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
+                                <span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>
+                            </div>
+                            <div className="flex items-center justify-center w-1/4">
+                                <span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>
+                            </div>
+                        </div>
+                        <div className='text-sm'>
+                            <span className='font-semibold'>Level 5 :</span> 75%
                         </div>
                     </div>
                 </div>
-            </circle>
-            <div ref={dropdown} className='col-span-3 place-self-start justify-self-end'>
-                <div className='w-fit h-fit p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
-                    <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
+                <div ref={dropdown} className='flex'>
+                    <div className='w-fit h-fit p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
+                        <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
+                    </div>
+                    <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
+                        <Link type='button' onClick={() => setIsModalVisible(!isModalVisible)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md hover:font-semibold dark:hover:bg-lightgray/50"><PencilSquareIcon className='w-5 h-5 mr-2' />Edit Profile</Link>
+                        <Link type='button' onClick={() => setIsDisplayModal(!isDisplayModal)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><EyeIcon className='w-5 h-5 mr-2' />Frame Color</Link>
+                        <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md hover:font-semibold dark:hover:bg-lightgray/50"><QuestionMarkCircleIcon className='w-5 h-5 mr-2' />Help Center</Link>
+                    </ul>
                 </div>
-                <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
-                    <Link type='button' onClick={() => setIsModalVisible(!isModalVisible)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md hover:font-semibold dark:hover:bg-lightgray/50"><PencilSquareIcon className='w-5 h-5 mr-2' />Edit Profile</Link>
-                    <Link type='button' onClick={() => setIsDisplayModal(!isDisplayModal)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-lightgray/50"><EyeIcon className='w-5 h-5 mr-2' />Frame Color</Link>
-                    <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md hover:font-semibold dark:hover:bg-lightgray/50"><QuestionMarkCircleIcon className='w-5 h-5 mr-2' />Help Center</Link>
-                </ul>
             </div>
+
+
             <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-32 p-4 h-modal h-full ${isModalVisible ? '' : 'hidden'}`}>
-                <div className="relative w-full h-full rounded-lg max-w-md md:h-auto dark:border dark:border-white ">
+                <div className="relative w-full h-full rounded-lg max-w-md md:h-auto bg-white dark:bg-lightgray dark:border dark:border-darkgray ">
                     <div className="relative bg-white rounded-lg shadow dark:bg-lightgray">
                         <button type="button" onClick={() => setIsModalVisible(!isModalVisible)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
                             <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
@@ -121,8 +162,8 @@ function InfoContainer() {
                     </div>
                 </div>
             </div>
-            <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-[45vh] p-4 ${isDisplayModal ? '' : 'hidden'}`}>
-                <div className="relative w-full rounded-lg max-w-md h-96 overflow-scroll scrollbar-hide dark:border dark:border-white ">
+            <div className={`absolute flex items-center justify-center mx-auto z-50 w-full mt-32 p-4 ${isDisplayModal ? '' : 'hidden'}`}>
+                <div className="relative w-full rounded-lg max-w-md h-96 overflow-scroll scrollbar-hide dark:border dark:border-darkgray ">
                     <div className="relative bg-white rounded-lg shadow dark:bg-lightgray">
                         <div className='sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
                             <h3 className="text-xl font-medium text-gray-900 dark:text-white">Change Frame Color</h3>
@@ -166,7 +207,7 @@ function InfoContainer() {
                     </div>
                 </div>
             </div>
-        </div>
+        </div >
 
 
     )

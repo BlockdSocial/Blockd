@@ -65,7 +65,7 @@ function ProfilePage() {
 
       <InfoContainer />
 
-      <div className='flex items-center justify-between p-5 w-full border-b h-10 mt-8'>
+      <div className='flex items-center justify-between p-5 w-full border-b dark:border-lightgray h-10 mt-8'>
         <button onClick={() => handleToggle1()} className={`font-semibold focus:outline-none ${showFeed === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Feed
         </button>
