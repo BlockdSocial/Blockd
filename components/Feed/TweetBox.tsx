@@ -15,10 +15,12 @@ function TweetBox() {
 
     const [input, setInput] = useState<string>('')
     const [image, setImage] = useState<string>('')
-    const [showEmojis, setShowEmojis] = useState<boolean>(false)
-    const [showGifs, setShowGifs] = useState<boolean>(false)
 
-    const imageInputRef = useRef<HTMLInputElement>(null)
+    //************************** EMOJI Handeling **************************//
+    //************************** EMOJI Handeling **************************//
+    //************************** EMOJI Handeling **************************//
+ 
+    const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
     const emoji = useRef<any>(null);
 
@@ -37,6 +39,38 @@ function TweetBox() {
         return () => window.removeEventListener("click", handleClick);
     }, [showEmojis]);
 
+    
+    const addEmoji = (e: any) => {
+        const sym = e.unified.split("-")
+        const codesArray: any[] = []
+        sym.forEach((el: any) => codesArray.push("0x" + el))
+        const emoji = String.fromCodePoint(...codesArray)
+        setInput(input + emoji)
+    }
+
+    //************************** Image Handeling **************************//
+    //************************** Image Handeling **************************//
+    //************************** Image Handeling **************************//
+
+    const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
+
+    const imageInputRef = useRef<HTMLInputElement>(null)
+
+    const addImageToPost = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
+        e.preventDefault();
+        if (!imageInputRef.current?.value) return;
+
+        setImage(imageInputRef.current.value)
+        imageInputRef.current.value = ''
+        setImageUrlBoxIsOpen(false);
+    }
+
+    //************************** GIF Handeling **************************//
+    //************************** GIF Handeling **************************//
+    //************************** GIF Handeling **************************//
+
+    const [showGifs, setShowGifs] = useState<boolean>(false)
+
     const gif = useRef<any>(null);
 
     useEffect(() => {
@@ -54,27 +88,8 @@ function TweetBox() {
         return () => window.removeEventListener("click", handleClick);
     }, [showGifs]);
 
-    const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
-
-    const addImageToPost = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-        e.preventDefault();
-        if (!imageInputRef.current?.value) return;
-
-        setImage(imageInputRef.current.value)
-        imageInputRef.current.value = ''
-        setImageUrlBoxIsOpen(false);
-    }
-
     const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false)
     //Set a color for the frame   
-
-    const addEmoji = (e: any) => {
-        const sym = e.unified.split("-")
-        const codesArray: any[] = []
-        sym.forEach((el: any) => codesArray.push("0x" + el))
-        const emoji = String.fromCodePoint(...codesArray)
-        setInput(input + emoji)
-    }
 
     let [gifUrl, setGifUrl] = useState<string>('')
     const addGif = (gify: any) => {
@@ -94,7 +109,7 @@ function TweetBox() {
 
     return (
         <div className='flex space-x-2 p-4 border-y dark:bg-lightgray'>
-            <Link href="profile" className='relative flex flex-col group'>
+            <Link href="profile" className='relative flex flex-col h-fit group'>
                 <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                     <Image
                         src="/images/pfp/pfp1.jpg"
@@ -160,7 +175,7 @@ function TweetBox() {
                                     onClick={() => setShowGifs(b => !b)}
                                     className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                                 {showGifs && (
-                                    <div className='absolute left-5 top-7 z-0 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                                    <div className='absolute left-0 top-7 z-0 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
                                         <ReactGiphySearchbox
                                             apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                                             onSelect={(item: any) => addGif(item)}

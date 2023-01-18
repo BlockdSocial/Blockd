@@ -112,7 +112,7 @@ function InfoContainer() {
                         <div>
                             <p className='mr-1 text-sm group-hover:underline mt-2'>10K followers</p>
                         </div>
-                        <div className="flex items-center justify-start w-40 h-5 rounded bg-gray-200 mb-2 relative group">
+                        <div className="flex items-center justify-start w-48 h-5 rounded bg-gray-200 mb-2 relative group">
                             <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
                                 <span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>
                             </div>
