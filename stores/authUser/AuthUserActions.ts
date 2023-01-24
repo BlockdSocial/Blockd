@@ -79,7 +79,7 @@ export function registerUser(fields: object) {
         type: REGISTER_USER_SUCCESS,
       });
     } catch(error: any) {
-      console.log('Register user: ', error);
+      console.log('Register user Error: ', error);
 
       dispatch({
         type: REGISTER_USER_FAILURE,

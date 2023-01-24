@@ -42,6 +42,8 @@ export default function SignUp() {
     const address = await provider.getSigner().getAddress();
     const signature = await provider.getSigner().signMessage(message.message);
 
+    console.log(typeof(message.message));
+
     const data = await dispatch(registerUser({
         name: displayName,
         email: email,
