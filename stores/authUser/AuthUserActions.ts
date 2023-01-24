@@ -48,7 +48,6 @@ export function loginUser(fields: any) {
 
     try {
       const result: any = await authUserApi.loginUser(fields);
-      console.log('LOGIN_RES', result);
       dispatch({
         type: LOGIN_USER_SUCCESS,
         user: result,
@@ -72,18 +71,23 @@ export function loginUser(fields: any) {
 
 export function registerUser(fields: object) {
   return async (dispatch: any) => {
+    console.log('test');
     dispatch({type: REGISTER_USER});
     try {
-      const result = await authUserApi.registerUser(fields);
+      const result: any = await authUserApi.registerUser(fields);
       dispatch({
         type: REGISTER_USER_SUCCESS,
       });
+      if (!isEmpty(result?.token)) {
+        localStorage.setItem("token", JSON.stringify(result?.token));
+      }
+      return result;
     } catch(error: any) {
       console.log('Register user Error: ', error);
 
       dispatch({
         type: REGISTER_USER_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }

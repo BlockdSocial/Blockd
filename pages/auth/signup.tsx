@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
+import { useRouter } from 'next/router';
 import { ethers } from "ethers";
 import {
   HomeModernIcon,
@@ -12,6 +13,7 @@ import { useAppSelector, useAppDispatch } from '../../stores/hooks'
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
+  const router = useRouter();
   const [displayName, setDisplayName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
 
@@ -42,8 +44,6 @@ export default function SignUp() {
     const address = await provider.getSigner().getAddress();
     const signature = await provider.getSigner().signMessage(message.message);
 
-    console.log(typeof(message.message));
-
     const data = await dispatch(registerUser({
         name: displayName,
         email: email,
@@ -52,7 +52,9 @@ export default function SignUp() {
         address: address,
         signature: signature,
         message: message.message
-    }));
+    })).then(() => {
+      router.push('/');
+    });
 
     console.log('data: ', data);
   }
@@ -62,7 +64,7 @@ export default function SignUp() {
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
-            <Image
+            <img
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
               className="md:w-30 md:h-14"

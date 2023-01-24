@@ -1,17 +1,18 @@
 import React, { useEffect, useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
-import { useDispatch } from 'react-redux';
+import { useRouter } from 'next/router';
 import { fetchUserMessage, loginUser } from '../../stores/authUser/AuthUserActions';
-import { useAppDispatch } from '../../stores/hooks'
+import { useAppDispatch } from '../../stores/hooks';
+import { ethers } from "ethers";
 import {
   HomeModernIcon,
   KeyIcon,
 } from '@heroicons/react/24/outline';
 
 export default function SignIn() {
-  const [message, setMessage] = useState<string>('');
   const dispatch = useAppDispatch();
+  const router = useRouter();
 
   useEffect(() => {
     const fetchMessage = async () => {
@@ -21,18 +22,40 @@ export default function SignIn() {
     fetchMessage();
   }, []);
 
-  const handleSignIn = async () => {
-    await dispatch(loginUser({
-      
-    }))
+  const web3Login = async (e: any) => {
+    e.preventDefault();
+    if (!window.ethereum) {
+      alert('MetaMask not detected. Please install MetaMask first.');
+      return;
+    }
+
+    const provider = new ethers.providers.Web3Provider(window.ethereum);
+
+    let response: any = await fetch('http://localhost:8000/api/user/message');
+
+    const message = await response.json();
+
+    await provider.send("eth_requestAccounts", []);
+    const address = await provider.getSigner().getAddress();
+    const signature = await provider.getSigner().signMessage(message.message);
+
+    const data = await dispatch(loginUser({
+      address: address,
+      signature: signature,
+      message: message.message
+    })).then(() => {
+      router.push('/');
+    });
+
+    console.log('data: ', data);
   }
-  
+
   return (
     <section className="flex h-screen bg-image">
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
-            <Image
+            <img
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
               className="md:w-30 md:h-14"
@@ -65,7 +88,12 @@ export default function SignIn() {
               <h2 className="font-bold text-white mt-2 ml-2 pb-3 text-4xl lg:text-5xl">Sign In</h2>
             </div>
             <form action="" className="flex flex-col items-center justify-center">
-              <button className="w-46 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-6 px-6 rounded-full text-xl">Connect Wallet</button>
+              <button
+                className="w-46 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-6 px-6 rounded-full text-xl"
+                onClick={(e) => web3Login(e)}
+              >
+                Connect Wallet
+              </button>
             </form>
             <div className='w-full flex items-center justify-center md:hidden absolute bottom-0 p-4 border-t border-gray-500'>
               <h2 className="text-white text-l lg:text-xl">You are not Registered ? <Link href="/auth/signin" className='underline font-semibold'>Register Now !</Link></h2>

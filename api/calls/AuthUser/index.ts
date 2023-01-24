@@ -11,7 +11,7 @@ async function fetchAuthUser() {
 }
 
 async function loginUser(fields: any) {
-  return apiCall('loginUser', 'POST', `${endpoints.authUser}/login`, fields);
+  return apiCall('loginUser', 'POST', `${endpoints.authUser}/login/wallet`, fields);
 }
 
 async function registerUser(fields: any) {

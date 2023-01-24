@@ -15,7 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "api/helpers.ts", "api/utils.ts"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "api/helpers.js", "api/utils.js"],
   "exclude": ["node_modules"],
   "typeRoots": [
     "./typings",

@@ -34,7 +34,8 @@ export const apiCall = async (
 
   // Configure default query string
 	let queryString = '';
-	const authToken = JSON.parse(localStorage.getItem('token') || '');
+	// const authToken = JSON.parse(localStorage.getItem('token') || '');
+	const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('token')) : ''
 
   // Configure default header
 	headers = {
