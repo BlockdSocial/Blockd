@@ -51,7 +51,7 @@ function PostFeed() {
     return (
         <div className='flex flex-col space-x-3 border-b p-6'>
             <div className='w-full'>
-                <Link href="profile" className='flex space-x-3 w-fit group'>
+                <Link href="/dashboard/profile" className='flex space-x-3 w-fit group'>
                     <Picture path="/images/pfp/pfp2.jpg" level={5} pictureCSS="w-12" levelCSS="top-12" />
                     <div>
                         <div className='flex items-center space-x-1 mt-7'>

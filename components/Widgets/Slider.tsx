@@ -65,7 +65,7 @@ function Slider() {
                     style={{ backgroundImage: `url(${slides[currentIndex].url})` }}
                     className='w-full h-full relative rounded-md bg-center bg-cover duration-500'
                 >
-                    <Link href="/post" className='absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full'>{slides[currentIndex].title}</Link>
+                    <Link href="/dashboard/post" className='absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full'>{slides[currentIndex].title}</Link>
                 </div>
                 {/* Left Arrow */}
                 <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>

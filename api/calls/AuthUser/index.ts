@@ -23,7 +23,7 @@ async function fetchUserMessage() {
 }
 
 async function logoutUser() {
-  return apiCall('logout', 'POST', endpoints.logout);
+  return apiCall('logout', 'POST', `${endpoints.authUser}/logout`);
 }
 
 export default { 

@@ -1,14 +1,10 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { fetchUserMessage, loginUser } from '../../stores/authUser/AuthUserActions';
 import { useAppDispatch } from '../../stores/hooks';
 import { ethers } from "ethers";
-import {
-  HomeModernIcon,
-  KeyIcon,
-} from '@heroicons/react/24/outline';
 
 export default function SignIn() {
   const dispatch = useAppDispatch();
@@ -17,7 +13,6 @@ export default function SignIn() {
   useEffect(() => {
     const fetchMessage = async () => {
       const message = await dispatch(fetchUserMessage());
-      console.log(message);
     }
     fetchMessage();
   }, []);

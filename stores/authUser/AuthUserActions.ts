@@ -15,6 +15,7 @@ import {
   FETCH_USER_MESSAGE_SUCCESS,
   FETCH_USER_MESSAGE_FAILURE
 } from './AuthUserActionTypes';
+import { setCookie, deleteCookie } from 'cookies-next';
 import { isEmpty } from '../../utils';
 
 // Api
@@ -55,6 +56,7 @@ export function loginUser(fields: any) {
 
       if (!isEmpty(result.token)) {
         localStorage.setItem("token", JSON.stringify(result.token));
+        setCookie('token', result.token);
       }
 
       return result;
@@ -80,6 +82,7 @@ export function registerUser(fields: object) {
       });
       if (!isEmpty(result?.token)) {
         localStorage.setItem("token", JSON.stringify(result?.token));
+        setCookie('token', result.token);
       }
       return result;
     } catch(error: any) {
@@ -87,7 +90,7 @@ export function registerUser(fields: object) {
 
       dispatch({
         type: REGISTER_USER_FAILURE,
-        error: error.message
+        error: error?.message
       });
     }
   }
@@ -99,7 +102,8 @@ export function logoutUser() {
 
     try {
       const result = await authUserApi.logoutUser();
-      localStorage.removeItem("token")
+      localStorage.removeItem("token");
+      deleteCookie("token");
       dispatch({type: LOGOUT_USER_SUCCESS});
     } catch(error: any) {
       dispatch({

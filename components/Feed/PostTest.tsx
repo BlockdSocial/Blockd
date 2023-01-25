@@ -89,7 +89,7 @@ function PostTest() {
                     <div className='flex items-center justify-between'>
                         <div className='flex items-start space-x-2'>
                             <div className='flex'>
-                                <Link href="profile" className='relative flex flex-col w-fit h-fit group'>
+                                <Link href="/dashboard/profile" className='relative flex flex-col w-fit h-fit group'>
                                     <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                                         <Image
                                             src="/images/pfp/pfp2.jpg"
@@ -130,9 +130,9 @@ function PostTest() {
                     </div>
                     <div className='flex flex-col items-start justify-center space-y-2 w-full'>
                         <p className='pt-8 font-semibold'>This is a Demo Post</p>
-                        <Link href="post">
-                            <Image
-                                src="/images/post1.jpg"
+                        <Link href="dashboard/post">
+                            <img
+                                src="/images/Post1.jpg"
                                 alt='Post'
                                 className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
                                 width={2000}

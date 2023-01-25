@@ -109,7 +109,7 @@ function TweetBox() {
 
     return (
         <div className='flex space-x-2 p-4 border-y dark:bg-lightgray'>
-            <Link href="profile" className='relative flex flex-col h-fit group'>
+            <Link href="/dashboard/profile" className='relative flex flex-col h-fit group'>
                 <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                     <Image
                         src="/images/pfp/pfp1.jpg"

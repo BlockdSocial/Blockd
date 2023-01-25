@@ -28,7 +28,7 @@ function MsgDropDown() {
                         <span className="font-bold">Abigail Bennett</span> Sent you a picture. 3h
                     </p>
                 </a>
-                <a href="/messages" className="flex items-center justify-center px-4 py-3 hover:bg-gray-100 dark:hover:bg-lightgray dark:border-lightgray -mx-2">
+                <a href="/dashboard/messages" className="flex items-center justify-center px-4 py-3 hover:bg-gray-100 dark:hover:bg-lightgray dark:border-lightgray -mx-2">
                     <p className="text-gray-600 dark:text-white text-sm mx-2 text-center">
                         <span className="font-bold">View messages</span>
                     </p>

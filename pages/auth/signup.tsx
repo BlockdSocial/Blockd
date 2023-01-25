@@ -10,21 +10,34 @@ import {
 import { useDispatch } from 'react-redux';
 import { registerUser } from '../../stores/authUser/AuthUserActions';
 import { useAppSelector, useAppDispatch } from '../../stores/hooks'
+import { isEmpty } from '../../utils';
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const [displayName, setDisplayName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
+  const [userMessage, setUserMessage] = useState<object>();
+  const [userAddress, setUserAddress] = useState<string>('');
+  const [userSignature, setUserSignature] = useState<string>('');
+  const [terms, setTerms] = useState<boolean>(false);
 
-  const handleRegisterUser = async () => {
+  const handleRegisterUser = async (e: any) => {
+    e.preventDefault();
+    if (!terms || isEmpty(userMessage) || isEmpty(userAddress) || isEmpty(userSignature)) {
+      return;
+    }
     await dispatch(registerUser({
       name: displayName,
       email: email,
-      password: '123',
-      signature: '122222',
-      address: 'address'
-    }));
+      password: 'zebbolaali',
+      password_confirmation: 'zebbolaali',
+      address: userAddress,
+      signature: userSignature,
+      message: userMessage?.message
+    })).then(() => {
+      router.push('/');
+    });
   }
 
   const web3Login = async (e: any) => {
@@ -39,24 +52,13 @@ export default function SignUp() {
     let response: any = await fetch('http://localhost:8000/api/user/message');
 
     const message = await response.json();
+    setUserMessage(message);
 
     await provider.send("eth_requestAccounts", []);
     const address = await provider.getSigner().getAddress();
+    setUserAddress(address);
     const signature = await provider.getSigner().signMessage(message.message);
-
-    const data = await dispatch(registerUser({
-        name: displayName,
-        email: email,
-        password: 'zebbolaali',
-        password_confirmation: 'zebbolaali',
-        address: address,
-        signature: signature,
-        message: message.message
-    })).then(() => {
-      router.push('/');
-    });
-
-    console.log('data: ', data);
+    setUserSignature(signature);
   }
 
   return (
@@ -119,18 +121,18 @@ export default function SignUp() {
                 />
               </div>
               <div className='flex items-center justify-center mt-4 w-full space-x-2'>
-                <input type="checkbox" className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200" />
+                <input onChange={() => setTerms(!terms)} type="checkbox" className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200" />
                 <p className='text-white font-semibold text-l'>Terms and Conditions</p>
               </div>
               <button
                 className="w-40 mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
                 onClick={(e) => web3Login(e)}
               >
-                Connect Wallet
+                {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button>
               <button
                 className="w-32 mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
-                onClick={() => handleRegisterUser()}
+                onClick={(e) => handleRegisterUser(e)}
               >
                 Sign Up
               </button>

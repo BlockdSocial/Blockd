@@ -21,14 +21,14 @@ function Sidebar() {
             <Link href="/" className='active'>
                 <SidebarRow Icon={HomeIcon} active='' />
             </Link>
-            <Link href="profile">
+            <Link href="/dashboard/profile">
                 <SidebarRow Icon={UserIcon} active='' />
             </Link>
             <Link href="suggestion">
                 <SidebarRow Icon={LightBulbIcon} active='' />
             </Link>
-            <Link href="chatroom">
-                {location.pathname === '/chatroom' ? (
+            <Link href="dashboard/chatroom">
+                {location.pathname === '/dashboard/chatroom' ? (
                     <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} active='bg-gray-100 dark:bg-lightgray' />
                 ) : (
                     <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} active='' />
