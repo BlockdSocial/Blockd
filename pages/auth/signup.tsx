@@ -49,7 +49,7 @@ export default function SignUp() {
 
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    let response: any = await fetch('http://localhost:8000/api/user/message');
+    let response: any = await fetch('https://blockd.app/backend/api/user/message');
 
     const message = await response.json();
     setUserMessage(message);

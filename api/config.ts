@@ -1,5 +1,5 @@
 // Api version
-export const api = 'http://127.0.0.1:8000/api';
+export const api = 'https://blockd.app/backend/api';
 
 // Api errors types
 export const SYNTAX_ERROR = 'SyntaxError';
