@@ -2,56 +2,72 @@ import React from 'react'
 import {
     ChevronRightIcon,
 } from '@heroicons/react/24/outline'
+import Image from 'next/image'
 
 function AchievementPage() {
     return (
-        <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x p-2'>
-            <div className='grid grid-cols-4 lg:grid-cols-8 place-items-center p-4 space-y-8 lg:space-y-0 lg:space-x-8 bg-gray-100 rounded-md'>
-                <div className='flex flex-col items-start col-span-4 lg:col-span-3 justify-self-center justify-center bg-gray-50 rounded-3xl space-y-3 p-6'>
-                    <div className='flex flex-col mb-5'>
-                        <p className='text-sm font-semibold mb-2'>Total</p>
-                        <p className='text-2xl font-semibold'>3500</p>
-                        <p className='text-xl font-semibold'>Experience</p>
+        <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x p-2 lg:px-36'>
+            <div className="flex flex-col items-center justify-center p-4 border dark:border-lightgray rounded-lg shadow-lg bg-[url('/images/bg/achievement.png')] bg-contain">
+                <div className='flex items-center justify-center w-full space-x-6 mb-10 bg-transparent'>
+                    <div className={`relative h-24 w-24 border-2 border-white rounded-md p-1 animate-colorChange`}>
+                        <Image
+                            src="/images/pfp/pfp1.jpg"
+                            alt='pfp'
+                            className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
+                            width={2000}
+                            height={2000} />
+                        <div className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white animate-colorChange rounded-lg`}>
+                            <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white'>
+                                31
+                            </div>
+                        </div>
                     </div>
-                    <div className='flex items-center justify-start space-x-6 p-2 px-3 cursor-pointer bg-transparent hover:bg-white rounded-lg hover:shadow-lg hover:transition hover:scale-[1.3]'>
+                    <div className='flex flex-col items-start justify-center'>
+                        <p className='text-sm font-semibold mb-2'>Total</p>
+                        <p className='text-2xl font-semibold text-gray-600 dark:text-gray-300'>3500</p>
+                        <p className='text-l font-semibold text-gray-600 dark:text-gray-300'>Experience</p>
+                    </div>
+                </div>
+                <div className='flex flex-col items-center justify-center w-full space-y-4 px-6 bg-transparent'>
+                    <div className='flex items-center justify-start w-4/5 space-x-4 p-4 px-6 cursor-pointer border dark:border-lightgray rounded-lg shadow-lg transition hover:scale-[1.1]'>
                         <div className='flex items-center justify-center'>
-                            <img src='/images/badges/badge1.png' className='flex w-10 h-12' />
+                            <img src='/images/badges/badge1.png' className='flex w-14 max-w-full h-auto' />
                         </div>
                         <div className='flex flex-col items-start justify-start'>
                             <h1 className='text-l font-semibold'>Level 1</h1>
-                            <h3 className='text-sm text-gray-500'>Earn 150 XP</h3>
+                            <h3 className='text-sm text-gray-500 mb-2'>Earn 150 XP</h3>
+                            <button type="button" className="text-white w-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-6 py-1 text-center">Claim Reward</button>
                         </div>
-                        <ChevronRightIcon className='w-3 h-3' />
                     </div>
-                    <div className='flex items-center justify-start space-x-6 p-2 px-3 cursor-pointer bg-transparent hover:bg-white rounded-lg hover:shadow-lg hover:transition hover:scale-[1.3]'>
+                    <div className='flex items-center justify-start w-4/5 space-x-4 p-4 px-6 cursor-pointer border dark:border-lightgray rounded-lg shadow-lg transition hover:scale-[1.1]'>
                         <div className='flex items-center justify-center'>
-                            <img src='/images/badges/badge2.png' className='flex w-10 h-12' />
+                            <img src='/images/badges/badge2.png' className='flex w-14 max-w-full h-auto' />
                         </div>
                         <div className='flex flex-col items-start justify-start'>
                             <h1 className='text-l font-semibold'>Level 2</h1>
-                            <h3 className='text-sm text-gray-500'>Earn 300 XP</h3>
+                            <h3 className='text-sm text-gray-500 mb-2'>Reach 10K followers</h3>
+                            <button type="button" className="text-white w-full bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-6 py-1 text-center">Claim Reward</button>
                         </div>
-                        <ChevronRightIcon className='w-3 h-3' />
                     </div>
-                    <div className='flex items-center justify-start space-x-6 p-2 px-3 cursor-pointer bg-transparent opacity-70'>
+                    <div className='flex items-center justify-start w-4/5 space-x-4 p-4 px-6 cursor-pointer border dark:border-lightgray rounded-lg opacity-70'>
                         <div className='flex items-center justify-center'>
-                            <img src='/images/badges/badge3.png' className='flex w-10 h-12' />
-                        </div> 
+                            <img src='/images/badges/badge3.png' className='flex w-14 max-w-full h-auto' />
+                        </div>
                         <div className='flex flex-col items-start justify-start'>
                             <h1 className='text-l font-semibold'>Level 3</h1>
-                            <h3 className='text-sm text-gray-500'>Earn 400 XP</h3>
+                            <h3 className='text-sm text-gray-500 mb-2'>Have 10K stream views</h3>
+                            <div className="flex items-center justify-start w-full h-2 rounded bg-gray-200 mb-2 relative group">
+                                <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded w-3/4">
+                                    {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
+                                </div>
+                                <div className="flex items-center justify-center w-1/4">
+                                    {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
+                                </div>
+                            </div>
                         </div>
-                        <ChevronRightIcon className='w-3 h-3' />
                     </div>
                 </div>
-                <div className='flex flex-col items-center justify-center col-span-4 lg:col-span-5 bg-gray-300/20 rounded-3xl pt-24'>
-                    <div className='relative flex flex-col items-center justify-center pt-20 space-y-4 rounded-3xl p-5 px-7 bg-white'>
-                        <img src='/images/badges/badge1.png' className='w-30 h-36 absolute -top-16 mx-auto' />
-                        <p className='text-3xl font-semibold'>Congrats !</p>
-                        <p className='text-sm px-8 font-semibold text-gray-600 text-center'>You earned 150 xp and unlocked a brand new frame color</p>
-                        <p className='p-2 px-4 bg-blockd hover:bg-orange-400 cursor-pointer rounded-lg text-white font-semibold text-sm'>Unlock</p>
-                    </div>
-                </div>
+
             </div>
         </div>
     )
