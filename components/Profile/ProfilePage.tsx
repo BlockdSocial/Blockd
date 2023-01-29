@@ -81,17 +81,17 @@ function ProfilePage() {
       </div>
 
       {showFeed && (
-          <Feed />
-        )}
+        <Feed />
+      )}
       {showInteractions && (
-          <Interactions />
-        )}
+        <Interactions />
+      )}
       {showFollowers && (
-          <Followers />
-        )}
-        {showFollowing && (
-            <Following />
-          )}
+        <Followers />
+      )}
+      {showFollowing && (
+        <Following />
+      )}
     </div >
   )
 }
