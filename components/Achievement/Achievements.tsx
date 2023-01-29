@@ -12,7 +12,7 @@ function Achievements() {
 
     return (
         <div className='flex flex-col items-center justify-center w-full px-6 bg-transparent'>
-            <div className='flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray rounded-lg shadow-lg'>
+            <div className='flex items-center justify-center space-x-4 w-72 p-4 px-2 border bg-gray-100 dark:bg-lightgray dark:border-lightgray rounded-lg shadow-lg'>
                 <div className='flex items-center justify-center w-1/4'>
                     <img src='/images/badges/badge1.png' className='flex w-14 max-w-full h-auto' />
                 </div>
@@ -23,7 +23,7 @@ function Achievements() {
                 </div>
             </div>
             <hr className='border-2 h-10 border-blockd'></hr>
-            <div onClick={() => setIsDisplayModal(!isDisplayModal)} className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${isRewardClaimed ? '' : 'cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray'} rounded-lg shadow-lg`}>
+            <div onClick={() => setIsDisplayModal(!isDisplayModal)} className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${isRewardClaimed ? 'bg-gray-100 dark:bg-lightgray' : 'cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray'} rounded-lg shadow-lg`}>
                 <div className='flex items-center justify-center w-1/4'>
                     <img src='/images/badges/badge2.png' className='flex w-14 max-w-full h-auto' />
                 </div>
@@ -108,7 +108,7 @@ function Achievements() {
                             <p className='text-l text-white mb-4 text-center p-2'>You reached level 2 and unlocked a green blockd icon</p>
                             <p 
                                 onClick={() => handleClaim()}
-                                className='text-center cursor-pointer bg-[#E55B13] hover:bg-orange-400 p-3 rounded-3xl w-full text-white font-semibold'>Claim Reward</p>
+                                className='text-center cursor-pointer bg-orange-400 hover:bg-orange-500 p-3 rounded-3xl w-full text-white font-semibold'>Claim Reward</p>
                         </div>
                     </div>
                 </div>
