@@ -85,11 +85,11 @@ export default function Chat() {
                             <div className='relative flex items-center justify-start space-x-1 mt-1'>
                                 <div className='absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md'>
                                     <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
-                                        <AddReactionRoundedIcon onClick={() => setShowReaction(!showReaction)} className="cursor-pointer" sx={{ fontSize: 25, color: '#FFBF00' }} color="primary"/>
+                                        <AddReactionRoundedIcon onClick={() => setShowReaction(!showReaction)} className="cursor-pointer" sx={{ fontSize: 25, color: '#E55B13' }} color="primary"/>
                                     </div>
 
                                     {showReaction && (
-                                        <div className='absolute top-6 -left-6'>
+                                        <div className='absolute top-8 left-0'>
                                             <Picker
                                                 set="apple"
                                                 onEmojiSelect={addReaction}
