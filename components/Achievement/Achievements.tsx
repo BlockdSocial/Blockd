@@ -105,10 +105,10 @@ function Achievements() {
                         </div>
                         <div className='flex flex-col items-center justify-center w-full mt-28 p-10'>
                             <p className='text-3xl text-white font-semibold font-mono'>Congrats!</p>
-                            <p className='text-l text-white mb-4 text-center p-2'>You reached level 2 and unlocked a green blockd icon</p>
+                            <p className='text-l text-white mb-4 text-center p-2'>You reached level 2 and unlocked a green Blockd icon</p>
                             <p 
                                 onClick={() => handleClaim()}
-                                className='text-center cursor-pointer bg-orange-400 hover:bg-orange-500 p-3 rounded-3xl w-full text-white font-semibold'>Claim Reward</p>
+                                className='text-center cursor-pointer bg-white hover:bg-gray-200 p-3 rounded-3xl w-full text-black font-semibold'>Claim Reward</p>
                         </div>
                     </div>
                 </div>
