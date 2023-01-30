@@ -130,7 +130,7 @@ function PostTest() {
                     </div>
                     <div className='flex flex-col items-start justify-center space-y-2 w-full'>
                         <p className='pt-8 font-semibold'>This is a Demo Post</p>
-                        <Link href="dashboard/post">
+                        <Link href="/dashboard/post">
                             <img
                                 src="/images/Post1.jpg"
                                 alt='Post'

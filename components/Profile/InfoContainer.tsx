@@ -11,8 +11,15 @@ import {
 } from '@heroicons/react/24/solid'
 import Link from 'next/link';
 import Image from 'next/image';
-import { updateProfilcePicture } from '../../stores/user/UserActions';
+import { fetchAuthUser } from '../../stores/authUser/AuthUserActions';
+import { updateProfilcePicture, updateProfileBanner } from '../../stores/user/UserActions';
 import { useAppDispatch } from '../../stores/hooks';
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+}
 
 function InfoContainer() {
 
@@ -20,7 +27,8 @@ function InfoContainer() {
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
-  const [color, setColor] = useState<string>('bg-blue-300')
+  const [color, setColor] = useState<string>('bg-blue-300');
+  const [user, setUser] = useState<User>();
 
   //Hide dropdown when clicking outside it
 
@@ -40,6 +48,14 @@ function InfoContainer() {
     // clean up
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
+
+  useEffect(() => {
+    const fetchUser = async () => {
+      const result = await dispatch(fetchAuthUser()) as User;
+      setUser(result);
+    }
+    fetchUser();
+  }, []);
 
   //Set a color for the frame
 
@@ -76,8 +92,22 @@ function InfoContainer() {
   };
 
   const handleUploadProfilePicture = async (file: object) => {
-    await dispatch(updateProfilcePicture(file))
+    await dispatch(updateProfilcePicture({
+      user_id: user?.id,
+      image: file,
+      content: 'test'
+    }));
   }
+
+  const handleUploadProfileBanner = async (file: object) => {
+    await dispatch(updateProfileBanner({
+      user_id: user?.id,
+      image: file,
+      content: 'test'
+    }));
+  }
+
+  console.log('user: ', user);
 
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
@@ -92,7 +122,7 @@ function InfoContainer() {
           ref={inputFileBanner}
           className="hidden"
           accept='image/*'
-          onChange={(e) => handleUploadProfilePicture(e.target.files![0])}
+          onChange={(e) => handleUploadProfileBanner(e.target.files![0])}
         />
       </div>
       <div className='flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray border-b dark:border-lightgray'>
@@ -114,13 +144,20 @@ function InfoContainer() {
                 <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>
                   <CameraIcon className='w-8 h-8 text-white dark:text-darkgray' />
                 </div>
-                <input type='file' id='file' ref={inputFilePfp} className="hidden" />
+                <input
+                  type='file'
+                  id='file'
+                  ref={inputFilePfp}
+                  className="hidden"
+                  accept='image/*'
+                  onChange={(e) => handleUploadProfilePicture(e.target.files![0])}
+                />
               </div>
             </div>
           </circle>
           <div className='flex flex-col items-start justify-end rounded-md p-3'>
             <div className='flex items-center space-x-1'>
-              <p className='mr-1 font-semibold text-l group-hover:underline'>@Egoist</p>
+              <p className='mr-1 font-semibold text-l group-hover:underline'>@{user?.name}</p>
               <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
             </div>
             <div>
@@ -164,11 +201,21 @@ function InfoContainer() {
               <form className="space-y-6" action="#">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your Name</label>
-                  <input type="text" name="Name" className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white" placeholder="Egoist" />
+                  <input
+                    type="text"
+                    name="Name"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white"
+                    value={user?.name}
+                  />
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900 dark:text-white">Your email</label>
-                  <input type="email" name="email" placeholder="Egoist@gmail.com" className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white" />
+                  <input
+                    type="email"
+                    name="email"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white"
+                    value={user?.email}
+                  />
                 </div>
                 <button type="submit" className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Edit</button>
               </form>
