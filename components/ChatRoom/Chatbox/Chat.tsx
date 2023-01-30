@@ -8,6 +8,9 @@ import {
     EyeDropperIcon,
     DocumentDuplicateIcon
 } from '@heroicons/react/24/outline'
+
+import AddReactionRoundedIcon from '@mui/icons-material/AddReactionRounded';
+
 import Picker from '@emoji-mart/react'
 
 export default function Chat() {
@@ -50,7 +53,7 @@ export default function Chat() {
     }
 
     return (
-        <div className="scrollbar-hide overflow-scroll h-[77vh] mt-[8vh] p-4 dark:bg-darkgray">
+        <div className="scrollbar-hide overflow-scroll h-[77vh] mt-[8vh] p-2 dark:bg-darkgray">
             <div className="mt-5">
                 <div className='relative flex flex-col'>
                     <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
@@ -81,12 +84,12 @@ export default function Chat() {
                             <p className='flex items-center justify-end'>Welcome to group everyone !</p>
                             <div className='relative flex items-center justify-start space-x-1 mt-1'>
                                 <div className='absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md'>
-                                    <div className='flex rounded-full h-full bg-white dark:bg-darkgray'>
-                                        <FaceSmileIcon onClick={() => setShowReaction(!showReaction)} className='w-6 h-6 cursor-pointer fill-yellow-400 stroke-black' />
+                                    <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
+                                        <AddReactionRoundedIcon onClick={() => setShowReaction(!showReaction)} className="cursor-pointer" sx={{ fontSize: 25, color: '#E55B13' }} color="primary"/>
                                     </div>
 
                                     {showReaction && (
-                                        <div className='absolute top-6 -left-6'>
+                                        <div className='absolute top-8 left-0'>
                                             <Picker
                                                 set="apple"
                                                 onEmojiSelect={addReaction}

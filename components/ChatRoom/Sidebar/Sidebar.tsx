@@ -7,7 +7,8 @@ import {
     UserIcon,
     HomeIcon,
     ArrowTrendingUpIcon,
-    LightBulbIcon
+    LightBulbIcon,
+    FireIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -23,6 +24,9 @@ function Sidebar() {
             </Link>
             <Link href="/dashboard/profile">
                 <SidebarRow Icon={UserIcon} active='' />
+            </Link>
+            <Link href="achievement">
+                <SidebarRow Icon={FireIcon} active='' />
             </Link>
             <Link href="suggestion">
                 <SidebarRow Icon={LightBulbIcon} active='' />

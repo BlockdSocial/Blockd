@@ -85,10 +85,10 @@ function Footer() {
     }
 
     return (
-        <div className='flex flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray'>
+        <div className='flex flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray bg-gray-50 pb-1'>
             <div className='relative'>
                 {showGifs && (
-                    <div className='absolute right-2 bottom-1 z-0 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                    <div className='absolute right-2 bottom-1 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
                         <ReactGiphySearchbox
                             apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                             onSelect={(item: any) => addGif(item)}
@@ -117,7 +117,7 @@ function Footer() {
                     </div>
                 )}
             </div>
-            <form className='flex space-x-1 p-2 w-full absolute bottom-1'>
+            <form className='flex space-x-1 p-1 w-full'>
                 <input
                     value={input}
                     onChange={(e: any) => setInput(e.target.value)}

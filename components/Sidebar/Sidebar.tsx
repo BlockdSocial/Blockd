@@ -8,6 +8,7 @@ import {
     HomeIcon,
     ArrowTrendingUpIcon,
     LightBulbIcon,
+    FireIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -17,7 +18,7 @@ function Sidebar() {
     let location = useRouter();
 
     return (
-        <div className='flex items-start justify-center col-span-1 md:col-span-2'>
+        <div className='flex items-start justify-center col-span-1 md:col-span-2 px-2'>
             <div className='relative flex flex-col items-start p-2 mt-3 md:items-start w-fit'>
                 <Link href="/" className='active'>
                     {location.pathname === '/' ? (
@@ -31,6 +32,13 @@ function Sidebar() {
                         <SidebarRow Icon={UserIcon} title="Profile" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
+                    )}
+                </Link>
+                <Link href="achievement">
+                    {location.pathname === '/achievement' ? (
+                        <SidebarRow Icon={FireIcon} title="Achievements" active='bg-gray-100 dark:bg-lightgray' />
+                    ) : (
+                        <SidebarRow Icon={FireIcon} title="Achievements" active='' />
                     )}
                 </Link>
                 <Link href="suggestion">

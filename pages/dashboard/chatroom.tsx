@@ -11,12 +11,12 @@ function chatroom() {
   
 
   return (
-    <div className='bg-white dark:bg-darkgray flex flex-col items-center mx-auto h-screen overflow-hidden'>
+    <div className='bg-white dark:bg-darkgray flex flex-col items-center mx-auto h-screen'>
       <Head>
         <title>Blockd</title>
       </Head>
       <Navbar />
-      <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl  grid-cols-12 mx-auto h-[90vh] overflow-hidden w-full'>
+      <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-12 mx-auto overflow-hidden w-full'>
         <Sidebar />
         <Chatbar />
         <Chatbox />
