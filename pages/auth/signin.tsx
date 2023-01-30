@@ -31,8 +31,8 @@ export default function SignIn() {
                 </div>
             </div>
             <div className="md:w-1/2 w-full flex items-center justify-center text-center p-10 md:p-0 lg:p-10 xl:p-20 z-0">
-                <div className="relative flex flex-col items-center bg-color rounded-md w-full md:w-3/4">
-                    <div className="relative flex flex-col items-center justify-center px-10 md:px-2 py-10 w-full h-[90%]">
+                <div className="relative flex flex-col items-center bg-color rounded-md w-full md:w-3/4 md:py-10">
+                    <div className="relative flex flex-col items-center justify-center px-10 md:px-2 py-16 w-full h-[90%]">
                         <form action="" className="flex flex-col items-center justify-center w-full h-full px-10 lg:px-20">
                             <button className="w-full bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full">Connect Wallet</button>
                         </form>
