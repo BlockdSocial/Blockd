@@ -1,4 +1,4 @@
-import React, { useEffect, useState } from 'react';
+import React, { useState } from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
@@ -7,14 +7,15 @@ import {
   HomeModernIcon,
   KeyIcon,
 } from '@heroicons/react/24/outline';
-import { useDispatch } from 'react-redux';
 import { registerUser } from '../../stores/authUser/AuthUserActions';
-import { useAppSelector, useAppDispatch } from '../../stores/hooks'
+import { useAppDispatch } from '../../stores/hooks'
 import { isEmpty } from '../../utils';
+import { config } from '../../constants';
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const messageUrl = `${config.url.API_URL}/user/message`;
   const [displayName, setDisplayName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [userMessage, setUserMessage] = useState<object>();
@@ -34,6 +35,7 @@ export default function SignUp() {
       password_confirmation: 'zebbolaali',
       address: userAddress,
       signature: userSignature,
+      // @ts-ignore
       message: userMessage?.message
     })).then(() => {
       router.push('/');
@@ -42,14 +44,16 @@ export default function SignUp() {
 
   const web3Login = async (e: any) => {
     e.preventDefault();
+    // @ts-ignore
     if (!window.ethereum) {
       alert('MetaMask not detected. Please install MetaMask first.');
       return;
     }
 
+    // @ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    let response: any = await fetch('https://blockd.app/backend/api/user/message');
+    let response: any = await fetch(messageUrl);
 
     const message = await response.json();
     setUserMessage(message);

@@ -1,5 +1,7 @@
+import { config } from "../constants";
+
 // Api version
-export const api = 'https://blockd.app/backend/api';
+export const api = config.url.API_URL;
 
 // Api errors types
 export const SYNTAX_ERROR = 'SyntaxError';

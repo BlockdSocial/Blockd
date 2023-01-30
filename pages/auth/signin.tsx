@@ -1,32 +1,29 @@
-import React, { useEffect } from 'react';
+import React from 'react';
 import Image from 'next/image';
 import Link from 'next/link';
 import { useRouter } from 'next/router';
-import { fetchUserMessage, loginUser } from '../../stores/authUser/AuthUserActions';
+import { loginUser } from '../../stores/authUser/AuthUserActions';
 import { useAppDispatch } from '../../stores/hooks';
 import { ethers } from "ethers";
+import { config } from '../../constants';
 
 export default function SignIn() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-
-  useEffect(() => {
-    const fetchMessage = async () => {
-      const message = await dispatch(fetchUserMessage());
-    }
-    fetchMessage();
-  }, []);
+  const messageUrl = `${config.url.API_URL}/user/message`;
 
   const web3Login = async (e: any) => {
     e.preventDefault();
+    // @ts-ignore
     if (!window.ethereum) {
       alert('MetaMask not detected. Please install MetaMask first.');
       return;
     }
 
+    // @ts-ignore
     const provider = new ethers.providers.Web3Provider(window.ethereum);
 
-    let response: any = await fetch('https://blockd.app/backend/api/user/message');
+    let response: any = await fetch(messageUrl);
 
     const message = await response.json();
 

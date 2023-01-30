@@ -55,7 +55,7 @@ const Navbar = () => {
   }, [])
 
   const handleLogoutClick = async () => {
-    await dispatch(logoutUser()).then(() => router.push('/'));
+    await dispatch(logoutUser()).then(() => router.push('/auth/signin'));
   }
 
   const renderThemeChanger = () => {
