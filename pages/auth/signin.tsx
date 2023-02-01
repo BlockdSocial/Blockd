@@ -43,15 +43,15 @@ export default function SignIn() {
   }
 
   return (
-    <section className="flex h-screen bg-image">
+    <section className="min-h-screen flex items-stretch scrollbar-hide overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
-            <img
+            <Image
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
               className="md:w-30 md:h-14"
-              width={150}
+              width={180}
               height={50}
             />
             <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">LOGIN</h2>
@@ -66,29 +66,19 @@ export default function SignIn() {
           </div>
         </div>
       </div>
-      <div className="h-screen flex items-center w-full md:w-1/2 p-12 mx-auto">
-        <div className="flex items-center h-[400px] w-[400px] rounded-2xl bg-color relative">
-          <div className="w-full">
-            <div className="absolute top-0 p-4 border-b border-gray-500 w-full flex justify-center items-center text-center">
-              <Image
-                src="/images/logo/logo.png"
-                alt="Blockd Logo"
-                className="self-center block md:hidden mt-2 md:w-30 md:h-14"
-                width={80}
-                height={50}
-              />
-              <h2 className="font-bold text-white mt-2 ml-2 pb-3 text-4xl lg:text-5xl">Sign In</h2>
-            </div>
-            <form action="" className="flex flex-col items-center justify-center">
+      <div className="md:w-1/2 w-full flex items-center justify-center text-center px-10 md:p-0 lg:p-10 xl:p-20 z-0">
+        <div className="relative flex flex-col items-center bg-color rounded-md w-full md:w-3/4 md:py-10">
+          <div className="relative flex flex-col items-center justify-center w-full h-4/5">
+            <form action="" className="flex flex-col items-center justify-center w-full h-full p-16 py-16 lg:px-20">
               <button
-                className="w-46 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-6 px-6 rounded-full text-xl"
+                className="w-full bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
                 onClick={(e) => web3Login(e)}
               >
                 Connect Wallet
               </button>
             </form>
-            <div className='w-full flex items-center justify-center md:hidden absolute bottom-0 p-4 border-t border-gray-500'>
-              <h2 className="text-white text-l lg:text-xl">You are not Registered ? <Link href="/auth/signin" className='underline font-semibold'>Register Now !</Link></h2>
+            <div className='w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500'>
+              <h2 className="text-white text-l lg:text-xl">Already Registered ? <Link href="/auth/signin" className='underline font-semibold'>Login</Link></h2>
             </div>
           </div>
         </div>
