@@ -1,7 +1,7 @@
 // Constants.js
 const prod: any = {
   url: {
-    API_URL: 'https://blockd.app/api',
+    API_URL: 'https://blockd.app/backend/api',
   }
 };
 

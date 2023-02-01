@@ -8,14 +8,19 @@ import {
   DELETE_COMMENT_FAILURE,
   IS_LIKING_COMMENT,
   LIKE_COMMENT_SUCCESS,
-  LIKE_COMMENT_FAILURE
+  LIKE_COMMENT_FAILURE,
+  IS_FETCHING_POST_COMMENTS,
+  FETCH_POST_COMMENTS_SUCCESS,
+  FETCH_POST_COMMENTS_FAILURE
 } from './CommentActionTypes';
 
 const initialState = {
   error: '',
   isAddingComment: false,
   isDeletingComment: false,
-  isLikingComment: false
+  isLikingComment: false,
+  isFetchingPostComments: false,
+  postComments: []
 };
 
 export function commentReducer(state = initialState, action: any) {
@@ -74,6 +79,26 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isLikingComment: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_POST_COMMENTS: {
+      return {
+        ...state,
+        isFetchingPostComments: true,
+      };
+    }
+    case FETCH_POST_COMMENTS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPostComments: false,
+        postComments: action.postComments
+      };
+    }
+    case FETCH_POST_COMMENTS_FAILURE: {
+      return {
+        ...state,
+        isFetchingPostComments: false,
         error: action.error
       };
     }
