@@ -12,8 +12,13 @@ import {
 import Link from 'next/link';
 import Image from 'next/image';
 import { fetchAuthUser } from '../../stores/authUser/AuthUserActions';
-import { updateProfilcePicture, updateProfileBanner } from '../../stores/user/UserActions';
+import {
+  updateProfilcePicture,
+  updateProfileBanner,
+  updateUser
+} from '../../stores/user/UserActions';
 import { useAppDispatch } from '../../stores/hooks';
+import { isEmpty } from 'lodash';
 
 interface User {
   id: string;
@@ -29,6 +34,8 @@ function InfoContainer() {
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
   const [color, setColor] = useState<string>('bg-blue-300');
   const [user, setUser] = useState<User>();
+  const [userName, setUserName] = useState<string>();
+  const [userEmail, setUserEmail] = useState<string>();
 
   //Hide dropdown when clicking outside it
 
@@ -50,12 +57,20 @@ function InfoContainer() {
   }, [isDropdownVisible]);
 
   useEffect(() => {
-    const fetchUser = async () => {
-      const result = await dispatch(fetchAuthUser()) as User;
-      setUser(result);
-    }
     fetchUser();
   }, []);
+
+  const fetchUser = async () => {
+    const result = await dispatch(fetchAuthUser()) as User;
+    setUser(result);
+  };
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      setUserName(user?.name);
+      setUserEmail(user?.email);
+    }
+  }, [user]);
 
   //Set a color for the frame
 
@@ -91,13 +106,23 @@ function InfoContainer() {
     }
   };
 
+  const handleUpdateUser = async (e: any) => {
+    e.preventDefault();
+    await dispatch(updateUser({
+      name: userName,
+      email: userEmail
+    })).then(() => {
+      fetchUser();
+    });
+  }
+
   const handleUploadProfilePicture = async (file: object) => {
     await dispatch(updateProfilcePicture({
       user_id: user?.id,
       image: file,
       content: 'test'
     }));
-  }
+  };
 
   const handleUploadProfileBanner = async (file: object) => {
     await dispatch(updateProfileBanner({
@@ -105,9 +130,7 @@ function InfoContainer() {
       image: file,
       content: 'test'
     }));
-  }
-
-  console.log('user: ', user);
+  };
 
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
@@ -205,7 +228,8 @@ function InfoContainer() {
                     type="text"
                     name="Name"
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white"
-                    value={user?.name}
+                    value={userName}
+                    onChange={(e) => setUserName(e.target.value)}
                   />
                 </div>
                 <div>
@@ -214,10 +238,16 @@ function InfoContainer() {
                     type="email"
                     name="email"
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5 dark:bg-darkgray dark:border-darkgray dark:placeholder-gray-400 dark:text-white"
-                    value={user?.email}
+                    value={userEmail}
+                    onChange={(e) => setUserEmail(e.target.value)}
                   />
                 </div>
-                <button type="submit" className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800">Edit</button>
+                <button
+                  onClick={(e) => handleUpdateUser(e)}
+                  className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center dark:bg-orange-600 dark:hover:bg-orange-700 dark:focus:ring-orange-800"
+                >
+                  Edit
+                </button>
               </form>
             </div>
           </div>

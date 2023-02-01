@@ -1,5 +1,5 @@
 import Image from 'next/image'
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, FC } from 'react'
 import {
   GifIcon,
   FaceSmileIcon,
@@ -13,7 +13,11 @@ import Picker from '@emoji-mart/react'
 import Link from 'next/link'
 import ReactGiphySearchbox from 'react-giphy-searchbox'
 
-function TweetBox() {
+interface Props {
+  refetchTrending: () => void;
+}
+
+function TweetBox({ refetchTrending }: Props) {
 
   const [input, setInput] = useState<string>('')
   const [image, setImage] = useState<string>('')
@@ -114,7 +118,9 @@ function TweetBox() {
     await dispatch(createPost({
       content: input,
       public: 1,
-    }));
+    })).then(() => {
+      refetchTrending();
+    });
   }
 
   return (

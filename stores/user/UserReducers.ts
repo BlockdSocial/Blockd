@@ -1,17 +1,31 @@
 // Action types
-import { 
+import {
   IS_UPDATING_PROFILE_PICTURE,
   UPDATE_PROFILE_PICTURE_SUCCESS,
   UPDATE_PROFILE_PICTURE_FAILURE,
   IS_UPDATING_PROFILE_BANNER,
   UPDATE_PROFILE_BANNER_SUCCESS,
-  UPDATE_PROFILE_BANNER_FAILURE
+  UPDATE_PROFILE_BANNER_FAILURE,
+  IS_FETCHING_FOLLOWERS,
+  FETCH_FOLLOWERS_SUCCESS,
+  FETCH_FOLLOWERS_FAILURE,
+  IS_FETCHING_FOLLOWINGS,
+  FETCH_FOLLOWINGS_SUCCESS,
+  FETCH_FOLLOWINGS_FAILURE,
+  IS_UPDATING_USER,
+  UPDATE_USER_SUCCESS,
+  UPDATE_USER_FAILURE
 } from './UserActionTypes';
 
-const initialState = { 
-  error: '', 
+const initialState = {
+  error: '',
   isUpdatingProfilePicture: false,
-  isUpdatingProfileBanner: false
+  isUpdatingProfileBanner: false,
+  isFetchingFollowers: false,
+  isFetchingFollowings: false,
+  isUpdatingUser: false,
+  followers: [],
+  followings: []
 };
 
 export function userReducer(state = initialState, action: any) {
@@ -51,6 +65,65 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isUpdatingProfileBanner: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_FOLLOWERS: {
+      return {
+        ...state,
+        isFetchingFollowers: true
+      };
+    }
+    case FETCH_FOLLOWERS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingFollowers: false,
+        followers: action.followers
+      };
+    }
+    case FETCH_FOLLOWERS_FAILURE: {
+      return {
+        ...state,
+        isFetchingFollowers: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_FOLLOWINGS: {
+      return {
+        ...state,
+        isFetchingFollowings: true
+      };
+    }
+    case FETCH_FOLLOWINGS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingFollowings: false,
+        followings: action.followings
+      };
+    }
+    case FETCH_FOLLOWINGS_FAILURE: {
+      return {
+        ...state,
+        isFetchingFollowers: false,
+        error: action.error
+      };
+    }
+    case IS_UPDATING_USER: {
+      return {
+        ...state,
+        isUpdatingUser: true
+      };
+    }
+    case UPDATE_USER_SUCCESS: {
+      return {
+        ...state,
+        isUpdatingUser: false
+      };
+    }
+    case UPDATE_USER_FAILURE: {
+      return {
+        ...state,
+        isUpdatingUser: false,
         error: action.error
       };
     }
