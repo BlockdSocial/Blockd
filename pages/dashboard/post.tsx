@@ -4,9 +4,9 @@ import Sidebar from '../../components/Sidebar/Sidebar';
 import Widgets from '../../components/Widgets/Widgets';
 import Navbar from '../../components/Navbar/Navbar';
 import { Toaster } from 'react-hot-toast';
-import CommentPage from '../../components/Comments/CommentPage';
+import PostPage from '../../components/Post/PostPage';
 
-function comment() {
+function post() {
   return (
     <div className='bg-white dark:bg-darkgray flex flex-col items-center justify-center mx-auto h-screen overflow-hidden'>
       <Head>
@@ -16,7 +16,7 @@ function comment() {
       <Navbar />
       <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto lg:max-w-7xl h-[90vh] overflow-hidden w-full'>
       <Sidebar />
-      <CommentPage />
+      <PostPage />
       <Widgets />
       </div>
     </div>
@@ -24,4 +24,4 @@ function comment() {
   )
 }
 
-export default comment
+export default post

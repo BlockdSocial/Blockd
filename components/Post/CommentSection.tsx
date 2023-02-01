@@ -11,9 +11,9 @@ import Image from 'next/image'
 
 function CommentSection() {
     return (
-        <Link href="/post/comment" className='relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4'>
+        <Link href="/dashboard/post/comment" className='relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4'>
             <div className='flex space-x-2'>
-                <Link href="profile" className='flex flex-col w-fit h-fit group'>
+                <Link href="/dashboard/profile" className='flex flex-col w-fit h-fit group'>
                     <div className='relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg'>
                         <Image
                             src="/images/pfp/pfp2.jpg"

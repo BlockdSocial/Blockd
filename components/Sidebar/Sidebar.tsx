@@ -27,8 +27,8 @@ function Sidebar() {
                         <SidebarRow Icon={HomeIcon} title="Home" active='' />
                     )}
                 </Link>
-                <Link href="profile">
-                    {location.pathname === '/profile' ? (
+                <Link href="/dashboard/profile">
+                    {location.pathname === '/dashboard/profile' ? (
                         <SidebarRow Icon={UserIcon} title="Profile" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
@@ -42,14 +42,14 @@ function Sidebar() {
                     )}
                 </Link>
                 <Link href="suggestion">
-                    {location.pathname === '/suggestion' ? (
+                    {location.pathname === '/dashboard/suggestion' ? (
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='' />
                     )}
                 </Link>
-                <Link href="chatroom">
-                    {location.pathname === '/chatroom' ? (
+                <Link href="dashboard/chatroom">
+                    {location.pathname === '/dashboard/chatroom' ? (
                         <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                         <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='' />

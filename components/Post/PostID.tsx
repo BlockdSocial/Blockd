@@ -87,7 +87,7 @@ function PostID() {
                 <div className='flex items-center justify-between'>
                     <div className='flex items-start space-x-2'>
                         <div className='flex'>
-                            <Link href="profile" className='relative flex flex-col w-fit h-fit group'>
+                            <Link href="/dashboard/profile" className='relative flex flex-col w-fit h-fit group'>
                                 <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                                     <Image
                                         src="/images/pfp/pfp2.jpg"

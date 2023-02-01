@@ -10,7 +10,7 @@ import Timeago from 'react-timeago'
 
 function Comments() {
     return (
-        <Link href="/post/comment" className='relative flex space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg'>
+        <Link href="/dashboard/post/comment" className='relative flex space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg'>
             <hr className='absolute left-5 top-11 h-16 border-x border-blockd/30 dark:border-gray-500' />
             <img src="/images/pfp/pfp1.jpg" className='mt-2 h-7 w-7 object-cover rounded-full' alt="" />
             <div >

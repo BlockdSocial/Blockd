@@ -1,11 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { ChevronDoubleUpIcon } from '@heroicons/react/24/solid'
 import TweetBox from './TweetBox'
 import toast from 'react-hot-toast'
 import PostTest from './PostTest'
+import Post from './Post'
+import { fetchTrendingPosts } from '../../stores/post/PostActions'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+
+interface Post {
+  content: string;
+  createdAt: string;
+  likes: number;
+  comments: number;
+}
 
 function Feed() {
+
+  const dispatch = useAppDispatch();
+  const { trendingPosts } = useAppSelector((state) => state.postReducer);
+
+  useEffect(() => {
+    fetchTrendings();
+  }, []);
+
+  const fetchTrendings = async () => {
+    await dispatch(fetchTrendingPosts());
+  }
 
   const goToTopOfPage = () => {
     const element = document.getElementById('top-page');
@@ -36,11 +57,17 @@ function Feed() {
       </div>
 
       <div>
-        <TweetBox />
+        <TweetBox refetchTrending={fetchTrendings} />
         <div className='p-4'>
-          {Array.from({ length: 10 }, (_, i) =>
-            <PostTest key={i} />
-          )}
+          {
+            trendingPosts &&
+            trendingPosts.map((post: Post, index: number) => (
+              <PostTest
+                key={index}
+                post={post}
+              />
+            ))
+          }
         </div>
       </div>
     </div>
