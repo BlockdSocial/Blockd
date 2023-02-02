@@ -137,7 +137,7 @@ function PostTest({ post }: Props) {
                   <p className='text-sm text-gray-500'>14K followers</p>
                 </div>
                 <div>
-                  <p className='text-xs text-gray-500'>{moment(post.createdAt).fromNow()}</p>
+                  <p className='text-xs text-gray-500'>{moment(post?.createdAt).fromNow()}</p>
                 </div>
               </div>
             </div>
