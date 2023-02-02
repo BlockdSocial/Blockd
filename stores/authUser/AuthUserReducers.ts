@@ -21,7 +21,7 @@ const initialState = {
   error: '',
   message: '',
   isLoggingIn: false, 
-  user: {}, 
+  authUser: {}, 
   isLoggingOut: false, 
   isFetchingAuthUser: false, 
   isRegisteringUser: false, 
@@ -40,7 +40,7 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingAuthUser: false,
-        user: action.user
+        authUser: action.user
       };
     }
     case FETCH_AUTH_USER_FAILURE: {
@@ -59,7 +59,7 @@ export function authUserReducer(state = initialState, action: any) {
     case LOGIN_USER_SUCCESS: {
       return {
         ...state,
-        user: action.user,
+        authUser: action.user,
         isLoggingIn: false
       };
     }
@@ -80,7 +80,7 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isLoggingOut: false,
-        user: {}
+        authUser: {}
       };
     }
     case LOGOUT_USER_FAILURE: {

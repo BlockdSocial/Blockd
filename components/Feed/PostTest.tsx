@@ -13,8 +13,11 @@ import {
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
 import moment from 'moment'
+import { addComment } from '../../stores/comment/CommentActions'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 interface Post {
+  id: number;
   content: string;
   createdAt: string;
   likes: number;
@@ -29,6 +32,8 @@ function PostTest({ post }: Props) {
 
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
+  const dispatch = useAppDispatch()
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
   const [input, setInput] = useState<string>('')
   const [image, setImage] = useState<string>('')
@@ -72,9 +77,16 @@ function PostTest({ post }: Props) {
 
   const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
 
-  const handleAddComment = (e: React.FormEvent<HTMLFormElement>) => {
+  const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
-    
+
+    await dispatch(addComment({
+      user_id: authUser?.id,
+      content: input,
+      post_id: post?.id
+    })).then(() => {
+      setInput('');
+    });
   }
 
   const addImageToPost = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {

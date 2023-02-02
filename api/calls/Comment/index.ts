@@ -16,8 +16,13 @@ async function likeComment(fields: any) {
   return apiCall('likeComment', 'POST', `${endpoints.comment}/like`, fields);
 };
 
+async function fetchPostComments(fields: any) {
+  return apiCall('fetchPostComments', 'GET',  `${endpoints.comment}/${fields}`);
+};
+
 export default {
   addComment,
   deleteComment,
-  likeComment
+  likeComment,
+  fetchPostComments
 };

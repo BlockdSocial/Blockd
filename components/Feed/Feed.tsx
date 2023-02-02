@@ -9,6 +9,7 @@ import { fetchTrendingPosts } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 interface Post {
+  id: number;
   content: string;
   createdAt: string;
   likes: number;

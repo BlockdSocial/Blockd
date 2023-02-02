@@ -7,7 +7,10 @@ import {
   DELETE_COMMENT_FAILURE,
   IS_LIKING_COMMENT,
   LIKE_COMMENT_SUCCESS,
-  LIKE_COMMENT_FAILURE
+  LIKE_COMMENT_FAILURE,
+  IS_FETCHING_POST_COMMENTS,
+  FETCH_POST_COMMENTS_SUCCESS,
+  FETCH_POST_COMMENTS_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -58,5 +61,25 @@ export function likeComment(fields: object) {
         error: error?.message
       });
     }
+  }
+}
+
+export function fetchPostComments(fields: object) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_POST_COMMENTS });
+    try {
+      const result = await commentApi.fetchPostComments(fields);
+      dispatch({ 
+        type: FETCH_POST_COMMENTS_SUCCESS,
+        postComments: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Post Comments error: ', error);
+      dispatch({
+        type: FETCH_POST_COMMENTS_FAILURE,
+        error: error?.message
+      });
+    };
   }
 }
