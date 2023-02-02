@@ -3,10 +3,18 @@ import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import PostID from './PostID'
 import { useRouter } from 'next/router'
 import CommentSection from './CommentSection'
+import { fetchPostComments } from '../../stores/comment/CommentActions'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 function PostPage() {
+  const dispatch = useAppDispatch();
+  const { postComments } = useAppSelector((state) => state.commentReducer);
 
   const router = useRouter()
+
+  const fetchComments = async () => {
+    // dispatch(fetchPostComments())
+  }
 
   return (
     <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x mb-5'>

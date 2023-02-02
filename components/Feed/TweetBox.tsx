@@ -120,6 +120,7 @@ function TweetBox({ refetchTrending }: Props) {
       public: 1,
     })).then(() => {
       refetchTrending();
+      setInput('');
     });
   }
 
