@@ -1,19 +1,32 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import { ArrowLeftCircleIcon } from '@heroicons/react/24/outline'
 import PostID from './PostID'
 import { useRouter } from 'next/router'
 import CommentSection from './CommentSection'
 import { fetchPostComments } from '../../stores/comment/CommentActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+import { isEmpty } from 'lodash'
+
+interface Comment {
+  content: string;
+  createdAt: string;
+}
 
 function PostPage() {
   const dispatch = useAppDispatch();
   const { postComments } = useAppSelector((state) => state.commentReducer);
 
-  const router = useRouter()
+  const router = useRouter();
+  const { postId } = router.query;
+
+  useEffect(() => {
+    if (!isEmpty(router.query)) {
+      fetchComments();
+    }
+  }, [router.query]);
 
   const fetchComments = async () => {
-    // dispatch(fetchPostComments())
+    dispatch(fetchPostComments(postId as string));
   }
 
   return (
@@ -27,10 +40,15 @@ function PostPage() {
 
       <div className='z-0'>
         <PostID />
-        <CommentSection />
-        <CommentSection />
-        <CommentSection />
-        <CommentSection />
+        {
+          postComments &&
+          postComments.map((comment: object, index: number) => (
+            <CommentSection
+              key={index}
+              comment={comment as Comment}
+            />
+          ))
+        }
       </div>
 
     </div>

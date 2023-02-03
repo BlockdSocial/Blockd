@@ -24,6 +24,8 @@ const initialState = {
   isFetchingFollowers: false,
   isFetchingFollowings: false,
   isUpdatingUser: false,
+  isFetchingUser: false,
+  user: {},
   followers: [],
   followings: []
 };
