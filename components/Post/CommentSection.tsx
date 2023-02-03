@@ -9,7 +9,16 @@ import TimeAgo from 'react-timeago'
 import Link from 'next/link'
 import Image from 'next/image'
 
-function CommentSection() {
+interface Comment {
+  content: string;
+  createdAt: string;
+}
+
+interface Props {
+  comment: Comment;
+}
+
+function CommentSection({ comment }: Props) {
   return (
     <Link href="/dashboard/post/comment" className='relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4'>
       <div className='flex space-x-2'>
@@ -34,13 +43,13 @@ function CommentSection() {
               @IsmailBzz
             </p>
             <TimeAgo
-              date='Dec 23, 2022'
+              date={comment?.createdAt}
               className='text-sm text-gray-500'
             />
           </div>
           <div className='flex flex-col items-start justify-start p-2'>
             <p>
-              This is my first Comment
+              {comment?.content}
             </p>
             <div className='flex justify-between mt-2'>
               <div className='flex'>

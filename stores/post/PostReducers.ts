@@ -17,7 +17,13 @@ import {
   FETCH_TRENDING_POSTS_FAILURE,
   IS_FETCHING_FILTERED_POSTS,
   FETCH_FILTERED_POSTS_SUCCESS,
-  FETCH_FILTERED_POSTS_FAILURE
+  FETCH_FILTERED_POSTS_FAILURE,
+  IS_FETCHING_POST,
+  FETCH_POST_SUCCESS,
+  FETCH_POST_FAILURE,
+  IS_FETCHING_POST_IMAGE,
+  FETCH_POST_IMAGE_SUCCESS,
+  FETCH_POST_IMAGE_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -28,6 +34,10 @@ const initialState = {
   isSearchingPosts: false,
   isFetchingTrendingPosts: false,
   isFetchingFilteredPosts: false,
+  isFetchingPost: false,
+  isFetchingPostImage: false,
+  postImage: {},
+  post: {},
   filteredPosts: [],
   trendingPosts: [],
   postsResults: []
@@ -149,6 +159,46 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingFilteredPosts: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_POST: {
+      return {
+        ...state,
+        isFetchingPost: true
+      };
+    }
+    case FETCH_POST_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPost: false,
+        post: action.post
+      };
+    }
+    case FETCH_POST_FAILURE: {
+      return {
+        ...state,
+        isFetchingPost: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_POST_IMAGE: {
+      return {
+        ...state,
+        isFetchingPostImage: true
+      };
+    }
+    case FETCH_POST_IMAGE_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPostImage: false,
+        postImage: action.postImage
+      };
+    }
+    case FETCH_POST_IMAGE_FAILURE: {
+      return {
+        ...state,
+        isFetchingPostImage: false,
         error: action.error
       };
     }

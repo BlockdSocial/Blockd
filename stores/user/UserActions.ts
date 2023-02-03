@@ -13,7 +13,10 @@ import {
   FETCH_FOLLOWINGS_FAILURE,
   IS_UPDATING_USER,
   UPDATE_USER_SUCCESS,
-  UPDATE_USER_FAILURE
+  UPDATE_USER_FAILURE,
+  IS_FETCHING_USER,
+  FETCH_USER_SUCCESS,
+  FETCH_USER_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -105,6 +108,25 @@ export function updateUser(fields: object) {
       console.log('Update user error: ', error);
       dispatch({
         type: UPDATE_USER_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchUser(fields: string) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_USER });
+    try {
+      const result = await userApi.fetchUser(fields);
+      dispatch({
+        type: FETCH_USER_SUCCESS,
+        user: result
+      });
+    } catch (error: any) {
+      console.log('Fetch user error: ', error);
+      dispatch({
+        type: FETCH_USER_FAILURE,
         error: error
       });
     }

@@ -163,7 +163,12 @@ function PostTest({ post }: Props) {
           </div>
           <div className='flex flex-col items-start justify-center space-y-2 w-full'>
             <p className='pt-8 font-semibold'>{post?.content}</p>
-            <Link href="/dashboard/post">
+            <Link
+              href={{
+                pathname:"/dashboard/post/",
+                query: { postId: post?.id }
+              }}
+            >
               <img
                 src="/images/Post1.jpg"
                 alt='Post'

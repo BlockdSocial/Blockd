@@ -10,7 +10,7 @@ import { config } from '../../constants';
 export default function SignIn() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const messageUrl = `${config.url.API_URL}/user/message`;
+  const messageUrl = `${config.url.API_URL}/user/generate/message`;
 
   const web3Login = async (e: any) => {
     e.preventDefault();
