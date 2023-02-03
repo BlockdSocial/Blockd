@@ -17,13 +17,16 @@ import {
   updateProfileBanner,
   updateUser
 } from '../../stores/user/UserActions';
+import { fetchPostImage } from '../../stores/post/PostActions';
 import { useAppDispatch } from '../../stores/hooks';
 import { isEmpty } from 'lodash';
+import { config } from '../../constants';
 
 interface User {
   id: string;
   name: string;
   email: string;
+  profilePicId: number;
 }
 
 function InfoContainer() {
@@ -36,6 +39,7 @@ function InfoContainer() {
   const [user, setUser] = useState<User>();
   const [userName, setUserName] = useState<string>();
   const [userEmail, setUserEmail] = useState<string>();
+  const [profilePicture, setProfilePicture] = useState<string>();
 
   //Hide dropdown when clicking outside it
 
@@ -63,6 +67,9 @@ function InfoContainer() {
   const fetchUser = async () => {
     const result = await dispatch(fetchAuthUser()) as User;
     setUser(result);
+    if (!isEmpty(result?.profilePicId)) {
+      fetchProfilePicture(user?.profilePicId as number);
+    }
   };
 
   useEffect(() => {
@@ -71,6 +78,12 @@ function InfoContainer() {
       setUserEmail(user?.email);
     }
   }, [user]);
+
+  const fetchProfilePicture = async (id: number) => {
+    await dispatch(fetchPostImage(id)).then((result: any) => {
+      setProfilePicture(result[0]?.name);
+    });
+  }
 
   //Set a color for the frame
 
@@ -132,6 +145,10 @@ function InfoContainer() {
     }));
   };
 
+  console.log('profilePicture', profilePicture);
+  console.log('config: ', config.url);
+  console.log('user: ', user);
+
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
       <div className="relative flex items-center justify-center w-full bg-gray-200 dark:bg-lightgray border-y border-gray-200 dark:border-white group">
@@ -154,7 +171,8 @@ function InfoContainer() {
             <div className='z-0'>
               <div className={`relative h-24 w-24 border-2 border-white rounded-md p-1 ${frameColor}`}>
                 <Image
-                  src="/images/pfp/pfp1.jpg"
+                  // src="/images/pfp/pfp1.jpg"
+                  src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp1.jpg'}
                   alt='pfp'
                   className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
                   width={2000}

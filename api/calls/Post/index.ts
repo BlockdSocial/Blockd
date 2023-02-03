@@ -33,11 +33,21 @@ async function fetchFilteredPosts(fields: any) {
   return apiCall('fetchFilteredPosts', 'POST', `${endpoints.posts}/filtered`, fields);
 };
 
+async function fetchPost(fields: any) {
+  return apiCall('fetchPost', 'GET', `${endpoints.post}/${fields}`);
+};
+
+async function fetchPostImage(fields: any) {
+  return apiCall('fetchPostImage', 'GET', `${endpoints.post}/image/${fields}`);
+};
+
 export default {
   createPost,
   deletePost,
   likePost,
   searchPosts,
   fetchTrendingPosts,
-  fetchFilteredPosts
+  fetchFilteredPosts,
+  fetchPost,
+  fetchPostImage
 };

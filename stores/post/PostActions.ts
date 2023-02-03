@@ -16,7 +16,13 @@ import {
   FETCH_TRENDING_POSTS_FAILURE,
   IS_FETCHING_FILTERED_POSTS,
   FETCH_FILTERED_POSTS_SUCCESS,
-  FETCH_FILTERED_POSTS_FAILURE
+  FETCH_FILTERED_POSTS_FAILURE,
+  IS_FETCHING_POST,
+  FETCH_POST_SUCCESS,
+  FETCH_POST_FAILURE,
+  IS_FETCHING_POST_IMAGE,
+  FETCH_POST_IMAGE_SUCCESS,
+  FETCH_POST_IMAGE_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -32,7 +38,7 @@ export function createPost(fields: object) {
       console.log('Post error: ', error);
       dispatch({
         type: CREATE_POST_FAILURE,
-        error: error.message
+        error: error
       });
     }
   }
@@ -48,7 +54,7 @@ export function deletePost(fields: object) {
       console.log('Delete Post error: ', error);
       dispatch({
         type: DELETE_POST_FAILURE,
-        error: error.message
+        error: error
       });
     }
   }
@@ -64,7 +70,7 @@ export function likePost(fields: object) {
       console.log('Like Post error: ', error);
       dispatch({
         type: LIKE_POST_FAILURE,
-        error: error.message
+        error: error
       });
     }
   }
@@ -84,7 +90,7 @@ export function searchPosts(fields: object) {
       console.log('Search Posts error: ', error);
       dispatch({
         type: SEARCH_POSTS_FAILURE,
-        error: error.message
+        error: error
       });
     }
   }
@@ -104,7 +110,7 @@ export function fetchTrendingPosts() {
       console.log('Fetch Trending posts error: ', error);
       dispatch({
         type: FETCH_TRENDING_POSTS_FAILURE,
-        error: error.message
+        error: error
       });
     }
   }
@@ -124,7 +130,47 @@ export function fetchFilteredPosts(fields: object) {
       console.log('Fetch Filtered posts error: ', error);
       dispatch({
         type: FETCH_FILTERED_POSTS_FAILURE,
-        error: error.message
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchPost(fields: number) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_POST });
+    try {
+      const result = await postApi.fetchPost(fields);
+      dispatch({
+        type: FETCH_POST_SUCCESS,
+        post: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Post Error: ', error);
+      dispatch({
+        type: FETCH_POST_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchPostImage(fields: number) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_POST_IMAGE });
+    try {
+      const result = await postApi.fetchPostImage(fields);
+      dispatch({
+        type: FETCH_POST_IMAGE_SUCCESS,
+        image: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Post Image Error: ', error);
+      dispatch({
+        type: FETCH_POST_IMAGE_FAILURE,
+        error: error
       });
     }
   }
