@@ -27,6 +27,7 @@ interface User {
   name: string;
   email: string;
   profilePicId: number;
+  bannerPicId: number;
 }
 
 function InfoContainer() {
@@ -40,6 +41,7 @@ function InfoContainer() {
   const [userName, setUserName] = useState<string>();
   const [userEmail, setUserEmail] = useState<string>();
   const [profilePicture, setProfilePicture] = useState<string>();
+  const [bannerPicture, setBannerPicture] = useState<string>();
 
   //Hide dropdown when clicking outside it
 
@@ -65,24 +67,34 @@ function InfoContainer() {
   }, []);
 
   const fetchUser = async () => {
-    const result = await dispatch(fetchAuthUser()) as User;
-    setUser(result);
-    if (!isEmpty(result?.profilePicId)) {
-      fetchProfilePicture(user?.profilePicId as number);
-    }
+    await dispatch(fetchAuthUser()).then((res: any) => {
+      setUser(res);
+    }) as User;
   };
 
   useEffect(() => {
     if (!isEmpty(user)) {
       setUserName(user?.name);
       setUserEmail(user?.email);
+      fetchProfilePicture(user?.profilePicId);
+      fetchBannerPicture(user?.bannerPicId)
     }
   }, [user]);
 
   const fetchProfilePicture = async (id: number) => {
-    await dispatch(fetchPostImage(id)).then((result: any) => {
-      setProfilePicture(result[0]?.name);
-    });
+    if (id != undefined || id != null) {
+      await dispatch(fetchPostImage(id)).then((result: any) => {
+        setProfilePicture(result[0]?.name);
+      });
+    }
+  }
+
+  const fetchBannerPicture = async (id: number) => {
+    if (id != undefined || id != null) {
+      await dispatch(fetchPostImage(id)).then((result: any) => {
+        setBannerPicture(result[0]?.name);
+      });
+    }
   }
 
   //Set a color for the frame
@@ -134,7 +146,9 @@ function InfoContainer() {
       user_id: user?.id,
       image: file,
       content: 'test'
-    }));
+    })).then(() => {
+      fetchUser()
+    });
   };
 
   const handleUploadProfileBanner = async (file: object) => {
@@ -142,7 +156,9 @@ function InfoContainer() {
       user_id: user?.id,
       image: file,
       content: 'test'
-    }));
+    })).then(() => {
+      fetchUser();
+    });
   };
 
   console.log('profilePicture', profilePicture);
@@ -152,7 +168,13 @@ function InfoContainer() {
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
       <div className="relative flex items-center justify-center w-full bg-gray-200 dark:bg-lightgray border-y border-gray-200 dark:border-white group">
-        <img src='/images/blockdbg.jpg' alt="Banner" className="max-w-full h-auto group-hover:opacity-50" width="720" height="350" />
+        <img
+          src={!isEmpty(bannerPicture) ? `${config.url.PUBLIC_URL}/${bannerPicture}` : '/images/blockdbg.jpg'}
+          alt="Banner"
+          className="max-w-full h-auto group-hover:opacity-50"
+          width="720"
+          height="350"
+        />
         <div onClick={() => onBannerClick()} className='group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full'>
           <CameraIcon className='w-8 h-8 text-black' />
         </div>
@@ -171,7 +193,6 @@ function InfoContainer() {
             <div className='z-0'>
               <div className={`relative h-24 w-24 border-2 border-white rounded-md p-1 ${frameColor}`}>
                 <Image
-                  // src="/images/pfp/pfp1.jpg"
                   src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp1.jpg'}
                   alt='pfp'
                   className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
