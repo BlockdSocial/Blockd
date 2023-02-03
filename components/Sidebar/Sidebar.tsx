@@ -18,7 +18,7 @@ function Sidebar() {
     let location = useRouter();
 
     return (
-        <div className='flex items-start justify-center col-span-1 md:col-span-2 px-2'>
+        <div className='flex items-start justify-center col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll'>
             <div className='relative flex flex-col items-start p-2 mt-3 md:items-start w-fit'>
                 <Link href="/" className='active'>
                     {location.pathname === '/' ? (

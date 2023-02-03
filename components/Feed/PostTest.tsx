@@ -9,7 +9,8 @@ import {
   FaceSmileIcon,
   PhotoIcon,
   EllipsisHorizontalIcon,
-  XMarkIcon
+  XMarkIcon,
+  CameraIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
@@ -39,6 +40,7 @@ function PostTest({ post }: Props) {
   const [input, setInput] = useState<string>('')
   const [textArea, setTextArea] = useState<string>('')
   const [image, setImage] = useState<string>('')
+  const [imageEdit, setImageEdit] = useState<string>('/images/Post1.jpg')
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false)
   const [editPopUp, setEditPopUp] = useState<boolean>(false)
@@ -110,8 +112,17 @@ function PostTest({ post }: Props) {
     setInput(input + emoji)
   }
 
+  const inputFileContent = useRef<HTMLInputElement | null>(null);
+
+  const onContentClick = () => {
+    // `current` points to the mounted file input element
+    if (inputFileContent.current) {
+      inputFileContent.current.click();
+    }
+  };
+
   return (
-    <div className='relative flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
+    <div className='relative border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
         <div className='flex flex-col px-4'>
           <div className='flex items-center justify-between'>
@@ -165,7 +176,7 @@ function PostTest({ post }: Props) {
             <p className='pt-8 font-semibold'>{post?.content}</p>
             <Link
               href={{
-                pathname:"/dashboard/post/",
+                pathname: "/dashboard/post/",
                 query: { postId: post?.id }
               }}
             >
@@ -264,7 +275,7 @@ function PostTest({ post }: Props) {
           )}
         </div>
       </div>
-      <div className={`absolute -top-20 flex items-start justify-center z-50 w-full p-4 h-modal h-full ${deletePopUp ? '' : 'hidden'}`}>
+      <div className={`absolute flex items-center justify-center inset-x-0 top-10 w-full h-modal ${deletePopUp ? '' : 'hidden'}`}>
         <div className="relative w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
           <div className="relative bg-gray-50 rounded-t-lg dark:bg-lightgray">
             <button type="button" onClick={() => setDeletePopUp(!deletePopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
@@ -284,8 +295,8 @@ function PostTest({ post }: Props) {
           </div>
         </div>
       </div>
-      <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-modal p-4 ${editPopUp ? '' : 'hidden'}`}>
-        <div className="relative w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
+      <div className={`absolute flex items-center justify-center inset-x-0 -top-10 w-full h-modal p-4 ${editPopUp ? '' : 'hidden'}`}>
+        <div className="w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
           <div className="relative bg-gray-50 rounded-t-lg dark:bg-lightgray">
             <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
@@ -296,6 +307,21 @@ function PostTest({ post }: Props) {
             </div>
           </div>
           <div className='flex flex-col items-start justify-start p-4 border-y dark:border-darkgray space-y-4 w-full'>
+            <div className='flex items-start justify-start space-y-2 w-full'>
+              <div className="relative flex items-center justify-center w-full group">
+                <img src={imageEdit} alt="Content" className="max-w-full h-auto group-hover:opacity-50 rounded-lg" width="720" height="350" />
+                <div onClick={() => onContentClick()} className='group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full'>
+                  <CameraIcon className='w-8 h-8 text-black' />
+                </div>
+                <input
+                  type='file'
+                  id='file'
+                  ref={inputFileContent}
+                  className="hidden"
+                  accept='image/*'
+                />
+              </div>
+            </div>
             <div className='flex flex-col items-start justify-start space-y-2 w-full'>
               <p className='font-semibold'>Title</p>
               <input className='p-2 bg-gray-200 dark:bg-darkgray outline-none rounded-lg w-full' placeholder='Current Title' />

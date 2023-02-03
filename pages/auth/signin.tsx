@@ -78,7 +78,7 @@ export default function SignIn() {
               </button>
             </form>
             <div className='w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500'>
-              <h2 className="text-white text-l lg:text-xl">Already Registered ? <Link href="/auth/signin" className='underline font-semibold'>Login</Link></h2>
+              <h2 className="text-white text-l lg:text-xl">You don't have an account ? <Link href="/auth/signup" className='underline font-semibold'>Register</Link></h2>
             </div>
           </div>
         </div>

@@ -1,4 +1,4 @@
-import React, { useEffect } from 'react'
+import React, { useEffect, useState } from 'react'
 import { ArrowPathIcon } from '@heroicons/react/24/outline'
 import { ChevronDoubleUpIcon } from '@heroicons/react/24/solid'
 import TweetBox from './TweetBox'
@@ -20,6 +20,7 @@ function Feed() {
 
   const dispatch = useAppDispatch();
   const { trendingPosts } = useAppSelector((state) => state.postReducer);
+  const [ topOfPage, setTopOfPage ] = useState<boolean>(false)
 
   useEffect(() => {
     fetchTrendings();
