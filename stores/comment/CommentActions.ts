@@ -64,7 +64,8 @@ export function likeComment(fields: object) {
   }
 }
 
-export function fetchPostComments(fields: object) {
+export function fetchPostComments(fields: string) {
+  console.log('fields: ', fields);
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_POST_COMMENTS });
     try {

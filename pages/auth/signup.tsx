@@ -15,7 +15,7 @@ import { config } from '../../constants';
 export default function SignUp() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const messageUrl = `${config.url.API_URL}/user/message`;
+  const messageUrl = `${config.url.API_URL}/user/generate/message`;
   const [displayName, setDisplayName] = useState<string>('');
   const [email, setEmail] = useState<string>('');
   const [userMessage, setUserMessage] = useState<object>();
