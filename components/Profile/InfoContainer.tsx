@@ -110,7 +110,7 @@ function InfoContainer() {
     e.preventDefault();
     await dispatch(updateUser({
       name: userName,
-      email: userEmail
+      email: userEmail,
     })).then(() => {
       fetchUser();
     });
