@@ -9,6 +9,7 @@ import {
   FaceSmileIcon,
   PhotoIcon,
   EllipsisHorizontalIcon,
+  XMarkIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
@@ -36,8 +37,11 @@ function PostTest({ post }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
   const [input, setInput] = useState<string>('')
+  const [textArea, setTextArea] = useState<string>('')
   const [image, setImage] = useState<string>('')
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
+  const [deletePopUp, setDeletePopUp] = useState<boolean>(false)
+  const [editPopUp, setEditPopUp] = useState<boolean>(false)
 
   const dropdown = useRef<any>(null);
 
@@ -107,7 +111,7 @@ function PostTest({ post }: Props) {
   }
 
   return (
-    <div className='flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
+    <div className='relative flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
         <div className='flex flex-col px-4'>
           <div className='flex items-center justify-between'>
@@ -141,14 +145,19 @@ function PostTest({ post }: Props) {
                 </div>
               </div>
             </div>
-            <div ref={dropdown} className='flex items-start justify-start h-full'>
-              <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 lg:w-10 lg:h-10 cursor-pointer' />
-              <div className='relative z-0 flex ite'>
-                <ul className={`absolute top-4 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
-                  <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">Hide Post</div>
-                  <div className="flex items-center justify-start  p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
-                  <div className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
-                </ul>
+            <div className='flex items-center justify-center space-x-2'>
+              <div ref={dropdown} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
+                <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
+                <div className='relative z-0 flex ite'>
+                  <ul className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
+                    <div onClick={() => setEditPopUp(!editPopUp)} className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50">Edit Post</div>
+                    <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
+                    <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                  </ul>
+                </div>
+              </div>
+              <div className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
+                <XMarkIcon onClick={() => setDeletePopUp(!deletePopUp)} className='w-7 h-7 cursor-pointer' />
               </div>
             </div>
           </div>
@@ -248,6 +257,61 @@ function PostTest({ post }: Props) {
           {image && (
             <img className='mt-10 h-40 w-full rounded-xl object-contain shadow-lg' src={image} alt='' />
           )}
+        </div>
+      </div>
+      <div className={`absolute -top-20 flex items-start justify-center z-50 w-full p-4 h-modal h-full ${deletePopUp ? '' : 'hidden'}`}>
+        <div className="relative w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
+          <div className="relative bg-gray-50 rounded-t-lg dark:bg-lightgray">
+            <button type="button" onClick={() => setDeletePopUp(!deletePopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+              <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div className="p-4">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Delete Post</h3>
+            </div>
+          </div>
+          <div className='flex items-center justify-start p-4 border-y dark:border-darkgray'>
+            Are you sure you want to delete this post ?
+          </div>
+          <div className='flex items-center justify-end space-x-3 p-4'>
+            <p className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
+            <p onClick={() => setDeletePopUp(!deletePopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white dark:bg-darkgray hover:dark:bg-gray-800'>Cancel</p>
+          </div>
+        </div>
+      </div>
+      <div className={`absolute top-1/2 left-1/2 transform -translate-x-1/2 -translate-y-1/2 w-full h-modal p-4 ${editPopUp ? '' : 'hidden'}`}>
+        <div className="relative w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
+          <div className="relative bg-gray-50 rounded-t-lg dark:bg-lightgray">
+            <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+              <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div className="p-4">
+              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Edit Post</h3>
+            </div>
+          </div>
+          <div className='flex flex-col items-start justify-start p-4 border-y dark:border-darkgray space-y-4 w-full'>
+            <div className='flex flex-col items-start justify-start space-y-2 w-full'>
+              <p className='font-semibold'>Title</p>
+              <input className='p-2 bg-gray-200 dark:bg-darkgray outline-none rounded-lg w-full' placeholder='Current Title' />
+            </div>
+            <div className='flex flex-col items-start justify-start space-y-2 w-full'>
+              <p className='font-semibold'>Description</p>
+              <textarea
+                id="message"
+                maxLength={255}
+                value={textArea}
+                onChange={(e: any) => setTextArea(e.target.value)}
+                data-rows="4"
+                className="h-24 p-2 bg-gray-200 dark:bg-darkgray text-black dark:text-white outline-none rounded-lg w-full"
+                placeholder="Current Post description"
+              ></textarea>
+            </div>
+          </div>
+          <div className='flex items-center justify-end space-x-3 p-2'>
+            <p className='p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Edit</p>
+            <p onClick={() => setEditPopUp(!editPopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 dark:bg-darkgray hover:dark:bg-gray-800 text-white'>Cancel</p>
+          </div>
         </div>
       </div>
     </div>
