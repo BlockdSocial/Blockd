@@ -60,12 +60,16 @@ function PostTest({ post }: Props) {
   const [user, setUser] = useState<User>()
   const [profilePicture, setProfilePicture] = useState<string>();
   const [info, setInfo] = useState<Info>();
+  const [postImage, setPostImage] = useState<string>();
 
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
     fetchPostUser();
     fetchInfo();
+    if (post?.hasImg != null || undefined) {
+      fetchImage();
+    }
   }, [post]);
 
   const fetchPostUser = async () => {
@@ -77,6 +81,12 @@ function PostTest({ post }: Props) {
   const fetchInfo = async () => {
     await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
       setInfo(result);
+    });
+  }
+
+  const fetchImage = async () => {
+    await dispatch(fetchPostImage(post?.id)).then((result: any) => {
+      setPostImage(result[0]?.name);
     });
   }
 
@@ -214,9 +224,9 @@ function PostTest({ post }: Props) {
                 query: { postId: post?.id }
               }}
             >
-              {post?.hasImg != null ?
+              {postImage != null ?
                 <img
-                  src="/images/Post1.jpg"
+                  src={`${config.url.PUBLIC_URL}/${postImage}`}
                   alt='Post'
                   className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
                   width={2000}
