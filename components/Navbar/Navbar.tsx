@@ -114,7 +114,7 @@ const Navbar = () => {
                     </svg>
                 </div>*/}
 
-        <ul className={`flex static items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
+        <ul className={`flex static items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in px-2 ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
           {/* Dark/Light Mode */}
           <li className='flex-col items-center text-l mr-2'>
             {renderThemeChanger()}
@@ -148,27 +148,30 @@ const Navbar = () => {
             <NotifDropDown />
           </div>
           {/* Sign Up */}
-          <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-gray-900 md:hover:bg-transparent'>
-            <Link href="/auth/signup"><KeyIcon className='w-6 h-6 inline md:hidden text-white m-3' /></Link>
+          <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full md:hover:bg-transparent'>
             <p
-              className='hidden md:inline text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'
+              className='text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'
               onClick={() => handleLogoutClick()}
             >
               Logout
             </p>
           </li>
-          <li className='flex flex-col items-center text-l my-4'>
-            <hr className='w-1/2'></hr>
-          </li>
           {/* Connect Wallet */}
-          <li className='cursor-pointer md:ml-4 flex flex-col items-center text-l my-4 rounded-full hover:bg-gray-900 '>
-            <WalletIcon className='w-6 h-6 inline md:hidden text-white m-3' />
-            <button
+          <li className='md:ml-4 flex items-center text-l my-4 ml-2 rounded-full'>
+            {/*<button
               className="hidden md:inline animate-pulse bg-transparent bg-gradient-to-r from-orange-300 to-blockd hover:from-blockd hover:to-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 rounded-full"
               onClick={(e) => handleConnectWallet(e)}
             >
               {active ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
-            </button>
+            </button>*/}
+            <Link href="/dashboard/profile" className='rounded-full p-[2px] bg-white'>
+              <Image
+                src="/images/pfp/pfp1.jpg"
+                alt='pfp'
+                className='min-w-10 min-h-10 rounded-full shadow-sm cursor-pointer'
+                width={40}
+                height={40} />
+            </Link>
           </li>
         </ul>
       </div>
