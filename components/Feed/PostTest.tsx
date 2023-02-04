@@ -275,38 +275,38 @@ function PostTest({ post }: Props) {
           )}
         </div>
       </div>
-      <div className={`absolute flex items-center justify-center inset-x-0 top-10 w-full h-modal ${deletePopUp ? '' : 'hidden'}`}>
-        <div className="relative w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
-          <div className="relative bg-gray-50 rounded-t-lg dark:bg-lightgray">
-            <button type="button" onClick={() => setDeletePopUp(!deletePopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-auto ${deletePopUp ? '' : 'hidden'}`}>
+        <div className="relative w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 ">
+          <div className="relative bg-gray-50 rounded-t-lg">
+            <button type="button" onClick={() => setDeletePopUp(!deletePopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
             <div className="p-4">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Delete Post</h3>
+              <h3 className="text-xl font-medium text-gray-900">Delete Post</h3>
             </div>
           </div>
-          <div className='flex items-center justify-start p-4 border-y dark:border-darkgray'>
+          <div className='flex items-center justify-start p-4 border-y text-black'>
             Are you sure you want to delete this post ?
           </div>
           <div className='flex items-center justify-end space-x-3 p-4'>
             <p className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
-            <p onClick={() => setDeletePopUp(!deletePopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white dark:bg-darkgray hover:dark:bg-gray-800'>Cancel</p>
+            <p onClick={() => setDeletePopUp(!deletePopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white'>Cancel</p>
           </div>
         </div>
       </div>
-      <div className={`absolute flex items-center justify-center inset-x-0 -top-10 w-full h-modal p-4 ${editPopUp ? '' : 'hidden'}`}>
-        <div className="w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50 dark:bg-lightgray dark:border dark:border-darkgray ">
-          <div className="relative bg-gray-50 rounded-t-lg dark:bg-lightgray">
-            <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-auto ${editPopUp ? '' : 'hidden'}`}>
+        <div className="w-full h-full rounded-lg shadow-lg max-w-md md:h-auto bg-gray-50">
+          <div className="relative bg-gray-50 rounded-t-lg">
+            <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
             <div className="p-4">
-              <h3 className="text-xl font-medium text-gray-900 dark:text-white">Edit Post</h3>
+              <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
             </div>
           </div>
-          <div className='flex flex-col items-start justify-start p-4 border-y dark:border-darkgray space-y-4 w-full'>
+          <div className='flex flex-col items-start justify-start p-4 border-y space-y-4 w-full'>
             <div className='flex items-start justify-start space-y-2 w-full'>
               <div className="relative flex items-center justify-center w-full group">
                 <img src={imageEdit} alt="Content" className="max-w-full h-auto group-hover:opacity-50 rounded-lg" width="720" height="350" />
@@ -323,25 +323,25 @@ function PostTest({ post }: Props) {
               </div>
             </div>
             <div className='flex flex-col items-start justify-start space-y-2 w-full'>
-              <p className='font-semibold'>Title</p>
-              <input className='p-2 bg-gray-200 dark:bg-darkgray outline-none rounded-lg w-full' placeholder='Current Title' />
+              <p className='font-semibold text-black'>Title</p>
+              <input className='p-2 bg-gray-200 outline-none rounded-lg w-full' placeholder='Current Title' />
             </div>
             <div className='flex flex-col items-start justify-start space-y-2 w-full'>
-              <p className='font-semibold'>Description</p>
+              <p className='font-semibold text-black'>Description</p>
               <textarea
                 id="message"
                 maxLength={255}
                 value={textArea}
                 onChange={(e: any) => setTextArea(e.target.value)}
                 data-rows="4"
-                className="h-24 p-2 bg-gray-200 dark:bg-darkgray text-black dark:text-white outline-none rounded-lg w-full"
+                className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
                 placeholder="Current Post description"
               ></textarea>
             </div>
           </div>
           <div className='flex items-center justify-end space-x-3 p-2'>
             <p className='p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Edit</p>
-            <p onClick={() => setEditPopUp(!editPopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 dark:bg-darkgray hover:dark:bg-gray-800 text-white'>Cancel</p>
+            <p onClick={() => setEditPopUp(!editPopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white'>Cancel</p>
           </div>
         </div>
       </div>
