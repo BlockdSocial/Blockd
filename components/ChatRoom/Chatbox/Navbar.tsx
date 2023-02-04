@@ -32,38 +32,21 @@ function Navbar() {
         return () => window.removeEventListener("click", handleClick);
     }, [isDropdownVisible]);
 
-    const modal = useRef<any>(null);
-
-    useEffect(() => {
-        // only add the event listener when the modal is opened
-        if (!isModalVisible) return;
-        function handleClick(event: any) {
-            if (isModalVisible === true) {
-                if (modal.current && !modal.current.contains(event.target)) {
-                    setIsModalVisible(false);
-                }
-            }
-        }
-        window.addEventListener("click", handleClick);
-        // clean up
-        return () => window.removeEventListener("click", handleClick);
-    }, [isModalVisible]);
-
     return (
         <div className="flex items-center justify-between absolute top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
-                <img ref={modal} onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full lg:hidden' />
+                <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full lg:hidden' />
                 <img src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 rounded-full hidden lg:flex' />
-                <div className={`absolute left-2 top-14 ml-auto mr-auto w-3/4 z-50 ${isModalVisible ? '' : 'hidden'}`}>
-                    <div className="relative w-full h-96 overflow-scroll scrollbar-hide rounded-lg max-w-md dark:border dark:border-lightgray bg-white dark:bg-lightgray">
+                <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll ${isModalVisible ? '' : 'hidden'}`}>
+                    <div className="relative w-full h-[80%] shadow-xl overflow-scroll scrollbar-hide rounded-lg max-w-md dark:border dark:border-lightgray bg-white dark:bg-lightgray">
                         <div className="relative">
                             <div className='flex items-center justify-start h-[8vh] p-2 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
                                 <div className='flex items-center justify-bteween space-x-2 p-1'>
                                     <div className='flex items-center justify-start'>
                                         <InformationCircleIcon className='w-5 h-5' />
-                                        <p className='font-semibold'>Group Info</p>
+                                        <p className='font-semibold ml-2'>Group Info</p>
                                     </div>
-                                    <button type="button" onClick={() => setIsModalVisible(!isModalVisible)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+                                    <button type="button" onClick={() => setIsModalVisible(!isModalVisible)} className="absolute right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
                                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                         <span className="sr-only">Close modal</span>
                                     </button>
