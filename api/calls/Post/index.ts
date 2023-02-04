@@ -41,6 +41,10 @@ async function fetchPostImage(fields: any) {
   return apiCall('fetchPostImage', 'GET', `${endpoints.post}/image/${fields}`);
 };
 
+async function fetchPostInfo(fields: any) {
+  return apiCall('fetchPostInfo', 'GET', `${endpoints.post}/info/${fields}`);
+};
+
 export default {
   createPost,
   deletePost,
@@ -49,5 +53,6 @@ export default {
   fetchTrendingPosts,
   fetchFilteredPosts,
   fetchPost,
-  fetchPostImage
+  fetchPostImage,
+  fetchPostInfo
 };

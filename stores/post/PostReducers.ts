@@ -23,7 +23,10 @@ import {
   FETCH_POST_FAILURE,
   IS_FETCHING_POST_IMAGE,
   FETCH_POST_IMAGE_SUCCESS,
-  FETCH_POST_IMAGE_FAILURE
+  FETCH_POST_IMAGE_FAILURE,
+  IS_FETCHING_POST_INFO,
+  FETCH_POST_INFO_SUCCESS,
+  FETCH_POST_INFO_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -36,6 +39,8 @@ const initialState = {
   isFetchingFilteredPosts: false,
   isFetchingPost: false,
   isFetchingPostImage: false,
+  isFetchingPostInfo: false,
+  postInfo: {},
   postImage: {},
   post: {},
   filteredPosts: [],
@@ -199,6 +204,26 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingPostImage: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_POST_INFO: {
+      return {
+        ...state,
+        isFetchingPostInfo: true
+      };
+    }
+    case FETCH_POST_INFO_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPostInfo: false,
+        postInfo: action.postInfo
+      };
+    }
+    case FETCH_POST_INFO_FAILURE: {
+      return {
+        ...state,
+        isFetchingPostInfo: false,
         error: action.error
       };
     }

@@ -22,7 +22,10 @@ import {
   FETCH_POST_FAILURE,
   IS_FETCHING_POST_IMAGE,
   FETCH_POST_IMAGE_SUCCESS,
-  FETCH_POST_IMAGE_FAILURE
+  FETCH_POST_IMAGE_FAILURE,
+  IS_FETCHING_POST_INFO,
+  FETCH_POST_INFO_SUCCESS,
+  FETCH_POST_INFO_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -170,6 +173,26 @@ export function fetchPostImage(fields: number) {
       console.log('Fetch Post Image Error: ', error);
       dispatch({
         type: FETCH_POST_IMAGE_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchPostInfo(fields: number) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_POST_INFO });
+    try {
+      const result = await postApi.fetchPostInfo(fields);
+      dispatch({
+        type: FETCH_POST_INFO_SUCCESS,
+        postInfo: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Post Info Error: ', error);
+      dispatch({
+        type: FETCH_POST_INFO_FAILURE,
         error: error
       });
     }

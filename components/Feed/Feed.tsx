@@ -14,6 +14,8 @@ interface Post {
   createdAt: string;
   likes: number;
   comments: number;
+  hasImg: boolean;
+  userId: number;
 }
 
 function Feed() {
