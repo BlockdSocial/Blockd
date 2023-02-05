@@ -14,7 +14,7 @@ function notifications() {
       </Head>
       <Toaster />
       <Navbar />
-      <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto lg:max-w-7xl h-[90vh] overflow-hidden w-full'>
+      <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto lg:max-w-7xl overflow-hidden w-full'>
         <Sidebar />
         <NotificationsPage />
         <Widgets />

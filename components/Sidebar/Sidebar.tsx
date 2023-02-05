@@ -23,8 +23,8 @@ function Sidebar() {
     const [isOpen, setOpen] = useState(false);
 
     return (
-        <div className='flex items-start justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll'>
-            <div className='relative flex flex-col items-start p-2 mt-3 md:items-start w-fit'>
+        <div className='flex items-start justify-center lg:justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll h-full'>
+            <div className='relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit'>
                 <Link href="/" className='active'>
                     {location.pathname === '/' ? (
                         <SidebarRow Icon={HomeIcon} title="Home" active='bg-gray-100 dark:bg-lightgray' />
@@ -85,9 +85,6 @@ function Sidebar() {
                 </Link>
                 <Link href="">
                     <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
-                </Link>
-                <Link href="" className='inline md:hidden'>
-                    <SidebarRow Icon={ArrowTrendingUpIcon} title="" active='' />
                 </Link>
             </div>
         </div>
