@@ -11,7 +11,7 @@ function Friends() {
                     <div className='flex flex-col items-start justify-start ml-4'>
                         <div className='flex items-center justify-center space-x-2'>
                             <span className='text-base font-semibold'>@Crypto_Crazy</span>
-                            <span className='w-4 h-4 bg-green-500 rounded-full'></span>
+                            <span className='w-3 h-3 bg-green-500 rounded-full'></span>
                         </div>
                         <span className='text-xs'>Last seen Recently</span>
                     </div>
@@ -36,7 +36,7 @@ function Friends() {
                     <div className='flex flex-col items-start justify-start ml-4'>
                         <div className='flex items-center justify-center space-x-2'>
                             <span className='text-base font-semibold'>@Monkey_Crypto</span>
-                            <span className='w-4 h-4 bg-green-500 rounded-full'></span>
+                            <span className='w-3 h-3 bg-green-500 rounded-full'></span>
                         </div>
                         <span className='text-xs'>Last seen Recently</span>
                     </div>

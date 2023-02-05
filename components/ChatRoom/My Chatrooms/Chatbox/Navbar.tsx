@@ -71,8 +71,8 @@ function Navbar() {
                 <div ref={dropdown} className='flex flex-col items-center justify-center'>
                     <div className='flex items-center justify-center space-x-3'>
                         <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='cursor-pointer w-8 h-8' />
-                        <div onClick={() => setShowFriends(!showFriends)} className='flex items-center justify-center p-1 rounded-md bg-orange-500 hover:bg-orange-600 cursor-pointer lg:hidden'>
-                            <ChevronLeftIcon className='w-5 h-5 text-white' />
+                        <div onClick={() => setShowFriends(!showFriends)} className='flex items-center justify-center p-1 rounded-md bg-lightgray hover:bg-darkgray/70 dark:bg-white dark:hover:bg-gray-200 cursor-pointer lg:hidden'>
+                            <ChevronLeftIcon className='w-5 h-5 text-white dark:text-black' />
                         </div>
                     </div>
                     <div className='relative z-10 flex ite'>
@@ -88,8 +88,8 @@ function Navbar() {
                 <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-[10vh] h-screen right-0 w-max transition-all duration-300 ease-in-out`}>
                     <div className='flex items-center justify-start h-[8vh] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
                         <div className='flex items-center justify-start space-x-2'>
-                            <div onClick={() => setShowFriends(!showFriends)} className='flex w-fit items-center justify-center p-1 rounded-md bg-orange-500 hover:bg-orange-600 cursor-pointer'>
-                                <ChevronRightIcon className='w-5 h-5 text-white' />
+                            <div onClick={() => setShowFriends(!showFriends)} className='flex w-fit items-center justify-center p-1 rounded-md bg-lightgray hover:bg-darkgray/70 dark:bg-white dark:hover:bg-gray-200 cursor-pointer'>
+                                <ChevronRightIcon className='w-5 h-5 text-white dark:text-black' />
                             </div>
                             <p className='font-semibold'>Private DMs</p>
                         </div>
