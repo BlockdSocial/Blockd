@@ -40,8 +40,8 @@ function Members() {
       }
 
     return (
-        <div className='flex flex-col bg-white dark:bg-darkgray border-b dark:border-lightgray'>
-            <div className='flex items-center justify-between'>
+        <div className='flex flex-col bg-white border-b'>
+            <div className='flex items-center justify-between text-black'>
                 <div className='flex items-center justify-start space-x-2 p-2'>
                     <UsersIcon className='w-5 h-5' />
                     <p className='font-semibold'>Members</p>
@@ -58,7 +58,7 @@ function Members() {
                     onChange={(e: any) => setInput(e.target.value)}
                     type="text"
                     placeholder="Search a member"
-                    className='flex-1 outline-none bg-transparent' />
+                    className='flex-1 outline-none bg-transparent text-black' />
                 <XMarkIcon
                     onClick={() => refreshSearch()}
                     className={`w-5 h-5 cursor-pointer ${input ? 'inline' : 'hidden'}`} />
@@ -70,17 +70,17 @@ function Members() {
                     onChange={(e: any) => setInputAdd(e.target.value)}
                     type="text"
                     placeholder="Add a member"
-                    className='flex-1 outline-none bg-transparent' />
+                    className='flex-1 outline-none bg-transparent text-black' />
                 <XMarkIcon
                     onClick={() => refreshAddMember()}
                     className={`w-5 h-5 cursor-pointer ${inputAdd ? 'inline' : 'hidden'}`} />
             </div>
-            <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer'>
+            <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
                 <div className='flex items-center justify-start p-2'>
                     <div className='flex items-center justify-center'>
                         <img src="/images/pfp/pfp1.jpg" className='w-10 h-10 rounded-full' />
                     </div>
-                    <div className='flex flex-col items-start justify-start ml-4'>
+                    <div className='flex flex-col items-start justify-start ml-4 text-black'>
                         <span className='text-base font-semibold'>@Crypto_Crazy</span>
                         <span className='text-xs'>Last seen Recently</span>
                     </div>
@@ -89,12 +89,12 @@ function Members() {
                     <span className='text-sm font-semibold'>Admin</span>
                 </div>
             </div>
-            <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer'>
+            <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
                 <div className='flex items-center justify-start p-2'>
                     <div className='flex items-center justify-center'>
                         <img src="/images/pfp/pfp2.jpg" className='w-10 h-10 rounded-full' />
                     </div>
-                    <div className='flex flex-col items-start justify-start ml-4'>
+                    <div className='flex flex-col items-start justify-start ml-4 text-black'>
                         <span className='text-base font-semibold'>@Egoist</span>
                         <span className='text-xs'>Last seen Recently</span>
                     </div>
@@ -103,12 +103,12 @@ function Members() {
                     <span className='text-sm font-semibold'>Moderator</span>
                 </div>
             </div>
-            <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer'>
+            <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
                 <div className='flex items-center justify-start p-2'>
                     <div className='flex items-center justify-center'>
                         <img src="/images/pfp/pfp3.jpg" className='w-10 h-10 rounded-full' />
                     </div>
-                    <div className='flex flex-col items-start justify-start ml-4'>
+                    <div className='flex flex-col items-start justify-start ml-4 text-black'>
                         <span className='text-base font-semibold'>@Monkey_crypto</span>
                         <span className='text-xs'>Last seen Recently</span>
                     </div>

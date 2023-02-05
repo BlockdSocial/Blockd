@@ -68,7 +68,7 @@ function Feed() {
   return (
     <div ref={elementRef} className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'>
       <div id="top-page"></div>
-      <div className={`flex items-center z-[1] ${atTop === false ? 'justify-end' : 'justify-between' } sticky top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}>
+      <div className={`flex items-center z-[2] ${atTop === false ? 'justify-end' : 'justify-between' } sticky top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}>
         {atTop && 
           <ChevronDoubleUpIcon onClick={() => goToTopOfPage()} className='w-6 h-6 cursor-pointer' />
         }

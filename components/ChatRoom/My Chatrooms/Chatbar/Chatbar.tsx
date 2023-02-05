@@ -24,15 +24,6 @@ function Chatbar() {
       <Link href="/" className='w-full'>
         <ChatbarRow Picture='/images/chatLogo/EGO.png' Notif={36} active='' />
       </Link>
-      <div className='flex items-center h-[8vh] justify-center space-x-2 p-3 border-y w-full dark:border-lightgray'>
-        <UserIcon className="w-6 h-6" />
-      </div>
-      <Link href="/" className='w-full'>
-        <ChatbarRow Picture='/images/pfp/pfp3.jpg' Notif={0} active='' />
-      </Link>
-      <Link href="/" className='w-full'>
-        <ChatbarRow Picture='/images/pfp/pfp1.jpg' Notif={2} active='' />
-      </Link>
     </div>
   )
 }

@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from 'react'
+import React, { useState, useEffect, useRef, Fragment } from 'react'
 import Link from 'next/link'
 import {
     EllipsisHorizontalIcon,
@@ -6,14 +6,18 @@ import {
     EyeDropperIcon,
     ArrowRightOnRectangleIcon,
     InformationCircleIcon,
+    ChevronLeftIcon,
+    ChevronRightIcon
 } from '@heroicons/react/24/outline'
 import Info from '../Widget/Info';
 import Members from '../Widget/Members';
+import Friends from '../Widget/Friends';
 
 function Navbar() {
 
     let [isDropdownVisible, setIsDropdownVisible] = useState(false);
     let [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+    const [showFriends, setShowFriends] = useState<boolean>(false);
 
     const dropdown = useRef<any>(null);
 
@@ -35,18 +39,17 @@ function Navbar() {
     return (
         <div className="flex items-center justify-between absolute top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
-                <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full lg:hidden' />
-                <img src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 rounded-full hidden lg:flex' />
+                <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full' />
                 <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll ${isModalVisible ? '' : 'hidden'}`}>
-                    <div className="relative w-full h-[80%] shadow-xl overflow-scroll scrollbar-hide rounded-lg max-w-md dark:border dark:border-lightgray bg-white dark:bg-lightgray">
+                    <div className="relative w-full h-[80%] shadow-xl overflow-scroll scrollbar-hide rounded-lg max-w-md dark:border bg-white">
                         <div className="relative">
-                            <div className='flex items-center justify-start h-[8vh] p-2 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
+                            <div className='flex items-center justify-start h-[8vh] p-2 z-[1] sticky top-0 backdrop-blur-md border-b bg-white/30'>
                                 <div className='flex items-center justify-bteween space-x-2 p-1'>
                                     <div className='flex items-center justify-start'>
-                                        <InformationCircleIcon className='w-5 h-5' />
-                                        <p className='font-semibold ml-2'>Group Info</p>
+                                        <InformationCircleIcon className='w-5 h-5 text-black' />
+                                        <p className='font-semibold ml-2 text-black'>Group Info</p>
                                     </div>
-                                    <button type="button" onClick={() => setIsModalVisible(!isModalVisible)} className="absolute right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center dark:hover:bg-darkgray dark:hover:text-white">
+                                    <button type="button" onClick={() => setIsModalVisible(!isModalVisible)} className="absolute right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
                                         <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
                                         <span className="sr-only">Close modal</span>
                                     </button>
@@ -66,7 +69,12 @@ function Navbar() {
             </div>
             <div className='flex items-center justify-center'>
                 <div ref={dropdown} className='flex flex-col items-center justify-center'>
-                    <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='cursor-pointer w-8 h-8' />
+                    <div className='flex items-center justify-center space-x-3'>
+                        <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='cursor-pointer w-8 h-8' />
+                        <div onClick={() => setShowFriends(!showFriends)} className='flex items-center justify-center p-1 rounded-md bg-orange-500 hover:bg-orange-600 cursor-pointer lg:hidden'>
+                            <ChevronLeftIcon className='w-5 h-5 text-white' />
+                        </div>
+                    </div>
                     <div className='relative z-10 flex ite'>
                         <ul className={`absolute top-0 -right-3 w-36 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
                             <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-t-md dark:hover:bg-darkgray/50"><SpeakerWaveIcon className='w-5 h-5 mr-2' />Mute</Link>
@@ -76,6 +84,19 @@ function Navbar() {
                     </div>
                 </div>
             </div>
+            {showFriends && (
+                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-[10vh] h-screen right-0 w-max transition-all duration-300 ease-in-out`}>
+                    <div className='flex items-center justify-start h-[8vh] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
+                        <div className='flex items-center justify-start space-x-2'>
+                            <div onClick={() => setShowFriends(!showFriends)} className='flex w-fit items-center justify-center p-1 rounded-md bg-orange-500 hover:bg-orange-600 cursor-pointer'>
+                                <ChevronRightIcon className='w-5 h-5 text-white' />
+                            </div>
+                            <p className='font-semibold'>Private DMs</p>
+                        </div>
+                    </div>
+                    <Friends />
+                </div>
+            )}
         </div>
     )
 }

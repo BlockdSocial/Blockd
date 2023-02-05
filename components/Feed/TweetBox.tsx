@@ -149,7 +149,7 @@ function TweetBox({ refetchTrending }: Props) {
             value={input}
             onChange={(e: any) => setInput(e.target.value)}
             data-rows="4"
-            className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-6 "
+            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-l bg-transparent"
             placeholder="What's the word on the block?"
           ></textarea>
           <hr></hr>
@@ -173,7 +173,7 @@ function TweetBox({ refetchTrending }: Props) {
                 onClick={() => setShowEmojis(b => !b)}
                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
               {showEmojis && (
-                <div className='absolute left-5 top-7 z-0'>
+                <div className='absolute left-5 top-7 z-[1]'>
                   <Picker
                     onEmojiSelect={addEmoji}
                     theme="dark"
@@ -192,7 +192,7 @@ function TweetBox({ refetchTrending }: Props) {
                   onClick={() => setShowGifs(b => !b)}
                   className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                 {showGifs && (
-                  <div className='absolute left-0 top-7 z-0 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                  <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}

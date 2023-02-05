@@ -120,25 +120,27 @@ const Navbar = () => {
             {renderThemeChanger()}
           </li>
           {/* Messages */}
-          <li className='flex flex-col md:hidden items-center text-l'>
+          <li className='flex flex-col items-center text-l'>
             <Link href="/dashboard/messages">
               <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
             </Link>
           </li>
+          {/*
           <li className='hidden md:flex md:flex-col items-center text-l'>
             <Link href="" onClick={() => handleMsg()}>
               <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
             </Link>
           </li>
-          <div className={`${dropdownOpen ? 'hidden md:inline' : 'hidden'}`}>
+          <div className={`${dropdownOpen ? 'hidden md:inline z-10' : 'hidden'}`}>
             <MsgDropDown />
-          </div>
+          </div>*/}
           {/* Notifications */}
-          <li className='flex flex-col md:hidden items-center text-l'>
+          <li className='flex flex-col items-center text-l'>
             <Link href="/dashboard/notifications">
               <IconGroup Icon={BellIcon} notif="3"></IconGroup>
             </Link>
           </li>
+          {/*
           <li className='hidden md:flex md:flex-col items-center text-l'>
             <Link href="" onClick={() => handleNotif()}>
               <IconGroup Icon={BellIcon} notif="3"></IconGroup>
@@ -146,7 +148,7 @@ const Navbar = () => {
           </li>
           <div className={`${dropdownNotifOpen ? 'hidden md:inline' : 'hidden'}`}>
             <NotifDropDown />
-          </div>
+          </div>*/}
           {/* Sign Up */}
           <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full md:hover:bg-transparent'>
             <p
@@ -164,11 +166,11 @@ const Navbar = () => {
             >
               {active ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
             </button>*/}
-            <Link href="/dashboard/profile" className='rounded-full p-[2px] bg-white'>
+            <Link href="/dashboard/profile" className='rounded-md p-[2px] bg-white'>
               <Image
                 src="/images/pfp/pfp1.jpg"
                 alt='pfp'
-                className='min-w-10 min-h-10 rounded-full shadow-sm cursor-pointer'
+                className='min-w-10 min-h-10 rounded-md shadow-sm cursor-pointer'
                 width={40}
                 height={40} />
             </Link>

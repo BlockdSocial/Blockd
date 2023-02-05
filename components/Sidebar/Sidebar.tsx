@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useState } from 'react'
 import SidebarRow from './SidebarRow';
 import {
     MicrophoneIcon,
@@ -8,7 +8,11 @@ import {
     HomeIcon,
     ArrowTrendingUpIcon,
     LightBulbIcon,
-    FireIcon
+    FireIcon,
+    ChatBubbleLeftIcon,
+    ChatBubbleLeftRightIcon,
+    ChevronDownIcon,
+    ChevronRightIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -16,6 +20,7 @@ import { useRouter } from 'next/router'
 function Sidebar() {
 
     let location = useRouter();
+    const [isOpen, setOpen] = useState(false);
 
     return (
         <div className='flex items-start justify-center col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll'>
@@ -48,11 +53,29 @@ function Sidebar() {
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='' />
                     )}
                 </Link>
-                <Link href="dashboard/chatroom">
-                    {location.pathname === '/dashboard/chatroom' ? (
-                        <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='bg-gray-100 dark:bg-lightgray' />
-                    ) : (
-                        <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='' />
+                <Link
+                    href=""
+                    onMouseEnter={() => setOpen(true)}
+                    onMouseLeave={() => setOpen(false)}
+                    className="relative">
+                    <div className='flex items-center justify-center'>
+                        <div
+                            className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}>
+                            <ChatBubbleBottomCenterTextIcon className='h-6 w-6' />
+                            <p className={`hidden md:inline-flex text-base lg:text-xl cursor-pointer`}>ChatRooms</p>
+                            <ChevronRightIcon className={`w-4 h-4 ml-2 ${isOpen ? 'hidden' : 'inline'}`} />
+                            <ChevronDownIcon className={`w-4 h-4 ml-2 ${isOpen ? 'inline' : 'hidden'}`} />
+                        </div>                   
+                    </div>
+                    {isOpen && (
+                        <div className="w-full flex flex-col items-center justify-center">
+                            <Link href="/chatroom" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 rounded-full w-full">
+                                <ChatBubbleLeftIcon className='w-5 h-5 mr-2' />My chatroom
+                            </Link>
+                            <Link href="" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 rounded-full w-full">
+                                <ChatBubbleLeftRightIcon className='w-5 h-5 mr-2' />All chatrooms
+                            </Link>
+                        </div>
                     )}
                 </Link>
                 <Link href="">
@@ -64,11 +87,6 @@ function Sidebar() {
                 <Link href="" className='inline md:hidden'>
                     <SidebarRow Icon={ArrowTrendingUpIcon} title="" active='' />
                 </Link>
-            </div>
-            <div className='md:flex items-center justify-center absolute bottom-2 hidden'>
-                <p className='p-2 text-xs items-center justify-center text-center font-semibold w-3/4'>
-                    Verified By Blockchain Technology, Blockd LLC.
-                </p>
             </div>
         </div>
     )

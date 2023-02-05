@@ -2,7 +2,7 @@ import React from 'react'
 
 function NotifDropDown() {
     return (
-        <div className="absolute w-100 max-h-[80vh] right-24 top-16 mt-2 dark:border dark:border-lightgray bg-white dark:bg-darkgray rounded-md shadow-lg scrollbar-hide overflow-scroll">
+        <div className="absolute w-100 z-10 max-h-[80vh] right-24 top-16 mt-2 dark:border dark:border-lightgray bg-white dark:bg-darkgray rounded-md shadow-lg scrollbar-hide overflow-scroll">
             <div className="">
                 {Array.from({ length: 10 }, (_, i) =>
                     <a key={i} href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-lightgray dark:border-lightgray -mx-2">

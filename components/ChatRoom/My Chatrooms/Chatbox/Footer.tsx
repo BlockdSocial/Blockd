@@ -20,7 +20,7 @@ function Footer() {
     const emoji = useRef<any>(null);
 
     const handleClick = () => {
-        if(showGifs === true){
+        if (showGifs === true) {
             setShowGifs(!showGifs)
         }
         setShowEmojis(!showEmojis)
@@ -84,6 +84,19 @@ function Footer() {
         setGifUrl(gifUrl)
     }
 
+    //************************** Picture Handeling **************************//
+    //************************** Picture Handeling **************************//
+    //************************** Picture Handeling **************************//
+
+    const inputAddPicture = useRef<HTMLInputElement | null>(null);
+
+    const onAddPictureClick = () => {
+        // `current` points to the mounted file input element
+        if (inputAddPicture.current) {
+            inputAddPicture.current.click();
+        }
+    };
+
     return (
         <div className='flex flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray bg-gray-50 pb-1'>
             <div className='relative'>
@@ -128,6 +141,7 @@ function Footer() {
                 <div className='flex items-center space-x-2 text-[#181c44] dark:text-white'>
                     <PaperAirplaneIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                     <PhotoIcon
+                        onClick={() => onAddPictureClick()}
                         className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
                     />
                     <GifIcon
@@ -139,6 +153,13 @@ function Footer() {
                         onClick={() => handleClick()}
                         className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
                 </div>
+                <input
+                    type='file'
+                    id='file'
+                    ref={inputAddPicture}
+                    className="hidden"
+                    accept='image/*'
+                />
             </form>
         </div>
     )

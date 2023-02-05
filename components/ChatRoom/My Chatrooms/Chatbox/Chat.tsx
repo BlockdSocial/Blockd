@@ -54,7 +54,7 @@ export default function Chat() {
 
     return (
         <div className="scrollbar-hide overflow-scroll h-[77vh] mt-[8vh] p-2 dark:bg-darkgray">
-            <div className="mt-5">
+            <div className="">
                 <div className='relative flex flex-col'>
                     <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
                         <div
@@ -105,7 +105,7 @@ export default function Chat() {
                                 </div>
                             </div>
                         </div>
-                        <div className='col-span-1 flex items-end justify-end'>
+                        <div className='col-span-1 flex items-end justify-start'>
                             <img
                                 src="/images/pfp/pfp2.jpg"
                                 className="object-cover h-10 w-10 rounded-full"
@@ -128,7 +128,7 @@ export default function Chat() {
                     </div>
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
-                    <div className='col-span-1 flex items-end'>
+                    <div className='col-span-1 flex items-end justify-end'>
                         <img
                             src="/images/pfp/pfp1.jpg"
                             className="object-cover h-10 w-10 rounded-full flex"
@@ -155,7 +155,7 @@ export default function Chat() {
                         </div>
                         <p className=''>Hell yeah brother, BLOCKD is amazing !</p>
                     </div>
-                    <div className='col-span-1 flex items-end justify-end'>
+                    <div className='col-span-1 flex items-end justify-start'>
                         <img
                             src="/images/pfp/pfp2.jpg"
                             className="object-cover h-10 w-10 rounded-full"
@@ -173,7 +173,7 @@ export default function Chat() {
                         </div>
                         Have you got the chance to look into other chatrooms ? I saw an EGO one earlier !
                     </div>
-                    <div className='col-span-1 flex items-end justify-end'>
+                    <div className='col-span-1 flex items-end justify-start'>
                         <img
                             src="/images/pfp/pfp2.jpg"
                             className="object-cover h-10 w-10 rounded-full"
@@ -182,7 +182,7 @@ export default function Chat() {
                     </div>
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
-                    <div className='col-span-1 flex items-end'>
+                    <div className='col-span-1 flex items-end justify-end'>
                         <img
                             src="/images/pfp/pfp1.jpg"
                             className="object-cover h-10 w-10 rounded-full flex"
@@ -209,7 +209,7 @@ export default function Chat() {
                         </div>
                         Welcome to group everyone !
                     </div>
-                    <div className='col-span-1 flex items-end justify-end'>
+                    <div className='col-span-1 flex items-end justify-start'>
                         <img
                             src="/images/pfp/pfp2.jpg"
                             className="object-cover h-10 w-10 rounded-full"
@@ -218,7 +218,7 @@ export default function Chat() {
                     </div>
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
-                    <div className='col-span-1 flex items-end'>
+                    <div className='col-span-1 flex items-end justify-end'>
                         <img
                             src="/images/pfp/pfp3.jpg"
                             className="object-cover h-10 w-10 rounded-full flex"

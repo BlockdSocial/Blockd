@@ -275,7 +275,7 @@ function PostTest({ post }: Props) {
           )}
         </div>
       </div>
-      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll ${deletePopUp ? '' : 'hidden'}`}>
+      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? '' : 'hidden'}`}>
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
             <button type="button" onClick={() => setDeletePopUp(!deletePopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
@@ -295,7 +295,7 @@ function PostTest({ post }: Props) {
           </div>
         </div>
       </div>
-      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-auto ${editPopUp ? '' : 'hidden'}`}>
+      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? '' : 'hidden'}`}>
         <div className="w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
             <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
