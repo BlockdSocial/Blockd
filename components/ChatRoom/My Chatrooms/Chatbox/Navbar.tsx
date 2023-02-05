@@ -37,7 +37,7 @@ function Navbar() {
     }, [isDropdownVisible]);
 
     return (
-        <div className="flex items-center justify-between absolute top-0 h-[8vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
+        <div className="flex items-center justify-between absolute top-0 h-14 w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
                 <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full' />
                 <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll ${isModalVisible ? '' : 'hidden'}`}>
@@ -69,10 +69,12 @@ function Navbar() {
             </div>
             <div className='flex items-center justify-center'>
                 <div ref={dropdown} className='flex flex-col items-center justify-center'>
-                    <div className='flex items-center justify-center space-x-3'>
-                        <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='cursor-pointer w-8 h-8' />
-                        <div onClick={() => setShowFriends(!showFriends)} className='flex items-center justify-center p-1 rounded-md bg-lightgray hover:bg-darkgray/70 dark:bg-white dark:hover:bg-gray-200 cursor-pointer lg:hidden'>
-                            <ChevronLeftIcon className='w-5 h-5 text-white dark:text-black' />
+                    <div className='flex items-center justify-center space-x-1'>
+                        <div onClick={() => setIsDropdownVisible(b => !b)}  className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer lg:hidden'>
+                            <EllipsisHorizontalIcon className='w-7 h-7 text-black dark:text-white' />
+                        </div>
+                        <div onClick={() => setShowFriends(!showFriends)} className='flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer lg:hidden'>
+                            <ChevronLeftIcon className='w-5 h-5 text-black dark:text-white' />
                         </div>
                     </div>
                     <div className='relative z-10 flex ite'>
@@ -85,11 +87,11 @@ function Navbar() {
                 </div>
             </div>
             {showFriends && (
-                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-[10vh] h-screen right-0 w-max transition-all duration-300 ease-in-out`}>
-                    <div className='flex items-center justify-start h-[8vh] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
+                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-14 h-screen right-0 w-80 transition-all duration-300 ease-in-out md:hidden`}>
+                    <div className='flex items-center justify-start h-14 p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
                         <div className='flex items-center justify-start space-x-2'>
-                            <div onClick={() => setShowFriends(!showFriends)} className='flex w-fit items-center justify-center p-1 rounded-md bg-lightgray hover:bg-darkgray/70 dark:bg-white dark:hover:bg-gray-200 cursor-pointer'>
-                                <ChevronRightIcon className='w-5 h-5 text-white dark:text-black' />
+                            <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
+                                <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />
                             </div>
                             <p className='font-semibold'>Private DMs</p>
                         </div>

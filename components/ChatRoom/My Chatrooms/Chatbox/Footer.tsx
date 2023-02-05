@@ -98,38 +98,7 @@ function Footer() {
     };
 
     return (
-        <div className='flex flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray bg-gray-50 pb-1'>
-            <div className='relative'>
-                {showGifs && (
-                    <div className='absolute right-2 bottom-1 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
-                        <ReactGiphySearchbox
-                            apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-                            onSelect={(item: any) => addGif(item)}
-                            mansonryConfig={[
-                                { columns: 2, imageWidth: 140, gutter: 10 },
-                                { mq: '700px', columns: 3, imageWidth: 200, gutter: 10 },
-                                { mq: '1000px', columns: 4, imageWidth: 220, gutter: 10 },
-                            ]}
-                            wrapperClassName="p-4"
-                        />
-                    </div>
-                )}
-                {showEmojis && (
-                    <div className='absolute right-2 bottom-1'>
-                        <Picker
-                            set="apple"
-                            onEmojiSelect={addEmoji}
-                            theme="dark"
-                            icons="outline"
-                            previewPosition="none"
-                            size="1em"
-                            perLine="6"
-                            maxFrequentRows="2"
-                            searchPosition="none"
-                        />
-                    </div>
-                )}
-            </div>
+        <div className='flex items-center justify-between sticky bottom-0 h-14 w-full dark:bg-darkgray bg-gray-50'>
             <form className='flex space-x-1 p-1 w-full'>
                 <input
                     value={input}
@@ -161,6 +130,37 @@ function Footer() {
                     accept='image/*'
                 />
             </form>
+            <div className='relative'>
+                {showGifs && (
+                    <div className='absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                        <ReactGiphySearchbox
+                            apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                            onSelect={(item: any) => addGif(item)}
+                            mansonryConfig={[
+                                { columns: 2, imageWidth: 140, gutter: 10 },
+                                { mq: '700px', columns: 3, imageWidth: 200, gutter: 10 },
+                                { mq: '1000px', columns: 4, imageWidth: 220, gutter: 10 },
+                            ]}
+                            wrapperClassName="p-4"
+                        />
+                    </div>
+                )}
+                {showEmojis && (
+                    <div className='absolute right-2 bottom-6'>
+                        <Picker
+                            set="apple"
+                            onEmojiSelect={addEmoji}
+                            theme="dark"
+                            icons="outline"
+                            previewPosition="none"
+                            size="1em"
+                            perLine="6"
+                            maxFrequentRows="2"
+                            searchPosition="none"
+                        />
+                    </div>
+                )}
+            </div>
         </div>
     )
 }

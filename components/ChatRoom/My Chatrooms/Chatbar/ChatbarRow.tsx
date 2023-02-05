@@ -9,9 +9,9 @@ interface Props {
 function ChatbarRow({ Picture, Notif, active }: Props) {
   return (
     <div
-      className={`flex relative items-center justify-center md:w-full space-x-2 p-1 ${active} hover:bg-gray-100 dark:hover:bg-lightgray group`}>
+      className={`flex relative items-center justify-center w-full space-x-2 p-1 ${active} hover:bg-gray-100 dark:hover:bg-lightgray group`}>
       <strong className="relative inline-flex items-center px-2.5 py-1.5">
-        <div className={`text-white absolute text-xs top-7 ${(Notif > 100) ? '-right-1 md:-right-3' : 'right-0' }`}>
+        <div className={`text-white absolute text-xs top-7 ${(Notif > 100) ? '-right-1' : 'right-0' }`}>
           {Notif !== 0 && (Notif < 100) ? (
             <div className='p-1 flex items-center justify-center w-6 h-6 text-xs font-semibold rounded-full bg-red-600 text-white group-hover:bg-red-800 border-2 border-white dark:border-darkgray'>{Notif}</div>
           ) : (Notif !== 0 && (Notif > 100) ? (
