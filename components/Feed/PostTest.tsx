@@ -156,7 +156,7 @@ function PostTest({ post }: Props) {
                 </div>
               </div>
             </div>
-            <div className='flex items-center justify-center space-x-2'>
+            <div className='flex items-start h-full justify-center space-x-2'>
               <div ref={dropdown} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
                 <div className='relative z-0 flex ite'>
@@ -183,9 +183,7 @@ function PostTest({ post }: Props) {
               <img
                 src="/images/Post1.jpg"
                 alt='Post'
-                className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
-                width={2000}
-                height={2000} />
+                className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm'/>
             </Link>
           </div>
           <div className='flex items-center justify-start mt-4 mb-2'>
