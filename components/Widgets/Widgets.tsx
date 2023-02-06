@@ -25,47 +25,47 @@ function Widgets() {
             placeholder="Search Blockd"
             className='flex-1 outline-none bg-transparent' />
         </div>
-      </div>
-      {input &&
-        <div className='relative ml-2 mr-2'>
-          <div className='absolute top-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10'>
-            <div className='flex flex-col items-center justify-center'>
-              <div className='flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
-                <img src="/images/pfp/pfp1.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
-                <p className='font-semibold text-sm'>
-                  @Crypto_punk
-                </p>
-              </div>
-              <div className='flex items-center justify-start space-x-2 hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
-                <img src="/images/pfp/pfp2.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
-                <p className='font-semibold text-sm'>
-                  @Egoist
-                </p>
-              </div>
-              <div className='flex items-center justify-start space-x-2 hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
-                <img src="/images/pfp/pfp3.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
-                <p className='font-semibold text-sm'>
-                  @IsmailBzz
-                </p>
-              </div>
-              <div className='flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
-                <img src="/images/pfp/pfp1.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
-                <p className='font-semibold text-sm'>
-                  @Crypto_punk
-                </p>
-              </div>
-              <Link href="/search" className='flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
-                <div className='rounded-full bg-blockd p-2'>
-                  <MagnifyingGlassIcon className="w-7 h-7 text-white" />
+        {input &&
+          <div className='relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
+            <div className='absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10'>
+              <div className='flex flex-col items-center justify-center'>
+                <div className='flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
+                  <img src="/images/pfp/pfp1.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
+                  <p className='font-semibold text-sm'>
+                    @Crypto_punk
+                  </p>
                 </div>
-                <p className='font-semibold text-sm'>
-                  Search {input}
-                </p>
-              </Link>
+                <div className='flex items-center justify-start space-x-2 hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
+                  <img src="/images/pfp/pfp2.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
+                  <p className='font-semibold text-sm'>
+                    @Egoist
+                  </p>
+                </div>
+                <div className='flex items-center justify-start space-x-2 hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
+                  <img src="/images/pfp/pfp3.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
+                  <p className='font-semibold text-sm'>
+                    @IsmailBzz
+                  </p>
+                </div>
+                <div className='flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
+                  <img src="/images/pfp/pfp1.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
+                  <p className='font-semibold text-sm'>
+                    @Crypto_punk
+                  </p>
+                </div>
+                <Link href="/search" className='flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
+                  <div className='rounded-full bg-blockd p-2'>
+                    <MagnifyingGlassIcon className="w-7 h-7 text-white" />
+                  </div>
+                  <p className='font-semibold text-sm'>
+                    Search {input}
+                  </p>
+                </Link>
+              </div>
             </div>
           </div>
-        </div>
-      }
+        }
+      </div>
 
       <Slider />
       <TrendingChatrooms />
