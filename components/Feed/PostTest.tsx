@@ -183,7 +183,7 @@ function PostTest({ post }: Props) {
               <img
                 src="/images/Post1.jpg"
                 alt='Post'
-                className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm'/>
+                className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm' />
             </Link>
           </div>
           <div className='flex items-center justify-start mt-4 mb-2'>
@@ -293,16 +293,16 @@ function PostTest({ post }: Props) {
           </div>
         </div>
       </div>
-      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? '' : 'hidden'}`}>
-        <div className="w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
-          <div className="relative bg-gray-50 rounded-t-lg">
-            <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center">
+      <div className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? '' : 'hidden'}`}>
+        <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
+          <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
+            <div className="">
+              <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
+            </div>
+            <button type="button" onClick={() => setEditPopUp(!editPopUp)} className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center">
               <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fillRule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clipRule="evenodd"></path></svg>
               <span className="sr-only">Close modal</span>
             </button>
-            <div className="p-4">
-              <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
-            </div>
           </div>
           <div className='flex flex-col items-start justify-start p-4 border-y space-y-4 w-full'>
             <div className='flex items-start justify-start space-y-2 w-full'>

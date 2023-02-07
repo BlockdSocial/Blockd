@@ -154,9 +154,9 @@ export default function SignUp() {
         </div>
       </div>
       {/*  ****************Modal****************   */}
-      <div className={`absolute flex items-start justify-center left-0 right-0 top-10 bottom-0 mx-auto w-96 h-[80vh] scrollbar-hide overflow-scroll bg-white rounded-lg ${isDisplayTermsAndConditionsModal ? '' : 'hidden'}`}>
-        <div className="relative flex flex-col w-full max-w-md">
-          <div className="flex flex-col rounded-lg h-full">
+      <div className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? '' : 'hidden'}`}>
+        <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
+          <div className="relative flex flex-col rounded-lg h-full">
             <div className='sticky top-0 z-10 flex items-center justify-between w-full p-2 border-b backdrop-blur-md bg-white/30'>
               <div className='text-black flex text-center justify-center font-semibold'>
                 Terms and Conditions

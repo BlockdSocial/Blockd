@@ -218,7 +218,7 @@ function InfoContainer() {
           </div>
         </div>
         <div ref={dropdown} className='flex'>
-          <div className='w-fit h-fit p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
+          <div className='w-fit h-fit pr-3 pt-3 md:p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
             <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
           </div>
           <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
@@ -229,7 +229,7 @@ function InfoContainer() {
       </div>
 
 
-      <div className={`fixed top-0 left-0 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
+      <div className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
             <div className='sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30'>

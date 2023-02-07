@@ -95,9 +95,9 @@ function Feed() {
           }
         </div>
       </div>
-      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal1 ? '' : 'hidden'}`}>
-        <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
-          <div className="relative bg-gray-50 rounded-t-lg">
+      <div className={`fixed top-0 left-0 flex p-4 items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal1 ? '' : 'hidden'}`}>
+        <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 scrollbar-hide overflow-scroll">
+          <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
             <div className="p-4">
               <h3 className="text-xl font-medium text-gray-900">Welcome to Blockd</h3>
             </div>
@@ -117,9 +117,9 @@ function Feed() {
           </div>
         </div>
       </div>
-      <div className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal2 ? '' : 'hidden'}`}>
-        <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
-          <div className="relative bg-gray-50 rounded-t-lg">
+      <div className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal2 ? '' : 'hidden'}`}>
+        <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 overflow-scroll scrollbar-hide">
+          <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
             <div className="p-4">
               <h3 className="text-xl font-medium text-gray-900">Welcome to Blockd</h3>
             </div>
