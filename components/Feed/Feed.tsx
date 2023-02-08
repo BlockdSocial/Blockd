@@ -21,7 +21,7 @@ interface Post {
 function Feed() {
 
   const dispatch = useAppDispatch();
-  const { trendingPosts } = useAppSelector((state) => state.postReducer);
+  const { trendingPosts, filteredPosts } = useAppSelector((state) => state.postReducer);
 
   useEffect(() => {
     fetchTrendings();
@@ -30,14 +30,14 @@ function Feed() {
 
   const fetchTrendings = async () => {
     await dispatch(fetchTrendingPosts());
-  }
+  };
 
   const fetchFiltered = async () => {
     await dispatch(fetchFilteredPosts({
       start: 0,
       end: 100
     }));
-  }
+  };
 
   const goToTopOfPage = () => {
     const element = document.getElementById('top-page');
@@ -54,7 +54,7 @@ function Feed() {
     toast.success('Feed Updated!', {
       id: refreshToast,
     })
-  }
+  };
 
   return (
     <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'>
