@@ -13,13 +13,60 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+import { fetchUser } from '../../stores/user/UserActions'
+import {
+  fetchPostInfo,
+  fetchPostImage,
+  likePost,
+  dislikePost
+} from '../../stores/post/PostActions'
+import { addComment } from '../../stores/comment/CommentActions'
+import { config } from '../../constants'
+import { isEmpty } from 'lodash'
 
-function PostID() {
+interface Post {
+  id: number;
+  content: string;
+  createdAt: string;
+  likes: number;
+  comments: number;
+  hasImg: boolean;
+  userId: number;
+}
 
-  let [isDropdownVisible, setIsDropdownVisible] = useState(false);
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+}
+
+interface Info {
+  likes: number;
+  comments: number;
+  dislikes: number;
+  shares: number;
+}
+
+interface Props {
+  post: Post;
+  refetchComments: () => void;
+}
+
+function PostID({ post, refetchComments }: Props) {
+
+  const dispatch = useAppDispatch()
+  let [isDropdownVisible, setIsDropdownVisible] = useState(false)
+  const { authUser } = useAppSelector((state) => state.authUserReducer)
 
   const [input, setInput] = useState<string>('')
   const [image, setImage] = useState<string>('')
+  const [user, setUser] = useState<User>()
+  const [info, setInfo] = useState<Info>()
+  const [postImage, setPostImage] = useState<string>()
+  const [profilePicture, setProfilePicture] = useState<string>()
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
   const dropdown = useRef<any>(null);
@@ -29,7 +76,6 @@ function PostID() {
     if (!isDropdownVisible) return;
     function handleClick(event: any) {
       if (isDropdownVisible === true) {
-        console.log('hello')
         if (dropdown.current && !dropdown.current.contains(event.target)) {
           setIsDropdownVisible(false);
         }
@@ -54,6 +100,46 @@ function PostID() {
     // clean up
     return () => window.removeEventListener("click", handleClick);
   }, [showEmojis]);
+
+  useEffect(() => {
+    fetchPostUser();
+    fetchInfo();
+    if (post?.hasImg != null || undefined) {
+      fetchImage();
+    }
+  }, [post]);
+
+  const fetchPostUser = async () => {
+    await dispatch(fetchUser(post?.userId)).then((result: any) => {
+      setUser(result);
+    }) as User;
+  };
+
+  const fetchInfo = async () => {
+    await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
+      setInfo(result);
+    })
+  }
+
+  const fetchImage = async () => {
+    await dispatch(fetchPostImage(post?.id)).then((result: any) => {
+      setPostImage(result[0]?.name);
+    });
+  }
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      fetchProfilePicture(user?.profilePicId);
+    }
+  }, [user]);
+
+  const fetchProfilePicture = async (id: number) => {
+    if (id != undefined || id != null) {
+      await dispatch(fetchPostImage(id)).then((result: any) => {
+        setProfilePicture(result[0]?.name);
+      });
+    }
+  }
 
   const imageInputRef = useRef<HTMLInputElement>(null)
 
@@ -81,6 +167,38 @@ function PostID() {
     setInput(input + emoji)
   }
 
+  const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault()
+
+    await dispatch(addComment({
+      user_id: authUser?.id,
+      content: input,
+      post_id: post?.id
+    })).then(() => {
+      setInput('');
+      fetchInfo();
+      refetchComments();
+    });
+  }
+
+  const handleLikePost = async () => {
+    dispatch(likePost({
+      post_id: post?.id,
+      user_id: authUser?.id,
+    })).then(() => {
+      fetchInfo();
+    });
+  }
+
+  const handleDislikePost = async () => {
+    dispatch(dislikePost({
+      post_id: post?.id,
+      user_id: authUser?.id,
+    })).then(() => {
+      fetchInfo();
+    });
+  }
+
   return (
     <div className='flex flex-col space-x-3 p-4 -z-20 border-y'>
       <div className='w-full'>
@@ -90,7 +208,7 @@ function PostID() {
               <Link href="/dashboard/profile" className='relative flex flex-col w-fit h-fit group'>
                 <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                   <Image
-                    src="/images/pfp/pfp2.jpg"
+                    src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp2.jpg'}
                     alt='pfp'
                     className='min-w-16 min-h-16 rounded-md shadow-sm'
                     width={60}
@@ -105,7 +223,7 @@ function PostID() {
             </div>
             <div className='flex flex-col items-start justify-center space-y-1'>
               <div className='flex items-center space-x-1'>
-                <p className='mr-1 font-semibold text-l'>@Egoist</p>
+                <p className='mr-1 font-semibold text-l'>@{user?.name}</p>
               </div>
               <div>
                 <p className='text-sm text-gray-500'>14K followers</p>
@@ -113,7 +231,7 @@ function PostID() {
               <div>
                 <p className='text-xs text-gray-500'>
                   <TimeAgo
-                    date='Aug 29, 2022'
+                    date={post?.createdAt}
                   />
                 </p>
               </div>
@@ -131,37 +249,46 @@ function PostID() {
           </div>
         </div>
         <div className='w-full'>
-          <img
-            src="/images/Post1.jpg"
-            alt='Post'
-            className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
-            width={2000}
-            height={2000} />
-          <p className='pt-4 ml-3 font-semibold'>This is a Demo Post</p>
+          {postImage != null ?
+            <img
+              src={`${config.url.PUBLIC_URL}/${postImage}`}
+              alt='Post'
+              className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
+              width={2000}
+              height={2000} />
+            : null
+          }
+          <p className='pt-4 ml-3 font-semibold'>{post?.content}</p>
         </div>
       </div>
       <div className='flex justify-between mt-5'>
         <div className='flex'>
           <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
-            <p className='text-xs group-hover:text-green-600'>150K</p>
-            <ArrowUpIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
+            <p className='text-xs group-hover:text-green-600'>{info?.likes != null || undefined ? info?.likes : 0}</p>
+            <ArrowUpIcon
+              className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150'
+              onClick={() => handleLikePost()}
+            />
           </div>
           <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
-            <ArrowDownIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-            <p className='text-xs group-hover:text-red-600'>10K</p>
+            <ArrowDownIcon 
+            className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' 
+            onClick={() => handleDislikePost()}
+            />
+            <p className='text-xs group-hover:text-red-600'>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
           </div>
           <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black'>
             <ChatBubbleBottomCenterTextIcon className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-            <p className='text-xs'>168</p>
+            <p className='text-xs'>{info?.comments != null || undefined ? info?.comments : 0}</p>
           </div>
           <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black'>
             <ShareIcon className='h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-            <p className='text-xs'>10</p>
+            <p className='text-xs'>{info?.shares != null || undefined ? info?.shares : 0}</p>
           </div>
         </div>
       </div>
 
-      <form onSubmit={handleSubmit} className='mt-3 flex space-x-3'>
+      <form onSubmit={handleAddComment} className='mt-3 flex space-x-3'>
         <input
           value={input}
           onChange={(e) => setInput(e.target.value)}

@@ -114,7 +114,7 @@ export function updateUser(fields: object) {
   }
 }
 
-export function fetchUser(fields: string) {
+export function fetchUser(fields: number) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER });
     try {
@@ -123,6 +123,7 @@ export function fetchUser(fields: string) {
         type: FETCH_USER_SUCCESS,
         user: result
       });
+      return result;
     } catch (error: any) {
       console.log('Fetch user error: ', error);
       dispatch({

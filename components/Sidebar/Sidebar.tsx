@@ -34,21 +34,21 @@ function Sidebar() {
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
                     )}
                 </Link>
-                <Link href="achievement">
+                <Link href="/dashboard/achievement">
                     {location.pathname === '/achievement' ? (
                         <SidebarRow Icon={FireIcon} title="Achievements" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                         <SidebarRow Icon={FireIcon} title="Achievements" active='' />
                     )}
                 </Link>
-                <Link href="suggestion">
+                <Link href="/dashboard/suggestion">
                     {location.pathname === '/dashboard/suggestion' ? (
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='' />
                     )}
                 </Link>
-                <Link href="dashboard/chatroom">
+                <Link href="/dashboard/chatroom">
                     {location.pathname === '/dashboard/chatroom' ? (
                         <SidebarRow Icon={ChatBubbleBottomCenterTextIcon} title="ChatRooms" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (

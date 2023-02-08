@@ -1,5 +1,6 @@
 // Libraries
 import Swal from 'sweetalert2';
+import { deleteCookie } from 'cookies-next';
 import { ToastContainer, toast } from 'react-toastify';
 import { deleteCookie } from 'cookies-next';
 
