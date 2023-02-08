@@ -166,24 +166,26 @@ function TweetBox({ refetchTrending }: Props) {
                 <XMarkIcon className='w-5 h-5' />
               </div>
               <hr className='mt-4 mb-4'></hr>
-            </div> 
-          )}  
+            </div>
+          )}
           {image && (
             <div className='relative w-full'>
-              <img className='w-fit h-40 object-contain rounded-md' src={image} alt='' />
+              <img className='max-w-full h-auto object-contain rounded-md' src={image} alt='' />
               <div onClick={() => closePicture()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <XMarkIcon className='w-5 h-5' />
               </div>
               <hr className='mt-4 mb-4'></hr>
-            </div>           
+            </div>
           )}
-            
+
           <div className='flex items-center'>
             <div className='flex relative space-x-2 text-[#181c44] dark:text-white flex-1'>
-              <PhotoIcon
-                onClick={() => onUploadPictureClick()}
-                className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
-              />
+              {!gifUrl &&
+                <PhotoIcon
+                  onClick={() => onUploadPictureClick()}
+                  className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
+                />
+              }
               <FaceSmileIcon
                 ref={emoji}
                 onClick={() => setShowEmojis(b => !b)}
@@ -204,9 +206,11 @@ function TweetBox({ refetchTrending }: Props) {
                 </div>
               )}
               <div ref={gif}>
-                <GifIcon
-                  onClick={() => setShowGifs(b => !b)}
-                  className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                {!image &&
+                  <GifIcon
+                    onClick={() => setShowGifs(b => !b)}
+                    className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                }
                 {showGifs && (
                   <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
                     <ReactGiphySearchbox
@@ -222,7 +226,6 @@ function TweetBox({ refetchTrending }: Props) {
                   </div>
                 )}
               </div>
-              <MapPinIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
             </div>
             <button
               disabled={!input && !image && !gifUrl}
