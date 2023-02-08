@@ -38,8 +38,6 @@ export default function SignIn() {
     })).then(() => {
       router.push('/');
     });
-
-    console.log('data: ', data);
   }
 
   return (

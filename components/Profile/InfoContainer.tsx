@@ -28,16 +28,21 @@ interface User {
   email: string;
   profilePicId: number;
   bannerPicId: number;
+  score: number;
 }
 
-function InfoContainer() {
+interface Props {
+  user: User;
+  refetchUser: () => void;
+}
+
+function InfoContainer({ user, refetchUser }: Props) {
 
   const dispatch = useAppDispatch();
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
   const [color, setColor] = useState<string>('bg-blue-300');
-  const [user, setUser] = useState<User>();
   const [userName, setUserName] = useState<string>();
   const [userEmail, setUserEmail] = useState<string>();
   const [profilePicture, setProfilePicture] = useState<string>();
@@ -61,16 +66,6 @@ function InfoContainer() {
     // clean up
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
-
-  useEffect(() => {
-    fetchUser();
-  }, []);
-
-  const fetchUser = async () => {
-    await dispatch(fetchAuthUser()).then((res: any) => {
-      setUser(res);
-    }) as User;
-  };
 
   useEffect(() => {
     if (!isEmpty(user)) {
@@ -137,7 +132,7 @@ function InfoContainer() {
       name: userName,
       email: userEmail
     })).then(() => {
-      fetchUser();
+      refetchUser();
     });
   }
 
@@ -147,7 +142,7 @@ function InfoContainer() {
       image: file,
       content: 'test'
     })).then(() => {
-      fetchUser()
+      refetchUser()
     });
   };
 
@@ -157,12 +152,10 @@ function InfoContainer() {
       image: file,
       content: 'test'
     })).then(() => {
-      fetchUser();
+      refetchUser();
     });
   };
 
-  console.log('profilePicture', profilePicture);
-  console.log('config: ', config.url);
   console.log('user: ', user);
 
   return (
@@ -200,7 +193,7 @@ function InfoContainer() {
                   height={2000} />
                 <div className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}>
                   <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white'>
-                    31
+                    {user?.score}
                   </div>
                 </div>
                 <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>

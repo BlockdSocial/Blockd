@@ -73,7 +73,6 @@ export function loginUser(fields: any) {
 
 export function registerUser(fields: object) {
   return async (dispatch: any) => {
-    console.log('test');
     dispatch({type: REGISTER_USER});
     try {
       const result: any = await authUserApi.registerUser(fields);

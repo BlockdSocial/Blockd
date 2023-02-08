@@ -115,7 +115,6 @@ export function updateUser(fields: object) {
 }
 
 export function fetchUser(fields: number) {
-  console.log('fields: ', fields);
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER });
     try {

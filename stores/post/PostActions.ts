@@ -25,7 +25,13 @@ import {
   FETCH_POST_IMAGE_FAILURE,
   IS_FETCHING_POST_INFO,
   FETCH_POST_INFO_SUCCESS,
-  FETCH_POST_INFO_FAILURE
+  FETCH_POST_INFO_FAILURE,
+  IS_FETCHING_USER_POSTS,
+  FETCH_USER_POSTS_SUCCESS,
+  FETCH_USER_POSTS_FAILURE,
+  IS_DISLIKING_POST,
+  DISLIKE_POST_SUCCESS,
+  DISLIKE_POST_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -73,6 +79,22 @@ export function likePost(fields: object) {
       console.log('Like Post error: ', error);
       dispatch({
         type: LIKE_POST_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function dislikePost(fields: object) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_DISLIKING_POST });
+    try {
+      await postApi.dislikePost(fields);
+      dispatch({ type: DISLIKE_POST_SUCCESS });
+    } catch (error: any) {
+      console.log('Dislike Post error: ', error);
+      dispatch({
+        type: DISLIKE_POST_FAILURE,
         error: error
       });
     }
@@ -139,7 +161,7 @@ export function fetchFilteredPosts(fields: object) {
   }
 }
 
-export function fetchPost(fields: number) {
+export function fetchPost(fields: string) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_POST });
     try {
@@ -193,6 +215,26 @@ export function fetchPostInfo(fields: number) {
       console.log('Fetch Post Info Error: ', error);
       dispatch({
         type: FETCH_POST_INFO_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchUserPosts(fields: number) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_USER_POSTS });
+    try {
+      const result = await postApi.fetchUserPosts(fields);
+      dispatch({ 
+        type: FETCH_USER_POSTS_SUCCESS, 
+        userPosts: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch User Posts error: ', error);
+      dispatch({
+        type: FETCH_USER_POSTS_FAILURE,
         error: error
       });
     }

@@ -5,7 +5,7 @@ import TweetBox from './TweetBox'
 import toast from 'react-hot-toast'
 import PostTest from './PostTest'
 import Post from './Post'
-import { fetchTrendingPosts } from '../../stores/post/PostActions'
+import { fetchTrendingPosts, fetchFilteredPosts } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 interface Post {
@@ -25,10 +25,18 @@ function Feed() {
 
   useEffect(() => {
     fetchTrendings();
+    fetchFiltered();
   }, []);
 
   const fetchTrendings = async () => {
     await dispatch(fetchTrendingPosts());
+  }
+
+  const fetchFiltered = async () => {
+    await dispatch(fetchFilteredPosts({
+      start: 0,
+      end: 100
+    }));
   }
 
   const goToTopOfPage = () => {

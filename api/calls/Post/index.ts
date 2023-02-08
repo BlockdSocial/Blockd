@@ -6,6 +6,7 @@ const endpoints = {
   post: 'post',
   posts: 'posts',
   like: 'like',
+  dislike: 'dislike',
   search: 'search'
 };
 
@@ -19,6 +20,10 @@ async function deletePost(fields: any) {
 
 async function likePost(fields: any) {
   return apiCall('likePost', 'POST', endpoints.like, fields);
+};
+
+async function dislikePost(fields: any) {
+  return apiCall('dislikePost', 'POST', endpoints.dislike, fields);
 };
 
 async function searchPosts(fields: any) {
@@ -45,6 +50,10 @@ async function fetchPostInfo(fields: any) {
   return apiCall('fetchPostInfo', 'GET', `${endpoints.post}/info/${fields}`);
 };
 
+async function fetchUserPosts(fields: any) {
+  return apiCall('fetchUserPosts', 'GET', `${endpoints.post}/user/${fields}`);
+};
+
 export default {
   createPost,
   deletePost,
@@ -54,5 +63,7 @@ export default {
   fetchFilteredPosts,
   fetchPost,
   fetchPostImage,
-  fetchPostInfo
+  fetchPostInfo,
+  fetchUserPosts,
+  dislikePost
 };

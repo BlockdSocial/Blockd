@@ -2,6 +2,7 @@ import { apiCall } from '../../helpers';
 
 const endpoints = {
   comment: 'comment',
+  comments: 'comments'
 };
 
 async function addComment(fields: any) {
@@ -17,7 +18,7 @@ async function likeComment(fields: any) {
 };
 
 async function fetchPostComments(fields: any) {
-  return apiCall('fetchPostComments', 'GET',  `${endpoints.comment}/${fields}`);
+  return apiCall('fetchPostComments', 'GET',  `${endpoints.comments}/post/${fields}`);
 };
 
 export default {

@@ -1,4 +1,4 @@
-import React from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ArrowUpIcon,
   ArrowDownIcon,
@@ -8,10 +8,25 @@ import {
 import TimeAgo from 'react-timeago'
 import Link from 'next/link'
 import Image from 'next/image'
+import { useAppDispatch } from '../../stores/hooks'
+import { fetchUser } from '../../stores/user/UserActions'
+import { fetchPostImage } from '../../stores/post/PostActions'
+import { isEmpty } from 'lodash'
+import { config } from '../../constants'
 
 interface Comment {
   content: string;
   createdAt: string;
+  userId: number;
+}
+
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
 }
 
 interface Props {
@@ -19,13 +34,41 @@ interface Props {
 }
 
 function CommentSection({ comment }: Props) {
+  const dispatch = useAppDispatch();
+  const [user, setUser] = useState<User>();
+  const [profilePicture, setProfilePicture] = useState<string>();
+
+  useEffect(() => {
+    fetchCommentUser();
+  }, [comment]);
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      fetchProfilePicture(user?.profilePicId);
+    }
+  }, [user]);
+
+  const fetchProfilePicture = async (id: number) => {
+    if (id != undefined || id != null) {
+      await dispatch(fetchPostImage(id)).then((result: any) => {
+        setProfilePicture(result[0]?.name);
+      });
+    }
+  }
+
+  const fetchCommentUser = async () => {
+    await dispatch(fetchUser(comment?.userId)).then((result: any) => {
+      setUser(result);
+    }) as User;
+  };
+
   return (
     <Link href="/dashboard/post/comment" className='relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4'>
       <div className='flex space-x-2'>
         <Link href="/dashboard/profile" className='flex flex-col w-fit h-fit group'>
           <div className='relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg'>
             <img
-              src="/images/pfp/pfp2.jpg"
+              src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp2.jpg'}
               alt='pfp'
               className='w-14 h-14 rounded-md shadow-sm'
               width={60}
@@ -40,7 +83,7 @@ function CommentSection({ comment }: Props) {
         <div >
           <div className='flex items-center space-x-1'>
             <p className='mr-1 font-semibold'>
-              @IsmailBzz
+              @{user?.name}
             </p>
             <TimeAgo
               date={comment?.createdAt}

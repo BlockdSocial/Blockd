@@ -14,8 +14,13 @@ import Link from 'next/link'
 import Picker from '@emoji-mart/react'
 import moment from 'moment'
 import { addComment } from '../../stores/comment/CommentActions'
-import { fetchUser, } from '../../stores/user/UserActions'
-import { fetchPostImage, fetchPostInfo } from '../../stores/post/PostActions'
+import { fetchUser } from '../../stores/user/UserActions'
+import {
+  fetchPostImage,
+  fetchPostInfo,
+  likePost,
+  dislikePost
+} from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { isEmpty } from 'lodash'
 import { config } from '../../constants';
@@ -41,6 +46,8 @@ interface User {
 interface Info {
   likes: number;
   comments: number;
+  dislikes: number;
+  shares: number;
 }
 
 interface Props {
@@ -70,7 +77,7 @@ function PostTest({ post }: Props) {
     if (post?.hasImg != null || undefined) {
       fetchImage();
     }
-  }, [post]);
+  }, []);
 
   const fetchPostUser = async () => {
     await dispatch(fetchUser(post?.userId)).then((result: any) => {
@@ -170,10 +177,30 @@ function PostTest({ post }: Props) {
     setInput(input + emoji)
   }
 
+  const handleLikePost = async () => {
+    dispatch(likePost({
+      post_id: post?.id,
+      user_id: authUser?.id,
+    })).then(() => {
+      fetchInfo();
+    });
+  }
+
+  const handleDislikePost = async () => {
+    dispatch(dislikePost({
+      post_id: post?.id,
+      user_id: authUser?.id,
+    })).then(() => {
+      fetchInfo();
+    });
+  }
+
+  console.log('info: ', info);
+
   return (
     <div className='flex space-x-3 border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
-        <div className='flex flex-col px-4'>
+        <div className='flex flex-col px-4 w-full'>
           <div className='flex items-center justify-between'>
             <div className='flex items-start space-x-2'>
               <div className='flex'>
@@ -217,13 +244,13 @@ function PostTest({ post }: Props) {
             </div>
           </div>
           <div className='flex flex-col items-start justify-center space-y-2 w-full'>
-            <p className='pt-8 font-semibold'>{post?.content}</p>
             <Link
               href={{
                 pathname: "/dashboard/post/",
                 query: { postId: post?.id }
               }}
             >
+              <p className='pt-8 font-semibold'>{post?.content}</p>
               {postImage != null ?
                 <img
                   src={`${config.url.PUBLIC_URL}/${postImage}`}
@@ -239,11 +266,17 @@ function PostTest({ post }: Props) {
             <div className='flex'>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
                 <p className='text-xs group-hover:text-green-600'>{info?.likes != null || undefined ? info?.likes : 0}</p>
-                <ArrowUpIcon className='h-5 w-5 cursor-pointer hover:text-green-600 transition-transform ease-out duration-150 hover:scale-150' />
+                <ArrowUpIcon
+                  className='h-5 w-5 cursor-pointer hover:text-green-600 transition-transform ease-out duration-150 hover:scale-150'
+                  onClick={() => handleLikePost()}
+                />
               </div>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
-                <ArrowDownIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                <p className='text-xs group-hover:text-red-600'>10K</p>
+                <ArrowDownIcon
+                  className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150'
+                  onClick={() => handleDislikePost()}
+                />
+                <p className='text-xs group-hover:text-red-600'>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
               </div>
               <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
@@ -251,7 +284,7 @@ function PostTest({ post }: Props) {
               </div>
               <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ShareIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                <p className='text-xs'>10</p>
+                <p className='text-xs'>{info?.shares != null || undefined ? info?.shares : 0}</p>
               </div>
             </div>
           </div>
