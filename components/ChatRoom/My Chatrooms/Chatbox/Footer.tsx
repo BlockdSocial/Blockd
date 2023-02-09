@@ -20,7 +20,7 @@ function Footer() {
     const emoji = useRef<any>(null);
 
     const handleClick = () => {
-        if(showGifs === true){
+        if (showGifs === true) {
             setShowGifs(!showGifs)
         }
         setShowEmojis(!showEmojis)
@@ -84,11 +84,55 @@ function Footer() {
         setGifUrl(gifUrl)
     }
 
+    //************************** Picture Handeling **************************//
+    //************************** Picture Handeling **************************//
+    //************************** Picture Handeling **************************//
+
+    const inputAddPicture = useRef<HTMLInputElement | null>(null);
+
+    const onAddPictureClick = () => {
+        // `current` points to the mounted file input element
+        if (inputAddPicture.current) {
+            inputAddPicture.current.click();
+        }
+    };
+
     return (
-        <div className='flex flex-col sticky bottom-0 h-[8vh] w-full dark:bg-darkgray bg-gray-50 pb-1'>
+        <div className='flex items-center justify-between sticky bottom-0 h-14 w-full dark:bg-darkgray bg-gray-50'>
+            <form className='flex space-x-1 p-1 w-full'>
+                <input
+                    value={input}
+                    onChange={(e: any) => setInput(e.target.value)}
+                    className='flex-1 rounded-lg bg-gray-200 dark:bg-lightgray p-2 outline-none dark:text-white dark:placeholder:text-white placeholder:text-black placeholder:font-semibold'
+                    type="text"
+                    placeholder='Send a Message ...'
+                />
+                <div className='flex items-center space-x-2 text-[#181c44] dark:text-white'>
+                    <PaperAirplaneIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                    <PhotoIcon
+                        onClick={() => onAddPictureClick()}
+                        className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
+                    />
+                    <GifIcon
+                        ref={gif}
+                        onClick={() => setShowGifs(b => !b)}
+                        className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                    <FaceSmileIcon
+                        ref={emoji}
+                        onClick={() => handleClick()}
+                        className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                </div>
+                <input
+                    type='file'
+                    id='file'
+                    ref={inputAddPicture}
+                    className="hidden"
+                    accept='image/*'
+                />
+            </form>
             <div className='relative'>
                 {showGifs && (
-                    <div className='absolute right-2 bottom-1 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                    <div className='absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
                         <ReactGiphySearchbox
                             apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                             onSelect={(item: any) => addGif(item)}
@@ -102,7 +146,7 @@ function Footer() {
                     </div>
                 )}
                 {showEmojis && (
-                    <div className='absolute right-2 bottom-1'>
+                    <div className='absolute right-2 bottom-6'>
                         <Picker
                             set="apple"
                             onEmojiSelect={addEmoji}
@@ -117,29 +161,6 @@ function Footer() {
                     </div>
                 )}
             </div>
-            <form className='flex space-x-1 p-1 w-full'>
-                <input
-                    value={input}
-                    onChange={(e: any) => setInput(e.target.value)}
-                    className='flex-1 rounded-lg bg-gray-200 dark:bg-lightgray p-2 outline-none dark:text-white dark:placeholder:text-white placeholder:text-black placeholder:font-semibold'
-                    type="text"
-                    placeholder='Send a Message ...'
-                />
-                <div className='flex items-center space-x-2 text-[#181c44] dark:text-white'>
-                    <PaperAirplaneIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
-                    <PhotoIcon
-                        className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
-                    />
-                    <GifIcon
-                        ref={gif}
-                        onClick={() => setShowGifs(b => !b)}
-                        className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
-                    <FaceSmileIcon
-                        ref={emoji}
-                        onClick={() => handleClick()}
-                        className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
-                </div>
-            </form>
         </div>
     )
 }

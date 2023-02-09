@@ -84,61 +84,54 @@ const Navbar = () => {
 
   let [open, setOpen] = useState(false);
   return (
-    <div className='w-full shadow-md'>
-      <div className='flex items-center justify-between bg-darkblue dark:bg-lightgray md:px-2 xl:px-8 h-[10vh]'>
-        <Link href="/" className='cursor-pointer flex items-center justify-center'>
-          <Image
-            src="/images/logo/long-logo.png"
-            alt="Blockd Logo"
-            className="w-26 h-10 ml-4 md:ml-0 hidden md:inline"
-            width={140}
-            height={50}
-          />
-          <Image
-            src="/images/logo/logo.png"
-            alt="Blockd Logo"
-            className="ml-4 md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
-            width={60}
-            height={40}
-          />
-        </Link>
-
-        {/*<div className='absolute right-14 md:hidden top-6 cursor-pointer flex flex-col items-center my-1'>
-                    {renderThemeChanger()}
-                </div>
-
-                <div onClick={() => setOpen(!open)} className='text-3xl absolute right-4 md:right-8 top-6 cursor-pointer md:hidden'>
-                    <span className="text-white absolute text-xs -right-3 -top-2 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-gray-900 dark:border-lightgray"><span>13</span></span>
-                    <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" strokeWidth={1.5} stroke="currentColor" className="w-7 h-7 text-white" name={open ? 'close' : 'menu'}>
-                        <path strokeLinecap="round" strokeLinejoin="round" d="M3.75 6.75h16.5M3.75 12h16.5m-16.5 5.25h16.5" />
-                    </svg>
-                </div>*/}
-
-        <ul className={`flex static items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in ${open ? 'top-20 h-fit bg-darkblue dark:bg-lightgray' : 'top-[-490px] h-20'}`}>
-          {/* Dark/Light Mode */}
-          <li className='flex-col items-center text-l mr-2'>
-            {renderThemeChanger()}
-          </li>
-          {/* Messages */}
-          <li className='flex flex-col md:hidden items-center text-l'>
-            <Link href="/dashboard/messages">
-              <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
-            </Link>
-          </li>
+    <div className='w-full shadow-md bg-darkblue dark:bg-lightgray'>
+      <div className='bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto lg:max-w-7xl h-14'>
+        <div className='col-span-4 place-self-start place-items-center h-14 px-3'>
+          <Link href="/" className='h-full cursor-pointer flex items-center justify-center'>
+            <Image
+              src="/images/logo/long-logo.png"
+              alt="Blockd Logo"
+              className="w-26 h-10 ml-4 md:ml-0 hidden md:inline"
+              width={140}
+              height={50}
+            />
+            <Image
+              src="/images/logo/logo.png"
+              alt="Blockd Logo"
+              className="ml-4 md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
+              width={60}
+              height={40}
+            />
+          </Link>
+        </div>
+        <div className='col-span-5 h-14 px-3'>
+          <ul className='flex static items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in h-14'>
+            {/* Dark/Light Mode */}
+            <li className='flex-col items-center text-l mr-2'>
+              {renderThemeChanger()}
+            </li>
+            {/* Messages */}
+            <li className='flex flex-col items-center text-l'>
+              <Link href="/dashboard/messages">
+                <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
+              </Link>
+            </li>
+            {/*
           <li className='hidden md:flex md:flex-col items-center text-l'>
             <Link href="" onClick={() => handleMsg()}>
               <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
             </Link>
           </li>
-          <div className={`${dropdownOpen ? 'hidden md:inline' : 'hidden'}`}>
+          <div className={`${dropdownOpen ? 'hidden md:inline z-10' : 'hidden'}`}>
             <MsgDropDown />
-          </div>
-          {/* Notifications */}
-          <li className='flex flex-col md:hidden items-center text-l'>
-            <Link href="/dashboard/notifications">
-              <IconGroup Icon={BellIcon} notif="3"></IconGroup>
-            </Link>
-          </li>
+          </div>*/}
+            {/* Notifications */}
+            <li className='flex flex-col items-center text-l'>
+              <Link href="/dashboard/notifications">
+                <IconGroup Icon={BellIcon} notif="3"></IconGroup>
+              </Link>
+            </li>
+            {/*
           <li className='hidden md:flex md:flex-col items-center text-l'>
             <Link href="" onClick={() => handleNotif()}>
               <IconGroup Icon={BellIcon} notif="3"></IconGroup>
@@ -146,31 +139,35 @@ const Navbar = () => {
           </li>
           <div className={`${dropdownNotifOpen ? 'hidden md:inline' : 'hidden'}`}>
             <NotifDropDown />
-          </div>
-          {/* Sign Up */}
-          <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full hover:bg-gray-900 md:hover:bg-transparent'>
-            <Link href="/auth/signup"><KeyIcon className='w-6 h-6 inline md:hidden text-white m-3' /></Link>
-            <p
-              className='hidden md:inline text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'
-              onClick={() => handleLogoutClick()}
-            >
-              Logout
-            </p>
-          </li>
-          <li className='flex flex-col items-center text-l my-4'>
-            <hr className='w-1/2'></hr>
-          </li>
-          {/* Connect Wallet */}
-          <li className='cursor-pointer md:ml-4 flex flex-col items-center text-l my-4 rounded-full hover:bg-gray-900 '>
-            <WalletIcon className='w-6 h-6 inline md:hidden text-white m-3' />
-            <button
+          </div>*/}
+            {/* Sign Up */}
+            <li className='cursor-pointer flex flex-col items-center text-l my-1 md:ml-3 rounded-full md:hover:bg-transparent'>
+              <p
+                className='text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold'
+                onClick={() => handleLogoutClick()}
+              >
+                Logout
+              </p>
+            </li>
+            {/* Connect Wallet */}
+            <li className='md:ml-4 flex items-center text-l my-4 ml-2 rounded-full'>
+              {/*<button
               className="hidden md:inline animate-pulse bg-transparent bg-gradient-to-r from-orange-300 to-blockd hover:from-blockd hover:to-blockd text-white dark:text-white font-semibold hover:text-white py-2 px-4 rounded-full"
               onClick={(e) => handleConnectWallet(e)}
             >
               {active ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
-            </button>
-          </li>
-        </ul>
+            </button>*/}
+              <Link href="/dashboard/profile" className='rounded-md p-[2px] bg-white'>
+                <Image
+                  src="/images/pfp/pfp1.jpg"
+                  alt='pfp'
+                  className='min-w-10 min-h-10 rounded-md shadow-sm cursor-pointer'
+                  width={40}
+                  height={40} />
+              </Link>
+            </li>
+          </ul>
+        </div>
       </div>
     </div>
   )

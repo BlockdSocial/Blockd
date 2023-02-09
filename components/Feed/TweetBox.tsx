@@ -21,7 +21,7 @@ interface Props {
 function TweetBox({ refetchTrending }: Props) {
 
   const [input, setInput] = useState<string>('')
-  const [image, setImage] = useState<string>('')
+  let [image, setImage] = useState<string>('')
   const dispatch = useAppDispatch()
 
   //************************** EMOJI Handeling **************************//
@@ -60,17 +60,23 @@ function TweetBox({ refetchTrending }: Props) {
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
 
-  const [imageUrlBoxIsOpen, setImageUrlBoxIsOpen] = useState<boolean>(false)
+  const inputPicture = useRef<HTMLInputElement | null>(null);
 
-  const imageInputRef = useRef<HTMLInputElement>(null)
+  const onUploadPictureClick = () => {
+    // `current` points to the mounted file input element
+    if (inputPicture.current) {
+      inputPicture.current.click();
+    }
+  };
 
-  const addImageToPost = (e: React.MouseEvent<HTMLButtonElement, MouseEvent>) => {
-    e.preventDefault();
-    if (!imageInputRef.current?.value) return;
+  const handleUploadPicture = (e: any) => {
+    setImage(URL.createObjectURL(e.target.files[0]));
+    console.log(URL.createObjectURL(e.target.files[0]))
+  };
 
-    setImage(imageInputRef.current.value)
-    imageInputRef.current.value = ''
-    setImageUrlBoxIsOpen(false);
+  const closePicture = () => {
+    image = ''
+    setImage(image)
   }
 
   //************************** GIF Handeling **************************//
@@ -151,31 +157,43 @@ function TweetBox({ refetchTrending }: Props) {
             value={input}
             onChange={(e: any) => setInput(e.target.value)}
             data-rows="4"
-            className="h-24 w-full text-black dark:text-white outline-none text-l bg-transparent placeholder:pt-6 "
+            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-l bg-transparent"
             placeholder="What's the word on the block?"
           ></textarea>
-          <hr></hr>
+          <hr className='mb-4'></hr>
           {gifBoxIsOpen && (
-            <div className='relative my-2 w-full'>
+            <div className='relative w-full'>
               <img src={gifUrl} className="rounded-lg max-w-full h-auto" width="200px" height="200px" />
-              <div onClick={() => closeGif()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray'>
+              <div onClick={() => closeGif()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <XMarkIcon className='w-5 h-5' />
               </div>
+              <hr className='mt-4 mb-4'></hr>
             </div>
           )}
-          <hr className='mb-4'></hr>
+          {image && (
+            <div className='relative w-full'>
+              <img className='max-w-full h-auto object-contain rounded-md' src={image} alt='' />
+              <div onClick={() => closePicture()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
+                <XMarkIcon className='w-5 h-5' />
+              </div>
+              <hr className='mt-4 mb-4'></hr>
+            </div>
+          )}
+
           <div className='flex items-center'>
             <div className='flex relative space-x-2 text-[#181c44] dark:text-white flex-1'>
-              <PhotoIcon
-                onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
-                className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
-              />
+              {!gifUrl &&
+                <PhotoIcon
+                  onClick={() => onUploadPictureClick()}
+                  className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
+                />
+              }
               <FaceSmileIcon
                 ref={emoji}
                 onClick={() => setShowEmojis(b => !b)}
                 className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
               {showEmojis && (
-                <div className='absolute left-5 top-7 z-0'>
+                <div className='absolute left-5 top-7 z-[1]'>
                   <Picker
                     onEmojiSelect={addEmoji}
                     theme="dark"
@@ -190,11 +208,13 @@ function TweetBox({ refetchTrending }: Props) {
                 </div>
               )}
               <div ref={gif}>
-                <GifIcon
-                  onClick={() => setShowGifs(b => !b)}
-                  className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                {!image &&
+                  <GifIcon
+                    onClick={() => setShowGifs(b => !b)}
+                    className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+                }
                 {showGifs && (
-                  <div className='absolute left-0 top-7 z-0 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+                  <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
@@ -208,36 +228,23 @@ function TweetBox({ refetchTrending }: Props) {
                   </div>
                 )}
               </div>
-              <MapPinIcon className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
             </div>
             <button
-              disabled={!input}
+              disabled={!input && !image && !gifUrl}
               className='bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]'
               onClick={(e) => handleSubmitPost(e)}
             >
               Post
             </button>
           </div>
-          {imageUrlBoxIsOpen && (
-            <form className='rounded-lg mt-5 flex bg-blockd/80 py-2 px-4'>
-              <input
-                ref={imageInputRef}
-                className='flex-1 bg-transparent p-2 text-white outline-none placeholder:text-white'
-                type="text"
-                placeholder='Enter Image URL...'
-              />
-              <button
-                type='submit'
-                onClick={addImageToPost}
-                className='font-bold text-white'
-              >
-                Add Image
-              </button>
-            </form>
-          )}
-          {image && (
-            <img className='mt-10 h-40 w-full rounded-xl object-contain shadow-lg' src={image} alt='' />
-          )}
+          <input
+            type='file'
+            id='file'
+            ref={inputPicture}
+            className="hidden"
+            accept='image/*'
+            onChange={handleUploadPicture}
+          />
         </form>
       </div>
     </div>

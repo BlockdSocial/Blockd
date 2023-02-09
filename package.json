@@ -41,10 +41,11 @@
     "react-hot-toast": "^2.4.0",
     "react-icons": "^4.7.1",
     "react-redux": "^8.0.5",
+    "react-router-dom": "^6.8.0",
     "react-timeago": "^7.1.0",
     "react-toastify": "^9.1.1",
     "redux-thunk": "^2.4.2",
-    "sweetalert2": "^11.7.0",
+    "sweetalert2": "^11.4.8",
     "tailwind-scrollbar-hide": "^1.1.7",
     "web3": "1.7.1"
   },
