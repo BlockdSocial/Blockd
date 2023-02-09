@@ -23,7 +23,16 @@ import {
   FETCH_POST_FAILURE,
   IS_FETCHING_POST_IMAGE,
   FETCH_POST_IMAGE_SUCCESS,
-  FETCH_POST_IMAGE_FAILURE
+  FETCH_POST_IMAGE_FAILURE,
+  IS_FETCHING_POST_INFO,
+  FETCH_POST_INFO_SUCCESS,
+  FETCH_POST_INFO_FAILURE,
+  IS_FETCHING_USER_POSTS,
+  FETCH_USER_POSTS_SUCCESS,
+  FETCH_USER_POSTS_FAILURE,
+  IS_DISLIKING_POST,
+  DISLIKE_POST_SUCCESS,
+  DISLIKE_POST_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -31,11 +40,16 @@ const initialState = {
   isCreatingPost: false,
   isDeletingPost: false,
   isLikingPost: false,
+  isDislikingPost: false,
   isSearchingPosts: false,
   isFetchingTrendingPosts: false,
   isFetchingFilteredPosts: false,
   isFetchingPost: false,
   isFetchingPostImage: false,
+  isFetchingPostInfo: false,
+  isFetchingUserPosts: false,
+  userPosts: [],
+  postInfo: {},
   postImage: {},
   post: {},
   filteredPosts: [],
@@ -199,6 +213,65 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingPostImage: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_POST_INFO: {
+      return {
+        ...state,
+        isFetchingPostInfo: true
+      };
+    }
+    case FETCH_POST_INFO_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPostInfo: false,
+        postInfo: action.postInfo
+      };
+    }
+    case FETCH_POST_INFO_FAILURE: {
+      return {
+        ...state,
+        isFetchingPostInfo: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_USER_POSTS: {
+      return {
+        ...state,
+        isFetchingUserPosts: true
+      };
+    }
+    case FETCH_USER_POSTS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingUserPosts: false,
+        userPosts: action.userPosts
+      };
+    }
+    case FETCH_USER_POSTS_FAILURE: {
+      return {
+        ...state,
+        isFetchingUserPosts: false,
+        error: action.error
+      };
+    }
+    case IS_DISLIKING_POST: {
+      return {
+        ...state,
+        isDislikingPost: true
+      };
+    }
+    case DISLIKE_POST_SUCCESS: {
+      return {
+        ...state,
+        isDislikingPost: false
+      };
+    }
+    case DISLIKE_POST_FAILURE :{
+      return {
+        ...state,
+        isDislikingPost: false,
         error: action.error
       };
     }

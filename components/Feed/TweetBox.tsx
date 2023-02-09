@@ -12,6 +12,7 @@ import { createPost } from '../../stores/post/PostActions'
 import Picker from '@emoji-mart/react'
 import Link from 'next/link'
 import ReactGiphySearchbox from 'react-giphy-searchbox'
+import { isEmpty } from 'lodash'
 
 interface Props {
   refetchTrending: () => void;
@@ -124,6 +125,7 @@ function TweetBox({ refetchTrending }: Props) {
     await dispatch(createPost({
       content: input,
       public: 1,
+      image: !isEmpty(image) ? image : null
     })).then(() => {
       refetchTrending();
       setInput('');

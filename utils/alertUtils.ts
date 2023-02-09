@@ -1,6 +1,7 @@
 // Libraries
 import Swal from 'sweetalert2';
 import { ToastContainer, toast } from 'react-toastify';
+import { deleteCookie } from 'cookies-next';
 
 /**
  *
@@ -34,6 +35,7 @@ export async function triggerUnauthorizedUserAlert() {
     .then((result: any) => {
       if (result.isConfirmed) {
         localStorage.removeItem("token");
+        deleteCookie("token");
         window.location.replace('/');
       }
     });

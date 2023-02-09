@@ -9,6 +9,7 @@
     "@types/react": "~17.0.21"
   },
   "dependencies": {
+    "@ably-labs/react-hooks": "^2.1.0",
     "@clerk/nextjs": "^4.7.7",
     "@emoji-mart/data": "^1.1.0",
     "@emoji-mart/react": "^1.1.0",

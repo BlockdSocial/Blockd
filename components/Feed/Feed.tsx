@@ -5,7 +5,7 @@ import TweetBox from './TweetBox'
 import toast from 'react-hot-toast'
 import PostTest from './PostTest'
 import Post from './Post'
-import { fetchTrendingPosts } from '../../stores/post/PostActions'
+import { fetchTrendingPosts, fetchFilteredPosts } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 interface Post {
@@ -14,12 +14,14 @@ interface Post {
   createdAt: string;
   likes: number;
   comments: number;
+  hasImg: boolean;
+  userId: number;
 }
 
 function Feed() {
 
   const dispatch = useAppDispatch();
-  const { trendingPosts } = useAppSelector((state) => state.postReducer);
+  const { trendingPosts, filteredPosts } = useAppSelector((state) => state.postReducer);
 
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
@@ -46,11 +48,19 @@ function Feed() {
 
   useEffect(() => {
     fetchTrendings();
+    fetchFiltered();
   }, []);
 
   const fetchTrendings = async () => {
     await dispatch(fetchTrendingPosts());
-  }
+  };
+
+  const fetchFiltered = async () => {
+    await dispatch(fetchFilteredPosts({
+      start: 0,
+      end: 100
+    }));
+  };
 
   const goToTopOfPage = () => {
     const element = document.getElementById('top-page');
@@ -66,7 +76,7 @@ function Feed() {
     toast.success('Feed Updated!', {
       id: refreshToast,
     })
-  }
+  };
 
   return (
     <div ref={elementRef} className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'>

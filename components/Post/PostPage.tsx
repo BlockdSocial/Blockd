@@ -4,17 +4,30 @@ import PostID from './PostID'
 import { useRouter } from 'next/router'
 import CommentSection from './CommentSection'
 import { fetchPostComments } from '../../stores/comment/CommentActions'
+import { fetchPost } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { isEmpty } from 'lodash'
 
 interface Comment {
   content: string;
   createdAt: string;
+  userId: number;
+}
+
+interface Post {
+  id: number;
+  content: string;
+  createdAt: string;
+  likes: number;
+  comments: number;
+  hasImg: boolean;
+  userId: number;
 }
 
 function PostPage() {
   const dispatch = useAppDispatch();
   const { postComments } = useAppSelector((state) => state.commentReducer);
+  const { post } = useAppSelector((state) => state.postReducer);
 
   const router = useRouter();
   const { postId } = router.query;
@@ -22,11 +35,16 @@ function PostPage() {
   useEffect(() => {
     if (!isEmpty(router.query)) {
       fetchComments();
+      fetchPostById();
     }
   }, [router.query]);
 
   const fetchComments = async () => {
-    dispatch(fetchPostComments(postId as string));
+    await dispatch(fetchPostComments(postId as string));
+  }
+
+  const fetchPostById = async () => {
+    await dispatch(fetchPost(postId as string));
   }
 
   return (
@@ -39,7 +57,10 @@ function PostPage() {
       </div>
 
       <div className='z-0'>
-        <PostID />
+        <PostID 
+          post={post as Post}
+          refetchComments={fetchComments}
+        />
         {
           postComments &&
           postComments.map((comment: object, index: number) => (

@@ -16,7 +16,16 @@ import Link from 'next/link'
 import Picker from '@emoji-mart/react'
 import moment from 'moment'
 import { addComment } from '../../stores/comment/CommentActions'
+import { fetchUser } from '../../stores/user/UserActions'
+import {
+  fetchPostImage,
+  fetchPostInfo,
+  likePost,
+  dislikePost
+} from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+import { isEmpty } from 'lodash'
+import { config } from '../../constants';
 
 interface Post {
   id: number;
@@ -24,6 +33,23 @@ interface Post {
   createdAt: string;
   likes: number;
   comments: number;
+  hasImg: boolean;
+  userId: number;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+}
+
+interface Info {
+  likes: number;
+  comments: number;
+  dislikes: number;
+  shares: number;
 }
 
 interface Props {
@@ -35,7 +61,7 @@ function PostTest({ post }: Props) {
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch()
-  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { authUser } = useAppSelector((state) => state.authUserReducer)
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
   const [input, setInput] = useState<string>('')
   const [textArea, setTextArea] = useState<string>('')
@@ -44,8 +70,52 @@ function PostTest({ post }: Props) {
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false)
   const [editPopUp, setEditPopUp] = useState<boolean>(false)
+  const [user, setUser] = useState<User>()
+  const [profilePicture, setProfilePicture] = useState<string>();
+  const [info, setInfo] = useState<Info>();
+  const [postImage, setPostImage] = useState<string>();
 
   const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    fetchPostUser();
+    fetchInfo();
+    if (post?.hasImg != null || undefined) {
+      fetchImage();
+    }
+  }, []);
+
+  const fetchPostUser = async () => {
+    await dispatch(fetchUser(post?.userId)).then((result: any) => {
+      setUser(result);
+    }) as User;
+  };
+
+  const fetchInfo = async () => {
+    await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
+      setInfo(result);
+    });
+  }
+
+  const fetchImage = async () => {
+    await dispatch(fetchPostImage(post?.id)).then((result: any) => {
+      setPostImage(result[0]?.name);
+    });
+  }
+
+  useEffect(() => {
+    if (!isEmpty(user)) {
+      fetchProfilePicture(user?.profilePicId);
+    }
+  }, [user]);
+
+  const fetchProfilePicture = async (id: number) => {
+    if (id != undefined || id != null) {
+      await dispatch(fetchPostImage(id)).then((result: any) => {
+        setProfilePicture(result[0]?.name);
+      });
+    }
+  }
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -92,6 +162,7 @@ function PostTest({ post }: Props) {
       post_id: post?.id
     })).then(() => {
       setInput('');
+      fetchInfo();
     });
   }
 
@@ -120,18 +191,37 @@ function PostTest({ post }: Props) {
       inputFileContent.current.click();
     }
   };
+  const handleLikePost = async () => {
+    dispatch(likePost({
+      post_id: post?.id,
+      user_id: authUser?.id,
+    })).then(() => {
+      fetchInfo();
+    });
+  }
+
+  const handleDislikePost = async () => {
+    dispatch(dislikePost({
+      post_id: post?.id,
+      user_id: authUser?.id,
+    })).then(() => {
+      fetchInfo();
+    });
+  }
+
+  console.log('info: ', info);
 
   return (
     <div className='relative border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
-        <div className='flex flex-col px-4'>
+        <div className='flex flex-col px-4 w-full'>
           <div className='flex items-center justify-between'>
             <div className='flex items-start space-x-2'>
               <div className='flex'>
                 <Link href="/dashboard/profile" className='relative flex flex-col w-fit h-fit group'>
                   <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                     <Image
-                      src="/images/pfp/pfp2.jpg"
+                      src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp1.jpg'}
                       alt='pfp'
                       className='min-w-16 min-h-16 rounded-md shadow-sm'
                       width={60}
@@ -146,7 +236,7 @@ function PostTest({ post }: Props) {
               </div>
               <div className='flex flex-col items-start justify-center space-y-1'>
                 <div className='flex items-center space-x-1'>
-                  <p className='mr-1 font-semibold text-l'>@Egoist</p>
+                  <p className='mr-1 font-semibold text-l'>@{user?.name}</p>
                 </div>
                 <div>
                   <p className='text-sm text-gray-500'>14K followers</p>
@@ -173,36 +263,47 @@ function PostTest({ post }: Props) {
             </div>
           </div>
           <div className='flex flex-col items-start justify-center space-y-2 w-full'>
-            <p className='pt-8 font-semibold'>{post?.content}</p>
             <Link
               href={{
                 pathname: "/dashboard/post/",
                 query: { postId: post?.id }
               }}
             >
-              <img
-                src="/images/Post1.jpg"
-                alt='Post'
-                className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm' />
+              <p className='pt-8 font-semibold'>{post?.content}</p>
+              {postImage != null ?
+                <img
+                  src={`${config.url.PUBLIC_URL}/${postImage}`}
+                  alt='Post'
+                  className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm'
+                  width={2000}
+                  height={2000} />
+                : null
+              }
             </Link>
           </div>
           <div className='flex items-center justify-start mt-4 mb-2'>
             <div className='flex'>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
-                <p className='text-xs group-hover:text-green-600'>{post?.likes}</p>
-                <ArrowUpIcon className='h-5 w-5 cursor-pointer hover:text-green-600 transition-transform ease-out duration-150 hover:scale-150' />
+                <p className='text-xs group-hover:text-green-600'>{info?.likes != null || undefined ? info?.likes : 0}</p>
+                <ArrowUpIcon
+                  className='h-5 w-5 cursor-pointer hover:text-green-600 transition-transform ease-out duration-150 hover:scale-150'
+                  onClick={() => handleLikePost()}
+                />
               </div>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
-                <ArrowDownIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                <p className='text-xs group-hover:text-red-600'>10K</p>
+                <ArrowDownIcon
+                  className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150'
+                  onClick={() => handleDislikePost()}
+                />
+                <p className='text-xs group-hover:text-red-600'>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
               </div>
               <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                <p className='text-xs'>{post?.comments}</p>
+                <p className='text-xs'>{info?.comments != null || undefined ? info?.comments : 0}</p>
               </div>
               <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ShareIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                <p className='text-xs'>10</p>
+                <p className='text-xs'>{info?.shares != null || undefined ? info?.shares : 0}</p>
               </div>
             </div>
           </div>

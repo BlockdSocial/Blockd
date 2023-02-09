@@ -39,7 +39,7 @@ function Sidebar() {
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
                     )}
                 </Link>
-                <Link href="/achievement">
+                <Link href="/dashboard/achievement">
                     {location.pathname === '/achievement' ? (
                         <SidebarRow Icon={FireIcon} title="Achievements" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
