@@ -284,18 +284,18 @@ function PostTest({ post }: Props) {
           <div className='flex items-center justify-start mt-4 mb-2'>
             <div className='flex'>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
-                <p className='text-xs group-hover:text-green-600'>{info?.likes != null || undefined ? info?.likes : 0}</p>
+                <p className={`text-xs ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600' } `}>{info?.likes != null || undefined ? info?.likes : 0}</p>
                 <ArrowUpIcon
-                  className='h-5 w-5 cursor-pointer hover:text-green-600 transition-transform ease-out duration-150 hover:scale-150'
+                  className={`h-5 w-5 cursor-pointer ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600' } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
                 <ArrowDownIcon
-                  className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150'
+                  className={`h-5 w-5 cursor-pointer ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600' } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
-                <p className='text-xs group-hover:text-red-600'>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
+                <p className={`text-xs ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600' } `}>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
               </div>
               <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
