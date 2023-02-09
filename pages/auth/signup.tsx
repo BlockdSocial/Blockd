@@ -10,7 +10,7 @@ import {
 import { registerUser } from '../../stores/authUser/AuthUserActions';
 import { useAppDispatch } from '../../stores/hooks'
 import { isEmpty } from '../../utils';
-import { config } from '../../constants';
+import { config, contractABI, contractADDRESS } from '../../constants';
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
