@@ -64,13 +64,13 @@ function PostID({ post, refetchComments }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer)
 
   const [input, setInput] = useState<string>('')
+  const [image, setImage] = useState<string>('')
   const [user, setUser] = useState<User>()
   const [info, setInfo] = useState<Info>()
   const [postImage, setPostImage] = useState<string>()
   const [profilePicture, setProfilePicture] = useState<string>()
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
   const [textArea, setTextArea] = useState<string>('')
-  const [image, setImage] = useState<string>('')
   const [imageEdit, setImageEdit] = useState<string>('/images/Post1.jpg')
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false)
   const [editPopUp, setEditPopUp] = useState<boolean>(false)
@@ -173,6 +173,14 @@ function PostID({ post, refetchComments }: Props) {
     setInput(input + emoji)
   }
 
+  const inputFileContent = useRef<HTMLInputElement | null>(null);
+
+  const onContentClick = () => {
+    // `current` points to the mounted file input element
+    if (inputFileContent.current) {
+      inputFileContent.current.click();
+    }
+  };
   const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault()
 
@@ -204,14 +212,6 @@ function PostID({ post, refetchComments }: Props) {
       fetchInfo();
     });
   }
-  const inputFileContent = useRef<HTMLInputElement | null>(null);
-
-  const onContentClick = () => {
-    // `current` points to the mounted file input element
-    if (inputFileContent.current) {
-      inputFileContent.current.click();
-    }
-  };
 
   return (
     <div className='flex flex-col space-x-3 p-4 -z-20 border-y'>
@@ -251,7 +251,7 @@ function PostID({ post, refetchComments }: Props) {
               </div>
             </div>
           </div>
-          <div className='flex items-start h-full justify-center space-x-2'>
+          <div className='flex items-start h-full justify-start space-x-2'>
             <div ref={dropdown} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
               <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
               <div className='relative z-0 flex ite'>
