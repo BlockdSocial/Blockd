@@ -12,7 +12,7 @@ import Ably from "ably/promises";
 import {
   RainbowKitProvider,
   connectorsForWallets,
-  darkTheme,
+  lightTheme
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -72,9 +72,14 @@ function MyApp({ Component, pageProps }: AppProps) {
     <QueryClientProvider client={queryClient}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
-          theme={darkTheme({
-            fontStack: "system",
+          theme={lightTheme({
+            accentColor: '#FD7F20',
+            accentColorForeground: 'white',
+            borderRadius: 'small',
+            fontStack: 'system',
+            overlayBlur: 'small',
           })}
+          
           chains={[polygon]}
           initialChain={polygon}
           modalSize="compact"

@@ -30,11 +30,16 @@ export default function SignUp() {
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   //Data Fetching
-  const { isLoading : fetchingLoading, error : fetchingError, data : fetchingData, isFetching } = useQuery({
+  const {
+    isLoading: fetchingLoading,
+    error: fetchingError,
+    data: fetchingData,
+    isFetching,
+  } = useQuery({
     queryKey: ["userMessageToSign"],
     queryFn: () => axios.get(messageUrl).then((res) => res.data),
     onSuccess(data) {
-      setUserMessage(data)
+      setUserMessage(data);
     },
   });
 
@@ -100,15 +105,21 @@ export default function SignUp() {
   //   const address = await provider.getSigner().getAddress();
   //   setUserAddress(address);
   //   const signature = await provider.getSigner().signMessage(message.message);
-  //   setUserSignature(signature);    
+  //   setUserSignature(signature);
   // };
 
-  const { data : signData, isError : signError, isLoading : signLoading, isSuccess : signSuccess, signMessage } = useSignMessage({
+  const {
+    data: signData,
+    isError: signError,
+    isLoading: signLoading,
+    isSuccess: signSuccess,
+    signMessage,
+  } = useSignMessage({
     message: JSON.stringify(userMessage),
     onSuccess(data, variables, context) {
-      setUserSignature(data)
+      setUserSignature(data);
     },
-  })
+  });
 
   const { data } = useContractRead({
     ...nft_contract,
@@ -143,7 +154,7 @@ export default function SignUp() {
 
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
-      <div className="md:flex w-1/2 hidden relative items-center">
+      <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
             <Image
@@ -178,7 +189,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-      <div className="md:w-1/2 w-full flex items-center justify-center text-center p-10 lg:p-20 z-0">
+      <div className="md:w-1/2 w-full min-h-screen flex items-center justify-center text-center p-10 lg:px-20 lg:py-10 z-0">
         <div className="flex items-center h-full w-full bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
@@ -249,11 +260,18 @@ export default function SignUp() {
               >
                 {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button> */}
-              <ConnectButton></ConnectButton>
-
+              <div className="w-full mt-4 flex items-center justify-start">
+                <ConnectButton
+                  showBalance={{
+                    smallScreen: false,
+                    largeScreen: true,
+                  }}
+                ></ConnectButton>
+              </div>
+              
               {nft_data && Number(nft_data) > 0 ? (
                 <button
-                  className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
+                  className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
                   onClick={(e) => handleRegisterUser(e)}
                 >
                   Sign Up
@@ -261,16 +279,17 @@ export default function SignUp() {
               ) : (
                 <>
                   <button
-                    className={`btn btn-primary ${isMintLoading && "loading"}`}
+                    className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
+                      isMintLoading && "loading"
+                    } ${error ? 'bg-orange-300' : 'cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd'}`}
                     disabled={isMintError || isMintFetching}
                     onClick={() => writeAsync && writeAsync()}
                   >
                     Mint
                   </button>
-                  *
                   {error && (
-                    <div>
-                      An error occurred preparing the transaction:{" "}
+                    <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                      An error occurred preparing the transaction:<br></br>
                       {error.message}
                     </div>
                   )}
