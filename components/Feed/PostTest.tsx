@@ -83,6 +83,7 @@ function PostTest({ post }: Props) {
     if (post?.hasImg != null || undefined) {
       fetchImage();
     } else {
+      // @ts-ignore
       setPostImage(null);
     }
   }, [post]);

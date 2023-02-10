@@ -23,15 +23,23 @@ function Sidebar() {
     return (
         <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-r dark:border-lightgray'>
             <Link href="/" className='active'>
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={HomeIcon} active='' />
             </Link>
             <Link href="/dashboard/profile">
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={UserIcon} active='' />
             </Link>
             <Link href="achievement">
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={FireIcon} active='' />
             </Link>
             <Link href="suggestion">
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={LightBulbIcon} active='' />
             </Link>
             <Link
@@ -57,12 +65,18 @@ function Sidebar() {
                 )}
             </Link>
             <Link href="">
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={ComputerDesktopIcon} active='' />
             </Link>
             <Link href="">
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={MicrophoneIcon} active='' />
             </Link>
             <Link href="">
+                {/* 
+                // @ts-ignore */}
                 <SidebarRow Icon={ArrowTrendingUpIcon} active='' />
             </Link>
         </div>

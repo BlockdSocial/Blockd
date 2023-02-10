@@ -89,9 +89,13 @@ function Sidebar() {
                     )}
                 </Link>
                 <Link href="">
+                    {/* 
+                // @ts-ignore */}
                     <SidebarRow Icon={ComputerDesktopIcon} title="Streams" active='' />
                 </Link>
                 <Link href="">
+                    {/* 
+                // @ts-ignore */}
                     <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
                 </Link>
             </div>
