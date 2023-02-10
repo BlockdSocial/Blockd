@@ -27,14 +27,14 @@ function Feed() {
   const router = useRouter()
   const { isRegistered } = router.query;
 
-  const { trendingPosts, filteredPosts } = useAppSelector((state) => state.postReducer);
+  const { trendingPosts, filteredPosts, isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
   const [trendingIds, setTrendingIds] = useState();
   const [auth, setAuth] = useState<object>();
   const [load, setLoad] = useState<boolean>(false);
-  // const [startCount, setStartCount] = useState<number>(0);
-  // const [endCount, setEndCount] = useState<number>(0);
+  const [startCount, setStartCount] = useState<number>(0);
+  const [endCount, setEndCount] = useState<number>(4);
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -60,6 +60,7 @@ function Feed() {
     fetchAuth();
     fetchTrendings();
     fetchFiltered();
+    setTendings();
   }, []);
 
   const fetchAuth = async () => {
@@ -76,8 +77,8 @@ function Feed() {
 
   const fetchFiltered = async () => {
     await dispatch(fetchFilteredPosts({
-      start: 0,
-      end: 4
+      start: startCount,
+      end: endCount
     })).then(() => {
       setLoad(!load);
     });
@@ -111,8 +112,25 @@ function Feed() {
     setLoad(!load);
   }
 
+  const handleScroll = async () => {
+    if (elementRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        // TO SOMETHING HERE
+        setEndCount(endCount + 5);
+        fetchFiltered();
+      }
+    }
+  }
+
   return (
-    <div ref={elementRef} className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'>
+    <div
+      onScrollCapture={() =>
+        handleScroll()
+      }
+      ref={elementRef}
+      className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'
+    >
       <div id="top-page"></div>
       <div className={`flex items-center z-[2] ${atTop === false ? 'justify-end' : 'justify-between'} sticky top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}>
         {atTop &&
@@ -149,6 +167,10 @@ function Feed() {
               />
 
             ))
+          }
+          {
+            isFetchingFilteredPosts &&
+            <p>Loading ...</p>
           }
         </div>
       </div>
