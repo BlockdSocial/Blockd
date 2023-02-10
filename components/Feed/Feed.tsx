@@ -135,6 +135,7 @@ function Feed() {
           {
             filteredPosts &&
             filteredPosts?.posts?.map((post: Post, index: number) => (
+              // @ts-ignore
               trendingIds != undefined && !trendingIds.includes(post?.id) &&
               <PostTest
                 key={`${index}-post`}

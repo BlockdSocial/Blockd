@@ -113,6 +113,8 @@ const Navbar = () => {
             {/* Messages */}
             <li className='flex flex-col items-center text-l'>
               <Link href="/dashboard/messages">
+                {/* 
+                // @ts-ignore */}
                 <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
               </Link>
             </li>
@@ -128,6 +130,8 @@ const Navbar = () => {
             {/* Notifications */}
             <li className='flex flex-col items-center text-l'>
               <Link href="/dashboard/notifications">
+                {/* 
+                // @ts-ignore */}
                 <IconGroup Icon={BellIcon} notif="3"></IconGroup>
               </Link>
             </li>

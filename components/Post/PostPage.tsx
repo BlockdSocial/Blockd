@@ -66,6 +66,7 @@ function PostPage() {
           postComments.map((comment: object, index: number) => (
             <CommentSection
               key={index}
+              // @ts-ignore
               comment={comment as Comment}
             />
           ))
