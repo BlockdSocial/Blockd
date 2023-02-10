@@ -19,7 +19,7 @@ async function registerUser(fields: any) {
 }
 
 async function fetchUserMessage() {
-  return apiCall('fetchUserMessage', 'GET', `${endpoints.authUser}/message`);
+  return apiCall('fetchUserMessage', 'GET', `${endpoints.authUser}/generate/message`);
 }
 
 async function logoutUser() {
