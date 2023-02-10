@@ -82,8 +82,10 @@ function PostTest({ post }: Props) {
     fetchInfo();
     if (post?.hasImg != null || undefined) {
       fetchImage();
+    } else {
+      setPostImage(null);
     }
-  }, []);
+  }, [post]);
 
   const fetchPostUser = async () => {
     await dispatch(fetchUser(post?.userId)).then((result: any) => {
@@ -116,6 +118,8 @@ function PostTest({ post }: Props) {
       });
     }
   }
+
+  console.log('post: ', post);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -191,6 +195,7 @@ function PostTest({ post }: Props) {
       inputFileContent.current.click();
     }
   };
+
   const handleLikePost = async () => {
     dispatch(likePost({
       post_id: post?.id,
@@ -209,9 +214,6 @@ function PostTest({ post }: Props) {
     });
   }
 
-  console.log('post: ', post);
-  console.log('authUser: ', authUser);
-
   return (
     <div className='relative border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
@@ -229,7 +231,7 @@ function PostTest({ post }: Props) {
                       height={60} />
                     <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
                       <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
-                        15
+                        0
                       </div>
                     </div>
                   </div>

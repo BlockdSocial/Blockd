@@ -23,8 +23,8 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
 
   const [input, setInput] = useState<string>('')
   let [image, setImage] = useState<string>('')
-  const [uploadedImage, setUploadedImage] = useState<string>()
-  const [uploadedVideo, setUploadedVideo] = useState<string>()
+  const [uploadedImage, setUploadedImage] = useState<string>('')
+  const [uploadedVideo, setUploadedVideo] = useState<string>('')
   const dispatch = useAppDispatch()
 
   //************************** EMOJI Handeling **************************//
@@ -153,7 +153,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
             height={2000} />
           <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
             <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
-              31
+              0
             </div>
           </div>
         </div>

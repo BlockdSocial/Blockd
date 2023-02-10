@@ -10,7 +10,10 @@ import {
   LIKE_COMMENT_FAILURE,
   IS_FETCHING_POST_COMMENTS,
   FETCH_POST_COMMENTS_SUCCESS,
-  FETCH_POST_COMMENTS_FAILURE
+  FETCH_POST_COMMENTS_FAILURE,
+  IS_FETCHING_COMMENT_INFO,
+  FETCH_COMMENT_INFO_SUCCESS,
+  FETCH_COMMENT_INFO_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -26,7 +29,7 @@ export function addComment(fields: object) {
       console.log('Add comment error: ', error);
       dispatch({
         type: ADD_COMMENT_FAILURE,
-        error: error?.message
+        error: error
       });
     }
   }
@@ -42,7 +45,7 @@ export function deleteComment(fields: object) {
       console.log('Delete comment error: ', error);
       dispatch({
         type: DELETE_COMMENT_FAILURE,
-        error: error?.message
+        error: error
       });
     }
   }
@@ -58,14 +61,13 @@ export function likeComment(fields: object) {
       console.log('Like comment error: ', error);
       dispatch({
         type: LIKE_COMMENT_FAILURE,
-        error: error?.message
+        error: error
       });
     }
   }
 }
 
 export function fetchPostComments(fields: string) {
-  console.log('fields: ', fields);
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_POST_COMMENTS });
     try {
@@ -79,8 +81,28 @@ export function fetchPostComments(fields: string) {
       console.log('Fetch Post Comments error: ', error);
       dispatch({
         type: FETCH_POST_COMMENTS_FAILURE,
-        error: error?.message
+        error: error
       });
     };
+  }
+}
+
+export function fetchCommentInfo(fields: string) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_COMMENT_INFO });
+    try {
+      const result = await commentApi.fetchCommentInfo(fields);
+      dispatch({
+        type: FETCH_COMMENT_INFO_SUCCESS,
+        commentInfo: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Comment Info error: ', error);
+      dispatch({
+        type: FETCH_COMMENT_INFO_FAILURE,
+        error: error
+      });
+    }
   }
 }

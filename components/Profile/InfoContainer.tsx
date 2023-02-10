@@ -140,7 +140,7 @@ function InfoContainer({ user, refetchUser }: Props) {
     await dispatch(updateProfilcePicture({
       user_id: user?.id,
       image: file,
-      content: 'test'
+      content: `${user?.name} changed their profile picture.`
     })).then(() => {
       refetchUser()
     });
@@ -150,7 +150,7 @@ function InfoContainer({ user, refetchUser }: Props) {
     await dispatch(updateProfileBanner({
       user_id: user?.id,
       image: file,
-      content: 'test'
+      content: `${user?.name} changed their banner.`
     })).then(() => {
       refetchUser();
     });
@@ -193,7 +193,7 @@ function InfoContainer({ user, refetchUser }: Props) {
                   height={2000} />
                 <div className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}>
                   <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white'>
-                    {user?.score}
+                    0
                   </div>
                 </div>
                 <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>

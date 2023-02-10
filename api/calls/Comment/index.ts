@@ -21,9 +21,14 @@ async function fetchPostComments(fields: any) {
   return apiCall('fetchPostComments', 'GET',  `${endpoints.comments}/post/${fields}`);
 };
 
+async function fetchCommentInfo(fields: any) {
+  return apiCall('fetchCommentInfo', 'GET', `${endpoints.comment}/info/${fields}`);
+};
+
 export default {
   addComment,
   deleteComment,
   likeComment,
-  fetchPostComments
+  fetchPostComments,
+  fetchCommentInfo
 };
