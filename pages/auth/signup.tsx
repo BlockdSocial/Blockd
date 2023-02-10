@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -21,6 +21,8 @@ import {
 import { write } from "fs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
+import { indexOf } from "lodash";
+//import { useEffect } from "hoist-non-react-statics/node_modules/@types/react";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -44,6 +46,9 @@ export default function SignUp() {
   });
 
   const [userMessage, setUserMessage] = useState<object>(fetchingData);
+  //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
+ 
+
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
   const [terms, setTerms] = useState<boolean>(false);
@@ -54,14 +59,32 @@ export default function SignUp() {
 
   const { address } = useAccount();
 
-  const handleRegisterUser = async (e: any) => {
+  const hussein=async(e:any) =>{
+
     e.preventDefault();
+       await signMessage();
+     
+      
+   
+  }
+
+  useEffect(()=>{
+    if(!isEmpty(userSignature)){
+    handleRegisterUser();
+    }
+  },[userSignature])
+  
+
+  const handleRegisterUser = async (e: any= null) => {
+   console.log("userMessage",userMessage);
+
     if (
       !terms ||
       isEmpty(userMessage) ||
       isEmpty(address) ||
       isEmpty(userSignature)
     ) {
+      console.log('sinup',userSignature)
       return;
     }
     await dispatch(
@@ -75,14 +98,18 @@ export default function SignUp() {
         // @ts-ignore
         message: userMessage?.message,
       })
-    ).then(() => {
+    ).then((res) => {
+      console.log('res',res)
+      
       router.push({
         pathname: "/",
         query: {
           isRegistered: true,
         },
       });
+      
     });
+  
   };
 
   // const web3Login = async (e: any) => {
@@ -118,8 +145,19 @@ export default function SignUp() {
     message: JSON.stringify(userMessage),
     onSuccess(data, variables, context) {
       setUserSignature(data);
+      //handleRegisterUser();
+      return true;
+     
     },
+    onError(error) {
+      console.log('Error', error)
+    },
+    onMutate(args) {
+      console.log('Mutate', args)
+    },
+
   });
+  
 
   const { data } = useContractRead({
     ...nft_contract,
@@ -272,7 +310,7 @@ export default function SignUp() {
               {nft_data && Number(nft_data) > 0 ? (
                 <button
                   className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
-                  onClick={(e) => handleRegisterUser(e)}
+                  onClick={(e) => hussein(e)}
                 >
                   Sign Up
                 </button>
