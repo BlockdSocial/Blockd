@@ -13,7 +13,7 @@ import { fetchUser } from '../../stores/user/UserActions'
 import { fetchPostImage } from '../../stores/post/PostActions'
 import { isEmpty } from 'lodash'
 import { config } from '../../constants'
-import { fetchCommentInfo, likeComment } from '../../stores/comment/CommentActions'
+import { fetchCommentInfo, fetchIsLikedComment, likeComment } from '../../stores/comment/CommentActions'
 
 interface Comment {
   content: string;
@@ -44,10 +44,12 @@ function CommentSection({ comment }: Props) {
   const [user, setUser] = useState<User>();
   const [profilePicture, setProfilePicture] = useState<string>();
   const [info, setInfo] = useState<Info>();
+  const [isLiked, setIsLiked] = useState<boolean>();
 
   useEffect(() => {
     fetchCommentUser();
     fetchInfo();
+    fetchLiked();
   }, [comment]);
 
   useEffect(() => {
@@ -81,11 +83,16 @@ function CommentSection({ comment }: Props) {
       comment_id: comment?.id,
       user_id: authUser?.id,
     })).then(() => {
+      fetchLiked();
       fetchInfo();
     });
   }
 
-  console.log(info);
+  const fetchLiked = async () => {
+    await dispatch(fetchIsLikedComment(comment?.id)).then((result: any) => {
+      setIsLiked(result);
+    });
+  }
 
   return (
     <Link href="#" className='relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4'>
@@ -122,9 +129,9 @@ function CommentSection({ comment }: Props) {
             <div className='flex justify-between mt-2'>
               <div className='flex'>
                 <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <p className='text-xs'>{info?.likes != null || undefined ? info?.likes : 0}</p>
+                  <p className={`text-xs ${isLiked ? 'text-green-600' : 'group-hover:text-green-600'}`}>{info?.likes != null || undefined ? info?.likes : 0}</p>
                   <ArrowUpIcon
-                    className='h-4 w-4 cursor-pointer transition-transform ease-out duration-150 hover:scale-150'
+                    className={`h-4 w-4 cursor-pointer ${isLiked ? 'text-green-600' : 'group-hover:text-green-600'} transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>

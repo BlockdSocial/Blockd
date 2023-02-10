@@ -21,7 +21,9 @@ import {
   fetchPostImage,
   fetchPostInfo,
   likePost,
-  dislikePost
+  dislikePost,
+  fetchIsLiked,
+  fetchIsDisliked
 } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { isEmpty } from 'lodash'
@@ -74,12 +76,16 @@ function PostTest({ post }: Props) {
   const [profilePicture, setProfilePicture] = useState<string>();
   const [info, setInfo] = useState<Info>();
   const [postImage, setPostImage] = useState<string>();
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [isDisliked, setIsDisliked] = useState<boolean>();
 
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
     fetchPostUser();
     fetchInfo();
+    fetchLiked();
+    fetchDisliked();
     if (post?.hasImg != null || undefined) {
       fetchImage();
     } else {
@@ -97,6 +103,18 @@ function PostTest({ post }: Props) {
   const fetchInfo = async () => {
     await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
       setInfo(result);
+    });
+  }
+
+  const fetchLiked = async () => {
+    await dispatch(fetchIsLiked(post?.id)).then((result: any) => {
+      setIsLiked(result);
+    });
+  }
+
+  const fetchDisliked = async () => {
+    await dispatch(fetchIsDisliked(post?.id)).then((result: any) => {
+      setIsDisliked(result);
     });
   }
 
@@ -119,8 +137,6 @@ function PostTest({ post }: Props) {
       });
     }
   }
-
-  console.log('post: ', post);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -203,6 +219,8 @@ function PostTest({ post }: Props) {
       user_id: authUser?.id,
     })).then(() => {
       fetchInfo();
+      fetchLiked();
+      fetchDisliked();
     });
   }
 
@@ -212,6 +230,8 @@ function PostTest({ post }: Props) {
       user_id: authUser?.id,
     })).then(() => {
       fetchInfo();
+      fetchLiked();
+      fetchDisliked();
     });
   }
 
@@ -299,18 +319,18 @@ function PostTest({ post }: Props) {
           <div className='flex items-center justify-start mt-4 mb-2'>
             <div className='flex'>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
-                <p className={`text-xs ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600'} `}>{info?.likes != null || undefined ? info?.likes : 0}</p>
+                <p className={`text-xs ${isLiked ? 'text-green-600' : 'group-hover:text-green-600'} `}>{info?.likes != null || undefined ? info?.likes : 0}</p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600'} transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${isLiked ? 'text-green-600' : 'group-hover:text-green-600'} transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600'} transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${isDisliked ? 'text-red-600' : 'group-hover:text-red-600'} transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
-                <p className={`text-xs ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600'} `}>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
+                <p className={`text-xs ${isDisliked ? 'text-red-600' : 'group-hover:text-red-600'} `}>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
               </div>
               <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />

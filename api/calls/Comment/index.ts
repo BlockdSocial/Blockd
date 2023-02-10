@@ -25,10 +25,15 @@ async function fetchCommentInfo(fields: any) {
   return apiCall('fetchCommentInfo', 'GET', `${endpoints.comment}/info/${fields}`);
 };
 
+async function fetchIsLikedComment(fields: any) {
+  return apiCall('fetchIsLikedComment', 'GET', `${endpoints.comment}/check/liked/${fields}`);
+};
+
 export default {
   addComment,
   deleteComment,
   likeComment,
   fetchPostComments,
-  fetchCommentInfo
+  fetchCommentInfo,
+  fetchIsLikedComment
 };

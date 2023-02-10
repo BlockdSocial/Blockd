@@ -31,7 +31,13 @@ import {
   FETCH_USER_POSTS_FAILURE,
   IS_DISLIKING_POST,
   DISLIKE_POST_SUCCESS,
-  DISLIKE_POST_FAILURE
+  DISLIKE_POST_FAILURE,
+  IS_FETCHING_IS_LIKED,
+  FETCH_IS_LIKED_SUCCESS,
+  FETCH_IS_LIKED_FAILURE,
+  IS_FETCHING_IS_DISLIKED,
+  FETCH_IS_DISLIKED_SUCCESS,
+  FETCH_IS_DISLIKED_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -235,6 +241,46 @@ export function fetchUserPosts(fields: number) {
       console.log('Fetch User Posts error: ', error);
       dispatch({
         type: FETCH_USER_POSTS_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchIsLiked(fields: number) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_IS_LIKED });
+    try {
+      const result = await postApi.fetchIsLiked(fields);
+      dispatch({
+        type: FETCH_IS_LIKED_SUCCESS,
+        isLiked: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch is Liked error: ', error);
+      dispatch({
+        type: FETCH_IS_LIKED_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchIsDisliked(fields: number) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_IS_DISLIKED });
+    try {
+      const result = await postApi.fetchIsDisliked(fields);
+      dispatch({
+        type: FETCH_IS_DISLIKED_SUCCESS,
+        isDisliked: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch is Disliked error: ', error);
+      dispatch({
+        type: FETCH_IS_DISLIKED_FAILURE,
         error: error
       });
     }

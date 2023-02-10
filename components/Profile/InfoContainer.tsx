@@ -132,6 +132,8 @@ function InfoContainer({ user, refetchUser }: Props) {
       name: userName,
       email: userEmail,
     })).then(() => {
+      setIsModalVisible(false);
+      setIsDisplayModal(false);
       refetchUser();
     });
   }

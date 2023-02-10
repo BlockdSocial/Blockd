@@ -31,7 +31,10 @@ function Feed() {
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
   const [trendingIds, setTrendingIds] = useState();
-  const [auth, setAuth] = useState<object>()
+  const [auth, setAuth] = useState<object>();
+  const [load, setLoad] = useState<boolean>(false);
+  // const [startCount, setStartCount] = useState<number>(0);
+  // const [endCount, setEndCount] = useState<number>(0);
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -74,8 +77,10 @@ function Feed() {
   const fetchFiltered = async () => {
     await dispatch(fetchFilteredPosts({
       start: 0,
-      end: 10
-    }));
+      end: 4
+    })).then(() => {
+      setLoad(!load);
+    });
   };
 
   const goToTopOfPage = () => {
@@ -103,6 +108,7 @@ function Feed() {
       ids.push(trendingPosts[i].id);
     };
     setTrendingIds(ids as any);
+    setLoad(!load);
   }
 
   return (
