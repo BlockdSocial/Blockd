@@ -23,6 +23,8 @@ function CommentPage() {
 
             <div className='z-0'>
 
+{/* 
+                // @ts-ignore */}
                 <PostID />
                 <MainComment />
                 <CommentSection />
