@@ -27,29 +27,37 @@ function Sidebar() {
             <div className='relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit'>
                 <Link href="/" className='active'>
                     {location.pathname === '/' ? (
+                        // @ts-ignore
                         <SidebarRow Icon={HomeIcon} title="Home" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
+                                                // @ts-ignore
                         <SidebarRow Icon={HomeIcon} title="Home" active='' />
                     )}
                 </Link>
                 <Link href="/dashboard/profile">
                     {location.pathname === '/dashboard/profile' ? (
+                                                // @ts-ignore
                         <SidebarRow Icon={UserIcon} title="Profile" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
+                                                // @ts-ignore
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
                     )}
                 </Link>
                 <Link href="/dashboard/achievement">
                     {location.pathname === '/dashboard/achievement' ? (
+                                                // @ts-ignore
                         <SidebarRow Icon={FireIcon} title="Achievements" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
+                                                // @ts-ignore
                         <SidebarRow Icon={FireIcon} title="Achievements" active='' />
                     )}
                 </Link>
                 <Link href="/dashboard/suggestion">
                     {location.pathname === '/dashboard/suggestion' ? (
+                                                // @ts-ignore
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
+                                                // @ts-ignore
                         <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='' />
                     )}
                 </Link>
