@@ -209,6 +209,9 @@ function PostTest({ post }: Props) {
     });
   }
 
+  console.log('post: ', post);
+  console.log('authUser: ', authUser);
+
   return (
     <div className='relative border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
@@ -249,15 +252,26 @@ function PostTest({ post }: Props) {
                 <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
                 <div className='relative z-0 flex ite'>
                   <ul className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
-                    <div onClick={() => setEditPopUp(!editPopUp)} className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50">Edit Post</div>
-                    <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
-                    <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                    {
+                      post?.userId === authUser?.id &&
+                      <div onClick={() => setEditPopUp(!editPopUp)} className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50">Edit Post</div>
+                    }
+                    {
+                      post?.userId !== authUser?.id &&
+                      <>
+                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
+                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                      </>
+                    }
                   </ul>
                 </div>
               </div>
-              <div className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
-                <XMarkIcon onClick={() => setDeletePopUp(!deletePopUp)} className='w-7 h-7 cursor-pointer' />
-              </div>
+              {
+                post?.userId === authUser?.id &&
+                <div className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
+                  <XMarkIcon onClick={() => setDeletePopUp(!deletePopUp)} className='w-7 h-7 cursor-pointer' />
+                </div>
+              }
             </div>
           </div>
           <div className='flex flex-col items-start justify-center space-y-2 w-full'>
@@ -282,18 +296,18 @@ function PostTest({ post }: Props) {
           <div className='flex items-center justify-start mt-4 mb-2'>
             <div className='flex'>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group'>
-                <p className={`text-xs ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600' } `}>{info?.likes != null || undefined ? info?.likes : 0}</p>
+                <p className={`text-xs ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600'} `}>{info?.likes != null || undefined ? info?.likes : 0}</p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600' } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${info?.likes ? 'text-green-600' : 'group-hover:text-green-600'} transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group'>
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600' } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600'} transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
-                <p className={`text-xs ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600' } `}>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
+                <p className={`text-xs ${info?.dislikes ? 'text-red-600' : 'group-hover:text-red-600'} `}>{info?.dislikes != null || undefined ? info?.dislikes : 0}</p>
               </div>
               <div onClick={() => setCommentBoxVisible(!commentBoxVisible)} className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                 <ChatBubbleBottomCenterTextIcon className='h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />

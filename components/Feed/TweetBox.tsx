@@ -16,12 +16,15 @@ import { isEmpty } from 'lodash'
 
 interface Props {
   refetchTrending: () => void;
+  refetchFiltered: () => void;
 }
 
-function TweetBox({ refetchTrending }: Props) {
+function TweetBox({ refetchTrending, refetchFiltered }: Props) {
 
   const [input, setInput] = useState<string>('')
   let [image, setImage] = useState<string>('')
+  const [uploadedImage, setUploadedImage] = useState<string>()
+  const [uploadedVideo, setUploadedVideo] = useState<string>()
   const dispatch = useAppDispatch()
 
   //************************** EMOJI Handeling **************************//
@@ -71,12 +74,14 @@ function TweetBox({ refetchTrending }: Props) {
 
   const handleUploadPicture = (e: any) => {
     setImage(URL.createObjectURL(e.target.files[0]));
-    console.log(URL.createObjectURL(e.target.files[0]))
+    setUploadedImage(e.target.files[0]);
   };
 
   const closePicture = () => {
     image = ''
     setImage(image)
+    setUploadedImage('')
+    setUploadedVideo('')
   }
 
   //************************** GIF Handeling **************************//
@@ -110,8 +115,10 @@ function TweetBox({ refetchTrending }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen)
     }
+    console.log(gify);
     let gifUrl = gify.images.downsized.url
     setGifUrl(gifUrl)
+    setUploadedVideo(gify.images.downsized);
   }
 
   const closeGif = () => {
@@ -125,9 +132,11 @@ function TweetBox({ refetchTrending }: Props) {
     await dispatch(createPost({
       content: input,
       public: 1,
-      image: !isEmpty(image) ? image : null
+      image: uploadedImage != null || undefined ? uploadedImage : null,
     })).then(() => {
       refetchTrending();
+      refetchFiltered();
+      closePicture();
       setInput('');
     });
   }

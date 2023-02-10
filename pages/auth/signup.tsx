@@ -39,7 +39,12 @@ export default function SignUp() {
       // @ts-ignore
       message: userMessage?.message
     })).then(() => {
-      router.push('/');
+      router.push({
+        pathname:'/',
+        query: {
+          isRegistered: true
+        }
+      });
     });
   }
 
