@@ -19,8 +19,8 @@ function Friends() {
                         <span className='text-xs'>Last seen Recently</span>
                     </div>
                 </div>
-                <div className='flex items-center justify-center space-x-1'>
-                    <PersonAddAlt1RoundedIcon className='w-6 h-6 hidden group-hover:inline hover:text-gray-600 dark:hover:text-gray-200'/>
+                <div className='hidden group-hover:flex items-center justify-center space-x-1'>
+                    <PersonAddAlt1RoundedIcon className='w-6 h-6 hover:text-gray-600 dark:hover:text-gray-200'/>
                     <ClearRoundedIcon className='w-6 h-6 hidden group-hover:inline hover:text-gray-600 dark:hover:text-gray-200'/>
                 </div>
             </div>
@@ -34,8 +34,8 @@ function Friends() {
                         <span className='text-xs'>Last seen Recently</span>
                     </div>
                 </div>
-                <div className='flex items-center justify-center space-x-1'>
-                    <ClearRoundedIcon className='w-6 h-6 hidden group-hover:inline hover:text-gray-600 dark:hover:text-gray-200'/>
+                <div className='hidden group-hover:flex items-center justify-center space-x-1'>
+                    <ClearRoundedIcon className='w-6 h-6 hover:text-gray-600 dark:hover:text-gray-200'/>
                 </div>
             </div>
             <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer group'>
@@ -51,8 +51,8 @@ function Friends() {
                         <span className='text-xs'>Last seen Recently</span>
                     </div>
                 </div>
-                <div className='flex items-center justify-center space-x-1'>
-                    <ClearRoundedIcon className='w-6 h-6 hidden group-hover:inline hover:text-gray-600 dark:hover:text-gray-200'/>
+                <div className='hidden group-hover:flex items-center justify-center space-x-1'>
+                    <ClearRoundedIcon className='w-6 h-6 hover:text-gray-600 dark:hover:text-gray-200'/>
                 </div>
             </div>
         </div>

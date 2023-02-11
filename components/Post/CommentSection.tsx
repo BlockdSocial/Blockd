@@ -128,7 +128,7 @@ function CommentSection({ comment }: Props) {
                     onClick={() => handleLikeComment()}
                   />
                 </div>
-                {/* <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
+                <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
                   <ArrowDownIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                   <p className='text-xs'>1K</p>
                 </div>
@@ -139,7 +139,7 @@ function CommentSection({ comment }: Props) {
                 <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
                   <ShareIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
                   <p className='text-xs'>1</p>
-                </div> */}
+                </div>
               </div>
             </div>
           </div>
