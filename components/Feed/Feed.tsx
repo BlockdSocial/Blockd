@@ -28,7 +28,7 @@ function Feed() {
   const router = useRouter()
   const { isRegistered } = router.query;
 
-  const { trendingPosts, filteredPosts, isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
+  const { filteredPosts, isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
   const [auth, setAuth] = useState<object>();
@@ -58,7 +58,6 @@ function Feed() {
 
   useEffect(() => {
     fetchAuth();
-    fetchTrendings();
     fetchFiltered();
   }, []);
 
@@ -67,10 +66,6 @@ function Feed() {
       setAuth(res);
     });
   }
-
-  const fetchTrendings = async () => {
-    await dispatch(fetchTrendingPosts());
-  };
 
   const fetchFiltered = async () => {
     await dispatch(fetchFilteredPosts({
@@ -91,7 +86,6 @@ function Feed() {
 
   const handleRefresh = async () => {
     const refreshToast = toast.loading('Refreaching...');
-    await fetchTrendings();
     await fetchFiltered();
     await new Promise(f => setTimeout(f, 1000));
     toast.success('Feed Updated!', {
@@ -130,17 +124,8 @@ function Feed() {
       </div>
 
       <div>
-        <TweetBox refetchTrending={fetchTrendings} refetchFiltered={fetchFiltered} />
+        <TweetBox refetchFiltered={fetchFiltered} />
         <div className='p-4'>
-          {/* {
-            trendingPosts &&
-            trendingPosts.map((post: Post, index: number) => (
-              <PostTest
-                key={index}
-                post={post}
-              />
-            ))
-          } */}
           {
             filteredPosts &&
             filteredPosts?.posts?.map((post: Post, index: number) => (
@@ -148,6 +133,7 @@ function Feed() {
               <PostTest
                 key={`${index}-post`}
                 post={post}
+                refetch={handleRefresh}
               />
 
             ))

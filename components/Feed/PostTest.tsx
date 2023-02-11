@@ -23,7 +23,9 @@ import {
   likePost,
   dislikePost,
   fetchIsLiked,
-  fetchIsDisliked
+  fetchIsDisliked,
+  addPostView,
+  deletePost
 } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { isEmpty } from 'lodash'
@@ -57,9 +59,10 @@ interface Info {
 
 interface Props {
   post: Post;
+  refetch: () => void;
 }
 
-function PostTest({ post }: Props) {
+function PostTest({ post, refetch }: Props) {
 
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
@@ -236,6 +239,16 @@ function PostTest({ post }: Props) {
     });
   }
 
+  const addView = async () => {
+    await dispatch(addPostView(post?.id));
+  }
+
+  const handleDeletePost = async () => {
+    await dispatch(deletePost(post?.id)).then(() => {
+      refetch();
+    });
+  }
+
   return (
     <div className='relative border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2'>
       <div className='w-full flex'>
@@ -243,7 +256,11 @@ function PostTest({ post }: Props) {
           <div className='flex items-center justify-between'>
             <div className='flex items-start space-x-2'>
               <div className='flex'>
-                <Link href="/dashboard/profile" className='relative flex flex-col w-fit h-fit group'>
+                <Link href={{
+                  pathname:"/dashboard/profile",
+                  query: {user_id: user?.id}
+                }}
+                  className='relative flex flex-col w-fit h-fit group'>
                   <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
                     <Image
                       src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp1.jpg'}
@@ -304,6 +321,7 @@ function PostTest({ post }: Props) {
                 pathname: "/dashboard/post/",
                 query: { postId: post?.id }
               }}
+              onClick={() => addView()}
             >
               <p className='pt-8 font-semibold'>{post?.content}</p>
               {postImage != null ?
@@ -434,7 +452,7 @@ function PostTest({ post }: Props) {
             Are you sure you want to delete this post ?
           </div>
           <div className='flex items-center justify-end space-x-3 p-4'>
-            <p className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
+            <p onClick={() => handleDeletePost()} className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
             <p onClick={() => setDeletePopUp(!deletePopUp)} className='p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white'>Cancel</p>
           </div>
         </div>

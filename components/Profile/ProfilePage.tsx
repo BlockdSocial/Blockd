@@ -5,9 +5,10 @@ import Interactions from './Interactions';
 import Followers from './Followers';
 import Following from './Following';
 import { fetchAuthUser } from '../../stores/authUser/AuthUserActions';
-import { fetchFollowers } from '../../stores/user/UserActions';
+import { fetchFollowers, fetchUser } from '../../stores/user/UserActions';
 import { useAppDispatch } from '../../stores/hooks';
 import { isEmpty } from 'lodash';
+import { useRouter } from 'next/router';
 
 interface User {
   id: string;
@@ -25,14 +26,27 @@ function ProfilePage() {
   let [showInteractions, setShowInteractions] = useState<boolean>(false)
   let [showFollowers, setShowFollowers] = useState<boolean>(false)
   let [showFollowing, setShowFollowing] = useState<boolean>(false)
-  const [user, setUser] = useState<User>();
+  const [user, setUser] = useState<User>()
+
+  const router = useRouter()
+  const { user_id } = router.query
 
   useEffect(() => {
-    fetchUser();
+    if (user_id == undefined || null) {
+      fetchLoggedInUser();
+    } else {
+      fetchUserById();
+    }
   }, []);
 
-  const fetchUser = async () => {
+  const fetchLoggedInUser = async () => {
     await dispatch(fetchAuthUser()).then((res: any) => {
+      setUser(res);
+    }) as User;
+  };
+
+  const fetchUserById = async () => {
+    await dispatch(fetchUser(user_id)).then((res: any) => {
       setUser(res);
     }) as User;
   };
@@ -44,7 +58,7 @@ function ProfilePage() {
   }, [user]);
 
   const fetchUserFollowers = () => {
-    
+
   }
 
   const handleToggle1 = () => {
@@ -100,7 +114,8 @@ function ProfilePage() {
 
       <InfoContainer
         user={user as User}
-        refetchUser={fetchUser}
+        refetchUser={fetchLoggedInUser}
+        userId={user_id as string}
       />
 
       <div className='flex items-center justify-between p-5 w-full border-b dark:border-lightgray h-10 mt-8'>

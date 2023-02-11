@@ -37,7 +37,10 @@ import {
   FETCH_IS_LIKED_FAILURE,
   IS_FETCHING_IS_DISLIKED,
   FETCH_IS_DISLIKED_SUCCESS,
-  FETCH_IS_DISLIKED_FAILURE
+  FETCH_IS_DISLIKED_FAILURE,
+  IS_ADDING_POST_VIEW,
+  ADD_POST_VIEW_SUCCESS,
+  ADD_POST_VIEW_ERROR
 } from './PostActionTypes';
 
 // Api
@@ -59,7 +62,7 @@ export function createPost(fields: object) {
   }
 }
 
-export function deletePost(fields: object) {
+export function deletePost(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_DELETING_POST });
     try {
@@ -281,6 +284,24 @@ export function fetchIsDisliked(fields: number) {
       console.log('Fetch is Disliked error: ', error);
       dispatch({
         type: FETCH_IS_DISLIKED_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function addPostView(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_ADDING_POST_VIEW });
+    try {
+      await postApi.addPostView(fields);
+      dispatch({
+        type: ADD_POST_VIEW_SUCCESS,
+      });
+    } catch (error: any) {
+      console.log('Add Post View Error: ', error);
+      dispatch({
+        type: ADD_POST_VIEW_ERROR,
         error: error
       });
     }

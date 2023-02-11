@@ -37,7 +37,10 @@ import {
   FETCH_IS_LIKED_SUCCESS,
   FETCH_IS_DISLIKED_FAILURE,
   IS_FETCHING_IS_DISLIKED,
-  FETCH_IS_DISLIKED_SUCCESS
+  FETCH_IS_DISLIKED_SUCCESS,
+  IS_ADDING_POST_VIEW,
+  ADD_POST_VIEW_SUCCESS,
+  ADD_POST_VIEW_ERROR
 } from './PostActionTypes';
 
 const initialState = {
@@ -57,6 +60,7 @@ const initialState = {
   isLiked: false,
   isFetchingIsDisliked: false,
   isDisliked: false,
+  isAddingPostView: false,
   userPosts: [],
   postInfo: {},
   postImage: {},
@@ -321,6 +325,25 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingIsDisliked: false,
+        error: action.error
+      };
+    }
+    case IS_ADDING_POST_VIEW: {
+      return {
+        ...state,
+        isAddingPostView: true
+      };
+    }
+    case ADD_POST_VIEW_SUCCESS: {
+      return {
+        ...state,
+        isAddingPostView: false
+      };
+    }
+    case ADD_POST_VIEW_ERROR: {
+      return {
+        ...state,
+        isAddingPostView: false,
         error: action.error
       };
     }

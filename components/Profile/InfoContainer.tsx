@@ -18,7 +18,7 @@ import {
   updateUser
 } from '../../stores/user/UserActions';
 import { fetchPostImage } from '../../stores/post/PostActions';
-import { useAppDispatch } from '../../stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { isEmpty } from 'lodash';
 import { config } from '../../constants';
 
@@ -34,11 +34,13 @@ interface User {
 interface Props {
   user: User;
   refetchUser: () => void;
+  userId: string;
 }
 
-function InfoContainer({ user, refetchUser }: Props) {
+function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
@@ -158,21 +160,22 @@ function InfoContainer({ user, refetchUser }: Props) {
     });
   };
 
-  console.log('user: ', user);
-
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
       <div className="relative flex items-center justify-center w-full bg-gray-200 dark:bg-lightgray border-y border-gray-200 dark:border-white group">
         <img
           src={!isEmpty(bannerPicture) ? `${config.url.PUBLIC_URL}/${bannerPicture}` : '/images/blockdbg.jpg'}
           alt="Banner"
-          className="max-w-full h-auto group-hover:opacity-50"
+          className={`max-w-full h-auto ${user?.id === authUser?.id && 'group-hover:opacity-50'}`}
           width="720"
           height="350"
         />
-        <div onClick={() => onBannerClick()} className='group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full'>
-          <CameraIcon className='w-8 h-8 text-black' />
-        </div>
+        {
+          user?.id === authUser?.id &&
+          <div onClick={() => onBannerClick()} className='group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full'>
+            <CameraIcon className='w-8 h-8 text-black' />
+          </div>
+        }
         <input
           type='file'
           id='file'
@@ -198,9 +201,12 @@ function InfoContainer({ user, refetchUser }: Props) {
                     0
                   </div>
                 </div>
-                <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>
-                  <CameraIcon className='w-8 h-8 text-white dark:text-darkgray' />
-                </div>
+                {
+                  user?.id === authUser?.id &&
+                  <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>
+                    <CameraIcon className='w-8 h-8 text-white dark:text-darkgray' />
+                  </div>
+                }
                 <input
                   type='file'
                   id='file'
@@ -234,9 +240,12 @@ function InfoContainer({ user, refetchUser }: Props) {
           </div>
         </div>
         <div ref={dropdown} className='flex'>
-          <div className='w-fit h-fit pr-3 pt-3 md:p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
-            <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
-          </div>
+          {
+            user?.id === authUser?.id &&
+            <div className='w-fit h-fit pr-3 pt-3 md:p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
+              <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
+            </div>
+          }
           <ul className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? '' : 'hidden'}`}>
             <Link type='button' onClick={() => setIsModalVisible(!isModalVisible)} href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md hover:font-semibold dark:hover:bg-lightgray/50"><PencilSquareIcon className='w-5 h-5 mr-2' />Edit Profile</Link>
             <Link type='button' href="" className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md hover:font-semibold dark:hover:bg-lightgray/50"><QuestionMarkCircleIcon className='w-5 h-5 mr-2' />Help Center</Link>

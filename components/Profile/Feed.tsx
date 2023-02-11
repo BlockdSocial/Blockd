@@ -21,6 +21,7 @@ interface Post {
   comments: number;
   hasImg: boolean;
   userId: number;
+  gif: string;
 }
 
 function Feed() {
@@ -58,6 +59,7 @@ function Feed() {
       {
         posts &&
         posts.map((post: Post, index: number) => (
+          // @ts-ignore
           <PostTest
             key={index}
             post={post}

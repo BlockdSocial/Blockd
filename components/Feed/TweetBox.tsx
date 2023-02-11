@@ -15,11 +15,10 @@ import ReactGiphySearchbox from 'react-giphy-searchbox'
 import { isEmpty } from 'lodash'
 
 interface Props {
-  refetchTrending: () => void;
   refetchFiltered: () => void;
 }
 
-function TweetBox({ refetchTrending, refetchFiltered }: Props) {
+function TweetBox({ refetchFiltered }: Props) {
 
   const [input, setInput] = useState<string>('')
   let [image, setImage] = useState<string>('')
@@ -140,7 +139,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
         setInput('');
       });
     }
-    if (gifUrl.length > 0) {
+    else if (gifUrl.length > 0) {
       await dispatch(createPost({
         content: input,
         public: 1,
@@ -149,6 +148,15 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
         refetchFiltered();
         setInput('');
         closeGif();
+      });
+    }
+    else {
+      await dispatch(createPost({
+        content: input,
+        public: 1,
+      })).then(() => {
+        refetchFiltered();
+        setInput('');
       });
     }
   }
