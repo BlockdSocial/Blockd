@@ -4,6 +4,7 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { store } from "../stores/rootStore";
 import { Provider } from "react-redux";
+import useIsMounted from "../hooks/useIsMounted"
 //import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 //import Ably from "ably/promises";
 
@@ -49,6 +50,7 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const mounted= useIsMounted();
 /*
   configureAbly({
     key: "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg",
@@ -68,9 +70,12 @@ function MyApp({ Component, pageProps }: AppProps) {
   const checkUserNotification = async (data: object) => {
     console.log("data: ", data);
   };
+  console.log(mounted);
 
   const [queryClient] = React.useState(() => new QueryClient());
-
+  if( !mounted) {
+    return null;
+  }
   return (
     // <Web3ReactProvider getLibrary={getLibrary}>
     <QueryClientProvider client={queryClient}>
