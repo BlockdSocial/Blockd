@@ -11,6 +11,7 @@ import { config as configUrl } from "../../constants";
 import Terms from "../../components/Auth/Terms";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { nft_contract } from "../../config/contract";
+import useIsMounted from "../../hooks/useIsMounted"
 import {
   useAccount,
   useContractRead,
@@ -28,6 +29,7 @@ const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
+  const mounted:() => boolean = useIsMounted();
   const router = useRouter();
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -189,7 +191,9 @@ export default function SignUp() {
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
   });
-
+if( !mounted()) {
+  return null;
+}
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
@@ -299,12 +303,14 @@ export default function SignUp() {
                 {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button> */}
               <div className="w-full mt-4 flex items-center justify-start">
+                {mounted() &&
                 <ConnectButton
                   showBalance={{
                     smallScreen: false,
                     largeScreen: true,
                   }}
                 ></ConnectButton>
+              }
               </div>
               
               {nft_data && Number(nft_data) > 0 ? (
