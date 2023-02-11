@@ -166,7 +166,7 @@ const Navbar = () => {
             {/* Sign Up */}
             <li className="ml-4 h-14 rounded-full flex items-center justify-center space-x-4">
               <p
-                className="text-white dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
+                className="text-white cursor-pointer dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
                 onClick={() => handleLogoutClick()}
               >
                 Logout

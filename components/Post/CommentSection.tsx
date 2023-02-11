@@ -1,19 +1,27 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useRef, useState } from "react";
 import {
   ArrowUpIcon,
   ArrowDownIcon,
   ChatBubbleBottomCenterTextIcon,
   ShareIcon,
-} from '@heroicons/react/24/outline'
-import TimeAgo from 'react-timeago'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import { fetchUser } from '../../stores/user/UserActions'
-import { fetchPostImage } from '../../stores/post/PostActions'
-import { isEmpty } from 'lodash'
-import { config } from '../../constants'
-import { fetchCommentInfo, likeComment } from '../../stores/comment/CommentActions'
+  FaceSmileIcon,
+  PhotoIcon,
+  XMarkIcon,
+  GifIcon,
+} from "@heroicons/react/24/outline";
+import TimeAgo from "react-timeago";
+import Link from "next/link";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { fetchUser } from "../../stores/user/UserActions";
+import { fetchPostImage } from "../../stores/post/PostActions";
+import { isEmpty } from "lodash";
+import { config } from "../../constants";
+import {
+  fetchCommentInfo,
+  likeComment,
+} from "../../stores/comment/CommentActions";
+import Picker from "@emoji-mart/react";
+import ReactGiphySearchbox from "react-giphy-searchbox";
 
 interface Comment {
   content: string;
@@ -40,10 +48,111 @@ interface Props {
 
 function CommentSection({ comment }: Props) {
   const dispatch = useAppDispatch();
-  const { authUser } = useAppSelector((state) => state.authUserReducer)
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [user, setUser] = useState<User>();
   const [profilePicture, setProfilePicture] = useState<string>();
   const [info, setInfo] = useState<Info>();
+  const [input, setInput] = useState<string>("");
+  const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
+
+    //************************** Image Handeling **************************//
+  //************************** Image Handeling **************************//
+  //************************** Image Handeling **************************//
+
+  const inputPicture = useRef<HTMLInputElement | null>(null);
+  let [image, setImage] = useState<string>("");
+  const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [uploadedVideo, setUploadedVideo] = useState<string>("");
+
+  const onUploadPictureClick = () => {
+    // `current` points to the mounted file input element
+    if (inputPicture.current) {
+      inputPicture.current.click();
+    }
+  };
+
+  const handleUploadPicture = (e: any) => {
+    setImage(URL.createObjectURL(e.target.files[0]));
+    setUploadedImage(e.target.files[0]);
+  };
+
+  const closePicture = () => {
+    image = "";
+    setImage(image);
+    setUploadedImage("");
+    setUploadedVideo("");
+  };
+
+  //************************** GIF Handeling **************************//
+  //************************** GIF Handeling **************************//
+  //************************** GIF Handeling **************************//
+
+  const [showGifs, setShowGifs] = useState<boolean>(false);
+
+  const gif = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the gif is opened
+    if (!showGifs) return;
+    function handleClick(event: any) {
+      if (showGifs === true) {
+        if (gif.current && !gif.current.contains(event.target)) {
+          setShowGifs(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showGifs]);
+
+  const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
+  //Set a color for the frame
+
+  let [gifUrl, setGifUrl] = useState<string>("");
+  const addGif = (gify: any) => {
+    if (gifBoxIsOpen === false) {
+      setGifBoxIsOpen(!gifBoxIsOpen);
+    }
+    console.log(gify);
+    let gifUrl = gify.images.downsized.url;
+    setGifUrl(gifUrl);
+    setUploadedVideo(gify.images.downsized);
+  };
+
+  const closeGif = () => {
+    gifUrl = "";
+    setGifUrl(gifUrl);
+    setGifBoxIsOpen(!gifBoxIsOpen);
+  };
+
+  //************************** Emojie Handeling **************************//
+  //************************** Emojie Handeling **************************//
+  //************************** Emojie Handeling **************************//
+
+  const emoji = useRef<any>(null);
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+
+  useEffect(() => {
+    // only add the event listener when the emoji is opened
+    if (!showEmojis) return;
+    function handleClick(event: any) {
+      if (emoji.current && !emoji.current.contains(event.target)) {
+        setShowEmojis(false);
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showEmojis]);
+
+  const addEmoji = (e: any) => {
+    const sym = e.unified.split("-");
+    const codesArray: any[] = [];
+    sym.forEach((el: any) => codesArray.push("0x" + el));
+    const emoji = String.fromCodePoint(...codesArray);
+    setInput(input + emoji);
+  };
 
   useEffect(() => {
     fetchCommentUser();
@@ -62,92 +171,237 @@ function CommentSection({ comment }: Props) {
         setProfilePicture(result[0]?.name);
       });
     }
-  }
+  };
 
   const fetchCommentUser = async () => {
-    await dispatch(fetchUser(comment?.userId)).then((result: any) => {
+    (await dispatch(fetchUser(comment?.userId)).then((result: any) => {
       setUser(result);
-    }) as User;
+    })) as User;
   };
 
   const fetchInfo = async () => {
     await dispatch(fetchCommentInfo(comment?.id)).then((result: any) => {
       setInfo(result);
     });
-  }
+  };
 
   const handleLikeComment = async () => {
-    dispatch(likeComment({
-      comment_id: comment?.id,
-      user_id: authUser?.id,
-    })).then(() => {
+    dispatch(
+      likeComment({
+        comment_id: comment?.id,
+        user_id: authUser?.id,
+      })
+    ).then(() => {
       fetchInfo();
     });
-  }
+  };
+
+  const handleComment = () => {
+    setCommentBoxVisible(!commentBoxVisible);
+  };
 
   console.log(info);
 
   return (
-    <Link href="#" className='relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4'>
-      <div className='flex space-x-2'>
-        <Link href="/dashboard/profile" className='flex flex-col w-fit h-fit group'>
-          <div className='relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg'>
+    <div className="relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4 group">
+      <Link href="#" className="flex space-x-2 w-full">
+        <Link
+          href="/dashboard/profile"
+          className="flex flex-col w-fit h-fit group"
+        >
+          <div className="relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg">
             <img
-              src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp2.jpg'}
-              alt='pfp'
-              className='w-14 h-14 rounded-md shadow-sm'
+              src={
+                !isEmpty(profilePicture)
+                  ? `${config.url.PUBLIC_URL}/${profilePicture}`
+                  : "/images/pfp/pfp2.jpg"
+              }
+              alt="pfp"
+              className="w-14 h-14 rounded-md shadow-sm"
               width={60}
-              height={60} />
-            <div className='absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg'>
-              <div className='flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white '>
+              height={60}
+            />
+            <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
+              <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                 0
               </div>
             </div>
           </div>
         </Link>
-        <div >
-          <div className='flex items-center space-x-1'>
-            <p className='mr-1 font-semibold'>
-              @{user?.name}
-            </p>
+        <div className="w-full">
+          <div className="flex items-center space-x-1">
+            <p className="mr-1 font-semibold">@{user?.name}</p>
             <TimeAgo
               date={comment?.createdAt}
-              className='text-sm text-gray-500'
+              className="text-sm text-gray-500"
             />
           </div>
-          <div className='flex flex-col items-start justify-start p-2'>
-            <p>
-              {comment?.content}
-            </p>
-            <div className='flex justify-between mt-2'>
-              <div className='flex'>
-                <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <p className='text-xs'>{info?.likes != null || undefined ? info?.likes : 0}</p>
-                  <ArrowUpIcon
-                    className='h-4 w-4 cursor-pointer transition-transform ease-out duration-150 hover:scale-150'
-                    onClick={() => handleLikeComment()}
-                  />
-                </div>
-                <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <ArrowDownIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                  <p className='text-xs'>1K</p>
-                </div>
-                <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <ChatBubbleBottomCenterTextIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                  <p className='text-xs'>16</p>
-                </div>
-                <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <ShareIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                  <p className='text-xs'>1</p>
-                </div>
-              </div>
+          <div className="flex flex-col items-start justify-start p-2 w-full">
+            <div className="flex flex-col items-start justify-center w-full">
+              <p>{comment?.content}</p>
+              <img
+                src="https://media2.giphy.com/media/L6728enXg7fBDvoWnr/giphy.gif?cid=790b76116c2b894a1473424156c64e6668c1711ab5df8d70&rid=giphy.gif&ct=g"
+                className="m-5 ml-0 mb-2 rounded-lg object-contain max-w-full max-h-[300px] h-auto shadow-sm"
+              />
             </div>
           </div>
         </div>
+      </Link>
+      <div className="flex justify-between mt-2 pl-16">
+        <div className="flex">
+          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+            <p className="text-xs">
+              {info?.likes != null || undefined ? info?.likes : 0}
+            </p>
+            <ArrowUpIcon
+              className="h-4 w-4 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+              onClick={() => handleLikeComment()}
+            />
+          </div>
+          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+            <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+            <p className="text-xs">1K</p>
+          </div>
+          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+            <ChatBubbleBottomCenterTextIcon
+              onClick={() => handleComment()}
+              className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+            />
+            <p className="text-xs">16</p>
+          </div>
+          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+            <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+            <p className="text-xs">1</p>
+          </div>
+        </div>
       </div>
-    </Link>
-
-  )
+      {commentBoxVisible && (
+        <form
+          className="mt-3 flex items-start justify-center space-x-3 pl-14"
+        >
+          <div className="flex flex-col items-end justify-center w-full">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-1 rounded-lg bg-gray-200 dark:bg-lightgray dark:group-hover:bg-darkgray p-2 outline-none w-full"
+              type="text"
+              placeholder="Write a comment..."
+            />
+            <div className="flex items-end justify-end">
+              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
+                {!gifUrl && (
+                  <PhotoIcon
+                    onClick={() => onUploadPictureClick()}
+                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                  />
+                )}
+                <input
+                  type="file"
+                  id="file"
+                  ref={inputPicture}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleUploadPicture}
+                />
+                <FaceSmileIcon
+                  ref={emoji}
+                  onClick={() => setShowEmojis(!showEmojis)}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+                {showEmojis && (
+                  <div className="absolute right-0 bottom-6 z-40">
+                    <Picker
+                      onEmojiSelect={addEmoji}
+                      theme="dark"
+                      set="apple"
+                      icons="outline"
+                      previewPosition="none"
+                      size="1em"
+                      perLine="6"
+                      maxFrequentRows="2"
+                      searchPosition="none"
+                    />
+                  </div>
+                )}
+                <div ref={gif}>
+                  {!image && (
+                    <GifIcon
+                      onClick={() => setShowGifs((b) => !b)}
+                      className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                    />
+                  )}
+                  {showGifs && (
+                    <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                      <ReactGiphySearchbox
+                        apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                        onSelect={(item: any) => addGif(item)}
+                        mansonryConfig={[
+                          { columns: 2, imageWidth: 140, gutter: 10 },
+                          {
+                            mq: "700px",
+                            columns: 3,
+                            imageWidth: 200,
+                            gutter: 10,
+                          },
+                          {
+                            mq: "1000px",
+                            columns: 4,
+                            imageWidth: 220,
+                            gutter: 10,
+                          },
+                        ]}
+                        wrapperClassName="p-4"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {image && (
+              <div className="relative w-full mt-2">
+                <img
+                  className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                  src={image}
+                  alt=""
+                />
+                <div
+                  onClick={() => closePicture()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+                <hr className="mt-4 mb-4"></hr>
+              </div>
+            )}
+            {gifBoxIsOpen && (
+              <div className="relative w-full">
+                <img
+                  src={gifUrl}
+                  className="rounded-lg max-w-full h-auto"
+                  width="200px"
+                  height="200px"
+                />
+                <div
+                  onClick={() => closeGif()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+                <hr className="mt-4 mb-4"></hr>
+              </div>
+            )}
+          </div>
+          <button
+            disabled={!input && !image && !gifUrl}
+            type="submit"
+            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray dark:group-hover:text-darkgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          >
+            Comment
+          </button>
+        </form>
+      )}
+    </div>
+  );
 }
 
-export default CommentSection
+export default CommentSection;

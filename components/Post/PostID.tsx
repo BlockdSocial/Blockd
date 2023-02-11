@@ -323,7 +323,7 @@ function PostID({ post, refetchComments }: Props) {
               </div>
             </div>
           </div>
-          <div className="flex items-start h-full justify-center space-x-2">
+          <div className="flex items-start h-full justify-start space-x-2">
             <div
               ref={dropdown}
               className="flex items-start justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
@@ -441,7 +441,7 @@ function PostID({ post, refetchComments }: Props) {
                 className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
               />
               {showEmojis && (
-                <div className="absolute righy-0 top-7 z-40">
+                <div className="absolute righy-0 bottom-6 z-40">
                   <Picker
                     onEmojiSelect={addEmoji}
                     theme="dark"
@@ -463,7 +463,7 @@ function PostID({ post, refetchComments }: Props) {
                   />
                 )}
                 {showGifs && (
-                  <div className="absolute right-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                  <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
@@ -526,7 +526,7 @@ function PostID({ post, refetchComments }: Props) {
         <button
           disabled={!input && !image && !gifUrl}
           type="submit"
-          className="text-blockd disabled:text-gray-200 mt-2"
+          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
         >
           Comment
         </button>
