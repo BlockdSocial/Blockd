@@ -2,7 +2,7 @@ import Image from 'next/image'
 import Link from 'next/link'
 import { useRouter } from 'next/router'
 import React, { useState, useEffect } from 'react'
-import { useWeb3React } from '@web3-react/core';
+
 import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
@@ -15,7 +15,7 @@ import IconGroup from './IconGroup'
 import { useTheme } from 'next-themes'
 import NotifDropDown from './NotifDropDown'
 import MsgDropDown from './MsgDropDown'
-import { injected } from "../../components/wallet/Connectors"
+
 
 const Navbar = () => {
   const dispatch = useAppDispatch()
@@ -25,16 +25,9 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false)
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false)
 
-  const { active, activate } = useWeb3React();
 
-  async function handleConnectWallet(e: any) {
-    e.preventDefault();
-    try {
-      await activate(injected)
-    } catch (ex) {
-      console.log(ex)
-    }
-  }
+
+
 
   const handleMsg = () => {
     setDropdownOpen(!dropdownOpen)
