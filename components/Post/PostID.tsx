@@ -37,6 +37,7 @@ interface Post {
   comments: number;
   hasImg: boolean;
   userId: number;
+  gif: string;
 }
 
 interface User {
@@ -278,15 +279,26 @@ function PostID({ post, refetchComments }: Props) {
               <EllipsisHorizontalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-7 h-7 cursor-pointer' />
               <div className='relative z-0 flex ite'>
                 <ul className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
-                  <div onClick={() => setEditPopUp(!editPopUp)} className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50">Edit Post</div>
-                  <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
-                  <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                  {
+                    post?.userId === authUser?.id &&
+                    <div onClick={() => setEditPopUp(!editPopUp)} className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50">Edit Post</div>
+                  }
+                  {
+                    post?.userId !== authUser?.id &&
+                    <>
+                      <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">Report Post</div>
+                      <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">Follow Post</div>
+                    </>
+                  }
                 </ul>
               </div>
             </div>
-            <div className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
-              <XMarkIcon onClick={() => setDeletePopUp(!deletePopUp)} className='w-7 h-7 cursor-pointer' />
-            </div>
+            {
+              post?.userId === authUser?.id &&
+              <div className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray'>
+                <XMarkIcon onClick={() => setDeletePopUp(!deletePopUp)} className='w-7 h-7 cursor-pointer' />
+              </div>
+            }
           </div>
         </div>
         <div className='w-full'>
@@ -295,6 +307,15 @@ function PostID({ post, refetchComments }: Props) {
               src={`${config.url.PUBLIC_URL}/${postImage}`}
               alt='Post'
               className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
+              width={2000}
+              height={2000} />
+            : null
+          }
+          {post?.gif != null ?
+            <img
+              src={post?.gif}
+              alt='gif'
+              className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm'
               width={2000}
               height={2000} />
             : null

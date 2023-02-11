@@ -19,6 +19,7 @@ interface Post {
   comments: number;
   hasImg: boolean;
   userId: number;
+  gif: string;
 }
 
 function Feed() {
@@ -30,7 +31,6 @@ function Feed() {
   const { trendingPosts, filteredPosts, isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
-  const [trendingIds, setTrendingIds] = useState();
   const [auth, setAuth] = useState<object>();
   const [load, setLoad] = useState<boolean>(false);
   const [startCount, setStartCount] = useState<number>(0);
@@ -60,7 +60,6 @@ function Feed() {
     fetchAuth();
     fetchTrendings();
     fetchFiltered();
-    setTendings();
   }, []);
 
   const fetchAuth = async () => {
@@ -71,8 +70,6 @@ function Feed() {
 
   const fetchTrendings = async () => {
     await dispatch(fetchTrendingPosts());
-    setTendings();
-
   };
 
   const fetchFiltered = async () => {
@@ -101,16 +98,6 @@ function Feed() {
       id: refreshToast,
     })
   };
-
-  function setTendings() {
-    const ids = [];
-    var i;
-    for (i = 0; i < trendingPosts.length; i++) {
-      ids.push(trendingPosts[i].id);
-    };
-    setTrendingIds(ids as any);
-    setLoad(!load);
-  }
 
   const handleScroll = async () => {
     if (elementRef.current) {
@@ -145,7 +132,7 @@ function Feed() {
       <div>
         <TweetBox refetchTrending={fetchTrendings} refetchFiltered={fetchFiltered} />
         <div className='p-4'>
-          {
+          {/* {
             trendingPosts &&
             trendingPosts.map((post: Post, index: number) => (
               <PostTest
@@ -153,14 +140,11 @@ function Feed() {
                 post={post}
               />
             ))
-          }
-          {/* {renderFilteredPosts()}
-           */}
+          } */}
           {
             filteredPosts &&
             filteredPosts?.posts?.map((post: Post, index: number) => (
               // @ts-ignore
-              trendingIds != undefined && !trendingIds.includes(post?.id) &&
               <PostTest
                 key={`${index}-post`}
                 post={post}

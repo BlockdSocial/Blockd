@@ -129,16 +129,28 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
 
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
-    await dispatch(createPost({
-      content: input,
-      public: 1,
-      image: uploadedImage != null || undefined ? uploadedImage : null,
-    })).then(() => {
-      refetchTrending();
-      refetchFiltered();
-      closePicture();
-      setInput('');
-    });
+    if (image.length > 0) {
+      await dispatch(createPost({
+        content: input,
+        public: 1,
+        image: uploadedImage,
+      })).then(() => {
+        refetchFiltered();
+        closePicture();
+        setInput('');
+      });
+    }
+    if (gifUrl.length > 0) {
+      await dispatch(createPost({
+        content: input,
+        public: 1,
+        gif: gifUrl,
+      })).then(() => {
+        refetchFiltered();
+        setInput('');
+        closeGif();
+      });
+    }
   }
 
   return (
