@@ -29,7 +29,7 @@ const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
-  const mounted:() => boolean = useIsMounted();
+  const mounted= useIsMounted();
   const router = useRouter();
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -191,7 +191,7 @@ export default function SignUp() {
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
   });
-if( !mounted()) {
+if(!mounted) {
   return null;
 }
   return (
@@ -303,14 +303,14 @@ if( !mounted()) {
                 {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button> */}
               <div className="w-full mt-4 flex items-center justify-start">
-                {mounted() &&
+                
                 <ConnectButton
                   showBalance={{
                     smallScreen: false,
                     largeScreen: true,
                   }}
                 ></ConnectButton>
-              }
+              
               </div>
               
               {nft_data && Number(nft_data) > 0 ? (
