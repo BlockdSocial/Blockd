@@ -323,10 +323,10 @@ function PostID({ post, refetchComments }: Props) {
               </div>
             </div>
           </div>
-          <div className="flex items-start h-full justify-start space-x-2">
+          <div className="flex items-start h-full justify-center space-x-2">
             <div
               ref={dropdown}
-              className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
+              className="flex items-start justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
             >
               <EllipsisHorizontalIcon
                 onClick={() => setIsDropdownVisible((b) => !b)}
@@ -334,7 +334,7 @@ function PostID({ post, refetchComments }: Props) {
               />
               <div className="relative z-0 flex ite">
                 <ul
-                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
+                  className={`absolute top-8 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
                     isDropdownVisible ? "" : "hidden"
                   }`}
                 >
@@ -366,7 +366,7 @@ function PostID({ post, refetchComments }: Props) {
             <img
               src={`${config.url.PUBLIC_URL}/${postImage}`}
               alt="Post"
-              className="m-5 ml-0 mb-1 rounded-lg object-contain shadow-sm"
+              className="m-5 ml-0 mb-1 rounded-lg object-contain max-w-full max-h-[300px] h-auto shadow-sm"
             />
           ) : null}
           <p className="pt-4 ml-3 font-semibold">{post?.content}</p>
@@ -492,7 +492,7 @@ function PostID({ post, refetchComments }: Props) {
           {image && (
             <div className="relative w-full mt-2">
               <img
-                className="max-w-full h-auto object-contain rounded-md"
+                className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
                 src={image}
                 alt=""
               />

@@ -329,7 +329,7 @@ function PostTest({ post }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${postImage}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg object-contain shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg object-contain max-w-full max-h-[300px] h-auto shadow-sm"
                 />
               ) : null}
             </Link>

@@ -162,7 +162,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
         <form className='flex flex-col flex-1'>
           <textarea
             id="message"
-            maxLength={255}
+            maxLength={1000}
             value={input}
             onChange={(e: any) => setInput(e.target.value)}
             data-rows="4"
@@ -181,7 +181,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
           )}
           {image && (
             <div className='relative w-full'>
-              <img className='max-w-full h-auto object-contain rounded-md' src={image} alt='' />
+              <img className='max-w-full max-h-[300px] h-auto object-contain rounded-md' src={image} alt='' />
               <div onClick={() => closePicture()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <XMarkIcon className='w-5 h-5' />
               </div>
