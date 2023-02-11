@@ -58,6 +58,7 @@ function Feed() {
       {
         posts &&
         posts.map((post: Post, index: number) => (
+              // @ts-ignore
           <PostTest
             key={index}
             post={post}

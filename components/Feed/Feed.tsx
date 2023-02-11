@@ -60,19 +60,19 @@ function Feed() {
   }, []);
 
   const fetchAuth = async () => {
-    await dispatch(fetchAuthUser()).then((res: any) => {
+    await dispatch<any>(fetchAuthUser()).then((res: any) => {
       setAuth(res);
     });
   }
 
   const fetchTrendings = async () => {
-    await dispatch(fetchTrendingPosts());
+    await dispatch<any>(fetchTrendingPosts());
     setTendings();
 
   };
 
   const fetchFiltered = async () => {
-    await dispatch(fetchFilteredPosts({
+    await dispatch<any>(fetchFilteredPosts({
       start: 0,
       end: 10
     }));
@@ -124,6 +124,7 @@ function Feed() {
           {
             trendingPosts &&
             trendingPosts.map((post: Post, index: number) => (
+              // @ts-ignore
               <PostTest
                 key={index}
                 post={post}
@@ -137,6 +138,7 @@ function Feed() {
             filteredPosts?.posts?.map((post: Post, index: number) => (
               // @ts-ignore
               trendingIds != undefined && !trendingIds.includes(post?.id) &&
+              // @ts-ignore
               <PostTest
                 key={`${index}-post`}
                 post={post}
@@ -195,7 +197,7 @@ function Feed() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Feed

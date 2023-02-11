@@ -77,6 +77,7 @@ function SearchPage() {
                 {
                     trendingPosts &&
                     trendingPosts.map((post: Post, index: number) => (
+// @ts-ignore
                         <PostTest
                             key={index}
                                                     // @ts-ignore

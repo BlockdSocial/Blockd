@@ -57,19 +57,20 @@ interface Props {
 }
 
 export default function PostTest({ post }: Props) {
+
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
-  const dispatch = useAppDispatch();
-  const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
-  const [input, setInput] = useState<string>("");
-  const [textArea, setTextArea] = useState<string>("");
-  const [image, setImage] = useState<string>("");
-  const [imageEdit, setImageEdit] = useState<string>("/images/Post1.jpg");
-  const [showEmojis, setShowEmojis] = useState<boolean>(false);
-  const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
-  const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [user, setUser] = useState<User>();
+  const dispatch = useAppDispatch()
+  const { authUser } = useAppSelector((state) => state.authUserReducer)
+  const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false)
+  const [input, setInput] = useState<string>('')
+  const [textArea, setTextArea] = useState<string>('')
+  const [image, setImage] = useState<string>('')
+  const [imageEdit, setImageEdit] = useState<string>('/images/Post1.jpg')
+  const [showEmojis, setShowEmojis] = useState<boolean>(false)
+  const [deletePopUp, setDeletePopUp] = useState<boolean>(false)
+  const [editPopUp, setEditPopUp] = useState<boolean>(false)
+  const [user, setUser] = useState<User>()
   const [profilePicture, setProfilePicture] = useState<string>();
   const [info, setInfo] = useState<Info>();
   const [postImage, setPostImage] = useState<string>();

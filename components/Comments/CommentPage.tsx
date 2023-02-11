@@ -5,7 +5,6 @@ import {
 } from '@heroicons/react/24/outline'
 import MainComment from './MainComment'
 import CommentSection from './CommentSection'
-import PostTest from '../Feed/PostTest'
 import PostID from '../Post/PostID'
 
 function CommentPage() {

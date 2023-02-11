@@ -12,4 +12,4 @@ const dev = {
     PUBLIC_URL: 'http://127.0.0.1:8000/images'
   }
 };
-export const config = process.env.NODE_ENV === 'development' ? prod : dev;
+export const config = process.env.NODE_ENV === 'development' ? prod : prod;
