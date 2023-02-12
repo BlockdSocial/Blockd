@@ -23,7 +23,7 @@ import { write } from "fs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { indexOf } from "lodash";
-//import { useEffect } from "hoist-non-react-statics/node_modules/@types/react";
+
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -43,11 +43,12 @@ export default function SignUp() {
     queryKey: ["userMessageToSign"],
     queryFn: () => axios.get(messageUrl).then((res) => res.data),
     onSuccess(data) {
-      setUserMessage(data);
+      setUserMessage(data?.message);
     },
   });
 
-  const [userMessage, setUserMessage] = useState<object>(fetchingData);
+  const [userMessage, setUserMessage] = useState<string>(fetchingData);
+  const [userMessageForBackend, setUserMessageForBackend] = useState<string>("");
   //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
  
 
@@ -61,13 +62,9 @@ export default function SignUp() {
 
   const { address } = useAccount();
 
-  const hussein=async(e:any) =>{
-
+  const getSignMessage=async(e:any) =>{
     e.preventDefault();
-       await signMessage();
-     
-      
-   
+    signMessage();
   }
 
   useEffect(()=>{
@@ -79,6 +76,8 @@ export default function SignUp() {
 
   const handleRegisterUser = async (e: any= null) => {
    console.log("userMessage",userMessage);
+   console.log("userSignature",userSignature)
+   
 
     if (
       !terms ||
@@ -86,7 +85,7 @@ export default function SignUp() {
       isEmpty(address) ||
       isEmpty(userSignature)
     ) {
-      console.log('sinup',userSignature)
+      
       return;
     }
     await dispatch(
@@ -98,7 +97,7 @@ export default function SignUp() {
         address: address,
         signature: userSignature,
         // @ts-ignore
-        message: userMessage?.message,
+        message: userMessageForBackend,
       })
     ).then((res) => {
       console.log('res',res)
@@ -144,11 +143,12 @@ export default function SignUp() {
     isSuccess: signSuccess,
     signMessage,
   } = useSignMessage({
-    message: JSON.stringify(userMessage),
+    message: userMessage,
     onSuccess(data, variables, context) {
       setUserSignature(data);
+      setUserMessageForBackend(userMessage)
       //handleRegisterUser();
-      return true;
+      //return true;
      
     },
     onError(error) {
@@ -156,6 +156,7 @@ export default function SignUp() {
     },
     onMutate(args) {
       console.log('Mutate', args)
+      
     },
 
   });
@@ -316,7 +317,7 @@ if(!mounted) {
               {nft_data && Number(nft_data) > 0 ? (
                 <button
                   className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
-                  onClick={(e) => hussein(e)}
+                  onClick={(e) => getSignMessage(e)}
                 >
                   Sign Up
                 </button>

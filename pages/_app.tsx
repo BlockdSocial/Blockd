@@ -77,7 +77,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return null;
   }
   return (
-    // <Web3ReactProvider getLibrary={getLibrary}>
+    
     <QueryClientProvider client={queryClient}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
@@ -102,7 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </RainbowKitProvider>
       </WagmiConfig>
     </QueryClientProvider>
-    // </Web3ReactProvider>
+   
   );
 }
 

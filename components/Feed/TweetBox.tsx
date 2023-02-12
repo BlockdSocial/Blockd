@@ -11,7 +11,7 @@ import { useAppDispatch } from '../../stores/hooks'
 import { createPost } from '../../stores/post/PostActions'
 import Picker from '@emoji-mart/react'
 import Link from 'next/link'
-//import ReactGiphySearchbox from 'react-giphy-searchbox'
+import ReactGiphySearchbox from 'react-giphy-searchbox'
 import { isEmpty } from 'lodash'
 
 interface Props {
@@ -224,7 +224,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
                 }
                 {showGifs && (
                   <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
-	{/*
+	
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
@@ -235,7 +235,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
                       ]}
                       wrapperClassName="p-4"
                     />
-*/}
+
                   </div>
                 )}
               </div>

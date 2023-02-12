@@ -6,7 +6,7 @@ import {
     PaperAirplaneIcon,
     GifIcon
 } from '@heroicons/react/24/outline'
-//import ReactGiphySearchbox from 'react-giphy-searchbox'
+import ReactGiphySearchbox from 'react-giphy-searchbox'
 
 function Footer() {
 
@@ -133,7 +133,7 @@ function Footer() {
             <div className='relative'>
                 {showGifs && (
                     <div className='absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
-{/*
+
                         <ReactGiphySearchbox
                             apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                             onSelect={(item: any) => addGif(item)}
@@ -144,7 +144,7 @@ function Footer() {
                             ]}
                             wrapperClassName="p-4"
    `                     />
-*/}
+
                     </div>
                 )}
                 {showEmojis && (
