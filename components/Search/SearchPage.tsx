@@ -9,11 +9,9 @@ interface Post {
     createdAt: string;
     likes: number;
     comments: number;
-  }
+}
 
 function SearchPage() {
-
-    const { trendingPosts } = useAppSelector((state) => state.postReducer);
 
     return (
         <div className="relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x bg-gray-100 dark:bg-lightgray">
@@ -74,17 +72,9 @@ function SearchPage() {
             </div>
             <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-white rounded-lg space-y-3'>
                 <h3 className='text-xl font-semibold w-full mb-4'>Posts</h3>
-                {
-                    trendingPosts &&
-                    trendingPosts.map((post: Post, index: number) => (
-// @ts-ignore
-                        <PostTest
-                            key={index}
-                                                    // @ts-ignore
-                            post={post}
-                        />
-                    ))
-                }
+                {/** @ts-ignore */}
+                <PostTest
+                />
             </div>
         </div>
     )

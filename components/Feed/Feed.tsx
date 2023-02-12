@@ -19,6 +19,7 @@ interface Post {
   comments: number;
   hasImg: boolean;
   userId: number;
+  gif: string;
 }
 
 function Feed() {
@@ -27,11 +28,13 @@ function Feed() {
   const router = useRouter()
   const { isRegistered } = router.query;
 
-  const { trendingPosts, filteredPosts } = useAppSelector((state) => state.postReducer);
+  const { filteredPosts, isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
-  const [trendingIds, setTrendingIds] = useState();
-  const [auth, setAuth] = useState<object>()
+  const [auth, setAuth] = useState<object>();
+  const [load, setLoad] = useState<boolean>(false);
+  const [startCount, setStartCount] = useState<number>(0);
+  const [endCount, setEndCount] = useState<number>(4);
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -55,7 +58,6 @@ function Feed() {
 
   useEffect(() => {
     fetchAuth();
-    fetchTrendings();
     fetchFiltered();
   }, []);
 
@@ -65,17 +67,14 @@ function Feed() {
     });
   }
 
-  const fetchTrendings = async () => {
-    await dispatch<any>(fetchTrendingPosts());
-    setTendings();
+  const fetchFiltered = async (endCount = 4) => {
+    await dispatch(fetchFilteredPosts({
+      start: startCount,
+      end: endCount 
+    })).then(() => {
+      setLoad(!load);
+    });
 
-  };
-
-  const fetchFiltered = async () => {
-    await dispatch<any>(fetchFilteredPosts({
-      start: 0,
-      end: 10
-    }));
   };
 
   const goToTopOfPage = () => {
@@ -88,7 +87,6 @@ function Feed() {
 
   const handleRefresh = async () => {
     const refreshToast = toast.loading('Refreaching...');
-    await fetchTrendings();
     await fetchFiltered();
     await new Promise(f => setTimeout(f, 1000));
     toast.success('Feed Updated!', {
@@ -96,17 +94,25 @@ function Feed() {
     })
   };
 
-  function setTendings() {
-    const ids = [];
-    var i;
-    for (i = 0; i < trendingPosts.length; i++) {
-      ids.push(trendingPosts[i].id);
-    };
-    setTrendingIds(ids as any);
+  const handleScroll = async () => {
+    if (elementRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
+      if (scrollTop + clientHeight === scrollHeight) {
+        // TO SOMETHING HERE
+        //setEndCount();
+        fetchFiltered(endCount + 4);
+      }
+    }
   }
 
   return (
-    <div ref={elementRef} className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'>
+    <div
+      onScrollCapture={() =>
+        handleScroll()
+      }
+      ref={elementRef}
+      className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-4'
+    >
       <div id="top-page"></div>
       <div className={`flex items-center z-[2] ${atTop === false ? 'justify-end' : 'justify-between'} sticky top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}>
         {atTop &&
@@ -119,32 +125,24 @@ function Feed() {
       </div>
 
       <div>
-        <TweetBox refetchTrending={fetchTrendings} refetchFiltered={fetchFiltered} />
+        <TweetBox refetchFiltered={fetchFiltered} />
         <div className='p-4'>
           {
-            trendingPosts &&
-            trendingPosts.map((post: Post, index: number) => (
-              // @ts-ignore
-              <PostTest
-                key={index}
-                post={post}
-              />
-            ))
-          }
-          {/* {renderFilteredPosts()}
-           */}
-          {
+
             filteredPosts &&
             filteredPosts?.posts?.map((post: Post, index: number) => (
-              // @ts-ignore
-              trendingIds != undefined && !trendingIds.includes(post?.id) &&
               // @ts-ignore
               <PostTest
                 key={`${index}-post`}
                 post={post}
+                refetch={handleRefresh}
               />
 
             ))
+          }
+          {
+            isFetchingFilteredPosts &&
+            <p className="flex items-center justify-center space-x-3 p-4">Loading ...</p>
           }
         </div>
       </div>

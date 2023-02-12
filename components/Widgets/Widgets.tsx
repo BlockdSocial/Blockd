@@ -1,16 +1,24 @@
-import React, { useState } from 'react'
+import React, { useState, useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import {
   MagnifyingGlassIcon,
 } from '@heroicons/react/24/outline'
 import Slider from './Slider'
 import Link from 'next/link'
+import { fetchTrendingPosts } from '../../stores/post/PostActions'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 
 function Widgets() {
 
+  const dispatch = useAppDispatch()
+  const { trendingPosts } = useAppSelector((state) => state.postReducer)
   const TrendingChatrooms = dynamic(() => import('./TrendingChatrooms'), { ssr: false })
   const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
   const [input, setInput] = useState<string>('')
+
+  useEffect(() => {
+    dispatch(fetchTrendingPosts());
+  }, []);
 
   return (
     <div className='col-span-2 hidden md:inline max-h-screen scrollbar-hide overflow-scroll '>
@@ -67,7 +75,7 @@ function Widgets() {
         }
       </div>
 
-      <Slider />
+      <Slider trendingPosts={trendingPosts} />
       <TrendingChatrooms />
       <TrendingStreams />
     </div>

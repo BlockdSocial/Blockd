@@ -143,7 +143,7 @@ function Footer() {
                                 { mq: '1000px', columns: 4, imageWidth: 220, gutter: 10 },
                             ]}
                             wrapperClassName="p-4"
-   `                     />
+                        />
 
                     </div>
                 )}

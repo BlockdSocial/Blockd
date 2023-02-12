@@ -22,6 +22,7 @@ interface Post {
   comments: number;
   hasImg: boolean;
   userId: number;
+  gif: string;
 }
 
 function PostPage() {

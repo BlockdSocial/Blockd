@@ -105,9 +105,9 @@ export default function SignUp() {
       router.push({
         pathname: "/",
         query: {
-          isRegistered: true,
-        },
-      });
+          isRegistered: true
+        }
+      }, '/');
     });
   };
 
@@ -189,6 +189,11 @@ export default function SignUp() {
 if(!mounted) {
   return null;
 }
+  const setName = (e: any) => {
+    const result = e.replace(/[^a-z]/gi, '');
+    setDisplayName(result);
+  }
+
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
@@ -252,7 +257,7 @@ if(!mounted) {
                   type="text"
                   name="name"
                   placeholder="@"
-                  onChange={(e) => setDisplayName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="flex flex-col items-start justify-center space-y-1 w-full">

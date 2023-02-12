@@ -13,7 +13,10 @@ import {
   FETCH_POST_COMMENTS_FAILURE,
   IS_FETCHING_COMMENT_INFO,
   FETCH_COMMENT_INFO_SUCCESS,
-  FETCH_COMMENT_INFO_FAILURE
+  FETCH_COMMENT_INFO_FAILURE,
+  IS_FETCHING_IS_LIKED_COMMENT,
+  FETCH_IS_LIKED_COMMENT_SUCCESS,
+  FETCH_IS_LIKED_COMMENT_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -101,6 +104,26 @@ export function fetchCommentInfo(fields: string) {
       console.log('Fetch Comment Info error: ', error);
       dispatch({
         type: FETCH_COMMENT_INFO_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchIsLikedComment(fields: string) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_IS_LIKED_COMMENT });
+    try {
+      const result = await commentApi.fetchIsLikedComment(fields);
+      dispatch({
+        type: FETCH_IS_LIKED_COMMENT_SUCCESS,
+        isLikedComment: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Is Liked comment error: ', error);
+      dispatch({
+        type: FETCH_IS_LIKED_COMMENT_FAILURE,
         error: error
       });
     }
