@@ -50,7 +50,6 @@ export default function SignUp() {
   const [userMessage, setUserMessage] = useState<string>(fetchingData);
   const [userMessageForBackend, setUserMessageForBackend] = useState<string>("");
   //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
- 
 
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
@@ -67,17 +66,19 @@ export default function SignUp() {
     signMessage();
   }
 
-  useEffect(()=>{
-    if(!isEmpty(userSignature)){
-    handleRegisterUser();
+
+  useEffect(() => {
+    if (!isEmpty(userSignature)) {
+      handleRegisterUser();
     }
-  },[userSignature])
-  
+  }, [userSignature]);
+
 
   const handleRegisterUser = async (e: any= null) => {
    console.log("userMessage",userMessage);
    console.log("userSignature",userSignature)
    
+
 
     if (
       !terms ||
@@ -85,7 +86,6 @@ export default function SignUp() {
       isEmpty(address) ||
       isEmpty(userSignature)
     ) {
-      
       return;
     }
     await dispatch(
@@ -100,17 +100,15 @@ export default function SignUp() {
         message: userMessageForBackend,
       })
     ).then((res) => {
-      console.log('res',res)
-      
+      console.log("res", res);
+
       router.push({
         pathname: "/",
         query: {
           isRegistered: true,
         },
       });
-      
     });
-  
   };
 
   // const web3Login = async (e: any) => {
@@ -147,20 +145,16 @@ export default function SignUp() {
     onSuccess(data, variables, context) {
       setUserSignature(data);
       setUserMessageForBackend(userMessage)
-      //handleRegisterUser();
-      //return true;
-     
     },
     onError(error) {
-      console.log('Error', error)
+      console.log("Error", error);
     },
     onMutate(args) {
-      console.log('Mutate', args)
-      
-    },
 
+      console.log("Mutate", args);
+
+    },
   });
-  
 
   const { data } = useContractRead({
     ...nft_contract,
@@ -313,25 +307,35 @@ if(!mounted) {
                 ></ConnectButton>
               
               </div>
-              
+
               {nft_data && Number(nft_data) > 0 ? (
-                <button
-                  className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
-                  onClick={(e) => getSignMessage(e)}
-                >
-                  Sign Up
-                </button>
+
+                <div className="w-full flex items-center justify-center">
+                  <button
+                    className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
+                    onClick={(e) => getSignMessage(e)}
+                  >
+                    Sign Up
+                  </button>
+                </div>
               ) : (
                 <>
-                  <button
-                    className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
-                      isMintLoading && "loading"
-                    } ${error ? 'bg-orange-300' : 'cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd'}`}
-                    disabled={isMintError || isMintFetching}
-                    onClick={() => writeAsync && writeAsync()}
-                  >
-                    Mint
-                  </button>
+                  <div className="w-full flex items-center justify-center">
+                    <button
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
+                        isMintLoading && "loading"
+                      } ${
+                        error
+                          ? "bg-orange-300"
+                          : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
+                      }`}
+                      disabled={isMintError || isMintFetching}
+                      onClick={() => writeAsync && writeAsync()}
+                    >
+                      Mint
+                    </button>
+                  </div>
+
                   {error && (
                     <div className="mt-4 w-full bg-red-500 rounded-md p-2">
                       An error occurred preparing the transaction:<br></br>

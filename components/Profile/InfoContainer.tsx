@@ -164,7 +164,7 @@ function InfoContainer({ user, refetchUser }: Props) {
         <img
           src={!isEmpty(bannerPicture) ? `${config.url.PUBLIC_URL}/${bannerPicture}` : '/images/blockdbg.jpg'}
           alt="Banner"
-          className="max-w-full h-auto group-hover:opacity-50"
+          className="object-contain max-w-full max-h-[300px] h-auto group-hover:opacity-50"
           width="720"
           height="350"
         />
