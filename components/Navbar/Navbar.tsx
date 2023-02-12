@@ -126,6 +126,8 @@ const Navbar = () => {
                 {/* 
                 // @ts-ignore */}
                 <IconGroup
+                 
+                //@ts-ignore 
                   Icon={ChatBubbleBottomCenterTextIcon}
                   notif="10"
                 ></IconGroup>

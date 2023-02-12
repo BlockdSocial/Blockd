@@ -13,7 +13,6 @@ import {
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 import Picker from '@emoji-mart/react'
-import Comments from '../Post/Comments'
 
 function PostFeed() {
 
