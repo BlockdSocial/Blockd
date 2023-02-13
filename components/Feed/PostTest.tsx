@@ -24,7 +24,7 @@ import {
   likePost,
   dislikePost,
   addPostView,
-  deletePost
+  deletePost,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -63,7 +63,6 @@ interface Props {
 }
 
 export default function PostTest({ post, refetch }: Props) {
-
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -250,7 +249,6 @@ export default function PostTest({ post, refetch }: Props) {
     return () => window.removeEventListener("click", handleClick);
   }, [showEmojis]);
 
-
   const addEmoji = (e: any) => {
     const sym = e.unified.split("-");
     const codesArray: any[] = [];
@@ -303,17 +301,17 @@ export default function PostTest({ post, refetch }: Props) {
   };
   const addView = async () => {
     await dispatch(addPostView(post?.id));
-  }
+  };
 
   const handleDeletePost = async () => {
-    //@ts-ignore 
+    //@ts-ignore
     await dispatch(deletePost(post?.id)).then(() => {
       refetch();
     });
-  }
+  };
 
   return (
-    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
+    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2 group">
       <div className="w-full flex">
         <div className="flex flex-col px-4 w-full">
           <div className="flex items-center justify-between">
@@ -322,7 +320,7 @@ export default function PostTest({ post, refetch }: Props) {
                 <Link
                   href={{
                     pathname: "/dashboard/profile",
-                    query: { user_id: user?.id }
+                    query: { user_id: user?.id },
                   }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
@@ -351,9 +349,8 @@ export default function PostTest({ post, refetch }: Props) {
                   <Link
                     href={{
                       pathname: "/dashboard/profile",
-                      query: { user_id: user?.id }
+                      query: { user_id: user?.id },
                     }}
-
                   >
                     <p className="mr-1 font-semibold text-l">@{user?.name}</p>
                   </Link>
@@ -379,8 +376,9 @@ export default function PostTest({ post, refetch }: Props) {
                 />
                 <div className="relative z-0 flex ite">
                   <ul
-                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
-                      }`}
+                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
+                      isDropdownVisible ? "" : "hidden"
+                    }`}
                   >
                     {post?.userId === authUser?.id && (
                       <div
@@ -427,50 +425,58 @@ export default function PostTest({ post, refetch }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${postImage}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
                   width={2000}
                   height={2000}
                 />
               ) : null}
-              {post?.gif != null ?
+              {post?.gif != null ? (
                 <img
                   src={post?.gif}
-                  alt='gif'
-                  className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm'
+                  alt="gif"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
                   width={2000}
-                  height={2000} />
-                : null
-              }
+                  height={2000}
+                />
+              ) : null}
             </Link>
           </div>
-          <div className="flex items-center justify-start mt-4 mb-2">
+          <div
+            className={`flex items-center justify-start mt-4 mb-2 ${
+              commentBoxVisible ? "hidden" : ""
+            }`}
+          >
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
-                  className={`text-xs ${info?.likes
+                  className={`text-xs ${
+                    info?.likes
                       ? "text-green-600"
                       : "group-hover:text-green-600"
-                    } `}
+                  } `}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.likes
+                  className={`h-5 w-5 cursor-pointer ${
+                    info?.likes
                       ? "text-green-600"
                       : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.dislikes ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${
+                    info?.dislikes ? "text-red-600" : "group-hover:text-red-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
                 <p
-                  className={`text-xs ${info?.dislikes ? "text-red-600" : "group-hover:text-red-600"
-                    } `}
+                  className={`text-xs ${
+                    info?.dislikes ? "text-red-600" : "group-hover:text-red-600"
+                  } `}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -502,20 +508,83 @@ export default function PostTest({ post, refetch }: Props) {
                 placeholder="Write a comment..."
               />
               <button
-                disabled={!input}
+                disabled={!input && !image && !gifUrl}
                 type="submit"
-                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray"
+                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
               >
-                Post
+                Comment
               </button>
             </form>
           )}
           {commentBoxVisible && (
-            <div className="flex items-center justify-end">
-              <div className="flex items-center justify-end relative space-x-2 pr-10 text-[#181c44] dark:text-white flex-1 mt-2">
+            <div className="flex items-center justify-between py-3">
+              <div className="flex">
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
+                  <p
+                    className={`text-xs ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } `}
+                  >
+                    {info?.likes != null || undefined ? info?.likes : 0}
+                  </p>
+                  <ArrowUpIcon
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    onClick={() => handleLikePost()}
+                  />
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
+                  <ArrowDownIcon
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    onClick={() => handleDislikePost()}
+                  />
+                  <p
+                    className={`text-xs ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } `}
+                  >
+                    {info?.dislikes != null || undefined ? info?.dislikes : 0}
+                  </p>
+                </div>
+                <div
+                  onClick={() => setCommentBoxVisible(!commentBoxVisible)}
+                  className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white"
+                >
+                  <ChatBubbleBottomCenterTextIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                  <p className="text-xs">
+                    {info?.comments != null || undefined ? info?.comments : 0}
+                  </p>
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                  <p className="text-xs">
+                    {info?.shares != null || undefined ? info?.shares : 0}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-end relative space-x-2 pr-24 text-[#181c44] dark:text-white flex-1">
                 <PhotoIcon
-                  onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
+                  onClick={() => onUploadPictureClick()}
                   className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+                <input
+                  type="file"
+                  id="file"
+                  ref={inputPicture}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleUploadPicture}
                 />
                 <FaceSmileIcon
                   ref={emoji}
@@ -523,7 +592,7 @@ export default function PostTest({ post, refetch }: Props) {
                   className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                 />
                 {showEmojis && (
-                  <div className="absolute right-0 top-7 z-0">
+                  <div className="absolute right-0 bottom-6 z-0">
                     <Picker
                       onEmojiSelect={addEmoji}
                       theme="dark"
@@ -535,126 +604,82 @@ export default function PostTest({ post, refetch }: Props) {
                       maxFrequentRows="2"
                       searchPosition="none"
                     />
-                    <FaceSmileIcon
-                      ref={emoji}
-                      onClick={() => setShowEmojis(!showEmojis)}
-                      className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                    />
-                    {showEmojis && (
-                      <div className="absolute right-0 bottom-6 z-40">
-                        <Picker
-                          onEmojiSelect={addEmoji}
-                          theme="dark"
-                          set="apple"
-                          icons="outline"
-                          previewPosition="none"
-                          size="1em"
-                          perLine="6"
-                          maxFrequentRows="2"
-                          searchPosition="none"
-                        />
-                      </div>
-                    )}
-                    <div ref={gif}>
-                      {!image && (
-                        <GifIcon
-                          onClick={() => setShowGifs((b) => !b)}
-                          className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                        />
-                      )}
-                      {showGifs && (
-                        <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
-                          <ReactGiphySearchbox
-                            apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-                            onSelect={(item: any) => addGif(item)}
-                            mansonryConfig={[
-                              { columns: 2, imageWidth: 140, gutter: 10 },
-                              {
-                                mq: "700px",
-                                columns: 3,
-                                imageWidth: 200,
-                                gutter: 10,
-                              },
-                              {
-                                mq: "1000px",
-                                columns: 4,
-                                imageWidth: 220,
-                                gutter: 10,
-                              },
-                            ]}
-                            wrapperClassName="p-4"
-                          />
-                        </div>
-                      )}
-                    </div>
                   </div>
                 )}
+                <div ref={gif}>
+                  {!image && (
+                    <GifIcon
+                      onClick={() => setShowGifs((b) => !b)}
+                      className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                    />
+                  )}
+                  {showGifs && (
+                    <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                      <ReactGiphySearchbox
+                        apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                        onSelect={(item: any) => addGif(item)}
+                        mansonryConfig={[
+                          { columns: 2, imageWidth: 140, gutter: 10 },
+                          {
+                            mq: "700px",
+                            columns: 3,
+                            imageWidth: 200,
+                            gutter: 10,
+                          },
+                          {
+                            mq: "1000px",
+                            columns: 4,
+                            imageWidth: 220,
+                            gutter: 10,
+                          },
+                        ]}
+                        wrapperClassName="p-4"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
-              {image && (
-                <div className="relative w-full mt-2">
-                  <img
-                    className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
-                    src={image}
-                    alt=""
-                  />
-                  <div
-                    onClick={() => closePicture()}
-                    className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                  >
-                    <XMarkIcon className="w-5 h-5" />
-                  </div>
-                  <hr className="mt-4 mb-4"></hr>
-                </div>
-              )}
-              {gifBoxIsOpen && (
-                <div className="relative w-full">
-                  <img
-                    src={gifUrl}
-                    className="rounded-lg max-w-full h-auto"
-                    width="200px"
-                    height="200px"
-                  />
-                  <div
-                    onClick={() => closeGif()}
-                    className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                  >
-                    <XMarkIcon className="w-5 h-5" />
-                  </div>
-                  <hr className="mt-4 mb-4"></hr>
-                </div>
-              )}
             </div>
-
-          )}
-          {imageUrlBoxIsOpen && (
-            <form className="rounded-lg mt-3 flex bg-blockd/80 py-2 px-4">
-              <input
-                ref={imageInputRef}
-                className="flex-1 bg-transparent p-2 text-white outline-none placeholder:text-white"
-                type="text"
-                placeholder="Enter Image URL..."
-              />
-              <button
-                type="submit"
-                onClick={addImageToPost}
-                className="font-bold text-white"
-              >
-                Comment
-              </button>
-            </form>
           )}
           {image && (
-            <img
-              className="mt-10 h-40 w-full rounded-xl object-contain shadow-lg"
-              src={image}
-              alt=""
-            />
+            <div className="relative w-full mt-2">
+              <img
+                className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                src={image}
+                alt=""
+              />
+              <div
+                onClick={() => closePicture()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4"></hr>
+            </div>
+          )}
+          {gifBoxIsOpen && (
+            <div className="relative w-full">
+              <img
+                src={gifUrl}
+                className="rounded-lg max-w-full h-auto"
+                width="200px"
+                height="200px"
+              />
+              <div
+                onClick={() => closeGif()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4"></hr>
+            </div>
           )}
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -686,7 +711,12 @@ export default function PostTest({ post, refetch }: Props) {
             Are you sure you want to delete this post ?
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
-            <p onClick={() => handleDeletePost()} className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
+            <p
+              onClick={() => handleDeletePost()}
+              className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+            >
+              Delete
+            </p>
 
             <p
               onClick={() => setDeletePopUp(!deletePopUp)}
@@ -698,8 +728,9 @@ export default function PostTest({ post, refetch }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">

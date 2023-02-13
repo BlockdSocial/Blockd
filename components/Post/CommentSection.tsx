@@ -8,20 +8,22 @@ import {
   PhotoIcon,
   XMarkIcon,
   GifIcon,
-
-} from '@heroicons/react/24/outline'
-import TimeAgo from 'react-timeago'
-import Link from 'next/link'
-import Image from 'next/image'
-import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import { fetchUser } from '../../stores/user/UserActions'
-import { fetchPostImage } from '../../stores/post/PostActions'
-import { isEmpty } from 'lodash'
-import { config } from '../../constants'
-import { fetchCommentInfo, fetchIsLikedComment, likeComment } from '../../stores/comment/CommentActions'
+} from "@heroicons/react/24/outline";
+import TimeAgo from "react-timeago";
+import Link from "next/link";
+import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { fetchUser } from "../../stores/user/UserActions";
+import { fetchPostImage } from "../../stores/post/PostActions";
+import { isEmpty } from "lodash";
+import { config } from "../../constants";
+import {
+  fetchCommentInfo,
+  fetchIsLikedComment,
+  likeComment,
+} from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-
 
 interface Comment {
   content: string;
@@ -56,7 +58,7 @@ function CommentSection({ comment }: Props) {
   const [input, setInput] = useState<string>("");
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
 
-    //************************** Image Handeling **************************//
+  //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
 
@@ -157,7 +159,6 @@ function CommentSection({ comment }: Props) {
 
   const [isLiked, setIsLiked] = useState<boolean>();
 
-
   useEffect(() => {
     fetchCommentUser();
     fetchInfo();
@@ -191,11 +192,12 @@ function CommentSection({ comment }: Props) {
   };
 
   const handleLikeComment = async () => {
-
-    dispatch(likeComment({
-      comment_id: comment?.id,
-      user_id: authUser?.id,
-    })).then(() => {
+    dispatch(
+      likeComment({
+        comment_id: comment?.id,
+        user_id: authUser?.id,
+      })
+    ).then(() => {
       fetchLiked();
       fetchInfo();
     });
@@ -209,11 +211,11 @@ function CommentSection({ comment }: Props) {
     await dispatch(fetchIsLikedComment(comment?.id)).then((result: any) => {
       setIsLiked(result);
     });
-  }
+  };
 
   return (
     <div className="relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4 group">
-      <Link href="#" className="flex space-x-2 w-full">
+      <Link href="/dashboard/post/comment" className="flex space-x-2 w-full">
         <Link
           href="/dashboard/profile"
           className="flex flex-col w-fit h-fit group"
@@ -246,40 +248,47 @@ function CommentSection({ comment }: Props) {
             />
           </div>
 
-          <div className='flex flex-col items-start justify-start p-2'>
-            <p>
-              {comment?.content}
-            </p>
-            <div className='flex justify-between mt-2'>
-              <div className='flex'>
-                <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <p className={`text-xs ${isLiked ? 'text-green-600' : 'group-hover:text-green-600'}`}>{info?.likes != null || undefined ? info?.likes : 0}</p>
-                  <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${isLiked ? 'text-green-600' : 'group-hover:text-green-600'} transition-transform ease-out duration-150 hover:scale-150`}
-                    onClick={() => handleLikeComment()}
-                  />
-                </div>
-                {/* <div className='flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <ArrowDownIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                  <p className='text-xs'>1K</p>
-                </div>
-                <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <ChatBubbleBottomCenterTextIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                  <p className='text-xs'>16</p>
-                </div>
-                <div className='flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white'>
-                  <ShareIcon className='h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150' />
-                  <p className='text-xs'>1</p>
-                </div> */}
-              </div>
-            </div>
+          <div className="flex flex-col items-start justify-start py-2">
+            <p>{comment?.content}</p>
           </div>
         </div>
       </Link>
+      <div className={`flex justify-between mt-2 ${commentBoxVisible ? 'hidden' : 'flex'}`}>
+        <div className="flex pl-14">
+          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+            <p
+              className={`text-xs ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              }`}
+            >
+              {info?.likes != null || undefined ? info?.likes : 0}
+            </p>
+            <ArrowUpIcon
+              className={`h-4 w-4 cursor-pointer ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
+              onClick={() => handleLikeComment()}
+            />
+          </div>
+          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+            <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+            <p className="text-xs">1K</p>
+          </div>
+          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+            <ChatBubbleBottomCenterTextIcon
+              onClick={() => handleComment()}
+              className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+            />
+            <p className="text-xs">16</p>
+          </div>
+          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+            <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+            <p className="text-xs">1</p>
+          </div>
+        </div>
+      </div>
       {commentBoxVisible && (
-        <form
-          className="mt-3 flex items-start justify-center space-x-3 pl-14"
-        >
+        <form className="mt-6 flex items-start justify-center space-x-3">
           <div className="flex flex-col items-end justify-center w-full">
             <input
               value={input}
@@ -288,8 +297,40 @@ function CommentSection({ comment }: Props) {
               type="text"
               placeholder="Write a comment..."
             />
-            <div className="flex items-end justify-end">
-              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
+            <div className="flex items-center justify-between w-full py-3">
+              <div className="flex">
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                  <p
+                    className={`text-xs ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
+                  >
+                    {info?.likes != null || undefined ? info?.likes : 0}
+                  </p>
+                  <ArrowUpIcon
+                    className={`h-4 w-4 cursor-pointer ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    onClick={() => handleLikeComment()}
+                  />
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                  <p className="text-xs">1K</p>
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ChatBubbleBottomCenterTextIcon
+                    onClick={() => handleComment()}
+                    className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                  />
+                  <p className="text-xs">16</p>
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                  <p className="text-xs">1</p>
+                </div>
+              </div>
+              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white">
                 {!gifUrl && (
                   <PhotoIcon
                     onClick={() => onUploadPictureClick()}
@@ -395,7 +436,7 @@ function CommentSection({ comment }: Props) {
           <button
             disabled={!input && !image && !gifUrl}
             type="submit"
-            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray dark:group-hover:text-darkgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
           >
             Comment
           </button>

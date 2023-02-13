@@ -73,7 +73,7 @@ function Slider({ trendingPosts }: Props) {
       <div className='flex items-center justify-start rounded-md space-x-2 p-2 mt-4'>
         <ShareIcon className='w-4 h-4 lg:w-5 lg:h-5' />
         <p className='font-semibold text-xs lg:text-base'>
-          Most Shared
+          Trending Posts
         </p>
       </div>
       <div className='h-52 w-full m-auto p-2 relative group'>

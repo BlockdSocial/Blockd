@@ -1,0 +1,302 @@
+import React, { useRef, useState, useEffect } from "react";
+import {
+  ArrowUpIcon,
+  ArrowDownIcon,
+  ChatBubbleBottomCenterTextIcon,
+  ShareIcon,
+  PhotoIcon,
+  FaceSmileIcon,
+  XMarkIcon ,
+  GifIcon
+} from "@heroicons/react/24/outline";
+import Picker from "@emoji-mart/react";
+import Link from "next/link";
+import Image from "next/image";
+import ReactGiphySearchbox from "react-giphy-searchbox";
+
+function MainComment() {
+  const [input, setInput] = useState<string>("");
+
+  //************************** Image Handeling **************************//
+  //************************** Image Handeling **************************//
+  //************************** Image Handeling **************************//
+
+  const inputPicture = useRef<HTMLInputElement | null>(null);
+  let [image, setImage] = useState<string>("");
+  const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [uploadedVideo, setUploadedVideo] = useState<string>("");
+
+  const onUploadPictureClick = () => {
+    // `current` points to the mounted file input element
+    if (inputPicture.current) {
+      inputPicture.current.click();
+    }
+  };
+
+  const handleUploadPicture = (e: any) => {
+    setImage(URL.createObjectURL(e.target.files[0]));
+    setUploadedImage(e.target.files[0]);
+  };
+
+  const closePicture = () => {
+    image = "";
+    setImage(image);
+    setUploadedImage("");
+    setUploadedVideo("");
+  };
+
+  //************************** GIF Handeling **************************//
+  //************************** GIF Handeling **************************//
+  //************************** GIF Handeling **************************//
+
+  const [showGifs, setShowGifs] = useState<boolean>(false);
+
+  const gif = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the gif is opened
+    if (!showGifs) return;
+    function handleClick(event: any) {
+      if (showGifs === true) {
+        if (gif.current && !gif.current.contains(event.target)) {
+          setShowGifs(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showGifs]);
+
+  const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
+  //Set a color for the frame
+
+  let [gifUrl, setGifUrl] = useState<string>("");
+  const addGif = (gify: any) => {
+    if (gifBoxIsOpen === false) {
+      setGifBoxIsOpen(!gifBoxIsOpen);
+    }
+    console.log(gify);
+    let gifUrl = gify.images.downsized.url;
+    setGifUrl(gifUrl);
+    setUploadedVideo(gify.images.downsized);
+  };
+
+  const closeGif = () => {
+    gifUrl = "";
+    setGifUrl(gifUrl);
+    setGifBoxIsOpen(!gifBoxIsOpen);
+  };
+
+  //************************** Emojie Handeling **************************//
+  //************************** Emojie Handeling **************************//
+  //************************** Emojie Handeling **************************//
+
+  const emoji = useRef<any>(null);
+  const [showEmojis, setShowEmojis] = useState<boolean>(false);
+
+  useEffect(() => {
+    // only add the event listener when the emoji is opened
+    if (!showEmojis) return;
+    function handleClick(event: any) {
+      if (emoji.current && !emoji.current.contains(event.target)) {
+        setShowEmojis(false);
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showEmojis]);
+
+  const addEmoji = (e: any) => {
+    const sym = e.unified.split("-");
+    const codesArray: any[] = [];
+    sym.forEach((el: any) => codesArray.push("0x" + el));
+    const emoji = String.fromCodePoint(...codesArray);
+    setInput(input + emoji);
+  };
+
+  return (
+    <div className="relative border-b flex flex-col space-x-2  p-4">
+      <div className="flex space-x-2">
+        <Link
+          href="/dashboard/profile"
+          className="flex flex-col w-fit h-fit group"
+        >
+          <div className="relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg">
+            <Image
+              src="/images/pfp/pfp1.jpg"
+              alt="pfp"
+              className="w-14 h-14 rounded-md shadow-sm"
+              width={60}
+              height={60}
+            />
+            <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
+              <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
+                15
+              </div>
+            </div>
+          </div>
+        </Link>
+        <div>
+          <div className="flex items-center space-x-1">
+            <p className="mr-1 font-semibold">@IsmailBzz</p>
+            <p className="text-sm text-gray-500">time ago</p>
+          </div>
+          <div className="flex flex-col items-start justify-start p-2">
+            <p>This is my first Comment</p>
+          </div>
+        </div>
+      </div>
+      <form className="mt-6 flex items-start justify-center space-x-3">
+        <div className="flex flex-col items-end justify-center w-full">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 rounded-lg bg-gray-200 dark:bg-lightgray dark:group-hover:bg-darkgray p-2 outline-none w-full"
+            type="text"
+            placeholder="Write a comment..."
+          />
+          <div className="flex items-center justify-between w-full py-3">
+            <div className="flex">
+              <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                <p
+                  className="text-xs"
+                >
+                  10
+                </p>
+                <ArrowUpIcon
+                  className='h-4 w-4 cursor-pointer'
+                />
+              </div>
+              <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                <p className="text-xs">1K</p>
+              </div>
+              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <ChatBubbleBottomCenterTextIcon
+                  className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                />
+                <p className="text-xs">16</p>
+              </div>
+              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                <p className="text-xs">1</p>
+              </div>
+            </div>
+            <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white">
+              {!gifUrl && (
+                <PhotoIcon
+                  onClick={() => onUploadPictureClick()}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+              )}
+              <input
+                type="file"
+                id="file"
+                ref={inputPicture}
+                className="hidden"
+                accept="image/*"
+                onChange={handleUploadPicture}
+              />
+              <FaceSmileIcon
+                ref={emoji}
+                onClick={() => setShowEmojis(!showEmojis)}
+                className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+              />
+              {showEmojis && (
+                <div className="absolute right-0 bottom-6 z-40">
+                  <Picker
+                    onEmojiSelect={addEmoji}
+                    theme="dark"
+                    set="apple"
+                    icons="outline"
+                    previewPosition="none"
+                    size="1em"
+                    perLine="6"
+                    maxFrequentRows="2"
+                    searchPosition="none"
+                  />
+                </div>
+              )}
+              <div ref={gif}>
+                {!image && (
+                  <GifIcon
+                    onClick={() => setShowGifs((b) => !b)}
+                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                  />
+                )}
+                {showGifs && (
+                  <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                    <ReactGiphySearchbox
+                      apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                      onSelect={(item: any) => addGif(item)}
+                      mansonryConfig={[
+                        { columns: 2, imageWidth: 140, gutter: 10 },
+                        {
+                          mq: "700px",
+                          columns: 3,
+                          imageWidth: 200,
+                          gutter: 10,
+                        },
+                        {
+                          mq: "1000px",
+                          columns: 4,
+                          imageWidth: 220,
+                          gutter: 10,
+                        },
+                      ]}
+                      wrapperClassName="p-4"
+                    />
+                  </div>
+                )}
+              </div>
+            </div>
+          </div>
+          {image && (
+            <div className="relative w-full mt-2">
+              <img
+                className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                src={image}
+                alt=""
+              />
+              <div
+                onClick={() => closePicture()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4"></hr>
+            </div>
+          )}
+          {gifBoxIsOpen && (
+            <div className="relative w-full">
+              <img
+                src={gifUrl}
+                className="rounded-lg max-w-full h-auto"
+                width="200px"
+                height="200px"
+              />
+              <div
+                onClick={() => closeGif()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4"></hr>
+            </div>
+          )}
+        </div>
+        <button
+          disabled={!input && !image && !gifUrl}
+          type="submit"
+          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+        >
+          Comment
+        </button>
+      </form>
+    </div>
+  );
+}
+
+export default MainComment;

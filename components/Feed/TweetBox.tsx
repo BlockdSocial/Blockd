@@ -12,6 +12,7 @@ import { createPost } from '../../stores/post/PostActions'
 import Picker from '@emoji-mart/react'
 import Link from 'next/link'
 import ReactGiphySearchbox from 'react-giphy-searchbox'
+import toast from 'react-hot-toast'
 import { isEmpty } from 'lodash'
 
 interface Props {
@@ -159,6 +160,11 @@ function TweetBox({ refetchFiltered }: Props) {
         setInput('');
       });
     }
+    const refreshToast = toast.loading('Posting...');
+    await new Promise(f => setTimeout(f, 500));
+    toast.success('Posted!', {
+      id: refreshToast,
+    })
   }
 
   return (
