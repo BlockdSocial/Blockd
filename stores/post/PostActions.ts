@@ -230,7 +230,7 @@ export function fetchPostInfo(fields: number) {
   }
 }
 
-export function fetchUserPosts(fields: number) {
+export function fetchUserPosts(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER_POSTS });
     try {

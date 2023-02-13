@@ -384,7 +384,7 @@ function PostID({ post, refetchComments }: Props) {
             <img
               src={`${config.url.PUBLIC_URL}/${postImage}`}
               alt='Post'
-              className='m-5 ml-0 mb-1 rounded-lg w-full max-h-80 shadow-sm'
+              className='m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm'
               width={2000}
               height={2000} />
             : null
@@ -393,7 +393,7 @@ function PostID({ post, refetchComments }: Props) {
             <img
               src={post?.gif}
               alt='gif'
-              className='m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm'
+              className='m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm'
               width={2000}
               height={2000} />
             : null

@@ -6,11 +6,12 @@ import { fetchAuthUser } from '../../stores/authUser/AuthUserActions'
 import { isEmpty } from 'lodash'
 
 interface User {
-  id: number;
+  id: string;
   name: string;
   email: string;
   profilePicId: number;
   bannerPicId: number;
+  score: number;
 }
 
 interface Post {
@@ -24,31 +25,29 @@ interface Post {
   gif: string;
 }
 
-function Feed() {
+interface Props {
+  user: User;
+}
+
+function Feed({ user }: Props) {
   const dispatch = useAppDispatch();
-  const [user, setUser] = useState<User>();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [posts, setPosts] = useState<any>();
 
   useEffect(() => {
-    fetchUser();
-  }, []);
-
-  useEffect(() => {
-    if (!isEmpty(user)) {
-      fetchPosts();
-    }
+    setPosts([]);
+    fetchPosts();
   }, [user]);
 
-  const fetchUser = async () => {
-    await dispatch(fetchAuthUser()).then(async (res: any) => {
-      await setUser(res);
-      fetchPosts();
-    }) as User;
-  };
+  console.log('user: ', user);
 
   const fetchPosts = async () => {
     if (!isEmpty(user)) {
       await dispatch(fetchUserPosts(user?.id)).then((res) => {
+        setPosts(res);
+      });
+    } else {
+      await dispatch(fetchUserPosts(authUser?.id)).then((res) => {
         setPosts(res);
       });
     }

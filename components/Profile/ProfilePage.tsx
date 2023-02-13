@@ -134,7 +134,9 @@ function ProfilePage() {
       </div>
 
       {showFeed && (
-        <Feed />
+        <Feed
+          user={user as User}
+        />
       )}
       {showInteractions && (
         <Interactions />

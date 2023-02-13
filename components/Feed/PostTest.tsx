@@ -39,6 +39,7 @@ interface Post {
   comments: number;
   hasImg: boolean;
   userId: number;
+  gif: string;
 }
 
 interface User {
@@ -312,7 +313,7 @@ export default function PostTest({ post, refetch }: Props) {
   };
 
   return (
-    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
+    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2 group">
       <div className="w-full flex">
         <div className="flex flex-col px-4 w-full">
           <div className="flex items-center justify-between">
@@ -426,7 +427,16 @@ export default function PostTest({ post, refetch }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${postImage}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                  width={2000}
+                  height={2000}
+                />
+              ) : null}
+              {post?.gif != null ? (
+                <img
+                  src={post?.gif}
+                  alt="gif"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
                   width={2000}
                   height={2000}
                 />
@@ -496,20 +506,28 @@ export default function PostTest({ post, refetch }: Props) {
                 placeholder="Write a comment..."
               />
               <button
-                disabled={!input}
+                disabled={!input && !image && !gifUrl}
                 type="submit"
-                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray"
+                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray group-hover:dark:disabled:text-darkgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
               >
-                Post
+                Comment
               </button>
             </form>
           )}
           {commentBoxVisible && (
             <div className="flex items-center justify-end">
-              <div className="flex items-center justify-end relative space-x-2 pr-10 text-[#181c44] dark:text-white flex-1 mt-2">
+              <div className="flex items-center justify-end relative space-x-2 pr-24 text-[#181c44] dark:text-white flex-1 mt-2">
                 <PhotoIcon
-                  onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
+                  onClick={() => onUploadPictureClick()}
                   className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+                <input
+                  type="file"
+                  id="file"
+                  ref={inputPicture}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleUploadPicture}
                 />
                 <FaceSmileIcon
                   ref={emoji}
@@ -564,64 +582,40 @@ export default function PostTest({ post, refetch }: Props) {
                   )}
                 </div>
               </div>
-              {image && (
-                <div className="relative w-full mt-2">
-                  <img
-                    className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
-                    src={image}
-                    alt=""
-                  />
-                  <div
-                    onClick={() => closePicture()}
-                    className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                  >
-                    <XMarkIcon className="w-5 h-5" />
-                  </div>
-                  <hr className="mt-4 mb-4"></hr>
-                </div>
-              )}
-              {gifBoxIsOpen && (
-                <div className="relative w-full">
-                  <img
-                    src={gifUrl}
-                    className="rounded-lg max-w-full h-auto"
-                    width="200px"
-                    height="200px"
-                  />
-                  <div
-                    onClick={() => closeGif()}
-                    className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                  >
-                    <XMarkIcon className="w-5 h-5" />
-                  </div>
-                  <hr className="mt-4 mb-4"></hr>
-                </div>
-              )}
             </div>
           )}
-          {imageUrlBoxIsOpen && (
-            <form className="rounded-lg mt-3 flex bg-blockd/80 py-2 px-4">
-              <input
-                ref={imageInputRef}
-                className="flex-1 bg-transparent p-2 text-white outline-none placeholder:text-white"
-                type="text"
-                placeholder="Enter Image URL..."
-              />
-              <button
-                type="submit"
-                onClick={addImageToPost}
-                className="font-bold text-white"
-              >
-                Comment
-              </button>
-            </form>
-          )}
           {image && (
-            <img
-              className="mt-10 h-40 w-full rounded-xl object-contain shadow-lg"
-              src={image}
-              alt=""
-            />
+            <div className="relative w-full mt-2">
+              <img
+                className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                src={image}
+                alt=""
+              />
+              <div
+                onClick={() => closePicture()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4"></hr>
+            </div>
+          )}
+          {gifBoxIsOpen && (
+            <div className="relative w-full">
+              <img
+                src={gifUrl}
+                className="rounded-lg max-w-full h-auto"
+                width="200px"
+                height="200px"
+              />
+              <div
+                onClick={() => closeGif()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4"></hr>
+            </div>
           )}
         </div>
       </div>
