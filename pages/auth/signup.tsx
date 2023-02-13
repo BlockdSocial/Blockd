@@ -11,6 +11,7 @@ import { config as configUrl } from "../../constants";
 import Terms from "../../components/Auth/Terms";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { nft_contract } from "../../config/contract";
+import useIsMounted from "../../hooks/useIsMounted"
 import {
   useAccount,
   useContractRead,
@@ -22,12 +23,13 @@ import { write } from "fs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { indexOf } from "lodash";
-//import { useEffect } from "hoist-non-react-statics/node_modules/@types/react";
+
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
+  const mounted= useIsMounted();
   const router = useRouter();
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
@@ -41,11 +43,12 @@ export default function SignUp() {
     queryKey: ["userMessageToSign"],
     queryFn: () => axios.get(messageUrl).then((res) => res.data),
     onSuccess(data) {
-      setUserMessage(data);
+      setUserMessage(data?.message);
     },
   });
 
-  const [userMessage, setUserMessage] = useState<object>(fetchingData);
+  const [userMessage, setUserMessage] = useState<string>(fetchingData);
+  const [userMessageForBackend, setUserMessageForBackend] = useState<string>("");
   //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
 
   // const [userAddress, setUserAddress] = useState<string>("");
@@ -58,10 +61,11 @@ export default function SignUp() {
 
   const { address } = useAccount();
 
-  const hussein = async (e: any) => {
+  const getSignMessage=async(e:any) =>{
     e.preventDefault();
-    await signMessage();
-  };
+    signMessage();
+  }
+
 
   useEffect(() => {
     if (!isEmpty(userSignature)) {
@@ -69,8 +73,12 @@ export default function SignUp() {
     }
   }, [userSignature]);
 
-  const handleRegisterUser = async (e: any = null) => {
-    console.log("userMessage", userMessage);
+
+  const handleRegisterUser = async (e: any= null) => {
+   console.log("userMessage",userMessage);
+   console.log("userSignature",userSignature)
+   
+
 
     if (
       !terms ||
@@ -78,7 +86,6 @@ export default function SignUp() {
       isEmpty(address) ||
       isEmpty(userSignature)
     ) {
-      console.log("sinup", userSignature);
       return;
     }
     await dispatch(
@@ -90,7 +97,7 @@ export default function SignUp() {
         address: address,
         signature: userSignature,
         // @ts-ignore
-        message: userMessage?.message,
+        message: userMessageForBackend,
       })
     ).then((res) => {
       console.log("res", res);
@@ -98,9 +105,9 @@ export default function SignUp() {
       router.push({
         pathname: "/",
         query: {
-          isRegistered: true,
-        },
-      });
+          isRegistered: true
+        }
+      }, '/');
     });
   };
 
@@ -134,17 +141,18 @@ export default function SignUp() {
     isSuccess: signSuccess,
     signMessage,
   } = useSignMessage({
-    message: JSON.stringify(userMessage),
+    message: userMessage,
     onSuccess(data, variables, context) {
       setUserSignature(data);
-      //handleRegisterUser();
-      return true;
+      setUserMessageForBackend(userMessage)
     },
     onError(error) {
       console.log("Error", error);
     },
     onMutate(args) {
+
       console.log("Mutate", args);
+
     },
   });
 
@@ -178,6 +186,13 @@ export default function SignUp() {
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
   });
+if(!mounted) {
+  return null;
+}
+  const setName = (e: any) => {
+    const result = e.replace(/[^a-z]/gi, '');
+    setDisplayName(result);
+  }
 
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
@@ -242,7 +257,7 @@ export default function SignUp() {
                   type="text"
                   name="name"
                   placeholder="@"
-                  onChange={(e) => setDisplayName(e.target.value)}
+                  onChange={(e) => setName(e.target.value)}
                 />
               </div>
               <div className="flex flex-col items-start justify-center space-y-1 w-full">
@@ -288,19 +303,22 @@ export default function SignUp() {
                 {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button> */}
               <div className="w-full mt-4 flex items-center justify-start">
+                
                 <ConnectButton
                   showBalance={{
                     smallScreen: false,
                     largeScreen: true,
                   }}
                 ></ConnectButton>
+              
               </div>
 
               {nft_data && Number(nft_data) > 0 ? (
+
                 <div className="w-full flex items-center justify-center">
                   <button
                     className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
-                    onClick={(e) => hussein(e)}
+                    onClick={(e) => getSignMessage(e)}
                   >
                     Sign Up
                   </button>

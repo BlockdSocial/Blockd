@@ -54,6 +54,19 @@ async function fetchUserPosts(fields: any) {
   return apiCall('fetchUserPosts', 'GET', `${endpoints.post}/user/${fields}`);
 };
 
+async function fetchIsLiked(fields: any) {
+  return apiCall('fetchIsLiked', 'GET', `${endpoints.like}/check/${fields}`);
+};
+
+async function fetchIsDisliked(fields: any) {
+  return apiCall('fetchIsLiked', 'GET', `${endpoints.dislike}/check/${fields}`);
+};
+
+async function addPostView(fields: any) {
+  return apiCall('addPostView', 'POST', `${endpoints.post}/view/${fields}`);
+}
+
+
 export default {
   createPost,
   deletePost,
@@ -65,5 +78,8 @@ export default {
   fetchPostImage,
   fetchPostInfo,
   fetchUserPosts,
-  dislikePost
+  dislikePost,
+  fetchIsLiked,
+  fetchIsDisliked,
+  addPostView
 };

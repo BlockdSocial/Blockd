@@ -1,17 +1,22 @@
-import Image from "next/image";
-import Link from "next/link";
-import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
-import { useWeb3React } from "@web3-react/core";
+import Image from 'next/image'
+import Link from 'next/link'
+import { useRouter } from 'next/router'
+import React, { useState, useEffect } from 'react'
+
 import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
-} from "@heroicons/react/24/outline";
-import { logoutUser } from "../../stores/authUser/AuthUserActions";
-import { useAppDispatch } from "../../stores/hooks";
-import IconGroup from "./IconGroup";
-import { useTheme } from "next-themes";
-import { injected } from "../../components/wallet/Connectors";
+  KeyIcon,
+  WalletIcon
+} from '@heroicons/react/24/outline'
+import { logoutUser } from '../../stores/authUser/AuthUserActions'
+import { useAppDispatch } from '../../stores/hooks'
+import IconGroup from './IconGroup'
+import { useTheme } from 'next-themes'
+import NotifDropDown from './NotifDropDown'
+import MsgDropDown from './MsgDropDown'
+
+
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -20,17 +25,6 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
-
-  const { active, activate } = useWeb3React();
-
-  async function handleConnectWallet(e: any) {
-    e.preventDefault();
-    try {
-      await activate(injected);
-    } catch (ex) {
-      console.log(ex);
-    }
-  }
 
   const handleMsg = () => {
     setDropdownOpen(!dropdownOpen);
@@ -131,16 +125,12 @@ const Navbar = () => {
               <Link href="/dashboard/messages">
                 {/* 
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 p-2 rounded-ful transition-all duration-100 group">
-                  <div className="">
-                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
-                      <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                        <span>10</span>
-                      </span>
-                      <ChatBubbleBottomCenterTextIcon className="h-6 w-6 inline text-white dark:text-white" />
-                    </strong>
-                  </div>
-                </div>
+                <IconGroup
+                 
+                //@ts-ignore 
+                  Icon={ChatBubbleBottomCenterTextIcon}
+                  notif="10"
+                ></IconGroup>
               </Link>
             </li>
             {/*

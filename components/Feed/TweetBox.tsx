@@ -15,11 +15,10 @@ import ReactGiphySearchbox from 'react-giphy-searchbox'
 import { isEmpty } from 'lodash'
 
 interface Props {
-  refetchTrending: () => void;
   refetchFiltered: () => void;
 }
 
-function TweetBox({ refetchTrending, refetchFiltered }: Props) {
+function TweetBox({ refetchFiltered }: Props) {
 
   const [input, setInput] = useState<string>('')
   let [image, setImage] = useState<string>('')
@@ -129,16 +128,37 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
 
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
-    await dispatch(createPost({
-      content: input,
-      public: 1,
-      image: uploadedImage != null || undefined ? uploadedImage : null,
-    })).then(() => {
-      refetchTrending();
-      refetchFiltered();
-      closePicture();
-      setInput('');
-    });
+    if (image.length > 0) {
+      await dispatch(createPost({
+        content: input,
+        public: 1,
+        image: uploadedImage,
+      })).then(() => {
+        refetchFiltered();
+        closePicture();
+        setInput('');
+      });
+    }
+    else if (gifUrl.length > 0) {
+      await dispatch(createPost({
+        content: input,
+        public: 1,
+        gif: gifUrl,
+      })).then(() => {
+        refetchFiltered();
+        setInput('');
+        closeGif();
+      });
+    }
+    else {
+      await dispatch(createPost({
+        content: input,
+        public: 1,
+      })).then(() => {
+        refetchFiltered();
+        setInput('');
+      });
+    }
   }
 
   return (
@@ -224,6 +244,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
                 }
                 {showGifs && (
                   <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+	
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
@@ -234,6 +255,7 @@ function TweetBox({ refetchTrending, refetchFiltered }: Props) {
                       ]}
                       wrapperClassName="p-4"
                     />
+
                   </div>
                 )}
               </div>

@@ -4,8 +4,9 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { store } from "../stores/rootStore";
 import { Provider } from "react-redux";
-import { useChannel, configureAbly } from "@ably-labs/react-hooks";
-import Ably from "ably/promises";
+import useIsMounted from "../hooks/useIsMounted"
+//import { useChannel, configureAbly } from "@ably-labs/react-hooks";
+//import Ably from "ably/promises";
 
 /******** Rainbow Kit  **********/
 
@@ -49,26 +50,34 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const mounted= useIsMounted();
+/*
   configureAbly({
     key: "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg",
   });
   const rest = new Ably.Rest(
     "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg"
   );
+*/
 
+/*
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);
     checkUserNotification(message.data);
   });
+*/
 
   const checkUserNotification = async (data: object) => {
     console.log("data: ", data);
   };
+  console.log(mounted);
 
   const [queryClient] = React.useState(() => new QueryClient());
-
+  if( !mounted) {
+    return null;
+  }
   return (
-    // <Web3ReactProvider getLibrary={getLibrary}>
+    
     <QueryClientProvider client={queryClient}>
       <WagmiConfig client={wagmiClient}>
         <RainbowKitProvider
@@ -93,7 +102,7 @@ function MyApp({ Component, pageProps }: AppProps) {
         </RainbowKitProvider>
       </WagmiConfig>
     </QueryClientProvider>
-    // </Web3ReactProvider>
+   
   );
 }
 

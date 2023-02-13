@@ -32,7 +32,15 @@ import {
   FETCH_USER_POSTS_FAILURE,
   IS_DISLIKING_POST,
   DISLIKE_POST_SUCCESS,
-  DISLIKE_POST_FAILURE
+  DISLIKE_POST_FAILURE,
+  IS_FETCHING_IS_LIKED,
+  FETCH_IS_LIKED_SUCCESS,
+  FETCH_IS_DISLIKED_FAILURE,
+  IS_FETCHING_IS_DISLIKED,
+  FETCH_IS_DISLIKED_SUCCESS,
+  IS_ADDING_POST_VIEW,
+  ADD_POST_VIEW_SUCCESS,
+  ADD_POST_VIEW_ERROR
 } from './PostActionTypes';
 
 const initialState = {
@@ -48,6 +56,11 @@ const initialState = {
   isFetchingPostImage: false,
   isFetchingPostInfo: false,
   isFetchingUserPosts: false,
+  isFetchingIsLiked: false,
+  isLiked: false,
+  isFetchingIsDisliked: false,
+  isDisliked: false,
+  isAddingPostView: false,
   userPosts: [],
   postInfo: {},
   postImage: {},
@@ -272,6 +285,65 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isDislikingPost: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_IS_LIKED: {
+      return {
+        ...state,
+        isFetchingIsLiked: true
+      };
+    }
+    case FETCH_IS_LIKED_SUCCESS: {
+      return {
+        ...state,
+        isFetchingIsLiked: false,
+        isLiked: action.isLiked
+      };
+    }
+    case FETCH_IS_DISLIKED_FAILURE: {
+      return {
+        ...state,
+        isFetchingIsLiked: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_IS_DISLIKED: {
+      return {
+        ...state,
+        isFetchingIsDisliked: true,
+      };
+    }
+    case FETCH_IS_DISLIKED_SUCCESS: {
+      return {
+        ...state,
+        isFetchingIsDisliked: false,
+        isDisliked: action.isDisliked
+      };
+    }
+    case FETCH_IS_DISLIKED_FAILURE: {
+      return {
+        ...state,
+        isFetchingIsDisliked: false,
+        error: action.error
+      };
+    }
+    case IS_ADDING_POST_VIEW: {
+      return {
+        ...state,
+        isAddingPostView: true
+      };
+    }
+    case ADD_POST_VIEW_SUCCESS: {
+      return {
+        ...state,
+        isAddingPostView: false
+      };
+    }
+    case ADD_POST_VIEW_ERROR: {
+      return {
+        ...state,
+        isAddingPostView: false,
         error: action.error
       };
     }

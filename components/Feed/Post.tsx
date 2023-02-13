@@ -10,9 +10,9 @@ import {
   CheckBadgeIcon,
   FaceSmileIcon,
   PhotoIcon,
-} from "@heroicons/react/24/outline";
-import Link from "next/link";
-import Picker from "@emoji-mart/react";
+} from '@heroicons/react/24/outline'
+import Link from 'next/link'
+import Picker from '@emoji-mart/react'
 
 function PostFeed() {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
@@ -187,4 +187,4 @@ function PostFeed() {
   );
 }
 
-export default PostFeed;
+export default PostFeed

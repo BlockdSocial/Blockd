@@ -23,6 +23,8 @@ import {
   fetchPostInfo,
   likePost,
   dislikePost,
+  addPostView,
+  deletePost
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -56,9 +58,11 @@ interface Info {
 
 interface Props {
   post: Post;
+  refetch: () => void;
 }
 
-function PostTest({ post }: Props) {
+export default function PostTest({ post, refetch }: Props) {
+
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -247,6 +251,7 @@ function PostTest({ post }: Props) {
     return () => window.removeEventListener("click", handleClick);
   }, [showEmojis]);
 
+
   const addEmoji = (e: any) => {
     const sym = e.unified.split("-");
     const codesArray: any[] = [];
@@ -297,6 +302,16 @@ function PostTest({ post }: Props) {
     setGifUrl(gifUrl);
     setGifBoxIsOpen(!gifBoxIsOpen);
   };
+  const addView = async () => {
+    await dispatch(addPostView(post?.id));
+  }
+
+  const handleDeletePost = async () => {
+    //@ts-ignore 
+    await dispatch(deletePost(post?.id)).then(() => {
+      refetch();
+    });
+  }
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
@@ -306,7 +321,10 @@ function PostTest({ post }: Props) {
             <div className="flex items-start space-x-2">
               <div className="flex">
                 <Link
-                  href="/dashboard/profile"
+                  href={{
+                    pathname:"/dashboard/profile",
+                    query: {user_id: user?.id}
+                  }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
@@ -331,7 +349,15 @@ function PostTest({ post }: Props) {
               </div>
               <div className="flex flex-col items-start justify-center space-y-1">
                 <div className="flex items-center space-x-1">
+                <Link
+                  href={{
+                    pathname:"/dashboard/profile",
+                    query: {user_id: user?.id}
+                  }}
+                  
+                >
                   <p className="mr-1 font-semibold text-l">@{user?.name}</p>
+                  </Link>
                 </div>
                 <div>
                   <p className="text-sm text-gray-500">14K followers</p>
@@ -361,21 +387,18 @@ function PostTest({ post }: Props) {
                     {post?.userId === authUser?.id && (
                       <div
                         onClick={() => setEditPopUp(!editPopUp)}
-                        className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-md dark:hover:bg-darkgray/50"
+                        className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
                       >
                         Edit Post
                       </div>
                     )}
                     {post?.userId !== authUser?.id && (
                       <>
-                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
                           Report Post
                         </div>
-                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
-                          Follow Post
-                        </div>
                         <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
-                          Follow User
+                          Follow Post
                         </div>
                       </>
                     )}
@@ -398,14 +421,17 @@ function PostTest({ post }: Props) {
                 pathname: "/dashboard/post/",
                 query: { postId: post?.id },
               }}
+              onClick={() => addView()}
               className="w-full"
             >
-              <p className="pt-8 w-full font-semibold">{post?.content}</p>
+              <p className="pt-8 font-semibold">{post?.content}</p>
               {postImage != null ? (
                 <img
                   src={`${config.url.PUBLIC_URL}/${postImage}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg object-contain max-w-full max-h-[300px] h-auto shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg w-full object-contain shadow-sm"
+                  width={2000}
+                  height={2000}
                 />
               ) : null}
             </Link>
@@ -446,10 +472,6 @@ function PostTest({ post }: Props) {
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
               </div>
-              <div className="flex items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <EyeIcon className="h-5 w-5" />
-                <p className="text-xs">0</p>
-              </div>
               <div
                 onClick={() => setCommentBoxVisible(!commentBoxVisible)}
                 className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white"
@@ -468,33 +490,47 @@ function PostTest({ post }: Props) {
             </div>
           </div>
           {commentBoxVisible && (
-            <form
-              onSubmit={handleAddComment}
-              className="mt-3 flex items-start justify-center space-x-3"
-            >
-              <div className="flex flex-col items-end justify-center w-full">
-                <input
-                  value={input}
-                  onChange={(e) => setInput(e.target.value)}
-                  className="flex-1 rounded-lg bg-gray-200 dark:bg-lightgray dark:group-hover:bg-darkgray p-2 outline-none w-full"
-                  type="text"
-                  placeholder="Write a comment..."
+            <form onSubmit={handleAddComment} className="mt-3 flex space-x-3">
+              <input
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                className="flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none"
+                type="text"
+                placeholder="Write a comment..."
+              />
+              <button
+                disabled={!input}
+                type="submit"
+                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray"
+              >
+                Post
+              </button>
+            </form>
+          )}
+          {commentBoxVisible && (
+            <div className="flex items-center justify-end">
+              <div className="flex items-center justify-end relative space-x-2 pr-10 text-[#181c44] dark:text-white flex-1 mt-2">
+                <PhotoIcon
+                  onClick={() => setImageUrlBoxIsOpen(!imageUrlBoxIsOpen)}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                 />
-                <div className="flex items-end justify-end">
-                  <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
-                    {!gifUrl && (
-                      <PhotoIcon
-                        onClick={() => onUploadPictureClick()}
-                        className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                      />
-                    )}
-                    <input
-                      type="file"
-                      id="file"
-                      ref={inputPicture}
-                      className="hidden"
-                      accept="image/*"
-                      onChange={handleUploadPicture}
+                <FaceSmileIcon
+                  ref={emoji}
+                  onClick={() => setShowEmojis(!showEmojis)}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+                {showEmojis && (
+                  <div className="absolute right-0 top-7 z-0">
+                    <Picker
+                      onEmojiSelect={addEmoji}
+                      theme="dark"
+                      set="apple"
+                      icons="outline"
+                      previewPosition="none"
+                      size="1em"
+                      perLine="6"
+                      maxFrequentRows="2"
+                      searchPosition="none"
                     />
                     <FaceSmileIcon
                       ref={emoji}
@@ -549,6 +585,7 @@ function PostTest({ post }: Props) {
                       )}
                     </div>
                   </div>
+                )}
                 </div>
                 {image && (
                   <div className="relative w-full mt-2">
@@ -584,14 +621,31 @@ function PostTest({ post }: Props) {
                   </div>
                 )}
               </div>
+           
+          )}
+          {imageUrlBoxIsOpen && (
+            <form className="rounded-lg mt-3 flex bg-blockd/80 py-2 px-4">
+              <input
+                ref={imageInputRef}
+                className="flex-1 bg-transparent p-2 text-white outline-none placeholder:text-white"
+                type="text"
+                placeholder="Enter Image URL..."
+              />
               <button
-                disabled={!input && !image && !gifUrl}
                 type="submit"
-                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray dark:group-hover:text-darkgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+                onClick={addImageToPost}
+                className="font-bold text-white"
               >
                 Comment
               </button>
             </form>
+          )}
+          {image && (
+            <img
+              className="mt-10 h-40 w-full rounded-xl object-contain shadow-lg"
+              src={image}
+              alt=""
+            />
           )}
         </div>
       </div>
@@ -630,9 +684,8 @@ function PostTest({ post }: Props) {
             Are you sure you want to delete this post ?
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
-            <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
-              Delete
-            </p>
+            <p onClick={() => handleDeletePost()} className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
+
             <p
               onClick={() => setDeletePopUp(!deletePopUp)}
               className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
@@ -734,5 +787,3 @@ function PostTest({ post }: Props) {
     </div>
   );
 }
-
-export default PostTest;
