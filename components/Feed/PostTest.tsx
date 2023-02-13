@@ -24,7 +24,7 @@ import {
   likePost,
   dislikePost,
   addPostView,
-  deletePost
+  deletePost,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -62,7 +62,6 @@ interface Props {
 }
 
 export default function PostTest({ post, refetch }: Props) {
-
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -251,7 +250,6 @@ export default function PostTest({ post, refetch }: Props) {
     return () => window.removeEventListener("click", handleClick);
   }, [showEmojis]);
 
-
   const addEmoji = (e: any) => {
     const sym = e.unified.split("-");
     const codesArray: any[] = [];
@@ -304,14 +302,14 @@ export default function PostTest({ post, refetch }: Props) {
   };
   const addView = async () => {
     await dispatch(addPostView(post?.id));
-  }
+  };
 
   const handleDeletePost = async () => {
-    //@ts-ignore 
+    //@ts-ignore
     await dispatch(deletePost(post?.id)).then(() => {
       refetch();
     });
-  }
+  };
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
@@ -322,8 +320,8 @@ export default function PostTest({ post, refetch }: Props) {
               <div className="flex">
                 <Link
                   href={{
-                    pathname:"/dashboard/profile",
-                    query: {user_id: user?.id}
+                    pathname: "/dashboard/profile",
+                    query: { user_id: user?.id },
                   }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
@@ -349,14 +347,13 @@ export default function PostTest({ post, refetch }: Props) {
               </div>
               <div className="flex flex-col items-start justify-center space-y-1">
                 <div className="flex items-center space-x-1">
-                <Link
-                  href={{
-                    pathname:"/dashboard/profile",
-                    query: {user_id: user?.id}
-                  }}
-                  
-                >
-                  <p className="mr-1 font-semibold text-l">@{user?.name}</p>
+                  <Link
+                    href={{
+                      pathname: "/dashboard/profile",
+                      query: { user_id: user?.id },
+                    }}
+                  >
+                    <p className="mr-1 font-semibold text-l">@{user?.name}</p>
                   </Link>
                 </div>
                 <div>
@@ -520,7 +517,7 @@ export default function PostTest({ post, refetch }: Props) {
                   className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                 />
                 {showEmojis && (
-                  <div className="absolute right-0 top-7 z-0">
+                  <div className="absolute right-0 bottom-6 z-0">
                     <Picker
                       onEmojiSelect={addEmoji}
                       theme="dark"
@@ -532,96 +529,75 @@ export default function PostTest({ post, refetch }: Props) {
                       maxFrequentRows="2"
                       searchPosition="none"
                     />
-                    <FaceSmileIcon
-                      ref={emoji}
-                      onClick={() => setShowEmojis(!showEmojis)}
+                  </div>
+                )}
+                <div ref={gif}>
+                  {!image && (
+                    <GifIcon
+                      onClick={() => setShowGifs((b) => !b)}
                       className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                     />
-                    {showEmojis && (
-                      <div className="absolute right-0 bottom-6 z-40">
-                        <Picker
-                          onEmojiSelect={addEmoji}
-                          theme="dark"
-                          set="apple"
-                          icons="outline"
-                          previewPosition="none"
-                          size="1em"
-                          perLine="6"
-                          maxFrequentRows="2"
-                          searchPosition="none"
-                        />
-                      </div>
-                    )}
-                    <div ref={gif}>
-                      {!image && (
-                        <GifIcon
-                          onClick={() => setShowGifs((b) => !b)}
-                          className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                        />
-                      )}
-                      {showGifs && (
-                        <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
-                          <ReactGiphySearchbox
-                            apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-                            onSelect={(item: any) => addGif(item)}
-                            mansonryConfig={[
-                              { columns: 2, imageWidth: 140, gutter: 10 },
-                              {
-                                mq: "700px",
-                                columns: 3,
-                                imageWidth: 200,
-                                gutter: 10,
-                              },
-                              {
-                                mq: "1000px",
-                                columns: 4,
-                                imageWidth: 220,
-                                gutter: 10,
-                              },
-                            ]}
-                            wrapperClassName="p-4"
-                          />
-                        </div>
-                      )}
+                  )}
+                  {showGifs && (
+                    <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                      <ReactGiphySearchbox
+                        apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                        onSelect={(item: any) => addGif(item)}
+                        mansonryConfig={[
+                          { columns: 2, imageWidth: 140, gutter: 10 },
+                          {
+                            mq: "700px",
+                            columns: 3,
+                            imageWidth: 200,
+                            gutter: 10,
+                          },
+                          {
+                            mq: "1000px",
+                            columns: 4,
+                            imageWidth: 220,
+                            gutter: 10,
+                          },
+                        ]}
+                        wrapperClassName="p-4"
+                      />
                     </div>
-                  </div>
-                )}
+                  )}
                 </div>
-                {image && (
-                  <div className="relative w-full mt-2">
-                    <img
-                      className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
-                      src={image}
-                      alt=""
-                    />
-                    <div
-                      onClick={() => closePicture()}
-                      className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                    >
-                      <XMarkIcon className="w-5 h-5" />
-                    </div>
-                    <hr className="mt-4 mb-4"></hr>
-                  </div>
-                )}
-                {gifBoxIsOpen && (
-                  <div className="relative w-full">
-                    <img
-                      src={gifUrl}
-                      className="rounded-lg max-w-full h-auto"
-                      width="200px"
-                      height="200px"
-                    />
-                    <div
-                      onClick={() => closeGif()}
-                      className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                    >
-                      <XMarkIcon className="w-5 h-5" />
-                    </div>
-                    <hr className="mt-4 mb-4"></hr>
-                  </div>
-                )}
               </div>
-           
+              {image && (
+                <div className="relative w-full mt-2">
+                  <img
+                    className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                    src={image}
+                    alt=""
+                  />
+                  <div
+                    onClick={() => closePicture()}
+                    className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                  >
+                    <XMarkIcon className="w-5 h-5" />
+                  </div>
+                  <hr className="mt-4 mb-4"></hr>
+                </div>
+              )}
+              {gifBoxIsOpen && (
+                <div className="relative w-full">
+                  <img
+                    src={gifUrl}
+                    className="rounded-lg max-w-full h-auto"
+                    width="200px"
+                    height="200px"
+                  />
+                  <div
+                    onClick={() => closeGif()}
+                    className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                  >
+                    <XMarkIcon className="w-5 h-5" />
+                  </div>
+                  <hr className="mt-4 mb-4"></hr>
+                </div>
+              )}
+            </div>
           )}
           {imageUrlBoxIsOpen && (
             <form className="rounded-lg mt-3 flex bg-blockd/80 py-2 px-4">
@@ -684,7 +660,12 @@ export default function PostTest({ post, refetch }: Props) {
             Are you sure you want to delete this post ?
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
-            <p onClick={() => handleDeletePost()} className='p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white'>Delete</p>
+            <p
+              onClick={() => handleDeletePost()}
+              className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+            >
+              Delete
+            </p>
 
             <p
               onClick={() => setDeletePopUp(!deletePopUp)}
