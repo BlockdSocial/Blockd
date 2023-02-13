@@ -443,7 +443,11 @@ export default function PostTest({ post, refetch }: Props) {
               ) : null}
             </Link>
           </div>
-          <div className="flex items-center justify-start mt-4 mb-2">
+          <div
+            className={`flex items-center justify-start mt-4 mb-2 ${
+              commentBoxVisible ? "hidden" : ""
+            }`}
+          >
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
@@ -515,8 +519,63 @@ export default function PostTest({ post, refetch }: Props) {
             </form>
           )}
           {commentBoxVisible && (
-            <div className="flex items-center justify-end">
-              <div className="flex items-center justify-end relative space-x-2 pr-24 text-[#181c44] dark:text-white flex-1 mt-2">
+            <div className="flex items-center justify-between py-3">
+              <div className="flex">
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
+                  <p
+                    className={`text-xs ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } `}
+                  >
+                    {info?.likes != null || undefined ? info?.likes : 0}
+                  </p>
+                  <ArrowUpIcon
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    onClick={() => handleLikePost()}
+                  />
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
+                  <ArrowDownIcon
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    onClick={() => handleDislikePost()}
+                  />
+                  <p
+                    className={`text-xs ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } `}
+                  >
+                    {info?.dislikes != null || undefined ? info?.dislikes : 0}
+                  </p>
+                </div>
+                <div
+                  onClick={() => setCommentBoxVisible(!commentBoxVisible)}
+                  className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white"
+                >
+                  <ChatBubbleBottomCenterTextIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                  <p className="text-xs">
+                    {info?.comments != null || undefined ? info?.comments : 0}
+                  </p>
+                </div>
+                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                  <p className="text-xs">
+                    {info?.shares != null || undefined ? info?.shares : 0}
+                  </p>
+                </div>
+              </div>
+              <div className="flex items-center justify-end relative space-x-2 pr-24 text-[#181c44] dark:text-white flex-1">
                 <PhotoIcon
                   onClick={() => onUploadPictureClick()}
                   className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
