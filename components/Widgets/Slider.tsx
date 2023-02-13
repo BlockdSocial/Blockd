@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   ChevronRightIcon,
   ChevronLeftIcon,
@@ -20,6 +20,11 @@ interface Post {
 }
 interface Props {
   trendingPosts: Post[]
+}
+
+interface Slide {
+  url: string;
+  title: string;
 }
 
 function Slider({ trendingPosts }: Props) {
@@ -48,8 +53,21 @@ function Slider({ trendingPosts }: Props) {
     },
   ];
 
-console.log(trendingPosts);
+  // console.log(trendingPosts);
   const [currentIndex, setCurrentIndex] = useState(0);
+  // const [slides, setSlides] = useState<Slide[]>([])
+
+  // useEffect(() => {
+  //   if (trendingPosts != undefined) {
+  //     for (let i = 0; i < trendingPosts.length; i++) {
+  //       const trendingPost = {
+  //         title: trendingPosts[i]?.content,
+  //         url: 'https://images.unsplash.com/photo-1496181133206-80ce9b88a853?ixlib=rb-4.0.3&ixid=MnwxMjA3fDB8MHxwaG90by1wYWdlfHx8fGVufDB8fHx8&auto=format&fit=crop&w=2671&q=80'
+  //       };
+  //       setSlides([...slides, trendingPost]);
+  //     }
+  //   }
+  // }, []);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;

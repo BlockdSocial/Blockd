@@ -24,7 +24,6 @@ interface Post {
 
 interface Filtered {
   posts: Post[];
-  end: number;
 }
 
 function Feed() {
@@ -40,7 +39,7 @@ function Feed() {
   const [load, setLoad] = useState<boolean>(false);
   const [startCount, setStartCount] = useState<number>(0);
   const [endCount, setEndCount] = useState<number>(4);
-  const [filtered, setFiltered] = useState<Filtered>();
+  const [filtered, setFiltered] = useState<Filtered | any>([]);
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -63,6 +62,7 @@ function Feed() {
   }, []);
 
   useEffect(() => {
+    setFiltered(undefined);
     fetchAuth();
     fetchFiltered();
   }, []);
@@ -74,22 +74,21 @@ function Feed() {
   }
 
   const fetchFiltered = async () => {
-    setFiltered(undefined);
     await dispatch(fetchFilteredPosts({
       start: 0,
-      end: 4 
+      end: 4
     })).then((result: any) => {
-      setFiltered(result);
+      setFiltered(result?.posts);
     });
   };
 
-  const updateFiltered = async (startCount: number, endCount: number) => {
+  const updateFiltered = async (start: number, end: number) => {
     await dispatch(fetchFilteredPosts({
-      start: startCount,
-      end: endCount 
+      start: start,
+      end: end 
     })).then((result: any) => {
-      // const newFiltered = [...filtered, result]
-      // setFiltered(result?.posts, ...filtered);
+      const newPosts = filtered.concat(result?.posts);
+      setFiltered(newPosts);
     });
   };
 
@@ -113,10 +112,9 @@ function Feed() {
   const handleScroll = async () => {
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      if (scrollTop + clientHeight === scrollHeight) {
+      if (scrollTop + clientHeight === scrollHeight && !isEmpty(filtered) && endCount < filteredPosts?.total) {
         // TO SOMETHING HERE
-        //setEndCount();
-        updateFiltered(endCount, endCount + 2);
+        updateFiltered(endCount + 1, endCount + 2);
         setEndCount(endCount + 2);
       }
     }
@@ -147,7 +145,7 @@ function Feed() {
           {
 
             filtered &&
-            filtered?.posts?.map((post: Post, index: number) => (
+            filtered?.map((post: Post, index: number) => (
               // @ts-ignore
               <PostTest
                 key={`${index}-post`}
