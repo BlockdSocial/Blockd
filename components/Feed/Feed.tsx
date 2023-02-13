@@ -40,6 +40,7 @@ function Feed() {
   const [startCount, setStartCount] = useState<number>(0);
   const [endCount, setEndCount] = useState<number>(4);
   const [filtered, setFiltered] = useState<Filtered | any>([]);
+  const [totalPosts, setTotalPosts] = useState<number>(0)
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -79,6 +80,7 @@ function Feed() {
       end: 4
     })).then((result: any) => {
       setFiltered(result?.posts);
+      setTotalPosts(result?.total);
     });
   };
 
@@ -87,10 +89,12 @@ function Feed() {
       start: start,
       end: end 
     })).then((result: any) => {
-      const newPosts = filtered.concat(result?.posts);
+      const newPosts = filtered?.concat(result?.posts);
       setFiltered(newPosts);
     });
   };
+
+  console.log({filtered});
 
   const goToTopOfPage = () => {
     const element = document.getElementById('top-page');
@@ -112,7 +116,7 @@ function Feed() {
   const handleScroll = async () => {
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      if (scrollTop + clientHeight === scrollHeight && !isEmpty(filtered) && endCount < filteredPosts?.total) {
+      if (scrollTop + clientHeight === scrollHeight) {
         // TO SOMETHING HERE
         updateFiltered(endCount + 1, endCount + 2);
         setEndCount(endCount + 2);
