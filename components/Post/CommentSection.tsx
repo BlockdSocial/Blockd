@@ -248,13 +248,13 @@ function CommentSection({ comment }: Props) {
             />
           </div>
 
-          <div className="flex flex-col items-start justify-start p-2">
+          <div className="flex flex-col items-start justify-start py-2">
             <p>{comment?.content}</p>
           </div>
         </div>
       </Link>
-      <div className={`flex justify-between mt-2 pl-16 ${commentBoxVisible ? 'hidden' : 'flex'}`}>
-        <div className="flex">
+      <div className={`flex justify-between mt-2 ${commentBoxVisible ? 'hidden' : 'flex'}`}>
+        <div className="flex pl-14">
           <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
               className={`text-xs ${
@@ -288,7 +288,7 @@ function CommentSection({ comment }: Props) {
         </div>
       </div>
       {commentBoxVisible && (
-        <form className="mt-3 flex items-start justify-center space-x-3 pl-14">
+        <form className="mt-6 flex items-start justify-center space-x-3">
           <div className="flex flex-col items-end justify-center w-full">
             <input
               value={input}
