@@ -180,7 +180,7 @@ const {
                 </button>
               ) : (
                 <>
-                 <button
+                 {/* <button
                     className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
                       isMintLoading && "loading"
                     } ${error ? 'bg-orange-300' : 'cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd'}`}
@@ -188,7 +188,7 @@ const {
                     onClick={() => writeAsync && writeAsync()}
                   >
                     Mint
-                  </button>
+                  </button> */}
                   {error && (
                     <div className="mt-4 w-full bg-red-500 rounded-md p-2">
                       An error occurred preparing the transaction:<br></br>

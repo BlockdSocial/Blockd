@@ -65,7 +65,7 @@ const initialState = {
   postInfo: {},
   postImage: {},
   post: {},
-  filteredPosts: [],
+  filteredPosts: {},
   trendingPosts: [],
   postsResults: []
 };

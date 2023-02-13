@@ -123,8 +123,6 @@ export default function PostTest({ post, refetch }: Props) {
     }
   };
 
-  console.log("post: ", post);
-
   useEffect(() => {
     // only add the event listener when the dropdown is opened
     if (!isDropdownVisible) return;
