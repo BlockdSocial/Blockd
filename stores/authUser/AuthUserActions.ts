@@ -37,7 +37,7 @@ export function fetchAuthUser() {
 
       dispatch({
         type: FETCH_AUTH_USER_FAILURE,
-        error: error.message
+        error: error?.message
       });
     }
   }

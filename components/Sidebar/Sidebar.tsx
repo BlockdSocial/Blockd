@@ -6,7 +6,7 @@ import {
     ChatBubbleBottomCenterTextIcon,
     UserIcon,
     HomeIcon,
-    ArrowTrendingUpIcon,
+    PlusCircleIcon,
     LightBulbIcon,
     FireIcon,
     ChatBubbleLeftIcon,
@@ -71,7 +71,7 @@ function Sidebar() {
                             className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}>
                             <ChatBubbleBottomCenterTextIcon className='h-6 w-6' />
                             <p className={`hidden md:inline-flex text-base lg:text-xl cursor-pointer`}>ChatRooms</p>
-                            <div className='hidden lg:inline'>
+                            <div className='hidden md:inline'>
                                 <ChevronRightIcon className={`w-4 h-4 ml-2 ${isOpen ? 'hidden' : 'inline'}`} />
                                 <ChevronDownIcon className={`w-4 h-4 ml-2 ${isOpen ? 'inline' : 'hidden'}`} />
                             </div>
@@ -79,11 +79,14 @@ function Sidebar() {
                     </div>
                     {isOpen && (
                         <div className="w-full flex flex-col items-center justify-center">
-                            <Link href="/dashboard/chatroom" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
-                                <ChatBubbleLeftIcon className='w-5 h-5' /><span className='hidden lg:inline'>My Chatroom</span>
+                            <Link href="/dashboard/chatroom" className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2">
+                                <ChatBubbleLeftIcon className='w-5 h-5' /><span className='hidden md:inline'>My Chatrooms</span>
                             </Link>
-                            <Link href="" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
-                                <ChatBubbleLeftRightIcon className='w-5 h-5' /><span className='hidden lg:inline'>All Chatrooms</span>
+                            <Link href="/dashboard/chatroom" className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2">
+                                <PlusCircleIcon className='w-5 h-5' /><span className='hidden md:inline'>Create Chatroom</span>
+                            </Link>
+                            <Link href="" className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2">
+                                <ChatBubbleLeftRightIcon className='w-5 h-5' /><span className='hidden md:inline'>All Chatrooms</span>
                             </Link>
                         </div>
                     )}

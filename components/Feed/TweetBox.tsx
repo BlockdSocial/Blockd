@@ -182,7 +182,7 @@ function TweetBox({ refetchFiltered }: Props) {
         <form className='flex flex-col flex-1'>
           <textarea
             id="message"
-            maxLength={255}
+            maxLength={1000}
             value={input}
             onChange={(e: any) => setInput(e.target.value)}
             data-rows="4"
@@ -201,7 +201,7 @@ function TweetBox({ refetchFiltered }: Props) {
           )}
           {image && (
             <div className='relative w-full'>
-              <img className='max-w-full h-auto object-contain rounded-md' src={image} alt='' />
+              <img className='max-w-full max-h-[300px] h-auto object-contain rounded-md' src={image} alt='' />
               <div onClick={() => closePicture()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <XMarkIcon className='w-5 h-5' />
               </div>
@@ -244,6 +244,7 @@ function TweetBox({ refetchFiltered }: Props) {
                 }
                 {showGifs && (
                   <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
+	
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
@@ -254,6 +255,7 @@ function TweetBox({ refetchFiltered }: Props) {
                       ]}
                       wrapperClassName="p-4"
                     />
+
                   </div>
                 )}
               </div>

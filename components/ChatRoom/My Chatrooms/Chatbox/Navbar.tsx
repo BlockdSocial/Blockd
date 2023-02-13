@@ -66,7 +66,7 @@ function Navbar() {
             <div className='flex items-center justify-center'>
                 <div ref={dropdown} className='flex flex-col items-center justify-center'>
                     <div className='flex items-center justify-center space-x-1'>
-                        <div onClick={() => setIsDropdownVisible(b => !b)} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer lg:hidden'>
+                        <div onClick={() => setIsDropdownVisible(b => !b)} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
                             <EllipsisHorizontalIcon className='w-7 h-7 text-black dark:text-white' />
                         </div>
                         <div onClick={() => setShowFriends(!showFriends)} className='flex items-center justify-center w-8 h-8 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer lg:hidden'>

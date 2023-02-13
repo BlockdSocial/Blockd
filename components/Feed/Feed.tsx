@@ -22,6 +22,11 @@ interface Post {
   gif: string;
 }
 
+interface Filtered {
+  posts: Post[];
+  end: number;
+}
+
 function Feed() {
 
   const dispatch = useAppDispatch();
@@ -35,6 +40,7 @@ function Feed() {
   const [load, setLoad] = useState<boolean>(false);
   const [startCount, setStartCount] = useState<number>(0);
   const [endCount, setEndCount] = useState<number>(4);
+  const [filtered, setFiltered] = useState<Filtered>();
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -62,17 +68,28 @@ function Feed() {
   }, []);
 
   const fetchAuth = async () => {
-    await dispatch(fetchAuthUser()).then((res: any) => {
+    await dispatch<any>(fetchAuthUser()).then((res: any) => {
       setAuth(res);
     });
   }
 
   const fetchFiltered = async () => {
+    setFiltered(undefined);
+    await dispatch(fetchFilteredPosts({
+      start: 0,
+      end: 4 
+    })).then((result: any) => {
+      setFiltered(result);
+    });
+  };
+
+  const updateFiltered = async (startCount: number, endCount: number) => {
     await dispatch(fetchFilteredPosts({
       start: startCount,
-      end: endCount
-    })).then(() => {
-      setLoad(!load);
+      end: endCount 
+    })).then((result: any) => {
+      // const newFiltered = [...filtered, result]
+      // setFiltered(result?.posts, ...filtered);
     });
   };
 
@@ -98,8 +115,9 @@ function Feed() {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
       if (scrollTop + clientHeight === scrollHeight) {
         // TO SOMETHING HERE
-        setEndCount(endCount + 5);
-        fetchFiltered();
+        //setEndCount();
+        updateFiltered(endCount, endCount + 2);
+        setEndCount(endCount + 2);
       }
     }
   }
@@ -127,8 +145,9 @@ function Feed() {
         <TweetBox refetchFiltered={fetchFiltered} />
         <div className='p-4'>
           {
-            filteredPosts &&
-            filteredPosts?.posts?.map((post: Post, index: number) => (
+
+            filtered &&
+            filtered?.posts?.map((post: Post, index: number) => (
               // @ts-ignore
               <PostTest
                 key={`${index}-post`}
@@ -140,7 +159,7 @@ function Feed() {
           }
           {
             isFetchingFilteredPosts &&
-            <p>Loading ...</p>
+            <p className="flex items-center justify-center space-x-3 p-4">Loading ...</p>
           }
         </div>
       </div>
@@ -193,7 +212,7 @@ function Feed() {
         </div>
       </div>
     </div>
-  )
+  );
 }
 
 export default Feed
