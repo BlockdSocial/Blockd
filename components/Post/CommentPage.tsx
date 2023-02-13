@@ -4,8 +4,8 @@ import {
     ArrowLeftCircleIcon,
 } from '@heroicons/react/24/outline'
 import MainComment from './MainComment'
-import CommentSection from './CommentSection'
-import PostID from '../Post/PostID'
+import CommentSection from '../Comments/CommentSection'
+import PostID from './PostID'
 
 function CommentPage() {
 

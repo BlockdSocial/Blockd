@@ -404,7 +404,7 @@ function CommentSection({ comment }: Props) {
           <button
             disabled={!input && !image && !gifUrl}
             type="submit"
-            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray dark:group-hover:text-darkgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
           >
             Comment
           </button>
