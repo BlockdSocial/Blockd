@@ -1,6 +1,6 @@
 import Link from 'next/link'
 import React from 'react'
-import PostTest from '../Feed/PostTest'
+import PostTest from '../Feed/Post'
 import { useAppSelector } from '../../stores/hooks'
 
 interface Post {

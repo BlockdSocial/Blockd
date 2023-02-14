@@ -1,5 +1,5 @@
 import React from 'react'
-import PostTest from '../Feed/PostTest'
+import PostTest from '../Feed/Post'
 
 function Interactions() {
   return (

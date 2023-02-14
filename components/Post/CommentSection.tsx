@@ -8,6 +8,7 @@ import {
   PhotoIcon,
   XMarkIcon,
   GifIcon,
+  PaperAirplaneIcon
 } from "@heroicons/react/24/outline";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
@@ -167,7 +168,7 @@ function CommentSection({ comment }: Props) {
   useEffect(() => {
     fetchInfo();
     fetchLiked();
-    fetchDisliked()
+    fetchDisliked();
   }, [comment]);
 
   const fetchInfo = async () => {
@@ -258,30 +259,38 @@ function CommentSection({ comment }: Props) {
           </div>
         </div>
       </Link>
-      <div className={`flex justify-between mt-2 ${commentBoxVisible ? 'hidden' : 'flex'}`}>
+      <div
+        className={`flex justify-between mt-2 ${
+          commentBoxVisible ? "hidden" : "flex"
+        }`}
+      >
         <div className="flex pl-14">
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
-              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                }`}
+              className={`text-xs ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
-              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                }`}
+              className={`text-xs ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -311,16 +320,18 @@ function CommentSection({ comment }: Props) {
             />
             <div className="flex items-center justify-between w-full py-3">
               <div className="flex">
-                <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
-                    className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      }`}
+                    className={`text-xs ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
@@ -328,14 +339,14 @@ function CommentSection({ comment }: Props) {
                   <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">1K</p>
                 </div>
-                <div className="flex cursor-pointer items-center md:space-x-1 ml-1 md:ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center space-x-1 ml-1 md:ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ChatBubbleBottomCenterTextIcon
                     onClick={() => handleComment()}
                     className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
                   />
                   <p className="text-xs">16</p>
                 </div>
-                <div className="flex cursor-pointer items-center md:space-x-1 ml-1 md:ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center space-x-1 ml-1 md:ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">1</p>
                 </div>
@@ -448,7 +459,10 @@ function CommentSection({ comment }: Props) {
             type="submit"
             className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
           >
-            Comment
+            <span className="hidden md:inline">Comment</span>
+            <span className="flex md:hidden">
+              <PaperAirplaneIcon className="w-5 h-5" />
+            </span>
           </button>
         </form>
       )}
