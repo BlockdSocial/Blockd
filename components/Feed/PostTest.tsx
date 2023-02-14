@@ -283,7 +283,7 @@ export default function PostTest({ post, refetch }: Props) {
   };
 
   return (
-    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2 group">
+    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
       <div className="w-full flex">
         <div className="flex flex-col px-4 w-full">
           <div className="flex items-center justify-between">

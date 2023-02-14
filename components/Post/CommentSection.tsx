@@ -260,7 +260,7 @@ function CommentSection({ comment }: Props) {
       </Link>
       <div className={`flex justify-between mt-2 ${commentBoxVisible ? 'hidden' : 'flex'}`}>
         <div className="flex pl-14">
-          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+          <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
               className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
                 }`}
@@ -273,7 +273,7 @@ function CommentSection({ comment }: Props) {
               onClick={() => handleLikeComment()}
             />
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+          <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
               className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
                 } transition-transform ease-out duration-150 hover:scale-150`}
@@ -286,14 +286,14 @@ function CommentSection({ comment }: Props) {
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+          <div className="flex cursor-pointer items-center space-x-1 ml-2 text-gray-400 hover:text-black dark:hover:text-white">
             <ChatBubbleBottomCenterTextIcon
               onClick={() => handleComment()}
               className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
             />
             <p className="text-xs">16</p>
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+          <div className="flex cursor-pointer items-center space-x-1 ml-2 text-gray-400 hover:text-black dark:hover:text-white">
             <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
             <p className="text-xs">1</p>
           </div>
@@ -311,7 +311,7 @@ function CommentSection({ comment }: Props) {
             />
             <div className="flex items-center justify-between w-full py-3">
               <div className="flex">
-                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
                     className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
                       }`}
@@ -324,23 +324,23 @@ function CommentSection({ comment }: Props) {
                     onClick={() => handleLikeComment()}
                   />
                 </div>
-                <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">1K</p>
                 </div>
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center md:space-x-1 ml-1 md:ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ChatBubbleBottomCenterTextIcon
                     onClick={() => handleComment()}
                     className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
                   />
                   <p className="text-xs">16</p>
                 </div>
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <div className="flex cursor-pointer items-center md:space-x-1 ml-1 md:ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">1</p>
                 </div>
               </div>
-              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white">
+              <div className="flex items-end justify-end relative space-x-1 md:space-x-2 text-[#181c44] dark:text-white">
                 {!gifUrl && (
                   <PhotoIcon
                     onClick={() => onUploadPictureClick()}
