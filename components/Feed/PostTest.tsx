@@ -10,16 +10,13 @@ import {
   EllipsisHorizontalIcon,
   XMarkIcon,
   CameraIcon,
-  EyeIcon,
   GifIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Picker from "@emoji-mart/react";
 import moment from "moment";
 import { addComment } from "../../stores/comment/CommentActions";
-import { fetchUser } from "../../stores/user/UserActions";
 import {
-  fetchPostImage,
   fetchPostInfo,
   likePost,
   dislikePost,
@@ -31,6 +28,23 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 
+interface Pic {
+  name: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+  profilePic: Pic;
+}
+
+interface Image {
+  name: string;
+}
+
 interface Post {
   id: number;
   content: string;
@@ -40,14 +54,8 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePicId: number;
-  bannerPicId: number;
+  user: User;
+  images: Image[];
 }
 
 interface Info {
@@ -73,54 +81,18 @@ export default function PostTest({ post, refetch }: Props) {
   const [imageEdit, setImageEdit] = useState<string>("/images/Post1.jpg");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [user, setUser] = useState<User>();
-  const [profilePicture, setProfilePicture] = useState<string>();
   const [info, setInfo] = useState<Info>();
-  const [postImage, setPostImage] = useState<string>();
 
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
-    fetchPostUser();
     fetchInfo();
-    if (post?.hasImg != null || undefined) {
-      fetchImage();
-    } else {
-      // @ts-ignore
-      setPostImage(null);
-    }
   }, [post]);
-
-  const fetchPostUser = async () => {
-    (await dispatch(fetchUser(post?.userId)).then((result: any) => {
-      setUser(result);
-    })) as User;
-  };
 
   const fetchInfo = async () => {
     await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
       setInfo(result);
     });
-  };
-
-  const fetchImage = async () => {
-    await dispatch(fetchPostImage(post?.id)).then((result: any) => {
-      setPostImage(result[0]?.name);
-    });
-  };
-
-  useEffect(() => {
-    if (!isEmpty(user)) {
-      fetchProfilePicture(user?.profilePicId);
-    }
-  }, [user]);
-
-  const fetchProfilePicture = async (id: number) => {
-    if (id != undefined || id != null) {
-      await dispatch(fetchPostImage(id)).then((result: any) => {
-        setProfilePicture(result[0]?.name);
-      });
-    }
   };
 
   useEffect(() => {
@@ -320,15 +292,15 @@ export default function PostTest({ post, refetch }: Props) {
                 <Link
                   href={{
                     pathname: "/dashboard/profile",
-                    query: { user_id: user?.id },
+                    query: { user_id: post?.user?.id },
                   }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
                     <Image
                       src={
-                        !isEmpty(profilePicture)
-                          ? `${config.url.PUBLIC_URL}/${profilePicture}`
+                        !isEmpty(post?.user?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
@@ -349,10 +321,10 @@ export default function PostTest({ post, refetch }: Props) {
                   <Link
                     href={{
                       pathname: "/dashboard/profile",
-                      query: { user_id: user?.id },
+                      query: { user_id: post?.user?.id },
                     }}
                   >
-                    <p className="mr-1 font-semibold text-l">@{user?.name}</p>
+                    <p className="mr-1 font-semibold text-l">@{post?.user?.name}</p>
                   </Link>
                 </div>
                 <div>
@@ -421,9 +393,9 @@ export default function PostTest({ post, refetch }: Props) {
               className="w-full"
             >
               <p className="pt-8 font-semibold">{post?.content}</p>
-              {postImage != null ? (
+              {post?.images != null ? (
                 <img
-                  src={`${config.url.PUBLIC_URL}/${postImage}`}
+                  src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}
                   alt="Post"
                   className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
                   width={2000}

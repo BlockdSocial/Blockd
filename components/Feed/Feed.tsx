@@ -32,15 +32,11 @@ function Feed() {
   const router = useRouter()
   const { isRegistered } = router.query;
 
-  const { filteredPosts, isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
+  const { isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
-  const [auth, setAuth] = useState<object>();
-  const [load, setLoad] = useState<boolean>(false);
-  const [startCount, setStartCount] = useState<number>(0);
   const [endCount, setEndCount] = useState<number>(4);
   const [filtered, setFiltered] = useState<Filtered | any>([]);
-  const [totalPosts, setTotalPosts] = useState<number>(0)
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
@@ -64,15 +60,8 @@ function Feed() {
 
   useEffect(() => {
     setFiltered(undefined);
-    fetchAuth();
     fetchFiltered();
   }, []);
-
-  const fetchAuth = async () => {
-    await dispatch<any>(fetchAuthUser()).then((res: any) => {
-      setAuth(res);
-    });
-  }
 
   const fetchFiltered = async () => {
     await dispatch(fetchFilteredPosts({
@@ -80,21 +69,18 @@ function Feed() {
       end: 4
     })).then((result: any) => {
       setFiltered(result?.posts);
-      setTotalPosts(result?.total);
     });
   };
 
   const updateFiltered = async (start: number, end: number) => {
     await dispatch(fetchFilteredPosts({
       start: start,
-      end: end 
+      end: end
     })).then((result: any) => {
       const newPosts = filtered?.concat(result?.posts);
       setFiltered(newPosts);
     });
   };
-
-  console.log({filtered});
 
   const goToTopOfPage = () => {
     const element = document.getElementById('top-page');
@@ -153,6 +139,7 @@ function Feed() {
               // @ts-ignore
               <PostTest
                 key={`${index}-post`}
+                // @ts-ignore
                 post={post}
                 refetch={handleRefresh}
               />
