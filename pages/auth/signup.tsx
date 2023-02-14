@@ -246,8 +246,7 @@ if(!mounted) {
                 Sign Up
               </h2>
             </div>
-            <form
-              action=""
+            <div
               className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20"
             >
               <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
@@ -349,7 +348,7 @@ if(!mounted) {
                   )}
                 </>
               )}
-            </form>
+            </div>
             <div className="w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500">
               <h2 className="text-white text-l lg:text-xl">
                 Already Registered ?{" "}
