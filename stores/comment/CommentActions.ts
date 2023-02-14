@@ -16,7 +16,13 @@ import {
   FETCH_COMMENT_INFO_FAILURE,
   IS_FETCHING_IS_LIKED_COMMENT,
   FETCH_IS_LIKED_COMMENT_SUCCESS,
-  FETCH_IS_LIKED_COMMENT_FAILURE
+  FETCH_IS_LIKED_COMMENT_FAILURE,
+  IS_FETCHING_IS_DISLIKED_COMMENT,
+  FETCH_IS_DISLIKED_COMMENT_SUCCESS,
+  FETCH_IS_DISLIKED_COMMENT_FAILURE,
+  IS_DISLIKING_COMMENT,
+  DISLIKE_COMMENT_SUCCESS,
+  DISLIKE_COMMENT_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -64,6 +70,22 @@ export function likeComment(fields: object) {
       console.log('Like comment error: ', error);
       dispatch({
         type: LIKE_COMMENT_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function dislikeComment(fields: object) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_DISLIKING_COMMENT });
+    try {
+      await commentApi.dislikeComment(fields);
+      dispatch({ type: DISLIKE_COMMENT_SUCCESS });
+    } catch (error: any) {
+      console.log('Dislike comment error: ', error);
+      dispatch({
+        type: DISLIKE_COMMENT_FAILURE,
         error: error
       });
     }
@@ -124,6 +146,26 @@ export function fetchIsLikedComment(fields: string) {
       console.log('Fetch Is Liked comment error: ', error);
       dispatch({
         type: FETCH_IS_LIKED_COMMENT_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchIsDislikedComment(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_IS_DISLIKED_COMMENT });
+    try {
+      const result = await commentApi.fetchIsDislikedComment(fields);
+      dispatch({
+        type: FETCH_IS_DISLIKED_COMMENT_SUCCESS,
+        isDislikedComment: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Is Disliked comment error: ', error);
+      dispatch({
+        type: FETCH_IS_DISLIKED_COMMENT_FAILURE,
         error: error
       });
     }

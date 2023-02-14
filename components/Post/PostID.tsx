@@ -30,6 +30,22 @@ import { config } from '../../constants';
 import { isEmpty } from 'lodash';
 import ReactGiphySearchbox from "react-giphy-searchbox";
 
+interface Pic {
+  name: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+  profilePic: Pic;
+}
+
+interface Image {
+  name: string;
+}
 
 interface Post {
   id: number;
@@ -40,14 +56,8 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePicId: number;
-  bannerPicId: number;
+  user: User;
+  images: Image[];
 }
 
 interface Info {
@@ -69,9 +79,7 @@ function PostID({ post, refetchComments }: Props) {
 
   const [input, setInput] = useState<string>('')
   const [image, setImage] = useState<string>('')
-  const [user, setUser] = useState<User>()
   const [info, setInfo] = useState<Info>()
-  const [postImage, setPostImage] = useState<string>()
   const [profilePicture, setProfilePicture] = useState<string>()
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
   const [textArea, setTextArea] = useState<string>('')
@@ -80,7 +88,6 @@ function PostID({ post, refetchComments }: Props) {
   const [editPopUp, setEditPopUp] = useState<boolean>(false)
   const [isLiked, setIsLiked] = useState<boolean>()
   const [isDisliked, setIsDisliked] = useState<boolean>()
-
 
   const dropdown = useRef<any>(null);
 
@@ -104,18 +111,6 @@ function PostID({ post, refetchComments }: Props) {
       setInfo(result);
     });
   };
-
-  const fetchImage = async () => {
-    await dispatch(fetchPostImage(post?.id)).then((result: any) => {
-      setPostImage(result[0]?.name);
-    });
-  };
-
-  useEffect(() => {
-    if (!isEmpty(user)) {
-      fetchProfilePicture(user?.profilePicId);
-    }
-  }, [user]);
 
   const fetchProfilePicture = async (id: number) => {
     if (id != undefined || id != null) {
@@ -224,22 +219,10 @@ function PostID({ post, refetchComments }: Props) {
   }
 
   useEffect(() => {
-    fetchPostUser();
     fetchInfo();
     fetchLiked();
     fetchDisliked();
-    if (post?.hasImg != null || undefined) {
-      fetchImage();
-    }
   }, [post]);
-
-  const fetchPostUser = async () => {
-    console.log('post',post)
-    await dispatch(fetchUser(post?.userId)).then((result: any) => {
-      setUser(result);
-    }) as User;
-
-  };
 
   //************************** Edit Post Handeling **************************//
   //************************** Edit Post Handeling **************************//
@@ -338,7 +321,7 @@ function PostID({ post, refetchComments }: Props) {
             </div>
             <div className="flex flex-col items-start justify-center space-y-1">
               <div className="flex items-center space-x-1">
-                <p className="mr-1 font-semibold text-l">@{user?.name}</p>
+                <p className="mr-1 font-semibold text-l">@{post?.user?.name}</p>
               </div>
               <div>
                 <p className="text-sm text-gray-500">14K followers</p>
@@ -380,9 +363,9 @@ function PostID({ post, refetchComments }: Props) {
           </div>
         </div>
         <div className="w-full">
-          {postImage != null ? 
+          {post?.images != null ? 
             <img
-              src={`${config.url.PUBLIC_URL}/${postImage}`}
+              src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}
               alt='Post'
               className='m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm'
               width={2000}

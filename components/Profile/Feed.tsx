@@ -39,8 +39,6 @@ function Feed({ user }: Props) {
     fetchPosts();
   }, [user]);
 
-  console.log('user: ', user);
-
   const fetchPosts = async () => {
     if (!isEmpty(user)) {
       await dispatch(fetchUserPosts(user?.id)).then((res) => {
@@ -61,6 +59,7 @@ function Feed({ user }: Props) {
           // @ts-ignore
           <PostTest
             key={index}
+            // @ts-ignore
             post={post}
           />
         ))

@@ -14,6 +14,19 @@ interface Comment {
   userId: number;
 }
 
+interface Pic {
+  name: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+  profilePic: Pic;
+}
+
 interface Post {
   id: number;
   content: string;
@@ -23,6 +36,7 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
+  user: User;
 }
 
 function PostPage() {
@@ -58,7 +72,8 @@ function PostPage() {
       </div>
 
       <div className='z-0'>
-        <PostID 
+        <PostID
+          // @ts-ignore
           post={post as Post}
           refetchComments={fetchComments}
         />

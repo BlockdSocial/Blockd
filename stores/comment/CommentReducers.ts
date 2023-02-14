@@ -17,7 +17,13 @@ import {
   FETCH_COMMENT_INFO_FAILURE,
   IS_FETCHING_IS_LIKED_COMMENT,
   FETCH_IS_LIKED_COMMENT_SUCCESS,
-  FETCH_IS_LIKED_COMMENT_FAILURE
+  FETCH_IS_LIKED_COMMENT_FAILURE,
+  IS_FETCHING_IS_DISLIKED_COMMENT,
+  FETCH_IS_DISLIKED_COMMENT_SUCCESS,
+  FETCH_IS_DISLIKED_COMMENT_FAILURE,
+  IS_DISLIKING_COMMENT,
+  DISLIKE_COMMENT_SUCCESS,
+  DISLIKE_COMMENT_FAILURE
 } from './CommentActionTypes';
 
 const initialState = {
@@ -25,10 +31,13 @@ const initialState = {
   isAddingComment: false,
   isDeletingComment: false,
   isLikingComment: false,
+  isDislikingComment: false,
   isFetchingPostComments: false,
   isFetchingCommentInfo: false,
   isFetchingIsLikedCommet: false,
+  isFetchingIsDislikedComment: false,
   isLikedComment: false,
+  isDislikedComment: false,
   commentInfo: [],
   postComments: []
 };
@@ -92,6 +101,25 @@ export function commentReducer(state = initialState, action: any) {
         error: action.error
       };
     }
+    case IS_DISLIKING_COMMENT: {
+      return {
+        ...state,
+        isDislikingComment: true
+      };
+    }
+    case DISLIKE_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        isDislikingComment: false
+      };
+    }
+    case DISLIKE_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isDislikingComment: false,
+        error: action.error
+      };
+    }
     case IS_FETCHING_POST_COMMENTS: {
       return {
         ...state,
@@ -149,6 +177,26 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingIsLikedCommet: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_IS_DISLIKED_COMMENT: {
+      return {
+        ...state,
+        isFetchingIsDislikedComment: true
+      };
+    }
+    case FETCH_IS_DISLIKED_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        isFetchingIsDislikedComment: false,
+        isDislikedComment: action.isDislikedComment
+      };
+    }
+    case FETCH_IS_DISLIKED_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isFetchingIsDislikedComment: false,
         error: action.error
       };
     }
