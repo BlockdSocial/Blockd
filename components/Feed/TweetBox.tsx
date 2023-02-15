@@ -267,7 +267,7 @@ function TweetBox({ refetchFiltered }: Props) {
               </div>
             </div>
             <button
-              disabled={!input && !image && !gifUrl}
+              disabled={!input}
               className='bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]'
               onClick={(e) => handleSubmitPost(e)}
             >

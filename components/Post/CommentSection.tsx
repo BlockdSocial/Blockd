@@ -8,6 +8,7 @@ import {
   PhotoIcon,
   XMarkIcon,
   GifIcon,
+  PaperAirplaneIcon
 } from "@heroicons/react/24/outline";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
@@ -318,30 +319,38 @@ function CommentSection({ comment, post, type }: Props) {
           </div>
         </div>
       </Link>
-      <div className={`flex justify-between mt-2 ${commentBoxVisible ? 'hidden' : 'flex'}`}>
+      <div
+        className={`flex justify-between mt-2 ${
+          commentBoxVisible ? "hidden" : "flex"
+        }`}
+      >
         <div className="flex pl-14">
-          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+          <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
-              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                }`}
+              className={`text-xs ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
+          <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
-              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                }`}
+              className={`text-xs ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -378,14 +387,16 @@ function CommentSection({ comment, post, type }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
-                    className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      }`}
+                    className={`text-xs ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
@@ -419,7 +430,7 @@ function CommentSection({ comment, post, type }: Props) {
                   <p className="text-xs">1</p>
                 </div>
               </div>
-              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white">
+              <div className="flex items-end justify-end relative space-x-1 md:space-x-2 text-[#181c44] dark:text-white">
                 {!gifUrl && (
                   <PhotoIcon
                     onClick={() => onUploadPictureClick()}
@@ -527,7 +538,10 @@ function CommentSection({ comment, post, type }: Props) {
             type="submit"
             className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
           >
-            Comment
+            <span className="hidden md:inline">Comment</span>
+            <span className="flex md:hidden">
+              <PaperAirplaneIcon className="w-5 h-5" />
+            </span>
           </button>
         </form>
       )}

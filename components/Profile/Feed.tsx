@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from 'react'
-import PostTest from '../Feed/PostTest'
+import PostTest from '../Feed/Post'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { fetchUserPosts } from '../../stores/post/PostActions'
 import { fetchAuthUser } from '../../stores/authUser/AuthUserActions'

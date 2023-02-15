@@ -231,8 +231,8 @@ if(!mounted) {
           </div>
         </div>
       </div>
-      <div className="md:w-1/2 w-full min-h-screen flex items-center justify-center text-center p-10 lg:px-20 lg:py-10 z-0">
-        <div className="flex items-center h-full w-full bg-color relative rounded-md">
+      <div className="md:w-1/2 w-full min-h-screen flex items-center justify-center text-center p-10 z-0">
+        <div className="flex items-center py-8 w-[600px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
               <Image
@@ -246,8 +246,7 @@ if(!mounted) {
                 Sign Up
               </h2>
             </div>
-            <form
-              action=""
+            <div
               className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20"
             >
               <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
@@ -302,7 +301,7 @@ if(!mounted) {
               >
                 {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button> */}
-              <div className="w-full mt-4 flex items-center justify-start">
+              <div className="w-full mt-4 flex items-center justify-center">
                 
                 <ConnectButton
                   showBalance={{
@@ -349,7 +348,7 @@ if(!mounted) {
                   )}
                 </>
               )}
-            </form>
+            </div>
             <div className="w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500">
               <h2 className="text-white text-l lg:text-xl">
                 Already Registered ?{" "}
@@ -368,7 +367,7 @@ if(!mounted) {
         }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
-          <div className="relative flex flex-col rounded-lg h-full">
+          <div className="relative flex flex-col rounded-lg">
             <div className="sticky top-0 z-10 flex items-center justify-between w-full p-2 border-b backdrop-blur-md bg-white/30">
               <div className="text-black flex text-center justify-center font-semibold">
                 Terms and Conditions

@@ -55,10 +55,10 @@ function Sidebar() {
                 <Link href="/dashboard/suggestion">
                     {location.pathname === '/dashboard/suggestion' ? (
                                                 // @ts-ignore
-                        <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='bg-gray-100 dark:bg-lightgray' />
+                        <SidebarRow Icon={LightBulbIcon} title="Feedback" active='bg-gray-100 dark:bg-lightgray' />
                     ) : (
                                                 // @ts-ignore
-                        <SidebarRow Icon={LightBulbIcon} title="Suggestions" active='' />
+                        <SidebarRow Icon={LightBulbIcon} title="Feedback" active='' />
                     )}
                 </Link>
                 <Link
