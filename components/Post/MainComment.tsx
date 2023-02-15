@@ -38,6 +38,8 @@ interface Comment {
   createdAt: string;
   userId: number;
   user: User;
+  gif: string;
+  imgName: string;
 }
 
 interface Post {
@@ -182,17 +184,50 @@ function MainComment({ comment, post, refetchReplies }: Props) {
   const handleAddReply = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
 
-    await dispatch(
-      replyComment({
-        user_id: authUser?.id,
-        content: input,
-        comment_id: comment?.id,
-        post_id: post?.id,
-      })
-    ).then(() => {
-      setInput("");
-      refetchReplies();
-    });
+    if (image.length > 0) {
+      await dispatch(
+        replyComment({
+          user_id: authUser?.id,
+          content: input,
+          comment_id: comment?.id,
+          post_id: post?.id,
+          image: uploadedImage,
+        })
+      ).then(() => {
+        setInput("");
+        closePicture();
+        fetchInfo();
+      });
+    }
+    else if (gifUrl.length > 0) {
+      await dispatch(
+        replyComment({
+          user_id: authUser?.id,
+          content: input,
+          comment_id: comment?.id,
+          post_id: post?.id,
+          gif: gifUrl,
+        })
+      ).then(() => {
+        setInput("");
+        closeGif();
+        fetchInfo();
+      });
+    }
+    else {
+      await dispatch(
+        replyComment({
+          user_id: authUser?.id,
+          content: input,
+          comment_id: comment?.id,
+          post_id: post?.id,
+        })
+      ).then(() => {
+        setInput("");
+        fetchInfo();
+      });
+    }
+    refetchReplies();
   };
 
   const handleLikeComment = async () => {
@@ -265,7 +300,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
             </div>
           </div>
         </Link>
-        <div>
+        <div className="w-full">
           <div className="flex items-center space-x-1">
             <p className="mr-1 font-semibold">@{comment?.user?.name}</p>
             <TimeAgo
@@ -275,6 +310,24 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           </div>
           <div className="flex flex-col items-start justify-start p-2">
             <p>{comment?.content}</p>
+            {comment?.imgName != null ? (
+              <img
+                src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
+                alt="Post"
+                className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                width={2000}
+                height={2000}
+              />
+            ) : null}
+            {comment?.gif != null ? (
+              <img
+                src={comment?.gif}
+                alt="gif"
+                className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                width={2000}
+                height={2000}
+              />
+            ) : null}
           </div>
         </div>
       </div>

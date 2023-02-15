@@ -219,9 +219,11 @@ function PostID({ post, refetchComments }: Props) {
   };
 
   useEffect(() => {
-    fetchInfo();
-    fetchLiked();
-    fetchDisliked();
+    if (!isEmpty(post)) {
+      fetchInfo();
+      fetchLiked();
+      fetchDisliked();
+    }
   }, [post]);
 
   //************************** Edit Post Handeling **************************//
@@ -346,9 +348,8 @@ function PostID({ post, refetchComments }: Props) {
               />
               <div className="relative z-0 flex ite">
                 <ul
-                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
-                    isDropdownVisible ? "" : "hidden"
-                  }`}
+                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
+                    }`}
                 >
                   {post?.userId === authUser?.id && (
                     <div
@@ -407,30 +408,26 @@ function PostID({ post, refetchComments }: Props) {
         <div className="flex">
           <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
             <p
-              className={`text-xs ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              }`}
+              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-5 w-5 cursor-pointer ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikePost()}
             />
           </div>
           <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
             <ArrowDownIcon
-              className={`h-5 w-5 cursor-pointer ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikePost()}
             />
             <p
-              className={`text-xs ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              }`}
+              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -579,9 +576,8 @@ function PostID({ post, refetchComments }: Props) {
       </form>
 
       <div
-        className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          deletePopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -626,9 +622,8 @@ function PostID({ post, refetchComments }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          editPopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+          }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">

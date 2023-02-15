@@ -30,7 +30,7 @@ export function fetchUserNotifications(fields: object) {
   }
 }
 
-export function fetchUserNotification(fields: string) {
+export function fetchUserNotification(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER_NOTIFICATION });
     try {

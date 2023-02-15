@@ -35,12 +35,13 @@ function Widgets() {
   }, []);
 
   useEffect(() => {
-    dispatch(searchPopularUsers({
-      search: input
-    })).then((result: any) => {
-      console.log(result);
-      setSearchResult(result)
-    })
+    if (input.length > 0) {
+      dispatch(searchPopularUsers({
+        search: input
+      })).then((result: any) => {
+        setSearchResult(result)
+      })
+    }
   }, [input]);
 
   return (

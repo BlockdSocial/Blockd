@@ -10,21 +10,81 @@ import {
   WalletIcon
 } from '@heroicons/react/24/outline'
 import { logoutUser } from '../../stores/authUser/AuthUserActions'
-import { useAppDispatch } from '../../stores/hooks'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import IconGroup from './IconGroup'
 import { useTheme } from 'next-themes'
 import NotifDropDown from './NotifDropDown'
 import MsgDropDown from './MsgDropDown'
+import { useChannel, configureAbly } from "@ably-labs/react-hooks";
+import Ably from "ably/promises";
+import { fetchUserNotification } from '../../stores/notification/NotificationActions'
+import { isEmpty } from 'lodash'
+import toast from 'react-hot-toast'
+import { fetchUser } from '../../stores/user/UserActions'
 
-
+interface Data {
+  receiver_id: number;
+  notification: number;
+}
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { notification } = useAppSelector((state) => state.notificationReducer);
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
+  const [notificationInfo, setNotificationInfo] = useState<string>()
+
+  useEffect(() => {
+    setNotificationInfo('');
+  }, []);
+
+  useEffect(() => {
+    if (notificationInfo) {
+      handleShowNotification(notificationInfo);
+    }
+  }, [notificationInfo]);
+
+  const handleShowNotification = async (notification: any) => {
+    await new Promise(f => setTimeout(f, 1000));
+    toast.success(notification);
+  }
+
+  configureAbly({
+    key: "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg",
+  });
+  const rest = new Ably.Rest(
+    "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg"
+  );
+
+  const [channel, ably] = useChannel("notifications", (message) => {
+    console.log(message);
+    checkUserNotification(message.data);
+  });
+
+  const checkUserNotification = async (data: Data) => {
+    console.log("data: ", data);
+    console.log(authUser?.id)
+    if (authUser?.id === data?.receiver_id) {
+      await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
+        await fetchUserName(result?.userId).then(async (res: any) => {
+          if ('like' === result?.type) {
+            setNotificationInfo(`${res} has liked your post!`);
+          }
+        })
+      });
+    }
+  };
+
+  const fetchUserName = async (id: any) => {
+    await dispatch(fetchUser(id)).then((result: any) => {
+      console.log('NAME: ', result?.name)
+      return result?.name;
+    });
+  }
 
   const handleMsg = () => {
     setDropdownOpen(!dropdownOpen);
@@ -126,8 +186,8 @@ const Navbar = () => {
                 {/* 
                 // @ts-ignore */}
                 <IconGroup
-                 
-                //@ts-ignore 
+
+                  //@ts-ignore 
                   Icon={ChatBubbleBottomCenterTextIcon}
                   notif="10"
                 ></IconGroup>
@@ -151,7 +211,7 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                        <span>10</span>
+                        <span>13</span>
                       </span>
                       <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
                     </strong>

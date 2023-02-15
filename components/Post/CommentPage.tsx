@@ -27,6 +27,8 @@ interface Comment {
   createdAt: string;
   userId: number;
   user: User;
+  gif: string;
+  imgName: string;
 }
 
 interface Post {
