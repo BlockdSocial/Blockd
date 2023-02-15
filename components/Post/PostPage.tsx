@@ -84,6 +84,8 @@ function PostPage() {
               key={index}
               // @ts-ignore
               comment={comment as Comment}
+              post={post as Post}
+              type='comment'
             />
           ))
         }

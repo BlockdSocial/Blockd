@@ -28,11 +28,16 @@ async function fetchUser(fields: any) {
   return apiCall('fetchUser', 'GET', `${endpoints.user}/${fields}`);
 };
 
+async function searchPopularUsers(fields: any) {
+  return apiCall('searchPopularUsers', 'POST', 'search/users/popular', fields);
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
   fetchFollowers,
   fetchFollowings,
   updateUser,
-  fetchUser
+  fetchUser,
+  searchPopularUsers
 };

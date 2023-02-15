@@ -6,15 +6,67 @@ import {
   ShareIcon,
   PhotoIcon,
   FaceSmileIcon,
-  XMarkIcon ,
+  XMarkIcon,
   GifIcon
 } from "@heroicons/react/24/outline";
 import Picker from "@emoji-mart/react";
+import TimeAgo from "react-timeago";
 import Link from "next/link";
 import Image from "next/image";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import ReactGiphySearchbox from "react-giphy-searchbox";
+import { config } from "../../constants";
+import { isEmpty } from "lodash";
+import { dislikeComment, fetchCommentInfo, fetchIsDislikedComment, fetchIsLikedComment, likeComment, replyComment } from "../../stores/comment/CommentActions";
 
-function MainComment() {
+interface Pic {
+  name: string;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+  profilePic: Pic;
+}
+
+interface Comment {
+  id: string;
+  content: string;
+  createdAt: string;
+  userId: number;
+  user: User;
+}
+
+interface Post {
+  id: number;
+  content: string;
+  createdAt: string;
+  likes: number;
+  comments: number;
+  hasImg: boolean;
+  userId: number;
+  gif: string;
+  user: User;
+}
+
+interface Info {
+  likes: number;
+  dislikes: number;
+  replies: number;
+}
+
+interface Props {
+  comment: Comment;
+  post: Post;
+  refetchReplies: () => void;
+}
+
+function MainComment({ comment, post, refetchReplies }: Props) {
+  const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [input, setInput] = useState<string>("");
 
   //************************** Image Handeling **************************//
@@ -25,6 +77,9 @@ function MainComment() {
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [isDisliked, setIsDisliked] = useState<boolean>();
+  const [info, setInfo] = useState<Info>();
 
   const onUploadPictureClick = () => {
     // `current` points to the mounted file input element
@@ -116,6 +171,74 @@ function MainComment() {
     setInput(input + emoji);
   };
 
+  useEffect(() => {
+    if (!isEmpty(comment)) {
+      fetchInfo();
+      fetchLiked();
+      fetchDisliked()
+    }
+  }, [comment]);
+
+  const handleAddReply = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    await dispatch(
+      replyComment({
+        user_id: authUser?.id,
+        content: input,
+        comment_id: comment?.id,
+        post_id: post?.id,
+      })
+    ).then(() => {
+      setInput("");
+      refetchReplies();
+    });
+  };
+
+  const handleLikeComment = async () => {
+    dispatch(
+      likeComment({
+        comment_id: comment?.id,
+        user_id: authUser?.id,
+      })
+    ).then(() => {
+      fetchLiked();
+      fetchDisliked();
+      fetchInfo();
+    });
+  };
+
+  const handleDislikeComment = async () => {
+    dispatch(
+      dislikeComment({
+        comment_id: comment?.id,
+        user_id: authUser?.id,
+      })
+    ).then(() => {
+      fetchLiked();
+      fetchDisliked();
+      fetchInfo();
+    });
+  };
+
+  const fetchLiked = async () => {
+    await dispatch(fetchIsLikedComment(comment?.id)).then((result: any) => {
+      setIsLiked(result);
+    });
+  };
+
+  const fetchDisliked = async () => {
+    await dispatch(fetchIsDislikedComment(comment?.id)).then((result: any) => {
+      setIsDisliked(result);
+    });
+  };
+
+  const fetchInfo = async () => {
+    await dispatch(fetchCommentInfo(comment?.id)).then((result: any) => {
+      setInfo(result);
+    });
+  };
+
   return (
     <div className="relative border-b flex flex-col space-x-2  p-4">
       <div className="flex space-x-2">
@@ -125,7 +248,11 @@ function MainComment() {
         >
           <div className="relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg">
             <Image
-              src="/images/pfp/pfp1.jpg"
+              src={
+                !isEmpty(comment?.user?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`
+                  : "/images/pfp/pfp1.jpg"
+              }
               alt="pfp"
               className="w-14 h-14 rounded-md shadow-sm"
               width={60}
@@ -133,22 +260,25 @@ function MainComment() {
             />
             <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                15
+                0
               </div>
             </div>
           </div>
         </Link>
         <div>
           <div className="flex items-center space-x-1">
-            <p className="mr-1 font-semibold">@IsmailBzz</p>
-            <p className="text-sm text-gray-500">time ago</p>
+            <p className="mr-1 font-semibold">@{comment?.user?.name}</p>
+            <TimeAgo
+              date={comment?.createdAt}
+              className="text-sm text-gray-500"
+            />
           </div>
           <div className="flex flex-col items-start justify-start p-2">
-            <p>This is my first Comment</p>
+            <p>{comment?.content}</p>
           </div>
         </div>
       </div>
-      <form className="mt-6 flex items-start justify-center space-x-3">
+      <form onSubmit={handleAddReply} className="mt-6 flex items-start justify-center space-x-3">
         <div className="flex flex-col items-end justify-center w-full">
           <input
             value={input}
@@ -161,28 +291,42 @@ function MainComment() {
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <p
-                  className="text-xs"
+                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                 >
-                  10
+                  {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className='h-4 w-4 cursor-pointer'
+                  className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  onClick={() => handleLikeComment()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
-                <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-                <p className="text-xs">1K</p>
+                <ArrowDownIcon
+                  className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  onClick={() => handleDislikeComment()}
+                />
+                <p
+                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
+                >
+                  {info?.dislikes != null || undefined ? info?.dislikes : 0}
+                </p>
               </div>
               <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                 <ChatBubbleBottomCenterTextIcon
                   className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
                 />
-                <p className="text-xs">16</p>
+                <p className="text-xs">
+                  {info?.replies != null || undefined ? info?.replies : 0}
+                </p>
               </div>
-              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+              {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                 <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                 <p className="text-xs">1</p>
-              </div>
+              </div> */}
             </div>
             <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white">
               {!gifUrl && (

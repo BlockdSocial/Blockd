@@ -23,7 +23,19 @@ import {
   FETCH_IS_DISLIKED_COMMENT_FAILURE,
   IS_DISLIKING_COMMENT,
   DISLIKE_COMMENT_SUCCESS,
-  DISLIKE_COMMENT_FAILURE
+  DISLIKE_COMMENT_FAILURE,
+  IS_REPLYING_COMMENT,
+  REPLY_COMMENT_SUCCESS,
+  REPLY_COMMENT_FAILURE,
+  IS_FETCHING_COMMENT,
+  FETCH_COMMENT_SUCCESS,
+  FETCH_COMMENT_FAILURE,
+  IS_FETCHING_COMMENT_REPLIES,
+  FETCH_COMMENT_REPLIES_SUCCESS,
+  FETCH_COMMENT_REPLIES_FAILURE,
+  IS_FETCHING_REPLY_INFO,
+  FETCH_REPLY_INFO_SUCCESS,
+  FETCH_REPLY_INFO_FAILURE
 } from './CommentActionTypes';
 
 const initialState = {
@@ -38,6 +50,13 @@ const initialState = {
   isFetchingIsDislikedComment: false,
   isLikedComment: false,
   isDislikedComment: false,
+  isReplyingComment: false,
+  isFetchingComment: false,
+  isFetchingReplyInfo: false,
+  replyInfo: {},
+  comment: {},
+  isFetchingCommentReplies: false,
+  commentReplies: [],
   commentInfo: [],
   postComments: []
 };
@@ -197,6 +216,85 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingIsDislikedComment: false,
+        error: action.error
+      };
+    }
+    case IS_REPLYING_COMMENT: {
+      return {
+        ...state,
+        isReplyingComment: true
+      };
+    }
+    case REPLY_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        isReplyingComment: false
+      };
+    }
+    case REPLY_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isReplyingComment: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_COMMENT: {
+      return {
+        ...state,
+        isFetchingComment: true
+      };
+    }
+    case FETCH_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        isFetchingComment: false,
+        comment: action.comment
+      };
+    }
+    case FETCH_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isFetchingComment: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_COMMENT_REPLIES: {
+      return {
+        ...state,
+        isFetchingCommentReplies: true
+      };
+    }
+    case FETCH_COMMENT_REPLIES_SUCCESS: {
+      return {
+        ...state,
+        isFetchingCommentReplies: false,
+        commentReplies: action.commentReplies
+      };
+    }
+    case FETCH_COMMENT_REPLIES_FAILURE: {
+      return {
+        ...state,
+        isFetchingCommentReplies: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_REPLY_INFO: {
+      return {
+        ...state,
+        isFetchingReplyInfo: true
+      };
+    }
+    case FETCH_REPLY_INFO_SUCCESS: {
+      return {
+        ...state,
+        isFetchingReplyInfo: false,
+        commentInfo: action.commentInfo
+      };
+    }
+    case FETCH_REPLY_INFO_FAILURE: {
+      return {
+        ...state,
+        isFetchingReplyInfo: false,
         error: action.error
       };
     }

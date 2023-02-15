@@ -22,7 +22,19 @@ import {
   FETCH_IS_DISLIKED_COMMENT_FAILURE,
   IS_DISLIKING_COMMENT,
   DISLIKE_COMMENT_SUCCESS,
-  DISLIKE_COMMENT_FAILURE
+  DISLIKE_COMMENT_FAILURE,
+  IS_REPLYING_COMMENT,
+  REPLY_COMMENT_SUCCESS,
+  REPLY_COMMENT_FAILURE,
+  IS_FETCHING_COMMENT,
+  FETCH_COMMENT_SUCCESS,
+  FETCH_COMMENT_FAILURE,
+  IS_FETCHING_COMMENT_REPLIES,
+  FETCH_COMMENT_REPLIES_SUCCESS,
+  FETCH_COMMENT_REPLIES_FAILURE,
+  IS_FETCHING_REPLY_INFO,
+  FETCH_REPLY_INFO_SUCCESS,
+  FETCH_REPLY_INFO_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -97,7 +109,7 @@ export function fetchPostComments(fields: string) {
     dispatch({ type: IS_FETCHING_POST_COMMENTS });
     try {
       const result = await commentApi.fetchPostComments(fields);
-      dispatch({ 
+      dispatch({
         type: FETCH_POST_COMMENTS_SUCCESS,
         postComments: result
       });
@@ -166,6 +178,84 @@ export function fetchIsDislikedComment(fields: any) {
       console.log('Fetch Is Disliked comment error: ', error);
       dispatch({
         type: FETCH_IS_DISLIKED_COMMENT_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function replyComment(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_REPLYING_COMMENT });
+    try {
+      await commentApi.replyComment(fields);
+      dispatch({
+        type: REPLY_COMMENT_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Reply Comment Error: ', error);
+      dispatch({
+        type: REPLY_COMMENT_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchComment(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_COMMENT });
+    try {
+      const result = await commentApi.fetchComment(fields);
+      dispatch({
+        type: FETCH_COMMENT_SUCCESS,
+        comment: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Comment Error: ', error);
+      dispatch({
+        type: FETCH_COMMENT_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchCommentReplies(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_COMMENT_REPLIES });
+    try {
+      const result = await commentApi.fetchCommentReplies(fields);
+      dispatch({
+        type: FETCH_COMMENT_REPLIES_SUCCESS,
+        commentReplies: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Comment Replies Error: ', error);
+      dispatch({
+        type: FETCH_COMMENT_REPLIES_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function fetchReplyInfo(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_REPLY_INFO });
+    try {
+      const result = await commentApi.fetchReplyInfo(fields);
+      dispatch({
+        type: FETCH_REPLY_INFO_SUCCESS,
+        replyInfo: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Reply Info Error: ', error);
+      dispatch({
+        type: FETCH_REPLY_INFO_FAILURE,
         error: error
       });
     }

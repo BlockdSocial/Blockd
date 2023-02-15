@@ -19,7 +19,9 @@ import {
   fetchCommentInfo,
   fetchIsDislikedComment,
   fetchIsLikedComment,
+  fetchReplyInfo,
   likeComment,
+  replyComment,
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
@@ -48,13 +50,37 @@ interface Comment {
 interface Info {
   likes: number;
   dislikes: number;
+  replies: number;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+  profilePic: Pic;
+}
+
+interface Post {
+  id: number;
+  content: string;
+  createdAt: string;
+  likes: number;
+  comments: number;
+  hasImg: boolean;
+  userId: number;
+  gif: string;
+  user: User;
 }
 
 interface Props {
   comment: Comment;
+  post: Post
+  type: string;
 }
 
-function CommentSection({ comment }: Props) {
+function CommentSection({ comment, post, type }: Props) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [info, setInfo] = useState<Info>();
@@ -165,15 +191,23 @@ function CommentSection({ comment }: Props) {
   const [isDisliked, setIsDisliked] = useState<boolean>();
 
   useEffect(() => {
-    fetchInfo();
-    fetchLiked();
-    fetchDisliked()
+    if (!isEmpty(comment)) {
+      fetchInfo();
+      fetchLiked();
+      fetchDisliked()
+    }
   }, [comment]);
 
   const fetchInfo = async () => {
-    await dispatch(fetchCommentInfo(comment?.id)).then((result: any) => {
-      setInfo(result);
-    });
+    if ('comment' === type) {
+      await dispatch(fetchCommentInfo(comment?.id)).then((result: any) => {
+        setInfo(result);
+      });
+    } else {
+      await dispatch(fetchReplyInfo(comment?.id)).then((result: any) => {
+        setInfo(result);
+      });
+    }
   };
 
   const handleLikeComment = async () => {
@@ -207,20 +241,46 @@ function CommentSection({ comment }: Props) {
   };
 
   const fetchLiked = async () => {
-    await dispatch(fetchIsLikedComment(comment?.id)).then((result: any) => {
-      setIsLiked(result);
-    });
+    if ('comment' === type) {
+      await dispatch(fetchIsLikedComment(comment?.id)).then((result: any) => {
+        setIsLiked(result);
+      });
+    }
   };
 
   const fetchDisliked = async () => {
-    await dispatch(fetchIsDislikedComment(comment?.id)).then((result: any) => {
-      setIsDisliked(result);
+    if ('comment' === type) {
+      await dispatch(fetchIsDislikedComment(comment?.id)).then((result: any) => {
+        setIsDisliked(result);
+      });
+    }
+  };
+
+  const handleAddReply = async (e: React.FormEvent<HTMLFormElement>) => {
+    e.preventDefault();
+
+    await dispatch(
+      replyComment({
+        user_id: authUser?.id,
+        content: input,
+        comment_id: comment?.id,
+        post_id: post?.id,
+      })
+    ).then(() => {
+      setInput("");
+      fetchInfo();
     });
   };
 
   return (
     <div className="relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4 group">
-      <Link href="/dashboard/post/comment" className="flex space-x-2 w-full">
+      <Link
+        href={{
+          pathname: "/dashboard/post/comment",
+          query: { commentId: comment?.id, postId: post?.id },
+        }}
+        className="flex space-x-2 w-full"
+      >
         <Link
           href="/dashboard/profile"
           className="flex flex-col w-fit h-fit group"
@@ -286,21 +346,26 @@ function CommentSection({ comment }: Props) {
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-            <ChatBubbleBottomCenterTextIcon
-              onClick={() => handleComment()}
-              className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
-            />
-            <p className="text-xs">16</p>
-          </div>
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+          {
+            'comment' === type &&
+            <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+              <ChatBubbleBottomCenterTextIcon
+                onClick={() => handleComment()}
+                className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+              />
+              <p className="text-xs">
+                {info?.replies != null || undefined ? info?.replies : 0}
+              </p>
+            </div>
+          }
+          {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
             <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
             <p className="text-xs">1</p>
-          </div>
+          </div> */}
         </div>
       </div>
       {commentBoxVisible && (
-        <form className="mt-6 flex items-start justify-center space-x-3">
+        <form onSubmit={handleAddReply} className="mt-6 flex items-start justify-center space-x-3">
           <div className="flex flex-col items-end justify-center w-full">
             <input
               value={input}
@@ -325,16 +390,30 @@ function CommentSection({ comment }: Props) {
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
-                  <ArrowDownIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-                  <p className="text-xs">1K</p>
-                </div>
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                  <ChatBubbleBottomCenterTextIcon
-                    onClick={() => handleComment()}
-                    className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                  <ArrowDownIcon
+                    className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    onClick={() => handleDislikeComment()}
                   />
-                  <p className="text-xs">16</p>
+                  <p
+                    className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      }`}
+                  >
+                    {info?.dislikes != null || undefined ? info?.dislikes : 0}
+                  </p>
                 </div>
+                {
+                  'comment' === type &&
+                  <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                    <ChatBubbleBottomCenterTextIcon
+                      onClick={() => handleComment()}
+                      className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                    />
+                    <p className="text-xs">
+                      {info?.replies != null || undefined ? info?.replies : 0}
+                    </p>
+                  </div>
+                }
                 <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">1</p>

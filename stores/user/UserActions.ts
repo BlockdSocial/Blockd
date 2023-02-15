@@ -16,7 +16,10 @@ import {
   UPDATE_USER_FAILURE,
   IS_FETCHING_USER,
   FETCH_USER_SUCCESS,
-  FETCH_USER_FAILURE
+  FETCH_USER_FAILURE,
+  IS_SEARCHING_POPULAR_USERS,
+  SEARCH_POPULAR_USERS_SUCCESS,
+  SEARCH_POPULAR_USERS_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -128,6 +131,26 @@ export function fetchUser(fields: any) {
       console.log('Fetch user error: ', error);
       dispatch({
         type: FETCH_USER_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function searchPopularUsers(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SEARCHING_POPULAR_USERS });
+    try {
+      const result = await userApi.searchPopularUsers(fields);
+      dispatch({
+        type: SEARCH_POPULAR_USERS_SUCCESS,
+        popularUsers: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Search Popular Users Error: ', error);
+      dispatch({
+        type: SEARCH_POPULAR_USERS_FAILURE,
         error: error
       });
     }

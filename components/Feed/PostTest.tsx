@@ -278,6 +278,7 @@ export default function PostTest({ post, refetch }: Props) {
   const handleDeletePost = async () => {
     //@ts-ignore
     await dispatch(deletePost(post?.id)).then(() => {
+      setDeletePopUp(!deletePopUp);
       refetch();
     });
   };

@@ -61,6 +61,7 @@ function Feed({ user }: Props) {
             key={index}
             // @ts-ignore
             post={post}
+            refetch={fetchPosts}
           />
         ))
       }

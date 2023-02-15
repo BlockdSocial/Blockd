@@ -2,7 +2,8 @@ import { apiCall } from '../../helpers';
 
 const endpoints = {
   comment: 'comment',
-  comments: 'comments'
+  comments: 'comments',
+  reply: 'reply'
 };
 
 async function addComment(fields: any) {
@@ -37,6 +38,22 @@ async function fetchIsDislikedComment(fields: any) {
   return apiCall('fetchIsDislikedComment', 'GET', `${endpoints.comment}/check/disliked/${fields}`)
 };
 
+async function replyComment(fields: any) {
+  return apiCall('replyComment', 'POST', `${endpoints.reply}`, fields);
+};
+
+async function fetchComment(fields: any) {
+  return apiCall('fetchComment', 'GET', `${endpoints.comment}/id/${fields}`);
+};
+
+async function fetchCommentReplies(fields: any) {
+  return apiCall('fetchCommentReplies', 'GET', `${endpoints.comment}/replies/${fields}`);
+};
+
+async function fetchReplyInfo(fields: any) {
+  return apiCall('fetchReplyInfo', 'GET', `${endpoints.reply}/info/${fields}`);
+};
+
 export default {
   addComment,
   deleteComment,
@@ -45,5 +62,9 @@ export default {
   fetchCommentInfo,
   fetchIsLikedComment,
   fetchIsDislikedComment,
-  dislikeComment
+  dislikeComment,
+  replyComment,
+  fetchComment,
+  fetchCommentReplies,
+  fetchReplyInfo
 };

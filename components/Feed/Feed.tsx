@@ -59,6 +59,7 @@ function Feed() {
   }, []);
 
   useEffect(() => {
+    dispatch(fetchAuthUser());
     setFiltered(undefined);
     fetchFiltered();
   }, []);
