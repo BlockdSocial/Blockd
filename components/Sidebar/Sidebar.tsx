@@ -12,7 +12,8 @@ import {
     ChatBubbleLeftIcon,
     ChatBubbleLeftRightIcon,
     ChevronDownIcon,
-    ChevronRightIcon
+    ChevronRightIcon,
+    LockClosedIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -43,7 +44,7 @@ function Sidebar() {
                         <SidebarRow Icon={UserIcon} title="Profile" active='' />
                     )}
                 </Link>
-                <Link href="/dashboard/achievement">
+                {/* <Link href="/dashboard/achievement">
                     {location.pathname === '/dashboard/achievement' ? (
                                                 // @ts-ignore
                         <SidebarRow Icon={FireIcon} title="Achievements" active='bg-gray-100 dark:bg-lightgray' />
@@ -51,7 +52,7 @@ function Sidebar() {
                                                 // @ts-ignore
                         <SidebarRow Icon={FireIcon} title="Achievements" active='' />
                     )}
-                </Link>
+                </Link> */}
                 <Link href="/dashboard/suggestion">
                     {location.pathname === '/dashboard/suggestion' ? (
                                                 // @ts-ignore
@@ -61,7 +62,7 @@ function Sidebar() {
                         <SidebarRow Icon={LightBulbIcon} title="Feedback" active='' />
                     )}
                 </Link>
-                <Link
+                {/* <Link
                     href=""
                     onMouseEnter={() => setOpen(true)}
                     onMouseLeave={() => setOpen(false)}
@@ -90,17 +91,27 @@ function Sidebar() {
                             </Link>
                         </div>
                     )}
-                </Link>
-                <Link href="">
+                </Link> */}
+                <div className='opacity-50 cursor-auto'>
                     {/* 
                 // @ts-ignore */}
-                    <SidebarRow Icon={ComputerDesktopIcon} title="Streams" active='' />
-                </Link>
-                <Link href="">
+                    <SidebarRow Icon={LockClosedIcon} title="Achievements" active='' />
+                </div>
+                <div className='opacity-50 cursor-auto'>
                     {/* 
                 // @ts-ignore */}
-                    <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
-                </Link>
+                    <SidebarRow Icon={LockClosedIcon} title="Chatrooms" active='' />
+                </div>
+                <div className='opacity-50 cursor-auto'>
+                    {/* 
+                // @ts-ignore */}
+                    <SidebarRow Icon={LockClosedIcon} title="Streams" active='' />
+                </div>
+                <div className='opacity-50 cursor-auto'>
+                    {/* 
+                // @ts-ignore */}
+                    <SidebarRow Icon={LockClosedIcon} title="Podcasts" active='' />
+                </div>
             </div>
         </div>
     )

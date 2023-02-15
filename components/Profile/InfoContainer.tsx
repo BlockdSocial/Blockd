@@ -224,18 +224,18 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
             </div>
             <div>
-              <p className='mr-1 text-sm group-hover:underline mt-2'>10K followers</p>
+              <p className='mr-1 text-sm group-hover:underline mt-2'>0 followers</p>
             </div>
             <div className="flex items-center justify-start w-48 h-5 rounded bg-gray-200 mb-2 relative group">
-              <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
+              {/* <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded">
                 <span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>
-              </div>
-              <div className="flex items-center justify-center w-1/4">
-                <span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>
+              </div> */}
+              <div className="flex items-center justify-center w-full">
+                <span className='text-xs font-semibold cursor-pointer text-black'>0 XP</span>
               </div>
             </div>
             <div className='text-sm'>
-              <span className='font-semibold'>Level 5 :</span> 75%
+              <span className='font-semibold'>Level 0 :</span> 0%
             </div>
           </div>
         </div>

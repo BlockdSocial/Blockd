@@ -23,6 +23,7 @@ import { write } from "fs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import { indexOf } from "lodash";
+import Policy from "../../components/Auth/Policy";
 
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
@@ -54,9 +55,14 @@ export default function SignUp() {
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
   const [terms, setTerms] = useState<boolean>(false);
+  const [policy, setPolicy] = useState<boolean>(false);
   const [
     isDisplayTermsAndConditionsModal,
     setIsDisplayTermsAndConditionsModal,
+  ] = useState<boolean>(false);
+  const [
+    isDisplayPolicyModal,
+    setIsDisplayPolicyModal,
   ] = useState<boolean>(false);
 
   const { address } = useAccount();
@@ -288,10 +294,18 @@ if(!mounted) {
               </div>
               <div className="flex items-center justify-start mt-4 w-full space-x-2">
                 <input
+                  onChange={() => setPolicy(!policy)}
                   type="checkbox"
                   className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
                 />
-                <p className="text-white font-semibold text-l">
+                <p
+                  onClick={() =>
+                    setIsDisplayPolicyModal(
+                      !isDisplayPolicyModal
+                    )
+                  }
+                  className="text-white font-semibold text-l cursor-pointer"
+                >
                   Privacy Policy
                 </p>
               </div>
@@ -398,6 +412,47 @@ if(!mounted) {
               </button>
             </div>
             <Terms />
+          </div>
+        </div>
+      </div>
+      {/*  ****************Modal****************   */}
+      <div
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayPolicyModal ? "" : "hidden"
+        }`}
+      >
+        <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
+          <div className="relative flex flex-col rounded-lg">
+            <div className="sticky top-0 z-10 flex items-center justify-between w-full p-2 border-b backdrop-blur-md bg-white/30">
+              <div className="text-black flex text-center justify-center font-semibold">
+                Privacy Policy
+              </div>
+              <button
+                type="button"
+                onClick={() =>
+                  setIsDisplayPolicyModal(
+                    !isDisplayPolicyModal
+                  )
+                }
+                className="text-black bg-transparent hover:bg-gray-200 rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+            <Policy />
           </div>
         </div>
       </div>

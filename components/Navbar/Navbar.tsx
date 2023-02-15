@@ -1,26 +1,26 @@
-import Image from 'next/image'
-import Link from 'next/link'
-import { useRouter } from 'next/router'
-import React, { useState, useEffect } from 'react'
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/router";
+import React, { useState, useEffect } from "react";
 
 import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
   KeyIcon,
-  WalletIcon
-} from '@heroicons/react/24/outline'
-import { logoutUser } from '../../stores/authUser/AuthUserActions'
-import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import IconGroup from './IconGroup'
-import { useTheme } from 'next-themes'
-import NotifDropDown from './NotifDropDown'
-import MsgDropDown from './MsgDropDown'
+  WalletIcon,
+} from "@heroicons/react/24/outline";
+import { logoutUser } from "../../stores/authUser/AuthUserActions";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import IconGroup from "./IconGroup";
+import { useTheme } from "next-themes";
+import NotifDropDown from "./NotifDropDown";
+import MsgDropDown from "./MsgDropDown";
 import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import Ably from "ably/promises";
-import { fetchUserNotification } from '../../stores/notification/NotificationActions'
-import { isEmpty } from 'lodash'
-import toast from 'react-hot-toast'
-import { fetchUser } from '../../stores/user/UserActions'
+import { fetchUserNotification } from "../../stores/notification/NotificationActions";
+import { isEmpty } from "lodash";
+import toast from "react-hot-toast";
+import { fetchUser } from "../../stores/user/UserActions";
 
 interface Data {
   receiver_id: number;
@@ -36,10 +36,10 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
-  const [notificationInfo, setNotificationInfo] = useState<string>()
+  const [notificationInfo, setNotificationInfo] = useState<string>();
 
   useEffect(() => {
-    setNotificationInfo('');
+    setNotificationInfo("");
   }, []);
 
   useEffect(() => {
@@ -49,9 +49,9 @@ const Navbar = () => {
   }, [notificationInfo]);
 
   const handleShowNotification = async (notification: any) => {
-    await new Promise(f => setTimeout(f, 1000));
+    await new Promise((f) => setTimeout(f, 1000));
     toast.success(notification);
-  }
+  };
 
   configureAbly({
     key: "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg",
@@ -67,24 +67,26 @@ const Navbar = () => {
 
   const checkUserNotification = async (data: Data) => {
     console.log("data: ", data);
-    console.log(authUser?.id)
+    console.log(authUser?.id);
     if (authUser?.id === data?.receiver_id) {
-      await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
-        await fetchUserName(result?.userId).then(async (res: any) => {
-          if ('like' === result?.type) {
-            setNotificationInfo(`${res} has liked your post!`);
-          }
-        })
-      });
+      await dispatch(fetchUserNotification(data?.notification)).then(
+        async (result: any) => {
+          await fetchUserName(result?.userId).then(async (res: any) => {
+            if ("like" === result?.type) {
+              setNotificationInfo(`${res} has liked your post!`);
+            }
+          });
+        }
+      );
     }
   };
 
   const fetchUserName = async (id: any) => {
     await dispatch(fetchUser(id)).then((result: any) => {
-      console.log('NAME: ', result?.name)
+      console.log("NAME: ", result?.name);
       return result?.name;
     });
-  }
+  };
 
   const handleMsg = () => {
     setDropdownOpen(!dropdownOpen);
@@ -186,8 +188,7 @@ const Navbar = () => {
                 {/* 
                 // @ts-ignore */}
                 <IconGroup
-
-                  //@ts-ignore 
+                  //@ts-ignore
                   Icon={ChatBubbleBottomCenterTextIcon}
                   notif="10"
                 ></IconGroup>
@@ -203,28 +204,15 @@ const Navbar = () => {
             <MsgDropDown />
           </div>*/}
             {/* Notifications */}
-            <li className="flex flex-col items-center text-l">
-              <Link href="/dashboard/notifications">
+
+            <li className="hidden md:flex md:flex-col items-center text-l">
+              <Link href="" onClick={() => handleNotif()}>
                 {/* 
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 p-2 rounded-ful transition-all duration-100 group">
-                  <div className="">
-                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
-                      <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                        <span>13</span>
-                      </span>
-                      <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
-                    </strong>
-                  </div>
-                </div>
+                <IconGroup Icon={BellIcon} notif="3"></IconGroup>
               </Link>
             </li>
             {/*
-          <li className='hidden md:flex md:flex-col items-center text-l'>
-            <Link href="" onClick={() => handleNotif()}>
-              <IconGroup Icon={BellIcon} notif="3"></IconGroup>
-            </Link>
-          </li>
           <div className={`${dropdownNotifOpen ? 'hidden md:inline' : 'hidden'}`}>
             <NotifDropDown />
           </div>*/}
