@@ -11,7 +11,8 @@ import { nft_contract } from "../../config/contract";
 import { useQuery } from "@tanstack/react-query";
 import useIsMounted from "../../hooks/useIsMounted"
 import axios from "axios";
-import toast from 'react-hot-toast'
+import toast, { Toaster } from "react-hot-toast";
+
 import {
   useAccount,
   useContractRead,
@@ -60,13 +61,19 @@ const {
       signature: userSignature,
       message: userMessageForBackend
     })).then(async (res:any) => {
+     
       if(res.error) {
+       
       await new Promise(f => setTimeout(f, 1000));
-      toast.error(res.message)
+      toast.error(res.error, {
+        id: "ref",
+      })
       return;
     }
+    else {
   
       router.push('/');
+    }
     });
   }
   
@@ -140,9 +147,11 @@ const {
   }
   return (
     <section className="min-h-screen flex items-stretch scrollbar-hide overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+    <> <Toaster /></>
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
+            
             <Image
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
@@ -156,7 +165,7 @@ const {
             <br />
             <hr className="w-1/3"></hr>
             <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">Verified By Blockchain Technology</h4>
-            <div className='flex mt-8 '>
+            <div className='flex mt-8 hidden'>
               <button className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-full">Learn more</button>
             </div>
           </div>

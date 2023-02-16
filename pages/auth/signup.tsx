@@ -12,7 +12,7 @@ import Terms from "../../components/Auth/Terms";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { nft_contract } from "../../config/contract";
 import useIsMounted from "../../hooks/useIsMounted";
-import toast from 'react-hot-toast';
+import toast, { Toaster } from "react-hot-toast";
 import {
   useAccount,
   useContractRead,
@@ -115,7 +115,7 @@ export default function SignUp() {
     ).then(async (res:any) => {
       if(res.error) {
       await new Promise(f => setTimeout(f, 1000));
-      toast.error(res.message)
+      toast.error(res.error)
       return;
     }
       router.push(
@@ -203,12 +203,14 @@ export default function SignUp() {
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
-     setNftData(true)
+      if(nft_data && Number(nft_data) > 0){
+     setNftData(true);
+      }
+     
     }
   });
  
-  
-  
+  console.log(nftData);  
   if (!mounted) {
     return null;
   }
@@ -241,7 +243,7 @@ export default function SignUp() {
             <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">
               Verified By Blockchain Technology
             </h4>
-            <div className="flex mt-8 ">
+            <div className="flex mt-8 hidden">
               <button className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full">
                 Learn more
               </button>
