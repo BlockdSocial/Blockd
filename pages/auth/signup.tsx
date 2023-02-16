@@ -113,9 +113,9 @@ export default function SignUp() {
         message: userMessageForBackend,
       })
     ).then(async (res:any) => {
-      if(res.error) {
+      if(res?.error) {
       await new Promise(f => setTimeout(f, 1000));
-      toast.error(res.error)
+      toast.error(res?.error)
       return;
     }
       router.push(
@@ -180,14 +180,15 @@ export default function SignUp() {
       value: data,
     },
     enabled: !!data && !!address,
-    onSuccess() {
-      console.log('call useEffect')
+    onSuccess(data:any) {
+      console.log('call useEffect', data)
     }
   });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
-    onSuccess() {
+    onSuccess(data:any) {
+      console.log('write',data)
       setNftData(true)
      }
   });
@@ -204,6 +205,7 @@ export default function SignUp() {
     enabled: !!address,
     onSuccess() {
       if(nft_data && Number(nft_data) > 0){
+        console.log(nft_data);
      setNftData(true);
       }
      

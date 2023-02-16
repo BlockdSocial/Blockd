@@ -62,10 +62,10 @@ const {
       message: userMessageForBackend
     })).then(async (res:any) => {
      
-      if(res.error) {
+      if(res?.error) {
        
       await new Promise(f => setTimeout(f, 1000));
-      toast.error(res.error, {
+      toast.error(res?.error, {
         id: "ref",
       })
       return;

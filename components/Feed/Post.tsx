@@ -81,21 +81,27 @@ export default function PostTest({ post, refetch }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
-  const [textArea, setTextArea] = useState<string>(post?.content || '');
-  const [imageEdit, setImageEdit] = useState<string>(post?.images != undefined || null ? post?.images[0]?.name : '');
+  const [textArea, setTextArea] = useState<string>("");
+  const [imageEdit, setImageEdit] = useState<string>("");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
   const [info, setInfo] = useState<Info>();
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
 
+  console.log(post,'hussein')
+  console.log('imageEdit hussein',imageEdit)
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
     fetchInfo();
     fetchLiked();
+    setImageEdit(post?.images ? post?.images[0]?.name : '');
+    setTextArea(post?.content || '')
+
     fetchDisliked();
   }, [post]);
+
 
   const fetchInfo = async () => {
     await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
@@ -308,22 +314,23 @@ export default function PostTest({ post, refetch }: Props) {
   };
 
   const handleEditPost = async () => {
-    if (imageEdit) {
+    // if (imageEdit) {
+    //   console.log('fi email',imageEdit,textArea );
+    //   await dispatch(editPost(post?.id, {
+    //     image: imageEdit,
+    //     content: textArea,
+    //   })).then(() => {
+    //     refetch();
+    //     setEditPopUp(!editPopUp);
+    //   });
+    // } else {
       await dispatch(editPost(post?.id, {
-        image: imageEdit,
         content: textArea,
       })).then(() => {
         refetch();
         setEditPopUp(!editPopUp);
       });
-    } else {
-      await dispatch(editPost(post?.id, {
-        content: textArea,
-      })).then(() => {
-        refetch();
-        setEditPopUp(!editPopUp);
-      });
-    }
+    
   }
 
   const closeGif = () => {

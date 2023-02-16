@@ -35,6 +35,7 @@ function Feed() {
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
   const [endCount, setEndCount] = useState<number>(4);
+  const [endTotal, setEndTotal] = useState<number>(4);
   const [filtered, setFiltered] = useState<Filtered | any>([]);
 
   let [atTop, setAtTop] = useState<boolean>(false);
@@ -68,16 +69,22 @@ function Feed() {
       start: 0,
       end: 4
     })).then((result: any) => {
+      setEndTotal(4);
+      setEndCount(4);
       setFiltered(result?.posts);
     });
   };
 
   const updateFiltered = async (start: number, end: number) => {
+    console.log(start,'start husseinn')
+    console.log(end,' end husseinn')
     await dispatch(fetchFilteredPosts({
       start: start,
       end: end
     })).then((result: any) => {
+      console.log(result,'husseinn')
       const newPosts = filtered?.concat(result?.posts);
+      setEndTotal(result?.total)
       setFiltered(newPosts);
     });
   };
@@ -91,7 +98,7 @@ function Feed() {
   };
 
   const handleRefresh = async () => {
-    const refreshToast = toast.loading('Refreaching...');
+    const refreshToast = toast.loading('Refreshing...');
     await fetchFiltered();
     await new Promise(f => setTimeout(f, 1000));
     toast.success('Feed Updated!', {
@@ -100,12 +107,26 @@ function Feed() {
   };
   
   const handleScroll = async () => {
+    
+    console.log(endTotal)
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      if (scrollTop + clientHeight === scrollHeight) {
+      console.log(scrollTop + clientHeight,'klkl')
+      console.log(scrollHeight,'klkl2')
+      if (scrollTop + clientHeight === scrollHeight || scrollTop + clientHeight === scrollHeight-0.5) {
+        
+        console.log({endTotal})
         // TO SOMETHING HERE
-        updateFiltered(endCount + 1, endCount + 2);
-        setEndCount(endCount + 2);
+        if(!isFetchingFilteredPosts){
+        if(endTotal < 4) {
+         
+          return;
+
+        }else {
+        updateFiltered(endCount + 1, endCount + 5);
+        setEndCount(endCount + 5);
+        }
+      }
       }
     }
   }
