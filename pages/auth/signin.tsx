@@ -190,7 +190,7 @@ const {
                    <>
                    {address && 
                      <p className="text-red-600 mt-3 text-base font-bold">
-                       You don't have account please create one <Link href="/auth/signup" className='underline font-semibold'>Register</Link>
+                       Please create an account to proceed <Link href="/auth/signup" className='underline font-semibold'>Register Now</Link>
                    </p>
                    }
                    </>

@@ -193,7 +193,7 @@ const Navbar = () => {
               {renderThemeChanger()}
             </li>
             {/* Messages */}
-            <li className="flex flex-col items-center text-l">
+            <li className="flex flex-col items-center text-l hidden">
               <Link href="/dashboard/messages">
                 {/* 
                 // @ts-ignore */}

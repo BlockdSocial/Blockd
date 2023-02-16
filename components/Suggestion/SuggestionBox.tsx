@@ -24,6 +24,7 @@ function SuggestionBox() {
     await dispatch(postSuggestion({
       message: input
     })).then(async () => {
+      setInput('');
       const refreshToast = toast.loading('Sending...');
       await new Promise(f => setTimeout(f, 500));
       toast.success('Posted!', {
@@ -35,9 +36,9 @@ function SuggestionBox() {
   return (
     <div className="p-4">
       <div className="flex flex-col items-center justify-center space-y-3 border-2 border-orange-200 dark:border-lightgray rounded-xl w-full p-4 bg-white dark:bg-darkgray">
-        <p className="text-xl font-semibold text-center">Make a feedback</p>
+        <p className="text-xl font-semibold text-center">Submit a feedback</p>
         <p className="text-sm font-semibold text-center mt-2">
-          Let's us know your thoughts
+          Let us know your thoughts
         </p>
         <div className="md:flex xs:flex-col w-full">
           <div className="flex flex-col p-3 items-start w-full md:w-1/2 space-y-3">
