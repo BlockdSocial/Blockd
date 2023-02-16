@@ -1,12 +1,47 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import {
   BellIcon,
   ArrowPathIcon,
 } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+import { fetchUserNotifications } from '../../stores/notification/NotificationActions'
+import { isEmpty } from 'lodash'
+
+interface IPic {
+  name: string;
+}
+
+interface Pic {
+  image: IPic;
+}
+
+interface User {
+  id: string;
+  name: string;
+  email: string;
+  profilePicId: number;
+  bannerPicId: number;
+  profilePic: Pic;
+}
+
+interface INotification {
+  id: number;
+  type: string;
+  user: User;
+  createdAt: string;
+  postId: number;
+}
 
 function NotificationsPage() {
+  const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { notifications } = useAppSelector((state) => state.notificationReducer);
+
+  useEffect(() => {
+    handleFetchNotifications();
+  }, []);
 
   const Notifications = dynamic(() => import('./Notifications'), { ssr: false })
   const handleRefresh = async () => {
@@ -15,6 +50,10 @@ function NotificationsPage() {
     toast.success('Notifications Updated!', {
       id: refreshToast,
     })
+  }
+
+  const handleFetchNotifications = async () => {
+    await dispatch(fetchUserNotifications());
   }
 
   return (
@@ -32,7 +71,15 @@ function NotificationsPage() {
         </div>
       </div>
       <hr></hr>
-      {Array.from({ length: 10 }, (_, i) => <Notifications key={i} />)}
+      {
+        notifications &&
+        notifications?.map((notification: INotification) => (
+          <Notifications
+            key={notification?.id}
+            notification={notification}
+          />
+        ))
+      }
     </div>
   )
 }

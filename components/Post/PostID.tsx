@@ -113,14 +113,6 @@ function PostID({ post, refetchComments }: Props) {
     });
   };
 
-  const fetchProfilePicture = async (id: number) => {
-    if (id != undefined || id != null) {
-      await dispatch(fetchPostImage(id)).then((result: any) => {
-        setProfilePicture(result[0]?.name);
-      });
-    }
-  };
-
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -292,6 +284,8 @@ function PostID({ post, refetchComments }: Props) {
     });
   };
 
+  console.log('post: ', post)
+
   return (
     <div className="flex flex-col space-x-3 p-4 -z-20 border-y">
       <div className="w-full">
@@ -305,12 +299,12 @@ function PostID({ post, refetchComments }: Props) {
                 <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
                   <Image
                     src={
-                      !isEmpty(profilePicture)
-                        ? `${config.url.PUBLIC_URL}/${profilePicture}`
+                      !isEmpty(post?.user?.profilePic)
+                        ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
                         : "/images/pfp/pfp2.jpg"
                     }
                     alt="pfp"
-                    className="min-w-16 min-h-16 rounded-md shadow-sm"
+                    className="w-16 h-16 rounded-md shadow-sm"
                     width={60}
                     height={60}
                   />

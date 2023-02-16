@@ -9,7 +9,7 @@ import {
   KeyIcon,
   WalletIcon
 } from '@heroicons/react/24/outline'
-import { logoutUser } from '../../stores/authUser/AuthUserActions'
+import { fetchAuthUser, logoutUser } from '../../stores/authUser/AuthUserActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import IconGroup from './IconGroup'
 import { useTheme } from 'next-themes'
@@ -17,10 +17,11 @@ import NotifDropDown from './NotifDropDown'
 import MsgDropDown from './MsgDropDown'
 import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import Ably from "ably/promises";
-import { fetchUserNotification } from '../../stores/notification/NotificationActions'
+import { fetchUserNotification, fetchUserNotifications } from '../../stores/notification/NotificationActions'
 import { isEmpty } from 'lodash'
 import toast from 'react-hot-toast'
 import { fetchUser } from '../../stores/user/UserActions'
+import { config } from "../../constants";
 
 interface Data {
   receiver_id: number;
@@ -31,7 +32,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { notification } = useAppSelector((state) => state.notificationReducer);
+  const { notifications, unread } = useAppSelector((state) => state.notificationReducer);
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
@@ -40,6 +41,8 @@ const Navbar = () => {
 
   useEffect(() => {
     setNotificationInfo('');
+    dispatch(fetchAuthUser());
+    handleFetchNotifications();
   }, []);
 
   useEffect(() => {
@@ -50,7 +53,11 @@ const Navbar = () => {
 
   const handleShowNotification = async (notification: any) => {
     await new Promise(f => setTimeout(f, 1000));
-    toast.success(notification);
+    toast(notification);
+  }
+
+  const handleFetchNotifications = async () => {
+    await dispatch(fetchUserNotifications());
   }
 
   configureAbly({
@@ -70,11 +77,16 @@ const Navbar = () => {
     console.log(authUser?.id)
     if (authUser?.id === data?.receiver_id) {
       await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
-        await fetchUserName(result?.userId).then(async (res: any) => {
-          if ('like' === result?.type) {
-            setNotificationInfo(`${res} has liked your post!`);
-          }
-        })
+        console.log('result: ', result);
+        if ('like' === result?.type) {
+          setNotificationInfo(`${result?.user?.name} has liked your post!`);
+        }
+        else if ('comment' === result?.type) {
+          setNotificationInfo(`${result?.user?.name} commented on your post!`);
+        }
+        else if ('dislike' === result?.type) {
+          setNotificationInfo(`${result?.user?.name} disliked your post!`);
+        }
       });
     }
   };
@@ -211,7 +223,7 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                        <span>13</span>
+                        <span>{unread}</span>
                       </span>
                       <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
                     </strong>
@@ -241,7 +253,11 @@ const Navbar = () => {
                 className="rounded-md p-[1px] bg-white w-full"
               >
                 <img
-                  src="/images/pfp/pfp1.jpg"
+                  src={
+                    authUser?.profilePic
+                      ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                      : "/images/pfp/pfp1.jpg"
+                  } 
                   alt="pfp"
                   className="max-h-10 object-contain rounded-md shadow-sm cursor-pointer"
                 />

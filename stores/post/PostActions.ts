@@ -40,7 +40,10 @@ import {
   FETCH_IS_DISLIKED_FAILURE,
   IS_ADDING_POST_VIEW,
   ADD_POST_VIEW_SUCCESS,
-  ADD_POST_VIEW_ERROR
+  ADD_POST_VIEW_ERROR,
+  IS_UPDATING_POST,
+  UPDATE_POST_SUCCESS,
+  UPDATE_POST_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -302,6 +305,24 @@ export function addPostView(fields: any) {
       console.log('Add Post View Error: ', error);
       dispatch({
         type: ADD_POST_VIEW_ERROR,
+        error: error
+      });
+    }
+  }
+}
+
+export function editPost(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_UPDATING_POST });
+    try {
+      await postApi.editPost(id, fields);
+      dispatch({
+        type: UPDATE_POST_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Update Post Error: ', error);
+      dispatch({
+        type: UPDATE_POST_FAILURE,
         error: error
       });
     }

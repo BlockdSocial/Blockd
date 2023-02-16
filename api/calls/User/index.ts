@@ -28,8 +28,8 @@ async function fetchUser(fields: any) {
   return apiCall('fetchUser', 'GET', `${endpoints.user}/${fields}`);
 };
 
-async function searchPopularUsers(fields: any) {
-  return apiCall('searchPopularUsers', 'POST', 'search/users/popular', fields);
+async function searchUsers(fields: any) {
+  return apiCall('searchPopularUsers', 'POST', 'search/users/all', fields);
 };
 
 export default {
@@ -39,5 +39,5 @@ export default {
   fetchFollowings,
   updateUser,
   fetchUser,
-  searchPopularUsers
+  searchUsers
 };

@@ -5,9 +5,11 @@ import {
 } from '@heroicons/react/24/outline'
 import Slider from './Slider'
 import Link from 'next/link'
-import { fetchTrendingPosts } from '../../stores/post/PostActions'
+import { fetchTrendingPosts, searchPosts } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import { searchPopularUsers } from '../../stores/user/UserActions'
+import { searchUsers } from '../../stores/user/UserActions'
+import { isEmpty } from 'lodash'
+import { config } from "../../constants";
 
 interface Pic {
   name: string;
@@ -36,10 +38,11 @@ function Widgets() {
 
   useEffect(() => {
     if (input.length > 0) {
-      dispatch(searchPopularUsers({
-        search: input
+      dispatch(searchUsers({
+        search: input,
+        end: 5
       })).then((result: any) => {
-        setSearchResult(result)
+        setSearchResult(result?.users)
       })
     }
   }, [input]);
@@ -63,13 +66,28 @@ function Widgets() {
               <div className='flex flex-col items-center justify-center'>
                 {
                   searchResult &&
-                  searchResult?.map((result: User, index: number) => (
-                    <div key={result?.id} className='flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
-                      <img src="/images/pfp/pfp1.jpg" className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd' />
-                      <p className='font-semibold text-sm'>
-                        @{result?.name}
-                      </p>
-                    </div>
+                  searchResult?.map((result: any, index: number) => (
+                    <Link
+                      href={{
+                        pathname: "/dashboard/profile",
+                        query: { user_id: result?.id },
+                      }}
+                      className="w-full"
+                    >
+                      <div key={result?.id} className='flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>
+                        <img
+                          src={
+                            !isEmpty(result?.profilePic)
+                              ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
+                              : "/images/pfp/pfp1.jpg"
+                          }
+                          className='rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd'
+                        />
+                        <p className='font-semibold text-sm'>
+                          @{result?.name}
+                        </p>
+                      </div>
+                    </Link>
                   ))
                 }
                 <Link href="/search" className='flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer'>

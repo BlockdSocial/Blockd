@@ -4,20 +4,24 @@ import {
   FETCH_USER_NOTIFICATIONS_FAILURE,
   IS_FETCHING_USER_NOTIFICATION,
   FETCH_USER_NOTIFICATION_SUCCESS,
-  FETCH_USER_NOTIFICATION_FAILURE
+  FETCH_USER_NOTIFICATION_FAILURE,
+  IS_READING_NOTIFICATION,
+  READ_NOTIFICATION_SUCCESS,
+  READ_NOTIFICATION_FAILURE
 } from './NotificationActionTypes';
 
 // Api
 import { notificationApi } from '../../api';
 
-export function fetchUserNotifications(fields: object) {
+export function fetchUserNotifications() {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER_NOTIFICATIONS });
     try {
-      const result = await notificationApi.fetchUserNotifications(fields);
+      const result: any = await notificationApi.fetchUserNotifications();
       dispatch({ 
         type: FETCH_USER_NOTIFICATIONS_SUCCESS,
-        notifications: result
+        notifications: result?.notifications,
+        unread: result?.unread
       });
       return result;
     } catch (error: any) {
@@ -44,6 +48,24 @@ export function fetchUserNotification(fields: any) {
       console.log('Fetch User Notification error: ', error);
       dispatch({
         type: FETCH_USER_NOTIFICATION_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function readNotification(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_READING_NOTIFICATION });
+    try {
+      await notificationApi.readNotification(fields);
+      dispatch({
+        type: READ_NOTIFICATION_SUCCESS,
+      });
+    } catch (error: any) {
+      console.log('Read Notification Error: ', error);
+      dispatch({
+        type: READ_NOTIFICATION_FAILURE,
         error: error
       });
     }

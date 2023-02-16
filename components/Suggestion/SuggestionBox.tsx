@@ -1,9 +1,21 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { useAppSelector } from "../../stores/hooks";
+import { isEmpty } from "lodash";
 
 function SuggestionBox() {
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [input, setInput] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (!isEmpty(authUser)) {
+      setName(authUser?.name);
+      setEmail(authUser?.email);
+    }
+  }, [authUser]);
 
   return (
     <div className="p-4">
@@ -20,6 +32,8 @@ function SuggestionBox() {
                 type="text"
                 className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                 placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="w-full">
@@ -28,6 +42,8 @@ function SuggestionBox() {
                 type="text"
                 className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             {/* <div className="w-full">
@@ -67,7 +83,10 @@ function SuggestionBox() {
             <LinkIcon className="w-5 h-5" />
             <p>Attach</p>
           </button> */}
-          <button className="text-sm font-semibold p-2 px-4 text-white rounded-lg bg-blockd hover:bg-orange-400">
+          <button
+            className="text-sm font-semibold p-2 px-4 text-white rounded-lg bg-blockd hover:bg-orange-400"
+            disabled={name?.length == 0 || email?.length == 0 || input?.length == 0 ? true : false}
+          >
             Submit
           </button>
         </div>

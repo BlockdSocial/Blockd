@@ -34,7 +34,13 @@ import {
   FETCH_COMMENT_REPLIES_FAILURE,
   IS_FETCHING_REPLY_INFO,
   FETCH_REPLY_INFO_SUCCESS,
-  FETCH_REPLY_INFO_FAILURE
+  FETCH_REPLY_INFO_FAILURE,
+  IS_LIKING_REPLY,
+  LIKE_REPLY_SUCCESS,
+  LIKE_REPLY_FAILURE,
+  IS_DISLIKING_REPLY,
+  DISLIKE_REPLY_SUCCESS,
+  DISLIKE_REPLY_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -256,6 +262,42 @@ export function fetchReplyInfo(fields: any) {
       console.log('Fetch Reply Info Error: ', error);
       dispatch({
         type: FETCH_REPLY_INFO_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function likeReply(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_LIKING_REPLY });
+    try {
+      await commentApi.likeReply(fields);
+      dispatch({
+        type: LIKE_REPLY_SUCCESS,
+      });
+    } catch (error: any) {
+      console.log('Like Reply Error: ', error);
+      dispatch({
+        type: LIKE_REPLY_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function dislikeReply(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_DISLIKING_REPLY });
+    try {
+      await commentApi.dislikeReply(fields);
+      dispatch({
+        type: DISLIKE_REPLY_SUCCESS,
+      });
+    } catch (error: any) {
+      console.log('Dislike Reply Error: ', error);
+      dispatch({
+        type: DISLIKE_REPLY_FAILURE,
         error: error
       });
     }
