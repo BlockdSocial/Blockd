@@ -52,28 +52,27 @@ const wagmiClient = createClient({
 function MyApp({ Component, pageProps }: AppProps) {
   const mounted = useIsMounted();
 
-
-
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
-    console.log(GID)
+    console.log(GID);
     return null;
   }
   return (
     <>
       <Script
-        src={`https://www.googletagmanager.com/gtag/js?id=${GID}`}
-        strategy="afterInteractive"
+        async
+        src="https://www.googletagmanager.com/gtag/js?id=G-QW4Q5G8G4K"
       />
-      <Script id="google-analytics" strategy="afterInteractive">
+      <Script>
         {`
-      window.dataLayer = window.dataLayer || [];
-      function gtag(){window.dataLayer.push(arguments);}
-      gtag('js', new Date());
+  window.dataLayer = window.dataLayer || [];
+  function gtag(){dataLayer.push(arguments);}
+  gtag('js', new Date());
 
-      gtag('config', '${GID}');
-    `}
+  gtag('config', 'G-QW4Q5G8G4K');
+  `}
       </Script>
+
       <QueryClientProvider client={queryClient}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider

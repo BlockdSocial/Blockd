@@ -21,13 +21,15 @@ import { fetchUserNotification, fetchUserNotifications } from '../../stores/noti
 import { isEmpty } from 'lodash'
 import toast from 'react-hot-toast'
 import { fetchUser } from '../../stores/user/UserActions'
-import { config } from "../../constants";
+import { config, AblyKey } from "../../constants";
 
 interface Data {
   receiver_id: number;
   notification: number;
 }
-
+configureAbly({
+  key:  AblyKey,
+});
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
@@ -38,16 +40,16 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
   const [notificationInfo, setNotificationInfo] = useState<string>()
-  const [authUsernote, setAuthUsernote] = useState<any>({})
+
 
   useEffect(() => {
     setNotificationInfo('');
     dispatch(fetchAuthUser());
     handleFetchNotifications();
   }, []);
-  useEffect(() => {
-    setAuthUsernote(authUser)
-  }, [authUser]);
+
+
+
 console.log('navbar',authUser?.id);
   useEffect(() => {
     if (notificationInfo) {
@@ -64,22 +66,29 @@ console.log('navbar',authUser?.id);
     await dispatch(fetchUserNotifications());
   }
 
-  configureAbly({
-    key: "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg",
-  });
-  const rest = new Ably.Rest(
-    "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg"
-  );
+ 
+ 
 
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);
+    console.log(authUser)
+
     checkUserNotification(message.data);
   });
 
   const checkUserNotification = async (data: Data) => {
     console.log("data: ", data);
-    console.log(authUsernote)
-    if (authUsernote?.id === data?.receiver_id) {
+    console.log(authUser)
+    let localStorageAuthUser:any = ''
+    if(!authUser) {
+      localStorageAuthUser = localStorage.getItem(authUser)
+      console.log(localStorageAuthUser);
+    }
+    else {
+      localStorageAuthUser = authUser;
+    }
+    console.log({localStorageAuthUser});
+    if (localStorageAuthUser?.id === data?.receiver_id) {
       await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
         console.log('result: ', result);
         if ('like' === result?.type) {
