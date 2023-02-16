@@ -38,7 +38,9 @@ export function fetchUserNotification(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER_NOTIFICATION });
     try {
+      
       const result = await notificationApi.fetchUserNotification(fields);
+      console.log(result);
       dispatch({
         type: FETCH_USER_NOTIFICATION_SUCCESS,
         notification: result

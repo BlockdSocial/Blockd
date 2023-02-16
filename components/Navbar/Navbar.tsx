@@ -38,13 +38,17 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
   const [notificationInfo, setNotificationInfo] = useState<string>()
+  const [authUsernote, setAuthUsernote] = useState<any>({})
 
   useEffect(() => {
     setNotificationInfo('');
     dispatch(fetchAuthUser());
     handleFetchNotifications();
   }, []);
-
+  useEffect(() => {
+    setAuthUsernote(authUser)
+  }, [authUser]);
+console.log('navbar',authUser?.id);
   useEffect(() => {
     if (notificationInfo) {
       handleShowNotification(notificationInfo);
@@ -74,8 +78,8 @@ const Navbar = () => {
 
   const checkUserNotification = async (data: Data) => {
     console.log("data: ", data);
-    console.log(authUser?.id)
-    if (authUser?.id === data?.receiver_id) {
+    console.log(authUsernote)
+    if (authUsernote?.id === data?.receiver_id) {
       await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
         console.log('result: ', result);
         if ('like' === result?.type) {

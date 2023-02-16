@@ -2,6 +2,7 @@ import { apiCall } from '../../helpers';
 
 const endpoints = {
   userNotifications: 'user/notifications',
+  userNotification: 'user/notification',
 };
 
 async function fetchUserNotifications() {
@@ -9,7 +10,8 @@ async function fetchUserNotifications() {
 };
 
 async function fetchUserNotification(fields: any) {
-  return apiCall('fetchUserNotification', 'GET', `${endpoints.userNotifications}/${fields}`);
+  console.log('fields',fields)
+  return apiCall('fetchUserNotification', 'GET', `${endpoints.userNotification}/${fields}`);
 };
 
 async function readNotification(fields: any) {
