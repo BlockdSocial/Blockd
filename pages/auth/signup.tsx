@@ -12,6 +12,7 @@ import Terms from "../../components/Auth/Terms";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { nft_contract } from "../../config/contract";
 import useIsMounted from "../../hooks/useIsMounted";
+import toast from 'react-hot-toast';
 import {
   useAccount,
   useContractRead,
@@ -111,9 +112,12 @@ export default function SignUp() {
         // @ts-ignore
         message: userMessageForBackend,
       })
-    ).then((res) => {
-      console.log("res", res);
-
+    ).then(async (res:any) => {
+      if(res.error) {
+      await new Promise(f => setTimeout(f, 1000));
+      toast.error(res.message)
+      return;
+    }
       router.push(
         {
           pathname: "/",

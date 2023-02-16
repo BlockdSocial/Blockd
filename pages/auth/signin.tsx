@@ -11,6 +11,7 @@ import { nft_contract } from "../../config/contract";
 import { useQuery } from "@tanstack/react-query";
 import useIsMounted from "../../hooks/useIsMounted"
 import axios from "axios";
+import toast from 'react-hot-toast'
 import {
   useAccount,
   useContractRead,
@@ -58,7 +59,13 @@ const {
       address: address,
       signature: userSignature,
       message: userMessageForBackend
-    })).then(() => {
+    })).then(async (res:any) => {
+      if(res.error) {
+      await new Promise(f => setTimeout(f, 1000));
+      toast.error(res.message)
+      return;
+    }
+  
       router.push('/');
     });
   }
