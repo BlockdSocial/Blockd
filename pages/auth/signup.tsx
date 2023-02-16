@@ -11,7 +11,7 @@ import { config as configUrl } from "../../constants";
 import Terms from "../../components/Auth/Terms";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
 import { nft_contract } from "../../config/contract";
-import useIsMounted from "../../hooks/useIsMounted"
+import useIsMounted from "../../hooks/useIsMounted";
 import {
   useAccount,
   useContractRead,
@@ -19,20 +19,22 @@ import {
   usePrepareContractWrite,
   useSignMessage,
 } from "wagmi";
-import { write } from "fs";
+import { read, write } from "fs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-import { indexOf } from "lodash";
-
+import { flatMap, indexOf } from "lodash";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
 export default function SignUp() {
   const dispatch = useAppDispatch();
-  const mounted= useIsMounted();
+  const mounted = useIsMounted();
   const router = useRouter();
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [emailError, setEmailError] = useState<boolean>(false);
+  const [nftData, setNftData] = useState<boolean>(false);
+  
   //Data Fetching
   const {
     isLoading: fetchingLoading,
@@ -48,7 +50,8 @@ export default function SignUp() {
   });
 
   const [userMessage, setUserMessage] = useState<string>(fetchingData);
-  const [userMessageForBackend, setUserMessageForBackend] = useState<string>("");
+  const [userMessageForBackend, setUserMessageForBackend] =
+    useState<string>("");
   //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
 
   // const [userAddress, setUserAddress] = useState<string>("");
@@ -61,11 +64,17 @@ export default function SignUp() {
 
   const { address } = useAccount();
 
-  const getSignMessage=async(e:any) =>{
+  const getSignMessage = async (e: any) => {
     e.preventDefault();
+    if (!validateEmail(email)) {
+      setEmailError(true);
+      return;
+    }
+    else {
+      setEmailError(false);
+    }
     signMessage();
-  }
-
+  };
 
   useEffect(() => {
     if (!isEmpty(userSignature)) {
@@ -74,20 +83,23 @@ export default function SignUp() {
   }, [userSignature]);
 
 
-  const handleRegisterUser = async (e: any= null) => {
-   console.log("userMessage",userMessage);
-   console.log("userSignature",userSignature)
-   
 
-
+  const handleRegisterUser = async (e: any = null) => {
+     
     if (
       !terms ||
       isEmpty(userMessage) ||
       isEmpty(address) ||
-      isEmpty(userSignature)
+      isEmpty(userSignature) ||
+      isEmpty(displayName) ||
+      isEmpty(email)
     ) {
       return;
     }
+   console.log({userMessageForBackend})
+   console.log({address})
+   console.log({userSignature})
+ 
     await dispatch(
       registerUser({
         name: displayName,
@@ -102,37 +114,27 @@ export default function SignUp() {
     ).then((res) => {
       console.log("res", res);
 
-      router.push({
-        pathname: "/",
-        query: {
-          isRegistered: true
-        }
-      }, '/');
+      router.push(
+        {
+          pathname: "/",
+          query: {
+            isRegistered: true,
+          },
+        },
+        "/"
+      );
     });
   };
 
-  // const web3Login = async (e: any) => {
-  //   e.preventDefault();
-  //   // @ts-ignore
-  //   if (!window.ethereum) {
-  //     alert("MetaMask not detected. Please install MetaMask first.");
-  //     return;
-  //   }
+  function validateEmail(input:any) {
 
-  //   // @ts-ignore
-  //   const provider = new ethers.providers.Web3Provider(window.ethereum);
-
-  //   let response: any = await fetch(messageUrl);
-
-  //   const message = await response.json();
-  //   setUserMessage(message);
-
-  //   await provider.send("eth_requestAccounts", []);
-  //   const address = await provider.getSigner().getAddress();
-  //   setUserAddress(address);
-  //   const signature = await provider.getSigner().signMessage(message.message);
-  //   setUserSignature(signature);
-  // };
+    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    if (input.match(validRegex)) {
+      return true; 
+    } else {
+      return false; 
+    } 
+  }
 
   const {
     data: signData,
@@ -144,15 +146,13 @@ export default function SignUp() {
     message: userMessage,
     onSuccess(data, variables, context) {
       setUserSignature(data);
-      setUserMessageForBackend(userMessage)
+      setUserMessageForBackend(userMessage);
     },
     onError(error) {
       console.log("Error", error);
     },
     onMutate(args) {
-
       console.log("Mutate", args);
-
     },
   });
 
@@ -161,12 +161,7 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-  const { data: nft_data } = useContractRead({
-    ...nft_contract,
-    functionName: "balanceOf",
-    args: [address ?? ("" as `0x${string}`)],
-    enabled: !!address,
-  });
+  
 
   const {
     config,
@@ -181,19 +176,38 @@ export default function SignUp() {
       value: data,
     },
     enabled: !!data && !!address,
+    onSuccess() {
+      console.log('call useEffect')
+    }
   });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
+    onSuccess() {
+      setNftData(true)
+     }
   });
-if(!mounted) {
-  return null;
-}
+  
   const setName = (e: any) => {
-    const result = e.replace(/[^a-z]/gi, '');
+    const result = e.replace(/[^a-z]/gi, "");
     setDisplayName(result);
-  }
+  };
 
+  const { data: nft_data } = useContractRead({
+    ...nft_contract,
+    functionName: "balanceOf",
+    args: [address ?? ("" as `0x${string}`)],
+    enabled: !!address,
+    onSuccess() {
+     setNftData(true)
+    }
+  });
+ 
+  
+  
+  if (!mounted) {
+    return null;
+  }
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
@@ -246,9 +260,7 @@ if(!mounted) {
                 Sign Up
               </h2>
             </div>
-            <div
-              className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20"
-            >
+            <div className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20">
               <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
                 <p className="text-white font-semibold text-l">Display Name</p>
                 <input
@@ -268,6 +280,11 @@ if(!mounted) {
                   placeholder="example@gmail.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
+                {emailError &&
+                <p className="text-red-600  text-xs font-bold">
+                Please enter a valid email address
+              </p>
+                }
               </div>
               <div className="flex items-center justify-start mt-4 w-full space-x-2">
                 <input
@@ -302,18 +319,15 @@ if(!mounted) {
                 {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
               </button> */}
               <div className="w-full mt-4 flex items-center justify-center">
-                
                 <ConnectButton
                   showBalance={{
                     smallScreen: false,
                     largeScreen: true,
                   }}
                 ></ConnectButton>
-              
               </div>
 
-              {nft_data && Number(nft_data) > 0 ? (
-
+              {nftData ? (
                 <div className="w-full flex items-center justify-center">
                   <button
                     className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"

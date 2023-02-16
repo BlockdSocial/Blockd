@@ -4,7 +4,6 @@ import Link from 'next/link';
 import { useRouter } from 'next/router';
 import { loginUser } from '../../stores/authUser/AuthUserActions';
 import { useAppDispatch } from '../../stores/hooks';
-import { ethers } from "ethers";
 import { isEmpty } from "../../utils";
 import { config as configUrl } from '../../constants';
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -171,7 +170,7 @@ const {
               
               </div>
               
-              {nft_data && Number(nft_data) > 0 ? (
+              {nft_data && Number(nft_data) > 0  ? (
                 <button
                   className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
                   onClick={(e) => getSignMessage(e)}
@@ -180,15 +179,15 @@ const {
                 </button>
               ) : (
                 <>
-                 {/* <button
-                    className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
-                      isMintLoading && "loading"
-                    } ${error ? 'bg-orange-300' : 'cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd'}`}
-                    disabled={isMintError || isMintFetching}
-                    onClick={() => writeAsync && writeAsync()}
-                  >
-                    Mint
-                  </button> */}
+                 {
+                   <>
+                   {address && 
+                     <p className="text-red-600 mt-3 text-base font-bold">
+                       You don't have account please create one <Link href="/auth/signup" className='underline font-semibold'>Register</Link>
+                   </p>
+                   }
+                   </>
+                  }
                   {error && (
                     <div className="mt-4 w-full bg-red-500 rounded-md p-2">
                       An error occurred preparing the transaction:<br></br>

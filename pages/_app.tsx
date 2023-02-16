@@ -4,14 +4,16 @@ import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
 import { store } from "../stores/rootStore";
 import { Provider } from "react-redux";
-import useIsMounted from "../hooks/useIsMounted"
+import useIsMounted from "../hooks/useIsMounted";
+import Script from "next/script";
+import { GID } from "../constants";
 
 /******** Rainbow Kit  **********/
 
 import {
   RainbowKitProvider,
   connectorsForWallets,
-  lightTheme
+  lightTheme,
 } from "@rainbow-me/rainbowkit";
 import "@rainbow-me/rainbowkit/styles.css";
 import {
@@ -48,41 +50,54 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
-  const mounted= useIsMounted();
+  const mounted = useIsMounted();
 
-  console.log(mounted);
+
 
   const [queryClient] = React.useState(() => new QueryClient());
-  if( !mounted) {
+  if (!mounted) {
+    console.log(GID)
     return null;
   }
   return (
-    
-    <QueryClientProvider client={queryClient}>
-      <WagmiConfig client={wagmiClient}>
-        <RainbowKitProvider
-          theme={lightTheme({
-            accentColor: '#FD7F20',
-            accentColorForeground: 'white',
-            borderRadius: 'small',
-            fontStack: 'system',
-            overlayBlur: 'small',
-          })}
-          
-          chains={[polygon]}
-          initialChain={polygon}
-          modalSize="compact"
-          id="rainbow"
-        >
-          <Provider store={store}>
-            <ThemeProvider enableSystem={true} attribute="class">
-              <Component {...pageProps} />
-            </ThemeProvider>
-          </Provider>
-        </RainbowKitProvider>
-      </WagmiConfig>
-    </QueryClientProvider>
-   
+    <>
+      <Script
+        src={`https://www.googletagmanager.com/gtag/js?id=${GID}`}
+        strategy="afterInteractive"
+      />
+      <Script id="google-analytics" strategy="afterInteractive">
+        {`
+      window.dataLayer = window.dataLayer || [];
+      function gtag(){window.dataLayer.push(arguments);}
+      gtag('js', new Date());
+
+      gtag('config', '${GID}');
+    `}
+      </Script>
+      <QueryClientProvider client={queryClient}>
+        <WagmiConfig client={wagmiClient}>
+          <RainbowKitProvider
+            theme={lightTheme({
+              accentColor: "#FD7F20",
+              accentColorForeground: "white",
+              borderRadius: "small",
+              fontStack: "system",
+              overlayBlur: "small",
+            })}
+            chains={[polygon]}
+            initialChain={polygon}
+            modalSize="compact"
+            id="rainbow"
+          >
+            <Provider store={store}>
+              <ThemeProvider enableSystem={true} attribute="class">
+                <Component {...pageProps} />
+              </ThemeProvider>
+            </Provider>
+          </RainbowKitProvider>
+        </WagmiConfig>
+      </QueryClientProvider>
+    </>
   );
 }
 
