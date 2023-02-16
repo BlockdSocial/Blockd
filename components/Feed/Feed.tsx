@@ -31,7 +31,7 @@ function Feed() {
   const router = useRouter()
   const { isRegistered } = router.query;
 
-  const { isFetchingFilteredPosts } = useAppSelector((state) => state.postReducer);
+  const { isFetchingFilteredPosts, filteredPosts } = useAppSelector((state) => state.postReducer);
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
   const [endCount, setEndCount] = useState<number>(4);
@@ -98,7 +98,7 @@ function Feed() {
       id: refreshToast,
     })
   };
-
+  
   const handleScroll = async () => {
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;

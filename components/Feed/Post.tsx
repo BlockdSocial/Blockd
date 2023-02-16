@@ -401,7 +401,7 @@ export default function PostTest({ post, refetch }: Props) {
                   </Link>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">14K followers</p>
+                  <p className="text-sm text-gray-500">0 followers</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">
@@ -525,12 +525,12 @@ export default function PostTest({ post, refetch }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+              {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                 <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                 <p className="text-xs">
                   {info?.shares != null || undefined ? info?.shares : 0}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
           {commentBoxVisible && (
@@ -598,12 +598,12 @@ export default function PostTest({ post, refetch }: Props) {
                     {info?.comments != null || undefined ? info?.comments : 0}
                   </p>
                 </div>
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">
                     {info?.shares != null || undefined ? info?.shares : 0}
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="flex items-center justify-end relative space-x-2 pr-12 md:pr-24 text-[#181c44] dark:text-white flex-1">
                 <PhotoIcon

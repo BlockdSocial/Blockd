@@ -223,20 +223,20 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <p className='mr-1 font-semibold text-l group-hover:underline'>@{user?.name}</p>
               <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
             </div>
-            <div>
+            {/* <div>
               <p className='mr-1 text-sm group-hover:underline mt-2'>10K followers</p>
-            </div>
+            </div> */}
             <div className="flex items-center justify-start w-48 h-5 rounded bg-gray-200 mb-2 relative group">
               <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
-                <span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>
+                <span className='text-xs font-semibold cursor-pointer text-white inline'>{authUser?.score} XP</span>
               </div>
-              <div className="flex items-center justify-center w-1/4">
+              {/* <div className="flex items-center justify-center w-1/4">
                 <span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>
-              </div>
+              </div> */}
             </div>
-            <div className='text-sm'>
+            {/* <div className='text-sm'>
               <span className='font-semibold'>Level 5 :</span> 75%
-            </div>
+            </div> */}
           </div>
         </div>
         <div ref={dropdown} className='flex'>
