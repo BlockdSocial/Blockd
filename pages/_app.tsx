@@ -51,6 +51,8 @@ const wagmiClient = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const mounted = useIsMounted();
+  if (process.env.NODE_ENV === 'production') console.log = function () {};
+
 
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
