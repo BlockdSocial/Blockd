@@ -218,6 +218,7 @@ export default function SignUp() {
   }
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+      <><Toaster/></>
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
