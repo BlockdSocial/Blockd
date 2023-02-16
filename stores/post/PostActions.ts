@@ -43,7 +43,10 @@ import {
   ADD_POST_VIEW_ERROR,
   IS_UPDATING_POST,
   UPDATE_POST_SUCCESS,
-  UPDATE_POST_FAILURE
+  UPDATE_POST_FAILURE,
+  IS_SUGGESTING,
+  SUGGEST_SUCCESS,
+  SUGGEST_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -323,6 +326,24 @@ export function editPost(id: any, fields: any) {
       console.log('Update Post Error: ', error);
       dispatch({
         type: UPDATE_POST_FAILURE,
+        error: error
+      });
+    }
+  }
+}
+
+export function postSuggestion(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SUGGESTING });
+    try {
+      await postApi.postSuggestion(fields);
+      dispatch({
+        type: SUGGEST_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Suggestion Failed: ', error);
+      dispatch({
+        type: SUGGEST_FAILURE,
         error: error
       });
     }

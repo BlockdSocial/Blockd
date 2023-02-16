@@ -1,10 +1,13 @@
 import React, { useState, useEffect } from "react";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
-import { useAppSelector } from "../../stores/hooks";
+import { useAppSelector, useAppDispatch } from "../../stores/hooks";
 import { isEmpty } from "lodash";
+import { postSuggestion } from "../../stores/post/PostActions";
+import toast from 'react-hot-toast'
 
 function SuggestionBox() {
+  const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [input, setInput] = useState<string>("");
   const [name, setName] = useState<string>("");
@@ -16,6 +19,18 @@ function SuggestionBox() {
       setEmail(authUser?.email);
     }
   }, [authUser]);
+
+  const handleSubmit = async () => {
+    await dispatch(postSuggestion({
+      message: input
+    })).then(async () => {
+      const refreshToast = toast.loading('Sending...');
+      await new Promise(f => setTimeout(f, 500));
+      toast.success('Posted!', {
+        id: refreshToast,
+      })
+    })
+  };
 
   return (
     <div className="p-4">
@@ -86,6 +101,7 @@ function SuggestionBox() {
           <button
             className="text-sm font-semibold p-2 px-4 text-white rounded-lg bg-blockd hover:bg-orange-400"
             disabled={name?.length == 0 || email?.length == 0 || input?.length == 0 ? true : false}
+            onClick={() => handleSubmit()}
           >
             Submit
           </button>

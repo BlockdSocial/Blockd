@@ -25,6 +25,7 @@ import {
   deletePost,
   fetchIsLiked,
   fetchIsDisliked,
+  editPost,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -306,6 +307,25 @@ export default function PostTest({ post, refetch }: Props) {
     setUploadedVideo(gify.images.downsized);
   };
 
+  const handleEditPost = async () => {
+    if (imageEdit) {
+      await dispatch(editPost(post?.id, {
+        image: imageEdit,
+        content: textArea,
+      })).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+      });
+    } else {
+      await dispatch(editPost(post?.id, {
+        content: textArea,
+      })).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+      });
+    }
+  }
+
   const closeGif = () => {
     gifUrl = "";
     setGifUrl(gifUrl);
@@ -318,6 +338,7 @@ export default function PostTest({ post, refetch }: Props) {
   const handleDeletePost = async () => {
     //@ts-ignore
     await dispatch(deletePost(post?.id)).then(() => {
+      setDeletePopUp(false);
       refetch();
     });
   };
@@ -787,12 +808,12 @@ export default function PostTest({ post, refetch }: Props) {
                       height="350"
                     />
                 }
-                <div
+                {/* <div
                   onClick={() => onContentClick()}
                   className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
                 >
                   <CameraIcon className="w-8 h-8 text-black" />
-                </div>
+                </div> */}
                 <input
                   type="file"
                   id="file"
@@ -824,7 +845,10 @@ export default function PostTest({ post, refetch }: Props) {
             </div>
           </div>
           <div className="flex items-center justify-end space-x-3 p-2">
-            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+            <p
+              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleEditPost()}
+            >
               Edit
             </p>
             <p

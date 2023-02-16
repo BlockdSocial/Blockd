@@ -193,7 +193,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 <Image
                   src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp1.jpg'}
                   alt='pfp'
-                  className='w-fill h-fill rounded-md shadow-sm border-2 border-white'
+                  className='w-fill h-full rounded-md shadow-sm border-2 border-white'
                   width={2000}
                   height={2000} />
                 <div className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}>

@@ -15,6 +15,7 @@ import ReactGiphySearchbox from 'react-giphy-searchbox'
 import toast from 'react-hot-toast'
 import { isEmpty } from 'lodash'
 import { config } from "../../constants";
+import { fetchAuthUser } from '../../stores/authUser/AuthUserActions'
 
 interface Props {
   refetchFiltered: () => void;
@@ -36,6 +37,10 @@ function TweetBox({ refetchFiltered }: Props) {
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
   const emoji = useRef<any>(null);
+
+  useEffect(() => {
+    dispatch(fetchAuthUser());
+  }, []);
 
   useEffect(() => {
     // only add the event listener when the emoji is opened
@@ -168,8 +173,6 @@ function TweetBox({ refetchFiltered }: Props) {
       id: refreshToast,
     })
   }
-
-  console.log('AuthUser: ', authUser);
 
   return (
     <div className='flex space-x-2 p-4 border-y dark:bg-lightgray'>
