@@ -7,13 +7,15 @@ import {
   PhotoIcon,
   XMarkIcon,
 } from '@heroicons/react/24/outline'
-import { useAppDispatch } from '../../stores/hooks'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { createPost } from '../../stores/post/PostActions'
 import Picker from '@emoji-mart/react'
 import Link from 'next/link'
 import ReactGiphySearchbox from 'react-giphy-searchbox'
 import toast from 'react-hot-toast'
 import { isEmpty } from 'lodash'
+import { config } from "../../constants";
+import { fetchAuthUser } from '../../stores/authUser/AuthUserActions'
 
 interface Props {
   refetchFiltered: () => void;
@@ -21,6 +23,7 @@ interface Props {
 
 function TweetBox({ refetchFiltered }: Props) {
 
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [input, setInput] = useState<string>('')
   let [image, setImage] = useState<string>('')
   const [uploadedImage, setUploadedImage] = useState<string>('')
@@ -34,6 +37,10 @@ function TweetBox({ refetchFiltered }: Props) {
   const [showEmojis, setShowEmojis] = useState<boolean>(false)
 
   const emoji = useRef<any>(null);
+
+  useEffect(() => {
+    dispatch(fetchAuthUser());
+  }, []);
 
   useEffect(() => {
     // only add the event listener when the emoji is opened
@@ -172,7 +179,11 @@ function TweetBox({ refetchFiltered }: Props) {
       <Link href="/dashboard/profile" className='relative flex flex-col h-fit group'>
         <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
           <Image
-            src="/images/pfp/pfp1.jpg"
+            src={
+              authUser?.profilePic
+                ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                : "/images/pfp/pfp1.jpg"
+            } 
             alt='pfp'
             className='w-16 h-16 rounded-md shadow-sm'
             width={2000}
@@ -250,7 +261,7 @@ function TweetBox({ refetchFiltered }: Props) {
                 }
                 {showGifs && (
                   <div className='absolute left-0 top-7 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
-	
+
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}

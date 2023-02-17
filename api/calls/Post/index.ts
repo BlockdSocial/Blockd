@@ -64,8 +64,15 @@ async function fetchIsDisliked(fields: any) {
 
 async function addPostView(fields: any) {
   return apiCall('addPostView', 'POST', `${endpoints.post}/view/${fields}`);
-}
+};
 
+async function editPost(id: any, fields: any) {
+  return apiCall('editPost', 'POST', `${endpoints.post}/${id}`, fields)
+};
+
+async function postSuggestion(fields: any) {
+  return apiCall('postSuggestion', 'POST', 'user/feedback', fields);
+}
 
 export default {
   createPost,
@@ -81,5 +88,7 @@ export default {
   dislikePost,
   fetchIsLiked,
   fetchIsDisliked,
-  addPostView
+  addPostView,
+  editPost,
+  postSuggestion
 };

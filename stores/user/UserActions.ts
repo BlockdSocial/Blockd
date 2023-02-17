@@ -137,14 +137,14 @@ export function fetchUser(fields: any) {
   }
 }
 
-export function searchPopularUsers(fields: any) {
+export function searchUsers(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_SEARCHING_POPULAR_USERS });
     try {
-      const result = await userApi.searchPopularUsers(fields);
+      const result: any = await userApi.searchUsers(fields);
       dispatch({
         type: SEARCH_POPULAR_USERS_SUCCESS,
-        popularUsers: result
+        popularUsers: result?.users
       });
       return result;
     } catch (error: any) {

@@ -35,7 +35,13 @@ import {
   FETCH_COMMENT_REPLIES_FAILURE,
   IS_FETCHING_REPLY_INFO,
   FETCH_REPLY_INFO_SUCCESS,
-  FETCH_REPLY_INFO_FAILURE
+  FETCH_REPLY_INFO_FAILURE,
+  IS_LIKING_REPLY,
+  LIKE_REPLY_SUCCESS,
+  LIKE_REPLY_FAILURE,
+  IS_DISLIKING_REPLY,
+  DISLIKE_REPLY_SUCCESS,
+  DISLIKE_REPLY_FAILURE
 } from './CommentActionTypes';
 
 const initialState = {
@@ -58,7 +64,9 @@ const initialState = {
   isFetchingCommentReplies: false,
   commentReplies: [],
   commentInfo: [],
-  postComments: []
+  postComments: [],
+  isLikingReply: false,
+  isDislikingReply: false,
 };
 
 export function commentReducer(state = initialState, action: any) {
@@ -296,6 +304,43 @@ export function commentReducer(state = initialState, action: any) {
         ...state,
         isFetchingReplyInfo: false,
         error: action.error
+      };
+    }
+    case IS_LIKING_REPLY: {
+      return {
+        ...state,
+        isLikingReply: true
+      };
+    }
+    case LIKE_REPLY_SUCCESS: {
+      return {
+        ...state,
+        isLikingReply: false
+      };
+    }
+    case LIKE_REPLY_FAILURE: {
+      return {
+        ...state,
+        isLikingReply: false,
+        error: action.error
+      };
+    }
+    case IS_DISLIKING_REPLY: {
+      return {
+        ...state,
+        isDislikingReply: true
+      };
+    }
+    case DISLIKE_REPLY_SUCCESS: {
+      return {
+        ...state,
+        isDislikingReply: false
+      };
+    }
+    case DISLIKE_REPLY_FAILURE: {
+      return {
+        ...state,
+        isDislikingReply: false
       };
     }
     default: {

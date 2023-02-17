@@ -23,6 +23,9 @@ import {
   dislikePost,
   addPostView,
   deletePost,
+  fetchIsLiked,
+  fetchIsDisliked,
+  editPost,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -79,16 +82,26 @@ export default function PostTest({ post, refetch }: Props) {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");
-  const [imageEdit, setImageEdit] = useState<string>("/images/Post1.jpg");
+  const [imageEdit, setImageEdit] = useState<string>("");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
   const [info, setInfo] = useState<Info>();
+  const [isLiked, setIsLiked] = useState<boolean>();
+  const [isDisliked, setIsDisliked] = useState<boolean>();
 
+  console.log(post,'hussein')
+  console.log('imageEdit hussein',imageEdit)
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
     fetchInfo();
+    fetchLiked();
+    setImageEdit(post?.images ? post?.images[0]?.name : '');
+    setTextArea(post?.content || '')
+
+    fetchDisliked();
   }, [post]);
+
 
   const fetchInfo = async () => {
     await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
@@ -183,6 +196,8 @@ export default function PostTest({ post, refetch }: Props) {
       })
     ).then(() => {
       fetchInfo();
+      fetchLiked();
+      fetchDisliked();
     });
   };
 
@@ -194,6 +209,8 @@ export default function PostTest({ post, refetch }: Props) {
       })
     ).then(() => {
       fetchInfo();
+      fetchLiked();
+      fetchDisliked();
     });
   };
 
@@ -216,6 +233,10 @@ export default function PostTest({ post, refetch }: Props) {
   const handleUploadPicture = (e: any) => {
     setImage(URL.createObjectURL(e.target.files[0]));
     setUploadedImage(e.target.files[0]);
+  };
+
+  const handleUploadProfile = (e: any) => {
+    setImageEdit(URL.createObjectURL(e.target.files[0]));
   };
 
   const closePicture = () => {
@@ -292,6 +313,26 @@ export default function PostTest({ post, refetch }: Props) {
     setUploadedVideo(gify.images.downsized);
   };
 
+  const handleEditPost = async () => {
+    // if (imageEdit) {
+    //   console.log('fi email',imageEdit,textArea );
+    //   await dispatch(editPost(post?.id, {
+    //     image: imageEdit,
+    //     content: textArea,
+    //   })).then(() => {
+    //     refetch();
+    //     setEditPopUp(!editPopUp);
+    //   });
+    // } else {
+      await dispatch(editPost(post?.id, {
+        content: textArea,
+      })).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+      });
+    
+  }
+
   const closeGif = () => {
     gifUrl = "";
     setGifUrl(gifUrl);
@@ -304,7 +345,20 @@ export default function PostTest({ post, refetch }: Props) {
   const handleDeletePost = async () => {
     //@ts-ignore
     await dispatch(deletePost(post?.id)).then(() => {
+      setDeletePopUp(false);
       refetch();
+    });
+  };
+
+  const fetchLiked = async () => {
+    await dispatch(fetchIsLiked(post?.id)).then((result: any) => {
+      setIsLiked(result);
+    });
+  };
+
+  const fetchDisliked = async () => {
+    await dispatch(fetchIsDisliked(post?.id)).then((result: any) => {
+      setIsDisliked(result);
     });
   };
 
@@ -330,7 +384,7 @@ export default function PostTest({ post, refetch }: Props) {
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
-                      className="min-w-16 min-h-16 rounded-md shadow-sm"
+                      className="w-16 h-16 rounded-md shadow-sm"
                       width={60}
                       height={60}
                     />
@@ -354,7 +408,7 @@ export default function PostTest({ post, refetch }: Props) {
                   </Link>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">14K followers</p>
+                  <p className="text-sm text-gray-500">0 followers</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">
@@ -445,30 +499,26 @@ export default function PostTest({ post, refetch }: Props) {
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
-                  className={`text-xs ${info?.likes
-                      ? "text-green-600"
-                      : "group-hover:text-green-600"
-                    } `}
+                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.likes
-                      ? "text-green-600"
-                      : "group-hover:text-green-600"
+                  className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
                     } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${info?.dislikes ? "text-red-600" : "group-hover:text-red-600"
+                  className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
                     } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
                 <p
-                  className={`text-xs ${info?.dislikes ? "text-red-600" : "group-hover:text-red-600"
-                    } `}
+                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -482,12 +532,12 @@ export default function PostTest({ post, refetch }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+              {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                 <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                 <p className="text-xs">
                   {info?.shares != null || undefined ? info?.shares : 0}
                 </p>
-              </div>
+              </div> */}
             </div>
           </div>
           {commentBoxVisible && (
@@ -515,16 +565,16 @@ export default function PostTest({ post, refetch }: Props) {
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                   <p
                     className={`text-xs ${info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
                       } `}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
                     className={`h-5 w-5 cursor-pointer ${info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
                       } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikePost()}
                   />
@@ -532,15 +582,15 @@ export default function PostTest({ post, refetch }: Props) {
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                   <ArrowDownIcon
                     className={`h-5 w-5 cursor-pointer ${info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
                       } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikePost()}
                   />
                   <p
                     className={`text-xs ${info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
                       } `}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
@@ -555,12 +605,12 @@ export default function PostTest({ post, refetch }: Props) {
                     {info?.comments != null || undefined ? info?.comments : 0}
                   </p>
                 </div>
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">
                     {info?.shares != null || undefined ? info?.shares : 0}
                   </p>
-                </div>
+                </div> */}
               </div>
               <div className="flex items-center justify-end relative space-x-2 pr-12 md:pr-24 text-[#181c44] dark:text-white flex-1">
                 <PhotoIcon
@@ -748,35 +798,46 @@ export default function PostTest({ post, refetch }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
             <div className="flex items-start justify-start space-y-2 w-full">
               <div className="relative flex items-center justify-center w-full group">
-                <img
-                  src={imageEdit}
-                  alt="Content"
-                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                  width="720"
-                  height="350"
-                />
-                <div
+                {
+                  imageEdit ?
+                    <img
+                      src={`${config.url.PUBLIC_URL}/${imageEdit}`}
+                      alt="Content"
+                      className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                      width="720"
+                      height="350"
+                    /> :
+                    <img
+                      src="images/blockdbg.jpg"
+                      alt="Content"
+                      className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                      width="720"
+                      height="350"
+                    />
+                }
+                {/* <div
                   onClick={() => onContentClick()}
                   className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
                 >
                   <CameraIcon className="w-8 h-8 text-black" />
-                </div>
+                </div> */}
                 <input
                   type="file"
                   id="file"
                   ref={inputFileContent}
                   className="hidden"
                   accept="image/*"
+                  onChange={handleUploadProfile}
                 />
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start space-y-2 w-full">
+            {/* <div className="flex flex-col items-start justify-start space-y-2 w-full">
               <p className="font-semibold text-black">Title</p>
               <input
                 className="p-2 bg-gray-200 outline-none rounded-lg w-full"
                 placeholder="Current Title"
               />
-            </div>
+            </div> */}
             <div className="flex flex-col items-start justify-start space-y-2 w-full">
               <p className="font-semibold text-black">Description</p>
               <textarea
@@ -791,7 +852,10 @@ export default function PostTest({ post, refetch }: Props) {
             </div>
           </div>
           <div className="flex items-center justify-end space-x-3 p-2">
-            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+            <p
+              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleEditPost()}
+            >
               Edit
             </p>
             <p

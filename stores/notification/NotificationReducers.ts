@@ -5,14 +5,19 @@ import {
   FETCH_USER_NOTIFICATIONS_FAILURE,
   IS_FETCHING_USER_NOTIFICATION,
   FETCH_USER_NOTIFICATION_SUCCESS,
-  FETCH_USER_NOTIFICATION_FAILURE
+  FETCH_USER_NOTIFICATION_FAILURE,
+  IS_READING_NOTIFICATION,
+  READ_NOTIFICATION_SUCCESS,
+  READ_NOTIFICATION_FAILURE
 } from './NotificationActionTypes';
 
 const initialState = {
   isFetchingUserNotifications: false,
   isFetchingUserNotification: false,
+  isReadingNotification: false,
   notification: {},
   notifications: [],
+  unread: 0,
   error: '',
 };
 
@@ -28,7 +33,8 @@ export function notificationReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingUserNotifications: false,
-        notifications: action.notifications
+        notifications: action.notifications,
+        unread: action.unread
       };
     }
     case FETCH_USER_NOTIFICATIONS_FAILURE: {
@@ -55,6 +61,25 @@ export function notificationReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingUserNotification: false,
+        error: action.error
+      };
+    }
+    case IS_READING_NOTIFICATION: {
+      return {
+        ...state,
+        isReadingNotification: true
+      };
+    }
+    case READ_NOTIFICATION_SUCCESS: {
+      return {
+        ...state,
+        isReadingNotification: false
+      };
+    }
+    case READ_NOTIFICATION_FAILURE: {
+      return {
+        ...state,
+        isReadingNotification: false,
         error: action.error
       };
     }

@@ -31,6 +31,11 @@ export function fetchAuthUser() {
         type: FETCH_AUTH_USER_SUCCESS,
         user: result
       });
+      if (!isEmpty(result)) {
+        localStorage.setItem("authUser", JSON.stringify(result));
+        console.log('local')
+        console.log('get local',localStorage.getItem('authUser'))
+      }
       return result;
     } catch(error: any) {
       console.log('Auth User Error: ', error);
@@ -102,6 +107,7 @@ export function logoutUser() {
     try {
       const result = await authUserApi.logoutUser();
       localStorage.removeItem("token");
+      localStorage.removeItem("authUser");
       deleteCookie("token");
       dispatch({type: LOGOUT_USER_SUCCESS});
     } catch(error: any) {

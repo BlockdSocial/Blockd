@@ -17,11 +17,13 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import {
   dislikeComment,
+  dislikeReply,
   fetchCommentInfo,
   fetchIsDislikedComment,
   fetchIsLikedComment,
   fetchReplyInfo,
   likeComment,
+  likeReply,
   replyComment,
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
@@ -29,15 +31,6 @@ import ReactGiphySearchbox from "react-giphy-searchbox";
 
 interface Pic {
   name: string;
-}
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePicId: number;
-  bannerPicId: number;
-  profilePic: Pic;
 }
 
 interface Comment {
@@ -214,29 +207,55 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   const handleLikeComment = async () => {
-    dispatch(
-      likeComment({
-        comment_id: comment?.id,
-        user_id: authUser?.id,
-      })
-    ).then(() => {
-      fetchLiked();
-      fetchDisliked();
-      fetchInfo();
-    });
+    if ('comment' === type) {
+      dispatch(
+        likeComment({
+          comment_id: comment?.id,
+          user_id: authUser?.id,
+        })
+      ).then(() => {
+        fetchLiked();
+        fetchDisliked();
+        fetchInfo();
+      });
+    } else {
+      dispatch(
+        likeReply({
+          reply_id: comment?.id,
+          user_id: authUser?.id,
+        })
+      ).then(() => {
+        fetchLiked();
+        fetchDisliked();
+        fetchInfo();
+      });
+    }
   };
 
   const handleDislikeComment = async () => {
-    dispatch(
-      dislikeComment({
-        comment_id: comment?.id,
-        user_id: authUser?.id,
-      })
-    ).then(() => {
-      fetchLiked();
-      fetchDisliked();
-      fetchInfo();
-    });
+    if ('comment' === type) {
+      dispatch(
+        dislikeComment({
+          comment_id: comment?.id,
+          user_id: authUser?.id,
+        })
+      ).then(() => {
+        fetchLiked();
+        fetchDisliked();
+        fetchInfo();
+      });
+    } else {
+      dispatch(
+        dislikeReply({
+          reply_id: comment?.id,
+          user_id: authUser?.id,
+        })
+      ).then(() => {
+        fetchLiked();
+        fetchDisliked();
+        fetchInfo();
+      });
+    }
   };
 
   const handleComment = () => {

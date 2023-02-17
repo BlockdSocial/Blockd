@@ -1,16 +1,44 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import { LinkIcon } from "@heroicons/react/24/outline";
 import axios from "axios";
+import { useAppSelector, useAppDispatch } from "../../stores/hooks";
+import { isEmpty } from "lodash";
+import { postSuggestion } from "../../stores/post/PostActions";
+import toast from 'react-hot-toast'
 
 function SuggestionBox() {
+  const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [input, setInput] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [email, setEmail] = useState<string>("");
+
+  useEffect(() => {
+    if (!isEmpty(authUser)) {
+      setName(authUser?.name);
+      setEmail(authUser?.email);
+    }
+  }, [authUser]);
+
+  const handleSubmit = async () => {
+    await dispatch(postSuggestion({
+      message: input
+    })).then(async () => {
+      setInput('');
+      const refreshToast = toast.loading('Sending...');
+      await new Promise(f => setTimeout(f, 500));
+      toast.success('Posted!', {
+        id: refreshToast,
+      })
+    })
+  };
 
   return (
     <div className="p-4">
       <div className="flex flex-col items-center justify-center space-y-3 border-2 border-orange-200 dark:border-lightgray rounded-xl w-full p-4 bg-white dark:bg-darkgray">
-        <p className="text-xl font-semibold text-center">Make a feedback</p>
+        <p className="text-xl font-semibold text-center">Submit a feedback</p>
         <p className="text-sm font-semibold text-center mt-2">
-          Let's us know your thoughts
+          Let us know your thoughts
         </p>
         <div className="md:flex xs:flex-col w-full">
           <div className="flex flex-col p-3 items-start w-full md:w-1/2 space-y-3">
@@ -20,6 +48,8 @@ function SuggestionBox() {
                 type="text"
                 className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                 placeholder="Name"
+                value={name}
+                onChange={(e) => setName(e.target.value)}
               />
             </div>
             <div className="w-full">
@@ -28,6 +58,8 @@ function SuggestionBox() {
                 type="text"
                 className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                 placeholder="Email"
+                value={email}
+                onChange={(e) => setEmail(e.target.value)}
               />
             </div>
             {/* <div className="w-full">
@@ -67,7 +99,11 @@ function SuggestionBox() {
             <LinkIcon className="w-5 h-5" />
             <p>Attach</p>
           </button> */}
-          <button className="text-sm font-semibold p-2 px-4 text-white rounded-lg bg-blockd hover:bg-orange-400">
+          <button
+            className="text-sm font-semibold p-2 px-4 text-white rounded-lg bg-blockd hover:bg-orange-400"
+            disabled={name?.length == 0 || email?.length == 0 || input?.length == 0 ? true : false}
+            onClick={() => handleSubmit()}
+          >
             Submit
           </button>
         </div>

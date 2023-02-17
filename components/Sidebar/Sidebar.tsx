@@ -67,11 +67,11 @@ function Sidebar() {
                     onMouseEnter={() => setOpen(true)}
                     onMouseLeave={() => setOpen(false)}
                     className="relative">
-                    <div className='flex items-center justify-center'>
+                    <div className='flex items-center justify-center hidden'>
                         <div
                             className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}>
                             <ChatBubbleBottomCenterTextIcon className='h-6 w-6' />
-                            <p className={`hidden md:inline-flex text-base lg:text-xl cursor-pointer`}>ChatRooms</p>
+                            <p className={` md:inline-flex text-base lg:text-xl cursor-pointer`}>ChatRooms</p>
                             <div className='hidden md:inline'>
                                 <ChevronRightIcon className={`w-4 h-4 ml-2 ${isOpen ? 'hidden' : 'inline'}`} />
                                 <ChevronDownIcon className={`w-4 h-4 ml-2 ${isOpen ? 'inline' : 'hidden'}`} />
@@ -91,27 +91,21 @@ function Sidebar() {
                             </Link>
                         </div>
                     )}
-                </Link> */}
-                <div className='opacity-50 cursor-auto'>
+                </Link>
+                      {/* 
+                <Link href="">
+                 {/*
+                // @ts-ignore */}
+                 {/* 
+                    <SidebarRow Icon={ComputerDesktopIcon} title="Streams" active='' />
+                </Link>
+                <Link href="">
                     {/* 
                 // @ts-ignore */}
-                    <SidebarRow Icon={LockClosedIcon} title="Achievements" active='' />
-                </div>
-                <div className='opacity-50 cursor-auto'>
-                    {/* 
-                // @ts-ignore */}
-                    <SidebarRow Icon={LockClosedIcon} title="Chatrooms" active='' />
-                </div>
-                <div className='opacity-50 cursor-auto'>
-                    {/* 
-                // @ts-ignore */}
-                    <SidebarRow Icon={LockClosedIcon} title="Streams" active='' />
-                </div>
-                <div className='opacity-50 cursor-auto'>
-                    {/* 
-                // @ts-ignore */}
-                    <SidebarRow Icon={LockClosedIcon} title="Podcasts" active='' />
-                </div>
+                 {/* 
+                    <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
+                </Link>
+                */}
             </div>
         </div>
     )

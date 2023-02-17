@@ -113,14 +113,6 @@ function PostID({ post, refetchComments }: Props) {
     });
   };
 
-  const fetchProfilePicture = async (id: number) => {
-    if (id != undefined || id != null) {
-      await dispatch(fetchPostImage(id)).then((result: any) => {
-        setProfilePicture(result[0]?.name);
-      });
-    }
-  };
-
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -292,6 +284,8 @@ function PostID({ post, refetchComments }: Props) {
     });
   };
 
+  console.log('post: ', post)
+
   return (
     <div className="flex flex-col space-x-3 p-4 -z-20 border-y">
       <div className="w-full">
@@ -305,12 +299,12 @@ function PostID({ post, refetchComments }: Props) {
                 <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
                   <Image
                     src={
-                      !isEmpty(profilePicture)
-                        ? `${config.url.PUBLIC_URL}/${profilePicture}`
+                      !isEmpty(post?.user?.profilePic)
+                        ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
                         : "/images/pfp/pfp2.jpg"
                     }
                     alt="pfp"
-                    className="min-w-16 min-h-16 rounded-md shadow-sm"
+                    className="w-16 h-16 rounded-md shadow-sm"
                     width={60}
                     height={60}
                   />
@@ -327,7 +321,7 @@ function PostID({ post, refetchComments }: Props) {
                 <p className="mr-1 font-semibold text-l">@{post?.user?.name}</p>
               </div>
               <div>
-                <p className="text-sm text-gray-500">14K followers</p>
+                <p className="text-sm text-gray-500">0 followers</p>
               </div>
               <div>
                 <p className="text-xs text-gray-500">
@@ -438,12 +432,12 @@ function PostID({ post, refetchComments }: Props) {
               {info?.comments != null || undefined ? info?.comments : 0}
             </p>
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black">
+          {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black">
             <ShareIcon className="h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
             <p className="text-xs">
               {info?.shares != null || undefined ? info?.shares : 0}
             </p>
-          </div>
+          </div> */}
         </div>
       </div>
 

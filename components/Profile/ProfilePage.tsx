@@ -61,6 +61,8 @@ function ProfilePage() {
 
   }
 
+  console.log('user: ', user);
+
   const handleToggle1 = () => {
     if (showFeed == false) {
       setShowFeed(!showFeed)

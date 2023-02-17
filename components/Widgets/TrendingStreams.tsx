@@ -1,10 +1,10 @@
-import React from 'react'
+import React, {memo} from 'react'
 import {
     ComputerDesktopIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
 
-function TrendingStreams() {
+export const TrendingStreams  = React.memo(() => {
     return (
         <div className='p-2'>
             <div className='flex items-center justify-start rounded-md space-x-2 p-2 mt-2'>
@@ -63,6 +63,6 @@ function TrendingStreams() {
 
         </div>
     )
-}
+})
 
-export default TrendingStreams
+//export default TrendingStreams

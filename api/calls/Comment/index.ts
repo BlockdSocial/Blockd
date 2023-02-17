@@ -54,6 +54,14 @@ async function fetchReplyInfo(fields: any) {
   return apiCall('fetchReplyInfo', 'GET', `${endpoints.reply}/info/${fields}`);
 };
 
+async function likeReply(fields: any) {
+  return apiCall('likeReply', 'POST', `${endpoints.reply}/like`, fields);
+};
+
+async function dislikeReply(fields: any) {
+  return apiCall('dislikeReply', 'POST', `${endpoints.reply}/dislike`, fields);
+};
+
 export default {
   addComment,
   deleteComment,
@@ -66,5 +74,7 @@ export default {
   replyComment,
   fetchComment,
   fetchCommentReplies,
-  fetchReplyInfo
+  fetchReplyInfo,
+  likeReply,
+  dislikeReply
 };
