@@ -7,6 +7,7 @@ import { Provider } from "react-redux";
 import useIsMounted from "../hooks/useIsMounted";
 import Script from "next/script";
 import { GID } from "../constants";
+import { useRouter } from "next/router";
 
 /******** Rainbow Kit  **********/
 
@@ -51,6 +52,7 @@ const wagmiClient = createClient({
 });
 
 function MyApp({ Component, pageProps }: AppProps) {
+  const router = useRouter();
   const mounted = useIsMounted();
   if (process.env.NODE_ENV === "production") console.log = function () {};
 
@@ -92,9 +94,15 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             <Provider store={store}>
               <ThemeProvider enableSystem={true} attribute="class">
-              <Layout>
-                <Component {...pageProps} />
-                </Layout>
+                {router.pathname === "/auth/signin" ||
+                router.pathname === "/auth/signup" ||
+                router.pathname === "/dashboard/mychatrooms" ? (
+                  <Component {...pageProps} />
+                ) : (
+                  <Layout>
+                    <Component {...pageProps} />
+                  </Layout>
+                )}
               </ThemeProvider>
             </Provider>
           </RainbowKitProvider>

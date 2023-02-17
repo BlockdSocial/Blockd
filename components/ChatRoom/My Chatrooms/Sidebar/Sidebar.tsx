@@ -11,6 +11,7 @@ import {
     FireIcon,
     ChatBubbleLeftIcon,
     ChatBubbleLeftRightIcon,
+    PlusCircleIcon
 } from '@heroicons/react/24/outline'
 import Link from 'next/link';
 import { useRouter } from 'next/router'
@@ -21,7 +22,7 @@ function Sidebar() {
     const [isOpen, setOpen] = useState(false);
 
     return (
-        <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-r dark:border-lightgray'>
+        <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-x dark:border-lightgray'>
             <Link href="/" className='active'>
                 {/* 
                 // @ts-ignore */}
@@ -55,10 +56,13 @@ function Sidebar() {
                 </div>
                 {isOpen && (
                     <div className="w-full flex flex-col items-center justify-center">
-                        <Link href="/chatroom" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
+                        <Link href="/dashboard/mychatrooms" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
                             <ChatBubbleLeftIcon className='w-5 h-5' />
                         </Link>
-                        <Link href="" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
+                        <Link href="#" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
+                            <PlusCircleIcon className='w-5 h-5' />
+                        </Link>
+                        <Link href="#" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
                             <ChatBubbleLeftRightIcon className='w-5 h-5' />
                         </Link>
                     </div>
@@ -73,11 +77,6 @@ function Sidebar() {
                 {/* 
                 // @ts-ignore */}
                 <SidebarRow Icon={MicrophoneIcon} active='' />
-            </Link>
-            <Link href="">
-                {/* 
-                // @ts-ignore */}
-                <SidebarRow Icon={ArrowTrendingUpIcon} active='' />
             </Link>
         </div>
     )

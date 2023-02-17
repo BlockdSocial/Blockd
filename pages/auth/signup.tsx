@@ -23,13 +23,8 @@ import {
 import { read, write } from "fs";
 import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
-<<<<<<< HEAD
-import { indexOf } from "lodash";
 import Policy from "../../components/Auth/Policy";
-
-=======
 import { flatMap, indexOf } from "lodash";
->>>>>>> origin/mergeToDeploy
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 

@@ -23,7 +23,7 @@ function Sidebar() {
   const [isOpen, setOpen] = useState(false);
 
   return (
-    <div className="flex items-start justify-center lg:justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen pb-14">
+    <div className="flex items-start justify-center lg:justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-l pb-14">
       <div className="relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit">
         <Link href="/" className="active">
           {location.pathname === "/" ? (
@@ -77,37 +77,58 @@ function Sidebar() {
             <SidebarRow Icon={LightBulbIcon} title="Feedback" active="" />
           )}
         </Link>
-        {/* <Link
-                    href=""
-                    onMouseEnter={() => setOpen(true)}
-                    onMouseLeave={() => setOpen(false)}
-                    className="relative">
-                    <div className='flex items-center justify-center hidden'>
-                        <div
-                            className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}>
-                            <ChatBubbleBottomCenterTextIcon className='h-6 w-6' />
-                            <p className={` md:inline-flex text-base lg:text-xl cursor-pointer`}>ChatRooms</p>
-                            <div className='hidden md:inline'>
-                                <ChevronRightIcon className={`w-4 h-4 ml-2 ${isOpen ? 'hidden' : 'inline'}`} />
-                                <ChevronDownIcon className={`w-4 h-4 ml-2 ${isOpen ? 'inline' : 'hidden'}`} />
-                            </div>
-                        </div>
-                    </div>
-                    {isOpen && (
-                        <div className="w-full flex flex-col items-center justify-center">
-                            <Link href="/dashboard/chatroom" className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2">
-                                <ChatBubbleLeftIcon className='w-5 h-5' /><span className='hidden md:inline'>My Chatrooms</span>
-                            </Link>
-                            <Link href="/dashboard/chatroom" className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2">
-                                <PlusCircleIcon className='w-5 h-5' /><span className='hidden md:inline'>Create Chatroom</span>
-                            </Link>
-                            <Link href="" className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2">
-                                <ChatBubbleLeftRightIcon className='w-5 h-5' /><span className='hidden md:inline'>All Chatrooms</span>
-                            </Link>
-                        </div>
-                    )}
-                </Link>
-                    */}
+        <Link
+          href=""
+          onMouseEnter={() => setOpen(true)}
+          onMouseLeave={() => setOpen(false)}
+          className="relative"
+        >
+          <div className="flex items-center justify-center">
+            <div
+              className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
+            >
+              <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
+              <p
+                className={` md:inline-flex text-base lg:text-xl cursor-pointer`}
+              >
+                ChatRooms
+              </p>
+              <div className="hidden md:inline">
+                <ChevronRightIcon
+                  className={`w-4 h-4 ml-2 ${isOpen ? "hidden" : "inline"}`}
+                />
+                <ChevronDownIcon
+                  className={`w-4 h-4 ml-2 ${isOpen ? "inline" : "hidden"}`}
+                />
+              </div>
+            </div>
+          </div>
+          {isOpen && (
+            <div className="w-full flex flex-col items-center justify-center">
+              <Link
+                href="/dashboard/mychatrooms"
+                className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
+              >
+                <ChatBubbleLeftIcon className="w-5 h-5" />
+                <span className="hidden md:inline">My Chatrooms</span>
+              </Link>
+              <Link
+                href="/dashboard/mychatrooms"
+                className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
+              >
+                <PlusCircleIcon className="w-5 h-5" />
+                <span className="hidden md:inline">Create Chatroom</span>
+              </Link>
+              <Link
+                href=""
+                className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
+              >
+                <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                <span className="hidden md:inline">All Chatrooms</span>
+              </Link>
+            </div>
+          )}
+        </Link>
 
         <Link href="#" className="opacity-60">
           {/*

@@ -176,9 +176,9 @@ console.log('navbar',authUser?.id);
   };
 
   return (
-    <div className="w-full shadow-md bg-darkblue dark:bg-lightgray">
+    <div className="w-full bg-darkblue dark:bg-lightgray">
       <div className="bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto lg:max-w-7xl h-14">
-        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14 px-3">
+        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14">
           <Link
             href="/"
             className="h-full cursor-pointer flex items-center justify-center"
@@ -199,14 +199,14 @@ console.log('navbar',authUser?.id);
             />
           </Link>
         </div>
-        <div className="col-span-7 md:col-span-5 h-14 px-3">
+        <div className="col-span-7 md:col-span-5 h-14">
           <ul className="flex items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="flex-col items-center text-l mr-2">
               {renderThemeChanger()}
             </li>
             {/* Messages */}
-            <li className="flex flex-col items-center text-l hidden">
+            <li className="flex-col items-center text-l hidden">
               <Link href="/dashboard/messages">
                 {/* 
                 // @ts-ignore */}
