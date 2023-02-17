@@ -29,6 +29,7 @@ import { WagmiConfig, configureChains, createClient } from "wagmi";
 import { polygon } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
+import Layout from "../components/Layout";
 
 const { chains, provider } = configureChains([polygon], [publicProvider()]);
 const connectors = connectorsForWallets([
@@ -51,8 +52,7 @@ const wagmiClient = createClient({
 
 function MyApp({ Component, pageProps }: AppProps) {
   const mounted = useIsMounted();
-  if (process.env.NODE_ENV === 'production') console.log = function () {};
-
+  if (process.env.NODE_ENV === "production") console.log = function () {};
 
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
@@ -67,12 +67,12 @@ function MyApp({ Component, pageProps }: AppProps) {
       />
       <Script>
         {`
-  window.dataLayer = window.dataLayer || [];
-  function gtag(){dataLayer.push(arguments);}
-  gtag('js', new Date());
+        window.dataLayer = window.dataLayer || [];
+        function gtag(){dataLayer.push(arguments);}
+        gtag('js', new Date());
 
-  gtag('config', 'G-QW4Q5G8G4K');
-  `}
+        gtag('config', 'G-QW4Q5G8G4K');
+        `}
       </Script>
 
       <QueryClientProvider client={queryClient}>
@@ -92,7 +92,9 @@ function MyApp({ Component, pageProps }: AppProps) {
           >
             <Provider store={store}>
               <ThemeProvider enableSystem={true} attribute="class">
+              <Layout>
                 <Component {...pageProps} />
+                </Layout>
               </ThemeProvider>
             </Provider>
           </RainbowKitProvider>

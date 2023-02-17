@@ -63,7 +63,7 @@ function PostPage() {
   }
 
   return (
-    <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x'>
+    <div className='relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x'>
       <div className='flex z-[1] flex-col items-start sticky top-0 w-full p-3 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
         <ArrowLeftCircleIcon
           onClick={() => router.back()}

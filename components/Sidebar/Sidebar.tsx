@@ -1,68 +1,83 @@
-import React, { useState } from 'react'
-import SidebarRow from './SidebarRow';
+import React, { useState } from "react";
+import SidebarRow from "./SidebarRow";
 import {
-    MicrophoneIcon,
-    ComputerDesktopIcon,
-    ChatBubbleBottomCenterTextIcon,
-    UserIcon,
-    HomeIcon,
-    PlusCircleIcon,
-    LightBulbIcon,
-    FireIcon,
-    ChatBubbleLeftIcon,
-    ChatBubbleLeftRightIcon,
-    ChevronDownIcon,
-    ChevronRightIcon,
-    LockClosedIcon
-} from '@heroicons/react/24/outline'
-import Link from 'next/link';
-import { useRouter } from 'next/router'
+  MicrophoneIcon,
+  ComputerDesktopIcon,
+  ChatBubbleBottomCenterTextIcon,
+  UserIcon,
+  HomeIcon,
+  PlusCircleIcon,
+  LightBulbIcon,
+  FireIcon,
+  ChatBubbleLeftIcon,
+  ChatBubbleLeftRightIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Sidebar() {
+  let location = useRouter();
+  const [isOpen, setOpen] = useState(false);
 
-    let location = useRouter();
-    const [isOpen, setOpen] = useState(false);
-
-    return (
-        <div className='flex items-start justify-center lg:justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll h-full'>
-            <div className='relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit'>
-                <Link href="/" className='active'>
-                    {location.pathname === '/' ? (
-                        // @ts-ignore
-                        <SidebarRow Icon={HomeIcon} title="Home" active='bg-gray-100 dark:bg-lightgray' />
-                    ) : (
-                                                // @ts-ignore
-                        <SidebarRow Icon={HomeIcon} title="Home" active='' />
-                    )}
-                </Link>
-                <Link href="/dashboard/profile">
-                    {location.pathname === '/dashboard/profile' ? (
-                                                // @ts-ignore
-                        <SidebarRow Icon={UserIcon} title="Profile" active='bg-gray-100 dark:bg-lightgray' />
-                    ) : (
-                                                // @ts-ignore
-                        <SidebarRow Icon={UserIcon} title="Profile" active='' />
-                    )}
-                </Link>
-                {/* <Link href="/dashboard/achievement">
-                    {location.pathname === '/dashboard/achievement' ? (
-                                                // @ts-ignore
-                        <SidebarRow Icon={FireIcon} title="Achievements" active='bg-gray-100 dark:bg-lightgray' />
-                    ) : (
-                                                // @ts-ignore
-                        <SidebarRow Icon={FireIcon} title="Achievements" active='' />
-                    )}
-                </Link> */}
-                <Link href="/dashboard/suggestion">
-                    {location.pathname === '/dashboard/suggestion' ? (
-                                                // @ts-ignore
-                        <SidebarRow Icon={LightBulbIcon} title="Feedback" active='bg-gray-100 dark:bg-lightgray' />
-                    ) : (
-                                                // @ts-ignore
-                        <SidebarRow Icon={LightBulbIcon} title="Feedback" active='' />
-                    )}
-                </Link>
-                {/* <Link
+  return (
+    <div className="flex items-start justify-center lg:justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen pb-14">
+      <div className="relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit">
+        <Link href="/" className="active">
+          {location.pathname === "/" ? (
+            <SidebarRow
+              // @ts-ignore
+              Icon={HomeIcon}
+              title="Home"
+              active="bg-gray-100 dark:bg-lightgray"
+            />
+          ) : (
+            // @ts-ignore
+            <SidebarRow Icon={HomeIcon} title="Home" active="" />
+          )}
+        </Link>
+        <Link href="/dashboard/profile">
+          {location.pathname === "/dashboard/profile" ? (
+            <SidebarRow
+              // @ts-ignore
+              Icon={UserIcon}
+              title="Profile"
+              active="bg-gray-100 dark:bg-lightgray"
+            />
+          ) : (
+            // @ts-ignore
+            <SidebarRow Icon={UserIcon} title="Profile" active="" />
+          )}
+        </Link>
+        <Link href="/dashboard/achievement">
+          {location.pathname === "/dashboard/achievement" ? (
+            <SidebarRow
+              // @ts-ignore
+              Icon={FireIcon}
+              title="Achievements"
+              active="bg-gray-100 dark:bg-lightgray"
+            />
+          ) : (
+            // @ts-ignore
+            <SidebarRow Icon={FireIcon} title="Achievements" active="" />
+          )}
+        </Link>
+        <Link href="/dashboard/suggestion">
+          {location.pathname === "/dashboard/suggestion" ? (
+            <SidebarRow
+              // @ts-ignore
+              Icon={LightBulbIcon}
+              title="Feedback"
+              active="bg-gray-100 dark:bg-lightgray"
+            />
+          ) : (
+            // @ts-ignore
+            <SidebarRow Icon={LightBulbIcon} title="Feedback" active="" />
+          )}
+        </Link>
+        {/* <Link
                     href=""
                     onMouseEnter={() => setOpen(true)}
                     onMouseLeave={() => setOpen(false)}
@@ -92,23 +107,21 @@ function Sidebar() {
                         </div>
                     )}
                 </Link>
-                      {/* 
-                <Link href="">
-                 {/*
+                    */}
+
+        <Link href="#" className="opacity-60">
+          {/*
                 // @ts-ignore */}
-                 {/* 
-                    <SidebarRow Icon={ComputerDesktopIcon} title="Streams" active='' />
-                </Link>
-                <Link href="">
-                    {/* 
+          <SidebarRow Icon={LockClosedIcon} title="Streams" active="" />
+        </Link>
+        <Link href="#" className="opacity-60">
+          {/* 
                 // @ts-ignore */}
-                 {/* 
-                    <SidebarRow Icon={MicrophoneIcon} title="Podcasts" active='' />
-                </Link>
-                */}
-            </div>
-        </div>
-    )
+          <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
+        </Link>
+      </div>
+    </div>
+  );
 }
 
-export default Sidebar
+export default Sidebar;

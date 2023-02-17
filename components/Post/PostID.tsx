@@ -376,23 +376,19 @@ function PostID({ post, refetchComments }: Props) {
             )}
           </div>
         </div>
-        <div className="w-full">
+        <div className="w-full flex flex-col items-start">
           {post?.images != null ? (
             <img
               src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}
               alt="Post"
-              className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
-              width={2000}
-              height={2000}
+              className="m-5 ml-0 mb-1 rounded-lg m max-w-full max-h-[500px] object-contain shadow-sm"
             />
           ) : null}
           {post?.gif != null ? (
             <img
               src={post?.gif}
               alt="gif"
-              className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
-              width={2000}
-              height={2000}
+              className="m-5 ml-0 mb-1 rounded-lg m max-w-full max-h-[500px] object-contain shadow-sm"
             />
           ) : null}
           <p className="pt-4 ml-3 font-semibold">{post?.content}</p>
