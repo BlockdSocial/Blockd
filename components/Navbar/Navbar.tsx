@@ -229,7 +229,7 @@ console.log('navbar',authUser?.id);
             {/* Notifications */}
 
             <li className="hidden md:flex md:flex-col items-center text-l">
-              <Link href="" onClick={() => handleNotif()}>
+              <Link href="/dashboard/notifications" onClick={() => handleNotif()}>
                 {/* 
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 p-2 rounded-ful transition-all duration-100 group">

@@ -275,7 +275,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
   };
 
   return (
-    <div className="relative border-b flex flex-col space-x-2  p-4">
+    <div className="relative border-b flex flex-col space-x-2 p-4">
       <div className="flex space-x-2">
         <Link
           href="/dashboard/profile"
@@ -315,8 +315,6 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
                 alt="Post"
                 className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
-                width={2000}
-                height={2000}
               />
             ) : null}
             {comment?.gif != null ? (
@@ -324,8 +322,6 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                 src={comment?.gif}
                 alt="gif"
                 className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
-                width={2000}
-                height={2000}
               />
             ) : null}
           </div>

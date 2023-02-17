@@ -374,8 +374,6 @@ function CommentSection({ comment, post, type }: Props) {
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
                 alt="Post"
                 className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
-                width={2000}
-                height={2000}
               />
             ) : null}
             {comment?.gif != null ? (
@@ -383,8 +381,6 @@ function CommentSection({ comment, post, type }: Props) {
                 src={comment?.gif}
                 alt="gif"
                 className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
-                width={2000}
-                height={2000}
               />
             ) : null}
           </div>
