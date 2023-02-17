@@ -56,13 +56,13 @@ function Sidebar() {
                 </div>
                 {isOpen && (
                     <div className="w-full flex flex-col items-center justify-center">
-                        <Link href="/dashboard/mychatrooms" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
+                        <Link href="/dashboard/myChatrooms" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
                             <ChatBubbleLeftIcon className='w-5 h-5' />
                         </Link>
-                        <Link href="#" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
+                        <Link href="/dashboard/createChatroom" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
                             <PlusCircleIcon className='w-5 h-5' />
                         </Link>
-                        <Link href="#" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
+                        <Link href="/dashboard/allChatrooms" className="flex items-center justify-center p-2 py-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full lg:space-x-2">
                             <ChatBubbleLeftRightIcon className='w-5 h-5' />
                         </Link>
                     </div>

@@ -173,7 +173,7 @@ export default function SignIn() {
             <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">
               Verified By Blockchain Technology
             </h4>
-            <div className="flex mt-8 hidden">
+            <div className="flex mt-8">
               <button className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-full">
                 Learn more
               </button>

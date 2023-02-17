@@ -106,21 +106,21 @@ function Sidebar() {
           {isOpen && (
             <div className="w-full flex flex-col items-center justify-center">
               <Link
-                href="/dashboard/mychatrooms"
+                href="/dashboard/myChatrooms"
                 className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
               >
                 <ChatBubbleLeftIcon className="w-5 h-5" />
                 <span className="hidden md:inline">My Chatrooms</span>
               </Link>
               <Link
-                href="/dashboard/mychatrooms"
+                href="/dashboard/createChatroom"
                 className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
               >
                 <PlusCircleIcon className="w-5 h-5" />
                 <span className="hidden md:inline">Create Chatroom</span>
               </Link>
               <Link
-                href=""
+                href="/dashboard/allChatrooms"
                 className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
               >
                 <ChatBubbleLeftRightIcon className="w-5 h-5" />
