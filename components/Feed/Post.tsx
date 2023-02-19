@@ -527,12 +527,12 @@ export default function PostTest({ post, refetch }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                 <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                 <p className="text-xs">
                   {info?.shares != null || undefined ? info?.shares : 0}
                 </p>
-              </div> */}
+              </div>
             </div>
           </div>
           {commentBoxVisible && (
