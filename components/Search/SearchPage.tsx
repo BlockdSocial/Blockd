@@ -14,8 +14,8 @@ interface Post {
 function SearchPage() {
 
     return (
-        <div className="relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x bg-gray-100 dark:bg-lightgray">
-            <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-white rounded-lg space-y-3'>
+        <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 bg-gray-100 dark:bg-darkgray pb-14">
+            <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-lightgray rounded-lg space-y-3'>
                 <h3 className='text-xl font-semibold w-full mb-4'>People</h3>
                 <div className='flex items-center justify-between w-full'>
                     <div className='flex items-center justify-center space-x-3'>
@@ -70,7 +70,7 @@ function SearchPage() {
                 </div>
                 <Link href="/people" className='flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold'>View all</Link>
             </div>
-            <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-white rounded-lg space-y-3'>
+            <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-lightgray rounded-lg space-y-3'>
                 <h3 className='text-xl font-semibold w-full mb-4'>Posts</h3>
                 {/** @ts-ignore */}
                 <PostTest
