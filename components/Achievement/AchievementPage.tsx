@@ -8,7 +8,7 @@ import Achievements from './Achievements'
 function AchievementPage() {
 
     return (
-        <div className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x p-2 sm:px-16 md:px-10 lg:px-20 xl:px-36'>
+        <div className='relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 p-2 pb-14 sm:px-16 md:px-10 lg:px-20 xl:px-36'>
             <div className="flex flex-col items-center justify-center p-4 border dark:border-lightgray rounded-lg shadow-lg">
                 <div className='flex items-center justify-center w-full space-x-6 mb-10 bg-transparent'>
                     <div className={`relative h-24 w-24 border-2 border-white rounded-md p-1 animate-colorChange`}>

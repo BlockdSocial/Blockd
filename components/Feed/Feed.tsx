@@ -137,7 +137,7 @@ function Feed() {
         handleScroll()
       }
       ref={elementRef}
-      className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-14'
+      className='relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14'
     >
       <div id="top-page"></div>
       <div className={`flex items-center z-[2] ${atTop === false ? 'justify-end' : 'justify-between'} sticky top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}>

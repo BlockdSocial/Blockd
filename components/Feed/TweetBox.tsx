@@ -175,7 +175,7 @@ function TweetBox({ refetchFiltered }: Props) {
   }
 
   return (
-    <div className='flex space-x-2 p-4 border-y dark:bg-lightgray'>
+    <div className='flex space-x-2 p-4 dark:bg-lightgray'>
       <Link href="/dashboard/profile" className='relative flex flex-col h-fit group'>
         <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
           <Image
@@ -206,14 +206,14 @@ function TweetBox({ refetchFiltered }: Props) {
             className="pt-6 h-24 w-full text-black dark:text-white outline-none text-l bg-transparent"
             placeholder="What's the word on the block?"
           ></textarea>
-          <hr className='mb-4'></hr>
+          <hr className='mb-4 dark:border-darkgray dark:border-2'></hr>
           {gifBoxIsOpen && (
             <div className='relative w-full'>
               <img src={gifUrl} className="rounded-lg max-w-full h-auto" width="200px" height="200px" />
               <div onClick={() => closeGif()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <XMarkIcon className='w-5 h-5' />
               </div>
-              <hr className='mt-4 mb-4'></hr>
+              <hr className='mt-4 mb-4 dark:border-darkgray dark:border-2'></hr>
             </div>
           )}
           {image && (
@@ -222,7 +222,7 @@ function TweetBox({ refetchFiltered }: Props) {
               <div onClick={() => closePicture()} className='flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray'>
                 <XMarkIcon className='w-5 h-5' />
               </div>
-              <hr className='mt-4 mb-4'></hr>
+              <hr className='mt-4 mb-4 dark:border-darkgray dark:border-2'></hr>
             </div>
           )}
 
