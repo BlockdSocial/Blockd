@@ -89,7 +89,7 @@ function Sidebar() {
             >
               <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
               <p
-                className={` md:inline-flex text-base lg:text-xl cursor-pointer`}
+                className={`hidden md:inline-flex text-base lg:text-xl cursor-pointer`}
               >
                 ChatRooms
               </p>

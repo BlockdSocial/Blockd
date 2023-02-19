@@ -8,7 +8,7 @@ import {
   PhotoIcon,
   XMarkIcon,
   GifIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
@@ -72,7 +72,7 @@ interface Post {
 
 interface Props {
   comment: Comment;
-  post: Post
+  post: Post;
   type: string;
 }
 
@@ -190,12 +190,12 @@ function CommentSection({ comment, post, type }: Props) {
     if (!isEmpty(comment)) {
       fetchInfo();
       fetchLiked();
-      fetchDisliked()
+      fetchDisliked();
     }
   }, [comment]);
 
   const fetchInfo = async () => {
-    if ('comment' === type) {
+    if ("comment" === type) {
       await dispatch(fetchCommentInfo(comment?.id)).then((result: any) => {
         setInfo(result);
       });
@@ -207,7 +207,7 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   const handleLikeComment = async () => {
-    if ('comment' === type) {
+    if ("comment" === type) {
       dispatch(
         likeComment({
           comment_id: comment?.id,
@@ -233,7 +233,7 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   const handleDislikeComment = async () => {
-    if ('comment' === type) {
+    if ("comment" === type) {
       dispatch(
         dislikeComment({
           comment_id: comment?.id,
@@ -263,7 +263,7 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   const fetchLiked = async () => {
-    if ('comment' === type) {
+    if ("comment" === type) {
       await dispatch(fetchIsLikedComment(comment?.id)).then((result: any) => {
         setIsLiked(result);
       });
@@ -271,10 +271,12 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   const fetchDisliked = async () => {
-    if ('comment' === type) {
-      await dispatch(fetchIsDislikedComment(comment?.id)).then((result: any) => {
-        setIsDisliked(result);
-      });
+    if ("comment" === type) {
+      await dispatch(fetchIsDislikedComment(comment?.id)).then(
+        (result: any) => {
+          setIsDisliked(result);
+        }
+      );
     }
   };
 
@@ -295,8 +297,7 @@ function CommentSection({ comment, post, type }: Props) {
         closePicture();
         fetchInfo();
       });
-    }
-    else if (gifUrl.length > 0) {
+    } else if (gifUrl.length > 0) {
       await dispatch(
         replyComment({
           user_id: authUser?.id,
@@ -310,8 +311,7 @@ function CommentSection({ comment, post, type }: Props) {
         closeGif();
         fetchInfo();
       });
-    }
-    else {
+    } else {
       await dispatch(
         replyComment({
           user_id: authUser?.id,
@@ -327,7 +327,7 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   return (
-    <div className="relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4 group">
+    <div className="relative border-b flex flex-col space-x-2 hover:bg-gray-100 dark:hover:bg-lightgray p-4">
       <Link
         href={{
           pathname: "/dashboard/post/comment",
@@ -387,38 +387,42 @@ function CommentSection({ comment, post, type }: Props) {
         </div>
       </Link>
       <div
-        className={`flex justify-between mt-2 ${commentBoxVisible ? "hidden" : "flex"
-          }`}
+        className={`flex justify-between mt-2 ${
+          commentBoxVisible ? "hidden" : "flex"
+        }`}
       >
         <div className="flex pl-14">
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
-              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                }`}
+              className={`text-xs ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
-              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                }`}
+              className={`text-xs ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
           </div>
-          {
-            'comment' === type &&
+          {"comment" === type && (
             <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
               <ChatBubbleBottomCenterTextIcon
                 onClick={() => handleComment()}
@@ -428,15 +432,18 @@ function CommentSection({ comment, post, type }: Props) {
                 {info?.replies != null || undefined ? info?.replies : 0}
               </p>
             </div>
-          }
-          {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+          )}
+          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
             <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
             <p className="text-xs">1</p>
-          </div> */}
+          </div>
         </div>
       </div>
       {commentBoxVisible && (
-        <form onSubmit={handleAddReply} className="mt-6 flex items-start justify-center space-x-3">
+        <form
+          onSubmit={handleAddReply}
+          className="mt-6 flex items-start justify-center space-x-3"
+        >
           <div className="flex flex-col items-end justify-center w-full">
             <input
               value={input}
@@ -449,32 +456,35 @@ function CommentSection({ comment, post, type }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
-                    className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      }`}
+                    className={`text-xs ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon
-                    className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikeComment()}
                   />
                   <p
-                    className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                      }`}
+                    className={`text-xs ${
+                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
                 </div>
-                {
-                  'comment' === type &&
+                {"comment" === type && (
                   <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                     <ChatBubbleBottomCenterTextIcon
                       onClick={() => handleComment()}
@@ -484,7 +494,7 @@ function CommentSection({ comment, post, type }: Props) {
                       {info?.replies != null || undefined ? info?.replies : 0}
                     </p>
                   </div>
-                }
+                )}
                 <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                   <p className="text-xs">1</p>

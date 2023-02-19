@@ -189,13 +189,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <div className='flex items-center justify-start'>
           <circle className="flex items-center justify-start p-3">
             <div className='z-0'>
-              <div className={`relative h-24 w-24 border-2 border-white rounded-md p-1 ${frameColor}`}>
-                <Image
+              <div className={`relative w-20 h-20 md:h-24 md:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}>
+                <img
                   src={!isEmpty(profilePicture) ? `${config.url.PUBLIC_URL}/${profilePicture}` : '/images/pfp/pfp1.jpg'}
                   alt='pfp'
-                  className='w-fill h-full rounded-md shadow-sm border-2 border-white'
-                  width={2000}
-                  height={2000} />
+                  className='w-fill h-full rounded-md shadow-sm border-2 border-white'/>
                 <div className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}>
                   <div className='flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white'>
                     0
@@ -203,8 +201,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 </div>
                 {
                   user?.id === authUser?.id &&
-                  <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-10 h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>
-                    <CameraIcon className='w-8 h-8 text-white dark:text-darkgray' />
+                  <div onClick={() => onPfpClick()} className='flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full'>
+                    <CameraIcon className='w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray' />
                   </div>
                 }
                 <input
@@ -220,13 +218,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </circle>
           <div className='flex flex-col items-start justify-end rounded-md p-3'>
             <div className='flex items-center space-x-1'>
-              <p className='mr-1 font-semibold text-l group-hover:underline'>@{user?.name}</p>
-              <CheckBadgeIcon className='h-5 w-5 fill-blockd' />
+              <p className='mr-1 text-xs md:text-sm lg:text-xl group-hover:underline'>@{user?.name}</p>
+              <CheckBadgeIcon className='h-4 w-4 md:h-5 md:w-5 fill-blockd' />
             </div>
-            {/* <div>
-              <p className='mr-1 text-sm group-hover:underline mt-2'>10K followers</p>
-            </div> */}
-            <div className="flex items-center justify-start w-48 h-5 rounded bg-gray-200 mb-2 relative group">
+            <div>
+              <p className='mr-1 text-xs md:text-sm group-hover:underline mt-2'>10K followers</p>
+            </div>
+            <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
               <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
                 <span className='text-xs font-semibold cursor-pointer text-white inline'>{authUser?.score} XP</span>
               </div>
@@ -242,7 +240,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <div ref={dropdown} className='flex'>
           {
             user?.id === authUser?.id &&
-            <div className='w-fit h-fit pr-3 pt-3 md:p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
+            <div className='w-fit h-fit md:pr-3 pt-3 md:p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray'>
               <Cog8ToothIcon onClick={() => setIsDropdownVisible(b => !b)} className='h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale' />
             </div>
           }

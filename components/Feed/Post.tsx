@@ -368,16 +368,14 @@ export default function PostTest({ post, refetch }: Props) {
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
-                    <Image
+                    <img
                       src={
                         !isEmpty(post?.user?.profilePic)
                           ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
-                      className="w-16 h-16 rounded-md shadow-sm"
-                      width={60}
-                      height={60}
+                      className="w-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
                     <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
@@ -395,13 +393,13 @@ export default function PostTest({ post, refetch }: Props) {
                       query: { user_id: post?.user?.id },
                     }}
                   >
-                    <p className="mr-1 font-semibold text-l">
+                    <p className="mr-1 font-semibold text-xs md:text-l">
                       @{post?.user?.name}
                     </p>
                   </Link>
                 </div>
                 <div>
-                  <p className="text-sm text-gray-500">0 followers</p>
+                  <p className="text-xs md:text-sm text-gray-500">0 followers</p>
                 </div>
                 <div>
                   <p className="text-xs text-gray-500">
@@ -417,7 +415,7 @@ export default function PostTest({ post, refetch }: Props) {
               >
                 <EllipsisHorizontalIcon
                   onClick={() => setIsDropdownVisible((b) => !b)}
-                  className="w-7 h-7 cursor-pointer"
+                  className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
                 />
                 <div className="relative z-0 flex ite">
                   <ul
@@ -450,7 +448,7 @@ export default function PostTest({ post, refetch }: Props) {
                 <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                   <XMarkIcon
                     onClick={() => setDeletePopUp(!deletePopUp)}
-                    className="w-7 h-7 cursor-pointer"
+                    className="w-5 h-5 md:w-7 md:h-7 cursor-pointer"
                   />
                 </div>
               )}
@@ -465,7 +463,7 @@ export default function PostTest({ post, refetch }: Props) {
               onClick={() => addView()}
               className="w-full flex flex-col items-start justify-start"
             >
-              <p className="pt-8 font-semibold">{post?.content}</p>
+              <p className="pt-8 text-sm lg:text-base">{post?.content}</p>
               {post?.images != null ? (
                 <img
                   src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}

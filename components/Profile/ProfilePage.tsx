@@ -121,16 +121,16 @@ function ProfilePage() {
       />
 
       <div className='flex items-center justify-between p-5 w-full border-b dark:border-lightgray h-10 mt-8'>
-        <button onClick={() => handleToggle1()} className={`font-semibold focus:outline-none ${showFeed === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+        <button onClick={() => handleToggle1()} className={`text-xs md:text-sm lg:text-xl focus:outline-none ${showFeed === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Feed
         </button>
-        <button onClick={() => handleToggle2()} className={`font-semibold focus:outline-none ${showInteractions === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+        <button onClick={() => handleToggle2()} className={`text-xs md:text-sm lg:text-xl focus:outline-none ${showInteractions === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Interactions
         </button>
-        <button onClick={() => handleToggle3()} className={`font-semibold focus:outline-none ${showFollowers === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+        <button onClick={() => handleToggle3()} className={`text-xs md:text-sm lg:text-xl focus:outline-none ${showFollowers === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Followers
         </button>
-        <button onClick={() => handleToggle4()} className={`font-semibold focus:outline-none ${showFollowing === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+        <button onClick={() => handleToggle4()} className={`text-xs md:text-sm lg:text-xl focus:outline-none ${showFollowing === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Following
         </button>
       </div>
