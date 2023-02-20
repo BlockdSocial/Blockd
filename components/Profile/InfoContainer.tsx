@@ -219,7 +219,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           <div className='flex flex-col items-start justify-end rounded-md p-3'>
             <div className='flex items-center space-x-1'>
               <p className='mr-1 text-xs md:text-sm lg:text-xl group-hover:underline'>@{user?.name}</p>
-              <CheckBadgeIcon className='h-4 w-4 md:h-5 md:w-5 fill-blockd' />
             </div>
             <div>
               <p className='mr-1 text-xs md:text-sm group-hover:underline mt-2'>10K followers</p>
