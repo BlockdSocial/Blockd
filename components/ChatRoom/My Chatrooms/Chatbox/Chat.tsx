@@ -53,7 +53,7 @@ export default function Chat() {
     }
 
     return (
-        <div className="scrollbar-hide overflow-scroll min-h-screen mt-14 pb-14 p-2 dark:bg-darkgray">
+        <div className="scrollbar-hide overflow-scroll mt-14 p-2 h-full dark:bg-darkgray">
             <div className="">
                 <div className='relative flex flex-col'>
                     <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
@@ -235,6 +235,7 @@ export default function Chat() {
                         Thank you ! let GOOOO !
                     </div>
                 </div>
+                
             </div>
         </div>
     )

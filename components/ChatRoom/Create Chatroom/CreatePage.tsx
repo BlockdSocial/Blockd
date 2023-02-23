@@ -31,12 +31,21 @@ function CreatePage() {
               />
             </div>
             <div className="w-full">
-              <h3 className="text-sm font-semibold pb-1">Users Number</h3>
-              <input
-                type="number"
-                className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
-                placeholder="0"
-              />
+              <h3 className="text-sm font-semibold pb-1">Users count</h3>
+              <select className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray">
+                <option value="option1" className="outline-none p-2">
+                  1 - 100
+                </option>
+                <option value="option2" className="outline-none p-2">
+                  100 - 1K
+                </option>
+                <option value="option3" className="outline-none p-2">
+                  1K - 5K
+                </option>
+                <option value="option4" className="outline-none p-2">
+                  5K - 10K
+                </option>
+              </select>
             </div>
             <div className="w-full">
               <h3 className="text-sm font-semibold pb-1">Type</h3>
@@ -56,14 +65,35 @@ function CreatePage() {
               </div>
             </div>
             {selectedOption === "private" && (
-              <div className="w-full">
-                <h3 className="text-sm font-semibold pb-1">Contract Address</h3>
-                <input
-                  type="text"
-                  className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
-                  placeholder="CA of the required token"
-                />
-              </div>
+              <>
+                <div className="w-full">
+                  <h3 className="text-sm font-semibold pb-1">
+                    Contract Address
+                  </h3>
+                  <input
+                    type="text"
+                    className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                    placeholder="CA of the required token"
+                  />
+                </div>
+                <div className="w-full">
+                  <h3 className="text-sm font-semibold pb-1">Network</h3>
+                  <select className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray">
+                    <option value="option1" className="outline-none p-2">
+                      Polygon
+                    </option>
+                    <option value="option2" className="outline-none p-2">
+                      Avalanche
+                    </option>
+                    <option value="option3" className="outline-none p-2">
+                      Binance Smart Chain
+                    </option>
+                    <option value="option4" className="outline-none p-2">
+                      Phantom
+                    </option>
+                  </select>
+                </div>
+              </>
             )}
             <div className="flex items-center justify-center w-full mt-4">
               <button className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd hover:bg-orange-400">

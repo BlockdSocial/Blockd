@@ -175,7 +175,7 @@ function TweetBox({ refetchFiltered }: Props) {
   }
 
   return (
-    <div className='flex space-x-2 p-4 dark:bg-lightgray'>
+    <div className='flex space-x-2 p-4 dark:bg-lightgray border-y dark:border-lightgray'>
       <Link href="/dashboard/profile" className='relative flex flex-col h-fit group'>
         <div className='relative flex flex-col p-1 animate-colorChange rounded-lg'>
           <Image

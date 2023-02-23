@@ -393,7 +393,7 @@ export default function PostTest({ post, refetch }: Props) {
                       query: { user_id: post?.user?.id },
                     }}
                   >
-                    <p className="mr-1 font-semibold text-xs md:text-l">
+                    <p className="mr-1 font-semibold text-xs md:text-base">
                       @{post?.user?.name}
                     </p>
                   </Link>
