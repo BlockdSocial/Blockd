@@ -94,9 +94,13 @@ export const apiCall = async (
 
 		// Handle response status
 		let result = await handleApiResponse(apiName, response);
+
+		console.log('result: ', result);
 		return result;
 
 	} catch (error) {
+
+		console.log('error: ', error);
 
 		// Api call aborted
 		if (error.name === 'AbortError') {
@@ -179,6 +183,7 @@ const handleApiResponse = async (apiName, response) => {
 	}
 
 	// Handle response by status
+	const status = response.status;
 	switch (response.status) {
 		case 200: {
 			return await handleSuccessfulApiResponse(apiName, response);
@@ -187,58 +192,9 @@ const handleApiResponse = async (apiName, response) => {
 			console.log(`Successful ${apiName} empty result`);
 			return 'success';
 		}
-
-		// Conflict error code
-		case 409: {
+		case 400 <= status <= 500: {
 			let failedResponse = await response.json();
-			if (failedResponse.hasOwnProperty('result')) {
-
-				if (failedResponse.result.hasOwnProperty('error')) {
-					if (failedResponse.result.error.details) {
-						triggerApiConflictAlert(failedResponse.result.error.details);
-					}
-					throw failedResponse.result.error;
-				}
-			}
-		}
-		case 417:
-		case 401: {
-			localStorage.removeItem("token");
-			deleteCookie("token");
-			window.location.replace('/');
-			let failedResponse = await response.json();
-			if (failedResponse.hasOwnProperty('result')) {
-
-				if (failedResponse.result.hasOwnProperty('error')) {
-					throw failedResponse.result.error;
-				}
-
-				throw failedResponse.result;
-			}
-			return false;
-		}
-		case 400:
-		case 422: {
-			let failedResponse = await response.json();
-			throw failedResponse.result.error;
-			return false;
-		}
-		case 403:
-			{
-				localStorage.removeItem("token");
-				deleteCookie("token");
-				window.location.replace('/');
-				let textResponse = await response.text();
-				console.log('textResponse: ', textResponse);
-				return false;
-			}
-		case 404: {
-			let failedResponse = await response.json();
-			throw failedResponse.result.error;
-			return false;
-		}
-		case 500: {
-			return await handleServerFailureApiResponse(apiName, response);
+			return failedResponse;
 		}
 		default: {
 			let textResponse = await response.text();
