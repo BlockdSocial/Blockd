@@ -1,18 +1,13 @@
 import React, { useState } from "react";
 import {
-  ArrowTrendingUpIcon,
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 
-function TrendingChatrooms() {
+function OrdinaryChatrooms() {
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
-      <p className="flex items-center justify-start space-x-2 mb-4 px-4 w-full">
-        <ArrowTrendingUpIcon className="w-5 h-5" />
-        <span>Trending Chatrooms</span>
-      </p>
       <div
         onClick={() => setModalOpen(!modalOpen)}
         className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
@@ -31,8 +26,8 @@ function TrendingChatrooms() {
           </div>
         </div>
         <div className="flex items-center justify-start">
-          <p className="text-sm md:text-base font-semibold bg-green-700 p-2 rounded-md text-white">
-            +1200 %
+          <p className="text-sm md:text-base font-semibold bg-red-700 p-2 rounded-md text-white">
+            -20 %
           </p>
         </div>
         <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
@@ -52,7 +47,7 @@ function TrendingChatrooms() {
         </div>
         <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
           <p className="text-sm md:text-base font-semibold text-white">
-            +700 %
+            +50 %
           </p>
         </div>
         <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
@@ -72,7 +67,7 @@ function TrendingChatrooms() {
         </div>
         <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
           <p className="text-sm md:text-base font-semibold text-white">
-            +300 %
+            +12.5 %
           </p>
         </div>
         <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
@@ -90,9 +85,9 @@ function TrendingChatrooms() {
             <p className="text-xs md:text-sm">1K Members</p>
           </div>
         </div>
-        <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
+        <div className="flex items-center justify-start bg-red-700 p-2 rounded-md">
           <p className="text-sm md:text-base font-semibold text-white">
-            +200 %
+            -2 %
           </p>
         </div>
         <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
@@ -261,6 +256,7 @@ function TrendingChatrooms() {
                     Polygon
                   </div>
                 </div>
+
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Contract Address
@@ -289,4 +285,4 @@ function TrendingChatrooms() {
   );
 }
 
-export default TrendingChatrooms;
+export default OrdinaryChatrooms;

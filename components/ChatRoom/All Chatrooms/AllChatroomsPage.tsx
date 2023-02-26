@@ -5,13 +5,13 @@ import {
 } from "@heroicons/react/24/outline";
 import TrendingChatrooms from "./TrendingChatrooms";
 import SearchBar from "./SearchBar";
-import Chatrooms from "./Chatrooms";
+import OrdinaryChatrooms from "./OrdinaryChatrooms";
 
 function AllChatroomsPage() {
   const router = useRouter();
 
   return (
-    <div className="min-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-14">
+    <div className="min-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-16">
       <div className="flex z-[1] space-x-2 items-center sticky top-0 w-full p-3 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
         <ArrowLeftCircleIcon
           onClick={() => router.back()}
@@ -22,7 +22,7 @@ function AllChatroomsPage() {
 
       <TrendingChatrooms />
       <SearchBar />
-      <Chatrooms />
+      <OrdinaryChatrooms  />
     </div>
   );
 }

@@ -202,7 +202,7 @@ console.log('navbar',authUser?.id);
         <div className="col-span-7 md:col-span-5 h-14">
           <ul className="flex items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
-            <li className="flex-col items-center text-l mr-2">
+            <li className="relative flex-col items-center text-l mr-2">
               {renderThemeChanger()}
             </li>
             {/* Messages */}

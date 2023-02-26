@@ -83,7 +83,7 @@ function Navbar() {
                 </div>
             </div>
             {showFriends && (
-                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-14 h-screen right-0 w-80 transition-all duration-300 ease-in-out md:hidden`}>
+                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
                     <div className='flex items-center justify-start h-14 p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
                         <div className='flex items-center justify-start space-x-2'>
                             <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
