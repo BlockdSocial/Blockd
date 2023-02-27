@@ -177,7 +177,7 @@ console.log('navbar',authUser?.id);
 
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
-      <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto lg:max-w-7xl h-14">
+      <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto lg:max-w-[70%] h-14">
         <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14 px-4 md:px-0">
           <Link
             href="/"
