@@ -375,7 +375,7 @@ export default function PostTest({ post, refetch }: Props) {
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
-                      className="w-12 md:w-16 md:h-16 rounded-md shadow-sm"
+                      className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
                     <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
@@ -755,10 +755,11 @@ export default function PostTest({ post, refetch }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
-        <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
+        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
               <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>

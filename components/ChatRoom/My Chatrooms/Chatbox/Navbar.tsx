@@ -40,8 +40,8 @@ function Navbar() {
         <div className="flex items-center justify-between absolute top-0 h-14 w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
             <div className='flex items-center space-x-2'>
                 <img onClick={() => setIsModalVisible(!isModalVisible)} src='/images/chatLogo/Bitcoin.png' className='h-8 w-8 cursor-pointer rounded-full' />
-                <div className={`fixed top-0 -left-2 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
-                    <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
+                <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
+                    <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
                         <div className='sticky top-0 flex items-center justify-start p-2 z-[1] backdrop-blur-md border-b bg-white/30'>
                             <div className='flex items-center justify-bteween p-1'>
                                 <div className='flex items-center justify-start'>
@@ -75,15 +75,15 @@ function Navbar() {
                     </div>
                     <div className='relative z-10 flex ite'>
                         <ul className={`absolute top-0 -right-3 w-36 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? '' : 'hidden'}`}>
-                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-t-md dark:hover:bg-darkgray/50"><SpeakerWaveIcon className='w-5 h-5 mr-2' />Mute</Link>
-                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold dark:hover:bg-darkgray/50"><EyeDropperIcon className='w-5 h-5 mr-2' />Pin Group</Link>
-                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:font-semibold hover:rounded-b-md dark:hover:bg-darkgray/50"><ArrowRightOnRectangleIcon className='w-5 h-5 mr-2' />Leave Group</Link>
+                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50"><SpeakerWaveIcon className='w-5 h-5 mr-2' />Mute</Link>
+                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"><EyeDropperIcon className='w-5 h-5 mr-2' />Pin Group</Link>
+                            <Link type='button' href="" className="flex items-center justify-start  p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50"><ArrowRightOnRectangleIcon className='w-5 h-5 mr-2' />Leave Group</Link>
                         </ul>
                     </div>
                 </div>
             </div>
             {showFriends && (
-                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-14 h-screen right-0 w-80 transition-all duration-300 ease-in-out md:hidden`}>
+                <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
                     <div className='flex items-center justify-start h-14 p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
                         <div className='flex items-center justify-start space-x-2'>
                             <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>

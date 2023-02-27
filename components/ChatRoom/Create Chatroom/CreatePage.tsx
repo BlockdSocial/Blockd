@@ -93,6 +93,14 @@ function CreatePage() {
                     </option>
                   </select>
                 </div>
+                <div className="w-full">
+                  <h3 className="text-sm font-semibold pb-1">Token Amount</h3>
+                  <input
+                    type="text"
+                    className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                    placeholder="Enter token amount needed to join"
+                  />
+                </div>
               </>
             )}
             <div className="flex items-center justify-center w-full mt-4">

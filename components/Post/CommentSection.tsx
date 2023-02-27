@@ -347,7 +347,7 @@ function CommentSection({ comment, post, type }: Props) {
                   : "/images/pfp/pfp2.jpg"
               }
               alt="pfp"
-              className="w-14 h-14 rounded-md shadow-sm"
+              className="w-16 h-14 rounded-md shadow-sm"
               width={60}
               height={60}
             />
