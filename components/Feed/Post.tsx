@@ -432,8 +432,11 @@ export default function PostTest({ post, refetch }: Props) {
                     )}
                     {post?.userId !== authUser?.id && (
                       <>
-                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
+                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                           Report Post
+                        </div>
+                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
+                          Follow User
                         </div>
                         <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                           Follow Post
