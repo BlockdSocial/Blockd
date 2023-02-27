@@ -37,7 +37,7 @@ export function updateProfilcePicture(fields: object) {
       console.log('Update Profile Picture error: ', error);
       dispatch({
         type: UPDATE_PROFILE_PICTURE_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -55,7 +55,7 @@ export function updateProfileBanner(fields: object) {
       console.log('Update Profile Banner error: ', error);
       dispatch({
         type: UPDATE_PROFILE_BANNER_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -74,7 +74,7 @@ export function fetchFollowers(fields: object) {
       console.log('Fetch Followers error: ', error);
       dispatch({
         type: FETCH_FOLLOWERS_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -93,7 +93,7 @@ export function fetchFollowings(fields: object) {
       console.log('Fetch followings error: ', error);
       dispatch({
         type: FETCH_FOLLOWINGS_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -111,7 +111,7 @@ export function updateUser(fields: object) {
       console.log('Update user error: ', error);
       dispatch({
         type: UPDATE_USER_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -131,7 +131,7 @@ export function fetchUser(fields: any) {
       console.log('Fetch user error: ', error);
       dispatch({
         type: FETCH_USER_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -151,7 +151,7 @@ export function searchUsers(fields: any) {
       console.log('Search Popular Users Error: ', error);
       dispatch({
         type: SEARCH_POPULAR_USERS_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }

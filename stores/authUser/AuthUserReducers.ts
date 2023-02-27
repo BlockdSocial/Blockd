@@ -37,7 +37,6 @@ export function authUserReducer(state = initialState, action: any) {
       };
     }
     case FETCH_AUTH_USER_SUCCESS: {
-      console.log('non',action.user )
       return {
         ...state,
         isFetchingAuthUser: false,

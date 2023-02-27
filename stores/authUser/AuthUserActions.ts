@@ -1,7 +1,7 @@
 import {
   LOGIN_USER,
-	LOGIN_USER_SUCCESS,
-	LOGIN_USER_FAILURE,
+  LOGIN_USER_SUCCESS,
+  LOGIN_USER_FAILURE,
   LOGOUT_USER,
   LOGOUT_USER_SUCCESS,
   LOGOUT_USER_FAILURE,
@@ -23,7 +23,7 @@ import { authUserApi } from '../../api';
 
 export function fetchAuthUser() {
   return async (dispatch: any) => {
-    dispatch({type: IS_FETCHING_AUTH_USER});
+    dispatch({ type: IS_FETCHING_AUTH_USER });
 
     try {
       const result = await authUserApi.fetchAuthUser();
@@ -33,11 +33,9 @@ export function fetchAuthUser() {
       });
       if (!isEmpty(result)) {
         localStorage.setItem("authUser", JSON.stringify(result));
-        console.log('local')
-        console.log('get local',localStorage.getItem('authUser'))
       }
       return result;
-    } catch(error: any) {
+    } catch (error: any) {
       console.log('Auth User Error: ', error);
 
       dispatch({
@@ -50,7 +48,7 @@ export function fetchAuthUser() {
 
 export function loginUser(fields: any) {
   return async (dispatch: any) => {
-    dispatch({type: LOGIN_USER});
+    dispatch({ type: LOGIN_USER });
 
     try {
       const result: any = await authUserApi.loginUser(fields);
@@ -65,20 +63,22 @@ export function loginUser(fields: any) {
       }
 
       return result;
-    } catch(error: any) {
+    } catch (error: any) {
       console.log('Login error: ', error);
 
       dispatch({
         type: LOGIN_USER_FAILURE,
         error: error.message
       });
+
+      return ({ errors: error?.message });
     }
   }
 }
 
 export function registerUser(fields: object) {
   return async (dispatch: any) => {
-    dispatch({type: REGISTER_USER});
+    dispatch({ type: REGISTER_USER });
     try {
       const result: any = await authUserApi.registerUser(fields);
       dispatch({
@@ -89,28 +89,30 @@ export function registerUser(fields: object) {
         setCookie('token', result.token);
       }
       return result;
-    } catch(error: any) {
+    } catch (error: any) {
       console.log('Register user Error: ', error);
 
       dispatch({
         type: REGISTER_USER_FAILURE,
         error: error?.message
       });
+
+      return ({ errors: error?.message });
     }
   }
 }
 
 export function logoutUser() {
   return async (dispatch: any) => {
-    dispatch({type: LOGOUT_USER});
+    dispatch({ type: LOGOUT_USER });
 
     try {
       const result = await authUserApi.logoutUser();
       localStorage.removeItem("token");
       localStorage.removeItem("authUser");
       deleteCookie("token");
-      dispatch({type: LOGOUT_USER_SUCCESS});
-    } catch(error: any) {
+      dispatch({ type: LOGOUT_USER_SUCCESS });
+    } catch (error: any) {
       dispatch({
         type: LOGOUT_USER_FAILURE,
         error: error.message
@@ -121,8 +123,8 @@ export function logoutUser() {
 
 export function fetchUserMessage() {
   return async (dispatch: any) => {
-    dispatch({type: FETCH_USER_MESSAGE});
-    
+    dispatch({ type: FETCH_USER_MESSAGE });
+
     try {
       const result = await authUserApi.fetchUserMessage();
       dispatch({
@@ -130,7 +132,7 @@ export function fetchUserMessage() {
         message: result
       });
       return result;
-    } catch(error: any) {
+    } catch (error: any) {
       dispatch({
         type: FETCH_USER_MESSAGE_FAILURE,
         error: error?.message

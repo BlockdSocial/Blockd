@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Slider from "./Slider";
@@ -26,17 +26,23 @@ interface User {
 
 function Widgets() {
   const dispatch = useAppDispatch();
-  const { trendingPosts } = useAppSelector((state) => state.postReducer);
+  // const { trendingPosts } = useAppSelector((state) => state.postReducer);
   const TrendingChatrooms = dynamic(() => import("./TrendingChatrooms"), {
     ssr: false,
   });
   //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
   const [searchResult, setSearchResult] = useState<User[]>();
   const [input, setInput] = useState<string>("");
+  const [trendingPosts, setTrendingPosts] = useState<any>();
+
+  const fetchTrendings = useCallback(() => {
+    dispatch(fetchTrendingPosts()).then((res) => {
+      setTrendingPosts(res);
+    });
+  }, []);
 
   useEffect(() => {
-    dispatch(fetchTrendingPosts());
-    console.log;
+    fetchTrendings();
   }, []);
 
   useEffect(() => {
@@ -96,7 +102,10 @@ function Widgets() {
                     </Link>
                   ))}
                 <Link
-                  href="/search"
+                  href={{
+                    pathname: "/search",
+                    query: { query: input }
+                  }}
                   className="flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
                 >
                   <div className="rounded-full bg-blockd p-2">

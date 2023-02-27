@@ -120,10 +120,9 @@ export default function SignUp() {
         message: userMessageForBackend,
       })
     ).then(async (res: any) => {
-      console.log('RESSSS: ', res);
       if (res?.errors) {
         await new Promise(f => setTimeout(f, 1000));
-        toast.error(res?.message)
+        toast.error(res?.errors)
         return;
       }
       router.push(
@@ -137,8 +136,6 @@ export default function SignUp() {
       );
     });
   };
-
-  console.log('authError: ', authError);
 
   function validateEmail(input: any) {
 

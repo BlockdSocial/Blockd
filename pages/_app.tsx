@@ -31,6 +31,7 @@ import { polygon } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "../components/Layout";
+import { Toaster } from "react-hot-toast";
 
 const { chains, provider } = configureChains([polygon], [publicProvider()]);
 const connectors = connectorsForWallets([
@@ -54,7 +55,7 @@ const wagmiClient = createClient({
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const mounted = useIsMounted();
-  if (process.env.NODE_ENV === "production") console.log = function () {};
+  if (process.env.NODE_ENV === "production") console.log = function () { };
 
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
@@ -95,11 +96,15 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Provider store={store}>
               <ThemeProvider enableSystem={true} attribute="class">
                 {router.pathname === "/auth/signin" ||
-                router.pathname === "/auth/signup" ||
-                router.pathname === "/dashboard/myChatrooms" ? (
+                  router.pathname === "/auth/signup" ||
+                  router.pathname === "/dashboard/myChatrooms" ? (
                   <Component {...pageProps} />
                 ) : (
                   <Layout>
+                    <>
+                      {" "}
+                      <Toaster />
+                    </>
                     <Component {...pageProps} />
                   </Layout>
                 )}

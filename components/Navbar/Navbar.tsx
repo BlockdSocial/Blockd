@@ -48,9 +48,6 @@ const Navbar = () => {
     handleFetchNotifications();
   }, []);
 
-
-
-console.log('navbar',authUser?.id);
   useEffect(() => {
     if (notificationInfo) {
       handleShowNotification(notificationInfo);
@@ -65,9 +62,6 @@ console.log('navbar',authUser?.id);
   const handleFetchNotifications = async () => {
     await dispatch(fetchUserNotifications());
   }
-
- 
- 
 
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);

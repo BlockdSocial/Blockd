@@ -62,11 +62,9 @@ export default function SignIn() {
         message: userMessageForBackend,
       })
     ).then(async (res: any) => {
-      if (res?.error) {
+      if (res?.errors) {
         await new Promise((f) => setTimeout(f, 1000));
-        toast.error(res?.error, {
-          id: "ref",
-        });
+        toast.error(res?.errors);
         return;
       } else {
         router.push("/");

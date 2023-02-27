@@ -23,24 +23,8 @@ export function triggerMissingFieldAlert(title: any, text: any) {
  *
  */
 export async function triggerUnauthorizedUserAlert() {
-
-  const value = await Swal.fire({
-    title: 'Session Expired',
-    icon: 'warning',
-    showCancelButton: true,
-    confirmButtonColor: '#DD6B55',
-    cancelButtonColor: '#ddd',
-    confirmButtonText: 'Yes',
-  })
-    .then((result: any) => {
-      if (result.isConfirmed) {
-        localStorage.removeItem("token");
-        deleteCookie("token");
-        window.location.replace('/');
-      }
-    });
-
-  return value;
+  await new Promise((f) => setTimeout(f, 1000));
+  toast.error('Unauthorized');
 }
 
 /**
