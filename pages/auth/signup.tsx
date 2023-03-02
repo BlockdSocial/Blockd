@@ -25,6 +25,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Policy from "../../components/Auth/Policy";
 import { flatMap, indexOf } from "lodash";
+import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -32,7 +33,7 @@ export default function SignUp() {
   const dispatch = useAppDispatch();
   const mounted = useIsMounted();
   const router = useRouter();
-  const { authError } = useAppSelector(state => state.authUserReducer)
+  const { authError, isRegisteringUser } = useAppSelector(state => state.authUserReducer)
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -226,6 +227,7 @@ export default function SignUp() {
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <><Toaster /></>
+      <CustomLoadingOverlay active={isRegisteringUser} />
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">

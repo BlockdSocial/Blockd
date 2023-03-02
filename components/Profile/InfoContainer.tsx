@@ -11,6 +11,7 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import {
+  followUser,
   updateProfilcePicture,
   updateProfileBanner,
   updateUser,
@@ -163,6 +164,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     });
   };
 
+  const handleFollowUser = async () => {
+    await dispatch(followUser({
+      user_id: user?.id
+    }));
+  }
+
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
       <div className="relative flex items-center justify-center w-full bg-white dark:bg-lightgray group">
@@ -173,9 +180,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full object-contain max-h-96 ${
-            user?.id === authUser?.id && "group-hover:opacity-50"
-          }`}
+          className={`w-full object-contain max-h-96 ${user?.id === authUser?.id && "group-hover:opacity-50"
+            }`}
           width="720"
           height="350"
         />
@@ -276,13 +282,17 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
           ) : (
             <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-              <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray">follow</p>
+              <p
+                className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                onClick={() => handleFollowUser()}
+              >
+                follow
+              </p>
             </div>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
-              isDropdownVisible ? "" : "hidden"
-            }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
+              }`}
           >
             <Link
               type="button"
@@ -306,9 +316,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
-          isModalVisible ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">

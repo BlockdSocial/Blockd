@@ -20,7 +20,10 @@ import {
   FETCH_USER_FAILURE,
   IS_SEARCHING_POPULAR_USERS,
   SEARCH_POPULAR_USERS_SUCCESS,
-  SEARCH_POPULAR_USERS_FAILURE
+  SEARCH_POPULAR_USERS_FAILURE,
+  IS_FOLLOWING_USER,
+  FOLLOW_USER_SUCCESS,
+  FOLLOW_USER_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -32,6 +35,7 @@ const initialState = {
   isUpdatingUser: false,
   isFetchingUser: false,
   isSearchingPopularUsers: false,
+  isFollowingUser: false,
   popularUsers: [],
   user: {},
   followers: [],
@@ -174,6 +178,25 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isSearchingPopularUsers: false,
+        error: action.error
+      };
+    }
+    case IS_FOLLOWING_USER: {
+      return {
+        ...state,
+        isFollowingUser: true
+      };
+    }
+    case FOLLOW_USER_SUCCESS: {
+      return {
+        ...state,
+        isFollowingUser: false
+      };
+    }
+    case FOLLOW_USER_FAILURE: {
+      return {
+        ...state,
+        isFollowingUser: false,
         error: action.error
       };
     }

@@ -67,23 +67,28 @@ function Notifications({ notification }: Props) {
                     'disliked your post!' :
                     'comment' === notification?.type ?
                       'commented on your post!' :
-                      ''
+                      'follow' === notification?.type ?
+                        'followed you!' :
+                        ''
               } . {moment(notification?.createdAt).fromNow()}
             </p>
           </div>
         </div>
-        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
-          <Link onClick={() => handleReadNotification()}
-            href={{
-              pathname: "/dashboard/post/",
-              query: { postId: notification?.postId },
-            }} className="flex invisible group-hover/item:visible">
-            <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
-            <div className='flex items-center ml-2'>
-              <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
-            </div>
-          </Link>
-        </div>
+        {
+          notification?.type !== 'follow' &&
+          <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
+            <Link onClick={() => handleReadNotification()}
+              href={{
+                pathname: "/dashboard/post/",
+                query: { postId: notification?.postId },
+              }} className="flex invisible group-hover/item:visible">
+              <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
+              <div className='flex items-center ml-2'>
+                <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
+              </div>
+            </Link>
+          </div>
+        }
       </Link>
     </div>
   )

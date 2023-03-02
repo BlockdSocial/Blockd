@@ -12,12 +12,12 @@ async function updateProfileBanner(fields: any) {
   return apiCall('updateProfileBanner', 'POST', `${endpoints.user}/profile/banner`, fields);
 };
 
-async function fetchFollowers(fields: any) {
-  return apiCall('fetchFollowers', 'GET', `${endpoints.user}/followers`, fields);
+async function fetchFollowers() {
+  return apiCall('fetchFollowers', 'POST', `${endpoints.user}/followers`);
 };
 
-async function fetchFollowings(fields: any) {
-  return apiCall('fetchFollowings', 'GET', `${endpoints.user}/followings`, fields);
+async function fetchFollowings() {
+  return apiCall('fetchFollowings', 'POST', `${endpoints.user}/followings`);
 };
 
 async function updateUser(fields: any) {
@@ -32,6 +32,10 @@ async function searchUsers(fields: any) {
   return apiCall('searchPopularUsers', 'POST', 'search/users/all', fields);
 };
 
+async function followUser(fields: any) {
+  return apiCall('followUser', 'POST', `${endpoints.user}/follow`, fields);
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -39,5 +43,6 @@ export default {
   fetchFollowings,
   updateUser,
   fetchUser,
-  searchUsers
+  searchUsers,
+  followUser
 };

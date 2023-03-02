@@ -32,6 +32,7 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast, { Toaster } from "react-hot-toast";
+import { followUser } from "../../stores/user/UserActions";
 
 interface Pic {
   name: string;
@@ -349,6 +350,12 @@ export default function PostTest({ post, refetch }: Props) {
     });
   };
 
+  const handleFollowUser = async () => {
+    await dispatch(followUser({
+      user_id: post?.user?.id
+    }));
+  }
+
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
       {/* <>
@@ -435,7 +442,10 @@ export default function PostTest({ post, refetch }: Props) {
                         <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                           Report Post
                         </div>
-                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
+                        <div
+                          className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
+                          onClick={() => handleFollowUser()}
+                        >
                           Follow User
                         </div>
                         <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
@@ -758,9 +768,8 @@ export default function PostTest({ post, refetch }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          editPopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+          }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">

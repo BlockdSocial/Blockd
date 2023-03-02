@@ -1,18 +1,5 @@
 import React, { useEffect, useState } from 'react'
 import PostTest from '../Feed/Post'
-import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import { fetchUserPosts } from '../../stores/post/PostActions'
-import { fetchAuthUser } from '../../stores/authUser/AuthUserActions'
-import { isEmpty } from 'lodash'
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePicId: number;
-  bannerPicId: number;
-  score: number;
-}
 
 interface Post {
   id: number;
@@ -26,30 +13,11 @@ interface Post {
 }
 
 interface Props {
-  user: User;
+  posts: Post[];
+  refetch: () => void;
 }
 
-function Feed({ user }: Props) {
-  const dispatch = useAppDispatch();
-  const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const [posts, setPosts] = useState<any>();
-
-  useEffect(() => {
-    setPosts([]);
-    fetchPosts();
-  }, [user]);
-
-  const fetchPosts = async () => {
-    if (!isEmpty(user)) {
-      await dispatch(fetchUserPosts(user?.id)).then((res) => {
-        setPosts(res);
-      });
-    } else {
-      await dispatch(fetchUserPosts(authUser?.id)).then((res) => {
-        setPosts(res);
-      });
-    }
-  }
+function Feed({ posts, refetch }: Props) {
 
   return (
     <div className='p-4'>
@@ -61,7 +29,7 @@ function Feed({ user }: Props) {
             key={index}
             // @ts-ignore
             post={post}
-            refetch={fetchPosts}
+            refetch={refetch}
           />
         ))
       }

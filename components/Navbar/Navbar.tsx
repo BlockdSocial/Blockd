@@ -65,24 +65,40 @@ const Navbar = () => {
 
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);
-    console.log(authUser)
+    console.log(authUser);
 
     checkUserNotification(message.data);
   });
 
+  const [message] = useChannel(`messageNotification-${authUser.id}`, (message) => {
+    console.log(message);
+    console.log(authUser);
+
+    fetchMessageNotification(message.data);
+  });
+
+  const fetchMessageNotification = async (data: Data) => {
+    console.log("DATA: ", data);
+    await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
+      console.log('result: ', result);
+      setNotificationInfo(`${result?.user?.name} sent you a message!`);
+    });
+  }
+
   const checkUserNotification = async (data: Data) => {
     console.log("data: ", data);
-    console.log(authUser)
+    console.log('authUser: ', authUser)
     let localStorageAuthUser:any = ''
-    if(!authUser) {
-      localStorageAuthUser = localStorage.getItem(authUser)
+    if(isEmpty(authUser)) {
+      // @ts-ignore
+      localStorageAuthUser = JSON.parse(localStorage.getItem('authUser'))
       console.log(localStorageAuthUser);
     }
     else {
       localStorageAuthUser = authUser;
     }
-    console.log({localStorageAuthUser});
-    if (localStorageAuthUser?.id === data?.receiver_id) {
+    console.log('localStorageAuthUser: ', localStorageAuthUser);
+    if (localStorageAuthUser?.id == data?.receiver_id) {
       await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
         console.log('result: ', result);
         if ('like' === result?.type) {
@@ -94,8 +110,12 @@ const Navbar = () => {
         else if ('dislike' === result?.type) {
           setNotificationInfo(`${result?.user?.name} disliked your post!`);
         }
+        else if ('follow' === result?.type) {
+          setNotificationInfo(`${result?.user?.name} has followed you!`);
+        }
       });
     }
+    handleFetchNotifications();
   };
 
   const fetchUserName = async (id: any) => {

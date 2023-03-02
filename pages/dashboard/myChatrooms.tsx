@@ -8,8 +8,6 @@ import Navbar from '../../components/Navbar/Navbar'
 
 
 function chatroom() {
-  
-
   return (
     <div className='bg-white dark:bg-darkgray flex flex-col items-center mx-auto h-screen'>
       <Head>

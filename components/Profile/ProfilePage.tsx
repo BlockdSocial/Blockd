@@ -6,9 +6,11 @@ import Followers from './Followers';
 import Following from './Following';
 import { fetchAuthUser } from '../../stores/authUser/AuthUserActions';
 import { fetchFollowers, fetchUser } from '../../stores/user/UserActions';
-import { useAppDispatch } from '../../stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
+import { fetchUserPosts } from '../../stores/post/PostActions';
+import CustomLoadingOverlay from '../CustomLoadingOverlay';
 
 interface User {
   id: string;
@@ -26,18 +28,30 @@ function ProfilePage() {
   let [showInteractions, setShowInteractions] = useState<boolean>(false)
   let [showFollowers, setShowFollowers] = useState<boolean>(false)
   let [showFollowing, setShowFollowing] = useState<boolean>(false)
+  const [posts, setPosts] = useState<any>()
   const [user, setUser] = useState<User>()
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { isFetchingUserPosts, userPosts } = useAppSelector((state) => state.postReducer);
+  const { isFetchingAuthUser } = useAppSelector((state) => state.authUserReducer);
+  const { isFetchingUser } = useAppSelector((state) => state.userReducer);
 
   const router = useRouter()
   const { user_id } = router.query
 
   useEffect(() => {
+    setUser(undefined);
+    setPosts([]);
     if (user_id == undefined || null) {
       fetchLoggedInUser();
     } else {
       fetchUserById();
     }
+    fetchPosts();
   }, []);
+
+  useEffect(() => {
+    fetchPosts();
+  }, [user]);
 
   const fetchLoggedInUser = async () => {
     await dispatch(fetchAuthUser()).then((res: any) => {
@@ -50,6 +64,18 @@ function ProfilePage() {
       setUser(res);
     }) as User;
   };
+
+  const fetchPosts = async () => {
+    if (!isEmpty(user)) {
+      await dispatch(fetchUserPosts(user?.id)).then((res) => {
+        setPosts(res);
+      });
+    } else {
+      await dispatch(fetchUserPosts(authUser?.id)).then((res) => {
+        setPosts(res);
+      });
+    }
+  }
 
   useEffect(() => {
     if (!isEmpty(user)) {
@@ -112,6 +138,8 @@ function ProfilePage() {
   return (
     <div className='relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14'>
 
+      <CustomLoadingOverlay active={isFetchingUserPosts || isFetchingAuthUser || isFetchingUser} />
+
       <InfoContainer
         user={user as User}
         refetchUser={fetchLoggedInUser}
@@ -135,7 +163,8 @@ function ProfilePage() {
 
       {showFeed && (
         <Feed
-          user={user as User}
+          posts={posts}
+          refetch={fetchPosts}
         />
       )}
       {showInteractions && (

@@ -40,6 +40,7 @@
         "react-giphy-searchbox": "^1.5.4",
         "react-hot-toast": "^2.4.0",
         "react-icons": "^4.7.1",
+        "react-loading-overlay-ts": "^2.0.1",
         "react-redux": "^8.0.5",
         "react-router-dom": "^6.8.0",
         "react-timeago": "^7.1.0",
