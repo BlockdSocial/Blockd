@@ -18,7 +18,7 @@ import {
 } from './AuthUserActionTypes';
 
 const initialState = { 
-  error: '',
+  authError: '',
   message: '',
   isLoggingIn: false, 
   authUser: {}, 
@@ -37,7 +37,6 @@ export function authUserReducer(state = initialState, action: any) {
       };
     }
     case FETCH_AUTH_USER_SUCCESS: {
-      console.log('non',action.user )
       return {
         ...state,
         isFetchingAuthUser: false,
@@ -48,7 +47,7 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingAuthUser: false,
-        error: action.error
+        authError: action.error
       };
     }
     case LOGIN_USER: {
@@ -67,7 +66,7 @@ export function authUserReducer(state = initialState, action: any) {
     case LOGIN_USER_FAILURE: {
       return {
         ...state,
-        error: action.error,
+        authError: action.error,
         isLoggingIn: false
       };
     }
@@ -88,7 +87,7 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isLoggingOut: false,
-        error: action.error
+        authError: action.error
       };
     }
     case REGISTER_USER: {
@@ -107,7 +106,7 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isRegisteringUser: false,
-        error: action.error
+        authError: action.error
       };
     }
     case FETCH_USER_MESSAGE: {
@@ -127,7 +126,7 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingMessage: false,
-        error: action.error
+        authError: action.error
       };
     }
     default: {

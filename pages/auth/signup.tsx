@@ -5,7 +5,7 @@ import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import { registerUser } from "../../stores/authUser/AuthUserActions";
-import { useAppDispatch } from "../../stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "../../utils";
 import { config as configUrl } from "../../constants";
 import Terms from "../../components/Auth/Terms";
@@ -25,6 +25,7 @@ import { useQuery } from "@tanstack/react-query";
 import axios from "axios";
 import Policy from "../../components/Auth/Policy";
 import { flatMap, indexOf } from "lodash";
+import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -32,11 +33,12 @@ export default function SignUp() {
   const dispatch = useAppDispatch();
   const mounted = useIsMounted();
   const router = useRouter();
+  const { authError, isRegisteringUser } = useAppSelector(state => state.authUserReducer)
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [nftData, setNftData] = useState<boolean>(false);
-  
+
   //Data Fetching
   const {
     isLoading: fetchingLoading,
@@ -92,7 +94,7 @@ export default function SignUp() {
 
 
   const handleRegisterUser = async (e: any = null) => {
-     
+
     if (
       !terms ||
       isEmpty(userMessage) ||
@@ -103,10 +105,10 @@ export default function SignUp() {
     ) {
       return;
     }
-   console.log({userMessageForBackend})
-   console.log({address})
-   console.log({userSignature})
- 
+    console.log({ userMessageForBackend })
+    console.log({ address })
+    console.log({ userSignature })
+
     await dispatch(
       registerUser({
         name: displayName,
@@ -118,12 +120,12 @@ export default function SignUp() {
         // @ts-ignore
         message: userMessageForBackend,
       })
-    ).then(async (res:any) => {
-      if(res?.error) {
-      await new Promise(f => setTimeout(f, 1000));
-      toast.error(res?.error)
-      return;
-    }
+    ).then(async (res: any) => {
+      if (res?.errors) {
+        await new Promise(f => setTimeout(f, 1000));
+        toast.error(res?.errors)
+        return;
+      }
       router.push(
         {
           pathname: "/",
@@ -136,14 +138,14 @@ export default function SignUp() {
     });
   };
 
-  function validateEmail(input:any) {
+  function validateEmail(input: any) {
 
     var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (input.match(validRegex)) {
-      return true; 
+      return true;
     } else {
-      return false; 
-    } 
+      return false;
+    }
   }
 
   const {
@@ -171,7 +173,7 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-  
+
 
   const {
     config,
@@ -186,19 +188,19 @@ export default function SignUp() {
       value: data,
     },
     enabled: !!data && !!address,
-    onSuccess(data:any) {
+    onSuccess(data: any) {
       console.log('call useEffect', data)
     }
   });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
-    onSuccess(data:any) {
-      console.log('write',data)
+    onSuccess(data: any) {
+      console.log('write', data)
       setNftData(true)
-     }
+    }
   });
-  
+
   const setName = (e: any) => {
     const result = e.replace(/[^a-z]/gi, "");
     setDisplayName(result);
@@ -210,21 +212,22 @@ export default function SignUp() {
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
-      if(nft_data && Number(nft_data) > 0){
+      if (nft_data && Number(nft_data) > 0) {
         console.log(nft_data);
-     setNftData(true);
+        setNftData(true);
       }
-     
+
     }
   });
- 
-  console.log(nftData);  
+
+  console.log(nftData);
   if (!mounted) {
     return null;
   }
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
-      <><Toaster/></>
+      <><Toaster /></>
+      <CustomLoadingOverlay active={isRegisteringUser} />
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
@@ -296,9 +299,9 @@ export default function SignUp() {
                   onChange={(e) => setEmail(e.target.value)}
                 />
                 {emailError &&
-                <p className="text-red-600  text-xs font-bold">
-                Please enter a valid email address
-              </p>
+                  <p className="text-red-600  text-xs font-bold">
+                    Please enter a valid email address
+                  </p>
                 }
               </div>
               <div className="flex items-center justify-start mt-4 w-full space-x-2">
@@ -363,13 +366,11 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
-                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
-                        isMintLoading && "loading"
-                      } ${
-                        error
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${isMintLoading && "loading"
+                        } ${error
                           ? "bg-orange-300"
                           : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
-                      }`}
+                        }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
                     >
@@ -399,9 +400,8 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayTermsAndConditionsModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -440,9 +440,8 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayPolicyModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayPolicyModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">

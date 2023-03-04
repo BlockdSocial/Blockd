@@ -1,10 +1,23 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ArrowSmallRightIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+import { fetchFollowings } from '../../stores/user/UserActions';
 
 function Following() {
+  const dispatch = useAppDispatch();
+  const { followings } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    fetchUserFollowings();
+  }, []);
+
+  const fetchUserFollowings = async () => {
+    await dispatch(fetchFollowings());
+  }
+
   return (
     <div>
       <div role="list" className="divide-y divide-slate-200 dark:divide-lightgray">

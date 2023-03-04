@@ -3,7 +3,7 @@ import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
 import { loginUser } from "../../stores/authUser/AuthUserActions";
-import { useAppDispatch } from "../../stores/hooks";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "../../utils";
 import { config as configUrl } from "../../constants";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -12,6 +12,7 @@ import { useQuery } from "@tanstack/react-query";
 import useIsMounted from "../../hooks/useIsMounted";
 import axios from "axios";
 import toast, { Toaster } from "react-hot-toast";
+import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 
 import {
   useAccount,
@@ -24,6 +25,7 @@ import {
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 export default function SignIn() {
   const dispatch = useAppDispatch();
+  const { isLoggingIn } = useAppSelector((state) => state.authUserReducer);
   const mounted = useIsMounted();
   const router = useRouter();
 
@@ -62,11 +64,9 @@ export default function SignIn() {
         message: userMessageForBackend,
       })
     ).then(async (res: any) => {
-      if (res?.error) {
+      if (res?.errors) {
         await new Promise((f) => setTimeout(f, 1000));
-        toast.error(res?.error, {
-          id: "ref",
-        });
+        toast.error(res?.errors);
         return;
       } else {
         router.push("/");
@@ -146,6 +146,7 @@ export default function SignIn() {
         {" "}
         <Toaster />
       </>
+      <CustomLoadingOverlay active={isLoggingIn} />
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">

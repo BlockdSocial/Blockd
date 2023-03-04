@@ -56,7 +56,7 @@ export function addComment(fields: object) {
       console.log('Add comment error: ', error);
       dispatch({
         type: ADD_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -72,7 +72,7 @@ export function deleteComment(fields: object) {
       console.log('Delete comment error: ', error);
       dispatch({
         type: DELETE_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -88,7 +88,7 @@ export function likeComment(fields: object) {
       console.log('Like comment error: ', error);
       dispatch({
         type: LIKE_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -104,7 +104,7 @@ export function dislikeComment(fields: object) {
       console.log('Dislike comment error: ', error);
       dispatch({
         type: DISLIKE_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -124,7 +124,7 @@ export function fetchPostComments(fields: string) {
       console.log('Fetch Post Comments error: ', error);
       dispatch({
         type: FETCH_POST_COMMENTS_FAILURE,
-        error: error
+        error: error?.message
       });
     };
   }
@@ -144,7 +144,7 @@ export function fetchCommentInfo(fields: string) {
       console.log('Fetch Comment Info error: ', error);
       dispatch({
         type: FETCH_COMMENT_INFO_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -164,7 +164,7 @@ export function fetchIsLikedComment(fields: string) {
       console.log('Fetch Is Liked comment error: ', error);
       dispatch({
         type: FETCH_IS_LIKED_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -184,7 +184,7 @@ export function fetchIsDislikedComment(fields: any) {
       console.log('Fetch Is Disliked comment error: ', error);
       dispatch({
         type: FETCH_IS_DISLIKED_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -202,7 +202,7 @@ export function replyComment(fields: any) {
       console.log('Reply Comment Error: ', error);
       dispatch({
         type: REPLY_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -222,7 +222,7 @@ export function fetchComment(fields: any) {
       console.log('Fetch Comment Error: ', error);
       dispatch({
         type: FETCH_COMMENT_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -242,7 +242,7 @@ export function fetchCommentReplies(fields: any) {
       console.log('Fetch Comment Replies Error: ', error);
       dispatch({
         type: FETCH_COMMENT_REPLIES_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -262,7 +262,7 @@ export function fetchReplyInfo(fields: any) {
       console.log('Fetch Reply Info Error: ', error);
       dispatch({
         type: FETCH_REPLY_INFO_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -280,7 +280,7 @@ export function likeReply(fields: any) {
       console.log('Like Reply Error: ', error);
       dispatch({
         type: LIKE_REPLY_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -298,7 +298,7 @@ export function dislikeReply(fields: any) {
       console.log('Dislike Reply Error: ', error);
       dispatch({
         type: DISLIKE_REPLY_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }

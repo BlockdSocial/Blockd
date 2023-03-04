@@ -4,20 +4,12 @@ import humps from 'humps';
 // Config
 import { api, SYNTAX_ERROR, SERVER_ERROR } from './config';
 
-// Stores
-import { store } from '../stores/rootStore';
-
-// Utils
-import {
-	triggerApiConflictAlert,
-	triggerUnauthorizedUserAlert
-} from '../utils/alertUtils';
 import { shouldPassErrorCode } from './utils';
-import { deleteCookie } from 'cookies-next';
+import { triggerUnauthorizedUserAlert } from '../utils/alertUtils';
 
 // Helpers
-import { isEmpty } from '../helpers/utils';
-import { getDOMData } from '../utils/domUtils';
+import { isEmpty } from 'lodash';
+import { deleteCookie } from 'cookies-next';
 
 let testApiName = 'none';
 
@@ -25,18 +17,17 @@ let testApiName = 'none';
  *
  */
 export const apiCall = async (
-	apiName,
-	method,
-	endpoint,
-	fields = {},
+	apiName: any,
+	method: any,
+	endpoint: any,
+	fields = {} as any,
 	headers = {},
 	signal = null
 ) => {
 
 	// Configure default query string
 	let queryString = '';
-	// const authToken = JSON.parse(localStorage.getItem('token') || '');
-	const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('token')) : ''
+	const authToken = typeof window !== 'undefined' ? JSON.parse(localStorage.getItem('token') as any) : '';
 
 	// Configure default header
 	headers = {
@@ -76,7 +67,7 @@ export const apiCall = async (
 		queryString = queryString.substring(0, queryString.length - 2);
 	}
 
-	let response = null
+	let response: any = null
 	try {
 		// Fetch results
 		response = await fetch(
@@ -90,21 +81,18 @@ export const apiCall = async (
 			}
 		);
 
-		console.log('response: ', response);
-
 		// Handle response status
 		let result = await handleApiResponse(apiName, response);
 		return result;
 
-	} catch (error) {
-
+	} catch (error: any) {
 		// Api call aborted
 		if (error.name === 'AbortError') {
 			throw 'Aborted api call';
 		}
 
 		// Read-in error code
-		let errorCode = 500;
+		let errorCode: any = 500;
 		if (!isEmpty(response) && response.hasOwnProperty('status')) {
 			errorCode = response.status;
 		}
@@ -117,16 +105,7 @@ export const apiCall = async (
 /**
  *
  */
-const getGetRequestFieldFormat = (fields, queryString) => {
-	for (let key in fields) {
-		queryString += `${key}=${encodeURIComponent(fields[key])}&&`;
-	}
-}
-
-/**
- *
- */
-const getPostRequestFieldFormat = (fields, body) => {
+const getPostRequestFieldFormat = (fields: any, body: any) => {
 
 	// Array format
 	if (Array.isArray(fields)) {
@@ -161,7 +140,7 @@ const getPostRequestFieldFormat = (fields, body) => {
 /**
  *
  */
-const getPutDeleteRequestFieldFormat = (fields, body) => {
+const getPutDeleteRequestFieldFormat = (fields: any, body: any) => {
 	body = JSON.stringify(fields);
 	return body;
 }
@@ -169,7 +148,7 @@ const getPutDeleteRequestFieldFormat = (fields, body) => {
 /**
  *
  */
-const handleApiResponse = async (apiName, response) => {
+const handleApiResponse = async (apiName: any, response: any) => {
 	console.log(`${apiName} api response: `, response);
 
 	// Handle test api
@@ -179,71 +158,36 @@ const handleApiResponse = async (apiName, response) => {
 	}
 
 	// Handle response by status
-	switch (response.status) {
-		case 200: {
+	const status: any = response.status;
+	switch (true) {
+		case status == 200: {
 			return await handleSuccessfulApiResponse(apiName, response);
 		}
-		case 201: {
+		case status == 201: {
 			console.log(`Successful ${apiName} empty result`);
 			return 'success';
 		}
 
+		case status == 401:
+		case status == 403: {
+			let failedResponse: any = await response.json();
+			triggerUnauthorizedUserAlert().then(() => {
+				localStorage.removeItem('token');
+				deleteCookie('token');
+				window.location.reload();
+			});
+			throw new Error(failedResponse.message);
+		}
+
 		// Conflict error code
-		case 409: {
-			let failedResponse = await response.json();
-			if (failedResponse.hasOwnProperty('result')) {
-
-				if (failedResponse.result.hasOwnProperty('error')) {
-					if (failedResponse.result.error.details) {
-						triggerApiConflictAlert(failedResponse.result.error.details);
-					}
-					throw failedResponse.result.error;
-				}
-			}
-		}
-		case 417:
-		case 401: {
-			localStorage.removeItem("token");
-			deleteCookie("token");
-			window.location.replace('/');
-			let failedResponse = await response.json();
-			if (failedResponse.hasOwnProperty('result')) {
-
-				if (failedResponse.result.hasOwnProperty('error')) {
-					throw failedResponse.result.error;
-				}
-
-				throw failedResponse.result;
-			}
-			return false;
-		}
-		case 400:
-		case 422: {
-			let failedResponse = await response.json();
-			throw failedResponse.result.error;
-			return false;
-		}
-		case 403:
-			{
-				localStorage.removeItem("token");
-				deleteCookie("token");
-				window.location.replace('/');
-				let textResponse = await response.text();
-				console.log('textResponse: ', textResponse);
-				return false;
-			}
-		case 404: {
-			let failedResponse = await response.json();
-			throw failedResponse.result.error;
-			return false;
-		}
-		case 500: {
-			return await handleServerFailureApiResponse(apiName, response);
+		case 400 <= status && status <= 500: {
+			let failedResponse: any = await response.json();
+			throw new Error(failedResponse.message);
 		}
 		default: {
 			let textResponse = await response.text();
 			console.log('textResponse: ', textResponse);
-			return false;
+			return textResponse;
 		}
 	}
 }
@@ -251,7 +195,7 @@ const handleApiResponse = async (apiName, response) => {
 /**
  *
  */
-const handleSuccessfulApiResponse = async (apiName, response) => {
+const handleSuccessfulApiResponse = async (apiName: any, response: any) => {
 	let jsonResponse = await response.json();
 	console.log(`Successful ${apiName} api json response: `, jsonResponse);
 
@@ -263,15 +207,7 @@ const handleSuccessfulApiResponse = async (apiName, response) => {
 /**
  *
  */
-const handleServerFailureApiResponse = async (apiName, response) => {
-	let errorTextResponse = await response.text();
-	console.log(`Server failure ${apiName} api text response: `, errorTextResponse);
-}
-
-/**
- *
- */
-export const errorHandler = (apiName, error, errorStatus = null) => {
+export const errorHandler = (apiName: any, error: any, errorStatus = null) => {
 	console.log(`Api error handler ${apiName}: `, error);
 
 	// Error details
@@ -298,36 +234,11 @@ export const errorHandler = (apiName, error, errorStatus = null) => {
 		return;
 	}
 
-	throw error.errorMessage;
+	throw error;
 }
 
 /**
  *
  */
-const handleApiJsonResponse = (apiName, responseJson) => {
-	console.log(`${apiName} api json response: `, responseJson);
-	return
-}
-
-/**
- *
- */
-function _getError(failedResponse) {
-	let error = failedResponse.result.error;
-
-	if (error && error.details) {
-		return error.details;
-	}
-
-	if (error && error.message) {
-		return error.message;
-	}
-
-	return error;
-}
-
-/**
- *
- */
-export function endpointParser(fields) {
+export function endpointParser(fields: any) {
 }

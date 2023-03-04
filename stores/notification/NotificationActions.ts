@@ -28,7 +28,7 @@ export function fetchUserNotifications() {
       console.log('Fetch User Notifications error: ', error);
       dispatch({
         type: FETCH_USER_NOTIFICATIONS_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -50,7 +50,7 @@ export function fetchUserNotification(fields: any) {
       console.log('Fetch User Notification error: ', error);
       dispatch({
         type: FETCH_USER_NOTIFICATION_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -68,7 +68,7 @@ export function readNotification(fields: any) {
       console.log('Read Notification Error: ', error);
       dispatch({
         type: READ_NOTIFICATION_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }

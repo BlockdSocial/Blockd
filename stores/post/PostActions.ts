@@ -62,7 +62,7 @@ export function createPost(fields: object) {
       console.log('Post error: ', error);
       dispatch({
         type: CREATE_POST_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -78,8 +78,9 @@ export function deletePost(fields: any) {
       console.log('Delete Post error: ', error);
       dispatch({
         type: DELETE_POST_FAILURE,
-        error: error
+        error: error.message
       });
+      return ({ errors: error?.message });
     }
   }
 }
@@ -94,7 +95,7 @@ export function likePost(fields: object) {
       console.log('Like Post error: ', error);
       dispatch({
         type: LIKE_POST_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -110,7 +111,7 @@ export function dislikePost(fields: object) {
       console.log('Dislike Post error: ', error);
       dispatch({
         type: DISLIKE_POST_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -130,7 +131,7 @@ export function searchPosts(fields: object) {
       console.log('Search Posts error: ', error);
       dispatch({
         type: SEARCH_POSTS_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -150,7 +151,7 @@ export function fetchTrendingPosts() {
       console.log('Fetch Trending posts error: ', error);
       dispatch({
         type: FETCH_TRENDING_POSTS_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -170,7 +171,7 @@ export function fetchFilteredPosts(fields: object) {
       console.log('Fetch Filtered posts error: ', error);
       dispatch({
         type: FETCH_FILTERED_POSTS_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -190,7 +191,7 @@ export function fetchPost(fields: string) {
       console.log('Fetch Post Error: ', error);
       dispatch({
         type: FETCH_POST_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -210,7 +211,7 @@ export function fetchPostImage(fields: number) {
       console.log('Fetch Post Image Error: ', error);
       dispatch({
         type: FETCH_POST_IMAGE_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -230,7 +231,7 @@ export function fetchPostInfo(fields: number) {
       console.log('Fetch Post Info Error: ', error);
       dispatch({
         type: FETCH_POST_INFO_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -250,7 +251,7 @@ export function fetchUserPosts(fields: any) {
       console.log('Fetch User Posts error: ', error);
       dispatch({
         type: FETCH_USER_POSTS_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -270,7 +271,7 @@ export function fetchIsLiked(fields: number) {
       console.log('Fetch is Liked error: ', error);
       dispatch({
         type: FETCH_IS_LIKED_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -290,7 +291,7 @@ export function fetchIsDisliked(fields: number) {
       console.log('Fetch is Disliked error: ', error);
       dispatch({
         type: FETCH_IS_DISLIKED_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -308,7 +309,7 @@ export function addPostView(fields: any) {
       console.log('Add Post View Error: ', error);
       dispatch({
         type: ADD_POST_VIEW_ERROR,
-        error: error
+        error: error.message
       });
     }
   }
@@ -326,7 +327,7 @@ export function editPost(id: any, fields: any) {
       console.log('Update Post Error: ', error);
       dispatch({
         type: UPDATE_POST_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }
@@ -344,7 +345,7 @@ export function postSuggestion(fields: any) {
       console.log('Suggestion Failed: ', error);
       dispatch({
         type: SUGGEST_FAILURE,
-        error: error
+        error: error.message
       });
     }
   }

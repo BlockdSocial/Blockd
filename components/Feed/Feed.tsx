@@ -87,15 +87,10 @@ function Feed() {
   };
 
   const updateFiltered = async (start: number, end: number) => {
-    console.log(start, "start husseinn");
-    console.log(end, " end husseinn");
-    await dispatch(
-      fetchFilteredPosts({
-        start: start,
-        end: end,
-      })
-    ).then((result: any) => {
-      console.log(result, "husseinn");
+    await dispatch(fetchFilteredPosts({
+      start: start,
+      end: end
+    })).then((result: any) => {
       const newPosts = filtered?.concat(result?.posts);
       setEndTotal(result?.total);
       setFiltered(newPosts);
@@ -120,25 +115,21 @@ function Feed() {
   };
 
   const handleScroll = async () => {
-    console.log(endTotal);
+    
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      console.log(scrollTop + clientHeight, "klkl");
-      console.log(scrollHeight, "klkl2");
-      if (
-        scrollTop + clientHeight === scrollHeight ||
-        scrollTop + clientHeight === scrollHeight - 0.5
-      ) {
-        console.log({ endTotal });
-        // TO SOMETHING HERE
-        if (!isFetchingFilteredPosts) {
-          if (endTotal < 4) {
-            return;
-          } else {
-            updateFiltered(endCount + 1, endCount + 5);
-            setEndCount(endCount + 5);
-          }
+      if (scrollTop + clientHeight === scrollHeight || scrollTop + clientHeight === scrollHeight-0.5) {
+        
+        if(!isFetchingFilteredPosts){
+        if(endTotal < 4) {
+         
+          return;
+
+        }else {
+        updateFiltered(endCount + 1, endCount + 5);
+        setEndCount(endCount + 5);
         }
+      }
       }
     }
   };

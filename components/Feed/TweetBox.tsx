@@ -23,6 +23,7 @@ interface Props {
 
 function TweetBox({ refetchFiltered }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { isCreatingPost } = useAppSelector((state) => state.postReducer);
   const [input, setInput] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -132,6 +133,20 @@ function TweetBox({ refetchFiltered }: Props) {
     setGifBoxIsOpen(!gifBoxIsOpen);
   };
 
+  useEffect(() => {
+    showPostToast();
+  }, [isCreatingPost]);
+
+  const showPostToast = async () => {
+    if (isCreatingPost) {
+      const refreshToast = toast.loading("Posting...");
+      await new Promise((f) => setTimeout(f, 500));
+      toast.success("Posted!", {
+        id: refreshToast,
+      });
+    }
+  }
+
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
     if (image.length > 0) {
@@ -169,11 +184,6 @@ function TweetBox({ refetchFiltered }: Props) {
         setInput("");
       });
     }
-    const refreshToast = toast.loading("Posting...");
-    await new Promise((f) => setTimeout(f, 500));
-    toast.success("Posted!", {
-      id: refreshToast,
-    });
   };
 
   return (

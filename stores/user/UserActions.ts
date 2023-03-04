@@ -19,7 +19,10 @@ import {
   FETCH_USER_FAILURE,
   IS_SEARCHING_POPULAR_USERS,
   SEARCH_POPULAR_USERS_SUCCESS,
-  SEARCH_POPULAR_USERS_FAILURE
+  SEARCH_POPULAR_USERS_FAILURE,
+  IS_FOLLOWING_USER,
+  FOLLOW_USER_SUCCESS,
+  FOLLOW_USER_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -37,7 +40,7 @@ export function updateProfilcePicture(fields: object) {
       console.log('Update Profile Picture error: ', error);
       dispatch({
         type: UPDATE_PROFILE_PICTURE_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -55,17 +58,17 @@ export function updateProfileBanner(fields: object) {
       console.log('Update Profile Banner error: ', error);
       dispatch({
         type: UPDATE_PROFILE_BANNER_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
 }
 
-export function fetchFollowers(fields: object) {
+export function fetchFollowers() {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_FOLLOWERS });
     try {
-      const result = await userApi.fetchFollowers(fields);
+      const result = await userApi.fetchFollowers();
       dispatch({
         type: FETCH_FOLLOWERS_SUCCESS,
         followers: result
@@ -74,17 +77,17 @@ export function fetchFollowers(fields: object) {
       console.log('Fetch Followers error: ', error);
       dispatch({
         type: FETCH_FOLLOWERS_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
 }
 
-export function fetchFollowings(fields: object) {
+export function fetchFollowings() {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_FOLLOWINGS });
     try {
-      const result = await userApi.fetchFollowings(fields);
+      const result = await userApi.fetchFollowings();
       dispatch({
         type: FETCH_FOLLOWINGS_SUCCESS,
         followings: result
@@ -93,7 +96,7 @@ export function fetchFollowings(fields: object) {
       console.log('Fetch followings error: ', error);
       dispatch({
         type: FETCH_FOLLOWINGS_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -111,7 +114,7 @@ export function updateUser(fields: object) {
       console.log('Update user error: ', error);
       dispatch({
         type: UPDATE_USER_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -131,7 +134,7 @@ export function fetchUser(fields: any) {
       console.log('Fetch user error: ', error);
       dispatch({
         type: FETCH_USER_FAILURE,
-        error: error
+        error: error?.message
       });
     }
   }
@@ -144,14 +147,32 @@ export function searchUsers(fields: any) {
       const result: any = await userApi.searchUsers(fields);
       dispatch({
         type: SEARCH_POPULAR_USERS_SUCCESS,
-        popularUsers: result?.users
+        popularUsers: result
       });
       return result;
     } catch (error: any) {
       console.log('Search Popular Users Error: ', error);
       dispatch({
         type: SEARCH_POPULAR_USERS_FAILURE,
-        error: error
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function followUser(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FOLLOWING_USER });
+    try {
+      await userApi.followUser(fields);
+      dispatch({
+        type: FOLLOW_USER_SUCCESS,
+      });
+    } catch (error: any) {
+      console.log('Follow User Error: ', error);
+      dispatch({
+        type: FOLLOW_USER_FAILURE,
+        error: error?.message
       });
     }
   }
