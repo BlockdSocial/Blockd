@@ -8,9 +8,10 @@ import {
 } from '@heroicons/react/24/outline'
 import ReactGiphySearchbox from 'react-giphy-searchbox'
 import { useAppDispatch } from '../../../../stores/hooks'
-import { createMessage } from '../../../../stores/chat/ChatActions'
+import { createChat, createMessage } from '../../../../stores/chat/ChatActions'
+import { isEmpty } from 'lodash'
 
-function Footer() {
+function Footer({ messages, receiver }: any) {
 
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -104,11 +105,14 @@ function Footer() {
   const handleSendMessage = async (event: any) => {
     event.preventDefault();
     setInput('');
+    if (isEmpty(messages)) {
+      await dispatch(createChat(receiver?.id));
+    }
     await dispatch(createMessage({
-      receiver_id: 2,
+      receiver_id: receiver?.id,
       content: input,
       reply: 1
-    }))
+    }));
   }
 
   return (

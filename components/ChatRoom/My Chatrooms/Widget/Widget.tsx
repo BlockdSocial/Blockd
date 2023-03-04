@@ -4,9 +4,7 @@ import {
 } from '@heroicons/react/24/outline'
 import Friends from './Friends'
 
-function Widget() {
-
-
+function Widget({ chats, setReceiver }: any) {
 
   return (
     <div className='hidden md:flex md:flex-col md:col-span-3 min-h-screen dark:bg-darkray pb-14 border-r dark:border-lightgray'>
@@ -16,7 +14,7 @@ function Widget() {
           <p className='font-semibold'>Private DMs</p>
         </div>
       </div>
-      <Friends />
+      <Friends chats={chats} setReceiver={setReceiver} />
 
     </div >
   )
