@@ -5,7 +5,7 @@ import {
   PencilSquareIcon,
   EyeIcon,
   QuestionMarkCircleIcon,
-  ChatBubbleLeftIcon
+  ChatBubbleLeftIcon,
 } from "@heroicons/react/24/outline";
 import { CameraIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
@@ -166,10 +166,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   };
 
   const handleFollowUser = async () => {
-    await dispatch(followUser({
-      user_id: user?.id
-    }));
-  }
+    await dispatch(
+      followUser({
+        user_id: user?.id,
+      })
+    );
+  };
 
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
@@ -181,8 +183,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full object-contain max-h-96 ${user?.id === authUser?.id && "group-hover:opacity-50"
-            }`}
+          className={`w-full max-h-40 ${
+            user?.id === authUser?.id && "group-hover:opacity-50"
+          }`}
           width="720"
           height="350"
         />
@@ -217,7 +220,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-fill h-full rounded-md shadow-sm border-2 border-white"
+                  className="w-full h-full rounded-md shadow-sm border-2 border-white"
                 />
                 <div
                   className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
@@ -283,31 +286,34 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
           ) : (
             <>
-              <Link
-                type="button"
-                // href="/dashboard/myChatrooms"
-                href={{
-                  pathname: "/dashboard/myChatrooms",
-                  query: { chatReceiverId: user?.id },
-                }}
-                as="/dashboard/myChatrooms"
-                className="flex items-center w-5 justify-start"
-              >
-                <ChatBubbleLeftIcon className="w-5 h-5" />
-              </Link>
-              <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                <p
-                  className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                  onClick={() => handleFollowUser()}
+              <div className="flex items-center justify-center">
+                <Link
+                  type="button"
+                  // href="/dashboard/myChatrooms"
+                  href={{
+                    pathname: "/dashboard/myChatrooms",
+                    query: { chatReceiverId: user?.id },
+                  }}
+                  as="/dashboard/myChatrooms"
+                  className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                 >
-                  follow
-                </p>
+                  <ChatBubbleLeftIcon className="w-5 h-5" />
+                </Link>
+                <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                  <p
+                    className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    onClick={() => handleFollowUser()}
+                  >
+                    follow
+                  </p>
+                </div>
               </div>
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
-              }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
+              isDropdownVisible ? "" : "hidden"
+            }`}
           >
             <Link
               type="button"
@@ -331,8 +337,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
+          isModalVisible ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">

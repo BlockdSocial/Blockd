@@ -12,6 +12,6 @@ const dev = {
     PUBLIC_URL: 'http://127.0.0.1:8000/images'
   }
 };
-export const config = process.env.NODE_ENV === 'development' ? dev : prod;
+export const config = process.env.NODE_ENV === 'development' ? prod : dev;
 export const GID = process.env.NODE_ENV === 'development' ? '' : '=G-QW4Q5G8G4K';
 export const AblyKey = "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg";
