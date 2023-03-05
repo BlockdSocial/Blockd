@@ -183,7 +183,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-40 ${
+          className={`w-full max-h-52 ${
             user?.id === authUser?.id && "group-hover:opacity-50"
           }`}
           width="720"
@@ -211,7 +211,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
               <div
-                className={`relative w-20 h-20 md:h-24 md:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
+                className={`relative w-28 h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
               >
                 <img
                   src={
@@ -252,7 +252,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </circle>
           <div className="flex flex-col items-start justify-end rounded-md p-3">
             <div className="flex items-center space-x-1">
-              <p className="mr-1 text-xs md:text-sm lg:text-xl group-hover:underline">
+              <p className="mr-1 text-sm lg:text-xl group-hover:underline">
                 @{user?.name}
               </p>
             </div>
@@ -274,6 +274,36 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             {/* <div className='text-sm'>
               <span className='font-semibold'>Level 5 :</span> 75%
             </div> */}
+            {user?.id !== authUser?.id && (
+              <>
+                <div className="flex items-center justify-center xl:hidden">
+                  <Link
+                    type="button"
+                    // href="/dashboard/myChatrooms"
+                    href={{
+                      pathname: "/dashboard/myChatrooms",
+                      query: { chatReceiverId: user?.id },
+                    }}
+                    as="/dashboard/myChatrooms"
+                    className="flex items-center justify-center cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                  >
+                    <p
+                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    >
+                      Message
+                    </p>
+                  </Link>
+                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                    <p
+                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                      onClick={() => handleFollowUser()}
+                    >
+                      Follow
+                    </p>
+                  </div>
+                </div>
+              </>
+            )}
           </div>
         </div>
         <div ref={dropdown} className="flex">
@@ -286,7 +316,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
           ) : (
             <>
-              <div className="flex items-center justify-center">
+              <div className="hidden xl:flex items-center justify-center">
                 <Link
                   type="button"
                   // href="/dashboard/myChatrooms"
