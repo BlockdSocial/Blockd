@@ -206,7 +206,7 @@ function TweetBox({ refetchFiltered }: Props) {
           />
           <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
             <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-              0
+              {authUser?.score}
             </div>
           </div>
         </div>

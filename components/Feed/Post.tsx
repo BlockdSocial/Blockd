@@ -45,6 +45,7 @@ interface User {
   profilePicId: number;
   bannerPicId: number;
   profilePic: Pic;
+  score: number;
 }
 
 interface Image {
@@ -386,7 +387,7 @@ export default function PostTest({ post, refetch }: Props) {
                     />
                     <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        0
+                        {post?.user?.score}
                       </div>
                     </div>
                   </div>

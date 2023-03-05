@@ -11,7 +11,7 @@ import { useAppDispatch } from '../../../../stores/hooks'
 import { createChat, createMessage } from '../../../../stores/chat/ChatActions'
 import { isEmpty } from 'lodash'
 
-function Footer({ messages, receiver }: any) {
+function Footer({ messages, receiver, getMessages }: any) {
 
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -112,7 +112,9 @@ function Footer({ messages, receiver }: any) {
       receiver_id: receiver?.id,
       content: input,
       reply: 1
-    }));
+    })).then(() => {
+      getMessages();
+    });
   }
 
   return (

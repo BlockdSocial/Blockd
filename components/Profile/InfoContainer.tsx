@@ -171,6 +171,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     }));
   }
 
+  console.log('user: ', user);
+
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
       <div className="relative flex items-center justify-center w-full bg-white dark:bg-lightgray group">
@@ -223,7 +225,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
                 >
                   <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
-                    0
+                    {user?.score}
                   </div>
                 </div>
                 {user?.id === authUser?.id && (
