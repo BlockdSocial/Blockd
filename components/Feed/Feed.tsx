@@ -87,10 +87,12 @@ function Feed() {
   };
 
   const updateFiltered = async (start: number, end: number) => {
-    await dispatch(fetchFilteredPosts({
-      start: start,
-      end: end
-    })).then((result: any) => {
+    await dispatch(
+      fetchFilteredPosts({
+        start: start,
+        end: end,
+      })
+    ).then((result: any) => {
       const newPosts = filtered?.concat(result?.posts);
       setEndTotal(result?.total);
       setFiltered(newPosts);
@@ -115,21 +117,20 @@ function Feed() {
   };
 
   const handleScroll = async () => {
-    
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      if (scrollTop + clientHeight === scrollHeight || scrollTop + clientHeight === scrollHeight-0.5) {
-        
-        if(!isFetchingFilteredPosts){
-        if(endTotal < 4) {
-         
-          return;
-
-        }else {
-        updateFiltered(endCount + 1, endCount + 5);
-        setEndCount(endCount + 5);
+      if (
+        scrollTop + clientHeight === scrollHeight ||
+        scrollTop + clientHeight === scrollHeight - 0.5
+      ) {
+        if (!isFetchingFilteredPosts) {
+          if (endTotal < 4) {
+            return;
+          } else {
+            updateFiltered(endCount + 1, endCount + 5);
+            setEndCount(endCount + 5);
+          }
         }
-      }
       }
     }
   };
@@ -192,7 +193,7 @@ function Feed() {
                 </h3>
               </div>
             </div>
-            <div className="flex items-center justify-start p-4 border-y text-black text-justify">
+            <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
               Welcome and thank you for being among the first to use the bot
               free social platform that will soon become home to all blockchain
               users (and soon to be blockchain users).
@@ -200,12 +201,18 @@ function Feed() {
               Be aware that only certain features are available during this
               Beta, which are:
               <br></br>
-              <span className="text-orange-500 text-xl">•</span>{" "}
-              Creating/Editing a post.
-              <span className="text-orange-500 text-xl">•</span>{" "}
-              Consulting/Editing your profile page.
-              <span className="text-orange-500 text-xl">•</span> Sending us a
-              Feedback.
+              <div className="flex w-full items-center justify-start">
+                <span className="text-orange-500 text-xl">•</span>{" "}
+                Creating/Editing a post.
+              </div>
+              <div className="flex w-full items-center justify-start">
+                <span className="text-orange-500 text-xl">•</span>{" "}
+                Consulting/Editing your profile page.
+              </div>
+              <div className="flex w-full items-center justify-start">
+                <span className="text-orange-500 text-xl">•</span> Submitting
+                Feedback.
+              </div>
             </div>
             <div className="flex items-center justify-end space-x-3 p-4">
               <p
@@ -234,14 +241,15 @@ function Feed() {
               </h3>
             </div>
           </div>
-          <div className="flex items-center justify-start p-4 border-y text-black text-justify">
+          <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
             We appreciate you taking your time  during our Beta and providing
             feedback which is very important to us, as this is a community
             driven platform.
             <br></br>
-            <span className="text-orange-500 text-xl">*</span>To submit
-            feedback:<span className="text-orange-500 text-xl">*</span>
-            <br></br>
+            <div className="flex w-full items-center justify-start">
+              <span className="text-orange-500 text-xl">*</span>To submit
+              feedback:<span className="text-orange-500 text-xl">*</span>
+            </div>
             Please visit our Suggestions page, select the "Beta Feedback"
             Category and hit Submit!
           </div>
