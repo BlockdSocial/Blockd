@@ -1,190 +1,98 @@
-import React, { useState } from "react";
+import React from "react";
+import { CheckIcon } from "@heroicons/react/24/outline";
 
 function Achievements() {
-  const [isRewardClaimed, setIsRewardClaimed] = useState<boolean>(false);
-  const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
-
-  const handleClaim = () => {
-    setIsDisplayModal(!isDisplayModal);
-    setIsRewardClaimed(!isRewardClaimed);
-  };
-
   return (
-    <div className="flex flex-col items-center justify-center w-full px-6 bg-transparent">
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 border bg-gray-100 dark:bg-lightgray dark:border-lightgray rounded-lg shadow-lg">
-        <div className="flex items-center justify-center w-1/4">
-          <img
-            src="/images/badges/badge1.png"
-            className="flex w-14 max-w-full h-auto"
-          />
-        </div>
-        <div className="flex flex-col items-start justify-start w-3/4">
-          <h1 className="text-l font-semibold">Level 1</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Earn 150 XP</h3>
-          <button
-            type="button"
-            className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
-            disabled
-          >
-            Reward Claimed
-          </button>
-        </div>
-      </div>
-      <hr className="border-2 h-10 border-blockd"></hr>
-      <div
-        onClick={() => setIsDisplayModal(!isDisplayModal)}
-        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${
-          isRewardClaimed
-            ? "bg-gray-100 dark:bg-lightgray"
-            : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray"
-        } rounded-lg shadow-lg`}
-      >
-        <div className="flex items-center justify-center w-1/4">
-          <img
-            src="/images/badges/badge2.png"
-            className="flex w-14 max-w-full h-auto"
-          />
-        </div>
-        <div className="flex flex-col items-start justify-start w-3/4">
-          <h1 className="text-l font-semibold">Level 2</h1>
-          <h3 className="text-sm text-gray-500 mb-2">
-            Unlock Green block icon
-          </h3>
-          {isRewardClaimed === true ? (
-            <button
-              type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
-              disabled
-            >
-              Reward Claimed
-            </button>
-          ) : (
-            <button
-              type="button"
-              className="text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-6 py-1 text-center"
-            >
-              Claim Reward
-            </button>
-          )}
-        </div>
-      </div>
-      <hr className="border-2 h-10 border-blockd"></hr>
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 cursor-pointer border dark:border-lightgray rounded-lg opacity-60">
-        <div className="flex items-center justify-center w-1/4">
-          <img
-            src="/images/badges/badge3.png"
-            className="flex w-14 max-w-full h-auto"
-          />
-        </div>
-        <div className="flex flex-col items-start justify-start w-3/4">
-          <h1 className="text-l font-semibold">Level 4</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock GIFs</h3>
-          <div className="flex items-center justify-start w-[135px] h-2 rounded bg-gray-200 mb-2 relative group">
-            <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded w-3/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
-            </div>
-            <div className="flex items-center justify-center w-1/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
-            </div>
+    <>
+      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+        <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-orange-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
+          <div className="relative flex flex-col items-start justify-start w-full h-full">
+            <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
+              Stage 1 of 3 - Posted Up
+            </p>
+            <p className="absolute bottom-0 h-[30%] w-full flex items-end justify-end p-1 px-2">
+              1/3
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center bg-gray-200 dark:bg-[#5A5A5A] h-full rounded-r-lg w-20">
+            <p className="text-base lg:text-xl">
+              5 <span className="text-xs lg:text-sm">XP</span>
+            </p>
           </div>
         </div>
-      </div>
-      <hr className="border-2 h-10"></hr>
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 cursor-pointer border dark:border-lightgray rounded-lg opacity-60">
-        <div className="flex items-center justify-center w-1/4">
-          <img
-            src="/images/badges/badge3.png"
-            className="flex w-14 max-w-full h-auto"
-          />
+        <div className="absolute inset-0 w-full h-full flex justify-start items-center bg-gray-100 dark:bg-lightgray transition-all z-10 card-back">
+          <p className="flex justify-start items-center p-2 px-4 h-full">
+            Make your first post on BLOCK’d.
+          </p>
         </div>
-        <div className="flex flex-col items-start justify-start w-3/4">
-          <h1 className="text-l font-semibold">Level 5</h1>
-          <h3 className="text-sm text-gray-500 mb-2">
-            Unlocks ability to create/host chatrooms and streams
-          </h3>
-          <div className="flex items-center justify-start w-[135px] h-2 rounded bg-gray-200 mb-2 relative group">
-            <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded w-1/2">
-              {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
-            </div>
-            <div className="flex items-center justify-center w-1/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
-            </div>
+      </div>
+      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+        <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-orange-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
+          <div className="relative flex flex-col items-start justify-start w-full h-full">
+            <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
+              Stage 2 of 3 - I Like it More
+            </p>
+            <p className="absolute bottom-0 h-[30%] w-full flex items-end justify-end p-1 px-2">
+              2/3
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center bg-gray-200 dark:bg-[#5A5A5A] h-full rounded-r-lg w-20">
+            <p className="text-base lg:text-xl">
+              10 <span className="text-xs lg:text-sm">XP</span>
+            </p>
           </div>
         </div>
-      </div>
-      <hr className="border-2 h-10"></hr>
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 cursor-pointer border dark:border-lightgray rounded-lg opacity-60">
-        <div className="flex items-center justify-center w-1/4">
-          <img
-            src="/images/badges/badge3.png"
-            className="flex w-14 max-w-full h-auto"
-          />
+        <div className="absolute inset-0 w-full h-full flex justify-start items-center bg-gray-100 dark:bg-lightgray transition-all z-10 card-back">
+          <p className="flex justify-start items-center p-2 px-4 h-full">
+            Give 25 unique likes to random posts.
+          </p>
         </div>
-        <div className="flex flex-col items-start justify-start w-3/4">
-          <h1 className="text-l font-semibold">Level 6</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
-          <div className="flex items-center justify-start w-[135px] h-2 rounded bg-gray-200 mb-2 relative group">
-            <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded">
-              {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
-            </div>
-            <div className="flex items-center justify-center w-1/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
-            </div>
+      </div>
+      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+        <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-green-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
+          <div className="relative flex flex-col items-start justify-start w-full h-full">
+            <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
+              Stage 3 of 3 - My Thoughts Exactly III
+            </p>
+            <p className="absolute bottom-0 h-[30%] w-full flex items-end justify-end p-1 px-2">
+              <CheckIcon className="stroke-[5px] text-green-500 w-7 h-7" />
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center bg-gray-200 dark:bg-[#5A5A5A] h-full rounded-r-lg w-20">
+            <p className="text-base lg:text-xl">
+              25 <span className="text-xs lg:text-sm">XP</span>
+            </p>
           </div>
         </div>
-      </div>
-      {/*  ****************Modal****************   */}
-      <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayModal ? "" : "hidden"
-        }`}
-      >
-        <div className="relative flex flex-col w-full rounded-lg max-w-md h-96">
-          <img
-            src="/images/badges/badge4.png"
-            className="absolute -top-20 left-0 right-0 ml-auto mr-auto w-60 h-68 flex justify-center align-center"
-          />
-          <div className="flex rounded-lg bg-gradient-to-r from-[#EC9F05] to-[#FF4E00] h-full">
-            <div className="flex items-center justify-end">
-              <button
-                type="button"
-                onClick={() => setIsDisplayModal(!isDisplayModal)}
-                className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-orange-400 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-              >
-                <svg
-                  aria-hidden="true"
-                  className="w-5 h-5"
-                  fill="currentColor"
-                  viewBox="0 0 20 20"
-                  xmlns="http://www.w3.org/2000/svg"
-                >
-                  <path
-                    fill-rule="evenodd"
-                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                    clip-rule="evenodd"
-                  ></path>
-                </svg>
-                <span className="sr-only">Close modal</span>
-              </button>
-            </div>
-            <div className="flex flex-col items-center justify-center w-full mt-28 p-10">
-              <p className="text-3xl text-white font-semibold font-mono">
-                Congrats!
-              </p>
-              <p className="text-l text-white mb-4 text-center p-2">
-                You reached level 2 and unlocked a green Blockd icon
-              </p>
-              <p
-                onClick={() => handleClaim()}
-                className="text-center cursor-pointer bg-white hover:bg-gray-200 p-3 rounded-3xl w-full text-black font-semibold"
-              >
-                Claim Reward
-              </p>
-            </div>
-          </div>
+        <div className="absolute inset-0 w-full h-full flex justify-start items-center bg-gray-100 dark:bg-lightgray transition-all z-10 card-back">
+          <p className="flex justify-start items-center p-2 px-4 h-full">
+            Comment 250 unique times.
+          </p>
         </div>
       </div>
-    </div>
+      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+        <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-orange-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
+          <div className="relative flex flex-col items-start justify-start w-full h-full">
+            <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
+              Stage 2 of 3 - Let Me Get Some Shares II
+            </p>
+            <p className="absolute bottom-0 h-[30%] w-full flex items-end justify-end p-1 px-2">
+              2/3
+            </p>
+          </div>
+          <div className="flex flex-col items-center justify-center bg-gray-200 dark:bg-[#5A5A5A] h-full rounded-r-lg w-20">
+            <p className="text-base lg:text-xl">
+              10 <span className="text-xs lg:text-sm">XP</span>
+            </p>
+          </div>
+        </div>
+        <div className="absolute inset-0 w-full h-full flex justify-start items-center bg-gray-100 dark:bg-lightgray transition-all z-10 card-back">
+          <p className="flex justify-start items-center p-2 px-4 h-full">
+            Share 25 unique posts.
+          </p>
+        </div>
+      </div>
+    </>
   );
 }
 
