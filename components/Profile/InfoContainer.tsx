@@ -29,6 +29,7 @@ interface User {
   profilePicId: number;
   bannerPicId: number;
   score: number;
+  level: number;
 }
 
 interface Props {
@@ -228,7 +229,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
                 >
                   <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
-                    {user?.score}
+                    {user?.level}
                   </div>
                 </div>
                 {user?.id === authUser?.id && (
@@ -266,7 +267,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
               <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
                 <span className="text-xs font-semibold cursor-pointer text-white inline">
-                  {authUser?.score} XP
+                  {user?.score} XP
                 </span>
               </div>
               {/* <div className="flex items-center justify-center w-1/4">
