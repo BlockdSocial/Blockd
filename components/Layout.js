@@ -14,7 +14,7 @@ export default function Layout( {children } ) {
       </Head>
       <Toaster />
       <Navbar />
-      <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto lg:max-w-[70%] overflow-hidden w-full'>
+      <div className='bg-white dark:bg-darkgray grid grid-cols-9 mx-auto xl:max-w-[70%] overflow-hidden w-full'>
         <Sidebar />
         {children}
         <Widgets />
