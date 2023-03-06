@@ -67,3 +67,8 @@ em-emoji-picker {
 .card-back {
   transform: rotateY(180deg);
 }
+.min-h-screen{
+  min-height: 93vh;
+}
+
+

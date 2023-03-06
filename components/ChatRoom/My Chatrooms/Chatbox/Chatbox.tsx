@@ -5,9 +5,11 @@ import Footer from './Footer'
 import { isEmpty } from 'lodash';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchMessages } from '../../../../stores/chat/ChatActions';
+import { useChannel } from '@ably-labs/react-hooks';
 
 function Chatbox({ receiver }: any) {
   const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const elementRef = useRef<any>(null);
   let [atTop, setAtTop] = useState<boolean>(false);
   const [endCount, setEndCount] = useState<number>(4);
@@ -20,6 +22,14 @@ function Chatbox({ receiver }: any) {
       getMessages();
     }
   }, [receiver]);
+
+  const [message] = useChannel(`messageNotification-${authUser.id}`, (message) => {
+    console.log(message);
+    console.log(authUser);
+
+    getMessages();
+  });
+
 
   useEffect(() => {
     const handleScroll = () => {
@@ -43,7 +53,7 @@ function Chatbox({ receiver }: any) {
       await dispatch(fetchMessages({
         receiver_id: receiver?.id,
         start: 0,
-        end: 10
+        end: 100
       })).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
@@ -65,32 +75,41 @@ function Chatbox({ receiver }: any) {
 
   const handleScroll = async (e: any) => {
     // console.log(e);
-    if (elementRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      if (scrollTop + clientHeight === scrollHeight || scrollTop + clientHeight === scrollHeight - 0.5) {
+    // if (elementRef.current) {
+    //   const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
+    //   console.log('scrollTop: ', scrollTop);
+    //   console.log('clientHeight: ', clientHeight);
+    //   if (scrollTop === 0) {
+    //     if (!isFetchingMessages) {
+    //       if (endTotal < 10) {
 
-        if (!isFetchingMessages) {
-          if (endTotal < 10) {
+    //         return;
 
-            return;
-
-          } else {
-            updateMessages(endCount + 1, endCount + 10);
-            setEndCount(endCount + 10);
-          }
-        }
-      }
-    }
+    //       } else {
+    //         updateMessages(endCount + 1, endCount + 10);
+    //         setEndCount(endCount + 10);
+    //       }
+    //     }
+    //   }
+    // }
   }
 
   return (
     <div
-      className='flex min-h-screen pb-14 flex-col col-span-10 relative md:col-span-9 lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray'
-      onScrollCapture={(e) => handleScroll(e)}
-      ref={elementRef}
+      className='flex min-h-screen flex-col col-span-10 relative md:col-span-9 lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray'
     >
-      <Navbar />
-      <Chat receiver={receiver} messages={messages} />
+      {
+        !isEmpty(receiver) &&
+        <Navbar
+          receiver={receiver}
+        />
+      }
+      <Chat
+        receiver={receiver}
+        messages={messages}
+        elementRef={elementRef}
+        handleScroll={handleScroll}
+      />
       <Footer
         receiver={receiver}
         messages={messages}

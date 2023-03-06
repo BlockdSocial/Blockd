@@ -42,6 +42,8 @@ interface User {
   profilePicId: number;
   bannerPicId: number;
   profilePic: Pic;
+  frameName: string;
+  level: number;
 }
 
 interface Image {
@@ -284,8 +286,6 @@ function PostID({ post, refetchComments }: Props) {
     });
   };
 
-  console.log('post: ', post)
-
   return (
     <div className="flex flex-col space-x-3 p-4 -z-20 border-y">
       <div className="w-full">
@@ -296,7 +296,7 @@ function PostID({ post, refetchComments }: Props) {
                 href="/dashboard/profile"
                 className="relative flex flex-col w-fit h-fit group"
               >
-                <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
+                <div className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}>
                   <Image
                     src={
                       !isEmpty(post?.user?.profilePic)
@@ -308,9 +308,9 @@ function PostID({ post, refetchComments }: Props) {
                     width={60}
                     height={60}
                   />
-                  <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
+                  <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${post?.user?.frameName} rounded-lg`}>
                     <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                      0
+                      {post?.user?.level}
                     </div>
                   </div>
                 </div>

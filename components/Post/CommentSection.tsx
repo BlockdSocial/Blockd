@@ -56,6 +56,8 @@ interface User {
   profilePicId: number;
   bannerPicId: number;
   profilePic: Pic;
+  frameName: string;
+  level: number;
 }
 
 interface Post {
@@ -339,7 +341,7 @@ function CommentSection({ comment, post, type }: Props) {
           href="/dashboard/profile"
           className="flex flex-col w-fit h-fit group"
         >
-          <div className="relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg">
+          <div className={`relative flex flex-col items-center justify-center p-1 ${post?.user?.frameName} rounded-lg`}>
             <img
               src={
                 !isEmpty(comment?.user?.profilePic)
@@ -351,9 +353,9 @@ function CommentSection({ comment, post, type }: Props) {
               width={60}
               height={60}
             />
-            <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
+            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${post?.user?.frameName} rounded-lg`}>
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                0
+                {post?.user?.level}
               </div>
             </div>
           </div>

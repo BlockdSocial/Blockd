@@ -34,16 +34,12 @@ function chatroom() {
     });
   };
 
-  console.log('checkChat: ', chats);
-
   const handleSetReceiver = useCallback(async () => {
 
     await dispatch(fetchUser(chatReceiverId)).then((result: any) => {
       setReceiver(result);
     });
   }, []);
-
-  console.log('receiver: ', receiver);
 
   return (
     <div className='bg-white dark:bg-darkgray flex flex-col items-center mx-auto h-screen'>

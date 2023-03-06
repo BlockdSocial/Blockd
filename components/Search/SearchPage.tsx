@@ -22,8 +22,6 @@ function SearchPage() {
   const { query } = router.query
   const { popularUsers } = useAppSelector((state) => state.userReducer)
 
-  console.log('query: ', query);
-
   useEffect(() => {
     if (isString(query) && query.length > 0) {
       handleSearchUsers();
@@ -33,11 +31,9 @@ function SearchPage() {
   const handleSearchUsers = async () => {
     dispatch(searchUsers({
       search: query,
-      end: 5,
+      end: 20,
     }));
   }
-
-  console.log('popularUsers: ', popularUsers);
 
   return (
     <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 bg-gray-100 dark:bg-darkgray pb-14">
@@ -55,9 +51,9 @@ function SearchPage() {
                   <div className='flex flex-col items-start justify-center space-y-2'>
                     <div className='flex flex-col items-start justify-center'>
                       <Link href="/dashboard/profile" className='text-l font-bold cursor-pointer hover:underline'>@{user?.name}</Link>
-                      <span className='text-l text-gray-700 dark:text-gray-300'>10K followers</span>
+                      {/* <span className='text-l text-gray-700 dark:text-gray-300'>10K followers</span> */}
                     </div>
-                    <span className='text-l text-gray-700 dark:text-gray-300'>20 Friends in common</span>
+                    {/* <span className='text-l text-gray-700 dark:text-gray-300'>20 Friends in common</span> */}
                   </div>
                 </div>
                 <div className='flex items-center justify-center'>
@@ -67,7 +63,7 @@ function SearchPage() {
             ))
           }
         </>
-        <Link href="/people" className='flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold'>View all</Link>
+        {/* <Link href="/people" className='flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold'>View all</Link> */}
       </div>
       <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-lightgray rounded-lg space-y-3'>
         <h3 className='text-xl font-semibold w-full mb-4'>Posts</h3>

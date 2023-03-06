@@ -1,4 +1,5 @@
 import React, { useState, useEffect, useRef } from "react";
+import clsx from "clsx";
 import {
   CheckBadgeIcon,
   Cog8ToothIcon,
@@ -12,7 +13,10 @@ import Link from "next/link";
 import Image from "next/image";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import {
+  fetchFollowers,
+  fetchUserRewards,
   followUser,
+  setUserFrame,
   updateProfilcePicture,
   updateProfileBanner,
   updateUser,
@@ -30,6 +34,8 @@ interface User {
   bannerPicId: number;
   score: number;
   level: number;
+  levelTotal: number;
+  frameName: string;
 }
 
 interface Props {
@@ -41,6 +47,7 @@ interface Props {
 function InfoContainer({ user, refetchUser, userId }: Props) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { rewards, followers } = useAppSelector((state) => state.userReducer);
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
@@ -49,6 +56,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [userEmail, setUserEmail] = useState<string>();
   const [profilePicture, setProfilePicture] = useState<string>();
   const [bannerPicture, setBannerPicture] = useState<string>();
+  const [scorePercentage, setScorePercentage] = useState<any>();
+  let [frameColor, setFrameColor] = useState<string>();
 
   //Hide dropdown when clicking outside it
 
@@ -75,12 +84,32 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       setUserEmail(user?.email);
       fetchProfilePicture(user?.profilePicId);
       fetchBannerPicture(user?.bannerPicId);
+      getScorePercentage();
+      fetchRewards();
+      fetchUserFollowers();
+    }
+    if (!isEmpty(user?.frameName)) {
+      setFrameColor(user?.frameName);
     }
   }, [user]);
+
+  const fetchUserFollowers = async () => {
+    await dispatch(fetchFollowers(user?.id));
+  }
+
+  const fetchRewards = async () => {
+    await dispatch(fetchUserRewards());
+  }
+
+  const getScorePercentage = () => {
+    setScorePercentage(`w-[${Math.round((user?.score * 100) / user?.levelTotal)}%]`);
+    // setScorePercentage('1/2');
+  }
 
   const fetchProfilePicture = async (id: number) => {
     if (id != undefined || id != null) {
       await dispatch(fetchPostImage(id)).then((result: any) => {
+        console.log('result: ', result);
         setProfilePicture(result[0]?.name);
       });
     }
@@ -100,7 +129,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     setColor(color);
   };
 
-  let [frameColor, setFrameColor] = useState<string>("");
   useEffect(() => {
     frameColor = color;
     setFrameColor(frameColor);
@@ -174,7 +202,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     );
   };
 
-  console.log('user: ', user);
+  const setFrame = async (id: any) => {
+    await dispatch(setUserFrame(id));
+  }
 
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
@@ -186,9 +216,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-52 ${
-            user?.id === authUser?.id && "group-hover:opacity-50"
-          }`}
+          className={`w-full max-h-52 ${user?.id === authUser?.id && "group-hover:opacity-50"
+            }`}
           width="720"
           height="350"
         />
@@ -261,11 +290,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
             <div>
               <p className="mr-1 text-xs md:text-sm group-hover:underline mt-2">
-                10K followers
+                {followers.length} followers
               </p>
             </div>
             <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
-              <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded w-3/4">
+              <div className={`flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded ${scorePercentage}`}>
                 <span className="text-xs font-semibold cursor-pointer text-white inline">
                   {user?.score} XP
                 </span>
@@ -344,9 +373,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
-              isDropdownVisible ? "" : "hidden"
-            }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
+              }`}
           >
             <Link
               type="button"
@@ -370,9 +398,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
-          isModalVisible ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
@@ -445,15 +472,22 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             <div className="relative flex flex-col items-start p-4">
               <h3 className="font-semibold py-2 text-black">My collection</h3>
               <div className="grid grid-cols-12 z-0 lg:grid-cols-8 w-full place-items-center">
-                <div
-                  onClick={() =>
-                    changeFrameColor(
-                      "bg-gradient-to-r from-[#E55D87] to-[#5FC3E4]"
-                    )
-                  }
-                  className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-gradient-to-r from-[#E55D87] to-[#5FC3E4] rounded-md"
-                ></div>
-                <div
+                {
+                  !isEmpty(rewards) &&
+                  rewards.map((reward: any, index: any) => (
+                    <div
+                      key={index}
+                      onClick={() =>
+                        {changeFrameColor(
+                          reward?.name
+                        ),
+                        setFrame(reward?.id)}
+                      }
+                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 ${reward?.name} rounded-md`}
+                    ></div>
+                  ))
+                }
+                {/* <div
                   onClick={() => changeFrameColor("bg-orange-500")}
                   className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-orange-500 rounded-md"
                 ></div>
@@ -480,10 +514,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     changeFrameColor("bg-[url('/images/frames/frame1.jpg')]")
                   }
                   className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-[url('/images/frames/frame1.jpg')] rounded-md"
-                ></div>
+                ></div> */}
               </div>
             </div>
-            <div className="flex flex-col items-start p-4">
+            {/* <div className="flex flex-col items-start p-4">
               <h3 className="font-semibold py-2 text-black">New Frames</h3>
               <div className="grid grid-cols-12 lg:grid-cols-8 w-full place-items-center">
                 <div className="flex flex-col items-center justify-center col-span-4 lg:col-span-2">
@@ -519,7 +553,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   </p>
                 </div>
               </div>
-            </div>
+            </div> */}
           </div>
         </div>
       </div>

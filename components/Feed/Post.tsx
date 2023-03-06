@@ -46,6 +46,8 @@ interface User {
   bannerPicId: number;
   profilePic: Pic;
   score: number;
+  level: number;
+  frameName: string;
 }
 
 interface Image {
@@ -328,7 +330,6 @@ export default function PostTest({ post, refetch }: Props) {
     //@ts-ignore
     await dispatch(deletePost(post?.id)).then((async (res: any) => {
       if (res?.errors) {
-        console.log('res: ', res);
         await new Promise((f) => setTimeout(f, 1000));
         toast.error(res?.errors);
         return;
@@ -375,7 +376,7 @@ export default function PostTest({ post, refetch }: Props) {
                   }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
-                  <div className="relative flex flex-col p-1 animate-colorChange rounded-lg">
+                  <div className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}>
                     <img
                       src={
                         !isEmpty(post?.user?.profilePic)
@@ -385,9 +386,9 @@ export default function PostTest({ post, refetch }: Props) {
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
-                    <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
+                    <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${post?.user?.frameName} rounded-lg`}>
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        {post?.user?.score}
+                        {post?.user?.level}
                       </div>
                     </div>
                   </div>

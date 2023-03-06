@@ -51,7 +51,7 @@ function Sidebar() {
             <SidebarRow Icon={UserIcon} title="Profile" active="" />
           )}
         </Link>
-        <Link href="/dashboard/achievement">
+        {/* <Link href="/dashboard/achievement">
           {location.pathname === "/dashboard/achievement" ? (
             <SidebarRow
               // @ts-ignore
@@ -63,7 +63,7 @@ function Sidebar() {
             // @ts-ignore
             <SidebarRow Icon={FireIcon} title="Achievements" active="" />
           )}
-        </Link>
+        </Link> */}
         <Link href="/dashboard/suggestion">
           {location.pathname === "/dashboard/suggestion" ? (
             <SidebarRow

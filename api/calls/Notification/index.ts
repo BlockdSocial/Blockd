@@ -10,7 +10,6 @@ async function fetchUserNotifications() {
 };
 
 async function fetchUserNotification(fields: any) {
-  console.log('fields',fields)
   return apiCall('fetchUserNotification', 'GET', `${endpoints.userNotification}/${fields}`);
 };
 

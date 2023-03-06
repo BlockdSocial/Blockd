@@ -113,6 +113,9 @@ const Navbar = () => {
         else if ('follow' === result?.type) {
           setNotificationInfo(`${result?.user?.name} has followed you!`);
         }
+        else if ('levelUpgrade' === result?.type) {
+          setNotificationInfo('Your level has been upgraded!');
+        }
       });
     }
     handleFetchNotifications();

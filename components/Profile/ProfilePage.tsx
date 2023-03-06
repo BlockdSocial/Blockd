@@ -19,6 +19,9 @@ interface User {
   profilePicId: number;
   bannerPicId: number;
   score: number;
+  level: number;
+  levelTotal: number;
+  frameName: string;
 }
 
 function ProfilePage() {
@@ -150,9 +153,9 @@ function ProfilePage() {
         <button onClick={() => handleToggle1()} className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFeed === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Feed
         </button>
-        <button onClick={() => handleToggle2()} className={`text-xs md:text-sm lg:text-base focus:outline-none ${showInteractions === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+        {/* <button onClick={() => handleToggle2()} className={`text-xs md:text-sm lg:text-base focus:outline-none ${showInteractions === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Interactions
-        </button>
+        </button> */}
         <button onClick={() => handleToggle3()} className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowers === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Followers
         </button>
@@ -171,10 +174,10 @@ function ProfilePage() {
         <Interactions />
       )}
       {showFollowers && (
-        <Followers />
+        <Followers user={user} />
       )}
       {showFollowing && (
-        <Following />
+        <Following user={user} />
       )}
     </div >
   )

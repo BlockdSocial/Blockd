@@ -69,6 +69,8 @@ function Notifications({ notification }: Props) {
                       'commented on your post!' :
                       'follow' === notification?.type ?
                         'followed you!' :
+                        'levelUpgrade' === notification?.type ?
+                        'Your level has been upgraded!' :
                         ''
               } . {moment(notification?.createdAt).fromNow()}
             </p>

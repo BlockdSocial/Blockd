@@ -132,14 +132,14 @@ function Footer({ messages, receiver, getMessages }: any) {
             onClick={(e) => handleSendMessage(e)}
             className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
           />
-          <PhotoIcon
+          {/* <PhotoIcon
             onClick={() => onAddPictureClick()}
             className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
           />
           <GifIcon
             ref={gif}
             onClick={() => setShowGifs(b => !b)}
-            className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+            className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' /> */}
           <FaceSmileIcon
             ref={emoji}
             onClick={() => handleClick()}

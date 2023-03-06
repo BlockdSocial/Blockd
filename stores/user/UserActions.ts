@@ -22,7 +22,13 @@ import {
   SEARCH_POPULAR_USERS_FAILURE,
   IS_FOLLOWING_USER,
   FOLLOW_USER_SUCCESS,
-  FOLLOW_USER_FAILURE
+  FOLLOW_USER_FAILURE,
+  IS_FETCHING_REWARDS,
+  FETCH_REWARDS_SUCCESS,
+  FETCH_REWARDS_FAILURE,
+  IS_SETTING_FRAME,
+  SET_FRAME_SUCCESS,
+  SET_FRAME_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -64,11 +70,11 @@ export function updateProfileBanner(fields: object) {
   }
 }
 
-export function fetchFollowers() {
+export function fetchFollowers(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_FOLLOWERS });
     try {
-      const result = await userApi.fetchFollowers();
+      const result = await userApi.fetchFollowers(fields);
       dispatch({
         type: FETCH_FOLLOWERS_SUCCESS,
         followers: result
@@ -83,11 +89,11 @@ export function fetchFollowers() {
   }
 }
 
-export function fetchFollowings() {
+export function fetchFollowings(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_FOLLOWINGS });
     try {
-      const result = await userApi.fetchFollowings();
+      const result = await userApi.fetchFollowings(fields);
       dispatch({
         type: FETCH_FOLLOWINGS_SUCCESS,
         followings: result
@@ -172,6 +178,44 @@ export function followUser(fields: any) {
       console.log('Follow User Error: ', error);
       dispatch({
         type: FOLLOW_USER_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function fetchUserRewards() {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_REWARDS });
+    try {
+      const result = await userApi.fetchUserRewards();
+      dispatch({
+        type: FETCH_REWARDS_SUCCESS,
+        rewards: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch rewards error: ', error);
+      dispatch({
+        type: FETCH_REWARDS_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function setUserFrame(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SETTING_FRAME });
+    try {
+      await userApi.setUserFrame(fields);
+      dispatch({
+        type: SET_FRAME_SUCCESS,
+      });
+    } catch (error: any) {
+      console.log('Set frame Error: ', error);
+      dispatch({
+        type: SET_FRAME_FAILURE,
         error: error?.message
       });
     }

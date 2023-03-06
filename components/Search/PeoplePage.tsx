@@ -34,13 +34,13 @@ function PeoplePage() {
                 >
                   @IsmailBzz
                 </Link>
-                <span className="text-l text-gray-700 dark:text-gray-300">
+                {/* <span className="text-l text-gray-700 dark:text-gray-300">
                   10K followers
-                </span>
+                </span> */}
               </div>
-              <span className="text-l text-gray-700 dark:text-gray-300">
+              {/* <span className="text-l text-gray-700 dark:text-gray-300">
                 20 Friends in common
-              </span>
+              </span> */}
             </div>
           </div>
           <div className="flex items-center justify-center">

@@ -19,19 +19,21 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchMessages } from '../../../../stores/chat/ChatActions';
 import { isEmpty } from 'lodash';
 
-export default function Chat({ receiver, messages }: any) {
+export default function Chat({ receiver, messages, elementRef, handleScroll }: any) {
 
   const dispatch = useAppDispatch();
-
-  console.log('chatId: ', receiver);
 
   const { authUser } = useAppSelector((state) => state.authUserReducer);
 
   let [showReaction, setShowReaction] = useState<boolean>(false)
   let [reaction, setReaction] = useState<string>('')
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
-
+  const boxRef = useRef<any>(null);
   const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    scrollToBottom();
+  }, [messages]);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -53,8 +55,6 @@ export default function Chat({ receiver, messages }: any) {
     setReaction(reaction)
   }
 
-  console.log('messages: ', messages);
-
   const addReaction = (e: any) => {
     const sym = e.unified.split("-")
     const codesArray: any[] = []
@@ -65,10 +65,16 @@ export default function Chat({ receiver, messages }: any) {
     setShowReaction(!showReaction)
   }
 
-  console.log('authUser: ', authUser);
+  const scrollToBottom = () => {
+    boxRef.current?.scrollIntoView({ behavior: 'smooth' });
+  }
 
   return (
-    <div className="scrollbar-hide overflow-scroll mt-14 p-2 h-full dark:bg-darkgray">
+    <div
+      onScrollCapture={(e: any) => handleScroll(e)}
+      className="scrollbar-hide overflow-scroll mt-5 p-2 h-full dark:bg-darkgray"
+      id="test"
+    >
       <div className="">
         {
           !isEmpty(messages) &&
@@ -95,7 +101,7 @@ export default function Chat({ receiver, messages }: any) {
                               <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md"><ExclamationCircleIcon className="w-5 h-5 mr-3" />Report</div>
                             </ul>
                           )}
-                          <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
+                          {/* <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' /> */}
                         </div>
 
                       </div>
@@ -103,9 +109,9 @@ export default function Chat({ receiver, messages }: any) {
                     <p className='flex items-center justify-end'>{message?.content}</p>
                     <div className='relative flex items-center justify-start space-x-1 mt-1'>
                       <div className='absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md'>
-                        <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
+                        {/* <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
                           <AddReactionRoundedIcon onClick={() => setShowReaction(!showReaction)} className="cursor-pointer text-orange-600 dark:text-pink-800" />
-                        </div>
+                        </div> */}
 
                         {showReaction && (
                           <div className='absolute top-8 left-0'>
@@ -171,9 +177,12 @@ export default function Chat({ receiver, messages }: any) {
                   </div>
                   <p className='flex items-center justify-start'>{message?.content}</p>
                 </div>
+              
               </div>
+              
           ))
         }
+          <div ref={boxRef}/>
       </div>
     </div >
   )

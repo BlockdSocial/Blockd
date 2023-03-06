@@ -23,7 +23,13 @@ import {
   SEARCH_POPULAR_USERS_FAILURE,
   IS_FOLLOWING_USER,
   FOLLOW_USER_SUCCESS,
-  FOLLOW_USER_FAILURE
+  FOLLOW_USER_FAILURE,
+  IS_FETCHING_REWARDS,
+  FETCH_REWARDS_SUCCESS,
+  FETCH_REWARDS_FAILURE,
+  IS_SETTING_FRAME,
+  SET_FRAME_SUCCESS,
+  SET_FRAME_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -36,6 +42,9 @@ const initialState = {
   isFetchingUser: false,
   isSearchingPopularUsers: false,
   isFollowingUser: false,
+  isFetchingRewards: false,
+  isSettingFrame: false,
+  rewards: [],
   popularUsers: [],
   user: {},
   followers: [],
@@ -197,6 +206,45 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isFollowingUser: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_REWARDS: {
+      return {
+        ...state,
+        isFetchingRewards: true
+      };
+    }
+    case FETCH_REWARDS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingRewards: false,
+        rewards: action.rewards
+      };
+    }
+    case FETCH_REWARDS_FAILURE: {
+      return {
+        ...state,
+        isFetchingRewards: false,
+        error: action.error
+      };
+    }
+    case IS_SETTING_FRAME: {
+      return {
+        ...state,
+        isSettingFrame: true
+      };
+    }
+    case SET_FRAME_SUCCESS: {
+      return {
+        ...state,
+        isSettingFrame: false
+      };
+    }
+    case SET_FRAME_FAILURE: {
+      return {
+        ...state,
+        isSettingFrame: false,
         error: action.error
       };
     }
