@@ -7,7 +7,7 @@ import {
   PhotoIcon,
   FaceSmileIcon,
   XMarkIcon,
-  GifIcon
+  GifIcon,
 } from "@heroicons/react/24/outline";
 import Picker from "@emoji-mart/react";
 import TimeAgo from "react-timeago";
@@ -17,7 +17,14 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import { config } from "../../constants";
 import { isEmpty } from "lodash";
-import { dislikeComment, fetchCommentInfo, fetchIsDislikedComment, fetchIsLikedComment, likeComment, replyComment } from "../../stores/comment/CommentActions";
+import {
+  dislikeComment,
+  fetchCommentInfo,
+  fetchIsDislikedComment,
+  fetchIsLikedComment,
+  likeComment,
+  replyComment,
+} from "../../stores/comment/CommentActions";
 
 interface Pic {
   name: string;
@@ -177,7 +184,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     if (!isEmpty(comment)) {
       fetchInfo();
       fetchLiked();
-      fetchDisliked()
+      fetchDisliked();
     }
   }, [comment]);
 
@@ -198,8 +205,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
         closePicture();
         fetchInfo();
       });
-    }
-    else if (gifUrl.length > 0) {
+    } else if (gifUrl.length > 0) {
       await dispatch(
         replyComment({
           user_id: authUser?.id,
@@ -213,8 +219,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
         closeGif();
         fetchInfo();
       });
-    }
-    else {
+    } else {
       await dispatch(
         replyComment({
           user_id: authUser?.id,
@@ -282,16 +287,14 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           className="flex flex-col w-fit h-fit group"
         >
           <div className="relative flex flex-col items-center justify-center p-1 animate-colorChange rounded-lg">
-            <Image
+            <img
               src={
                 !isEmpty(comment?.user?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
-              className="w-14 h-14 rounded-md shadow-sm"
-              width={60}
-              height={60}
+              className="w-20 h-16 rounded-md shadow-sm"
             />
             <div className="absolute -bottom-3 -left-2 flex p-1 w-7 h-7 animate-colorChange rounded-lg">
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
@@ -301,33 +304,38 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           </div>
         </Link>
         <div className="w-full">
-          <div className="flex items-center space-x-1">
+          <div className="flex items-center">
             <p className="mr-1 font-semibold">@{comment?.user?.name}</p>
+          </div>
+          <div className="flex flex-col items-start justify-start p-1">
             <TimeAgo
               date={comment?.createdAt}
               className="text-sm text-gray-500"
             />
           </div>
-          <div className="flex flex-col items-start justify-start p-2">
-            <p>{comment?.content}</p>
-            {comment?.imgName != null ? (
-              <img
-                src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
-                alt="Post"
-                className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
-              />
-            ) : null}
-            {comment?.gif != null ? (
-              <img
-                src={comment?.gif}
-                alt="gif"
-                className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
-              />
-            ) : null}
-          </div>
         </div>
       </div>
-      <form onSubmit={handleAddReply} className="mt-6 flex items-start justify-center space-x-3">
+      <div className="flex flex-col space-y-2">
+        <p className="mt-6">{comment?.content}</p>
+        {comment?.imgName != null ? (
+          <img
+            src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
+            alt="Post"
+            className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+          />
+        ) : null}
+        {comment?.gif != null ? (
+          <img
+            src={comment?.gif}
+            alt="gif"
+            className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+          />
+        ) : null}
+      </div>
+      <form
+        onSubmit={handleAddReply}
+        className="mt-3 flex items-start justify-center space-x-3"
+      >
         <div className="flex flex-col items-end justify-center w-full">
           <input
             value={input}
@@ -340,34 +348,36 @@ function MainComment({ comment, post, refetchReplies }: Props) {
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <p
-                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    }`}
+                  className={`text-xs ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikeComment()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <ArrowDownIcon
-                  className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikeComment()}
                 />
                 <p
-                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    }`}
+                  className={`text-xs ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
               </div>
               <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <ChatBubbleBottomCenterTextIcon
-                  className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
-                />
+                <ChatBubbleBottomCenterTextIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
                 <p className="text-xs">
                   {info?.replies != null || undefined ? info?.replies : 0}
                 </p>
@@ -398,7 +408,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                 className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
               />
               {showEmojis && (
-                <div className="absolute right-0 bottom-6 z-40">
+                <div className="absolute -right-20 top-6 z-40">
                   <Picker
                     onEmojiSelect={addEmoji}
                     theme="dark"
@@ -420,7 +430,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   />
                 )}
                 {showGifs && (
-                  <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                  <div className="absolute -right-20 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}

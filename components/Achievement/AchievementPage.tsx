@@ -57,7 +57,7 @@ function AchievementPage() {
         <div className="flex items-center justify-between space-x-20 mb-5 w-fit border-b dark:border-lightgray h-10">
           <button
             onClick={() => handleToggle2()}
-            className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+            className={`text-base focus:outline-none ${
               showLevels === true
                 ? "border-b-2 border-blockd text-blockd :"
                 : ""
@@ -67,7 +67,7 @@ function AchievementPage() {
           </button>
           <button
             onClick={() => handleToggle1()}
-            className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+            className={`text-base focus:outline-none ${
               showAchievements === true
                 ? "border-b-2 border-blockd text-blockd :"
                 : ""

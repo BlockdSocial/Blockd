@@ -4,7 +4,7 @@ import { CheckIcon } from "@heroicons/react/24/outline";
 function Achievements() {
   return (
     <>
-      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+      <div className="relative flex items-center justify-center w-10/12 lg:w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
         <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-orange-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
           <div className="relative flex flex-col items-start justify-start w-full h-full">
             <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
@@ -26,7 +26,7 @@ function Achievements() {
           </p>
         </div>
       </div>
-      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+      <div className="relative flex items-center justify-center w-10/12 lg:w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
         <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-orange-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
           <div className="relative flex flex-col items-start justify-start w-full h-full">
             <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
@@ -48,7 +48,7 @@ function Achievements() {
           </p>
         </div>
       </div>
-      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+      <div className="relative flex items-center justify-center w-10/12 lg:w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
         <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-green-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
           <div className="relative flex flex-col items-start justify-start w-full h-full">
             <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
@@ -70,7 +70,7 @@ function Achievements() {
           </p>
         </div>
       </div>
-      <div className="relative flex items-center justify-center w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
+      <div className="relative flex items-center justify-center w-10/12 lg:w-3/5 h-24 p-2 rounded-lg bg-gray-100 dark:bg-lightgray overflow-hidden cursor-pointer transition-all duration-700 card mt-2">
         <div className="absolute text-sm inset-0 w-full h-full flex justify-between items-center bg-gray-100 dark:bg-lightgray border-l-8 border-orange-500 transition-all duration-100 delay-300 z-20 hover:opacity-0">
           <div className="relative flex flex-col items-start justify-start w-full h-full">
             <p className="flex justify-start items-center p-2 lg:text-base w-full h-[70%]">
