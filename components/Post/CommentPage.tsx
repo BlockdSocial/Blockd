@@ -80,9 +80,9 @@ function CommentPage() {
       </div>
 
       <div className="z-0">
-        {/* 
-                // @ts-ignore */}
+        {/* // @ts-ignore */}
         <MainComment
+          // @ts-ignore
           comment={comment as Comment}
           refetchReplies={fetchReplies}
         />
@@ -92,6 +92,7 @@ function CommentPage() {
               key={index}
               // @ts-ignore
               comment={comment as Comment}
+              // @ts-ignore
               post={post as Post}
               type='reply'
             />
