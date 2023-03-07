@@ -248,7 +248,7 @@ const Navbar = () => {
             </li>
 
             <li className="hidden md:flex md:flex-col items-center text-l">
-              <Link href="" onClick={() => handleMsg()}>
+              <Link href="/dashboard/messages" onClick={() => handleMsg()}>
                 {/* 
                 // @ts-ignore */}
                 <IconGroup Icon={ChatBubbleBottomCenterTextIcon}
