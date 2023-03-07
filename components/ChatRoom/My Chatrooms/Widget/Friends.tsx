@@ -1,6 +1,5 @@
 import React from 'react'
 
-import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
