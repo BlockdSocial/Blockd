@@ -246,11 +246,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         />
       </div>
       <div className="flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray border-b dark:border-lightgray">
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
               <div
-                className={`relative w-28 h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
+                className={`relative w-24 h-24 md:w-28 md:h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
               >
                 <img
                   src={

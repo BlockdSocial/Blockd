@@ -247,7 +247,7 @@ const Navbar = () => {
               </Link>
             </li>
 
-            <li className="hidden md:flex md:flex-col items-center text-l">
+            <li className="flex md:flex-col items-center text-l">
               <Link href="/dashboard/messages" onClick={() => handleMsg()}>
                 {/* 
                 // @ts-ignore */}
