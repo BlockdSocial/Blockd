@@ -150,18 +150,25 @@ export default function SignIn() {
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
-            <Image
+            <img
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
-              className="md:w-30 md:h-14"
-              width={180}
-              height={50}
+              className="w-80 lg:w-96"
             />
-            <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">
-              LOGIN
+            <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-3xl">
+              JOIN THE{" "}
+              <span className="md:text-3xl lg:text-4xl text-orange-500">
+                #1
+              </span>
             </h2>
             <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-3xl">
-              SIGN IN TO CONTINUE
+              <span className="md:text-3xl lg:text-4xl text-orange-500">
+                BLOCKCHAIN
+              </span>{" "}
+              SOCIAL
+            </h2>
+            <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-3xl">
+              MEDIA PLATFORM
             </h2>
             <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">
               You are not Registered ?{" "}
@@ -171,23 +178,27 @@ export default function SignIn() {
             </h4>
             <br />
             <hr className="w-1/3"></hr>
-            <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">
+            <h4 className="text-white mt-6 ml-2 pb-3 text-m md:text-m lg:text-l">
               Verified By Blockchain Technology
             </h4>
-            <div className="flex mt-8">
-              <button className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-full">
+            <div className="flex mt-4">
+              <a
+                href="https://drive.google.com/file/d/1m1h-lGoUCbwtbHFEZaPETEW8AGPdVUl5/view?usp=sharing"
+                target="_blank"
+                className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
+              >
                 Learn more
-              </button>
+              </a>
             </div>
           </div>
         </div>
       </div>
-      <div className="md:w-1/2 w-full flex items-center justify-center text-center z-0">
+      <div className="md:w-1/2 w-full flex items-center justify-center text-center z-0 px-10">
         <div className="relative flex flex-col items-center bg-color rounded-md w-fit">
           <div className="relative flex flex-col items-center justify-center w-full h-4/5">
             <form
               action=""
-              className="flex flex-col items-center justify-center w-full h-full p-24"
+              className="flex flex-col items-center justify-center w-full h-full p-14 lg:p-24"
             >
               <div className="w-full mt-4 flex items-center justify-center">
                 <ConnectButton

@@ -391,7 +391,7 @@ function PostID({ post, refetchComments }: Props) {
               className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
             />
           ) : null}
-          <p className="pt-4 ml-3 font-semibold">{post?.content}</p>
+          <p className="pt-4 ml-3">{post?.content}</p>
         </div>
       </div>
       <div className="flex justify-between mt-5">

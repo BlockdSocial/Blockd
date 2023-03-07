@@ -33,7 +33,9 @@ export default function SignUp() {
   const dispatch = useAppDispatch();
   const mounted = useIsMounted();
   const router = useRouter();
-  const { authError, isRegisteringUser } = useAppSelector(state => state.authUserReducer)
+  const { authError, isRegisteringUser } = useAppSelector(
+    (state) => state.authUserReducer
+  );
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
@@ -66,10 +68,8 @@ export default function SignUp() {
     isDisplayTermsAndConditionsModal,
     setIsDisplayTermsAndConditionsModal,
   ] = useState<boolean>(false);
-  const [
-    isDisplayPolicyModal,
-    setIsDisplayPolicyModal,
-  ] = useState<boolean>(false);
+  const [isDisplayPolicyModal, setIsDisplayPolicyModal] =
+    useState<boolean>(false);
 
   const { address } = useAccount();
 
@@ -78,8 +78,7 @@ export default function SignUp() {
     if (!validateEmail(email)) {
       setEmailError(true);
       return;
-    }
-    else {
+    } else {
       setEmailError(false);
     }
     signMessage();
@@ -91,10 +90,7 @@ export default function SignUp() {
     }
   }, [userSignature]);
 
-
-
   const handleRegisterUser = async (e: any = null) => {
-
     if (
       !terms ||
       isEmpty(userMessage) ||
@@ -105,9 +101,9 @@ export default function SignUp() {
     ) {
       return;
     }
-    console.log({ userMessageForBackend })
-    console.log({ address })
-    console.log({ userSignature })
+    console.log({ userMessageForBackend });
+    console.log({ address });
+    console.log({ userSignature });
 
     await dispatch(
       registerUser({
@@ -122,8 +118,8 @@ export default function SignUp() {
       })
     ).then(async (res: any) => {
       if (res?.errors) {
-        await new Promise(f => setTimeout(f, 1000));
-        toast.error(res?.errors)
+        await new Promise((f) => setTimeout(f, 1000));
+        toast.error(res?.errors);
         return;
       }
       router.push(
@@ -139,8 +135,8 @@ export default function SignUp() {
   };
 
   function validateEmail(input: any) {
-
-    var validRegex = /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
+    var validRegex =
+      /^[a-zA-Z0-9.!#$%&'*+/=?^_`{|}~-]+@[a-zA-Z0-9-]+(?:\.[a-zA-Z0-9-]+)*$/;
     if (input.match(validRegex)) {
       return true;
     } else {
@@ -173,8 +169,6 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-
-
   const {
     config,
     isError: isMintError,
@@ -189,16 +183,16 @@ export default function SignUp() {
     },
     enabled: !!data && !!address,
     onSuccess(data: any) {
-      console.log('call useEffect', data)
-    }
+      console.log("call useEffect", data);
+    },
   });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
     onSuccess(data: any) {
-      console.log('write', data)
-      setNftData(true)
-    }
+      console.log("write", data);
+      setNftData(true);
+    },
   });
 
   const setName = (e: any) => {
@@ -216,8 +210,7 @@ export default function SignUp() {
         console.log(nft_data);
         setNftData(true);
       }
-
-    }
+    },
   });
 
   console.log(nftData);
@@ -226,23 +219,32 @@ export default function SignUp() {
   }
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
-      <><Toaster /></>
+      <>
+        <Toaster />
+      </>
       <CustomLoadingOverlay active={isRegisteringUser} />
       <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
-            <Image
+            <img
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
-              className="md:w-30 md:h-14"
-              width={180}
-              height={50}
+              className="w-80 lg:w-96"
             />
-            <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-4xl">
-              CREATE
+            <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-3xl">
+              JOIN THE{" "}
+              <span className="md:text-3xl lg:text-4xl text-orange-500">
+                #1
+              </span>
             </h2>
-            <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-4xl">
-              NEW ACCOUNT
+            <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-3xl">
+              <span className="md:text-3xl lg:text-4xl text-orange-500">
+                BLOCKCHAIN
+              </span>{" "}
+              SOCIAL
+            </h2>
+            <h2 className="font-bold text-white mt-1 ml-2 pb-3 md:text-2xl lg:text-3xl">
+              MEDIA PLATFORM
             </h2>
             <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">
               Already Registered ?{" "}
@@ -252,13 +254,17 @@ export default function SignUp() {
             </h4>
             <br />
             <hr className="w-1/3"></hr>
-            <h4 className="text-white mt-10 ml-2 pb-3 text-m md:text-m lg:text-l">
+            <h4 className="text-white mt-6 ml-2 pb-3 text-m md:text-m lg:text-l">
               Verified By Blockchain Technology
             </h4>
-            <div className="flex mt-8">
-              <button className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full">
+            <div className="flex mt-4">
+              <a
+                href="https://drive.google.com/file/d/1m1h-lGoUCbwtbHFEZaPETEW8AGPdVUl5/view?usp=sharing"
+                target="_blank"
+                className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
+              >
                 Learn more
-              </button>
+              </a>
             </div>
           </div>
         </div>
@@ -298,11 +304,11 @@ export default function SignUp() {
                   placeholder="example@gmail.com"
                   onChange={(e) => setEmail(e.target.value)}
                 />
-                {emailError &&
+                {emailError && (
                   <p className="text-red-600  text-xs font-bold">
                     Please enter a valid email address
                   </p>
-                }
+                )}
               </div>
               <div className="flex items-center justify-start mt-4 w-full space-x-2">
                 <input
@@ -328,11 +334,7 @@ export default function SignUp() {
                   className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
                 />
                 <p
-                  onClick={() =>
-                    setIsDisplayPolicyModal(
-                      !isDisplayPolicyModal
-                    )
-                  }
+                  onClick={() => setIsDisplayPolicyModal(!isDisplayPolicyModal)}
                   className="text-white font-semibold text-l cursor-pointer"
                 >
                   Privacy Policy
@@ -366,11 +368,13 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
-                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${isMintLoading && "loading"
-                        } ${error
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
+                        isMintLoading && "loading"
+                      } ${
+                        error
                           ? "bg-orange-300"
                           : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
-                        }`}
+                      }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
                     >
@@ -400,8 +404,9 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayTermsAndConditionsModal ? "" : "hidden"
+        }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -440,8 +445,9 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayPolicyModal ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayPolicyModal ? "" : "hidden"
+        }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -451,11 +457,7 @@ export default function SignUp() {
               </div>
               <button
                 type="button"
-                onClick={() =>
-                  setIsDisplayPolicyModal(
-                    !isDisplayPolicyModal
-                  )
-                }
+                onClick={() => setIsDisplayPolicyModal(!isDisplayPolicyModal)}
                 className="text-black bg-transparent hover:bg-gray-200 rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
               >
                 <svg
