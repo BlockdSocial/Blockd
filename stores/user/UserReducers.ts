@@ -29,7 +29,10 @@ import {
   FETCH_REWARDS_FAILURE,
   IS_SETTING_FRAME,
   SET_FRAME_SUCCESS,
-  SET_FRAME_FAILURE
+  SET_FRAME_FAILURE,
+  IS_FETCHING_FOLLOWED,
+  FETCH_FOLLOWED_SUCCESS,
+  FETCH_FOLLOWED_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -44,6 +47,8 @@ const initialState = {
   isFollowingUser: false,
   isFetchingRewards: false,
   isSettingFrame: false,
+  isFetchingFollowed: false,
+  isFollowed: 0,
   rewards: [],
   popularUsers: [],
   user: {},
@@ -245,6 +250,27 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isSettingFrame: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_FOLLOWED: {
+      return {
+        ...state,
+        isFetchingFollowed: true
+      };
+    }
+    case FETCH_FOLLOWED_SUCCESS: {
+      console.log('action: ', action);
+      return {
+        ...state,
+        isFetchingFollowed: false,
+        isFollowed: action.isFollowed
+      };
+    }
+    case FETCH_FOLLOWED_FAILURE: {
+      return {
+        ...state,
+        isFetchingFollowed: false,
         error: action.error
       };
     }

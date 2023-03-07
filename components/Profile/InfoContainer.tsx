@@ -14,6 +14,7 @@ import Image from "next/image";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import {
   fetchFollowers,
+  fetchIsFollowed,
   fetchUserRewards,
   followUser,
   setUserFrame,
@@ -47,7 +48,7 @@ interface Props {
 function InfoContainer({ user, refetchUser, userId }: Props) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { rewards, followers } = useAppSelector((state) => state.userReducer);
+  const { rewards, followers, isFollowed } = useAppSelector((state) => state.userReducer);
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
@@ -57,6 +58,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [profilePicture, setProfilePicture] = useState<string>();
   const [bannerPicture, setBannerPicture] = useState<string>();
   const [scorePercentage, setScorePercentage] = useState<any>();
+  // const [isFollowed, setIsFollowed] = useState<any>(false);
   let [frameColor, setFrameColor] = useState<string>();
 
   //Hide dropdown when clicking outside it
@@ -87,6 +89,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       getScorePercentage();
       fetchRewards();
       fetchUserFollowers();
+      followed();
     }
     if (!isEmpty(user?.frameName)) {
       setFrameColor(user?.frameName);
@@ -96,6 +99,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const fetchUserFollowers = async () => {
     await dispatch(fetchFollowers(user?.id));
   }
+
+  const followed = async () => {
+    await dispatch(fetchIsFollowed(user?.id));
+  };
 
   const fetchRewards = async () => {
     await dispatch(fetchUserRewards());
@@ -195,11 +202,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   };
 
   const handleFollowUser = async () => {
-    await dispatch(
-      followUser({
-        user_id: user?.id,
-      })
-    );
+    if (authUser?.id !== user?.id) {
+      await dispatch(
+        followUser({
+          user_id: user?.id,
+        })
+      );
+    }
   };
 
   const setFrame = async (id: any) => {
@@ -361,14 +370,24 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 >
                   <ChatBubbleLeftIcon className="w-5 h-5" />
                 </Link>
-                <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                  <p
-                    className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                    onClick={() => handleFollowUser()}
-                  >
-                    follow
-                  </p>
-                </div>
+                {
+                  isFollowed ?
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                      <p
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200"
+                      >
+                        followed
+                      </p>
+                    </div> :
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                      <p
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                        onClick={() => handleFollowUser()}
+                      >
+                        follow
+                      </p>
+                    </div>
+                }
               </div>
             </>
           )}
@@ -477,11 +496,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   rewards.map((reward: any, index: any) => (
                     <div
                       key={index}
-                      onClick={() =>
-                        {changeFrameColor(
+                      onClick={() => {
+                        changeFrameColor(
                           reward?.name
                         ),
-                        setFrame(reward?.id)}
+                          setFrame(reward?.id)
+                      }
                       }
                       className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 ${reward?.name} rounded-md`}
                     ></div>

@@ -6,6 +6,7 @@ import { isEmpty } from 'lodash';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchMessages } from '../../../../stores/chat/ChatActions';
 import { useChannel } from '@ably-labs/react-hooks';
+import { fetchAuthUser } from '../../../../stores/authUser/AuthUserActions';
 
 function Chatbox({ receiver }: any) {
   const dispatch = useAppDispatch();
@@ -16,18 +17,24 @@ function Chatbox({ receiver }: any) {
   const [endTotal, setEndTotal] = useState<number>(4);
   const [messages, setMessages] = useState<any>();
   const { isFetchingMessages } = useAppSelector((state) => state.chatReducer);
+  const ref = useRef<any>(null);
+
+  useEffect(() => {
+    dispatch(fetchAuthUser());
+  }, []);
 
   useEffect(() => {
     if (!isEmpty(receiver)) {
       getMessages();
     }
+    ref.current = receiver;
   }, [receiver]);
 
   const [message] = useChannel(`messageNotification-${authUser.id}`, (message) => {
     console.log(message);
     console.log(authUser);
 
-    getMessages();
+    updateMessages();
   });
 
 
@@ -62,14 +69,13 @@ function Chatbox({ receiver }: any) {
     }
   }
 
-  const updateMessages = async (start: number, end: number) => {
+  const updateMessages = async () => {
     await dispatch(fetchMessages({
-      start: start,
-      end: end
+      receiver_id: ref.current?.id,
+      start: 0,
+      end: 100
     })).then((result: any) => {
-      const newMessages = messages?.concat(result?.messages);
-      setEndTotal(result?.total)
-      setMessages(newMessages);
+      setMessages(result?.messages);
     });
   };
 

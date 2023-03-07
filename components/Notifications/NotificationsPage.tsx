@@ -77,6 +77,7 @@ function NotificationsPage() {
           <Notifications
             key={notification?.id}
             notification={notification}
+            handleFetchNotifications={handleFetchNotifications}
           />
         ))
       }

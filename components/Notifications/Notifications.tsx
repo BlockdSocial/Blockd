@@ -36,18 +36,30 @@ interface INotification {
 
 interface Props {
   notification: INotification
+  handleFetchNotifications: () => void;
 }
 
-function Notifications({ notification }: Props) {
+function Notifications({ notification, handleFetchNotifications }: Props) {
   const dispatch = useAppDispatch();
 
   const handleReadNotification = async () => {
-    await dispatch(readNotification(notification?.id));
+    await dispatch(readNotification(notification?.id)).then(() => {
+      handleFetchNotifications();
+    });
   }
+
+  console.log('Notification: ', notification);
 
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
-      <Link href="/dashboard/profile" className="flex items-center justify-between group/item border-b dark:border-lightgray hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer">
+      <Link
+        onClick={() => handleReadNotification()}
+        href={{
+          pathname: "/dashboard/profile",
+          query: { user_id: notification?.user?.id },
+        }}
+        className="flex items-center justify-between group/item border-b dark:border-lightgray hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer"
+      >
         <div className='flex mr-2'>
           <img
             className="h-10 w-10 rounded-full"
@@ -70,26 +82,42 @@ function Notifications({ notification }: Props) {
                       'follow' === notification?.type ?
                         'followed you!' :
                         'levelUpgrade' === notification?.type ?
-                        'Your level has been upgraded!' :
-                        ''
+                          'Your level has been upgraded!' :
+                          'message' === notification?.type ?
+                            'sent you a message!' :
+                            ''
               } . {moment(notification?.createdAt).fromNow()}
             </p>
           </div>
         </div>
         {
-          notification?.type !== 'follow' &&
-          <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
-            <Link onClick={() => handleReadNotification()}
-              href={{
-                pathname: "/dashboard/post/",
-                query: { postId: notification?.postId },
-              }} className="flex invisible group-hover/item:visible">
-              <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
-              <div className='flex items-center ml-2'>
-                <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
-              </div>
-            </Link>
-          </div>
+          notification?.type === 'like' || 'dislike' || 'comment' ?
+            <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
+              <Link onClick={() => handleReadNotification()}
+                href={{
+                  pathname: "/dashboard/post/",
+                  query: { postId: notification?.postId },
+                }} className="flex invisible group-hover/item:visible">
+                <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
+                <div className='flex items-center ml-2'>
+                  <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
+                </div>
+              </Link>
+            </div> :
+            notification?.type === 'message' ?
+              <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
+                <Link onClick={() => handleReadNotification()}
+                  href={{
+                    pathname: "/dashboard/myChatrooms/",
+                    query: { chatReceiverId: notification?.user?.id },
+                  }} className="flex invisible group-hover/item:visible">
+                  <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
+                  <div className='flex items-center ml-2'>
+                    <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
+                  </div>
+                </Link>
+              </div> :
+              null
         }
       </Link>
     </div>

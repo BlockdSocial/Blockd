@@ -28,7 +28,10 @@ import {
   FETCH_REWARDS_FAILURE,
   IS_SETTING_FRAME,
   SET_FRAME_SUCCESS,
-  SET_FRAME_FAILURE
+  SET_FRAME_FAILURE,
+  IS_FETCHING_FOLLOWED,
+  FETCH_FOLLOWED_SUCCESS,
+  FETCH_FOLLOWED_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -216,6 +219,26 @@ export function setUserFrame(fields: any) {
       console.log('Set frame Error: ', error);
       dispatch({
         type: SET_FRAME_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function fetchIsFollowed(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_FOLLOWED });
+    try {
+      const result = await userApi.isFollowed(fields);
+      dispatch({
+        type: FETCH_FOLLOWED_SUCCESS,
+        isFollowed: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch is followed error: ', error);
+      dispatch({
+        type: FETCH_FOLLOWED_FAILURE,
         error: error?.message
       });
     }

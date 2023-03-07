@@ -44,6 +44,10 @@ async function setUserFrame(fields: any) {
   return apiCall('setUserFrame', 'POST', `${endpoints.user}/frame/${fields}`);
 };
 
+async function isFollowed(fields: any) {
+  return apiCall('isFollowed', 'GET', `${endpoints.user}/followed/${fields}`);
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -54,5 +58,6 @@ export default {
   searchUsers,
   followUser,
   fetchUserRewards,
-  setUserFrame
+  setUserFrame,
+  isFollowed
 };
