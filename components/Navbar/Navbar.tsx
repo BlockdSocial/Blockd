@@ -269,8 +269,8 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unread == 0 ||
-                      authUser?.unread === undefined ||
-                      authUser?.unread === null ? (
+                        authUser?.unread === undefined ||
+                        authUser?.unread === null ? (
                         ""
                       ) : (
                         <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">

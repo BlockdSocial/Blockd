@@ -75,6 +75,7 @@ function NotificationsPage() {
       {
         notifications &&
         notifications?.map((notification: INotification) => (
+          notification?.type !== 'message' &&
           <Notifications
             key={notification?.id}
             notification={notification}

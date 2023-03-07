@@ -1,5 +1,5 @@
 import React from 'react'
-import Image  from 'next/image';
+import Image from 'next/image';
 import {
   ArrowSmallRightIcon,
 } from '@heroicons/react/24/outline'
@@ -51,8 +51,8 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
 
     });
   }
-  let pathname,query;
-  if(notification?.type == 'like' ||  notification?.type == 'dislike' || notification?.type == 'comment') {
+  let pathname, query;
+  if (notification?.type == 'like' || notification?.type == 'dislike' || notification?.type == 'comment') {
     pathname = '/dashboard/post/';
     query = { postId: notification?.postId }
 
@@ -66,8 +66,6 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
     query = {}
   }
 
-  console.log('Notification: ', notification);
-
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
       <Link
@@ -77,26 +75,26 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           query: query,
         }}
         // @ts-ignore
-        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ?'bg-slate-100 dark:bg-lightgray' : '' } p-4 cursor-pointer`}
+        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ? 'bg-slate-100 dark:bg-lightgray' : ''} p-4 cursor-pointer`}
       >
         <div className='flex mr-2'>
-        <Link
-        onClick={() => handleReadNotification()}
-        href={{
-          pathname: "/dashboard/profile",
-          query: { user_id: notification?.user?.id },
-        }}>
-          <Image
-            className="h-10 w-10 rounded-full"
-            src={
-              !isEmpty(notification?.user?.profilePic)
-                ? `${config.url.PUBLIC_URL}/${notification?.user?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
-            }
-            width={50}
-            height = {50}
-            alt=""
-          />
+          <Link
+            onClick={() => handleReadNotification()}
+            href={{
+              pathname: "/dashboard/profile",
+              query: { user_id: notification?.user?.id },
+            }}>
+            <Image
+              className="h-10 w-10 rounded-full"
+              src={
+                !isEmpty(notification?.user?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${notification?.user?.profilePic?.name}`
+                  : "/images/pfp/pfp1.jpg"
+              }
+              width={50}
+              height={50}
+              alt=""
+            />
           </Link>
           <div className="ml-3 flex items-center justify-center">
             <p className="text-sm font-medium text-slate-900 dark:text-white"><span className="font-bold">{notification?.user?.name}</span>{' '}
