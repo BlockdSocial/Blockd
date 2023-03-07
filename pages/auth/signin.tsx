@@ -171,9 +171,9 @@ export default function SignIn() {
               MEDIA PLATFORM
             </h2>
             <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">
-              You are not Registered ?{" "}
+              Not Registered ?{" "}
               <Link href="/auth/signup" className="underline">
-                Register Now
+                REGISTER HERE
               </Link>
             </h4>
             <br />

@@ -7,20 +7,26 @@ import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
   KeyIcon,
-  WalletIcon
-} from '@heroicons/react/24/outline'
-import { fetchAuthUser, logoutUser } from '../../stores/authUser/AuthUserActions'
-import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import IconGroup from './IconGroup'
-import { useTheme } from 'next-themes'
-import NotifDropDown from './NotifDropDown'
-import MsgDropDown from './MsgDropDown'
+  WalletIcon,
+} from "@heroicons/react/24/outline";
+import {
+  fetchAuthUser,
+  logoutUser,
+} from "../../stores/authUser/AuthUserActions";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import IconGroup from "./IconGroup";
+import { useTheme } from "next-themes";
+import NotifDropDown from "./NotifDropDown";
+import MsgDropDown from "./MsgDropDown";
 import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import Ably from "ably/promises";
-import { fetchUserNotification, fetchUserNotifications } from '../../stores/notification/NotificationActions'
-import { isEmpty } from 'lodash'
-import toast, { Toaster } from 'react-hot-toast'
-import { fetchUser, resetBell } from '../../stores/user/UserActions'
+import {
+  fetchUserNotification,
+  fetchUserNotifications,
+} from "../../stores/notification/NotificationActions";
+import { isEmpty } from "lodash";
+import toast, { Toaster } from "react-hot-toast";
+import { fetchUser, resetBell } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
 
 interface Data {
@@ -34,16 +40,17 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { notifications, unread } = useAppSelector((state) => state.notificationReducer);
+  const { notifications, unread } = useAppSelector(
+    (state) => state.notificationReducer
+  );
   const { systemTheme, theme, setTheme } = useTheme();
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
-  const [notificationInfo, setNotificationInfo] = useState<string>()
-
+  const [notificationInfo, setNotificationInfo] = useState<string>();
 
   useEffect(() => {
-    setNotificationInfo('');
+    setNotificationInfo("");
     dispatch(fetchAuthUser());
     handleFetchNotifications();
   }, []);
@@ -55,13 +62,13 @@ const Navbar = () => {
   }, [notificationInfo]);
 
   const handleShowNotification = async (notification: any) => {
-    await new Promise(f => setTimeout(f, 1000));
+    await new Promise((f) => setTimeout(f, 1000));
     toast(notification);
-  }
+  };
 
   const handleFetchNotifications = async () => {
     await dispatch(fetchUserNotifications());
-  }
+  };
 
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);
@@ -70,50 +77,54 @@ const Navbar = () => {
     checkUserNotification(message.data);
   });
 
-  const [message] = useChannel(`messageNotification-${authUser.id}`, (message) => {
-    console.log(message);
-    console.log(authUser);
+  const [message] = useChannel(
+    `messageNotification-${authUser.id}`,
+    (message) => {
+      console.log(message);
+      console.log(authUser);
 
-    fetchMessageNotification(message.data);
-  });
+      fetchMessageNotification(message.data);
+    }
+  );
 
   const fetchMessageNotification = async (data: Data) => {
-    await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
-      setNotificationInfo(`${result?.user?.name} sent you a message!`);
-    });
+    await dispatch(fetchUserNotification(data?.notification)).then(
+      async (result: any) => {
+        setNotificationInfo(`${result?.user?.name} sent you a message!`);
+      }
+    );
     await handleFetchNotifications();
     await dispatch(fetchAuthUser());
-  }
+  };
 
   const checkUserNotification = async (data: Data) => {
-    let localStorageAuthUser: any = ''
+    let localStorageAuthUser: any = "";
     if (isEmpty(authUser)) {
       // @ts-ignore
-      localStorageAuthUser = JSON.parse(localStorage.getItem('authUser'))
+      localStorageAuthUser = JSON.parse(localStorage.getItem("authUser"));
       console.log(localStorageAuthUser);
-    }
-    else {
+    } else {
       localStorageAuthUser = authUser;
     }
     if (localStorageAuthUser?.id == data?.receiver_id) {
-      await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
-        console.log('result: ', result);
-        if ('like' === result?.type) {
-          setNotificationInfo(`${result?.user?.name} has liked your post!`);
+      await dispatch(fetchUserNotification(data?.notification)).then(
+        async (result: any) => {
+          console.log("result: ", result);
+          if ("like" === result?.type) {
+            setNotificationInfo(`${result?.user?.name} has liked your post!`);
+          } else if ("comment" === result?.type) {
+            setNotificationInfo(
+              `${result?.user?.name} commented on your post!`
+            );
+          } else if ("dislike" === result?.type) {
+            setNotificationInfo(`${result?.user?.name} disliked your post!`);
+          } else if ("follow" === result?.type) {
+            setNotificationInfo(`${result?.user?.name} has followed you!`);
+          } else if ("levelUpgrade" === result?.type) {
+            setNotificationInfo("Your level has been upgraded!");
+          }
         }
-        else if ('comment' === result?.type) {
-          setNotificationInfo(`${result?.user?.name} commented on your post!`);
-        }
-        else if ('dislike' === result?.type) {
-          setNotificationInfo(`${result?.user?.name} disliked your post!`);
-        }
-        else if ('follow' === result?.type) {
-          setNotificationInfo(`${result?.user?.name} has followed you!`);
-        }
-        else if ('levelUpgrade' === result?.type) {
-          setNotificationInfo('Your level has been upgraded!');
-        }
-      });
+      );
     }
     await handleFetchNotifications();
     await dispatch(fetchAuthUser());
@@ -218,7 +229,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="col-span-7 md:col-span-5 h-14">
-          <ul className="flex items-center justify-end z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
+          <ul className="flex items-center justify-end space-x-3 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
               {renderThemeChanger()}
@@ -235,31 +246,37 @@ const Navbar = () => {
                 ></IconGroup>
               </Link>
             </li>
-            {/*
-          <li className='hidden md:flex md:flex-col items-center text-l'>
-            <Link href="" onClick={() => handleMsg()}>
-              <IconGroup Icon={ChatBubbleBottomCenterTextIcon} notif="10"></IconGroup>
-            </Link>
-          </li>
-          <div className={`${dropdownOpen ? 'hidden md:inline z-10' : 'hidden'}`}>
-            <MsgDropDown />
-          </div>*/}
+
+            <li className="hidden md:flex md:flex-col items-center text-l">
+              <Link href="" onClick={() => handleMsg()}>
+                {/* 
+                // @ts-ignore */}
+                <IconGroup Icon={ChatBubbleBottomCenterTextIcon}
+                  notif="10"
+                ></IconGroup>
+              </Link>
+            </li>
             {/* Notifications */}
 
             <li className="flex flex-col items-center text-l">
-              <Link href="/dashboard/notifications" onClick={() => handleNotif()}>
+              <Link
+                href="/dashboard/notifications"
+                onClick={() => handleNotif()}
+              >
                 {/* 
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 p-2 rounded-ful transition-all duration-100 group">
+                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
-                      {
-                        authUser?.unread == 0 || authUser?.unread === undefined || authUser?.unread === null ?
-                        '' :
+                      {authUser?.unread == 0 ||
+                      authUser?.unread === undefined ||
+                      authUser?.unread === null ? (
+                        ""
+                      ) : (
                         <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unread}</span>
                         </span>
-                      }
+                      )}
                       <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
                     </strong>
                   </div>
@@ -289,7 +306,7 @@ const Navbar = () => {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="max-h-10 object-contain rounded-md shadow-sm cursor-pointer"
+                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer"
                 />
               </Link>
             </li>

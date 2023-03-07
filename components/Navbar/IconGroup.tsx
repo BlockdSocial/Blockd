@@ -8,7 +8,7 @@ interface Props {
 
 function IconGroup({ Icon, notif }: Props) {
     return (
-        <div className='flex max-w-fit items-center space-x-2 p-2 rounded-ful transition-all duration-100 group'>
+        <div className='flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group'>
             <div className="">
                 <strong className="relative inline-flex items-center px-2.5 py-1.5">
                     {/* <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray"><span>{notif}</span></span> */}
