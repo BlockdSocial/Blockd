@@ -289,7 +289,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           className="flex flex-col w-fit h-fit group"
         >
           <div className={`relative flex flex-col items-center justify-center p-1 ${comment?.user?.frameName} rounded-lg`}>
-            <Image
+            <img
               src={
                 !isEmpty(comment?.user?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`

@@ -60,8 +60,11 @@ const Navbar = () => {
   }
 
   const handleFetchNotifications = async () => {
+    console.log('BZEZZZZZZ');
     await dispatch(fetchUserNotifications());
   }
+
+  console.log('unread: ', unread);
 
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);
@@ -78,11 +81,11 @@ const Navbar = () => {
   });
 
   const fetchMessageNotification = async (data: Data) => {
-    console.log("DATA: ", data);
     await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
       console.log('result: ', result);
       setNotificationInfo(`${result?.user?.name} sent you a message!`);
     });
+    await handleFetchNotifications();
   }
 
   const checkUserNotification = async (data: Data) => {
@@ -118,7 +121,7 @@ const Navbar = () => {
         }
       });
     }
-    handleFetchNotifications();
+    await handleFetchNotifications();
   };
 
   const fetchUserName = async (id: any) => {
