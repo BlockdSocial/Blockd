@@ -8,7 +8,7 @@ import { fetchMessages } from '../../../../stores/chat/ChatActions';
 import { useChannel } from '@ably-labs/react-hooks';
 import { fetchAuthUser } from '../../../../stores/authUser/AuthUserActions';
 
-function Chatbox({ receiver }: any) {
+function Chatbox({ receiver, chats, setReceiver }: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const elementRef = useRef<any>(null);
@@ -104,12 +104,14 @@ function Chatbox({ receiver }: any) {
 
   return (
     <div
-      className='flex min-h-screen flex-col col-span-10 relative md:col-span-9 lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray'
+      className='flex min-h-[93vh] flex-col col-span-11 md:col-span-9 relative  lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray'
     >
       {
-        !isEmpty(receiver) &&
+        
         <Navbar
           receiver={receiver}
+          chats={chats} 
+          setReceiver={setReceiver}
         />
       }
       <Chat
