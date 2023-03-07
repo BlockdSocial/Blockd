@@ -76,7 +76,7 @@ export default function Chat({
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className="scrollbar-hide overflow-scroll mt-5 p-2 h-full dark:bg-darkgray"
+      className="scrollbar-hide overflow-scroll p-2 py-4 h-[83%] dark:bg-darkgray z-0" 
       id="test"
     >
       <div className="">

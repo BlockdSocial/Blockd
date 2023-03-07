@@ -119,10 +119,20 @@ function Footer({ messages, receiver, getMessages }: any) {
     });
   };
 
+  const maxRows = 5; // Maximum number of rows
+  const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
+
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
+
+    // Split the text into lines
+    const lines = textArea.value.split("\n");
+
+    // Set the number of rows based on the number of lines
+    textArea.rows = Math.min(maxRows, lines.length);
+
     event.target.style.height = "auto";
-    event.target.style.height = `${event.target.scrollHeight}px`;
+    // event.target.style.height = `${textArea.scrollHeight}px`;
   };
 
   return (

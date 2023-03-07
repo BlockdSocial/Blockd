@@ -39,7 +39,7 @@ function Navbar({ receiver }: any) {
   }, [isDropdownVisible]);
 
   return (
-    <div className="flex items-center justify-between sticky top-0 h-14 w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
+    <div className="flex items-center justify-between relative h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
       <div className='flex items-center space-x-2'>
         <img
           // onClick={() => setIsModalVisible(!isModalVisible)}
@@ -97,7 +97,7 @@ function Navbar({ receiver }: any) {
         </div>
       </div>
       {showFriends && (
-        <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-10 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
+        <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
           <div className='flex items-center justify-start h-14 p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
             <div className='flex items-center justify-start space-x-2'>
               <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
