@@ -1,24 +1,24 @@
-import React, { useState, useRef, useEffect } from 'react'
-import Picker from '@emoji-mart/react'
+import React, { useState, useRef, useEffect } from "react";
+import Picker from "@emoji-mart/react";
 import {
   FaceSmileIcon,
   PhotoIcon,
   PaperAirplaneIcon,
-  GifIcon
-} from '@heroicons/react/24/outline'
-import ReactGiphySearchbox from 'react-giphy-searchbox'
-import { useAppDispatch } from '../../../../stores/hooks'
-import { createChat, createMessage } from '../../../../stores/chat/ChatActions'
-import { isEmpty } from 'lodash'
+  GifIcon,
+} from "@heroicons/react/24/outline";
+import ReactGiphySearchbox from "react-giphy-searchbox";
+import { useAppDispatch } from "../../../../stores/hooks";
+import { createChat, createMessage } from "../../../../stores/chat/ChatActions";
+import { isEmpty } from "lodash";
+import AutoResizeTextarea from "./AutoResizeTextArea";
 
 function Footer({ messages, receiver, getMessages }: any) {
-
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
 
-  let [showEmojis, setShowEmojis] = useState<boolean>(false)
-  const [input, setInput] = useState<string>('')
+  let [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const [input, setInput] = useState<string>("");
 
   const dispatch = useAppDispatch();
 
@@ -26,10 +26,10 @@ function Footer({ messages, receiver, getMessages }: any) {
 
   const handleClick = () => {
     if (showGifs === true) {
-      setShowGifs(!showGifs)
+      setShowGifs(!showGifs);
     }
-    setShowEmojis(!showEmojis)
-  }
+    setShowEmojis(!showEmojis);
+  };
 
   useEffect(() => {
     // only add the event listener when the emoji is opened
@@ -47,18 +47,18 @@ function Footer({ messages, receiver, getMessages }: any) {
   }, [showEmojis]);
 
   const addEmoji = (e: any) => {
-    const sym = e.unified.split("-")
-    const codesArray: any[] = []
-    sym.forEach((el: any) => codesArray.push("0x" + el))
-    const emoji = String.fromCodePoint(...codesArray)
-    setInput(input + emoji)
-  }
+    const sym = e.unified.split("-");
+    const codesArray: any[] = [];
+    sym.forEach((el: any) => codesArray.push("0x" + el));
+    const emoji = String.fromCodePoint(...codesArray);
+    setInput(input + emoji);
+  };
 
   //************************** GIF Handeling **************************//
   //************************** GIF Handeling **************************//
   //************************** GIF Handeling **************************//
 
-  const [showGifs, setShowGifs] = useState<boolean>(false)
+  const [showGifs, setShowGifs] = useState<boolean>(false);
 
   const gif = useRef<any>(null);
 
@@ -77,17 +77,17 @@ function Footer({ messages, receiver, getMessages }: any) {
     return () => window.removeEventListener("click", handleClick);
   }, [showGifs]);
 
-  const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false)
-  //Set a color for the frame   
+  const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
+  //Set a color for the frame
 
-  let [gifUrl, setGifUrl] = useState<string>('')
+  let [gifUrl, setGifUrl] = useState<string>("");
   const addGif = (gify: any) => {
     if (gifBoxIsOpen === false) {
-      setGifBoxIsOpen(!gifBoxIsOpen)
+      setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    let gifUrl = gify.images.downsized.url
-    setGifUrl(gifUrl)
-  }
+    let gifUrl = gify.images.downsized.url;
+    setGifUrl(gifUrl);
+  };
 
   //************************** Picture Handeling **************************//
   //************************** Picture Handeling **************************//
@@ -104,74 +104,95 @@ function Footer({ messages, receiver, getMessages }: any) {
 
   const handleSendMessage = async (event: any) => {
     event.preventDefault();
-    setInput('');
+    setInput("");
     if (isEmpty(messages)) {
       await dispatch(createChat(receiver?.id));
     }
-    await dispatch(createMessage({
-      receiver_id: receiver?.id,
-      content: input,
-      reply: 1
-    })).then(() => {
+    await dispatch(
+      createMessage({
+        receiver_id: receiver?.id,
+        content: input,
+        reply: 1,
+      })
+    ).then(() => {
       getMessages();
     });
-  }
+  };
+
+  const maxRows = 5; // Maximum number of rows
+  const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
+
+  const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
+    setInput(event.target.value);
+
+    // Split the text into lines
+    const lines = textArea.value.split("\n");
+
+    // Set the number of rows based on the number of lines
+    textArea.rows = Math.min(maxRows, lines.length);
+
+    event.target.style.height = "auto";
+    // event.target.style.height = `${textArea.scrollHeight}px`;
+  };
 
   return (
-    <div className='flex items-center justify-between sticky bottom-0 h-14 w-full dark:bg-darkgray bg-gray-50'>
-      <form onSubmit={handleSendMessage} className='flex space-x-1 p-1 w-full'>
-        <input
+    <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
+      <form onSubmit={handleSendMessage} className="flex space-x-1 p-1 w-full">
+        <div className="w-full">
+          <AutoResizeTextarea value={input} onChange={handleChange} />
+        </div>
+        {/* <input
           value={input}
           onChange={(e: any) => setInput(e.target.value)}
           className='flex-1 rounded-lg bg-gray-200 dark:bg-lightgray p-2 outline-none dark:text-white dark:placeholder:text-white placeholder:text-black placeholder:font-semibold'
           type="text"
           placeholder='Send a Message ...'
-        />
-        <div className='flex items-center space-x-2 text-[#181c44] dark:text-white'>
+        /> */}
+        <div className="flex items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
           <PaperAirplaneIcon
             onClick={(e) => handleSendMessage(e)}
-            className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
+            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
           />
-          {/* <PhotoIcon
+          <PhotoIcon
             onClick={() => onAddPictureClick()}
-            className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150'
+            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
           />
           <GifIcon
             ref={gif}
-            onClick={() => setShowGifs(b => !b)}
-            className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' /> */}
+            onClick={() => setShowGifs((b) => !b)}
+            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+          />
           <FaceSmileIcon
             ref={emoji}
             onClick={() => handleClick()}
-            className='h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150' />
+            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+          />
         </div>
         <input
-          type='file'
-          id='file'
+          type="file"
+          id="file"
           ref={inputAddPicture}
           className="hidden"
-          accept='image/*'
+          accept="image/*"
         />
       </form>
-      <div className='relative'>
+      <div className="relative">
         {showGifs && (
-          <div className='absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg'>
-
+          <div className="absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
             <ReactGiphySearchbox
               apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
               onSelect={(item: any) => addGif(item)}
               mansonryConfig={[
                 { columns: 2, imageWidth: 140, gutter: 10 },
-                { mq: '700px', columns: 3, imageWidth: 200, gutter: 10 },
-                { mq: '1000px', columns: 4, imageWidth: 220, gutter: 10 },
+                { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
+                { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
               ]}
               wrapperClassName="p-4"
             />
-
           </div>
         )}
         {showEmojis && (
-          <div className='absolute right-2 bottom-6'>
+          <div className="absolute right-2 bottom-6">
             <Picker
               set="apple"
               onEmojiSelect={addEmoji}
@@ -187,7 +208,7 @@ function Footer({ messages, receiver, getMessages }: any) {
         )}
       </div>
     </div>
-  )
+  );
 }
 
-export default Footer
+export default Footer;
