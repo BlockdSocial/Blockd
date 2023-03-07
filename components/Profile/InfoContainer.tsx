@@ -223,7 +223,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-52 ${user?.id === authUser?.id && "group-hover:opacity-50"
+          className={`w-full max-h-72 ${user?.id === authUser?.id && "group-hover:opacity-50"
             }`}
           width="720"
           height="350"

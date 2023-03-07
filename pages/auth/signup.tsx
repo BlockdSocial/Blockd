@@ -223,7 +223,7 @@ export default function SignUp() {
         <Toaster />
       </>
       <CustomLoadingOverlay active={isRegisteringUser} />
-      <div className="md:flex w-1/2 hidden min-h-screen relative items-center">
+      <div className="md:flex w-1/2 hidden h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
             <img
@@ -269,7 +269,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-      <div className="md:w-1/2 w-full min-h-screen flex items-center justify-center text-center p-10 z-0">
+      <div className="md:w-1/2 w-full h-screen flex items-center justify-center text-center p-10 z-0">
         <div className="flex items-center py-8 w-[600px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
