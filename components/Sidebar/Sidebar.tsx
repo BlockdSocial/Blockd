@@ -51,19 +51,6 @@ function Sidebar() {
             <SidebarRow Icon={UserIcon} title="Profile" active="" />
           )}
         </Link>
-        {/* <Link href="/dashboard/achievement">
-          {location.pathname === "/dashboard/achievement" ? (
-            <SidebarRow
-              // @ts-ignore
-              Icon={FireIcon}
-              title="Achievements"
-              active="bg-gray-100 dark:bg-lightgray"
-            />
-          ) : (
-            // @ts-ignore
-            <SidebarRow Icon={FireIcon} title="Achievements" active="" />
-          )}
-        </Link> */}
         <Link href="/dashboard/suggestion">
           {location.pathname === "/dashboard/suggestion" ? (
             <SidebarRow
@@ -113,23 +100,42 @@ function Sidebar() {
                 <span className="hidden md:inline">My Chatrooms</span>
               </Link>
               <Link
-                href="/dashboard/createChatroom"
-                className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
+                // href="/dashboard/createChatroom"
+                href="#"
+                className="flex items-center justify-center opacity-60 cursor-default md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
               >
-                <PlusCircleIcon className="w-5 h-5" />
+                <LockClosedIcon className="w-5 h-5" />
                 <span className="hidden md:inline">Create Chatroom</span>
               </Link>
               <Link
-                href="/dashboard/allChatrooms"
-                className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
+                // href="/dashboard/allChatrooms"
+                href="#"
+                className="flex items-center justify-center opacity-60 cursor-default md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
               >
-                <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                <LockClosedIcon className="w-5 h-5" />
                 <span className="hidden md:inline">All Chatrooms</span>
               </Link>
             </div>
           )}
         </Link>
 
+        <Link
+          // href="/dashboard/achievement"
+          href="#"
+          className="opacity-60"
+        >
+          {location.pathname === "/dashboard/achievement" ? (
+            <SidebarRow
+              // @ts-ignore
+              Icon={LockClosedIcon}
+              title="Achievements"
+              active="bg-gray-100 dark:bg-lightgray"
+            />
+          ) : (
+            // @ts-ignore
+            <SidebarRow Icon={LockClosedIcon} title="Achievements" active="" />
+          )}
+        </Link>
         <Link href="#" className="opacity-60">
           {/*
                 // @ts-ignore */}

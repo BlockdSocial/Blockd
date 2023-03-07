@@ -1,13 +1,13 @@
-import React, { useEffect, useState } from 'react'
+import React, { useEffect, useState } from "react";
 import {
   ChevronRightIcon,
   ChevronLeftIcon,
   MinusCircleIcon,
   ShareIcon,
-} from '@heroicons/react/24/outline'
-import Link from 'next/link'
-import { config } from '../../constants'
-import { isEmpty } from 'lodash';
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { config } from "../../constants";
+import { isEmpty } from "lodash";
 
 interface Images {
   name: string;
@@ -24,7 +24,7 @@ interface Post {
   images: Images[];
 }
 interface Props {
-  trendingPosts: Post[]
+  trendingPosts: Post[];
 }
 
 interface Slide {
@@ -34,7 +34,6 @@ interface Slide {
 }
 
 function Slider({ trendingPosts }: Props) {
-
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slides, setSlides] = useState<Slide[]>([]);
 
@@ -46,11 +45,11 @@ function Slider({ trendingPosts }: Props) {
           const trendingPost = {
             title: trendingPosts[i]?.content,
             id: trendingPosts[i]?.id,
-            url: `${config.url.PUBLIC_URL}/${trendingPosts[i]?.images[0]?.name}`
+            url: `${config.url.PUBLIC_URL}/${trendingPosts[i]?.images[0]?.name}`,
           };
           newSlides.push(trendingPost);
-        };
-      };
+        }
+      }
       setSlides(newSlides);
     }
   }, [trendingPosts]);
@@ -73,53 +72,58 @@ function Slider({ trendingPosts }: Props) {
 
   return (
     <>
-      {
-        !isEmpty(slides) &&
-        <div className='mt-3'>
-          <div className='flex items-center justify-start rounded-md space-x-2 p-2 mt-4'>
-            <ShareIcon className='w-4 h-4 lg:w-5 lg:h-5' />
-            <p className='font-semibold text-xs lg:text-base'>
-              Trending Posts
-            </p>
+      {!isEmpty(slides) && (
+        <div className="mt-3">
+          <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-4">
+            <ShareIcon className="w-4 h-4 lg:w-5 lg:h-5" />
+            <p className="font-semibold text-xs lg:text-base">Trending Posts</p>
           </div>
-          <div className='h-52 w-full m-auto p-2 relative group'>
-            <div
-              style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
-              className='w-full h-full relative rounded-md bg-center bg-cover duration-500'
+          <div className="h-52 w-full m-auto p-2 relative group">
+            <Link
+              href={{
+                pathname: "/dashboard/post/",
+                query: { postId: slides[currentIndex]?.id },
+              }}
             >
-              <Link
-                href={{
-                  pathname: "/dashboard/post/",
-                  query: { postId: slides[currentIndex]?.id },
-                }} className='absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full'
+              <div
+                style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
+                className="w-full h-full relative rounded-md bg-center bg-cover duration-500"
               >
-                {slides[currentIndex]?.title}
-              </Link>
-            </div>
+                <Link
+                  href={{
+                    pathname: "/dashboard/post/",
+                    query: { postId: slides[currentIndex]?.id },
+                  }}
+                  className="absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full"
+                >
+                  {slides[currentIndex]?.title}
+                </Link>
+              </div>
+            </Link>
             {/* Left Arrow */}
-            <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
-              <ChevronLeftIcon onClick={prevSlide} className='w-4 h-4' />
+            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] left-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+              <ChevronLeftIcon onClick={prevSlide} className="w-4 h-4" />
             </div>
             {/* Right Arrow */}
-            <div className='hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer'>
-              <ChevronRightIcon onClick={nextSlide} className='w-4 h-4' />
+            <div className="hidden group-hover:block absolute top-[50%] -translate-x-0 translate-y-[-50%] right-5 text-2xl rounded-full p-2 bg-black/20 text-white cursor-pointer">
+              <ChevronRightIcon onClick={nextSlide} className="w-4 h-4" />
             </div>
-            <div className='flex top-4 justify-center py-2'>
+            <div className="flex top-4 justify-center py-2">
               {slides.map((slide, slideIndex) => (
                 <div
                   key={slideIndex}
                   onClick={() => goToSlide(slideIndex)}
-                  className='text-2xl cursor-pointer'
+                  className="text-2xl cursor-pointer"
                 >
-                  <MinusCircleIcon className='ml-1 w-2 h-2 dark:fill-white dark:text-white fill-black text-black' />
+                  <MinusCircleIcon className="ml-1 w-2 h-2 dark:fill-white dark:text-white fill-black text-black" />
                 </div>
               ))}
             </div>
           </div>
         </div>
-      }
+      )}
     </>
-  )
+  );
 }
 
-export default Slider
+export default Slider;
