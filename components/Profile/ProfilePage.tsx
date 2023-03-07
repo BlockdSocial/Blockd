@@ -40,51 +40,57 @@ function ProfilePage() {
 
   const router = useRouter()
   const { user_id } = router.query
+  console.log('user_id hussein', user_id);
+  
 
   useEffect(() => {
-    setUser(undefined);
-    setPosts([]);
+    console.log('user_id husseinnn', user_id);
+   // setUser(undefined);
+    //setPosts([]);
+    //setUser(undefined);
+ 
     if (user_id == undefined || null) {
+      console.log('user_id husseinnn', user_id);
       fetchLoggedInUser();
     } else {
+          console.log('user_id husseinnn', user_id);
       fetchUserById();
     }
-    fetchPosts();
-  }, []);
+   
+  }, [user_id]);
 
   useEffect(() => {
+    console.log('fetchPosts hussein', user)
     fetchPosts();
+    if (!isEmpty(user)) {
+     // fetchUserFollowers();
+    }
   }, [user]);
 
   const fetchLoggedInUser = async () => {
+    console.log('fetchLoggedInUser hhhh')
     await dispatch(fetchAuthUser()).then((res: any) => {
       setUser(res);
-    }) as User;
+    });
   };
 
   const fetchUserById = async () => {
+    console.log('fetchUserById hhhh')
     await dispatch(fetchUser(user_id)).then((res: any) => {
       setUser(res);
-    }) as User;
+    });
   };
 
   const fetchPosts = async () => {
+    console.log('hussein',user )
     if (!isEmpty(user)) {
       await dispatch(fetchUserPosts(user?.id)).then((res) => {
         setPosts(res);
       });
-    } else {
-      await dispatch(fetchUserPosts(authUser?.id)).then((res) => {
-        setPosts(res);
-      });
-    }
+    } 
   }
 
-  useEffect(() => {
-    if (!isEmpty(user)) {
-      fetchUserFollowers();
-    }
-  }, [user]);
+ 
 
   const fetchUserFollowers = () => {
 
