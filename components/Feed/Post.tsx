@@ -388,7 +388,7 @@ export default function PostTest({ post, refetch }: Props) {
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
-                    <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${post?.user?.frameName} rounded-lg`}>
+                    <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(post?.user?.frameName) ? post?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                         {post?.user?.level}
                       </div>

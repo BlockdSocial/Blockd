@@ -298,7 +298,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
               alt="pfp"
               className="w-20 h-16 rounded-md shadow-sm"
             />
-            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${comment?.user?.frameName} rounded-lg`}>
+            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.user?.frameName) ? comment?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                 {comment?.user?.level}
               </div>
