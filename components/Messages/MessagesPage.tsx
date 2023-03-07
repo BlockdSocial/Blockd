@@ -10,7 +10,7 @@ function MessagesPage() {
 
   const Messages = dynamic(() => import('./Messages'), { ssr: false })
   const handleRefresh = async () => {
-    const refreshToast = toast.loading('Refreaching...');
+    const refreshToast = toast.loading('Refreshing...');
     await new Promise(f => setTimeout(f, 1000));
     toast.success('Messages Updated!', {
       id: refreshToast,
