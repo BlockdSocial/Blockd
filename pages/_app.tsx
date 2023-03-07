@@ -31,7 +31,6 @@ import { polygon } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "../components/Layout";
-import { Toaster } from "react-hot-toast";
 
 const { chains, provider } = configureChains([polygon], [publicProvider()]);
 const connectors = connectorsForWallets([
@@ -101,10 +100,6 @@ function MyApp({ Component, pageProps }: AppProps) {
                   <Component {...pageProps} />
                 ) : (
                   <Layout>
-                    <>
-                      {" "}
-                      <Toaster />
-                    </>
                     <Component {...pageProps} />
                   </Layout>
                 )}

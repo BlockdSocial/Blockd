@@ -15,6 +15,7 @@ interface IPic {
 
 interface Pic {
   image: IPic;
+  name: string;
 }
 
 interface User {
@@ -65,7 +66,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
             className="h-10 w-10 rounded-full"
             src={
               !isEmpty(notification?.user?.profilePic)
-                ? `${config.url.PUBLIC_URL}/${notification?.user?.profilePic?.image?.name}`
+                ? `${config.url.PUBLIC_URL}/${notification?.user?.profilePic?.name}`
                 : "/images/pfp/pfp1.jpg"
             }
             alt=""
@@ -91,7 +92,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           </div>
         </div>
         {
-          notification?.type === 'like' || 'dislike' || 'comment' ?
+          notification?.type === 'like' || notification?.type === 'dislike' || notification?.type === 'comment' ?
             <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
               <Link onClick={() => handleReadNotification()}
                 href={{

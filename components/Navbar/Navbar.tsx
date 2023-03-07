@@ -19,8 +19,8 @@ import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import Ably from "ably/promises";
 import { fetchUserNotification, fetchUserNotifications } from '../../stores/notification/NotificationActions'
 import { isEmpty } from 'lodash'
-import toast from 'react-hot-toast'
-import { fetchUser } from '../../stores/user/UserActions'
+import toast, { Toaster } from 'react-hot-toast'
+import { fetchUser, resetBell } from '../../stores/user/UserActions'
 import { config, AblyKey } from "../../constants";
 
 interface Data {
@@ -28,7 +28,7 @@ interface Data {
   notification: number;
 }
 configureAbly({
-  key:  AblyKey,
+  key: AblyKey,
 });
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -60,11 +60,8 @@ const Navbar = () => {
   }
 
   const handleFetchNotifications = async () => {
-    console.log('BZEZZZZZZ');
     await dispatch(fetchUserNotifications());
   }
-
-  console.log('unread: ', unread);
 
   const [channel, ably] = useChannel("notifications", (message) => {
     console.log(message);
@@ -82,17 +79,15 @@ const Navbar = () => {
 
   const fetchMessageNotification = async (data: Data) => {
     await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
-      console.log('result: ', result);
       setNotificationInfo(`${result?.user?.name} sent you a message!`);
     });
     await handleFetchNotifications();
+    await dispatch(fetchAuthUser());
   }
 
   const checkUserNotification = async (data: Data) => {
-    console.log("data: ", data);
-    console.log('authUser: ', authUser)
-    let localStorageAuthUser:any = ''
-    if(isEmpty(authUser)) {
+    let localStorageAuthUser: any = ''
+    if (isEmpty(authUser)) {
       // @ts-ignore
       localStorageAuthUser = JSON.parse(localStorage.getItem('authUser'))
       console.log(localStorageAuthUser);
@@ -100,7 +95,6 @@ const Navbar = () => {
     else {
       localStorageAuthUser = authUser;
     }
-    console.log('localStorageAuthUser: ', localStorageAuthUser);
     if (localStorageAuthUser?.id == data?.receiver_id) {
       await dispatch(fetchUserNotification(data?.notification)).then(async (result: any) => {
         console.log('result: ', result);
@@ -122,6 +116,7 @@ const Navbar = () => {
       });
     }
     await handleFetchNotifications();
+    await dispatch(fetchAuthUser());
   };
 
   const fetchUserName = async (id: any) => {
@@ -138,7 +133,9 @@ const Navbar = () => {
     }
   };
 
-  const handleNotif = () => {
+  const handleNotif = async () => {
+    await dispatch(resetBell());
+    await dispatch(fetchAuthUser());
     setDropdownNotifOpen(!dropdownNotifOpen);
     if (dropdownOpen === true) {
       setDropdownOpen(!dropdownOpen);
@@ -199,6 +196,7 @@ const Navbar = () => {
     <div className="w-full bg-darkblue dark:bg-lightgray">
       <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto xl:max-w-[70%] h-14 px-2">
         <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14 px-4 md:px-0">
+          <Toaster />
           <Link
             href="/"
             className="h-full cursor-pointer flex items-center justify-center"
@@ -255,9 +253,13 @@ const Navbar = () => {
                 <div className="flex max-w-fit items-center space-x-2 p-2 rounded-ful transition-all duration-100 group">
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
-                      <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                        <span>{unread}</span>
-                      </span>
+                      {
+                        authUser?.unread == 0 || authUser?.unread === undefined || authUser?.unread === null ?
+                        '' :
+                        <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                          <span>{authUser?.unread}</span>
+                        </span>
+                      }
                       <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
                     </strong>
                   </div>
@@ -285,7 +287,7 @@ const Navbar = () => {
                     authUser?.profilePic
                       ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
                       : "/images/pfp/pfp1.jpg"
-                  } 
+                  }
                   alt="pfp"
                   className="max-h-10 object-contain rounded-md shadow-sm cursor-pointer"
                 />

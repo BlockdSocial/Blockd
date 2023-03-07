@@ -32,7 +32,10 @@ import {
   SET_FRAME_FAILURE,
   IS_FETCHING_FOLLOWED,
   FETCH_FOLLOWED_SUCCESS,
-  FETCH_FOLLOWED_FAILURE
+  FETCH_FOLLOWED_FAILURE,
+  IS_RESETING_BELL,
+  RESET_BELL_SUCCESS,
+  RESET_BELL_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -48,7 +51,8 @@ const initialState = {
   isFetchingRewards: false,
   isSettingFrame: false,
   isFetchingFollowed: false,
-  isFollowed: 0,
+  isFollowed: false,
+  isResetingBell: false,
   rewards: [],
   popularUsers: [],
   user: {},
@@ -260,7 +264,6 @@ export function userReducer(state = initialState, action: any) {
       };
     }
     case FETCH_FOLLOWED_SUCCESS: {
-      console.log('action: ', action);
       return {
         ...state,
         isFetchingFollowed: false,
@@ -271,6 +274,25 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingFollowed: false,
+        error: action.error
+      };
+    }
+    case IS_RESETING_BELL: {
+      return {
+        ...state,
+        isResetingBell: true
+      };
+    }
+    case RESET_BELL_SUCCESS: {
+      return {
+        ...state,
+        isResetingBell: false
+      };
+    }
+    case RESET_BELL_FAILURE: {
+      return {
+        ...state,
+        isResetingBell: false,
         error: action.error
       };
     }

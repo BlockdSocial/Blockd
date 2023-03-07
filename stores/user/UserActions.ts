@@ -31,7 +31,10 @@ import {
   SET_FRAME_FAILURE,
   IS_FETCHING_FOLLOWED,
   FETCH_FOLLOWED_SUCCESS,
-  FETCH_FOLLOWED_FAILURE
+  FETCH_FOLLOWED_FAILURE,
+  IS_RESETING_BELL,
+  RESET_BELL_SUCCESS,
+  RESET_BELL_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -232,13 +235,31 @@ export function fetchIsFollowed(fields: any) {
       const result = await userApi.isFollowed(fields);
       dispatch({
         type: FETCH_FOLLOWED_SUCCESS,
-        isFollowed: result
+        isFollowed: result?.value
       });
       return result;
     } catch (error: any) {
       console.log('Fetch is followed error: ', error);
       dispatch({
         type: FETCH_FOLLOWED_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function resetBell() {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_RESETING_BELL });
+    try {
+      await userApi.resetBell();
+      dispatch({
+        type: RESET_BELL_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Reset Bell error: ', error);
+      dispatch({
+        type: RESET_BELL_FAILURE,
         error: error?.message
       });
     }

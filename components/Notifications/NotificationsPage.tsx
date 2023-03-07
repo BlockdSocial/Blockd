@@ -15,6 +15,7 @@ interface IPic {
 
 interface Pic {
   image: IPic;
+  name: string;
 }
 
 interface User {

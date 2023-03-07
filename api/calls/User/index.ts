@@ -48,6 +48,10 @@ async function isFollowed(fields: any) {
   return apiCall('isFollowed', 'GET', `${endpoints.user}/followed/${fields}`);
 };
 
+async function resetBell() {
+  return apiCall('resetBell', 'GET', `${endpoints.user}/reset/bell`);
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -59,5 +63,6 @@ export default {
   followUser,
   fetchUserRewards,
   setUserFrame,
-  isFollowed
+  isFollowed,
+  resetBell
 };

@@ -174,7 +174,7 @@ const handleApiResponse = async (apiName: any, response: any) => {
 			triggerUnauthorizedUserAlert().then(() => {
 				localStorage.removeItem('token');
 				deleteCookie('token');
-				window.location.reload();
+				window.location.replace('/');
 			});
 			throw new Error(failedResponse.message);
 		}

@@ -78,9 +78,9 @@ export default function Chat({ receiver, messages, elementRef, handleScroll }: a
       <div className="">
         {
           !isEmpty(messages) &&
-          messages.map((message: any) => (
+          messages.map((message: any, index: any) => (
             message?.userId == authUser?.id ?
-              <div className='relative flex flex-col'>
+              <div key={index} className='relative flex flex-col'>
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
                   <div
                     className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group"
@@ -156,7 +156,7 @@ export default function Chat({ receiver, messages, elementRef, handleScroll }: a
                   </div>
                 </div>
               </div> :
-              <div className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
+              <div key={index} className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8">
                 <div className='col-span-1 flex items-end justify-end'>
                   <img
                     src={
