@@ -65,6 +65,8 @@ interface Post {
   gif: string;
   user: User;
   images: Image[];
+  profilePic: any;
+  bannerPic: any;
 }
 
 interface Info {
@@ -407,14 +409,30 @@ export default function PostTest({ post, refetch }: Props) {
                     </p>
                   </Link>
                 </div>
-                <div>
+                {/* <div>
                   <p className="text-xs md:text-sm text-gray-500">0 followers</p>
-                </div>
+                </div> */}
                 <div>
                   <p className="text-xs text-gray-500">
                     {moment(post?.createdAt).fromNow()}
                   </p>
                 </div>
+                {
+                  post?.profilePic == 1 &&
+                  <div>
+                    <p className="text-xs text-gray-500">
+                      Changed their profile picture.
+                    </p>
+                  </div>
+                }
+                {
+                  post?.bannerPic == 1 &&
+                  <div>
+                    <p className="text-xs text-gray-500">
+                      Changed their banner picture.
+                    </p>
+                  </div>
+                }
               </div>
             </div>
             <div className="flex items-start h-full justify-center space-x-2">

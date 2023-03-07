@@ -76,6 +76,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           pathname: pathname,
           query: query,
         }}
+        // @ts-ignore
         className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ?'bg-slate-100 dark:bg-lightgray' : '' } p-4 cursor-pointer`}
       >
         <div className='flex mr-2'>

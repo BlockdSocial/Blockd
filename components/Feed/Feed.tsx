@@ -127,7 +127,7 @@ function Feed() {
           if (endTotal < 4) {
             return;
           } else {
-            updateFiltered(endCount + 1, endCount + 5);
+            await updateFiltered(endCount + 1, endCount + 5);
             setEndCount(endCount + 5);
           }
         }

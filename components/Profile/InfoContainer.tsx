@@ -182,7 +182,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       updateProfilcePicture({
         user_id: user?.id,
         image: file,
-        content: `${user?.name} changed their profile picture.`,
       })
     ).then(() => {
       refetchUser();
@@ -194,7 +193,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       updateProfileBanner({
         user_id: user?.id,
         image: file,
-        content: `${user?.name} changed their banner.`,
       })
     ).then(() => {
       refetchUser();
@@ -304,7 +302,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
             <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
               <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded"
-                style={{ width: `${scorePercentage}%`}}
+                style={{ width: `${scorePercentage}%` }}
               >
                 <span className="text-xs font-semibold cursor-pointer text-white inline">
                   {user?.score} XP
@@ -421,7 +419,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       <div
         className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
           }`}
-        
+
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">

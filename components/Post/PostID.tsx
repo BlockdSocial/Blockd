@@ -61,6 +61,8 @@ interface Post {
   gif: string;
   user: User;
   images: Image[];
+  profilePic: any;
+  bannerPic: any;
 }
 
 interface Info {
@@ -234,18 +236,47 @@ function PostID({ post, refetchComments }: Props) {
   };
   const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
-
-    await dispatch(
-      addComment({
-        user_id: authUser?.id,
-        content: input,
-        post_id: post?.id,
-      })
-    ).then(() => {
-      setInput("");
-      fetchInfo();
-      refetchComments();
-    });
+    if (image.length > 0) {
+      await dispatch(
+        addComment({
+          user_id: authUser?.id,
+          public: 1,
+          image: uploadedImage,
+          content: input,
+          post_id: post?.id,
+        })
+      ).then(() => {
+        fetchInfo();
+        closePicture();
+        setInput("");
+      });
+    } else if (gifUrl.length > 0) {
+      await dispatch(
+        addComment({
+          user_id: authUser?.id,
+          public: 1,
+          content: input,
+          post_id: post?.id,
+          gif: gifUrl,
+        })
+      ).then(() => {
+        fetchInfo();
+        setInput("");
+        closeGif();
+      });
+    } else {
+      await dispatch(
+        addComment({
+          user_id: authUser?.id,
+          content: input,
+          post_id: post?.id,
+        })
+      ).then(() => {
+        fetchInfo();
+        setInput("");
+        refetchComments();
+      });
+    }
   };
 
   const handleLikePost = async () => {
@@ -320,14 +351,30 @@ function PostID({ post, refetchComments }: Props) {
               <div className="flex items-center space-x-1">
                 <p className="mr-1 font-semibold text-l">@{post?.user?.name}</p>
               </div>
-              <div>
+              {/* <div>
                 <p className="text-sm text-gray-500">0 followers</p>
-              </div>
+              </div> */}
               <div>
                 <p className="text-xs text-gray-500">
                   <TimeAgo date={post?.createdAt} />
                 </p>
               </div>
+              {
+                post?.profilePic == 1 &&
+                <div>
+                  <p className="text-xs text-gray-500">
+                    Changed their profile picture.
+                  </p>
+                </div>
+              }
+              {
+                  post?.bannerPic == 1 &&
+                  <div>
+                    <p className="text-xs text-gray-500">
+                      Changed their banner picture.
+                    </p>
+                  </div>
+                }
             </div>
           </div>
 

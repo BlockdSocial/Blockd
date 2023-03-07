@@ -37,6 +37,8 @@ interface Post {
   userId: number;
   gif: string;
   user: User;
+  profilePic: any;
+  bannerPic: any;
 }
 
 function PostPage() {
