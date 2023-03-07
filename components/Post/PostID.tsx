@@ -332,7 +332,7 @@ function PostID({ post, refetchComments }: Props) {
                     src={
                       !isEmpty(post?.user?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
-                        : "/images/pfp/pfp2.jpg"
+                        : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
                     className="w-16 h-16 rounded-md shadow-sm"

@@ -346,7 +346,7 @@ function CommentSection({ comment, post, type }: Props) {
               src={
                 !isEmpty(comment?.user?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`
-                  : "/images/pfp/pfp2.jpg"
+                  : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
               className="w-16 h-14 rounded-md shadow-sm"

@@ -230,7 +230,7 @@ function Widgets() {
         >
           <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-2">
             <img
-              src="/images/pfp/pfp2.jpg"
+              src="/images/pfp/pfp1.jpg"
               className="rounded-full w-6 h-6 bg-blockd"
             />
             <p className="font-semibold text-sm">@Egoist</p>
