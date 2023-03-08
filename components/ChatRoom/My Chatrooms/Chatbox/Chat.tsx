@@ -73,10 +73,12 @@ export default function Chat({
     boxRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  console.log('message: ', messages);
+
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className="scrollbar-hide overflow-scroll p-2 py-4 h-[83%] dark:bg-darkgray z-0" 
+      className="scrollbar-hide overflow-scroll p-2 py-4 h-[83%] dark:bg-darkgray z-0"
       id="test"
     >
       <div className="">
@@ -129,12 +131,24 @@ export default function Chat({
                     <p className="flex items-center justify-start py-2 text-sm md:text-base">
                       {message?.content}
                     </p>
-                    <div className="flex items-center justify-start">
-                      <img
-                        src="/images/bg.jpg"
-                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
-                      />
-                    </div>
+                    {
+                      message?.imgName != null &&
+                      <div className="flex items-center justify-start">
+                        <img
+                          src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
+                          className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                        />
+                      </div>
+                    }
+                    {
+                      message?.gif != null &&
+                      <div className="flex items-center justify-start">
+                        <img
+                          src={message?.gif}
+                          className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                        />
+                      </div>
+                    }
                     <div className="relative flex items-center justify-start space-x-1 mt-1">
                       <div className="absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md">
                         {/* <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
@@ -173,9 +187,8 @@ export default function Chat({
                 <div className="grid grid-cols-10 md:grid-cols-12">
                   <div
                     onClick={() => removeReaction()}
-                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
-                      reaction ? "inline" : "hidden"
-                    }`}
+                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
+                      }`}
                   >
                     <input
                       value={reaction}
@@ -214,6 +227,24 @@ export default function Chat({
                   <p className="flex items-center justify-start">
                     {message?.content}
                   </p>
+                  {
+                    message?.imgName != null &&
+                    <div className="flex items-center justify-start">
+                      <img
+                        src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                      />
+                    </div>
+                  }
+                  {
+                    message?.gif != null &&
+                    <div className="flex items-center justify-start">
+                      <img
+                        src={message?.gif}
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                      />
+                    </div>
+                  }
                 </div>
               </div>
             )

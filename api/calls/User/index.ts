@@ -52,6 +52,10 @@ async function resetBell() {
   return apiCall('resetBell', 'GET', `${endpoints.user}/reset/bell`);
 };
 
+async function resetMessages() {
+  return apiCall('resetMessages', 'GET', `${endpoints.user}/reset/messages/bell`);
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -64,5 +68,6 @@ export default {
   fetchUserRewards,
   setUserFrame,
   isFollowed,
-  resetBell
+  resetBell,
+  resetMessages
 };

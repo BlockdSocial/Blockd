@@ -26,7 +26,7 @@ import {
 } from "../../stores/notification/NotificationActions";
 import { isEmpty } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
-import { fetchUser, resetBell } from "../../stores/user/UserActions";
+import { fetchUser, resetBell, resetMessages } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
 
 interface Data {
@@ -137,7 +137,9 @@ const Navbar = () => {
     });
   };
 
-  const handleMsg = () => {
+  const handleMsg = async () => {
+    await dispatch(resetMessages());
+    await dispatch(fetchAuthUser());
     setDropdownOpen(!dropdownOpen);
     if (dropdownNotifOpen === true) {
       setDropdownNotifOpen(!dropdownNotifOpen);
@@ -251,9 +253,26 @@ const Navbar = () => {
               <Link href="/dashboard/messages" onClick={() => handleMsg()}>
                 {/* 
                 // @ts-ignore */}
-                <IconGroup Icon={ChatBubbleBottomCenterTextIcon}
-                  notif="10"
-                ></IconGroup>
+                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
+                  <div className="">
+                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
+                      {authUser?.unreadMessages == 0 ||
+                        authUser?.unreadMessages === undefined ||
+                        authUser?.unreadMessages === null ? (
+                        ""
+                      ) : (
+                        <span className="text-white absolute text-xs top-0 right-0 md:top-0 z-50 md:right-2 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                          <span>{authUser?.unreadMessages}</span>
+                        </span>
+                      )}
+                      {/*
+                      // @ts-ignore */}
+                      <IconGroup Icon={ChatBubbleBottomCenterTextIcon}
+                      // notif={authUser?.unreadMessages}
+                      ></IconGroup>
+                    </strong>
+                  </div>
+                </div>
               </Link>
             </li>
             {/* Notifications */}

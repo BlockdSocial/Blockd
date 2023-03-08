@@ -19,6 +19,8 @@ function Footer({ messages, receiver, getMessages }: any) {
 
   let [showEmojis, setShowEmojis] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
+  const [gifUrl, setGifUrl] = useState<string>("");
+  const [uploadedImage, setUploadedImage] = useState<string>("");
 
   const dispatch = useAppDispatch();
 
@@ -80,13 +82,14 @@ function Footer({ messages, receiver, getMessages }: any) {
   const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
   //Set a color for the frame
 
-  let [gifUrl, setGifUrl] = useState<string>("");
-  const addGif = (gify: any) => {
+
+  const addGif = (gify: any, event: any) => {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
+
   };
 
   //************************** Picture Handeling **************************//
@@ -102,22 +105,59 @@ function Footer({ messages, receiver, getMessages }: any) {
     }
   };
 
-  const handleSendMessage = async (event: any) => {
-    event.preventDefault();
-    setInput("");
+  const handleUploadPicture = (e: any) => {
+    setUploadedImage(e.target.files[0]);
+
+  };
+
+  useEffect(() => {
+    handleSendMessage();
+  }, [uploadedImage, gifUrl]);
+
+  const handleSendMessage = async () => {
+
+
+
     if (isEmpty(messages)) {
       await dispatch(createChat(receiver?.id));
     }
-    await dispatch(
-      createMessage({
-        receiver_id: receiver?.id,
-        content: input,
-        reply: 1,
-      })
-    ).then(() => {
-      getMessages();
-    });
-  };
+
+    if (uploadedImage) {
+      console.log('uploadedImage hussein', uploadedImage)
+
+
+      await dispatch(
+        createMessage({
+          'receiver_id': receiver?.id,
+          'image': uploadedImage
+        })
+      ).then(() => {
+        setUploadedImage('');
+        getMessages();
+      });
+    } else if (gifUrl.length > 0) {
+      await dispatch(
+        createMessage({
+          receiver_id: receiver?.id,
+          gif: gifUrl
+        })
+      ).then(() => {
+        setGifUrl('');
+        getMessages();
+      });
+    } else if (!isEmpty(input)) {
+      await dispatch(
+        createMessage({
+          receiver_id: receiver?.id,
+          content: input
+        })
+      ).then(() => {
+        setInput("");
+        getMessages();
+      });
+    };
+  }
+
 
   const maxRows = 5; // Maximum number of rows
   const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
@@ -137,7 +177,7 @@ function Footer({ messages, receiver, getMessages }: any) {
 
   return (
     <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
-      <form onSubmit={handleSendMessage} className="flex space-x-1 p-1 w-full">
+      <div className="flex space-x-1 p-1 w-full">
         <div className="w-full">
           <AutoResizeTextarea value={input} onChange={handleChange} />
         </div>
@@ -150,7 +190,7 @@ function Footer({ messages, receiver, getMessages }: any) {
         /> */}
         <div className="flex items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
           <PaperAirplaneIcon
-            onClick={(e) => handleSendMessage(e)}
+            onClick={() => handleSendMessage()}
             className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
           />
           <PhotoIcon
@@ -174,14 +214,15 @@ function Footer({ messages, receiver, getMessages }: any) {
           ref={inputAddPicture}
           className="hidden"
           accept="image/*"
+          onChange={handleUploadPicture}
         />
-      </form>
+      </div>
       <div className="relative">
         {showGifs && (
           <div className="absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
             <ReactGiphySearchbox
               apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-              onSelect={(item: any) => addGif(item)}
+              onSelect={(item: any, event: any) => addGif(item, event)}
               mansonryConfig={[
                 { columns: 2, imageWidth: 140, gutter: 10 },
                 { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
