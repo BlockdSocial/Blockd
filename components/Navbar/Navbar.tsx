@@ -208,7 +208,7 @@ const Navbar = () => {
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
       <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto xl:max-w-[80%] h-14 px-2">
-        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14 px-4 md:px-0">
+        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14 md:px-4">
           <Toaster />
           <Link
             href="/"
@@ -224,7 +224,7 @@ const Navbar = () => {
             <Image
               src="/images/logo/logo.png"
               alt="Blockd Logo"
-              className="ml-4 md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
+              className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
               width={60}
               height={40}
             />
