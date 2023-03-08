@@ -46,7 +46,7 @@ function NotificationsPage() {
 
   const Notifications = dynamic(() => import('./Notifications'), { ssr: false })
   const handleRefresh = async () => {
-    const refreshToast = toast.loading('Refreaching...');
+    const refreshToast = toast.loading('Refreshing...');
     await new Promise(f => setTimeout(f, 1000));
     toast.success('Notifications Updated!', {
       id: refreshToast,
@@ -75,6 +75,7 @@ function NotificationsPage() {
       {
         notifications &&
         notifications?.map((notification: INotification) => (
+          notification?.type !== 'message' &&
           <Notifications
             key={notification?.id}
             notification={notification}

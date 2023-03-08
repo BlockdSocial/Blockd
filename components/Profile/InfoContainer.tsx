@@ -57,7 +57,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [userEmail, setUserEmail] = useState<string>();
   const [profilePicture, setProfilePicture] = useState<string>();
   const [bannerPicture, setBannerPicture] = useState<string>();
-  const [scorePercentage, setScorePercentage] = useState<any>();
+  const [scorePercentage, setScorePercentage] = useState<any>(0);
   // const [isFollowed, setIsFollowed] = useState<any>(false);
   let [frameColor, setFrameColor] = useState<string>();
 
@@ -246,11 +246,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         />
       </div>
       <div className="flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray border-b dark:border-lightgray">
-        <div className="flex items-center justify-start">
+        <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
               <div
-                className={`relative w-28 h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
+                className={`relative w-24 h-24 md:w-28 md:h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
               >
                 <img
                   src={
@@ -305,7 +305,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 style={{ width: `${scorePercentage}%` }}
               >
                 <span className="text-xs font-semibold cursor-pointer text-white inline">
-                  {user?.score} XP
+                  {user?.score >0 &&
+                  user?.score+'XP'}
                 </span>
               </div>
               {/* <div className="flex items-center justify-center w-1/4">

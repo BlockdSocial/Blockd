@@ -50,7 +50,7 @@ function chatroom() {
       <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-12 mx-auto overflow-hidden w-full'>
         <Sidebar />
         <Chatbar />
-        <Chatbox receiver={receiver} />
+        <Chatbox receiver={receiver} chats={chats} setReceiver={setReceiver}/>
         <Widget chats={chats} setReceiver={setReceiver} />
       </div>
     </div>

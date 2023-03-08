@@ -15,7 +15,7 @@ import Friends from '../Widget/Friends';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
 
-function Navbar({ receiver }: any) {
+function Navbar({ receiver,chats, setReceiver }: any) {
 
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
   let [isModalVisible, setIsModalVisible] = useState<boolean>(false);
@@ -38,8 +38,12 @@ function Navbar({ receiver }: any) {
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
 
+  const closeShowFriends = () =>{
+    setShowFriends(false);
+  }
   return (
     <div className="flex items-center justify-between relative h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
+      {receiver &&
       <div className='flex items-center space-x-2'>
         <img
           // onClick={() => setIsModalVisible(!isModalVisible)}
@@ -77,7 +81,8 @@ function Navbar({ receiver }: any) {
           {/* <p className='text-xs'>480 members, 26 online</p> */}
         </div>
       </div>
-      <div className='flex items-center justify-center'>
+}
+      <div className='md:hidden flex col-md-2 items-center justify-end text-right w-full'>
         <div ref={dropdown} className='flex flex-col items-center justify-center'>
           <div className='flex items-center justify-center space-x-1'>
             {/* <div onClick={() => setIsDropdownVisible(b => !b)} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
@@ -104,9 +109,11 @@ function Navbar({ receiver }: any) {
                 <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />
               </div>
               <p className='font-semibold'>Private DMs</p>
+              
             </div>
           </div>
-          <Friends />
+          <Friends chats={chats} setReceiver={setReceiver} closeShowFriends={closeShowFriends}/>
+
         </div>
       )}
     </div>

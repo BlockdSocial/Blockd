@@ -35,7 +35,10 @@ import {
   FETCH_FOLLOWED_FAILURE,
   IS_RESETING_BELL,
   RESET_BELL_SUCCESS,
-  RESET_BELL_FAILURE
+  RESET_BELL_FAILURE,
+  IS_RESETING_MESSAGES,
+  RESET_MESSAGES_SUCCESS,
+  RESET_MESSAGES_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -53,6 +56,7 @@ const initialState = {
   isFetchingFollowed: false,
   isFollowed: false,
   isResetingBell: false,
+  isResetingMessages: false,
   rewards: [],
   popularUsers: [],
   user: {},
@@ -293,6 +297,25 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isResetingBell: false,
+        error: action.error
+      };
+    }
+    case IS_RESETING_MESSAGES: {
+      return {
+        ...state,
+        isResetingMessages: true
+      };
+    }
+    case RESET_MESSAGES_SUCCESS: {
+      return {
+        ...state,
+        isResetingMessages: false
+      };
+    }
+    case RESET_MESSAGES_FAILURE: {
+      return {
+        ...state,
+        isResetingMessages: false,
         error: action.error
       };
     }

@@ -31,6 +31,7 @@ import { polygon } from "wagmi/chains";
 import { publicProvider } from "wagmi/providers/public";
 import { QueryClient, QueryClientProvider } from "@tanstack/react-query";
 import Layout from "../components/Layout";
+import Head from "next/head";
 
 const { chains, provider } = configureChains([polygon], [publicProvider()]);
 const connectors = connectorsForWallets([
@@ -63,6 +64,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <>
+    <Head>
+    <link rel="shortcut icon" href="/images/favicon.ico" />
+    </Head>
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-QW4Q5G8G4K"

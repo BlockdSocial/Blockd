@@ -22,7 +22,7 @@ function Sidebar() {
     const [isOpen, setOpen] = useState(false);
 
     return (
-        <div className='hidden md:flex flex-col col-span-1 items-center p-2 border-x dark:border-lightgray'>
+        <div className="flex flex-col col-span-1 items-center p-2 border-x dark:border-lightgray">
             <Link href="/" className='active'>
                 {/* 
                 // @ts-ignore */}

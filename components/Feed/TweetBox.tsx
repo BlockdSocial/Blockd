@@ -204,7 +204,7 @@ function TweetBox({ refetchFiltered }: Props) {
             width={2000}
             height={2000}
           />
-          <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${authUser?.frameName} rounded-lg`}>
+          <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(authUser?.frameName) ? authUser?.frameName : 'bg-blue-300'} rounded-lg`}>
             <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
               {authUser?.level}
             </div>

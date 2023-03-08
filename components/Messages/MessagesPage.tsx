@@ -1,20 +1,33 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import dynamic from 'next/dynamic'
 import {
   ChatBubbleBottomCenterTextIcon,
   ArrowPathIcon,
 } from '@heroicons/react/24/outline'
 import toast from 'react-hot-toast'
+import { useAppDispatch, useAppSelector } from '../../stores/hooks'
+import { fetchUserNotifications } from '../../stores/notification/NotificationActions'
 
 function MessagesPage() {
+  const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { notifications } = useAppSelector((state) => state.notificationReducer);
+
+  useEffect(() => {
+    handleFetchNotifications();
+  }, []);
 
   const Messages = dynamic(() => import('./Messages'), { ssr: false })
   const handleRefresh = async () => {
-    const refreshToast = toast.loading('Refreaching...');
+    const refreshToast = toast.loading('Refreshing...');
     await new Promise(f => setTimeout(f, 1000));
     toast.success('Messages Updated!', {
       id: refreshToast,
     })
+  }
+
+  const handleFetchNotifications = async () => {
+    await dispatch(fetchUserNotifications());
   }
 
   return (
@@ -31,7 +44,17 @@ function MessagesPage() {
           />
         </div>
       </div>
-      {Array.from({ length: 10 }, (_, i) => <Messages key={i} />)}
+      {
+        notifications &&
+        notifications?.map((notification: any) => (
+          notification?.type === 'message' &&
+          <Messages 
+            key={notification?.id}
+            notification={notification}
+            handleFetchNotifications={handleFetchNotifications}
+          />
+        ))
+      }
     </div>
   )
 }

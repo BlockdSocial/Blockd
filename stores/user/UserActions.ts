@@ -34,7 +34,10 @@ import {
   FETCH_FOLLOWED_FAILURE,
   IS_RESETING_BELL,
   RESET_BELL_SUCCESS,
-  RESET_BELL_FAILURE
+  RESET_BELL_FAILURE,
+  IS_RESETING_MESSAGES,
+  RESET_MESSAGES_SUCCESS,
+  RESET_MESSAGES_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -260,6 +263,24 @@ export function resetBell() {
       console.log('Reset Bell error: ', error);
       dispatch({
         type: RESET_BELL_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function resetMessages() {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_RESETING_MESSAGES });
+    try {
+      await userApi.resetMessages();
+      dispatch({
+        type: RESET_MESSAGES_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Reset messages error: ', error);
+      dispatch({
+        type: RESET_MESSAGES_FAILURE,
         error: error?.message
       });
     }
