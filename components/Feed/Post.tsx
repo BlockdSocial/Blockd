@@ -505,7 +505,7 @@ export default function PostTest({ post, refetch }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
               ) : null}
               {post?.gif != null ? (

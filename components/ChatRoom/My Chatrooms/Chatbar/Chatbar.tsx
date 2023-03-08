@@ -8,7 +8,7 @@ import {
 
 function Chatbar() {
   return (
-    <div className='relative hidden md:flex md:flex-col col-span-2 lg:col-span-1 min-h-[93vh] pt-4 items-center border-r dark:border-lightgray'>
+    <div className='relative md:flex md:flex-col col-span-1 pt-4 hidden items-center border-r dark:border-lightgray'>
       <div className='flex flex-col h-full scrollbar-hide overflow-scroll w-full'>
         <Link href="/" className='w-full'>
           <ChatbarRow Picture='/images/chatLogo/Bitcoin.png' Notif={245} active='' />

@@ -231,7 +231,7 @@ const Navbar = () => {
           </Link>
         </div>
         <div className="col-span-7 md:col-span-5 h-14">
-          <ul className="flex items-center justify-end space-x-3 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
+          <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
               {renderThemeChanger()}
@@ -284,7 +284,7 @@ const Navbar = () => {
               >
                 {/* 
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
+                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unread == 0 ||
