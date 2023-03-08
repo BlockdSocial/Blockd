@@ -255,7 +255,7 @@ const Navbar = () => {
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
                   <div className="">
-                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
+                    <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
                       {authUser?.unreadMessages == 0 ||
                         authUser?.unreadMessages === undefined ||
                         authUser?.unreadMessages === null ? (
@@ -286,7 +286,7 @@ const Navbar = () => {
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
                   <div className="">
-                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
+                    <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
                       {authUser?.unread == 0 ||
                         authUser?.unread === undefined ||
                         authUser?.unread === null ? (

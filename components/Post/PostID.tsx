@@ -249,6 +249,7 @@ function PostID({ post, refetchComments }: Props) {
         fetchInfo();
         closePicture();
         setInput("");
+        refetchComments();
       });
     } else if (gifUrl.length > 0) {
       await dispatch(
@@ -263,6 +264,7 @@ function PostID({ post, refetchComments }: Props) {
         fetchInfo();
         setInput("");
         closeGif();
+        refetchComments();
       });
     } else {
       await dispatch(
