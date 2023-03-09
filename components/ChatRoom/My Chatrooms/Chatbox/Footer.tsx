@@ -114,18 +114,14 @@ function Footer({ messages, receiver, getMessages }: any) {
     handleSendMessage();
   }, [uploadedImage, gifUrl]);
 
+  const maxRows = 5; // Maximum number of rows
+  const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
+
   const handleSendMessage = async () => {
-
-
-
     if (isEmpty(messages)) {
       await dispatch(createChat(receiver?.id));
     }
-
     if (uploadedImage) {
-      console.log('uploadedImage hussein', uploadedImage)
-
-
       await dispatch(
         createMessage({
           'receiver_id': receiver?.id,
@@ -156,11 +152,8 @@ function Footer({ messages, receiver, getMessages }: any) {
         getMessages();
       });
     };
+    textArea.rows = 1;
   }
-
-
-  const maxRows = 5; // Maximum number of rows
-  const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
