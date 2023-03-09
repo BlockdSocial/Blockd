@@ -26,7 +26,11 @@ import {
 } from "../../stores/notification/NotificationActions";
 import { isEmpty } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
-import { fetchUser, resetBell, resetMessages } from "../../stores/user/UserActions";
+import {
+  fetchUser,
+  resetBell,
+  resetMessages,
+} from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
 
 interface Data {
@@ -239,7 +243,7 @@ const Navbar = () => {
             {/* Messages */}
             <li className="flex-col items-center text-l hidden">
               <Link href="/dashboard/messages">
-                {/* 
+                {/*
                 // @ts-ignore */}
                 <IconGroup
                   //@ts-ignore
@@ -251,25 +255,21 @@ const Navbar = () => {
 
             <li className="flex md:flex-col items-center text-l">
               <Link href="/dashboard/messages" onClick={() => handleMsg()}>
-                {/* 
+                {/*
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
                   <div className="">
                     <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
                       {authUser?.unreadMessages == 0 ||
-                        authUser?.unreadMessages === undefined ||
-                        authUser?.unreadMessages === null ? (
+                      authUser?.unreadMessages === undefined ||
+                      authUser?.unreadMessages === null ? (
                         ""
                       ) : (
-                        <span className="text-white absolute text-xs top-0 right-0 md:top-0 z-50 md:right-2 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                        <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unreadMessages}</span>
                         </span>
                       )}
-                      {/*
-                      // @ts-ignore */}
-                      <IconGroup Icon={ChatBubbleBottomCenterTextIcon}
-                      // notif={authUser?.unreadMessages}
-                      ></IconGroup>
+                      <ChatBubbleBottomCenterTextIcon className="h-6 w-6 inline text-white dark:text-white" />
                     </strong>
                   </div>
                 </div>
@@ -282,18 +282,19 @@ const Navbar = () => {
                 href="/dashboard/notifications"
                 onClick={() => handleNotif()}
               >
-                {/* 
+                {/*
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
                   <div className="">
                     <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
                       {authUser?.unread == 0 ||
-                        authUser?.unread === undefined ||
-                        authUser?.unread === null ? (
+                      authUser?.unread === undefined ||
+                      authUser?.unread === null ? (
                         ""
                       ) : (
                         <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unread}</span>
+                          <span className="text-xs">5</span>
                         </span>
                       )}
                       <BellIcon className="h-6 w-6 inline text-white dark:text-white" />

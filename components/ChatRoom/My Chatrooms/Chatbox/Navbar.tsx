@@ -103,14 +103,12 @@ function Navbar({ receiver,chats, setReceiver }: any) {
       </div>
       {showFriends && (
         <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
-          <div className='flex items-center justify-start h-[10%] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
-            <div className='flex items-center justify-start space-x-2'>
+          <div className='flex items-center justify-start h-[7%] md:h-[10%] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
               <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
                 <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />
               </div>
               <p className='font-semibold'>Private DMs</p>
               
-            </div>
           </div>
           <Friends chats={chats} setReceiver={setReceiver} closeShowFriends={closeShowFriends}/>
 
