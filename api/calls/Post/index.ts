@@ -72,7 +72,11 @@ async function editPost(id: any, fields: any) {
 
 async function postSuggestion(fields: any) {
   return apiCall('postSuggestion', 'POST', 'user/feedback', fields);
-}
+};
+
+async function sharePost(fields: any) {
+  return apiCall('sharePost', 'POST', 'share', fields);
+};
 
 export default {
   createPost,
@@ -90,5 +94,6 @@ export default {
   fetchIsDisliked,
   addPostView,
   editPost,
-  postSuggestion
+  postSuggestion,
+  sharePost
 };

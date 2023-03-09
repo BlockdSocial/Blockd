@@ -46,7 +46,10 @@ import {
   UPDATE_POST_FAILURE,
   IS_SUGGESTING,
   SUGGEST_SUCCESS,
-  SUGGEST_FAILURE
+  SUGGEST_FAILURE,
+  IS_SHARING_POST,
+  SHARE_POST_SUCCESS,
+  SHARE_POST_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -345,6 +348,24 @@ export function postSuggestion(fields: any) {
       console.log('Suggestion Failed: ', error);
       dispatch({
         type: SUGGEST_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function sharePost(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SHARING_POST });
+    try {
+      await postApi.sharePost(fields);
+      dispatch({
+        type: SHARE_POST_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Share Failed: ', error);
+      dispatch({
+        type: SHARE_POST_FAILURE,
         error: error.message
       });
     }

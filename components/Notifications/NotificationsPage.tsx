@@ -33,6 +33,8 @@ interface INotification {
   user: User;
   createdAt: string;
   postId: number;
+  commentId: number;
+  replyId: number;
 }
 
 function NotificationsPage() {

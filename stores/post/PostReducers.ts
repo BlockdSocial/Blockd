@@ -46,7 +46,10 @@ import {
   UPDATE_POST_FAILURE,
   IS_SUGGESTING,
   SUGGEST_SUCCESS,
-  SUGGEST_FAILURE
+  SUGGEST_FAILURE,
+  IS_SHARING_POST,
+  SHARE_POST_SUCCESS,
+  SHARE_POST_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -69,6 +72,7 @@ const initialState = {
   isAddingPostView: false,
   isUpdatingPost: false,
   isSuggesting: false,
+  isSharingPost: false,
   userPosts: [],
   postInfo: {},
   postImage: {},
@@ -390,6 +394,25 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isSuggesting: false,
+        error: action.error
+      };
+    }
+    case IS_SHARING_POST: {
+      return {
+        ...state,
+        isSharingPost: true
+      };
+    }
+    case SHARE_POST_SUCCESS: {
+      return {
+        ...state,
+        isSharingPost: false
+      };
+    }
+    case SHARE_POST_FAILURE: {
+      return {
+        ...state,
+        isSharingPost: false,
         error: action.error
       };
     }

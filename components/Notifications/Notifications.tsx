@@ -35,6 +35,8 @@ interface INotification {
   user: User;
   createdAt: string;
   postId: number;
+  commentId: number;
+  replyId: number;
 }
 
 interface Props {
@@ -65,6 +67,48 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
     pathname = '/dashboard/profile/';
     query = {}
   }
+
+  const renderNotificationText = () => {
+
+    switch (notification?.type) {
+      case 'like':
+        if (null != notification?.commentId || undefined != notification?.commentId) {
+          return 'liked your comment!';
+        }
+        if (null != notification?.replyId || undefined != notification?.replyId) {
+          return 'liked your reply!';
+        }
+        return 'liked your post!';
+        break;
+      case 'dislike':
+        if (null != notification?.commentId || undefined != notification?.commentId) {
+          return 'disliked your comment!';
+        }
+        if (null != notification?.replyId || undefined != notification?.replyId) {
+          return 'disliked your reply!';
+        }
+        return 'disliked your post!';
+        break;
+      case 'comment':
+        return 'commented on your post!';
+        break;
+      case 'follow':
+        return 'followed you!';
+        break;
+      case 'levelUpgrade':
+        return 'Your level has been upgraded!';
+        break;
+      case 'levelDowngrade':
+        return 'Your level has been downgraded!';
+        break;
+      case 'reply':
+        return 'replied to your comment!';
+      default:
+        break;
+    }
+  }
+
+  console.log('notification: ', notification);
 
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
@@ -98,23 +142,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           </Link>
           <div className="ml-3 flex items-center justify-center">
             <p className="text-sm font-medium text-slate-900 dark:text-white"><span className="font-bold">{notification?.user?.name}</span>{' '}
-              {
-                'like' === notification?.type ?
-                  'liked your post!' :
-                  'dislike' === notification?.type ?
-                    'disliked your post!' :
-                    'comment' === notification?.type ?
-                      'commented on your post!' :
-                      'follow' === notification?.type ?
-                        'followed you!' :
-                        'levelUpgrade' === notification?.type ?
-                          'Your level has been upgraded!' :
-                          'message' === notification?.type ?
-                            'sent you a message!' :
-                            'reply' === notification?.type ?
-                              'replied to your comment!' :
-                              ''
-              } . {moment(notification?.createdAt).fromNow()}
+              {renderNotificationText()} . {moment(notification?.createdAt).fromNow()}
             </p>
           </div>
         </div>

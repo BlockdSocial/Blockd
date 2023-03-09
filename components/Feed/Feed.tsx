@@ -39,7 +39,7 @@ function Feed() {
   const router = useRouter();
   const { isRegistered } = router.query;
 
-  const { isFetchingFilteredPosts, filteredPosts } = useAppSelector(
+  const { isFetchingFilteredPosts } = useAppSelector(
     (state) => state.postReducer
   );
   const [showModal1, setShowModal1] = useState(true);
@@ -71,7 +71,7 @@ function Feed() {
     dispatch(fetchAuthUser());
     setFiltered(undefined);
     fetchFiltered();
-  }, []);
+  },[]);
 
   const fetchFiltered = async () => {
     await dispatch(
