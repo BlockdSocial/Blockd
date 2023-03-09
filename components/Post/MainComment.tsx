@@ -281,6 +281,8 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     });
   };
 
+  console.log('info: ', info);
+
   return (
     <div className="relative border-b flex flex-col space-x-2 p-4">
       <div className="flex space-x-2">

@@ -40,60 +40,38 @@ function ProfilePage() {
 
   const router = useRouter()
   const { user_id } = router.query
-  console.log('user_id hussein', user_id);
-  
 
   useEffect(() => {
-    console.log('user_id husseinnn', user_id);
-   // setUser(undefined);
-    //setPosts([]);
-    //setUser(undefined);
- 
     if (user_id == undefined || null) {
-      console.log('user_id husseinnn', user_id);
       fetchLoggedInUser();
     } else {
-          console.log('user_id husseinnn', user_id);
       fetchUserById();
     }
-   
   }, [user_id]);
 
-  useEffect(() => {
-    console.log('fetchPosts hussein', user)
-    fetchPosts();
-    if (!isEmpty(user)) {
-     // fetchUserFollowers();
-    }
-  }, [user]);
-
   const fetchLoggedInUser = async () => {
-    console.log('fetchLoggedInUser hhhh')
     await dispatch(fetchAuthUser()).then((res: any) => {
       setUser(res);
+      fetchPosts(res);
     });
   };
 
   const fetchUserById = async () => {
-    console.log('fetchUserById hhhh')
     await dispatch(fetchUser(user_id)).then((res: any) => {
       setUser(res);
+      fetchPosts(res);
     });
   };
 
-  const fetchPosts = async () => {
-    console.log('hussein',user )
-    if (!isEmpty(user)) {
-      await dispatch(fetchUserPosts(user?.id)).then((res) => {
+  const fetchPosts = async (thisUser: any = {}) => {
+    if (!thisUser) {
+      thisUser = user;
+    }
+    if (!isEmpty(thisUser)) {
+      await dispatch(fetchUserPosts(thisUser?.id)).then((res) => {
         setPosts(res);
       });
-    } 
-  }
-
- 
-
-  const fetchUserFollowers = () => {
-
+    }
   }
 
   const handleToggle1 = () => {
@@ -151,7 +129,7 @@ function ProfilePage() {
 
       <InfoContainer
         user={user as User}
-        refetchUser={fetchLoggedInUser}
+        refetchUser={isEmpty(user_id) ? fetchLoggedInUser : fetchUserById}
         userId={user_id as string}
       />
 

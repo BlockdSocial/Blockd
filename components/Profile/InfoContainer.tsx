@@ -207,6 +207,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         })
       );
     }
+    refetchUser();
   };
 
   const setFrame = async (id: any) => {

@@ -326,8 +326,10 @@ function PostID({ post, refetchComments }: Props) {
           <div className="flex items-start space-x-2">
             <div className="flex">
               <Link
-                href="/dashboard/profile"
-                className="relative flex flex-col w-fit h-fit group"
+                href={{
+                  pathname: "/dashboard/profile",
+                  query: { user_id: post?.user?.id },
+                }} className="relative flex flex-col w-fit h-fit group"
               >
                 <div className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}>
                   <Image
@@ -370,13 +372,13 @@ function PostID({ post, refetchComments }: Props) {
                 </div>
               }
               {
-                  post?.bannerPic == 1 &&
-                  <div>
-                    <p className="text-xs text-gray-500">
-                      Changed their banner picture.
-                    </p>
-                  </div>
-                }
+                post?.bannerPic == 1 &&
+                <div>
+                  <p className="text-xs text-gray-500">
+                    Changed their banner picture.
+                  </p>
+                </div>
+              }
             </div>
           </div>
 
