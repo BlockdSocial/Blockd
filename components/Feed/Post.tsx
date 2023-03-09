@@ -91,6 +91,7 @@ export default function PostTest({ post, refetch }: Props) {
   const [textArea, setTextArea] = useState<string>("");
   const [imageEdit, setImageEdit] = useState<string>("");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
+  const [sharePopUp, setSharePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
   const [info, setInfo] = useState<Info>();
   const [isLiked, setIsLiked] = useState<boolean>();
@@ -127,8 +128,6 @@ export default function PostTest({ post, refetch }: Props) {
     // clean up
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
-
-  const imageInputRef = useRef<HTMLInputElement>(null);
 
   const handleAddComment = async (e: React.FormEvent<HTMLFormElement>) => {
     e.preventDefault();
@@ -302,11 +301,37 @@ export default function PostTest({ post, refetch }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
   };
+
+  //************************** Share Handeling **************************//
+  //************************** Share Handeling **************************//
+  //************************** Share Handeling **************************//
+
+  const [shareBoxVisible, setShareBoxVisible] = useState<boolean>(false);
+
+  const share = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the shareis opened
+    if (!shareBoxVisible) return;
+    function handleClick(event: any) {
+      if (shareBoxVisible === true) {
+        if (share.current && !share.current.contains(event.target)) {
+          setShareBoxVisible(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [shareBoxVisible]);
+
+  //************************** Backend Handeling **************************//
+  //************************** Backend Handeling **************************//
+  //************************** Backend Handeling **************************//
 
   const handleEditPost = async () => {
     await dispatch(
@@ -363,7 +388,7 @@ export default function PostTest({ post, refetch }: Props) {
   };
 
   return (
-    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-lightgray rounded-lg p-1 py-2 mb-2">
+    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
       {/* <>
         {" "}
         <Toaster />
@@ -392,7 +417,13 @@ export default function PostTest({ post, refetch }: Props) {
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
-                    <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(post?.user?.frameName) ? post?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
+                    <div
+                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
+                        !isEmpty(post?.user?.frameName)
+                          ? post?.user?.frameName
+                          : "bg-blue-300"
+                      } rounded-lg`}
+                    >
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                         {post?.user?.level}
                       </div>
@@ -455,23 +486,23 @@ export default function PostTest({ post, refetch }: Props) {
                     {post?.userId === authUser?.id && (
                       <div
                         onClick={() => setEditPopUp(!editPopUp)}
-                        className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
+                        className="flex items-center justify-start text-sm p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
                       >
                         Edit Post
                       </div>
                     )}
                     {post?.userId !== authUser?.id && (
                       <>
-                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+                        <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                           Report Post
                         </div>
                         <div
-                          className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
+                          className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
                           onClick={() => handleFollowUser()}
                         >
-                          Follow {post?.user?.name}
+                          Follow User
                         </div>
-                        <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                        <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                           Follow Post
                         </div>
                       </>
@@ -562,11 +593,28 @@ export default function PostTest({ post, refetch }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+              <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                <ShareIcon
+                  ref={share}
+                  onClick={() => setShareBoxVisible(!shareBoxVisible)}
+                  className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                />
                 <p className="text-xs">
                   {info?.shares != null || undefined ? info?.shares : 0}
                 </p>
+                {shareBoxVisible && (
+                  <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
+                    <div className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
+                      Copy Link
+                    </div>
+                    <div
+                      onClick={() => setSharePopUp(!sharePopUp)}
+                      className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-b-md bg-transparent hover:bg-gray-100"
+                    >
+                      Share post
+                    </div>
+                  </div>
+                )}
               </div>
             </div>
           </div>
@@ -641,12 +689,29 @@ export default function PostTest({ post, refetch }: Props) {
                     {info?.comments != null || undefined ? info?.comments : 0}
                   </p>
                 </div>
-                {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                  <ShareIcon className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+                <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ShareIcon
+                    ref={share}
+                    onClick={() => setShareBoxVisible(!shareBoxVisible)}
+                    className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                  />
                   <p className="text-xs">
                     {info?.shares != null || undefined ? info?.shares : 0}
                   </p>
-                </div> */}
+                  {shareBoxVisible && (
+                    <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
+                      <div className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
+                        Copy Link
+                      </div>
+                      <div
+                        onClick={() => setSharePopUp(!sharePopUp)}
+                        className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-b-md bg-transparent hover:bg-gray-100"
+                      >
+                        Share post
+                      </div>
+                    </div>
+                  )}
+                </div>
               </div>
               <div className="flex items-center justify-end relative space-x-2 pr-12 md:pr-24 text-[#181c44] dark:text-white flex-1">
                 <PhotoIcon
@@ -853,12 +918,6 @@ export default function PostTest({ post, refetch }: Props) {
                     height="350"
                   />
                 )}
-                {/* <div
-                  onClick={() => onContentClick()}
-                  className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
-                >
-                  <CameraIcon className="w-8 h-8 text-black" />
-                </div> */}
                 <input
                   type="file"
                   id="file"
@@ -869,13 +928,6 @@ export default function PostTest({ post, refetch }: Props) {
                 />
               </div>
             </div>
-            {/* <div className="flex flex-col items-start justify-start space-y-2 w-full">
-              <p className="font-semibold text-black">Title</p>
-              <input
-                className="p-2 bg-gray-200 outline-none rounded-lg w-full"
-                placeholder="Current Title"
-              />
-            </div> */}
             <div className="flex flex-col items-start justify-start space-y-2 w-full">
               <p className="font-semibold text-black">Description</p>
               <textarea
@@ -898,6 +950,93 @@ export default function PostTest({ post, refetch }: Props) {
             </p>
             <p
               onClick={() => setEditPopUp(!editPopUp)}
+              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+            >
+              Cancel
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          sharePopUp ? "" : "hidden"
+        }`}
+      >
+        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-full bg-gray-50">
+          <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
+            <div className="">
+              <h3 className="text-xl font-medium text-gray-900">Share Post</h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setSharePopUp(!sharePopUp)}
+              className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+          </div>
+          <div className="flex flex-col items-start justify-start p-4 border-y space-y-2 w-full">
+            <div className="flex flex-col items-start justify-start space-y-2 w-full">
+              <p className="font-semibold text-black">Add a caption</p>
+              <textarea
+                id="message"
+                maxLength={255}
+                onChange={(e: any) => setTextArea(e.target.value)}
+                data-rows="4"
+                className="h-24 p-2 bg-gray-200 text-black text-sm outline-none rounded-lg w-full"
+                placeholder="Add a caption"
+              ></textarea>
+            </div>
+            <div className="flex items-start justify-start border-t w-full py-2 space-x-3">
+              <div
+                className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}
+              >
+                <img
+                  src="/images/pfp/pfp1.jpg"
+                  alt="pfp"
+                  className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+                />
+                <div
+                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 bg-blue-300 rounded-lg`}
+                >
+                  <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
+                    5
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col items-start justify-start h-full pt-1">
+                <p className="text-sm">@UserName</p>
+                <p className="text-xs">2 hours ago</p>
+              </div>
+            </div>
+            <Link href="#" className="flex flex-col items-start justify-start space-y-2 w-full">
+              <img
+                src="/images/bg.jpg"
+                alt="Content"
+                className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
+              />
+              <p className="text-sm">Post description</p>
+            </Link>
+          </div>
+          <div className="flex items-center justify-end space-x-3 p-2">
+            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+              Share
+            </p>
+            <p
+              onClick={() => setSharePopUp(!sharePopUp)}
               className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
             >
               Cancel
