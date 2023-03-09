@@ -1,12 +1,12 @@
-import React, { useState, useEffect, useRef } from 'react'
-import Navbar from './Navbar'
-import Chat from './Chat'
-import Footer from './Footer'
-import { isEmpty } from 'lodash';
-import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
-import { fetchMessages } from '../../../../stores/chat/ChatActions';
-import { useChannel } from '@ably-labs/react-hooks';
-import { fetchAuthUser } from '../../../../stores/authUser/AuthUserActions';
+import React, { useState, useEffect, useRef } from "react";
+import Navbar from "./Navbar";
+import Chat from "./Chat";
+import Footer from "./Footer";
+import { isEmpty } from "lodash";
+import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
+import { fetchMessages } from "../../../../stores/chat/ChatActions";
+import { useChannel } from "@ably-labs/react-hooks";
+import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 
 function Chatbox({ receiver, chats, setReceiver }: any) {
   const dispatch = useAppDispatch();
@@ -30,24 +30,25 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
     ref.current = receiver;
   }, [receiver]);
 
-  const [message] = useChannel(`messageNotification-${authUser.id}`, (message) => {
-    console.log(message);
-    console.log(authUser);
+  const [message] = useChannel(
+    `messageNotification-${authUser.id}`,
+    (message) => {
+      console.log(message);
+      console.log(authUser);
 
-    updateMessages();
-  });
-
+      updateMessages();
+    }
+  );
 
   useEffect(() => {
     const handleScroll = () => {
       if (elementRef?.current?.scrollTop !== 0) {
-        atTop = true
+        atTop = true;
         setAtTop(atTop);
       } else {
-        atTop = false
+        atTop = false;
         setAtTop(atTop);
       }
-
     };
     elementRef?.current?.addEventListener("scroll", handleScroll);
     return () => {
@@ -57,24 +58,28 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
-      await dispatch(fetchMessages({
-        receiver_id: receiver?.id,
-        start: 0,
-        end: 100
-      })).then((result: any) => {
+      await dispatch(
+        fetchMessages({
+          receiver_id: receiver?.id,
+          start: 0,
+          end: 100,
+        })
+      ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
         setMessages(result?.messages);
       });
     }
-  }
+  };
 
   const updateMessages = async () => {
-    await dispatch(fetchMessages({
-      receiver_id: ref.current?.id,
-      start: 0,
-      end: 100
-    })).then((result: any) => {
+    await dispatch(
+      fetchMessages({
+        receiver_id: ref.current?.id,
+        start: 0,
+        end: 100,
+      })
+    ).then((result: any) => {
       setMessages(result?.messages);
     });
   };
@@ -88,9 +93,7 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
     //   if (scrollTop === 0) {
     //     if (!isFetchingMessages) {
     //       if (endTotal < 10) {
-
     //         return;
-
     //       } else {
     //         updateMessages(endCount + 1, endCount + 10);
     //         setEndCount(endCount + 10);
@@ -98,38 +101,28 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
     //     }
     //   }
     // }
-  }
+  };
 
   console.log(receiver);
 
   return (
-    <div
-      className='flex min-h-[93vh] flex-col col-span-11 md:col-span-9 relative  lg:col-span-7 xl:col-span-7 border-r dark:border-lightgray'
-    >
-      {
-        
-        <Navbar
-          receiver={receiver}
-          chats={chats} 
-          setReceiver={setReceiver}
-        />
-      }
+    <div className="flex min-h-[93vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
+      {<Navbar receiver={receiver} chats={chats} setReceiver={setReceiver} />}
       <Chat
         receiver={receiver}
         messages={messages}
         elementRef={elementRef}
         handleScroll={handleScroll}
       />
-      {
-        !isEmpty(receiver) &&
+      {!isEmpty(receiver) && (
         <Footer
           receiver={receiver}
           messages={messages}
           getMessages={getMessages}
         />
-      }
+      )}
     </div>
-  )
+  );
 }
 
-export default Chatbox
+export default Chatbox;

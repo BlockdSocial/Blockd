@@ -42,7 +42,7 @@ function Navbar({ receiver,chats, setReceiver }: any) {
     setShowFriends(false);
   }
   return (
-    <div className="flex items-center justify-between relative h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-4">
+    <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-4 mt-[1.5px]">
       {receiver &&
       <div className='flex items-center space-x-2'>
         <img
@@ -77,12 +77,12 @@ function Navbar({ receiver,chats, setReceiver }: any) {
           </div>
         </div>
         <div className='flex flex-col items-center justify-center'>
-          <p className='font-semibold'>{receiver?.name}</p>
+          <p className='text-xs md:text-base font-semibold'>{receiver?.name}</p>
           {/* <p className='text-xs'>480 members, 26 online</p> */}
         </div>
       </div>
 }
-      <div className='md:hidden flex col-md-2 items-center justify-end text-right w-full'>
+      <div className='lg:hidden flex col-md-2 items-center justify-end text-right w-full'>
         <div ref={dropdown} className='flex flex-col items-center justify-center'>
           <div className='flex items-center justify-center space-x-1'>
             {/* <div onClick={() => setIsDropdownVisible(b => !b)} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
@@ -103,7 +103,7 @@ function Navbar({ receiver,chats, setReceiver }: any) {
       </div>
       {showFriends && (
         <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
-          <div className='flex items-center justify-start h-14 p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
+          <div className='flex items-center justify-start h-[10%] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
             <div className='flex items-center justify-start space-x-2'>
               <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
                 <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />

@@ -1,6 +1,5 @@
 import React from 'react'
 
-import PersonAddAlt1RoundedIcon from '@mui/icons-material/PersonAddAlt1Rounded';
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
@@ -27,7 +26,7 @@ function Friends({ chats, setReceiver, closeShowFriends }: any) {
                       ? `${config.url.PUBLIC_URL}/${chat?.receiver?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
-                  className='w-10 h-10 rounded-full'
+                  className='w-12 h-12 object-contain rounded-md'
                 />
               </div>
               <div className='flex flex-col items-start justify-start ml-4'>

@@ -59,7 +59,7 @@ function Widgets() {
   }, [input]);
 
   return (
-    <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-14 border-x dark:border-lightgray">
+    <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
       {/* Search */}
       <div className="sticky p-2 top-0 backdrop-blur-md bg-white/30 dark:bg-darkgray/30 z-[1]">
         <div className="flex items-center space-x-2 bg-gray-100 py-2 dark:bg-darkgray rounded-md dark:border-white border group">

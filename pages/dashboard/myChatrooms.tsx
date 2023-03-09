@@ -47,7 +47,7 @@ function chatroom() {
         <title>Blockd</title>
       </Head>
       <Navbar />
-      <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-12 mx-auto overflow-hidden w-full'>
+      <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-9 mx-auto overflow-hidden w-full'>
         <Sidebar />
         <Chatbar />
         <Chatbox receiver={receiver} chats={chats} setReceiver={setReceiver}/>

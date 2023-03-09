@@ -208,7 +208,7 @@ const Navbar = () => {
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
       <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto xl:max-w-[80%] h-14 px-2">
-        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14 px-4 md:px-0">
+        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14">
           <Toaster />
           <Link
             href="/"
@@ -217,21 +217,21 @@ const Navbar = () => {
             <Image
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
-              className="w-26 h-10 ml-4 md:ml-0 hidden md:inline"
+              className="w-26 h-10 md:ml-0 hidden md:inline"
               width={140}
               height={50}
             />
             <Image
               src="/images/logo/logo.png"
               alt="Blockd Logo"
-              className="ml-4 md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
+              className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
               width={60}
               height={40}
             />
           </Link>
         </div>
         <div className="col-span-7 md:col-span-5 h-14">
-          <ul className="flex items-center justify-end space-x-3 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
+          <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
               {renderThemeChanger()}
@@ -284,7 +284,7 @@ const Navbar = () => {
               >
                 {/* 
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
+                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
                   <div className="">
                     <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
                       {authUser?.unread == 0 ||
