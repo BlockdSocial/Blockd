@@ -111,7 +111,9 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
                           'Your level has been upgraded!' :
                           'message' === notification?.type ?
                             'sent you a message!' :
-                            ''
+                            'reply' === notification?.type ?
+                              'replied to your comment!' :
+                              ''
               } . {moment(notification?.createdAt).fromNow()}
             </p>
           </div>
