@@ -90,7 +90,6 @@ export default function PostTest({ mainPost, refetch }: Props) {
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { post } = useAppSelector((state) => state.postReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");
@@ -102,10 +101,11 @@ export default function PostTest({ mainPost, refetch }: Props) {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
   const [value, copy] = useCopyToClipboard();
+  const [sharedPost, setSharedPost] = useState<any>();
 
   const dropdown = useRef<any>(null);
 
-  console.log('postzzzzz: ', post);
+  console.log('postzzzzz: ', sharedPost);
 
   useEffect(() => {
     fetchInfo();
@@ -115,13 +115,14 @@ export default function PostTest({ mainPost, refetch }: Props) {
     fetchDisliked();
 
     if (mainPost?.sharedPostId) {
-      // console.log('bzez')
       fetchPostById();
     }
   }, [mainPost]);
 
   const fetchPostById = async () => {
-    await dispatch(fetchPost(mainPost?.sharedPostId));
+    await dispatch(fetchPost(mainPost?.sharedPostId)).then((result: any) => {
+      setSharedPost(result);
+    });
   }
 
   const fetchInfo = async () => {
@@ -575,6 +576,112 @@ export default function PostTest({ mainPost, refetch }: Props) {
               ) : null}
             </Link>
           </div>
+          {
+            !isEmpty(sharedPost) &&
+            <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2 mt-2">
+              <div className="flex items-center justify-between">
+                <div className="flex items-start space-x-2">
+                  <div className="flex">
+                    <Link
+                      href={{
+                        pathname: "/dashboard/profile",
+                        query: { user_id: sharedPost?.user?.id },
+                      }}
+                      className="relative flex flex-col w-fit h-fit group"
+                    >
+                      <div
+                        className={`relative flex flex-col p-1 ${sharedPost?.user?.frameName} rounded-lg`}
+                      >
+                        <img
+                          src={
+                            !isEmpty(sharedPost?.user?.profilePic)
+                              ? `${config.url.PUBLIC_URL}/${sharedPost?.user?.profilePic?.name}`
+                              : "/images/pfp/pfp1.jpg"
+                          }
+                          alt="pfp"
+                          className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+                        />
+                        <div
+                          className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.user?.frameName)
+                            ? sharedPost?.user?.frameName
+                            : "bg-blue-300"
+                            } rounded-lg`}
+                        >
+                          <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
+                            {sharedPost?.user?.level}
+                          </div>
+                        </div>
+                      </div>
+                    </Link>
+                  </div>
+                  <div className="flex flex-col items-start justify-center space-y-1">
+                    <div className="flex items-center space-x-1">
+                      <Link
+                        href={{
+                          pathname: "/dashboard/profile",
+                          query: { user_id: sharedPost?.user?.id },
+                        }}
+                      >
+                        <p className="mr-1 font-semibold text-xs md:text-base">
+                          @{sharedPost?.user?.name}
+                        </p>
+                      </Link>
+                    </div>
+                    {/* <div>
+                  <p className="text-xs md:text-sm text-gray-500">0 followers</p>
+                </div> */}
+                    <div>
+                      <p className="text-xs text-gray-500">
+                        {moment(sharedPost?.createdAt).fromNow()}
+                      </p>
+                    </div>
+                    {sharedPost?.profilePic == 1 && (
+                      <div>
+                        <p className="text-xs text-gray-500">
+                          Changed their profile picture.
+                        </p>
+                      </div>
+                    )}
+                    {sharedPost?.bannerPic == 1 && (
+                      <div>
+                        <p className="text-xs text-gray-500">
+                          Changed their banner picture.
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </div>
+              </div>
+              <div className="flex flex-col items-start justify-center space-y-2 w-full">
+                <Link
+                  href={{
+                    pathname: "/dashboard/post/",
+                    query: { postId: sharedPost?.id },
+                  }}
+                  onClick={() => addView()}
+                  className="w-full flex flex-col items-start justify-start"
+                >
+                  {sharedPost?.content != null && (
+                    <p className="pt-5 text-sm lg:text-base">{sharedPost?.content}</p>
+                  )}
+                  {sharedPost?.images != null ? (
+                    <img
+                      src={`${config.url.PUBLIC_URL}/${sharedPost?.images[0]?.name}`}
+                      alt="Post"
+                      className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
+                    />
+                  ) : null}
+                  {sharedPost?.gif != null ? (
+                    <img
+                      src={sharedPost?.gif}
+                      alt="gif"
+                      className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                    />
+                  ) : null}
+                </Link>
+              </div>
+            </div>
+          }
           <div
             className={`flex items-center justify-start mt-4 mb-2 ${commentBoxVisible ? "hidden" : ""
               }`}
