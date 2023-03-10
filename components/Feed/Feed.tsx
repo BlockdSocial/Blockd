@@ -168,7 +168,7 @@ function Feed() {
               <PostTest
                 key={`${index}-post`}
                 // @ts-ignore
-                post={post}
+                mainPost={post}
                 refetch={handleRefresh}
               />
             ))}

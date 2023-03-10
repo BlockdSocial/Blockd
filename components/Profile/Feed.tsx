@@ -28,7 +28,7 @@ function Feed({ posts, refetch }: Props) {
           <PostTest
             key={index}
             // @ts-ignore
-            post={post}
+            mainPost={post}
             refetch={refetch}
           />
         ))

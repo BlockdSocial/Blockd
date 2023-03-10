@@ -73,7 +73,7 @@ function SearchPage() {
             // @ts-ignore
             <PostTest
               // @ts-ignore
-              post={post}
+              mainPost={post}
             />
           ))
         }

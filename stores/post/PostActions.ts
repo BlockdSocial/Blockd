@@ -180,7 +180,7 @@ export function fetchFilteredPosts(fields: object) {
   }
 }
 
-export function fetchPost(fields: string) {
+export function fetchPost(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_POST });
     try {

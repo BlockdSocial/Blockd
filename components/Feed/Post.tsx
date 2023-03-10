@@ -26,6 +26,8 @@ import {
   fetchIsLiked,
   fetchIsDisliked,
   editPost,
+  sharePost,
+  fetchPost,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -68,6 +70,7 @@ interface Post {
   images: Image[];
   profilePic: any;
   bannerPic: any;
+  sharedPostId: number;
 }
 
 interface Info {
@@ -78,15 +81,16 @@ interface Info {
 }
 
 interface Props {
-  post: Post;
+  mainPost: Post;
   refetch: () => void;
 }
 
-export default function PostTest({ post, refetch }: Props) {
+export default function PostTest({ mainPost, refetch }: Props) {
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { post } = useAppSelector((state) => state.postReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");
@@ -101,17 +105,27 @@ export default function PostTest({ post, refetch }: Props) {
 
   const dropdown = useRef<any>(null);
 
+  console.log('postzzzzz: ', post);
+
   useEffect(() => {
     fetchInfo();
     fetchLiked();
-    setImageEdit(post?.images ? post?.images[0]?.name : "");
-    setTextArea(post?.content || "");
-
+    setImageEdit(mainPost?.images ? mainPost?.images[0]?.name : "");
+    setTextArea(mainPost?.content || "");
     fetchDisliked();
-  }, [post]);
+
+    if (mainPost?.sharedPostId) {
+      // console.log('bzez')
+      fetchPostById();
+    }
+  }, [mainPost]);
+
+  const fetchPostById = async () => {
+    await dispatch(fetchPost(mainPost?.sharedPostId));
+  }
 
   const fetchInfo = async () => {
-    await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
+    await dispatch(fetchPostInfo(mainPost?.id)).then((result: any) => {
       setInfo(result);
     });
   };
@@ -140,7 +154,7 @@ export default function PostTest({ post, refetch }: Props) {
           public: 1,
           image: uploadedImage,
           content: input,
-          post_id: post?.id,
+          post_id: mainPost?.id,
         })
       ).then(() => {
         fetchInfo();
@@ -153,7 +167,7 @@ export default function PostTest({ post, refetch }: Props) {
           user_id: authUser?.id,
           public: 1,
           content: input,
-          post_id: post?.id,
+          post_id: mainPost?.id,
           gif: gifUrl,
         })
       ).then(() => {
@@ -166,7 +180,7 @@ export default function PostTest({ post, refetch }: Props) {
         addComment({
           user_id: authUser?.id,
           content: input,
-          post_id: post?.id,
+          post_id: mainPost?.id,
         })
       ).then(() => {
         fetchInfo();
@@ -187,7 +201,7 @@ export default function PostTest({ post, refetch }: Props) {
   const handleLikePost = async () => {
     dispatch(
       likePost({
-        post_id: post?.id,
+        post_id: mainPost?.id,
         user_id: authUser?.id,
       })
     ).then(() => {
@@ -200,7 +214,7 @@ export default function PostTest({ post, refetch }: Props) {
   const handleDislikePost = async () => {
     dispatch(
       dislikePost({
-        post_id: post?.id,
+        post_id: mainPost?.id,
         user_id: authUser?.id,
       })
     ).then(() => {
@@ -337,7 +351,7 @@ export default function PostTest({ post, refetch }: Props) {
 
   const handleEditPost = async () => {
     await dispatch(
-      editPost(post?.id, {
+      editPost(mainPost?.id, {
         content: textArea,
       })
     ).then(() => {
@@ -352,7 +366,7 @@ export default function PostTest({ post, refetch }: Props) {
     setGifBoxIsOpen(!gifBoxIsOpen);
   };
   const addView = async () => {
-    await dispatch(addPostView(post?.id));
+    await dispatch(addPostView(mainPost?.id));
   };
 
   const handleDeletePost = async () => {
@@ -370,13 +384,13 @@ export default function PostTest({ post, refetch }: Props) {
   };
 
   const fetchLiked = async () => {
-    await dispatch(fetchIsLiked(post?.id)).then((result: any) => {
+    await dispatch(fetchIsLiked(mainPost?.id)).then((result: any) => {
       setIsLiked(result);
     });
   };
 
   const fetchDisliked = async () => {
-    await dispatch(fetchIsDisliked(post?.id)).then((result: any) => {
+    await dispatch(fetchIsDisliked(mainPost?.id)).then((result: any) => {
       setIsDisliked(result);
     });
   };
@@ -384,10 +398,23 @@ export default function PostTest({ post, refetch }: Props) {
   const handleFollowUser = async () => {
     await dispatch(
       followUser({
-        user_id: post?.user?.id,
+        user_id: mainPost?.user?.id,
       })
     );
   };
+
+  const handleSharePost = async () => {
+    await dispatch(sharePost({
+      content: textArea,
+      post_id: mainPost?.id,
+      public: 1
+    })).then(() => {
+      setSharePopUp(!sharePopUp);
+      refetch();
+    });
+  }
+
+  console.log('post: ', mainPost);
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
@@ -403,30 +430,30 @@ export default function PostTest({ post, refetch }: Props) {
                 <Link
                   href={{
                     pathname: "/dashboard/profile",
-                    query: { user_id: post?.user?.id },
+                    query: { user_id: mainPost?.user?.id },
                   }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div
-                    className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}
+                    className={`relative flex flex-col p-1 ${mainPost?.user?.frameName} rounded-lg`}
                   >
                     <img
                       src={
-                        !isEmpty(post?.user?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
+                        !isEmpty(mainPost?.user?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${mainPost?.user?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
                     <div
-                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(post?.user?.frameName)
-                        ? post?.user?.frameName
+                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.user?.frameName)
+                        ? mainPost?.user?.frameName
                         : "bg-blue-300"
                         } rounded-lg`}
                     >
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        {post?.user?.level}
+                        {mainPost?.user?.level}
                       </div>
                     </div>
                   </div>
@@ -437,11 +464,11 @@ export default function PostTest({ post, refetch }: Props) {
                   <Link
                     href={{
                       pathname: "/dashboard/profile",
-                      query: { user_id: post?.user?.id },
+                      query: { user_id: mainPost?.user?.id },
                     }}
                   >
                     <p className="mr-1 font-semibold text-xs md:text-base">
-                      @{post?.user?.name}
+                      @{mainPost?.user?.name}
                     </p>
                   </Link>
                 </div>
@@ -450,17 +477,17 @@ export default function PostTest({ post, refetch }: Props) {
                 </div> */}
                 <div>
                   <p className="text-xs text-gray-500">
-                    {moment(post?.createdAt).fromNow()}
+                    {moment(mainPost?.createdAt).fromNow()}
                   </p>
                 </div>
-                {post?.profilePic == 1 && (
+                {mainPost?.profilePic == 1 && (
                   <div>
                     <p className="text-xs text-gray-500">
                       Changed their profile picture.
                     </p>
                   </div>
                 )}
-                {post?.bannerPic == 1 && (
+                {mainPost?.bannerPic == 1 && (
                   <div>
                     <p className="text-xs text-gray-500">
                       Changed their banner picture.
@@ -483,7 +510,7 @@ export default function PostTest({ post, refetch }: Props) {
                     className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
                       }`}
                   >
-                    {post?.userId === authUser?.id && (
+                    {mainPost?.userId === authUser?.id && (
                       <div
                         onClick={() => setEditPopUp(!editPopUp)}
                         className="flex items-center justify-start text-sm p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
@@ -491,7 +518,7 @@ export default function PostTest({ post, refetch }: Props) {
                         Edit Post
                       </div>
                     )}
-                    {post?.userId !== authUser?.id && (
+                    {mainPost?.userId !== authUser?.id && (
                       <>
                         <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                           Report Post
@@ -510,7 +537,7 @@ export default function PostTest({ post, refetch }: Props) {
                   </ul>
                 </div>
               </div>
-              {post?.userId === authUser?.id && (
+              {mainPost?.userId === authUser?.id && (
                 <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                   <XMarkIcon
                     onClick={() => setDeletePopUp(!deletePopUp)}
@@ -524,24 +551,24 @@ export default function PostTest({ post, refetch }: Props) {
             <Link
               href={{
                 pathname: "/dashboard/post/",
-                query: { postId: post?.id },
+                query: { postId: mainPost?.id },
               }}
               onClick={() => addView()}
               className="w-full flex flex-col items-start justify-start"
             >
-              {post?.content != null && (
-                <p className="pt-5 text-sm lg:text-base">{post?.content}</p>
+              {mainPost?.content != null && (
+                <p className="pt-5 text-sm lg:text-base">{mainPost?.content}</p>
               )}
-              {post?.images != null ? (
+              {mainPost?.images != null ? (
                 <img
-                  src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}
+                  src={`${config.url.PUBLIC_URL}/${mainPost?.images[0]?.name}`}
                   alt="Post"
                   className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
               ) : null}
-              {post?.gif != null ? (
+              {mainPost?.gif != null ? (
                 <img
-                  src={post?.gif}
+                  src={mainPost?.gif}
                   alt="gif"
                   className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
                 />
@@ -599,7 +626,7 @@ export default function PostTest({ post, refetch }: Props) {
                 </p>
                 {shareBoxVisible && (
                   <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
-                    <div onClick={() => copy(`${config.url.DASHBOARD_URL}/post?postId=${post?.id}`)} className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
+                    <div onClick={() => copy(`${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`)} className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
                       Copy Link
                     </div>
                     <div
@@ -950,7 +977,7 @@ export default function PostTest({ post, refetch }: Props) {
         className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${sharePopUp ? "" : "hidden"
           }`}
       >
-        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-full bg-gray-50">
+        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
               <h3 className="text-xl font-medium text-gray-900">Share Post</h3>
@@ -990,37 +1017,53 @@ export default function PostTest({ post, refetch }: Props) {
             </div>
             <div className="flex items-start justify-start border-t w-full py-2 space-x-3">
               <div
-                className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}
+                className={`relative flex flex-col p-1 ${mainPost?.user?.frameName} rounded-lg`}
               >
                 <img
-                  src="/images/pfp/pfp1.jpg"
-                  alt="pfp"
+                  src={
+                    !isEmpty(mainPost?.user?.profilePic)
+                      ? `${config.url.PUBLIC_URL}/${mainPost?.user?.profilePic?.name}`
+                      : "/images/pfp/pfp1.jpg"
+                  } alt="pfp"
                   className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 bg-blue-300 rounded-lg`}
+                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.user?.frameName)
+                    ? mainPost?.user?.frameName
+                    : "bg-blue-300"
+                    } rounded-lg`}
                 >
                   <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                    5
+                    {mainPost?.user?.level}
                   </div>
                 </div>
               </div>
               <div className="flex flex-col items-start justify-start h-full pt-1">
-                <p className="text-sm">@UserName</p>
-                <p className="text-xs">2 hours ago</p>
+                <p className="text-sm text-black">@{mainPost?.user?.name}</p>
+                <p className="text-xs text-black">{moment(mainPost?.createdAt).fromNow()}</p>
               </div>
             </div>
-            <Link href="#" className="flex flex-col items-start justify-start space-y-2 w-full">
+            {mainPost?.images != null ? (
               <img
-                src="/images/bg.jpg"
+                src={`${config.url.PUBLIC_URL}/${mainPost?.images[0]?.name}`}
                 alt="Content"
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />
-              <p className="text-sm">Post description</p>
-            </Link>
+            ) : null}
+            {mainPost?.gif != null ? (
+              <img
+                src={mainPost?.gif}
+                alt="gif"
+                className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
+              />
+            ) : null}
+            <p className="text-sm text-black">{mainPost?.content}</p>
           </div>
           <div className="flex items-center justify-end space-x-3 p-2">
-            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+            <p
+              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleSharePost()}
+            >
               Share
             </p>
             <p
