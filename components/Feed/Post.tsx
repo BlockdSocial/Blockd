@@ -578,7 +578,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
           </div>
           {
             !isEmpty(sharedPost) &&
-            <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2 mt-2">
+            <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-2 px-5 mb-2 mt-2">
               <div className="flex items-center justify-between">
                 <div className="flex items-start space-x-2">
                   <div className="flex">
