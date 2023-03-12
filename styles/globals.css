@@ -68,6 +68,9 @@ em-emoji-picker {
 .card-back {
     transform: rotateY(180deg);
 }
+.css-e7nvmg-LoadingOverlayWrapperBase{
+    position: unset !important;
+}
 
 
 /*

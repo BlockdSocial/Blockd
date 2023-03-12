@@ -49,7 +49,10 @@ import {
   SUGGEST_FAILURE,
   IS_SHARING_POST,
   SHARE_POST_SUCCESS,
-  SHARE_POST_FAILURE
+  SHARE_POST_FAILURE,
+  IS_FETCHING_SHARED_POST,
+  FETCH_POST_SHARED_SUCCESS,
+  FETCH_POST_SHARED_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -194,6 +197,26 @@ export function fetchPost(fields: any) {
       console.log('Fetch Post Error: ', error);
       dispatch({
         type: FETCH_POST_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchSharedPost(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_SHARED_POST });
+    try {
+      const result = await postApi.fetchPost(fields);
+      dispatch({
+        type: FETCH_POST_SHARED_SUCCESS,
+        sharedPost: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch Post Error: ', error);
+      dispatch({
+        type: FETCH_POST_SHARED_FAILURE,
         error: error.message
       });
     }

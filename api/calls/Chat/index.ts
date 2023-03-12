@@ -8,7 +8,6 @@ const endpoints = {
 };
 
 async function createMessage(fields: any) {
-  console.log('createMessage hussein',fields);
   return apiCall('createMessage', 'POST', `${endpoints.message}`, fields);
 };
 

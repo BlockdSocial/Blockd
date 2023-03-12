@@ -54,19 +54,81 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
     });
   }
   let pathname, query;
-  if (notification?.type == 'like' || notification?.type == 'dislike' || notification?.type == 'comment') {
-    pathname = '/dashboard/post/';
-    query = { postId: notification?.postId }
+  switch (notification?.type) {
+    case 'like':
+      if (null != notification?.commentId || undefined != notification?.commentId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+      }
+      else if (null != notification?.replyId || undefined != notification?.replyId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+      }
+      else {
+        pathname = '/dashboard/post/';
+        query = { postId: notification?.postId }
+      }
+      break;
+    case 'dislike':
+      if (null != notification?.commentId || undefined != notification?.commentId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+      }
+      else if (null != notification?.replyId || undefined != notification?.replyId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+      }
+      else {
+        pathname = '/dashboard/post/';
+        query = { postId: notification?.postId }
+      }
+      break;
+    case 'comment':
+      pathname = '/dashboard/post/comment';
+      query = { commentId: notification?.commentId, postId: notification?.postId }
+      break;
+    case 'follow':
+      pathname = '/dashboard/profile/';
+      query = {}
+      break;
+    case 'levelUpgrade':
+      pathname = '/dashboard/profile/';
+      query = {}
+      break;
+    case 'levelDowngrade':
+      pathname = '/dashboard/profile/';
+      query = {}
+      break;
+    case 'reply':
+      pathname = '/dashboard/post/comment';
+      query = { commentId: notification?.commentId, postId: notification?.postId }
+      break;
+    default:
+      break;
+  }
+  // if (notification?.type == 'like') {
+  //   pathname = '/dashboard/post/';
+  //   query = { postId: notification?.postId }
+  // }
+  // else if (notification?.type == 'dislike') {
+  //   pathname = '/dashboard/post/';
+  //   query = { postId: notification?.postId }
+  // }
+  // else if (notification?.type == 'comment') {
+  //   pathname = '/dashboard/post/';
+  //   query = { postId: notification?.postId }
+  // }
+  // else if (notification?.type === 'message') {
+  //   pathname = '/dashboard/myChatrooms/';
+  //   query = { chatReceiverId: notification?.user?.id }
+  // }
+  // else if (notification?.type === '' ) {
 
-  }
-  else if (notification?.type === 'message') {
-    pathname = '/dashboard/myChatrooms/';
-    query = { chatReceiverId: notification?.user?.id }
-  }
-  else {
-    pathname = '/dashboard/profile/';
-    query = {}
-  }
+  // }
+  // else {
+  //   pathname = '/dashboard/profile/';
+  //   query = {}
+  // }
 
   const renderNotificationText = () => {
 
@@ -107,8 +169,6 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         break;
     }
   }
-
-  console.log('notification: ', notification);
 
   return (
     <div className="divide-slate-200 dark:divide-lightgray">

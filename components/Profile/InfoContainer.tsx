@@ -116,7 +116,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const fetchProfilePicture = async (id: number) => {
     if (id != undefined || id != null) {
       await dispatch(fetchPostImage(id)).then((result: any) => {
-        console.log('result: ', result);
         setProfilePicture(result[0]?.name);
       });
     }

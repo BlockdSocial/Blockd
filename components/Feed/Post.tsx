@@ -105,15 +105,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  console.log('postzzzzz: ', sharedPost);
-
   useEffect(() => {
     fetchInfo();
     fetchLiked();
     setImageEdit(mainPost?.images ? mainPost?.images[0]?.name : "");
     setTextArea(mainPost?.content || "");
     fetchDisliked();
-
     if (mainPost?.sharedPostId) {
       fetchPostById();
     }
@@ -414,8 +411,6 @@ export default function PostTest({ mainPost, refetch }: Props) {
       refetch();
     });
   }
-
-  console.log('post: ', mainPost);
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
@@ -722,29 +717,32 @@ export default function PostTest({ mainPost, refetch }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <ShareIcon
-                  ref={share}
-                  onClick={() => setShareBoxVisible(!shareBoxVisible)}
-                  className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
-                />
-                <p className="text-xs">
-                  {info?.shares != null || undefined ? info?.shares : 0}
-                </p>
-                {shareBoxVisible && (
-                  <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
-                    <div onClick={() => copy(`${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`)} className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
-                      Copy Link
+              {
+                isEmpty(sharedPost) &&
+                <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ShareIcon
+                    ref={share}
+                    onClick={() => setShareBoxVisible(!shareBoxVisible)}
+                    className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                  />
+                  <p className="text-xs">
+                    {info?.shares != null || undefined ? info?.shares : 0}
+                  </p>
+                  {shareBoxVisible && (
+                    <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
+                      <div onClick={() => copy(`${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`)} className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
+                        Copy Link
+                      </div>
+                      <div
+                        onClick={() => setSharePopUp(!sharePopUp)}
+                        className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-b-md bg-transparent hover:bg-gray-100"
+                      >
+                        Share post
+                      </div>
                     </div>
-                    <div
-                      onClick={() => setSharePopUp(!sharePopUp)}
-                      className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-b-md bg-transparent hover:bg-gray-100"
-                    >
-                      Share post
-                    </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              }
             </div>
           </div>
           {commentBoxVisible && (

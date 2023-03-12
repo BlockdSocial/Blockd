@@ -49,7 +49,10 @@ import {
   SUGGEST_FAILURE,
   IS_SHARING_POST,
   SHARE_POST_SUCCESS,
-  SHARE_POST_FAILURE
+  SHARE_POST_FAILURE,
+  IS_FETCHING_SHARED_POST,
+  FETCH_POST_SHARED_SUCCESS,
+  FETCH_POST_SHARED_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -77,6 +80,7 @@ const initialState = {
   postInfo: {},
   postImage: {},
   post: {},
+  sharedPost: {},
   filteredPosts: {},
   trendingPosts: [],
   postsResults: []
@@ -215,6 +219,26 @@ export function postReducer(state = initialState, action: any) {
       };
     }
     case FETCH_POST_FAILURE: {
+      return {
+        ...state,
+        isFetchingPost: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_SHARED_POST: {
+      return {
+        ...state,
+        isFetchingPost: true
+      };
+    }
+    case FETCH_POST_SHARED_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPost: false,
+        sharedPost: action.sharedPost
+      };
+    }
+    case FETCH_POST_SHARED_FAILURE: {
       return {
         ...state,
         isFetchingPost: false,
