@@ -186,7 +186,6 @@ const handleApiResponse = async (apiName: any, response: any) => {
 		}
 		default: {
 			let textResponse = await response.text();
-			console.log('textResponse: ', textResponse);
 			return textResponse;
 		}
 	}

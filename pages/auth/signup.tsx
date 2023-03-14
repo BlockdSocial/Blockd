@@ -101,9 +101,6 @@ export default function SignUp() {
     ) {
       return;
     }
-    console.log({ userMessageForBackend });
-    console.log({ address });
-    console.log({ userSignature });
 
     await dispatch(
       registerUser({
@@ -190,7 +187,6 @@ export default function SignUp() {
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
     onSuccess(data: any) {
-      console.log("write", data);
       setNftData(true);
     },
   });
@@ -207,13 +203,11 @@ export default function SignUp() {
     enabled: !!address,
     onSuccess() {
       if (nft_data && Number(nft_data) > 0) {
-        console.log(nft_data);
         setNftData(true);
       }
     },
   });
 
-  console.log(nftData);
   if (!mounted) {
     return null;
   }
@@ -383,7 +377,7 @@ export default function SignUp() {
                   </div>
 
                   {error && (
-                    <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                    <div className="mt-4 w-full bg-red-500 rounded-md p-2 break-normal">
                       An error occurred preparing the transaction:<br></br>
                       {error.message}
                     </div>

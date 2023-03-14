@@ -11,6 +11,7 @@ import { isEmpty } from 'lodash';
 import { useRouter } from 'next/router';
 import { fetchUserPosts } from '../../stores/post/PostActions';
 import CustomLoadingOverlay from '../CustomLoadingOverlay';
+import { parseQueryString } from '../../utils';
 
 interface User {
   id: string;
@@ -39,7 +40,7 @@ function ProfilePage() {
   const { isFetchingUser } = useAppSelector((state) => state.userReducer);
 
   const router = useRouter()
-  const { user_id } = router.query
+  const user_id = router.query.user_id || parseQueryString(window.location.search.substring(1)).user_id;
 
   useEffect(() => {
     if (user_id == undefined || null) {

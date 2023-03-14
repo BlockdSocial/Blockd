@@ -33,9 +33,6 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
   const [message] = useChannel(
     `messageNotification-${authUser.id}`,
     (message) => {
-      console.log(message);
-      console.log(authUser);
-
       updateMessages();
     }
   );
@@ -102,8 +99,6 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
     //   }
     // }
   };
-
-  console.log(receiver);
 
   return (
     <div className="flex min-h-[90vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">

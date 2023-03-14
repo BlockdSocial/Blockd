@@ -34,7 +34,6 @@ export function notificationReducer(state = initialState, action: any) {
         ...state,
         isFetchingUserNotifications: false,
         notifications: action.notifications,
-        unread: action.unread
       };
     }
     case FETCH_USER_NOTIFICATIONS_FAILURE: {

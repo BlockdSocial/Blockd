@@ -46,7 +46,7 @@ interface Comment {
   content: string;
   createdAt: string;
   userId: number;
-  user: User;
+  otherUser: User;
   gif: string;
   imgName: string;
 }
@@ -288,26 +288,26 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           href="/dashboard/profile"
           className="flex flex-col w-fit h-fit group"
         >
-          <div className={`relative flex flex-col items-center justify-center p-1 ${comment?.user?.frameName} rounded-lg`}>
+          <div className={`relative flex flex-col items-center justify-center p-1 ${comment?.otherUser?.frameName} rounded-lg`}>
             <img
               src={
-                !isEmpty(comment?.user?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`
+                !isEmpty(comment?.otherUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
               className="w-20 h-16 rounded-md shadow-sm"
             />
-            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.user?.frameName) ? comment?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
+            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.otherUser?.frameName) ? comment?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                {comment?.user?.level}
+                {comment?.otherUser?.level}
               </div>
             </div>
           </div>
         </Link>
         <div className="w-full">
           <div className="flex items-center">
-            <p className="mr-1 font-semibold">@{comment?.user?.name}</p>
+            <p className="mr-1 font-semibold">@{comment?.otherUser?.name}</p>
           </div>
           <div className="flex flex-col items-start justify-start p-1">
             <TimeAgo

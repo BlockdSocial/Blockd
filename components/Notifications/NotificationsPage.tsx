@@ -31,7 +31,7 @@ interface User {
 interface INotification {
   id: number;
   type: string;
-  user: User;
+  otherUser: User;
   createdAt: string;
   postId: number;
   commentId: number;

@@ -63,7 +63,7 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-  user: User;
+  otherUser: User;
   images: Image[];
   profilePic: any;
   bannerPic: any;
@@ -226,7 +226,6 @@ function PostID({ post, refetchComments }: Props) {
       fetchInfo();
       fetchLiked();
       fetchDisliked();
-      console.log('POST: ', post);
       if (post?.sharedPostId) {
         fetchPostById();
       }
@@ -346,14 +345,14 @@ function PostID({ post, refetchComments }: Props) {
               <Link
                 href={{
                   pathname: "/dashboard/profile",
-                  query: { user_id: post?.user?.id },
+                  query: { user_id: post?.otherUser?.id },
                 }} className="relative flex flex-col w-fit h-fit group"
               >
-                <div className={`relative flex flex-col p-1 ${post?.user?.frameName} rounded-lg`}>
+                <div className={`relative flex flex-col p-1 ${post?.otherUser?.frameName} rounded-lg`}>
                   <Image
                     src={
-                      !isEmpty(post?.user?.profilePic)
-                        ? `${config.url.PUBLIC_URL}/${post?.user?.profilePic?.name}`
+                      !isEmpty(post?.otherUser?.profilePic)
+                        ? `${config.url.PUBLIC_URL}/${post?.otherUser?.profilePic?.name}`
                         : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
@@ -361,9 +360,9 @@ function PostID({ post, refetchComments }: Props) {
                     width={60}
                     height={60}
                   />
-                  <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(post?.user?.frameName) ? post?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
+                  <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(post?.otherUser?.frameName) ? post?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
                     <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                      {post?.user?.level}
+                      {post?.otherUser?.level}
                     </div>
                   </div>
                 </div>
@@ -371,7 +370,7 @@ function PostID({ post, refetchComments }: Props) {
             </div>
             <div className="flex flex-col items-start justify-center space-y-1">
               <div className="flex items-center space-x-1">
-                <p className="mr-1 font-semibold text-l">@{post?.user?.name}</p>
+                <p className="mr-1 font-semibold text-l">@{post?.otherUser?.name}</p>
               </div>
               {/* <div>
                 <p className="text-sm text-gray-500">0 followers</p>

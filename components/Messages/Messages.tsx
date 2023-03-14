@@ -8,6 +8,7 @@ import { readNotification } from '../../stores/notification/NotificationActions'
 import { isEmpty } from 'lodash';
 import { config } from '../../constants';
 import moment from 'moment';
+import { encodeQuery } from '../../utils';
 
 function Messages({ notification, handleFetchNotifications }: any) {
   const dispatch = useAppDispatch();
@@ -25,7 +26,7 @@ function Messages({ notification, handleFetchNotifications }: any) {
         onClick={() => handleReadNotification()}
         href={{
           pathname: '/dashboard/myChatrooms/',
-          query: { chatReceiverId: notification?.user?.id },
+          query: { chatReceiverId: notification?.otherUser?.id },
         }}
         // @ts-ignore
         className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ? 'bg-slate-100 dark:bg-lightgray' : ''} p-4 cursor-pointer`}
@@ -35,27 +36,30 @@ function Messages({ notification, handleFetchNotifications }: any) {
             onClick={() => handleReadNotification()}
             href={{
               pathname: "/dashboard/profile",
-              query: { user_id: notification?.user?.id },
-            }}>
+              query: { user_id: notification?.otherUser?.id },
+            }}
+            as={`/dashboard/profile?${encodeQuery(notification?.otherUser?.id, 'profile')}`}
+          >
             <img
               className="h-10 w-10 rounded-full"
               src={
-                !isEmpty(notification?.user?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${notification?.user?.profilePic?.name}`
+                !isEmpty(notification?.otherUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               } alt=""
             />
           </Link>
           <div className="ml-3 flex items-center justify-center">
-            <p className="text-sm font-medium text-slate-900 dark:text-white">{notification?.user?.name} Sent you a private message. {moment(notification?.createdAt).fromNow()}</p>
+            <p className="text-sm font-medium text-slate-900 dark:text-white">{notification?.otherUser?.name} Sent you a private message. {moment(notification?.createdAt).fromNow()}</p>
           </div>
         </div>
         <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
           <Link onClick={() => handleReadNotification()}
             href={{
               pathname: '/dashboard/myChatrooms/',
-              query: { chatReceiverId: notification?.user?.id },
-            }} className="flex invisible group-hover/item:visible">
+              query: { chatReceiverId: notification?.otherUser?.id },
+            }}
+            className="flex invisible group-hover/item:visible">
             <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
             <div className='flex items-center ml-2'>
               <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />

@@ -24,6 +24,43 @@ export const isEmpty = (variable: any) => {
 	return false;
 }
 
+export const encodeQuery = (query: any, type: any) => {
+	if (!isEmpty(type) && !isEmpty(query)) {
+		if ('profile' === type) {
+			return Buffer.from('user_id=' + query.toString(), 'utf-8').toString('base64');
+		}
+		if ('post' === type) {
+			return Buffer.from('postId=' + query.toString(), 'utf-8').toString('base64');
+		}
+		if ('comment' === type) {
+			return Buffer.from('commentId=' + query.toString(), 'utf-8').toString('base64');
+		}
+	}
+}
+
+export const parseQueryString = (query: any) => {
+	var parsed: any = Buffer.from(query, 'base64').toString('utf-8');
+	var vars = parsed.split("&");
+	var query_string: any = {};
+	for (var i = 0; i < vars.length; i++) {
+		var pair = vars[i].split("=");
+		var key = decodeURIComponent(pair.shift());
+		var value = decodeURIComponent(pair.join("="));
+		// If first entry with this name
+		if (typeof query_string[key] === "undefined") {
+			query_string[key] = value;
+			// If second entry with this name
+		} else if (typeof query_string[key] === "string") {
+			var arr = [query_string[key], value];
+			query_string[key] = arr;
+			// If third or later entry with this name
+		} else {
+			query_string[key].push(value);
+		}
+	}
+	return query_string;
+}
+
 export const timeSince = (time: any) => {
 	switch (typeof time) {
 		case 'number':

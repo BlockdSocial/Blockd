@@ -174,7 +174,7 @@ export default function Chat({
                     <img
                       src={
                         !isEmpty(authUser?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                          ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       className="object-cover h-10 w-10 rounded-full"

@@ -31,11 +31,46 @@ async function muteChat(fields: any) {
   return apiCall('muteChat', 'POST', `${endpoints.chat}/mute/${fields}`);
 };
 
+async function createChatroom(fields: any) {
+  return apiCall('createChatroom', 'POST', 'user/create/room', fields);
+}
+
+async function deleteChatroom(fields: any) {
+  return apiCall('deleteChatroom', 'DELETE', `user/delete/room/${fields}`);
+};
+
+async function addMember(id: any, fields: any) {
+  return apiCall('addMember', 'POST', `add/member/room/${id}`, fields)
+};
+
+async function removeMember(id: any, fields: any) {
+  return apiCall('removeMember', 'POST', `remove/member/room/${id}`, fields);
+};
+
+async function createChatroomMessage(id: any, fields: any) {
+  return apiCall('createMessage', 'POST', `message/room/${id}`, fields);
+};
+
+async function fetchUserChatrooms() {
+  return apiCall('fetchUserChatrooms', 'GET', 'user/rooms');
+};
+
+async function fetchChatroomMembers(fields: any) {
+  return apiCall('fetchChatroomMembers', 'GET', `members/room/${fields}`);
+};
+
 export default {
   createMessage,
   fetchMessages,
   createChat,
   deleteChat,
   getChat,
-  muteChat
+  muteChat,
+  createChatroom,
+  deleteChatroom,
+  addMember,
+  removeMember,
+  createChatroomMessage,
+  fetchUserChatrooms,
+  fetchChatroomMembers
 };

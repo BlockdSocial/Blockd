@@ -7,6 +7,7 @@ import { fetchPostComments } from '../../stores/comment/CommentActions'
 import { fetchPost } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { isEmpty } from 'lodash'
+import { parseQueryString } from '../../utils'
 
 interface Comment {
   content: string;
@@ -36,7 +37,7 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-  user: User;
+  otherUser: User;
   profilePic: any;
   bannerPic: any;
 }
@@ -47,7 +48,7 @@ function PostPage() {
   const { post } = useAppSelector((state) => state.postReducer);
 
   const router = useRouter();
-  const { postId } = router.query;
+  const postId = router.query.postId || parseQueryString(window.location.search.substring(1)).postId;
 
   useEffect(() => {
     if (!isEmpty(router.query)) {

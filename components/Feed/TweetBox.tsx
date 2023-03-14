@@ -195,8 +195,8 @@ function TweetBox({ refetchFiltered }: Props) {
         <div className={`relative flex flex-col p-1 ${authUser?.frameName} rounded-lg`}>
           <Image
             src={
-              authUser?.profilePic
-                ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+              !isEmpty(authUser?.profilePic)
+                ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                 : "/images/pfp/pfp1.jpg"
             }
             alt="pfp"

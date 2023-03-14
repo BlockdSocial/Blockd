@@ -36,6 +36,7 @@ import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast, { Toaster } from "react-hot-toast";
 import { followUser } from "../../stores/user/UserActions";
 import { useCopyToClipboard } from "usehooks-ts";
+import { encodeQuery } from "../../utils";
 
 interface Pic {
   name: string;
@@ -66,8 +67,8 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-  user: User;
-  images: Image[];
+  otherUser: User;
+  postImage: Image;
   profilePic: any;
   bannerPic: any;
   sharedPostId: number;
@@ -105,10 +106,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
 
   const dropdown = useRef<any>(null);
 
+  console.log('mainPost: ', mainPost);
+
   useEffect(() => {
     fetchInfo();
     fetchLiked();
-    setImageEdit(mainPost?.images ? mainPost?.images[0]?.name : "");
+    setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");
     setTextArea(mainPost?.content || "");
     fetchDisliked();
     if (mainPost?.sharedPostId) {
@@ -396,7 +399,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
   const handleFollowUser = async () => {
     await dispatch(
       followUser({
-        user_id: mainPost?.user?.id,
+        user_id: mainPost?.otherUser?.id,
       })
     );
   };
@@ -426,30 +429,31 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 <Link
                   href={{
                     pathname: "/dashboard/profile",
-                    query: { user_id: mainPost?.user?.id },
+                    query: { user_id: mainPost?.otherUser?.id },
                   }}
+                  as={`/dashboard/profile?${encodeQuery(mainPost?.otherUser?.id, 'profile')}`}
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div
-                    className={`relative flex flex-col p-1 ${mainPost?.user?.frameName} rounded-lg`}
+                    className={`relative flex flex-col p-1 ${mainPost?.otherUser?.frameName} rounded-lg`}
                   >
                     <img
                       src={
-                        !isEmpty(mainPost?.user?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${mainPost?.user?.profilePic?.name}`
+                        !isEmpty(mainPost?.otherUser?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
                     <div
-                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.user?.frameName)
-                        ? mainPost?.user?.frameName
+                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
+                        ? mainPost?.otherUser?.frameName
                         : "bg-blue-300"
                         } rounded-lg`}
                     >
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        {mainPost?.user?.level}
+                        {mainPost?.otherUser?.level}
                       </div>
                     </div>
                   </div>
@@ -460,11 +464,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
                   <Link
                     href={{
                       pathname: "/dashboard/profile",
-                      query: { user_id: mainPost?.user?.id },
+                      query: { user_id: mainPost?.otherUser?.id },
                     }}
+                    as={`/dashboard/profile?${encodeQuery(mainPost?.otherUser?.id, 'profile')}`}
                   >
                     <p className="mr-1 font-semibold text-xs md:text-base">
-                      @{mainPost?.user?.name}
+                      @{mainPost?.otherUser?.name}
                     </p>
                   </Link>
                 </div>
@@ -549,15 +554,16 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 pathname: "/dashboard/post/",
                 query: { postId: mainPost?.id },
               }}
+              as={`/dashboard/post?${encodeQuery(mainPost?.id, 'post')}`}
               onClick={() => addView()}
               className="w-full flex flex-col items-start justify-start"
             >
               {mainPost?.content != null && (
                 <p className="pt-5 text-sm lg:text-base">{mainPost?.content}</p>
               )}
-              {mainPost?.images != null ? (
+              {mainPost?.postImage != null ? (
                 <img
-                  src={`${config.url.PUBLIC_URL}/${mainPost?.images[0]?.name}`}
+                  src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                   alt="Post"
                   className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
@@ -580,30 +586,31 @@ export default function PostTest({ mainPost, refetch }: Props) {
                     <Link
                       href={{
                         pathname: "/dashboard/profile",
-                        query: { user_id: sharedPost?.user?.id },
+                        query: { user_id: sharedPost?.otherUser?.id },
                       }}
+                      as={`/dashboard/profile?${encodeQuery(sharedPost?.otherUser?.id, 'profile')}`}
                       className="relative flex flex-col w-fit h-fit group"
                     >
                       <div
-                        className={`relative flex flex-col p-1 ${sharedPost?.user?.frameName} rounded-lg`}
+                        className={`relative flex flex-col p-1 ${sharedPost?.otherUser?.frameName} rounded-lg`}
                       >
                         <img
                           src={
-                            !isEmpty(sharedPost?.user?.profilePic)
-                              ? `${config.url.PUBLIC_URL}/${sharedPost?.user?.profilePic?.name}`
+                            !isEmpty(sharedPost?.otherUser?.profilePic)
+                              ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
                               : "/images/pfp/pfp1.jpg"
                           }
                           alt="pfp"
                           className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                         />
                         <div
-                          className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.user?.frameName)
-                            ? sharedPost?.user?.frameName
+                          className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.otherUser?.frameName)
+                            ? sharedPost?.otherUser?.frameName
                             : "bg-blue-300"
                             } rounded-lg`}
                         >
                           <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                            {sharedPost?.user?.level}
+                            {sharedPost?.otherUser?.level}
                           </div>
                         </div>
                       </div>
@@ -614,11 +621,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
                       <Link
                         href={{
                           pathname: "/dashboard/profile",
-                          query: { user_id: sharedPost?.user?.id },
+                          query: { user_id: sharedPost?.otherUser?.id },
                         }}
+                        as={`/dashboard/profile?${encodeQuery(sharedPost?.otherUser?.id, 'profile')}`}
                       >
                         <p className="mr-1 font-semibold text-xs md:text-base">
-                          @{sharedPost?.user?.name}
+                          @{sharedPost?.otherUser?.name}
                         </p>
                       </Link>
                     </div>
@@ -653,6 +661,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
                     pathname: "/dashboard/post/",
                     query: { postId: sharedPost?.id },
                   }}
+                  as={`/dashboard/post?${encodeQuery(sharedPost?.id, 'post')}`}
                   onClick={() => addView()}
                   className="w-full flex flex-col items-start justify-start"
                 >
@@ -1122,35 +1131,35 @@ export default function PostTest({ mainPost, refetch }: Props) {
             </div>
             <div className="flex items-start justify-start border-t w-full py-2 space-x-3">
               <div
-                className={`relative flex flex-col p-1 ${mainPost?.user?.frameName} rounded-lg`}
+                className={`relative flex flex-col p-1 ${mainPost?.otherUser?.frameName} rounded-lg`}
               >
                 <img
                   src={
-                    !isEmpty(mainPost?.user?.profilePic)
-                      ? `${config.url.PUBLIC_URL}/${mainPost?.user?.profilePic?.name}`
+                    !isEmpty(mainPost?.otherUser?.profilePic)
+                      ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   } alt="pfp"
                   className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.user?.frameName)
-                    ? mainPost?.user?.frameName
+                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
+                    ? mainPost?.otherUser?.frameName
                     : "bg-blue-300"
                     } rounded-lg`}
                 >
                   <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                    {mainPost?.user?.level}
+                    {mainPost?.otherUser?.level}
                   </div>
                 </div>
               </div>
               <div className="flex flex-col items-start justify-start h-full pt-1">
-                <p className="text-sm text-black">@{mainPost?.user?.name}</p>
+                <p className="text-sm text-black">@{mainPost?.otherUser?.name}</p>
                 <p className="text-xs text-black">{moment(mainPost?.createdAt).fromNow()}</p>
               </div>
             </div>
-            {mainPost?.images != null ? (
+            {mainPost?.postImage != null ? (
               <img
-                src={`${config.url.PUBLIC_URL}/${mainPost?.images[0]?.name}`}
+                src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                 alt="Content"
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />

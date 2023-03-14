@@ -11,6 +11,7 @@ import { config } from "../../constants";
 import { TrendingStreams } from "./TrendingStreams";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import { encodeQuery } from "../../utils";
 
 interface Pic {
   name: string;
@@ -53,10 +54,12 @@ function Widgets() {
           end: 5,
         })
       ).then((result: any) => {
-        setSearchResult(result?.users);
+        setSearchResult(result?.posts);
       });
     }
   }, [input]);
+
+  console.log('searchResult: ', searchResult);
 
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
@@ -81,23 +84,24 @@ function Widgets() {
                     <Link
                       href={{
                         pathname: "/dashboard/profile",
-                        query: { user_id: result?.id },
+                        query: { user_id: result?.otherUser?.id },
                       }}
+                      as={`/dashboard/profile?${encodeQuery(result?.otherUser?.id, 'profile')}`}
                       className="w-full"
                     >
                       <div
-                        key={result?.id}
+                        key={result?.otherUser?.id}
                         className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
                       >
                         <img
                           src={
-                            !isEmpty(result?.profilePic)
-                              ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
+                            !isEmpty(result?.otherUser?.profilePic)
+                              ? `${config.url.PUBLIC_URL}/${result?.otherUser?.profilePic?.name}`
                               : "/images/pfp/pfp1.jpg"
                           }
                           className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
                         />
-                        <p className="font-semibold text-sm">@{result?.name}</p>
+                        <p className="font-semibold text-sm">@{result?.otherUser?.name}</p>
                       </div>
                     </Link>
                   ))}

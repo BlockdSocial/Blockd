@@ -16,7 +16,28 @@ import {
   FETCH_CHAT_FAILURE,
   IS_MUTING_CHAT,
   MUTE_CHAT_SUCCESS,
-  MUTE_CHAT_FAILURE
+  MUTE_CHAT_FAILURE,
+  IS_CREATING_CHATROOM,
+  CREATE_CHATROOM_SUCCESS,
+  CREATE_CHATROOM_FAILURE,
+  IS_DELETING_CHATROOM,
+  DELETE_CHATROOM_SUCCESS,
+  DELETE_CHATROOM_FAILURE,
+  IS_ADDING_MEMBER,
+  ADD_MEMBER_SUCCESS,
+  ADD_MEMBER_FAILURE,
+  IS_REMOVING_MEMBER,
+  REMOVE_MEMBER_SUCCESS,
+  REMOVE_MEMBER_FAILURE,
+  IS_CREATING_CHATROOM_MESSAGE,
+  CREATE_CHATROOM_MESSAGE_SUCCESS,
+  CREATE_CHATROOM_MESSAGE_FAILURE,
+  IS_FETCHING_USER_CHATROOMS,
+  FETCH_USER_CHATROOMS_SUCCESS,
+  FETCH_USER_CHATROOMS_FAILURE,
+  IS_FETCHING_CHATROOM_MEMBERS,
+  FETCH_CHATROOM_MEMBERS_SUCCESS,
+  FETCH_CHATROOM_MEMBERS_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -127,4 +148,124 @@ export function muteChat(fields: any) {
       });
     }
   }
-} 
+}
+
+export function createChatroom(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_CREATING_CHATROOM });
+    try {
+      await chatApi.createChatroom(fields);
+      dispatch({ type: CREATE_CHATROOM_SUCCESS });
+    } catch (error: any) {
+      console.log('Create chatroom error: ', error.message);
+      dispatch({
+        type: CREATE_CHATROOM_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function deleteChatroom(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_DELETING_CHATROOM });
+    try {
+      await chatApi.deleteChatroom(fields);
+      dispatch({ type: DELETE_CHATROOM_SUCCESS });
+    } catch (error: any) {
+      console.log('Delete chatroom error: ', error.message);
+      dispatch({
+        type: DELETE_CHATROOM_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function addMember(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_ADDING_MEMBER });
+    try {
+      await chatApi.addMember(id, fields);
+      dispatch({ type: ADD_MEMBER_SUCCESS });
+    } catch (error: any) {
+      console.log('Add member error: ', error.message);
+      dispatch({
+        type: ADD_MEMBER_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function removeMember(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_REMOVING_MEMBER });
+    try {
+      await chatApi.removeMember(id, fields);
+      dispatch({ type: REMOVE_MEMBER_SUCCESS });
+    } catch (error: any) {
+      console.log('Remove member error: ', error.message);
+      dispatch({
+        type: REMOVE_MEMBER_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function createChatroomMessage(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_CREATING_CHATROOM_MESSAGE });
+    try {
+      await chatApi.createChatroomMessage(id, fields);
+      dispatch({ type: CREATE_CHATROOM_MESSAGE_SUCCESS });
+    } catch (error: any) {
+      console.log('Create chatroom message error: ', error.message);
+      dispatch({
+        type: CREATE_CHATROOM_MESSAGE_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchUserChatrooms() {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_USER_CHATROOMS });
+    try {
+      const result = await chatApi.fetchUserChatrooms();
+      dispatch({
+        type: FETCH_USER_CHATROOMS_SUCCESS,
+        chatrooms: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch user chatrooms error: ', error.message);
+      dispatch({
+        type: FETCH_USER_CHATROOMS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchChatroomMembers(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_CHATROOM_MEMBERS });
+    try {
+      const result = await chatApi.fetchChatroomMembers(fields);
+      dispatch({
+        type: FETCH_CHATROOM_MEMBERS_SUCCESS,
+        members: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch chatroom members error: ', error.message);
+      dispatch({
+        type: FETCH_CHATROOM_MEMBERS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}

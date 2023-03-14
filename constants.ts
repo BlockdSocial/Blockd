@@ -14,6 +14,6 @@ const dev = {
     DASHBOARD_URL: 'http://localhost:3000/dashboard'
   }
 };
-export const config = process.env.NODE_ENV === 'development' ? prod : prod;
+export const config = process.env.NODE_ENV === 'development' ? dev : prod;
 export const GID = process.env.NODE_ENV === 'development' ? '' : '=G-QW4Q5G8G4K';
 export const AblyKey = "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg";

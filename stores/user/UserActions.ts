@@ -37,7 +37,10 @@ import {
   RESET_BELL_FAILURE,
   IS_RESETING_MESSAGES,
   RESET_MESSAGES_SUCCESS,
-  RESET_MESSAGES_FAILURE
+  RESET_MESSAGES_FAILURE,
+  IS_SEARCHING_FILTERED_USERS,
+  SEARCH_FILTERED_USERS_SUCCESS,
+  SEARCH_FILTERED_USERS_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -170,6 +173,26 @@ export function searchUsers(fields: any) {
       dispatch({
         type: SEARCH_POPULAR_USERS_FAILURE,
         error: error?.message
+      });
+    }
+  }
+}
+
+export function searchFilteredUsers(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SEARCHING_FILTERED_USERS });
+    try {
+      const result = await userApi.searchFilteredUsers(fields);
+      dispatch({
+        type: SEARCH_FILTERED_USERS_SUCCESS,
+        filteredUsers: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Search Filtered users error: ', error);
+      dispatch({
+        type: SEARCH_FILTERED_USERS_FAILURE,
+        error: error.message
       });
     }
   }

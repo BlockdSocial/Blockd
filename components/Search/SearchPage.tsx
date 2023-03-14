@@ -4,8 +4,9 @@ import PostTest from '../Feed/Post'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { useRouter } from 'next/router'
 import { isEmpty, isString } from 'lodash'
-import { searchUsers } from '../../stores/user/UserActions'
+import { searchFilteredUsers, searchUsers } from '../../stores/user/UserActions'
 import { searchPosts } from '../../stores/post/PostActions'
+import { config } from '../../constants'
 
 interface Post {
   id: number;
@@ -20,11 +21,12 @@ function SearchPage() {
   const dispatch = useAppDispatch();
   const router = useRouter()
   const { query } = router.query
-  const { popularUsers } = useAppSelector((state) => state.userReducer)
+  const { popularUsers, filteredUsers } = useAppSelector((state) => state.userReducer)
 
   useEffect(() => {
     if (isString(query) && query.length > 0) {
       handleSearchUsers();
+      handleSearchFilteredUsers();
     }
   }, [query]);
 
@@ -35,18 +37,32 @@ function SearchPage() {
     }));
   }
 
+  const handleSearchFilteredUsers = async () => {
+    dispatch(searchFilteredUsers({
+      search: query
+    }))
+  }
+
+  console.log('filteredUsers: ', filteredUsers);
+
   return (
     <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 bg-gray-100 dark:bg-darkgray pb-14">
       <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-lightgray rounded-lg space-y-3'>
         <h3 className='text-xl font-semibold w-full mb-4'>People</h3>
         <>
           {
-            popularUsers?.users &&
-            popularUsers?.users.map((user: any) => (
+            filteredUsers &&
+            filteredUsers.map((user: any) => (
               <div className='flex items-center justify-between w-full'>
                 <div className='flex items-center justify-center space-x-3'>
                   <div className='flex items-center justify-center'>
-                    <img src="/images/pfp/pfp1.jpg" className='rounded-md w-16 h-16 bg-blockd' />
+                    <img
+                      src={
+                        !isEmpty(user?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${user?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
+                      } className='rounded-md w-16 h-16 bg-blockd'
+                    />
                   </div>
                   <div className='flex flex-col items-start justify-center space-y-2'>
                     <div className='flex flex-col items-start justify-center'>

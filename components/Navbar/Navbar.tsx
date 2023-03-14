@@ -44,7 +44,7 @@ const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { notifications, unread } = useAppSelector(
+  const { notifications } = useAppSelector(
     (state) => state.notificationReducer
   );
   const { systemTheme, theme, setTheme } = useTheme();
@@ -75,18 +75,12 @@ const Navbar = () => {
   };
 
   const [channel, ably] = useChannel("notifications", (message) => {
-    console.log(message);
-    console.log(authUser);
-
     checkUserNotification(message.data);
   });
 
   const [message] = useChannel(
     `messageNotification-${authUser.id}`,
     (message) => {
-      console.log(message);
-      console.log(authUser);
-
       fetchMessageNotification(message.data);
     }
   );
@@ -94,7 +88,7 @@ const Navbar = () => {
   const fetchMessageNotification = async (data: Data) => {
     await dispatch(fetchUserNotification(data?.notification)).then(
       async (result: any) => {
-        setNotificationInfo(`${result?.user?.name} sent you a message!`);
+        setNotificationInfo(`${result?.otherUser?.name} sent you a message!`);
       }
     );
     await handleFetchNotifications();
@@ -106,14 +100,12 @@ const Navbar = () => {
     if (isEmpty(authUser)) {
       // @ts-ignore
       localStorageAuthUser = JSON.parse(localStorage.getItem("authUser"));
-      console.log(localStorageAuthUser);
     } else {
       localStorageAuthUser = authUser;
     }
     if (localStorageAuthUser?.id == data?.receiver_id) {
       await dispatch(fetchUserNotification(data?.notification)).then(
         async (result: any) => {
-          console.log("result: ", result);
           if ("like" === result?.type) {
             setNotificationInfo(`${result?.user?.name} has liked your post!`);
           } else if ("comment" === result?.type) {
@@ -136,7 +128,6 @@ const Navbar = () => {
 
   const fetchUserName = async (id: any) => {
     await dispatch(fetchUser(id)).then((result: any) => {
-      console.log("NAME: ", result?.name);
       return result?.name;
     });
   };
@@ -322,7 +313,7 @@ const Navbar = () => {
                 <img
                   src={
                     authUser?.profilePic
-                      ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                      ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
