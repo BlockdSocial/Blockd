@@ -155,7 +155,8 @@ const Navbar = () => {
   }, []);
 
   const handleLogoutClick = async () => {
-    await dispatch(logoutUser()).then(() => router.push("/auth/signin"));
+    await dispatch(logoutUser());
+    router.push("/auth/signin");
   };
 
   const renderThemeChanger = () => {
@@ -285,7 +286,6 @@ const Navbar = () => {
                       ) : (
                         <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unread}</span>
-                          <span className="text-xs">5</span>
                         </span>
                       )}
                       <BellIcon className="h-6 w-6 inline text-white dark:text-white" />

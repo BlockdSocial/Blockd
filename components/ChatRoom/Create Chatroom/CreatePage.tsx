@@ -1,11 +1,45 @@
 import React, { useState } from "react";
+import { toast } from "react-hot-toast";
+import { createChatroom } from "../../../stores/chat/ChatActions";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 
 function CreatePage() {
+  const dispatch = useAppDispatch();
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [selectedOption, setSelectedOption] = useState<string>("");
+  const [name, setName] = useState<string>("");
+  const [description, setDescription] = useState<string>("");
+  const [count, setCount] = useState<string>("");
+  const [contractAddress, setContractAddress] = useState<string>("");
+  const [network, setNetwork] = useState<string>("");
+  const [tokenAmount, setTokenAmount] = useState<string>("");
 
   // handle selection change
-  function handleOptionChange(event: React.ChangeEvent<HTMLSelectElement>) {
+  const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
+  }
+
+  const handleCountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setCount(event.target.value);
+  }
+
+  const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setNetwork(event.target.value);
+  }
+
+  const handleCreateRoom = async () => {
+    await dispatch(createChatroom({
+      display_name: name,
+      description: description,
+      moderator_id: authUser?.id,
+      private: 'private' === selectedOption ? 1 : 0,
+    })).then(() => {
+      toast.success('Created!', {
+        duration: 4000
+      });
+      setName('');
+      setDescription('');
+    });
   }
 
   return (
@@ -20,6 +54,8 @@ function CreatePage() {
                 type="text"
                 className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                 placeholder="Chatroom Name"
+                onChange={(e) => setName(e.target.value)}
+                value={name}
               />
             </div>
             <div className="w-full">
@@ -28,21 +64,27 @@ function CreatePage() {
                 type="text"
                 className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                 placeholder="Enter a small description"
+                onChange={(e) => setDescription(e.target.value)}
+                value={description}
               />
             </div>
             <div className="w-full">
               <h3 className="text-sm font-semibold pb-1">Users count</h3>
-              <select className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray">
-                <option value="option1" className="outline-none p-2">
+              <select
+                value={count}
+                onChange={handleCountChange}
+                className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+              >
+                <option value="1 - 100" className="outline-none p-2">
                   1 - 100
                 </option>
-                <option value="option2" className="outline-none p-2">
+                <option value="100 - 1K" className="outline-none p-2">
                   100 - 1K
                 </option>
-                <option value="option3" className="outline-none p-2">
+                <option value="1K - 5K" className="outline-none p-2">
                   1K - 5K
                 </option>
-                <option value="option4" className="outline-none p-2">
+                <option value="5K - 10K" className="outline-none p-2">
                   5K - 10K
                 </option>
               </select>
@@ -74,21 +116,27 @@ function CreatePage() {
                     type="text"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     placeholder="CA of the required token"
+                    onChange={(e) => setContractAddress(e.target.value)}
+                    value={contractAddress}
                   />
                 </div>
                 <div className="w-full">
                   <h3 className="text-sm font-semibold pb-1">Network</h3>
-                  <select className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray">
-                    <option value="option1" className="outline-none p-2">
+                  <select
+                    value={network}
+                    onChange={handleNetworkChange}
+                    className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                  >
+                    <option value="Polygon" className="outline-none p-2">
                       Polygon
                     </option>
-                    <option value="option2" className="outline-none p-2">
+                    <option value="Avalanche" className="outline-none p-2">
                       Avalanche
                     </option>
-                    <option value="option3" className="outline-none p-2">
+                    <option value="Binance Smart Chain" className="outline-none p-2">
                       Binance Smart Chain
                     </option>
-                    <option value="option4" className="outline-none p-2">
+                    <option value="Phantom" className="outline-none p-2">
                       Phantom
                     </option>
                   </select>
@@ -99,15 +147,38 @@ function CreatePage() {
                     type="text"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     placeholder="Enter token amount needed to join"
+                    onChange={(e) => setTokenAmount(e.target.value)}
+                    value={tokenAmount}
                   />
                 </div>
               </>
             )}
-            <div className="flex items-center justify-center w-full mt-4">
-              <button className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd hover:bg-orange-400">
-                Create
-              </button>
-            </div>
+            {
+              authUser?.level < 2 ?
+                <>
+                  <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                    You must be level 2 or higher to create a chat room.
+                  </div>
+                  <div className="flex items-center justify-center w-full mt-4">
+                    <button
+                      className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd bg-gray-500"
+                      onClick={() => handleCreateRoom()}
+                      disabled={true}
+                    >
+                      Create
+                    </button>
+                  </div>
+                </>
+                :
+                <div className="flex items-center justify-center w-full mt-4">
+                  <button
+                    className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd hover:bg-orange-400"
+                    onClick={() => handleCreateRoom()}
+                  >
+                    Create
+                  </button>
+                </div>
+            }
           </div>
         </div>
       </div>

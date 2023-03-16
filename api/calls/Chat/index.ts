@@ -52,7 +52,7 @@ async function createChatroomMessage(id: any, fields: any) {
 };
 
 async function fetchUserChatrooms() {
-  return apiCall('fetchUserChatrooms', 'GET', 'user/rooms');
+  return apiCall('fetchUserChatrooms', 'GET', 'user/fetch/rooms');
 };
 
 async function fetchChatroomMembers(fields: any) {

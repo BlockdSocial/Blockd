@@ -108,9 +108,9 @@ function Sidebar() {
                 <span className="hidden md:inline">Create Chatroom</span>
               </Link>
               <Link
-                // href="/dashboard/allChatrooms"
-                href="#"
-                className="flex items-center justify-center opacity-60 cursor-default md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
+                href="/dashboard/allChatrooms"
+                // href="#"
+                className="flex items-center justify-center md:justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full md:space-x-2"
               >
                 <LockClosedIcon className="w-5 h-5" />
                 <span className="hidden md:inline">All Chatrooms</span>
