@@ -59,8 +59,6 @@ function Widgets() {
     }
   }, [input]);
 
-  console.log('searchResult: ', searchResult);
-
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
       {/* Search */}

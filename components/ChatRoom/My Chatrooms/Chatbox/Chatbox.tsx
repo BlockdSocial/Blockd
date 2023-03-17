@@ -4,11 +4,11 @@ import Chat from "./Chat";
 import Footer from "./Footer";
 import { isEmpty } from "lodash";
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
-import { fetchMessages } from "../../../../stores/chat/ChatActions";
+import { fetchChatroomMessages, fetchMessages } from "../../../../stores/chat/ChatActions";
 import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 
-function Chatbox({ receiver, chats, setReceiver }: any) {
+function Chatbox({ receiver, chats, setReceiver, room }: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const elementRef = useRef<any>(null);
@@ -26,14 +26,25 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
   useEffect(() => {
     if (!isEmpty(receiver)) {
       getMessages();
+      ref.current = receiver;
     }
-    ref.current = receiver;
-  }, [receiver]);
+    if (!isEmpty(room)) {
+      fetchRoomMessages();
+      ref.current = room;
+    }
+  }, [receiver, room]);
 
   const [message] = useChannel(
     `messageNotification-${authUser.id}`,
     (message) => {
       updateMessages();
+    }
+  );
+
+  const [roomMessage] = useChannel(
+    `roomNotification-${room?.name}`,
+    (message) => {
+      updateRoomMessages();
     }
   );
 
@@ -69,6 +80,32 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
     }
   };
 
+  const fetchRoomMessages = async () => {
+    if (!isEmpty(room)) {
+      await dispatch(
+        fetchChatroomMessages(room?.id, {
+          start: 0,
+          end: 100
+        })
+      ).then((result: any) => {
+        setEndTotal(10);
+        setEndCount(10);
+        setMessages(result?.messages);
+      })
+    }
+  }
+
+  const updateRoomMessages = async () => {
+    await dispatch(
+      fetchChatroomMessages(room?.id, {
+        start: 0,
+        end: 100
+      })
+    ).then((result: any) => {
+      setMessages(result?.messages);
+    });
+  }
+
   const updateMessages = async () => {
     await dispatch(
       fetchMessages({
@@ -100,20 +137,25 @@ function Chatbox({ receiver, chats, setReceiver }: any) {
     // }
   };
 
+  console.log('receiver: ', receiver);
+
   return (
     <div className="flex min-h-[90vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
-      {<Navbar receiver={receiver} chats={chats} setReceiver={setReceiver} />}
+      {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} />}
       <Chat
         receiver={receiver}
+        room={room}
         messages={messages}
         elementRef={elementRef}
         handleScroll={handleScroll}
       />
-      {!isEmpty(receiver) && (
+      {(!isEmpty(receiver) || !isEmpty(room)) && (
         <Footer
           receiver={receiver}
+          room={room}
           messages={messages}
           getMessages={getMessages}
+          fetchRoomMessages={fetchRoomMessages}
         />
       )}
     </div>

@@ -37,7 +37,10 @@ import {
   FETCH_USER_CHATROOMS_FAILURE,
   IS_FETCHING_CHATROOM_MEMBERS,
   FETCH_CHATROOM_MEMBERS_SUCCESS,
-  FETCH_CHATROOM_MEMBERS_FAILURE
+  FETCH_CHATROOM_MEMBERS_FAILURE,
+  IS_FETCHING_CHATROOM_MESSAGES,
+  FETCH_CHATROOM_MESSAGES_SUCCESS,
+  FETCH_CHATROOM_MESSAGES_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -266,6 +269,26 @@ export function fetchChatroomMembers(fields: any) {
         type: FETCH_CHATROOM_MEMBERS_FAILURE,
         error: error.message
       });
+    }
+  }
+}
+
+export function fetchChatroomMessages(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_CHATROOM_MESSAGES });
+    try {
+      const result = await chatApi.fetchChatroomMessages(id, fields);
+      dispatch({
+        type:  FETCH_CHATROOM_MESSAGES_SUCCESS,
+        chatroomMessages: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch chatroom messages error: ', error.message);
+      dispatch({
+        type: FETCH_CHATROOM_MESSAGES_FAILURE,
+        error: error.message
+      })
     }
   }
 }

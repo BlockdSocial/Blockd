@@ -4,7 +4,7 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
 
-function Friends({ chats, setReceiver, closeShowFriends }: any) {
+function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
   return (
     <div className='max-h-screen scrollbar-hide overflow-scroll dark:bg-darkgray'>
       {
@@ -14,8 +14,9 @@ function Friends({ chats, setReceiver, closeShowFriends }: any) {
             key={index}
             className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer group'
             onClick={() => {
-              setReceiver(chat?.otherUser)
-              closeShowFriends()
+              setReceiver(chat?.otherUser);
+              setRoom(undefined);
+              closeShowFriends();
             }}
           >
             <div className='flex items-center justify-start p-2'>

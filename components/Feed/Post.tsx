@@ -106,8 +106,6 @@ export default function PostTest({ mainPost, refetch }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  console.log('mainPost: ', mainPost);
-
   useEffect(() => {
     fetchInfo();
     fetchLiked();

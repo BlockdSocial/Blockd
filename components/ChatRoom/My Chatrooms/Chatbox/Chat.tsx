@@ -22,6 +22,7 @@ import { isEmpty } from "lodash";
 export default function Chat({
   receiver,
   messages,
+  room,
   elementRef,
   handleScroll,
 }: any) {

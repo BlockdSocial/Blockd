@@ -8,7 +8,7 @@ import {
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks'
 import { fetchUserChatrooms } from '../../../../stores/chat/ChatActions'
 
-function Chatbar() {
+function Chatbar({ setRoom, setReceiver }: any) {
   const dispatch = useAppDispatch();
   const { chatrooms } = useAppSelector((state) => state.chatReducer);
 
@@ -20,23 +20,23 @@ function Chatbar() {
     await dispatch(fetchUserChatrooms());
   }
 
-  console.log('chatrooms: ', chatrooms);
-
   return (
     <div className='relative md:flex md:flex-col col-span-1 pt-4 hidden items-center border-r dark:border-lightgray'>
       <div className='flex flex-col h-full scrollbar-hide overflow-scroll w-full'>
-        <Link href="/" className='w-full'>
-          <ChatbarRow Picture='/images/chatLogo/Bitcoin.png' Notif={245} active='' />
-        </Link>
-        <Link href="/" className='w-full'>
-          <ChatbarRow Picture='/images/chatLogo/Ethereum.png' Notif={15} active='' />
-        </Link>
-        <Link href="/" className='w-full'>
-          <ChatbarRow Picture='/images/chatLogo/Polygon.png' Notif={2} active='' />
-        </Link>
-        <Link href="/" className='w-full'>
-          <ChatbarRow Picture='/images/chatLogo/EGO.png' Notif={36} active='' />
-        </Link>
+        {
+          chatrooms?.map((chatroom: any) => (
+            <div
+              onClick={() => {
+                setRoom(chatroom),
+                setReceiver(undefined)
+              }}
+              key={chatroom?.id}
+              className='w-full cursor-pointer'
+            >
+              <ChatbarRow Picture='/images/placeholder.png' Notif={0} active='' />
+            </div>
+          ))
+        }
       </div>
     </div>
   )
