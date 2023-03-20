@@ -14,14 +14,28 @@ import Members from '../Widget/Members';
 import Friends from '../Widget/Friends';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { fetchChatroomMembers } from '../../../../stores/chat/ChatActions';
 
 function Navbar({ room, receiver, chats, setReceiver }: any) {
 
+  const dispatch = useAppDispatch();
+  const { members } = useAppSelector((state) => state.chatReducer);
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
   let [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
   const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(room)) {
+      handleFetchRoomMembers();
+    }
+  }, [room]);
+
+  const handleFetchRoomMembers = async () => {
+    await dispatch(fetchChatroomMembers(room?.id));
+  }
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -86,12 +100,12 @@ function Navbar({ room, receiver, chats, setReceiver }: any) {
                 </div>
               </div>
               {/* <Info /> */}
-              <Members />
+              <Members members={members} />
             </div>
           </div>
           <div className='flex flex-col items-center justify-center'>
             <p className='text-xs md:text-base font-semibold'>{room?.room?.displayName}</p>
-            <p className='text-xs'>480 members, 26 online</p>
+            <p className='text-xs'>{members.length} members</p>
           </div>
         </div>
       }

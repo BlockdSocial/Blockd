@@ -3,9 +3,9 @@ import dynamic from "next/dynamic";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Slider from "./Slider";
 import Link from "next/link";
-import { fetchTrendingPosts, searchPosts } from "../../stores/post/PostActions";
+import { fetchPost, fetchPostImage, fetchTrendingPosts, searchPosts } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { searchUsers } from "../../stores/user/UserActions";
+import { searchFilteredUsers, searchUsers } from "../../stores/user/UserActions";
 import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import { TrendingStreams } from "./TrendingStreams";
@@ -32,7 +32,7 @@ function Widgets() {
     ssr: false,
   });
   //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
-  const [searchResult, setSearchResult] = useState<User[]>();
+  const [searchResult, setSearchResult] = useState<any>();
   const [input, setInput] = useState<string>("");
   const [trendingPosts, setTrendingPosts] = useState<any>();
 
@@ -49,15 +49,38 @@ function Widgets() {
   useEffect(() => {
     if (input.length > 0) {
       dispatch(
-        searchUsers({
+        searchFilteredUsers({
           search: input,
-          end: 5,
         })
       ).then((result: any) => {
-        setSearchResult(result?.posts);
+        console.log('BZEZ: ', result);
+        setSearchResult(result);
       });
     }
   }, [input]);
+
+  console.log('searchResult: ', searchResult);
+
+  const renderProfilePic = (user: any) => {
+    let image = null;
+    if (user?.profilePicId) {
+      dispatch(fetchPostImage(user?.profilePicId)).then((res) => {
+        console.log('ressss: ', res)
+        image = res[0]?.name
+      });
+    }
+    console.log('image: ', image);
+    return (
+      <img
+        src={
+          image
+            ? `${config.url.PUBLIC_URL}/${image}`
+            : "/images/pfp/pfp1.jpg"
+        }
+        className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
+      />
+    )
+  }
 
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
@@ -82,24 +105,28 @@ function Widgets() {
                     <Link
                       href={{
                         pathname: "/dashboard/profile",
-                        query: { user_id: result?.otherUser?.id },
+                        query: { user_id: result?.id },
                       }}
-                      as={`/dashboard/profile?${encodeQuery(result?.otherUser?.id, 'profile')}`}
+                      as={`/dashboard/profile?${encodeQuery(result?.id, 'profile')}`}
                       className="w-full"
                     >
                       <div
-                        key={result?.otherUser?.id}
+                        key={result?.id}
                         className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
                       >
-                        <img
+                        {/* {
+                          result &&
+                          renderProfilePic(result)
+                        } */}
+                        {/* <img
                           src={
-                            !isEmpty(result?.otherUser?.profilePic)
+                            !isEmpty(result?.profilePic)
                               ? `${config.url.PUBLIC_URL}/${result?.otherUser?.profilePic?.name}`
                               : "/images/pfp/pfp1.jpg"
                           }
                           className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
-                        />
-                        <p className="font-semibold text-sm">@{result?.otherUser?.name}</p>
+                        /> */}
+                        <p className="font-semibold text-sm">@{result?.name}</p>
                       </div>
                     </Link>
                   ))}

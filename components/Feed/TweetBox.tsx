@@ -149,7 +149,7 @@ function TweetBox({ refetchFiltered }: Props) {
 
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
-    if (image.length > 0) {
+    if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
           content: input,
@@ -161,10 +161,32 @@ function TweetBox({ refetchFiltered }: Props) {
         closePicture();
         setInput("");
       });
-    } else if (gifUrl.length > 0) {
+    } else if (image.length > 0 && isEmpty(input)) {
+      await dispatch(
+        createPost({
+          public: 1,
+          image: uploadedImage,
+        })
+      ).then(() => {
+        refetchFiltered();
+        setInput("");
+        closePicture();
+      });
+    } else if (gifUrl.length > 0  && !isEmpty(input)) {
       await dispatch(
         createPost({
           content: input,
+          public: 1,
+          gif: gifUrl,
+        })
+      ).then(() => {
+        refetchFiltered();
+        setInput("");
+        closeGif();
+      });
+    } else if (gifUrl.length > 0 && isEmpty(input)) {
+      await dispatch(
+        createPost({
           public: 1,
           gif: gifUrl,
         })
@@ -336,7 +358,7 @@ function TweetBox({ refetchFiltered }: Props) {
               </div>
             </div>
             <button
-              disabled={!input}
+              disabled={!input && isEmpty(image) && isEmpty(gifUrl)}
               className="bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]"
               onClick={(e) => handleSubmitPost(e)}
             >

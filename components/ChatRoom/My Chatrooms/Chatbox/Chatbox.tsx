@@ -137,8 +137,6 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
     // }
   };
 
-  console.log('receiver: ', receiver);
-
   return (
     <div className="flex min-h-[90vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
       {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} />}

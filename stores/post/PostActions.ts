@@ -52,7 +52,13 @@ import {
   SHARE_POST_FAILURE,
   IS_FETCHING_SHARED_POST,
   FETCH_POST_SHARED_SUCCESS,
-  FETCH_POST_SHARED_FAILURE
+  FETCH_POST_SHARED_FAILURE,
+  IS_CREATING_SUGGESTION,
+  CREATE_SUGGESTION_SUCCESS,
+  CREATE_SUGGESTION_FAILURE,
+  IS_FETCHING_SUGGESTIONS,
+  FETCH_SUGGESTIONS_SUCCESS,
+  FETCH_SUGGESTIONS_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -389,6 +395,44 @@ export function sharePost(fields: any) {
       console.log('Share Failed: ', error);
       dispatch({
         type: SHARE_POST_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function createSuggestion(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_CREATING_SUGGESTION });
+    try {
+      await postApi.createSuggestion(fields);
+      dispatch({
+        type: CREATE_SUGGESTION_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Create Suggestion error: ', error);
+      dispatch({
+        type: CREATE_SUGGESTION_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchSuggestions() {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_SUGGESTIONS });
+    try {
+      const result = await postApi.fetchSuggestions();
+      dispatch({
+        type: FETCH_SUGGESTIONS_SUCCESS,
+        suggestions: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Create Suggestion error: ', error);
+      dispatch({
+        type: FETCH_SUGGESTIONS_FAILURE,
         error: error.message
       });
     }
