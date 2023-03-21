@@ -251,8 +251,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
               <div
-                className={`relative w-24 h-24 md:w-28 md:h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
+                className={`relative border-2 border-white rounded-md z-10`}
               >
+                <img
+                  src='/images/frames/Dragon_Frame.png'
+                  alt="pfp"
+                  className="relative w-24 h-24 md:w-32 md:h-32 object-contain z-10 border-white"
+                />
                 <img
                   src={
                     !isEmpty(profilePicture)
@@ -260,10 +265,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-full h-full rounded-md shadow-sm border-2 border-white"
+                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[68px] h-[68px] md:w-[86px] md:h-[86px] object-contain z-0 rounded-md shadow-sm border-2 border-white"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
+                  className={`absolute z-20 -bottom-0 left-0 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
                 >
                   <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
                     {user?.level}
@@ -272,7 +277,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {user?.id === authUser?.id && (
                   <div
                     onClick={() => onPfpClick()}
-                    className="flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    className="flex items-center z-20 justify-center absolute bottom-0 right-0 -cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
                   >
                     <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
                   </div>

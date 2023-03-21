@@ -152,7 +152,7 @@ function Footer({ messages, receiver, getMessages }: any) {
         getMessages();
       });
     };
-    textArea.rows = 1;
+    // textArea.rows = 1;
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
