@@ -11,7 +11,7 @@ function AllChatroomsPage() {
   const router = useRouter();
 
   return (
-    <div className="min-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x pb-16">
+    <div className="min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 border-x pb-16">
       <div className="flex z-[1] space-x-2 items-center sticky top-0 w-full p-3 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
         <ArrowLeftCircleIcon
           onClick={() => router.back()}

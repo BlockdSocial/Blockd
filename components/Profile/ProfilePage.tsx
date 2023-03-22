@@ -123,7 +123,7 @@ function ProfilePage() {
   };
 
   return (
-    <div className='relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14'>
+    <div className='relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14'>
 
       <CustomLoadingOverlay active={isFetchingUserPosts || isFetchingAuthUser || isFetchingUser} />
 

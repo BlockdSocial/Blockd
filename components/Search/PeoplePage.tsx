@@ -7,7 +7,7 @@ function PeoplePage() {
   const router = useRouter();
 
   return (
-    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 border-x bg-gray-100 dark:bg-darkgray pb-14">
+    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 border-x bg-gray-100 dark:bg-darkgray pb-14">
       <div className="flex z-[1] flex-col items-start sticky top-0 w-full p-3 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
         <ArrowLeftCircleIcon
           onClick={() => router.back()}

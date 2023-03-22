@@ -34,7 +34,7 @@ function CreatePage() {
   };
 
   return (
-    <div className="min-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14">
+    <div className="min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
       <div className="p-4">
         <div className="flex flex-col items-center justify-center space-y-3 border-2 border-orange-200 dark:border-lightgray rounded-xl w-full p-4 bg-white dark:bg-darkgray">
           <p className="text-xl font-semibold text-center">Create a Chatroom</p>

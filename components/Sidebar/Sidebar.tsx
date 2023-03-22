@@ -23,7 +23,7 @@ function Sidebar() {
   const [isOpen, setOpen] = useState(false);
 
   return (
-    <div className="flex items-start justify-center lg:justify-start col-span-1 md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-x dark:border-lightgray pb-14">
+    <div className="items-start justify-center lg:justify-start hidden md:flex md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-x dark:border-lightgray pb-14">
       <div className="relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit">
         <Link href="/" className="active">
           {location.pathname === "/" ? (

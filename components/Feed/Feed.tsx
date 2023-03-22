@@ -139,13 +139,13 @@ function Feed() {
     <div
       onScrollCapture={() => handleScroll()}
       ref={elementRef}
-      className="relative max-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14"
+      className="relative max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
     >
       <div id="top-page"></div>
       <div
         className={`flex items-center z-[2] ${
           atTop === false ? "justify-end" : "justify-between"
-        } sticky top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}
+        } sticky top-0 p-3 md:p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}
       >
         {atTop && (
           <ChevronDoubleUpIcon
@@ -155,7 +155,7 @@ function Feed() {
         )}
         <ArrowPathIcon
           onClick={handleRefresh}
-          className="flex items-center justify-end h-6 w-6 cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
+          className="flex items-center justify-end w-6 h-6cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
         />
       </div>
 

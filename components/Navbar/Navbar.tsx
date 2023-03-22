@@ -4,10 +4,27 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
 import {
+  MicrophoneIcon,
+  ComputerDesktopIcon,
+  UserIcon,
+  HomeIcon,
+  PlusCircleIcon,
+  LightBulbIcon,
+  FireIcon,
+  ChatBubbleLeftIcon,
+  ChatBubbleLeftRightIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  LockClosedIcon,
+} from "@heroicons/react/24/outline";
+
+import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
   KeyIcon,
   WalletIcon,
+  Bars3Icon,
+  ChevronLeftIcon,
 } from "@heroicons/react/24/outline";
 import {
   fetchAuthUser,
@@ -32,6 +49,8 @@ import {
   resetMessages,
 } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
+import Sidebar from "../Sidebar/Sidebar";
+import SidebarRow from "../Sidebar/SidebarRow";
 
 interface Data {
   receiver_id: number;
@@ -52,6 +71,8 @@ const Navbar = () => {
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
   const [notificationInfo, setNotificationInfo] = useState<string>();
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     setNotificationInfo("");
@@ -212,8 +233,12 @@ const Navbar = () => {
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
       <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto xl:max-w-[80%] h-14 px-2">
-        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14">
+        <div className="flex col-span-2 md:col-span-4 place-self-start place-items-center h-14">
           <Toaster />
+          <Bars3Icon
+            onClick={() => setShowSidebar(!showSidebar)}
+            className="w-7 h-7 text-white mr-4 cursor-pointer"
+          />
           <Link
             href="/"
             className="h-full cursor-pointer flex items-center justify-center"
@@ -259,13 +284,13 @@ const Navbar = () => {
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
                   <div className="">
-                    <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
+                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unreadMessages == 0 ||
                       authUser?.unreadMessages === undefined ||
                       authUser?.unreadMessages === null ? (
                         ""
                       ) : (
-                        <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                        <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unreadMessages}</span>
                         </span>
                       )}
@@ -286,13 +311,13 @@ const Navbar = () => {
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
                   <div className="">
-                    <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
+                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unread == 0 ||
                       authUser?.unread === undefined ||
                       authUser?.unread === null ? (
                         ""
                       ) : (
-                        <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                        <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unread}</span>
                           <span className="text-xs">5</span>
                         </span>
@@ -332,6 +357,141 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+        {showSidebar && (
+          <div
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-80 transition-all duration-300 ease-linear`}
+          >
+            <div className="relative flex flex-col items-start mt-3 w-fit ml-4">
+              <Link href="/" className="active">
+                {location.pathname === "/" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={HomeIcon}
+                    title="Home"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  // @ts-ignore
+                  <SidebarRow Icon={HomeIcon} title="Home" active="" />
+                )}
+              </Link>
+              <Link href="/dashboard/profile">
+                {location.pathname === "/dashboard/profile" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={UserIcon}
+                    title="Profile"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  // @ts-ignore
+                  <SidebarRow Icon={UserIcon} title="Profile" active="" />
+                )}
+              </Link>
+              <Link href="/dashboard/suggestion">
+                {location.pathname === "/dashboard/suggestion" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={LightBulbIcon}
+                    title="Feedback"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  // @ts-ignore
+                  <SidebarRow Icon={LightBulbIcon} title="Feedback" active="" />
+                )}
+              </Link>
+              <Link
+                href=""
+                onMouseEnter={() => setOpen(true)}
+                onMouseLeave={() => setOpen(false)}
+                className="relative"
+              >
+                <div className="flex items-center justify-center">
+                  <div
+                    className={`flex mt-1 max-w-fit items-start space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
+                  >
+                    <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
+                    <p
+                      className={`text-base cursor-pointer`}
+                    >
+                      ChatRooms
+                    </p>
+                    <div>
+                      <ChevronRightIcon
+                        className={`w-4 h-4 ml-2 ${
+                          isOpen ? "hidden" : "inline"
+                        }`}
+                      />
+                      <ChevronDownIcon
+                        className={`w-4 h-4 ml-2 ${
+                          isOpen ? "inline" : "hidden"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {isOpen && (
+                  <div className="w-full flex flex-col items-center justify-center">
+                    <Link
+                      href="/dashboard/myChatrooms"
+                      className="flex items-center justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full space-x-2"
+                    >
+                      <ChatBubbleLeftIcon className="w-5 h-5" />
+                      <span>My Chatrooms</span>
+                    </Link>
+                    <Link
+                      href="/dashboard/createChatroom"
+                      className="flex items-center cursor-pointer justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full space-x-2"
+                    >
+                      <PlusCircleIcon className="w-5 h-5" />
+                      <span>Create Chatroom</span>
+                    </Link>
+                    <Link
+                      href="/dashboard/allChatrooms"
+                      className="flex items-center cursor-pointer justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full space-x-2"
+                    >
+                      <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                      <span>All Chatrooms</span>
+                    </Link>
+                  </div>
+                )}
+              </Link>
+
+              <Link
+                // href="/dashboard/achievement"
+                href="#"
+                className="opacity-60"
+              >
+                {location.pathname === "/dashboard/achievement" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={LockClosedIcon}
+                    title="Achievements"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={LockClosedIcon}
+                    title="Achievements"
+                    active=""
+                  />
+                )}
+              </Link>
+              <Link href="#" className="opacity-60">
+                {/*
+                // @ts-ignore */}
+                <SidebarRow Icon={LockClosedIcon} title="Streams" active="" />
+              </Link>
+              <Link href="#" className="opacity-60">
+                {/* 
+                // @ts-ignore */}
+                <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );
