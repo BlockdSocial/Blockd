@@ -253,7 +253,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
-              <div className={`relative border-2 border-white rounded-md z-10`}>
+              <div className={`relative rounded-md z-10`}>
                 <img
                   src="/images/frames/frame4.png"
                   alt="pfp"
@@ -266,7 +266,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="absolute top-0 bottom-0 left-0 right-[2px] mx-auto my-auto w-[80px] h-[80px] z-0 rounded-md shadow-sm border-2 border-white"
+                  className="absolute top-0 bottom-0 left-0 right-[2px] mx-auto my-auto w-[75px] h-[75px] z-0 rounded-md shadow-sm"
                 />
                 <div
                   className={`absolute z-20 -bottom-0 left-0 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
