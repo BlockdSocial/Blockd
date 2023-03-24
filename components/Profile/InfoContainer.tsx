@@ -340,18 +340,26 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       Message
                     </p>
                   </Link>
-                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                    <p
-                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                      onClick={() => handleFollowUser()}
-                    >
-                      Follow
-                    </p>
-                  </div>
+                  {isFollowed ? (
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                      <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
+                        followed
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                      <p
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                        onClick={() => handleFollowUser()}
+                      >
+                        follow
+                      </p>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
-              <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+              <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray md:hidden">
                 <p
                   className="flex items-center text-xs p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                   onClick={() => setIsModalVisible(!isModalVisible)}
