@@ -16,15 +16,13 @@ import {
   ChevronDownIcon,
   ChevronRightIcon,
   LockClosedIcon,
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
 import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
-  KeyIcon,
-  WalletIcon,
   Bars3Icon,
-  ChevronLeftIcon,
 } from "@heroicons/react/24/outline";
 import {
   fetchAuthUser,
@@ -33,8 +31,6 @@ import {
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import IconGroup from "./IconGroup";
 import { useTheme } from "next-themes";
-import NotifDropDown from "./NotifDropDown";
-import MsgDropDown from "./MsgDropDown";
 import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import Ably from "ably/promises";
 import {
@@ -49,7 +45,6 @@ import {
   resetMessages,
 } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
-import Sidebar from "../Sidebar/Sidebar";
 import SidebarRow from "../Sidebar/SidebarRow";
 
 interface Data {
@@ -70,6 +65,7 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
+  const [dropDown, setDropDown] = useState<boolean>(false);
   const [notificationInfo, setNotificationInfo] = useState<string>();
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [isOpen, setOpen] = useState(false);
@@ -188,10 +184,10 @@ const Navbar = () => {
     await dispatch(logoutUser()).then(() => router.push("/auth/signin"));
   };
 
+  const currentTheme = theme === "system" ? systemTheme : theme;
+
   const renderThemeChanger = () => {
     if (!mounted) return null;
-
-    const currentTheme = theme === "system" ? systemTheme : theme;
 
     if (currentTheme === "dark") {
       return (
@@ -215,8 +211,8 @@ const Navbar = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill="#9333ea"
-          className="w-6 h-6 fill-white"
+          fill="#000000"
+          className="w-6 h-6 fill-white stroke-black"
           role="button"
           onClick={() => setTheme("dark")}
         >
@@ -232,34 +228,124 @@ const Navbar = () => {
 
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
-      <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto xl:max-w-[80%] h-14 px-2">
-        <div className="flex col-span-2 md:col-span-4 place-self-start place-items-center h-14">
+      <div
+        className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
+          router.pathname === "/dashboard/myChatrooms" ||
+          router.pathname === "/dashboard/myChatrooms2"
+            ? "lg:max-w-7xl "
+            : "xl:max-w-[80%]"
+        } h-14 px-2`}
+      >
+        <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <Toaster />
-          <Bars3Icon
-            onClick={() => setShowSidebar(!showSidebar)}
-            className="w-7 h-7 text-white mr-4 cursor-pointer"
-          />
-          <Link
-            href="/"
-            className="h-full cursor-pointer flex items-center justify-center"
-          >
-            <Image
-              src="/images/logo/long-logo.png"
-              alt="Blockd Logo"
-              className="w-26 h-10 md:ml-0 hidden md:inline"
-              width={140}
-              height={50}
+          <div className="relative flex items-center justify-between w-full">
+            <Bars3Icon
+              onClick={() => setShowSidebar(!showSidebar)}
+              className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
+            <Link
+              href="/"
+              className="h-full cursor-pointer flex items-center justify-center"
+            >
+              <Image
+                src="/images/logo/long-logo.png"
+                alt="Blockd Logo"
+                className="w-26 h-10 md:ml-0 hidden md:inline"
+                width={140}
+                height={50}
+              />
+              <Image
+                src="/images/logo/logo.png"
+                alt="Blockd Logo"
+                className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
+                width={60}
+                height={40}
+              />
+            </Link>
             <Image
-              src="/images/logo/logo.png"
-              alt="Blockd Logo"
-              className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
-              width={60}
-              height={40}
+              src={
+                authUser?.profilePic
+                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                  : "/images/pfp/pfp1.jpg"
+              }
+              onClick={() => setDropDown(!dropDown)}
+              alt="pfp"
+              className="w-10 h-10 rounded-md shadow-sm cursor-pointer md:hidden"
+              width={2000}
+              height={2000}
             />
-          </Link>
+            {dropDown && (
+              <div className="absolute right-0 top-14 z-50 md:hidden">
+                <div className="flex flex-col items-center justify-start bg-white dark:bg-darkgray dark:border-lightgray shadow-lg rounded-md">
+                  <Link
+                    href="/dashboard/notifications"
+                    onClick={() => handleNotif()}
+                    className="flex items-center justify-between space-x-2 p-2 text-sm border-b dark:border-lightgray w-full rounded-t-md"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <BellIcon className="h-5 w-5 inline" />
+                      <p>Notifications</p>
+                    </div>
+                    {authUser?.unread == 0 ||
+                    authUser?.unread === undefined ||
+                    authUser?.unread === null ? (
+                      ""
+                    ) : (
+                      <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
+                        <span>{authUser?.unread}</span>
+                      </span>
+                    )}
+                  </Link>
+                  <Link
+                    href="/dashboard/messages"
+                    onClick={() => handleMsg()}
+                    className="flex items-center justify-between p-2 text-sm border-b dark:border-lightgray w-full"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <ChatBubbleBottomCenterTextIcon className="h-5 w-5 inline" />
+                      <p>Messages</p>
+                    </div>
+                    {authUser?.unreadMessages == 0 ||
+                    authUser?.unreadMessages === undefined ||
+                    authUser?.unreadMessages === null ? (
+                      ""
+                    ) : (
+                      <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
+                        <span>{authUser?.unreadMessages}</span>
+                      </span>
+                    )}
+                  </Link>
+                  {currentTheme === "dark" ? (
+                    <div
+                      onClick={() => setTheme("light")}
+                      className="flex items-center space-x-2 p-2 border-b dark:border-lightgray text-sm w-full"
+                    >
+                      {renderThemeChanger()}
+                      <p>Light Mode</p>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => setTheme("dark")}
+                      className="flex items-center space-x-2 p-2 border-b dark:border-lightgray text-sm w-full"
+                    >
+                      {renderThemeChanger()}
+                      <p>Dark Mode</p>
+                    </div>
+                  )}
+
+                  <div
+                    onClick={() => handleLogoutClick()}
+                    className="flex items-center space-x-2 p-2 text-sm w-full rounded-b-md"
+                  >
+                    <ArrowLeftOnRectangleIcon className="h-5 w-5 inline" />
+                    <p>Logout</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="col-span-7 md:col-span-5 h-14">
+        <div className="hidden md:inline md:col-span-5 h-14">
           <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
@@ -403,8 +489,7 @@ const Navbar = () => {
               </Link>
               <Link
                 href=""
-                onMouseEnter={() => setOpen(true)}
-                onMouseLeave={() => setOpen(false)}
+                onClick={() => setOpen(!isOpen)}
                 className="relative"
               >
                 <div className="flex items-center justify-center">
@@ -412,11 +497,7 @@ const Navbar = () => {
                     className={`flex mt-1 max-w-fit items-start space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
                   >
                     <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
-                    <p
-                      className={`text-base cursor-pointer`}
-                    >
-                      ChatRooms
-                    </p>
+                    <p className={`text-base cursor-pointer`}>ChatRooms</p>
                     <div>
                       <ChevronRightIcon
                         className={`w-4 h-4 ml-2 ${
