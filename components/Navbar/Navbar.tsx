@@ -262,18 +262,30 @@ const Navbar = () => {
                 height={40}
               />
             </Link>
-            <Image
-              src={
-                authUser?.profilePic
-                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
-                  : "/images/pfp/pfp1.jpg"
-              }
-              onClick={() => setDropDown(!dropDown)}
-              alt="pfp"
-              className="w-10 h-10 rounded-md shadow-sm cursor-pointer md:hidden"
-              width={2000}
-              height={2000}
-            />
+            <div className="flex relative">
+              <Image
+                src={
+                  authUser?.profilePic
+                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                    : "/images/pfp/pfp1.jpg"
+                }
+                onClick={() => setDropDown(!dropDown)}
+                alt="pfp"
+                className="w-10 h-10 rounded-md shadow-sm cursor-pointer md:hidden"
+                width={2000}
+                height={2000}
+              />
+              {authUser?.unread == 0 ||
+              authUser?.unread === undefined ||
+              authUser?.unread === null ||
+              authUser?.unreadMessages == 0 ||
+              authUser?.unreadMessages === undefined ||
+              authUser?.unreadMessages === null ? (
+                <></>
+              ) : (
+                <div className="absolute -bottom-1 -right-1 p-[5px] w-1 h-1 rounded-full bg-blockd"></div>
+              )}
+            </div>
             {dropDown && (
               <div className="absolute right-0 top-14 z-50 md:hidden">
                 <div className="flex flex-col items-center justify-start bg-white dark:bg-darkgray dark:border-lightgray shadow-lg rounded-md">
@@ -445,7 +457,7 @@ const Navbar = () => {
         </div>
         {showSidebar && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-80 transition-all duration-300 ease-linear`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-60 transition-all duration-300 ease-linear`}
           >
             <div className="relative flex flex-col items-start mt-3 w-fit ml-4">
               <Link href="/" className="active">
