@@ -13,7 +13,7 @@ function ChatbarRow({ Picture, Notif, active }: Props) {
     >
       <strong className="relative inline-flex items-center px-2.5 py-1.5">
         {Notif !== 0 && (
-          <div className="p-2 absolute right-1 border-[2px] dark:border-darkgray top-7 bg-red-600 rounded-full"></div>
+          <div className="p-[5px] absolute right-1 border-[2px] dark:border-darkgray top-7 bg-red-600 rounded-full"></div>
         )}
         <div
           className={`text-white absolute hidden md:inline text-[10px] md:text-xs top-7 ${

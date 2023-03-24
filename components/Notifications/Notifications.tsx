@@ -154,7 +154,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           <div className="ml-3 flex items-center justify-center">
             <p className="text-sm font-medium text-slate-900 dark:text-white">
               <span className="font-bold">{notification?.user?.name}</span>{" "}
-              {renderNotificationText()} .<br></br>
+              {renderNotificationText()}<br></br>
               <span className="text-xs">
                 {moment(notification?.createdAt).fromNow()}
               </span>

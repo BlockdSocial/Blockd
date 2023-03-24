@@ -311,7 +311,7 @@ const Navbar = () => {
                   <Link
                     href="/dashboard/messages"
                     onClick={() => handleMsg()}
-                    className="flex items-center justify-between p-2 text-sm border-b dark:border-lightgray w-full"
+                    className="flex items-center justify-between space-x-2 p-2 text-sm border-b dark:border-lightgray w-full"
                   >
                     <div className="flex items-center space-x-2">
                       <ChatBubbleBottomCenterTextIcon className="h-5 w-5 inline" />
