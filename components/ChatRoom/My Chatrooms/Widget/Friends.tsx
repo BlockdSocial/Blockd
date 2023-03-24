@@ -38,9 +38,9 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
                 {/* <span className='text-xs'>Last seen Recently</span> */}
               </div>
             </div>
-            <div className='hidden group-hover:flex items-center justify-center space-x-1'>
+            <div className='md:hidden md:group-hover:flex items-center justify-center space-x-1'>
               {/* <PersonAddAlt1RoundedIcon className='w-6 h-6 hover:text-gray-600 dark:hover:text-gray-200' /> */}
-              <ClearRoundedIcon className='w-6 h-6 hidden group-hover:inline hover:text-gray-600 dark:hover:text-gray-200' />
+              <ClearRoundedIcon className='w-6 h-6 md:hidden md:group-hover:inline hover:text-gray-600 dark:hover:text-gray-200' />
             </div>
           </div>
         ))

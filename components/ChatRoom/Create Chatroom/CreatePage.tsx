@@ -1,7 +1,8 @@
-import React, { useState } from "react";
+import React, { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { createChatroom } from "../../../stores/chat/ChatActions";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { LinkIcon, XMarkIcon } from "@heroicons/react/24/outline";
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -13,6 +14,9 @@ function CreatePage() {
   const [contractAddress, setContractAddress] = useState<string>("");
   const [network, setNetwork] = useState<string>("");
   const [tokenAmount, setTokenAmount] = useState<string>("");
+  let [image, setImage] = useState<string>("");
+  const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [uploadedVideo, setUploadedVideo] = useState<string>("");
 
   // handle selection change
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
@@ -41,9 +45,29 @@ function CreatePage() {
       setDescription('');
     });
   }
+  const inputPicture = useRef<HTMLInputElement | null>(null);
+
+  const onUploadPictureClick = () => {
+    // `current` points to the mounted file input element
+    if (inputPicture.current) {
+      inputPicture.current.click();
+    }
+  };
+
+  const handleUploadPicture = (e: any) => {
+    setImage(URL.createObjectURL(e.target.files[0]));
+    setUploadedImage(e.target.files[0]);
+  };
+
+  const closePicture = () => {
+    image = "";
+    setImage(image);
+    setUploadedImage("");
+    setUploadedVideo("");
+  };
 
   return (
-    <div className="min-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14">
+    <div className="min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
       <div className="p-4">
         <div className="flex flex-col items-center justify-center space-y-3 border-2 border-orange-200 dark:border-lightgray rounded-xl w-full p-4 bg-white dark:bg-darkgray">
           <p className="text-xl font-semibold text-center">Create a Chatroom</p>
@@ -68,6 +92,39 @@ function CreatePage() {
                 value={description}
               />
             </div>
+            <div className="w-full">
+              <h3 className="text-sm font-semibold pb-1">Chatroom Picture</h3>
+              <div
+                onClick={() => onUploadPictureClick()}
+                className="flex space-x-2 text-sm p-2 w-full rounded-lg outline-none text-black dark:text-white bg-gray-200 dark:bg-lightgray cursor-pointer"
+              >
+                <LinkIcon className="w-5 h-5" />
+                <p>Attach Image</p>
+              </div>
+            </div>
+            {image && (
+              <div className="relative w-full">
+                <img
+                  className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                  src={image}
+                  alt=""
+                />
+                <div
+                  onClick={() => closePicture()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+              </div>
+            )}
+            <input
+              type="file"
+              id="file"
+              ref={inputPicture}
+              className="hidden"
+              accept="image/*"
+              onChange={handleUploadPicture}
+            />
             <div className="w-full">
               <h3 className="text-sm font-semibold pb-1">Users count</h3>
               <select
@@ -136,8 +193,8 @@ function CreatePage() {
                     <option value="Binance Smart Chain" className="outline-none p-2">
                       Binance Smart Chain
                     </option>
-                    <option value="Phantom" className="outline-none p-2">
-                      Phantom
+                    <option value="option4" className="outline-none p-2">
+                      Fantom
                     </option>
                   </select>
                 </div>

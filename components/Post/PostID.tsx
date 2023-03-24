@@ -12,7 +12,7 @@ import {
   XMarkIcon,
   CameraIcon,
   GifIcon,
-  PaperAirplaneIcon
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Picker from "@emoji-mart/react";
@@ -356,11 +356,11 @@ function PostID({ post, refetchComments }: Props) {
                         : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
-                    className="w-16 h-16 rounded-md shadow-sm"
+                    className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     width={60}
                     height={60}
                   />
-                  <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(post?.otherUser?.frameName) ? post?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
+                  <div className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${!isEmpty(post?.otherUser?.frameName) ? post?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
                     <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                       {post?.otherUser?.level}
                     </div>
@@ -370,7 +370,7 @@ function PostID({ post, refetchComments }: Props) {
             </div>
             <div className="flex flex-col items-start justify-center space-y-1">
               <div className="flex items-center space-x-1">
-                <p className="mr-1 font-semibold text-l">@{post?.otherUser?.name}</p>
+                <p className="mr-1 font-semibold text-xs md:text-base">@{post?.otherUser?.name}</p>
               </div>
               {/* <div>
                 <p className="text-sm text-gray-500">0 followers</p>
@@ -380,22 +380,20 @@ function PostID({ post, refetchComments }: Props) {
                   <TimeAgo date={post?.createdAt} />
                 </p>
               </div>
-              {
-                post?.profilePic == 1 &&
+              {post?.profilePic == 1 && (
                 <div>
                   <p className="text-xs text-gray-500">
                     Changed their profile picture.
                   </p>
                 </div>
-              }
-              {
-                post?.bannerPic == 1 &&
+              )}
+              {post?.bannerPic == 1 && (
                 <div>
                   <p className="text-xs text-gray-500">
                     Changed their banner picture.
                   </p>
                 </div>
-              }
+              )}
             </div>
           </div>
 
@@ -410,23 +408,27 @@ function PostID({ post, refetchComments }: Props) {
               />
               <div className="relative z-0 flex ite">
                 <ul
-                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
-                    }`}
+                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
+                    isDropdownVisible ? "" : "hidden"
+                  }`}
                 >
                   {post?.userId === authUser?.id && (
                     <div
                       onClick={() => setEditPopUp(!editPopUp)}
-                      className="flex items-center justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
+                      className="flex items-center text-sm justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
                     >
                       Edit Post
                     </div>
                   )}
                   {post?.userId !== authUser?.id && (
                     <>
-                      <div className="flex items-center justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
+                      <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                         Report Post
                       </div>
-                      <div className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                      <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
+                        Follow User
+                      </div>
+                      <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                         Follow Post
                       </div>
                     </>
@@ -445,7 +447,8 @@ function PostID({ post, refetchComments }: Props) {
           </div>
         </div>
         <div className="w-full flex flex-col items-start">
-          {post?.postImage != null ? (
+          <p className="pt-4 text-sm md:text-base">{post?.content}</p>
+          {post?.images != null ? (
             <img
               src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
               alt="Post"
@@ -459,7 +462,6 @@ function PostID({ post, refetchComments }: Props) {
               className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
             />
           ) : null}
-          <p className="pt-4 ml-3">{post?.content}</p>
         </div>
       </div>
       {
@@ -603,7 +605,6 @@ function PostID({ post, refetchComments }: Props) {
               {info?.shares != null || undefined ? info?.shares : 0}
             </p>
           </div> */}
-        </div>
       </div>
 
       <form
@@ -640,7 +641,7 @@ function PostID({ post, refetchComments }: Props) {
                 className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
               />
               {showEmojis && (
-                <div className="absolute righy-0 bottom-6 z-40">
+                <div className="absolute righy-0 top-6 z-40">
                   <Picker
                     onEmojiSelect={addEmoji}
                     theme="dark"
@@ -662,24 +663,13 @@ function PostID({ post, refetchComments }: Props) {
                   />
                 )}
                 {showGifs && (
-                  <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                  <div className="absolute right-0 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
-                      mansonryConfig={[
-                        { columns: 2, imageWidth: 140, gutter: 10 },
-                        {
-                          mq: "700px",
-                          columns: 3,
-                          imageWidth: 200,
-                          gutter: 10,
-                        },
-                        {
-                          mq: "1000px",
-                          columns: 4,
-                          imageWidth: 220,
-                          gutter: 10,
-                        },
+                      masonryConfig={[
+                        { columns: 2, imageWidth: 110, gutter: 5 },
+                        { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
                       ]}
                       wrapperClassName="p-4"
                     />
@@ -735,8 +725,9 @@ function PostID({ post, refetchComments }: Props) {
       </form>
 
       <div
-        className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -781,8 +772,9 @@ function PostID({ post, refetchComments }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">

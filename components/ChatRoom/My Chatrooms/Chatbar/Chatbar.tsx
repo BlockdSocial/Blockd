@@ -21,8 +21,8 @@ function Chatbar({ setRoom, setReceiver }: any) {
   }
 
   return (
-    <div className='relative md:flex md:flex-col col-span-1 pt-4 hidden items-center border-r dark:border-lightgray'>
-      <div className='flex flex-col h-full scrollbar-hide overflow-scroll w-full'>
+    <div className='relative flex flex-col col-span-1 pt-4 items-center border-r dark:border-lightgray'>
+      <div className='flex flex-col h-full scrollbar-hide overflow-scroll w-full space-y-2'>
         {
           chatrooms?.map((chatroom: any) => (
             <div

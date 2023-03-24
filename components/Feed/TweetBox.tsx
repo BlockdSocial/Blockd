@@ -145,7 +145,7 @@ function TweetBox({ refetchFiltered }: Props) {
         id: refreshToast,
       });
     }
-  }
+  };
 
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
@@ -214,7 +214,9 @@ function TweetBox({ refetchFiltered }: Props) {
         href="/dashboard/profile"
         className="relative flex flex-col h-fit group"
       >
-        <div className={`relative flex flex-col p-1 ${authUser?.frameName} rounded-lg`}>
+        <div
+          className={`relative flex flex-col p-1 ${authUser?.frameName} rounded-lg`}
+        >
           <Image
             src={
               !isEmpty(authUser?.profilePic)
@@ -222,11 +224,17 @@ function TweetBox({ refetchFiltered }: Props) {
                 : "/images/pfp/pfp1.jpg"
             }
             alt="pfp"
-            className="w-16 h-16 rounded-md shadow-sm"
+            className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
             width={2000}
             height={2000}
           />
-          <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(authUser?.frameName) ? authUser?.frameName : 'bg-blue-300'} rounded-lg`}>
+          <div
+            className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${
+              !isEmpty(authUser?.frameName)
+                ? authUser?.frameName
+                : "bg-blue-300"
+            } rounded-lg`}
+          >
             <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
               {authUser?.level}
             </div>
@@ -241,7 +249,7 @@ function TweetBox({ refetchFiltered }: Props) {
             value={input}
             onChange={(e: any) => setInput(e.target.value)}
             data-rows="4"
-            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-l bg-transparent"
+            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-xs md:text-base bg-transparent"
             placeholder="What's the word on the block?"
           ></textarea>
           <hr className="mb-4 dark:border-darkgray dark:border-2"></hr>
@@ -336,20 +344,9 @@ function TweetBox({ refetchFiltered }: Props) {
                     <ReactGiphySearchbox
                       apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                       onSelect={(item: any) => addGif(item)}
-                      mansonryConfig={[
-                        { columns: 2, imageWidth: 140, gutter: 10 },
-                        {
-                          mq: "700px",
-                          columns: 3,
-                          imageWidth: 200,
-                          gutter: 10,
-                        },
-                        {
-                          mq: "1000px",
-                          columns: 4,
-                          imageWidth: 220,
-                          gutter: 10,
-                        },
+                      masonryConfig={[
+                        { columns: 2, imageWidth: 110, gutter: 5 },
+                        { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
                       ]}
                       wrapperClassName="p-4"
                     />

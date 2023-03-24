@@ -1,11 +1,9 @@
-import React from 'react'
-import Image from 'next/image';
-import {
-  ArrowSmallRightIcon,
-} from '@heroicons/react/24/outline'
-import Link from 'next/link'
-import { useAppDispatch } from '../../stores/hooks';
-import { isEmpty } from 'lodash';
+import React from "react";
+import Image from "next/image";
+import { ArrowSmallRightIcon } from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useAppDispatch } from "../../stores/hooks";
+import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import moment from 'moment';
 import { readNotification } from '../../stores/notification/NotificationActions';
@@ -38,10 +36,11 @@ interface INotification {
   postId: number;
   commentId: number;
   replyId: number;
+  read: number;
 }
 
 interface Props {
-  notification: INotification
+  notification: INotification;
   handleFetchNotifications: () => void;
 }
 
@@ -51,7 +50,6 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
   const handleReadNotification = async () => {
     await dispatch(readNotification(notification?.id)).then(() => {
       handleFetchNotifications();
-
     });
   }
   let pathname, query, as;
@@ -120,44 +118,55 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
   }
 
   const renderNotificationText = () => {
-
     switch (notification?.type) {
-      case 'like':
-        if (null != notification?.commentId || undefined != notification?.commentId) {
-          return 'liked your comment!';
+      case "like":
+        if (
+          null != notification?.commentId ||
+          undefined != notification?.commentId
+        ) {
+          return "liked your comment!";
         }
-        if (null != notification?.replyId || undefined != notification?.replyId) {
-          return 'liked your reply!';
+        if (
+          null != notification?.replyId ||
+          undefined != notification?.replyId
+        ) {
+          return "liked your reply!";
         }
-        return 'liked your post!';
+        return "liked your post!";
         break;
-      case 'dislike':
-        if (null != notification?.commentId || undefined != notification?.commentId) {
-          return 'disliked your comment!';
+      case "dislike":
+        if (
+          null != notification?.commentId ||
+          undefined != notification?.commentId
+        ) {
+          return "disliked your comment!";
         }
-        if (null != notification?.replyId || undefined != notification?.replyId) {
-          return 'disliked your reply!';
+        if (
+          null != notification?.replyId ||
+          undefined != notification?.replyId
+        ) {
+          return "disliked your reply!";
         }
-        return 'disliked your post!';
+        return "disliked your post!";
         break;
-      case 'comment':
-        return 'commented on your post!';
+      case "comment":
+        return "commented on your post!";
         break;
-      case 'follow':
-        return 'followed you!';
+      case "follow":
+        return "followed you!";
         break;
-      case 'levelUpgrade':
-        return 'Your level has been upgraded!';
+      case "levelUpgrade":
+        return "Your level has been upgraded!";
         break;
-      case 'levelDowngrade':
-        return 'Your level has been downgraded!';
+      case "levelDowngrade":
+        return "Your level has been downgraded!";
         break;
-      case 'reply':
-        return 'replied to your comment!';
+      case "reply":
+        return "replied to your comment!";
       default:
         break;
     }
-  }
+  };
 
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
@@ -169,9 +178,11 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         }}
         as={as}
         // @ts-ignore
-        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ? 'bg-slate-100 dark:bg-lightgray' : ''} p-4 cursor-pointer`}
+        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${
+          notification?.read == 0 ? "bg-slate-100 dark:bg-lightgray" : ""
+        } p-4 cursor-pointer`}
       >
-        <div className='flex mr-2'>
+        <div className="flex mr-2">
           <Link
             onClick={() => handleReadNotification()}
             href={{
@@ -194,7 +205,10 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           </Link>
           <div className="ml-3 flex items-center justify-center">
             <p className="text-sm font-medium text-slate-900 dark:text-white"><span className="font-bold">{notification?.otherUser?.name}</span>{' '}
-              {renderNotificationText()} . {moment(notification?.createdAt).fromNow()}
+              {renderNotificationText()}<br></br>
+              <span className="text-xs">
+              {moment(notification?.createdAt).fromNow()}
+              </span>
             </p>
           </div>
         </div>
@@ -233,7 +247,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         }
       </Link>
     </div>
-  )
+  );
 }
 
-export default Notifications
+export default Notifications;

@@ -4,10 +4,25 @@ import { useRouter } from "next/router";
 import React, { useState, useEffect } from "react";
 
 import {
+  MicrophoneIcon,
+  ComputerDesktopIcon,
+  UserIcon,
+  HomeIcon,
+  PlusCircleIcon,
+  LightBulbIcon,
+  FireIcon,
+  ChatBubbleLeftIcon,
+  ChatBubbleLeftRightIcon,
+  ChevronDownIcon,
+  ChevronRightIcon,
+  LockClosedIcon,
+  ArrowLeftOnRectangleIcon,
+} from "@heroicons/react/24/outline";
+
+import {
   BellIcon,
   ChatBubbleBottomCenterTextIcon,
-  KeyIcon,
-  WalletIcon,
+  Bars3Icon,
 } from "@heroicons/react/24/outline";
 import {
   fetchAuthUser,
@@ -16,8 +31,6 @@ import {
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import IconGroup from "./IconGroup";
 import { useTheme } from "next-themes";
-import NotifDropDown from "./NotifDropDown";
-import MsgDropDown from "./MsgDropDown";
 import { useChannel, configureAbly } from "@ably-labs/react-hooks";
 import Ably from "ably/promises";
 import {
@@ -32,6 +45,7 @@ import {
   resetMessages,
 } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
+import SidebarRow from "../Sidebar/SidebarRow";
 
 interface Data {
   receiver_id: number;
@@ -51,7 +65,10 @@ const Navbar = () => {
   const [mounted, setMounted] = useState(false);
   const [dropdownOpen, setDropdownOpen] = useState<boolean>(false);
   const [dropdownNotifOpen, setDropdownNotifOpen] = useState<boolean>(false);
+  const [dropDown, setDropDown] = useState<boolean>(false);
   const [notificationInfo, setNotificationInfo] = useState<string>();
+  const [showSidebar, setShowSidebar] = useState<boolean>(false);
+  const [isOpen, setOpen] = useState(false);
 
   useEffect(() => {
     setNotificationInfo("");
@@ -159,16 +176,16 @@ const Navbar = () => {
     router.push("/auth/signin");
   };
 
+  const currentTheme = theme === "system" ? systemTheme : theme;
+
   const renderThemeChanger = () => {
     if (!mounted) return null;
-
-    const currentTheme = theme === "system" ? systemTheme : theme;
 
     if (currentTheme === "dark") {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 fill-white"
+          className="h-5 w-5 fill-white"
           viewBox="0 0 20 20"
           fill="#9333ea"
           role="button"
@@ -186,8 +203,8 @@ const Navbar = () => {
         <svg
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
-          fill="#9333ea"
-          className="w-6 h-6 fill-white"
+          fill="#000000"
+          className="w-5 h-5 fill-white stroke-black"
           role="button"
           onClick={() => setTheme("dark")}
         >
@@ -203,30 +220,136 @@ const Navbar = () => {
 
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
-      <div className=" bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto xl:max-w-[80%] h-14 px-2">
-        <div className="col-span-2 md:col-span-4 place-self-start place-items-center h-14">
+      <div
+        className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
+          router.pathname === "/dashboard/myChatrooms" ||
+          router.pathname === "/dashboard/myChatrooms2"
+            ? "lg:max-w-7xl "
+            : "xl:max-w-[80%]"
+        } h-14 px-2`}
+      >
+        <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <Toaster />
-          <Link
-            href="/"
-            className="h-full cursor-pointer flex items-center justify-center"
-          >
-            <Image
-              src="/images/logo/long-logo.png"
-              alt="Blockd Logo"
-              className="w-26 h-10 md:ml-0 hidden md:inline"
-              width={140}
-              height={50}
+          <div className="relative flex items-center justify-between w-full">
+            <Bars3Icon
+              onClick={() => setShowSidebar(!showSidebar)}
+              className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
-            <Image
-              src="/images/logo/logo.png"
-              alt="Blockd Logo"
-              className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
-              width={60}
-              height={40}
-            />
-          </Link>
+            <Link
+              href="/"
+              className="h-full cursor-pointer flex items-center justify-center"
+            >
+              <Image
+                src="/images/logo/long-logo.png"
+                alt="Blockd Logo"
+                className="w-26 h-10 md:ml-0 hidden md:inline"
+                width={140}
+                height={50}
+              />
+              <Image
+                src="/images/logo/logo.png"
+                alt="Blockd Logo"
+                className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
+                width={60}
+                height={40}
+              />
+            </Link>
+            <div className="flex relative">
+              <Image
+                src={
+                  authUser?.profilePic
+                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                    : "/images/pfp/pfp1.jpg"
+                }
+                onClick={() => setDropDown(!dropDown)}
+                alt="pfp"
+                className="w-10 h-10 rounded-md shadow-sm cursor-pointer md:hidden"
+                width={2000}
+                height={2000}
+              />
+              {authUser?.unread == 0 ||
+              authUser?.unread === undefined ||
+              authUser?.unread === null ||
+              authUser?.unreadMessages == 0 ||
+              authUser?.unreadMessages === undefined ||
+              authUser?.unreadMessages === null ? (
+                <></>
+              ) : (
+                <div className="absolute -bottom-1 -right-1 p-[5px] w-1 h-1 rounded-full bg-blockd"></div>
+              )}
+            </div>
+            {dropDown && (
+              <div className="absolute right-0 top-14 z-50 md:hidden">
+                <div className="flex flex-col items-center justify-start bg-white dark:bg-darkgray dark:border-lightgray shadow-lg rounded-md">
+                  <Link
+                    href="/dashboard/notifications"
+                    onClick={() => handleNotif()}
+                    className="flex items-center justify-between space-x-2 p-2 text-sm border-b dark:border-lightgray w-full rounded-t-md"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <BellIcon className="h-5 w-5 inline" />
+                      <p>Notifications</p>
+                    </div>
+                    {authUser?.unread == 0 ||
+                    authUser?.unread === undefined ||
+                    authUser?.unread === null ? (
+                      ""
+                    ) : (
+                      <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
+                        <span>{authUser?.unread}</span>
+                      </span>
+                    )}
+                  </Link>
+                  <Link
+                    href="/dashboard/messages"
+                    onClick={() => handleMsg()}
+                    className="flex items-center justify-between space-x-2 p-2 text-sm border-b dark:border-lightgray w-full"
+                  >
+                    <div className="flex items-center space-x-2">
+                      <ChatBubbleBottomCenterTextIcon className="h-5 w-5 inline" />
+                      <p>Messages</p>
+                    </div>
+                    {authUser?.unreadMessages == 0 ||
+                    authUser?.unreadMessages === undefined ||
+                    authUser?.unreadMessages === null ? (
+                      ""
+                    ) : (
+                      <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
+                        <span>{authUser?.unreadMessages}</span>
+                      </span>
+                    )}
+                  </Link>
+                  {currentTheme === "dark" ? (
+                    <div
+                      onClick={() => setTheme("light")}
+                      className="flex items-center space-x-2 p-2 border-b dark:border-lightgray text-sm w-full"
+                    >
+                      {renderThemeChanger()}
+                      <p>Light Mode</p>
+                    </div>
+                  ) : (
+                    <div
+                      onClick={() => setTheme("dark")}
+                      className="flex items-center space-x-2 p-2 border-b dark:border-lightgray text-sm w-full"
+                    >
+                      {renderThemeChanger()}
+                      <p>Dark Mode</p>
+                    </div>
+                  )}
+
+                  <div
+                    onClick={() => handleLogoutClick()}
+                    className="flex items-center space-x-2 p-2 text-sm w-full rounded-b-md"
+                  >
+                    <ArrowLeftOnRectangleIcon className="h-5 w-5 inline" />
+                    <p>Logout</p>
+                  </div>
+                </div>
+              </div>
+            )}
+          </div>
         </div>
-        <div className="col-span-7 md:col-span-5 h-14">
+        <div className="hidden md:inline md:col-span-5 h-14">
           <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
@@ -251,13 +374,13 @@ const Navbar = () => {
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
                   <div className="">
-                    <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
+                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unreadMessages == 0 ||
                       authUser?.unreadMessages === undefined ||
                       authUser?.unreadMessages === null ? (
                         ""
                       ) : (
-                        <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                        <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unreadMessages}</span>
                         </span>
                       )}
@@ -278,13 +401,13 @@ const Navbar = () => {
                 // @ts-ignore */}
                 <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
                   <div className="">
-                    <strong className="relative inline-flex items-center md:px-2.5 md:py-1.5">
+                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unread == 0 ||
                       authUser?.unread === undefined ||
                       authUser?.unread === null ? (
                         ""
                       ) : (
-                        <span className="text-white absolute text-xs top-0 right-0 md:-top-1 md:-right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                        <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
                           <span>{authUser?.unread}</span>
                         </span>
                       )}
@@ -323,6 +446,136 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
+        {showSidebar && (
+          <div
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-60 transition-all duration-300 ease-linear`}
+          >
+            <div className="relative flex flex-col items-start mt-3 w-fit ml-4">
+              <Link href="/" className="active">
+                {location.pathname === "/" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={HomeIcon}
+                    title="Home"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  // @ts-ignore
+                  <SidebarRow Icon={HomeIcon} title="Home" active="" />
+                )}
+              </Link>
+              <Link href="/dashboard/profile">
+                {location.pathname === "/dashboard/profile" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={UserIcon}
+                    title="Profile"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  // @ts-ignore
+                  <SidebarRow Icon={UserIcon} title="Profile" active="" />
+                )}
+              </Link>
+              <Link href="/dashboard/suggestion">
+                {location.pathname === "/dashboard/suggestion" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={LightBulbIcon}
+                    title="Feedback"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  // @ts-ignore
+                  <SidebarRow Icon={LightBulbIcon} title="Feedback" active="" />
+                )}
+              </Link>
+              <Link
+                href=""
+                onClick={() => setOpen(!isOpen)}
+                className="relative"
+              >
+                <div className="flex items-center justify-center">
+                  <div
+                    className={`flex mt-1 max-w-fit items-start space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
+                  >
+                    <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
+                    <p className={`text-base cursor-pointer`}>ChatRooms</p>
+                    <div>
+                      <ChevronRightIcon
+                        className={`w-4 h-4 ml-2 ${
+                          isOpen ? "hidden" : "inline"
+                        }`}
+                      />
+                      <ChevronDownIcon
+                        className={`w-4 h-4 ml-2 ${
+                          isOpen ? "inline" : "hidden"
+                        }`}
+                      />
+                    </div>
+                  </div>
+                </div>
+                {isOpen && (
+                  <div className="w-full flex flex-col items-center justify-center">
+                    <Link
+                      href="/dashboard/myChatrooms"
+                      className="flex items-center justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full space-x-2"
+                    >
+                      <ChatBubbleLeftIcon className="w-5 h-5" />
+                      <span>My Chatrooms</span>
+                    </Link>
+                    <Link
+                      href="/dashboard/createChatroom"
+                      className="flex items-center cursor-pointer justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full space-x-2"
+                    >
+                      <PlusCircleIcon className="w-5 h-5" />
+                      <span>Create Chatroom</span>
+                    </Link>
+                    <Link
+                      href="/dashboard/allChatrooms"
+                      className="flex items-center cursor-pointer justify-start p-4 hover:bg-gray-100 dark:hover:bg-lightgray rounded-full w-full space-x-2"
+                    >
+                      <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                      <span>All Chatrooms</span>
+                    </Link>
+                  </div>
+                )}
+              </Link>
+
+              <Link
+                // href="/dashboard/achievement"
+                href="#"
+                className="opacity-60"
+              >
+                {location.pathname === "/dashboard/achievement" ? (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={LockClosedIcon}
+                    title="Achievements"
+                    active="bg-gray-100 dark:bg-lightgray"
+                  />
+                ) : (
+                  <SidebarRow
+                    // @ts-ignore
+                    Icon={LockClosedIcon}
+                    title="Achievements"
+                    active=""
+                  />
+                )}
+              </Link>
+              <Link href="#" className="opacity-60">
+                {/*
+                // @ts-ignore */}
+                <SidebarRow Icon={LockClosedIcon} title="Streams" active="" />
+              </Link>
+              <Link href="#" className="opacity-60">
+                {/* 
+                // @ts-ignore */}
+                <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
+              </Link>
+            </div>
+          </div>
+        )}
       </div>
     </div>
   );

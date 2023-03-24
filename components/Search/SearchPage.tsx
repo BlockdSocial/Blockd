@@ -47,7 +47,7 @@ function SearchPage() {
   }
 
   return (
-    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 bg-gray-100 dark:bg-darkgray pb-14">
+    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 bg-gray-100 dark:bg-darkgray pb-14">
       <div className='flex flex-col items-start justify-center m-2 p-4 bg-white dark:bg-darkgray dark:border dark:border-lightgray rounded-lg space-y-3'>
         <h3 className='text-xl font-semibold w-full mb-4'>People</h3>
         <>

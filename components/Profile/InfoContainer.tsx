@@ -48,7 +48,9 @@ interface Props {
 function InfoContainer({ user, refetchUser, userId }: Props) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { rewards, followers, isFollowed } = useAppSelector((state) => state.userReducer);
+  const { rewards, followers, isFollowed } = useAppSelector(
+    (state) => state.userReducer
+  );
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
@@ -98,7 +100,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const fetchUserFollowers = async () => {
     await dispatch(fetchFollowers(user?.id));
-  }
+  };
 
   const followed = async () => {
     await dispatch(fetchIsFollowed(user?.id));
@@ -106,12 +108,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const fetchRewards = async () => {
     await dispatch(fetchUserRewards());
-  }
+  };
 
   const getScorePercentage = () => {
     setScorePercentage(Math.round((user?.score * 100) / user?.levelTotal));
     // setScorePercentage('1/2');
-  }
+  };
 
   const fetchProfilePicture = async (id: number) => {
     if (id != undefined || id != null) {
@@ -211,7 +213,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const setFrame = async (id: any) => {
     await dispatch(setUserFrame(id));
-  }
+  };
 
   return (
     <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
@@ -223,8 +225,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-72 ${user?.id === authUser?.id && "group-hover:opacity-50"
-            }`}
+          className={`w-full max-h-72 ${
+            user?.id === authUser?.id && "group-hover:opacity-50"
+          }`}
           width="720"
           height="350"
         />
@@ -249,9 +252,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
-              <div
-                className={`relative w-24 h-24 md:w-28 md:h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
-              >
+              <div className={`relative rounded-md z-10`}>
+                <img
+                  src="/images/frames/frame4.png"
+                  alt="pfp"
+                  className="relative w-32 h-32 object-contain z-10 border-white"
+                />
                 <img
                   src={
                     !isEmpty(profilePicture)
@@ -259,10 +265,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-full h-full rounded-md shadow-sm border-2 border-white"
+                  className="absolute top-0 bottom-0 left-0 right-[2px] mx-auto my-auto w-[75px] h-[75px] z-0 rounded-md shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
+                  className={`absolute z-20 -bottom-0 left-0 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
                 >
                   <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
                     {user?.level}
@@ -271,7 +277,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {user?.id === authUser?.id && (
                   <div
                     onClick={() => onPfpClick()}
-                    className="flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    className="flex items-center z-20 justify-center absolute bottom-0 right-0 -cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
                   >
                     <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
                   </div>
@@ -301,12 +307,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               </p>
             </div>
             <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
-              <div className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded"
+              <div
+                className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded"
                 style={{ width: `${scorePercentage}%` }}
               >
                 <span className="text-xs font-semibold cursor-pointer text-white inline">
-                  {user?.score >0 &&
-                  user?.score+'XP'}
+                  {user?.score > 0 && user?.score + "XP"}
                 </span>
               </div>
               {/* <div className="flex items-center justify-center w-1/4">
@@ -316,7 +322,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             {/* <div className='text-sm'>
               <span className='font-semibold'>Level 5 :</span> 75%
             </div> */}
-            {user?.id !== authUser?.id && (
+            {user?.id !== authUser?.id ? (
               <>
                 <div className="flex items-center justify-center xl:hidden">
                   <Link
@@ -329,9 +335,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     as="/dashboard/myChatrooms"
                     className="flex items-center justify-center cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                   >
-                    <p
-                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                    >
+                    <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray">
                       Message
                     </p>
                   </Link>
@@ -345,10 +349,20 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   </div>
                 </div>
               </>
+            ) : (
+              <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                <p
+                  className="flex items-center text-xs p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                  onClick={() => setIsModalVisible(!isModalVisible)}
+                >
+                  <PencilSquareIcon className="w-5 h-5 mr-2" />
+                  Edit Profile
+                </p>
+              </div>
             )}
           </div>
         </div>
-        <div ref={dropdown} className="flex">
+        <div ref={dropdown} className="hidden md:flex">
           {user?.id === authUser?.id ? (
             <div className="w-fit h-fit p-4 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
               <Cog8ToothIcon
@@ -371,30 +385,29 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 >
                   <ChatBubbleLeftIcon className="w-5 h-5" />
                 </Link>
-                {
-                  isFollowed ?
-                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                      <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200"
-                      >
-                        followed
-                      </p>
-                    </div> :
-                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                      <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                        onClick={() => handleFollowUser()}
-                      >
-                        follow
-                      </p>
-                    </div>
-                }
+                {isFollowed ? (
+                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                    <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
+                      followed
+                    </p>
+                  </div>
+                ) : (
+                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                    <p
+                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                      onClick={() => handleFollowUser()}
+                    >
+                      follow
+                    </p>
+                  </div>
+                )}
               </div>
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
-              }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
+              isDropdownVisible ? "" : "hidden"
+            }`}
           >
             <Link
               type="button"
@@ -418,9 +431,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
-          }`}
-
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
+          isModalVisible ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
@@ -493,22 +506,16 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             <div className="relative flex flex-col items-start p-4">
               <h3 className="font-semibold py-2 text-black">My collection</h3>
               <div className="grid grid-cols-12 z-0 lg:grid-cols-8 w-full place-items-center">
-                {
-                  !isEmpty(rewards) &&
+                {!isEmpty(rewards) &&
                   rewards.map((reward: any, index: any) => (
                     <div
                       key={index}
                       onClick={() => {
-                        changeFrameColor(
-                          reward?.name
-                        ),
-                          setFrame(reward?.id)
-                      }
-                      }
+                        changeFrameColor(reward?.name), setFrame(reward?.id);
+                      }}
                       className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 ${reward?.name} rounded-md`}
                     ></div>
-                  ))
-                }
+                  ))}
                 {/* <div
                   onClick={() => changeFrameColor("bg-orange-500")}
                   className="w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 bg-orange-500 rounded-md"

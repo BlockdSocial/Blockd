@@ -16,9 +16,8 @@ function Messages({ notification, handleFetchNotifications }: any) {
   const handleReadNotification = async () => {
     await dispatch(readNotification(notification?.id)).then(() => {
       handleFetchNotifications();
-
     });
-  }
+  };
 
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
@@ -29,9 +28,11 @@ function Messages({ notification, handleFetchNotifications }: any) {
           query: { chatReceiverId: notification?.otherUser?.id },
         }}
         // @ts-ignore
-        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ? 'bg-slate-100 dark:bg-lightgray' : ''} p-4 cursor-pointer`}
+        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${
+          notification?.read == 0 ? "bg-slate-100 dark:bg-lightgray" : ""
+        } p-4 cursor-pointer`}
       >
-        <div className='flex mr-2'>
+        <div className="flex mr-2">
           <Link
             onClick={() => handleReadNotification()}
             href={{
@@ -46,15 +47,21 @@ function Messages({ notification, handleFetchNotifications }: any) {
                 !isEmpty(notification?.otherUser?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
-              } alt=""
+              }
+              alt=""
             />
           </Link>
           <div className="ml-3 flex items-center justify-center">
-            <p className="text-sm font-medium text-slate-900 dark:text-white">{notification?.otherUser?.name} Sent you a private message. {moment(notification?.createdAt).fromNow()}</p>
+            <p className="text-sm font-medium text-slate-900 dark:text-white">
+              {notification?.user?.name} Sent you a private message.
+              <br></br>
+              <span className="text-xs">{moment(notification?.createdAt).fromNow()}</span>
+            </p>
           </div>
         </div>
-        <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
-          <Link onClick={() => handleReadNotification()}
+        <div className="hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md">
+          <Link
+            onClick={() => handleReadNotification()}
             href={{
               pathname: '/dashboard/myChatrooms/',
               query: { chatReceiverId: notification?.otherUser?.id },
@@ -68,7 +75,7 @@ function Messages({ notification, handleFetchNotifications }: any) {
         </div>
       </Link>
     </div>
-  )
+  );
 }
 
-export default Messages
+export default Messages;
