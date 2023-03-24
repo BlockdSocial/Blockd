@@ -193,7 +193,7 @@ const Navbar = () => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-6 w-6 fill-white"
+          className="h-5 w-5 fill-white"
           viewBox="0 0 20 20"
           fill="#9333ea"
           role="button"
@@ -212,7 +212,7 @@ const Navbar = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="#000000"
-          className="w-6 h-6 fill-white stroke-black"
+          className="w-5 h-5 fill-white stroke-black"
           role="button"
           onClick={() => setTheme("dark")}
         >
