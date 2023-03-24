@@ -60,7 +60,7 @@ function NotificationsPage() {
   }
 
   return (
-    <div className='min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14'>
+    <div className='min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 md:border-x pb-14'>
       <div className='flex sticky items-center justify-between top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
         <div className='flex items-center justify-start space-x-1'>
           <BellIcon className='w-5 h-5 md:w-6 md:h-6' />

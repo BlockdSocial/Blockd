@@ -10,7 +10,7 @@ function SearchBar() {
           <option className="outline-none p-2">Polygon</option>
           <option className="outline-none p-2">Binance Smart Chain</option>
           <option className="outline-none p-2">Avalanche</option>
-          <option className="outline-none p-2">Phantom</option>
+          <option className="outline-none p-2">Fantom</option>
         </select>
       </div>
       <div className="flex items-center p-2 w-1/2 space-x-2 bg-gray-200 dark:bg-lightgray rounded-md">

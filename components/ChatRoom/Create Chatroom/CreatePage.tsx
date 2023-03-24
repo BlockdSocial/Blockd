@@ -147,7 +147,7 @@ function CreatePage() {
                       Binance Smart Chain
                     </option>
                     <option value="option4" className="outline-none p-2">
-                      Phantom
+                      Fantom
                     </option>
                   </select>
                 </div>
