@@ -21,7 +21,17 @@ function SuggestionPage() {
   return (
     <div className="min-h-screen scrollbar-hide overflow-scroll col-span-8 md:col-span-5 pb-14">
       <SuggestionBox refetchFiltered={getSuggestions} />
-      <SuggestionSearch />
+      {/* <SuggestionSearch /> */}
+      {suggestions &&
+        suggestions?.map((post: any, index: number) => (
+          // @ts-ignore
+          <PostTest
+            key={`${index}-post`}
+            // @ts-ignore
+            mainPost={post}
+            refetch={() => {}}
+          />
+        ))}
       {/* {Array.from({ length: 5 }, (_, i) => (
         <PostTest key={i} />
       ))} */}

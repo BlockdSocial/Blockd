@@ -12,6 +12,7 @@ import { TrendingStreams } from "./TrendingStreams";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import { encodeQuery } from "../../utils";
+import Result from "./Result";
 
 interface Pic {
   name: string;
@@ -53,34 +54,10 @@ function Widgets() {
           search: input,
         })
       ).then((result: any) => {
-        console.log('BZEZ: ', result);
         setSearchResult(result);
       });
     }
   }, [input]);
-
-  console.log('searchResult: ', searchResult);
-
-  const renderProfilePic = (user: any) => {
-    let image = null;
-    if (user?.profilePicId) {
-      dispatch(fetchPostImage(user?.profilePicId)).then((res) => {
-        console.log('ressss: ', res)
-        image = res[0]?.name
-      });
-    }
-    console.log('image: ', image);
-    return (
-      <img
-        src={
-          image
-            ? `${config.url.PUBLIC_URL}/${image}`
-            : "/images/pfp/pfp1.jpg"
-        }
-        className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
-      />
-    )
-  }
 
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
@@ -101,34 +78,8 @@ function Widgets() {
             <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
               <div className="flex flex-col items-center justify-center">
                 {searchResult &&
-                  searchResult?.map((result: any, index: number) => (
-                    <Link
-                      href={{
-                        pathname: "/dashboard/profile",
-                        query: { user_id: result?.id },
-                      }}
-                      as={`/dashboard/profile?${encodeQuery(result?.id, 'profile')}`}
-                      className="w-full"
-                    >
-                      <div
-                        key={result?.id}
-                        className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
-                      >
-                        {/* {
-                          result &&
-                          renderProfilePic(result)
-                        } */}
-                        {/* <img
-                          src={
-                            !isEmpty(result?.profilePic)
-                              ? `${config.url.PUBLIC_URL}/${result?.otherUser?.profilePic?.name}`
-                              : "/images/pfp/pfp1.jpg"
-                          }
-                          className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
-                        /> */}
-                        <p className="font-semibold text-sm">@{result?.name}</p>
-                      </div>
-                    </Link>
+                  searchResult?.map((result: any) => (
+                    <Result result={result} key={result?.id} />
                   ))}
                 <Link
                   href={{
@@ -136,6 +87,7 @@ function Widgets() {
                     query: { query: input }
                   }}
                   className="flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+                  onClick={() => setInput('')}
                 >
                   <div className="rounded-full bg-blockd p-2">
                     <MagnifyingGlassIcon className="w-7 h-7 text-white" />

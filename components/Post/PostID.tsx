@@ -64,7 +64,7 @@ interface Post {
   userId: number;
   gif: string;
   otherUser: User;
-  images: Image[];
+  postImage: Image;
   profilePic: any;
   bannerPic: any;
   sharedPostId: number;
@@ -445,9 +445,9 @@ function PostID({ post, refetchComments }: Props) {
           </div>
         </div>
         <div className="w-full flex flex-col items-start">
-          {post?.images != null ? (
+          {post?.postImage != null ? (
             <img
-              src={`${config.url.PUBLIC_URL}/${post?.images[0]?.name}`}
+              src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
               alt="Post"
               className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
             />

@@ -20,8 +20,8 @@ function AllChatroomsPage() {
         <p>All Chatrooms</p>
       </div>
 
-      <TrendingChatrooms />
-      <SearchBar />
+      {/* <TrendingChatrooms /> */}
+      {/* <SearchBar /> */}
       <OrdinaryChatrooms  />
     </div>
   );

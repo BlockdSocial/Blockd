@@ -8,7 +8,7 @@ import {
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { createPost } from "../../stores/post/PostActions";
+import { createPost, createSuggestion } from "../../stores/post/PostActions";
 import Picker from "@emoji-mart/react";
 import Link from "next/link";
 import ReactGiphySearchbox from "react-giphy-searchbox";
@@ -131,7 +131,7 @@ function SuggestionBox({ refetchFiltered }: Props) {
     e.preventDefault();
     if (image.length > 0) {
       await dispatch(
-        createPost({
+        createSuggestion({
           content: input,
           public: 1,
           image: uploadedImage,
@@ -143,7 +143,7 @@ function SuggestionBox({ refetchFiltered }: Props) {
       });
     } else {
       await dispatch(
-        createPost({
+        createSuggestion({
           content: input,
           public: 1,
         })

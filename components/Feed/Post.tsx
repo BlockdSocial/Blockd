@@ -72,6 +72,7 @@ interface Post {
   profilePic: any;
   bannerPic: any;
   sharedPostId: number;
+  suggestion: number;
 }
 
 interface Info {
@@ -84,9 +85,10 @@ interface Info {
 interface Props {
   mainPost: Post;
   refetch: () => void;
+  search: boolean;
 }
 
-export default function PostTest({ mainPost, refetch }: Props) {
+export default function PostTest({ mainPost, refetch, search = false }: Props) {
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -725,7 +727,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 </p>
               </div>
               {
-                isEmpty(sharedPost) &&
+                isEmpty(sharedPost) && (null == mainPost?.suggestion) &&
                 <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon
                     ref={share}

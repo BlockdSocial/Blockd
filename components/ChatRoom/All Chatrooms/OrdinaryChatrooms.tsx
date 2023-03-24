@@ -1,38 +1,64 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
+import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
+import { fetchAllRooms } from "../../../stores/chat/ChatActions";
+import { isEmpty } from "lodash";
+import { config } from "../../../constants";
 
 function OrdinaryChatrooms() {
+  const dispatch = useAppDispatch();
+  const { allRooms } = useAppSelector((state) => state.chatReducer);
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+
+  useEffect(() => {
+    getChatrooms();
+  }, []);
+
+  const getChatrooms = async () => {
+    await dispatch(fetchAllRooms());
+  }
+
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
-      <div
-        onClick={() => setModalOpen(!modalOpen)}
-        className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
-      >
-        <div className="flex items-center justify-start space-x-4">
-          <img
-            src="/images/chatLogo/Bitcoin.png"
-            className="w-10 h-10 rounded-full"
-          />
-          <div className="flex flex-col items-start justify-start">
-            <div className="flex items-center justify-start space-x-1">
-              <p className="text-sm md:text-base font-semibold">BTC Official</p>
-              <LockClosedIcon className="w-4 h-4 stroke-2" />
+      {
+        allRooms &&
+        allRooms.map((room: any) => (
+          <div
+            onClick={() => 0 === room?.private ? {} : setModalOpen(!modalOpen)}
+            className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
+          >
+            <div className="flex items-center justify-start space-x-4">
+              <img
+                src={
+                  !isEmpty(room?.imgName)
+                    ? `${config.url.PUBLIC_URL}/${room?.imgName}`
+                    : "/images/placeholder.png"
+                } className="w-10 h-10 rounded-full"
+              />
+              <div className="flex flex-col items-start justify-start">
+                <div className="flex items-center justify-start space-x-1">
+                  <p className="text-sm md:text-base font-semibold">{room?.displayName}</p>
+                  {
+                    1 === room?.private &&
+                    <LockClosedIcon className="w-4 h-4 stroke-2" />
+                  }
+                </div>
+                <p className="text-xs md:text-sm">{room?.participants} Members</p>
+              </div>
             </div>
-            <p className="text-xs md:text-sm">30K Members</p>
-          </div>
-        </div>
-        <div className="flex items-center justify-start">
+            {/* <div className="flex items-center justify-start">
           <p className="text-sm md:text-base font-semibold bg-red-700 p-2 rounded-md text-white">
             -20 %
           </p>
-        </div>
-        <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-      </div>
-      <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
+        </div> */}
+            <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
+          </div>
+        ))
+      }
+      {/* <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
         <div className="flex items-center justify-start space-x-4">
           <img
             src="/images/chatLogo/Ethereum.png"
@@ -91,8 +117,8 @@ function OrdinaryChatrooms() {
           </p>
         </div>
         <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-      </div>
-      <div
+      </div> */}
+      {/* <div
         onClick={() => setSeeMore(!seeMore)}
         className={`p-2 bg-gray-200 hover:bg-gray-300 dark:hover:bg-lightgray/50 dark:bg-lightgray rounded-md cursor-pointer ${
           seeMore ? "hidden" : ""
@@ -197,11 +223,10 @@ function OrdinaryChatrooms() {
             See less
           </div>
         </>
-      )}
+      )} */}
       <div
-        className={`fixed -top-2 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
-          modalOpen ? "" : "hidden"
-        }`}
+        className={`fixed -top-2 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${modalOpen ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">

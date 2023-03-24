@@ -63,6 +63,10 @@ async function fetchChatroomMessages(id: any, fields: any) {
   return apiCall('fetchChatroomMessages', 'POST', `room/fetch/messages/${id}`, fields);
 };
 
+async function fetchAllRooms() {
+  return apiCall('fetchAllRooms', 'GET', 'fetch/rooms');
+};
+
 export default {
   createMessage,
   fetchMessages,
@@ -77,5 +81,6 @@ export default {
   createChatroomMessage,
   fetchUserChatrooms,
   fetchChatroomMembers,
-  fetchChatroomMessages
+  fetchChatroomMessages,
+  fetchAllRooms
 };
