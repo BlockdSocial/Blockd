@@ -90,10 +90,10 @@ export default function Chat({
                   <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
                     <div className="flex space-x-20 relative z-0 items-center justify-between w-full text-xm font-semibold">
                       <div>
-                        <p className="text-sm md-text-base">@{authUser?.name}</p>
+                        <p className="text-sm md:text-base">@{authUser?.name}</p>
                       </div>
                       <div className="relative z-0 flex items-center justify-end space-x-2 pl-2">
-                        <p className="text-sm md-text-base">{moment(message?.createdAt).format("HH:mm")}</p>
+                        <p className="text-sm md:text-base">{moment(message?.createdAt).format("HH:mm")}</p>
                         <div
                           ref={dropdown}
                           className="flex relative rounded-md"
@@ -219,12 +219,12 @@ export default function Chat({
                 </div>
                 <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
                   <div className="flex items-center justify-between w-full text-xm font-semibold">
-                    <p>@{receiver?.name}</p>
-                    <p className="pl-2">
+                    <p className="text-sm md:text-base">@{receiver?.name}</p>
+                    <p className="pl-2 text-sm md:text-base">
                       {moment(message?.createdAt).format("HH:mm")}
                     </p>
                   </div>
-                  <p className="flex items-center justify-start">
+                  <p className="flex items-center justify-start py-2 text-sm md:text-base">
                     {message?.content}
                   </p>
                   {

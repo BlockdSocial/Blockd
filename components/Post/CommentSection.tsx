@@ -351,11 +351,11 @@ function CommentSection({ comment, post, type }: Props) {
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
-              className="w-16 h-14 rounded-md shadow-sm"
+              className="w-14 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
               width={60}
               height={60}
             />
-            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.user?.frameName) ? comment?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
+            <div className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${!isEmpty(comment?.user?.frameName) ? comment?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                 {post?.user?.level}
               </div>
@@ -364,15 +364,15 @@ function CommentSection({ comment, post, type }: Props) {
         </Link>
         <div className="w-full">
           <div className="flex items-center space-x-1">
-            <p className="mr-1 font-semibold">@{comment?.user?.name}</p>
+            <p className="mr-1 text-sm md:text-base font-semibold">@{comment?.user?.name}</p>
             <TimeAgo
               date={comment?.createdAt}
-              className="text-sm text-gray-500"
+              className="text-xs md:text-sm text-gray-500"
             />
           </div>
 
           <div className="flex flex-col items-start justify-start py-2">
-            <p>{comment?.content}</p>
+            <p className="text-sm md:text-base">{comment?.content}</p>
             {comment?.imgName != null ? (
               <img
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}

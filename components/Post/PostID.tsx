@@ -320,7 +320,7 @@ function PostID({ post, refetchComments }: Props) {
   };
 
   return (
-    <div className="flex flex-col space-x-3 p-4 -z-20 border-y">
+    <div className="flex flex-col p-4 -z-20 border-y">
       <div className="w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-start space-x-2">
@@ -398,7 +398,7 @@ function PostID({ post, refetchComments }: Props) {
             >
               <EllipsisHorizontalIcon
                 onClick={() => setIsDropdownVisible((b) => !b)}
-                className="w-7 h-7 cursor-pointer"
+                className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
               />
               <div className="relative z-0 flex ite">
                 <ul
@@ -434,7 +434,7 @@ function PostID({ post, refetchComments }: Props) {
               <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon
                   onClick={() => setDeletePopUp(!deletePopUp)}
-                  className="w-7 h-7 cursor-pointer"
+                  className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
                 />
               </div>
             )}
@@ -505,7 +505,7 @@ function PostID({ post, refetchComments }: Props) {
 
       <form
         onSubmit={handleAddComment}
-        className="mt-3 flex items-start justify-center space-x-3"
+        className="mt-3 flex items-start justify-center space-x-3" 
       >
         <div className="flex flex-col items-end justify-center w-full">
           <input

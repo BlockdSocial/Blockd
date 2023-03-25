@@ -255,9 +255,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             <div className="z-0">
               <div className={`relative rounded-md z-10`}>
                 <img
-                  src="/images/frames/frame4.png"
+                  src="/images/frames/frame5.svg"
                   alt="pfp"
-                  className="relative w-32 h-32 object-contain z-10 border-white"
+                  className="relative w-24 h-24 z-10 border-white"
                 />
                 <img
                   src={
@@ -266,19 +266,26 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="absolute top-0 bottom-0 left-0 right-[2px] mx-auto my-auto w-[75px] h-[75px] z-0 rounded-md shadow-sm"
+                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] z-0 shadow-sm"
                 />
                 <div
-                  className={`absolute z-20 -bottom-0 left-0 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
+                  className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}
                 >
-                  <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
-                    {user?.level}
+                  <div className="relative">
+                    <img
+                      src="/images/frames/frame5.svg"
+                      alt="pfp"
+                      className="relative w-9 h-9 z-50 stroke-[100px]"
+                    />
+                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                      {user?.level}
+                    </div>
                   </div>
                 </div>
                 {user?.id === authUser?.id && (
                   <div
                     onClick={() => onPfpClick()}
-                    className="flex items-center z-20 justify-center absolute bottom-0 right-0 -cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    className="flex items-center z-20 justify-center absolute -bottom-3 -right-3 -cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
                   >
                     <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
                   </div>
