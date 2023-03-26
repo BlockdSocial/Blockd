@@ -237,7 +237,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             onClick={() => onBannerClick()}
             className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
           >
-            <CameraIcon className="w-8 h-8 text-black" />
+            <CameraIcon className="w-8 h-8 text-black cursor-pointer" />
           </div>
         )}
         <input
@@ -275,7 +275,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     <img
                       src="/images/frames/frame5.svg"
                       alt="pfp"
-                      className="relative w-9 h-9 z-50 stroke-[100px]"
+                      className="relative w-9 h-9 z-50 stroke-{100px}"
                     />
                     <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
                       {user?.level}
@@ -285,7 +285,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {user?.id === authUser?.id && (
                   <div
                     onClick={() => onPfpClick()}
-                    className="flex items-center z-20 justify-center absolute -bottom-3 -right-3 -cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    className="flex items-center z-20 justify-center absolute -bottom-3 -right-3 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
                   >
                     <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
                   </div>
@@ -305,7 +305,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </circle>
           <div className="flex flex-col items-start justify-end rounded-md p-3">
             <div className="flex items-center space-x-1">
-              <p className="mr-1 text-sm lg:text-xl group-hover:underline">
+              <p className="mr-1 text-sm lg:text-base group-hover:underline">
                 @{user?.name}
               </p>
             </div>

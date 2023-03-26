@@ -26,12 +26,12 @@ function Friends({ chats, setReceiver, closeShowFriends }: any) {
                       ? `${config.url.PUBLIC_URL}/${chat?.receiver?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
-                  className='w-12 h-12 object-contain rounded-md'
+                  className='w-10 h-10 rounded-md'
                 />
               </div>
               <div className='flex flex-col items-start justify-start ml-4'>
                 <div className='flex items-center justify-center space-x-2'>
-                  <span className='text-sm md:text-base font-semibold'>@{chat?.receiver?.name}</span>
+                  <span className='text-xs md:text-sm font-semibold'>@{chat?.receiver?.name}</span>
                   {/* <span className='w-3 h-3 bg-green-500 rounded-full'></span> */}
                 </div>
                 {/* <span className='text-xs'>Last seen Recently</span> */}
@@ -39,7 +39,7 @@ function Friends({ chats, setReceiver, closeShowFriends }: any) {
             </div>
             <div className='md:hidden md:group-hover:flex items-center justify-center space-x-1'>
               {/* <PersonAddAlt1RoundedIcon className='w-6 h-6 hover:text-gray-600 dark:hover:text-gray-200' /> */}
-              <ClearRoundedIcon className='w-6 h-6 md:hidden md:group-hover:inline hover:text-gray-600 dark:hover:text-gray-200' />
+              <ClearRoundedIcon className='w-5 h-5 md:hidden md:group-hover:inline hover:text-gray-600 dark:hover:text-gray-200' />
             </div>
           </div>
         ))

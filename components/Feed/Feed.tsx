@@ -155,7 +155,7 @@ function Feed() {
         )}
         <ArrowPathIcon
           onClick={handleRefresh}
-          className="flex items-center justify-end w-6 h-6cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
+          className="flex items-center justify-end w-6 h-6 cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
         />
       </div>
 

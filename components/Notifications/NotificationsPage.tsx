@@ -69,7 +69,7 @@ function NotificationsPage() {
         <div className='flex items-center justify-center'>
           <ArrowPathIcon
             onClick={handleRefresh}
-            className='h-6 w-6 cursor-pointer text-blockd dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale'
+            className='h-6 w-6 cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale'
           />
         </div>
       </div>

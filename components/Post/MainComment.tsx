@@ -301,7 +301,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
-              className="w-14 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+              className="w-14 h-12 md:w-16 md:h-14 rounded-md shadow-sm"
             />
             <div
               className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${
