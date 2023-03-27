@@ -74,6 +74,9 @@ export default function Chat({
     boxRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  console.log('reciever: ', receiver);
+  console.log('messages: ', messages);
+
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
@@ -210,6 +213,8 @@ export default function Chat({
                     src={
                       !isEmpty(receiver?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
+                        : !isEmpty(message?.otherUser?.profilePic) ?
+                        `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
                         : "/images/pfp/pfp1.jpg"
                     }
                     className="object-cover h-10 w-10 rounded-full flex"
@@ -218,7 +223,7 @@ export default function Chat({
                 </div>
                 <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
                   <div className="flex items-center justify-between w-full text-xm font-semibold">
-                    <p>@{receiver?.name}</p>
+                    <p>@{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}</p>
                     <p className="pl-2">
                       {moment(message?.createdAt).format("HH:mm")}
                     </p>

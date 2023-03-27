@@ -19,6 +19,8 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
   const { isFetchingMessages } = useAppSelector((state) => state.chatReducer);
   const ref = useRef<any>(null);
 
+  console.log('ROOM: ', room);
+
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, []);
@@ -42,7 +44,7 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
   );
 
   const [roomMessage] = useChannel(
-    `roomNotification-${room?.name}`,
+    `roomNotification-${room?.room?.name}`,
     (message) => {
       updateRoomMessages();
     }
@@ -83,7 +85,7 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
   const fetchRoomMessages = async () => {
     if (!isEmpty(room)) {
       await dispatch(
-        fetchChatroomMessages(room?.id, {
+        fetchChatroomMessages(room?.roomId, {
           start: 0,
           end: 100
         })
@@ -97,7 +99,7 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
 
   const updateRoomMessages = async () => {
     await dispatch(
-      fetchChatroomMessages(room?.id, {
+      fetchChatroomMessages(room?.roomId, {
         start: 0,
         end: 100
       })

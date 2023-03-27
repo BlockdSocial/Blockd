@@ -408,9 +408,8 @@ function PostID({ post, refetchComments }: Props) {
               />
               <div className="relative z-0 flex ite">
                 <ul
-                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
-                    isDropdownVisible ? "" : "hidden"
-                  }`}
+                  className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
+                    }`}
                 >
                   {post?.userId === authUser?.id && (
                     <div
@@ -448,7 +447,7 @@ function PostID({ post, refetchComments }: Props) {
         </div>
         <div className="w-full flex flex-col items-start">
           <p className="pt-4 text-sm md:text-base">{post?.content}</p>
-          {post?.images != null ? (
+          {post?.postImage != null ? (
             <img
               src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
               alt="Post"
@@ -605,258 +604,257 @@ function PostID({ post, refetchComments }: Props) {
               {info?.shares != null || undefined ? info?.shares : 0}
             </p>
           </div> */}
-      </div>
+        </div>
 
-      <form
-        onSubmit={handleAddComment}
-        className="mt-3 flex items-start justify-center space-x-3"
-      >
-        <div className="flex flex-col items-end justify-center w-full">
-          <input
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none w-full"
-            type="text"
-            placeholder="Write a comment..."
-          />
-          <div className="flex items-end justify-end">
-            <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
-              {!gifUrl && (
-                <PhotoIcon
-                  onClick={() => onUploadPictureClick()}
-                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                />
-              )}
-              <input
-                type="file"
-                id="file"
-                ref={inputPicture}
-                className="hidden"
-                accept="image/*"
-                onChange={handleUploadPicture}
-              />
-              <FaceSmileIcon
-                ref={emoji}
-                onClick={() => setShowEmojis(!showEmojis)}
-                className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-              />
-              {showEmojis && (
-                <div className="absolute righy-0 top-6 z-40">
-                  <Picker
-                    onEmojiSelect={addEmoji}
-                    theme="dark"
-                    set="apple"
-                    icons="outline"
-                    previewPosition="none"
-                    size="1em"
-                    perLine="6"
-                    maxFrequentRows="2"
-                    searchPosition="none"
-                  />
-                </div>
-              )}
-              <div ref={gif}>
-                {!image && (
-                  <GifIcon
-                    onClick={() => setShowGifs((b) => !b)}
+        <form
+          onSubmit={handleAddComment}
+          className="mt-3 flex items-start justify-center space-x-3"
+        >
+          <div className="flex flex-col items-end justify-center w-full">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none w-full"
+              type="text"
+              placeholder="Write a comment..."
+            />
+            <div className="flex items-end justify-end">
+              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
+                {!gifUrl && (
+                  <PhotoIcon
+                    onClick={() => onUploadPictureClick()}
                     className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                   />
                 )}
-                {showGifs && (
-                  <div className="absolute right-0 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
-                    <ReactGiphySearchbox
-                      apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-                      onSelect={(item: any) => addGif(item)}
-                      masonryConfig={[
-                        { columns: 2, imageWidth: 110, gutter: 5 },
-                        { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
-                      ]}
-                      wrapperClassName="p-4"
-                    />
-                  </div>
-                )}
-              </div>
-            </div>
-          </div>
-          {image && (
-            <div className="relative w-full mt-2">
-              <img
-                className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
-                src={image}
-                alt=""
-              />
-              <div
-                onClick={() => closePicture()}
-                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-              >
-                <XMarkIcon className="w-5 h-5" />
-              </div>
-              <hr className="mt-4 mb-4"></hr>
-            </div>
-          )}
-          {gifBoxIsOpen && (
-            <div className="relative w-full">
-              <img
-                src={gifUrl}
-                className="rounded-lg max-w-full h-auto"
-                width="200px"
-                height="200px"
-              />
-              <div
-                onClick={() => closeGif()}
-                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-              >
-                <XMarkIcon className="w-5 h-5" />
-              </div>
-              <hr className="mt-4 mb-4"></hr>
-            </div>
-          )}
-        </div>
-        <button
-          disabled={!input && !image && !gifUrl}
-          type="submit"
-          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
-        >
-          <span className="hidden md:inline">Comment</span>
-          <span className="flex md:hidden">
-            <PaperAirplaneIcon className="w-5 h-5" />
-          </span>
-        </button>
-      </form>
-
-      <div
-        className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          deletePopUp ? "" : "hidden"
-        }`}
-      >
-        <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
-          <div className="relative bg-gray-50 rounded-t-lg">
-            <button
-              type="button"
-              onClick={() => setDeletePopUp(!deletePopUp)}
-              className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
-            <div className="p-4">
-              <h3 className="text-xl font-medium text-gray-900">Delete Post</h3>
-            </div>
-          </div>
-          <div className="flex items-center justify-start p-4 border-y text-black">
-            Are you sure you want to delete this post ?
-          </div>
-          <div className="flex items-center justify-end space-x-3 p-4">
-            <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
-              Delete
-            </p>
-            <p
-              onClick={() => setDeletePopUp(!deletePopUp)}
-              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
-            >
-              Cancel
-            </p>
-          </div>
-        </div>
-      </div>
-      <div
-        className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          editPopUp ? "" : "hidden"
-        }`}
-      >
-        <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
-          <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
-            <div className="">
-              <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
-            </div>
-            <button
-              type="button"
-              onClick={() => setEditPopUp(!editPopUp)}
-              className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
-            >
-              <svg
-                aria-hidden="true"
-                className="w-5 h-5"
-                fill="currentColor"
-                viewBox="0 0 20 20"
-                xmlns="http://www.w3.org/2000/svg"
-              >
-                <path
-                  fillRule="evenodd"
-                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
-                  clipRule="evenodd"
-                ></path>
-              </svg>
-              <span className="sr-only">Close modal</span>
-            </button>
-          </div>
-          <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
-            <div className="flex items-start justify-start space-y-2 w-full">
-              <div className="relative flex items-center justify-center w-full group">
-                <img
-                  src={imageEdit}
-                  alt="Content"
-                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                  width="720"
-                  height="350"
-                />
-                <div
-                  onClick={() => onContentClick()}
-                  className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
-                >
-                  <CameraIcon className="w-8 h-8 text-black" />
-                </div>
                 <input
                   type="file"
                   id="file"
-                  ref={inputFileContent}
+                  ref={inputPicture}
                   className="hidden"
                   accept="image/*"
+                  onChange={handleUploadPicture}
                 />
+                <FaceSmileIcon
+                  ref={emoji}
+                  onClick={() => setShowEmojis(!showEmojis)}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+                {showEmojis && (
+                  <div className="absolute righy-0 top-6 z-40">
+                    <Picker
+                      onEmojiSelect={addEmoji}
+                      theme="dark"
+                      set="apple"
+                      icons="outline"
+                      previewPosition="none"
+                      size="1em"
+                      perLine="6"
+                      maxFrequentRows="2"
+                      searchPosition="none"
+                    />
+                  </div>
+                )}
+                <div ref={gif}>
+                  {!image && (
+                    <GifIcon
+                      onClick={() => setShowGifs((b) => !b)}
+                      className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                    />
+                  )}
+                  {showGifs && (
+                    <div className="absolute right-0 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                      <ReactGiphySearchbox
+                        apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                        onSelect={(item: any) => addGif(item)}
+                        masonryConfig={[
+                          { columns: 2, imageWidth: 110, gutter: 5 },
+                          { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
+                        ]}
+                        wrapperClassName="p-4"
+                      />
+                    </div>
+                  )}
+                </div>
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start space-y-2 w-full">
-              <p className="font-semibold text-black">Title</p>
-              <input
-                className="p-2 bg-gray-200 outline-none rounded-lg w-full"
-                placeholder="Current Title"
-              />
+            {image && (
+              <div className="relative w-full mt-2">
+                <img
+                  className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                  src={image}
+                  alt=""
+                />
+                <div
+                  onClick={() => closePicture()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+                <hr className="mt-4 mb-4"></hr>
+              </div>
+            )}
+            {gifBoxIsOpen && (
+              <div className="relative w-full">
+                <img
+                  src={gifUrl}
+                  className="rounded-lg max-w-full h-auto"
+                  width="200px"
+                  height="200px"
+                />
+                <div
+                  onClick={() => closeGif()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+                <hr className="mt-4 mb-4"></hr>
+              </div>
+            )}
+          </div>
+          <button
+            disabled={!input && !image && !gifUrl}
+            type="submit"
+            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          >
+            <span className="hidden md:inline">Comment</span>
+            <span className="flex md:hidden">
+              <PaperAirplaneIcon className="w-5 h-5" />
+            </span>
+          </button>
+        </form>
+
+        <div
+          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+            }`}
+        >
+          <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
+            <div className="relative bg-gray-50 rounded-t-lg">
+              <button
+                type="button"
+                onClick={() => setDeletePopUp(!deletePopUp)}
+                className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+              <div className="p-4">
+                <h3 className="text-xl font-medium text-gray-900">Delete Post</h3>
+              </div>
             </div>
-            <div className="flex flex-col items-start justify-start space-y-2 w-full">
-              <p className="font-semibold text-black">Description</p>
-              <textarea
-                id="message"
-                maxLength={255}
-                value={textArea}
-                onChange={(e: any) => setTextArea(e.target.value)}
-                data-rows="4"
-                className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
-                placeholder="Current Post description"
-              ></textarea>
+            <div className="flex items-center justify-start p-4 border-y text-black">
+              Are you sure you want to delete this post ?
+            </div>
+            <div className="flex items-center justify-end space-x-3 p-4">
+              <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+                Delete
+              </p>
+              <p
+                onClick={() => setDeletePopUp(!deletePopUp)}
+                className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+              >
+                Cancel
+              </p>
             </div>
           </div>
-          <div className="flex items-center justify-end space-x-3 p-2">
-            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
-              Edit
-            </p>
-            <p
-              onClick={() => setEditPopUp(!editPopUp)}
-              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
-            >
-              Cancel
-            </p>
+        </div>
+        <div
+          className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+            }`}
+        >
+          <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
+            <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
+              <div className="">
+                <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
+              </div>
+              <button
+                type="button"
+                onClick={() => setEditPopUp(!editPopUp)}
+                className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-5 h-5"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+            </div>
+            <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
+              <div className="flex items-start justify-start space-y-2 w-full">
+                <div className="relative flex items-center justify-center w-full group">
+                  <img
+                    src={imageEdit}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                  />
+                  <div
+                    onClick={() => onContentClick()}
+                    className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
+                  >
+                    <CameraIcon className="w-8 h-8 text-black" />
+                  </div>
+                  <input
+                    type="file"
+                    id="file"
+                    ref={inputFileContent}
+                    className="hidden"
+                    accept="image/*"
+                  />
+                </div>
+              </div>
+              <div className="flex flex-col items-start justify-start space-y-2 w-full">
+                <p className="font-semibold text-black">Title</p>
+                <input
+                  className="p-2 bg-gray-200 outline-none rounded-lg w-full"
+                  placeholder="Current Title"
+                />
+              </div>
+              <div className="flex flex-col items-start justify-start space-y-2 w-full">
+                <p className="font-semibold text-black">Description</p>
+                <textarea
+                  id="message"
+                  maxLength={255}
+                  value={textArea}
+                  onChange={(e: any) => setTextArea(e.target.value)}
+                  data-rows="4"
+                  className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
+                  placeholder="Current Post description"
+                ></textarea>
+              </div>
+            </div>
+            <div className="flex items-center justify-end space-x-3 p-2">
+              <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+                Edit
+              </p>
+              <p
+                onClick={() => setEditPopUp(!editPopUp)}
+                className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+              >
+                Cancel
+              </p>
+            </div>
           </div>
         </div>
       </div>

@@ -2,9 +2,9 @@ import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { followUser } from '../../stores/user/UserActions'
-import { fetchPostImage } from '../../stores/post/PostActions'
 import { config } from '../../constants'
 import { encodeQuery } from '../../utils'
+import { isEmpty } from 'lodash'
 
 interface Post {
   id: number;
@@ -18,7 +18,6 @@ function UserResult({ user }: any) {
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer)
-  const [image, setImage] = useState<any>();
 
   const handleFollowUser = async (userId: any) => {
     if (authUser?.id !== userId) {
@@ -30,22 +29,14 @@ function UserResult({ user }: any) {
     }
   };
 
-  useEffect(() => {
-    if (user?.profilePicId) {
-      dispatch(fetchPostImage(user?.profilePicId)).then((res) => {
-        setImage(res[0]?.name);
-      });
-    }
-  }, []);
-
   return (
     <div className='flex items-center justify-between w-full'>
       <div className='flex items-center justify-center space-x-3'>
         <div className='flex items-center justify-center'>
           <img
             src={
-              image
-                ? `${config.url.PUBLIC_URL}/${image}`
+              !isEmpty(user?.profilePic)
+                ? `${config.url.PUBLIC_URL}/${user?.profilePic?.name}`
                 : "/images/placeholder.png"
             }
             className="rounded-md w-16 h-16 bg-blockd"

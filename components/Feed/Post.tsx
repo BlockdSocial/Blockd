@@ -97,6 +97,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   const [input, setInput] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");
   const [imageEdit, setImageEdit] = useState<string>("");
+  const [uploadedEdit, setUploadedEdit] = useState<string>("");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [sharePopUp, setSharePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
@@ -248,6 +249,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
 
   const handleUploadProfile = (e: any) => {
     setImageEdit(URL.createObjectURL(e.target.files[0]));
+    setUploadedEdit(e.target.files[0]);
   };
 
   const closePicture = () => {
@@ -351,14 +353,28 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   //************************** Backend Handeling **************************//
 
   const handleEditPost = async () => {
-    await dispatch(
-      editPost(mainPost?.id, {
-        content: textArea,
-      })
-    ).then(() => {
-      refetch();
-      setEditPopUp(!editPopUp);
-    });
+    if (uploadedEdit) {
+      await dispatch(
+        editPost(mainPost?.id, {
+          content: textArea,
+          image: uploadedEdit
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+        setUploadedEdit('');
+        setImageEdit('');
+      });
+    } else {
+      await dispatch(
+        editPost(mainPost?.id, {
+          content: textArea,
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+      });
+    }
   };
 
   const closeGif = () => {
@@ -510,9 +526,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 />
                 <div className="relative z-0 flex ite">
                   <ul
-                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
-                      isDropdownVisible ? "" : "hidden"
-                    }`}
+                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
+                      }`}
                   >
                     {mainPost?.userId === authUser?.id && (
                       <div
@@ -691,37 +706,32 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </div>
           )}
           <div
-            className={`flex items-center justify-start mt-4 mb-2 ${
-              commentBoxVisible ? "hidden" : ""
-            }`}
+            className={`flex items-center justify-start mt-4 mb-2 ${commentBoxVisible ? "hidden" : ""
+              }`}
           >
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
-                  className={`text-xs ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  }`}
+                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
                 <p
-                  className={`text-xs ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  }`}
+                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -789,38 +799,34 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                   <p
-                    className={`text-xs ${
-                      info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
-                    } `}
+                    className={`text-xs ${info?.likes
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
+                      } `}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-5 w-5 cursor-pointer ${
-                      info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${info?.likes
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikePost()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                   <ArrowDownIcon
-                    className={`h-5 w-5 cursor-pointer ${
-                      info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${info?.dislikes
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikePost()}
                   />
                   <p
-                    className={`text-xs ${
-                      info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
-                    } `}
+                    className={`text-xs ${info?.dislikes
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
+                      } `}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
@@ -956,9 +962,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          deletePopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -1007,9 +1012,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          editPopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+          }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1042,11 +1046,12 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               <div className="relative flex items-center justify-center w-full group">
                 {imageEdit ? (
                   <img
-                    src={`${config.url.PUBLIC_URL}/${imageEdit}`}
+                    src={imageEdit}
                     alt="Content"
                     className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
                     width="720"
                     height="350"
+                    onClick={() => onContentClick()}
                   />
                 ) : (
                   <img
@@ -1055,6 +1060,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
                     width="720"
                     height="350"
+                    onClick={() => onContentClick()}
                   />
                 )}
                 <input
@@ -1097,9 +1103,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          sharePopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${sharePopUp ? "" : "hidden"
+          }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">

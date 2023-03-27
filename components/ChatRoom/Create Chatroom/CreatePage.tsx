@@ -3,6 +3,7 @@ import { toast } from "react-hot-toast";
 import { createChatroom } from "../../../stores/chat/ChatActions";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { LinkIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { isEmpty } from "lodash";
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -32,18 +33,36 @@ function CreatePage() {
   }
 
   const handleCreateRoom = async () => {
-    await dispatch(createChatroom({
-      display_name: name,
-      description: description,
-      moderator_id: authUser?.id,
-      private: 'private' === selectedOption ? 1 : 0,
-    })).then(() => {
-      toast.success('Created!', {
-        duration: 4000
+    if (image) {
+      await dispatch(createChatroom({
+        display_name: name,
+        description: description,
+        moderator_id: authUser?.id,
+        private: 'private' === selectedOption ? 1 : 0,
+        image: uploadedImage
+      })).then(() => {
+        toast.success('Created!', {
+          duration: 4000
+        });
+        setName('');
+        setDescription('');
+        closePicture();
       });
-      setName('');
-      setDescription('');
-    });
+    } else {
+      await dispatch(createChatroom({
+        display_name: name,
+        description: description,
+        moderator_id: authUser?.id,
+        private: 'private' === selectedOption ? 1 : 0,
+      })).then(() => {
+        toast.success('Created!', {
+          duration: 4000
+        });
+        setName('');
+        setDescription('');
+        closePicture();
+      });
+    }
   }
   const inputPicture = useRef<HTMLInputElement | null>(null);
 

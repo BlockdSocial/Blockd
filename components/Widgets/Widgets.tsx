@@ -3,15 +3,11 @@ import dynamic from "next/dynamic";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Slider from "./Slider";
 import Link from "next/link";
-import { fetchPost, fetchPostImage, fetchTrendingPosts, searchPosts } from "../../stores/post/PostActions";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { searchFilteredUsers, searchUsers } from "../../stores/user/UserActions";
-import { isEmpty } from "lodash";
-import { config } from "../../constants";
-import { TrendingStreams } from "./TrendingStreams";
+import { fetchTrendingPosts } from "../../stores/post/PostActions";
+import { useAppDispatch } from "../../stores/hooks";
+import { searchFilteredUsers } from "../../stores/user/UserActions";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
-import { encodeQuery } from "../../utils";
 import Result from "./Result";
 
 interface Pic {

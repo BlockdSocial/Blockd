@@ -1,13 +1,9 @@
-import Link from 'next/link'
 import React, { useEffect } from 'react'
 import PostTest from '../Feed/Post'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { useRouter } from 'next/router'
-import { isEmpty, isString } from 'lodash'
-import { followUser, searchFilteredUsers, searchUsers } from '../../stores/user/UserActions'
-import { searchPosts } from '../../stores/post/PostActions'
-import { config } from '../../constants'
-import { encodeQuery } from '../../utils'
+import { isString } from 'lodash'
+import { searchFilteredUsers, searchUsers } from '../../stores/user/UserActions'
 import UserResult from './UserResult'
 
 interface Post {

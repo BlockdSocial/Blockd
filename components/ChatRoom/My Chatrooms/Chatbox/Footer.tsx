@@ -165,7 +165,7 @@ function Footer({
     if (!isEmpty(room)) {
       if (uploadedImage) {
         await dispatch(
-          createChatroomMessage(room?.id, {
+          createChatroomMessage(room?.roomId, {
             'image': uploadedImage,
             user_id: authUser?.id
           })
@@ -175,7 +175,7 @@ function Footer({
         });
       } else if (gifUrl.length > 0) {
         await dispatch(
-          createChatroomMessage(room?.id, {
+          createChatroomMessage(room?.roomId, {
             gif: gifUrl,
             user_id: authUser?.id
           })
@@ -185,7 +185,7 @@ function Footer({
         });
       } else if (!isEmpty(input)) {
         await dispatch(
-          createChatroomMessage(room?.id, {
+          createChatroomMessage(room?.roomId, {
             content: input,
             user_id: authUser?.id
           })

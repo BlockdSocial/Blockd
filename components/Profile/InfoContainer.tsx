@@ -225,9 +225,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-72 ${
-            user?.id === authUser?.id && "group-hover:opacity-50"
-          }`}
+          className={`w-full max-h-72 ${user?.id === authUser?.id && "group-hover:opacity-50"
+            }`}
           width="720"
           height="350"
         />
@@ -252,12 +251,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
-              <div className={`relative rounded-md z-10`}>
-                <img
-                  src="/images/frames/frame4.png"
-                  alt="pfp"
-                  className="relative w-32 h-32 object-contain z-10 border-white"
-                />
+              <div
+                className={`relative w-24 h-24 md:w-28 md:h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
+              >
                 <img
                   src={
                     !isEmpty(profilePicture)
@@ -265,10 +261,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="absolute top-0 bottom-0 left-0 right-[2px] mx-auto my-auto w-[75px] h-[75px] z-0 rounded-md shadow-sm"
+                  className="w-full h-full rounded-md shadow-sm border-2 border-white"
                 />
                 <div
-                  className={`absolute z-20 -bottom-0 left-0 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
+                  className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
                 >
                   <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
                     {user?.level}
@@ -277,7 +273,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {user?.id === authUser?.id && (
                   <div
                     onClick={() => onPfpClick()}
-                    className="flex items-center z-20 justify-center absolute bottom-0 right-0 -cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    className="flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
                   >
                     <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
                   </div>
@@ -405,9 +401,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
-              isDropdownVisible ? "" : "hidden"
-            }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
+              }`}
           >
             <Link
               type="button"
@@ -431,9 +426,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
-          isModalVisible ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">

@@ -67,6 +67,10 @@ async function fetchAllRooms() {
   return apiCall('fetchAllRooms', 'GET', 'fetch/rooms');
 };
 
+async function joinRoom(fields: any) {
+  return apiCall('joinRoom', 'POST', `join/room/${fields}`);
+};
+
 export default {
   createMessage,
   fetchMessages,
@@ -82,5 +86,6 @@ export default {
   fetchUserChatrooms,
   fetchChatroomMembers,
   fetchChatroomMessages,
-  fetchAllRooms
+  fetchAllRooms,
+  joinRoom
 };

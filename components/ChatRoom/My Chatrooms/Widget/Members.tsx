@@ -1,4 +1,4 @@
-import React, { useState } from 'react'
+import React, { useEffect, useState } from 'react'
 import {
   UsersIcon,
   MagnifyingGlassIcon,
@@ -7,13 +7,22 @@ import {
 } from '@heroicons/react/24/outline'
 import { isEmpty } from 'lodash'
 import { config } from '../../../../constants'
+import { useAppSelector, useAppDispatch } from '../../../../stores/hooks'
+import { searchFilteredUsers } from '../../../../stores/user/UserActions'
+import Link from 'next/link'
+import { encodeQuery } from '../../../../utils'
+import { addMember } from '../../../../stores/chat/ChatActions'
+import { toast } from 'react-hot-toast'
 
-function Members({ members }: any) {
+function Members({ members, room }: any) {
 
+  const dispatch = useAppDispatch()
+  const { authUser } = useAppSelector((state) => state.authUserReducer)
   let [input, setInput] = useState<string>('')
   let [inputAdd, setInputAdd] = useState<string>('')
   let [showSearch, setShowSearch] = useState<boolean>(false)
   let [showAddMember, setShowAddMember] = useState<boolean>(false)
+  const [searchResult, setSearchResult] = useState<any>();
 
   const toggleSearch = () => {
     input = ''
@@ -41,6 +50,30 @@ function Members({ members }: any) {
     setInputAdd(inputAdd)
   }
 
+  useEffect(() => {
+    if (inputAdd.length > 0) {
+      dispatch(
+        searchFilteredUsers({
+          search: inputAdd,
+        })
+      ).then((result: any) => {
+        console.log('resSULT: ', result)
+        setSearchResult(result);
+      });
+    }
+  }, [inputAdd]);
+
+  const handleAddMember = async (id: any) => {
+    await dispatch(addMember(room?.roomId, {
+      user_id: id
+    })).then(() => {
+      toast.success('Member Added!', {
+        duration: 4000
+      });
+      refreshAddMember();
+    });
+  }
+
   return (
     <div className='flex flex-col bg-white border-b'>
       <div className='flex items-center justify-between text-black'>
@@ -50,7 +83,10 @@ function Members({ members }: any) {
         </div>
         <div className='flex items-center justify-end space-x-2 p-2'>
           <MagnifyingGlassIcon onClick={() => toggleSearch()} className='w-5 h-5 cursor-pointer' />
-          <UserPlusIcon onClick={() => toggleAddMember()} className='w-5 h-5 cursor-pointer' />
+          {
+            authUser?.id === room?.room?.moderatorId &&
+            <UserPlusIcon onClick={() => toggleAddMember()} className='w-5 h-5 cursor-pointer' />
+          }
         </div>
       </div>
       <div className={`items-center space-x-2 p-2 group ${showSearch ? 'flex' : 'hidden'}`}>
@@ -77,6 +113,33 @@ function Members({ members }: any) {
           onClick={() => refreshAddMember()}
           className={`w-5 h-5 cursor-pointer ${inputAdd ? 'inline' : 'hidden'}`} />
       </div>
+      <div className="relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30 overflow-visible">
+        <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
+          <div className="flex flex-col items-center justify-center">
+            {searchResult && inputAdd.length > 0 &&
+              searchResult?.map((result: any) => (
+                <div
+                  className="w-full"
+                  key={result?.id}
+                  onClick={() => handleAddMember(result?.id)}
+                >
+                  <div
+                    key={result?.id}
+                    className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+                  >
+                    <img
+                      src={
+                        !isEmpty(result?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
+                          : "/images/placeholder.png"
+                      }
+                      className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
+                    />
+                    <p className="font-semibold text-sm">@{result?.name}</p>
+                  </div>
+                </div>
+              ))}
+          </div></div></div>
       {
         members &&
         members.map((member: any) => (

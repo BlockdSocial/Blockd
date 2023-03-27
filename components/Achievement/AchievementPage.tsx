@@ -1,11 +1,27 @@
-import React, { useState } from "react";
+import React, { useState, useEffect } from "react";
 import Image from "next/image";
 import Levels from "./Levels";
 import Achievements from "./Achievements";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+import { fetchUserRewards } from "../../stores/user/UserActions";
+import { isEmpty } from "lodash";
+import { config } from "../../constants";
 
 function AchievementPage() {
   let [showAchievements, setShowAchievements] = useState<boolean>(false);
   let [showLevels, setShowLevels] = useState<boolean>(true);
+  const { rewards } = useAppSelector((state) => state.userReducer);
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const dispatch = useAppDispatch();
+
+  useEffect(() => {
+    fetchRewards();
+  }, []);
+
+  const fetchRewards = async () => {
+    await dispatch(fetchUserRewards());
+  }
+
   const handleToggle1 = () => {
     if (showAchievements == false) {
       setShowAchievements(!showAchievements);
@@ -27,27 +43,31 @@ function AchievementPage() {
       <div className="flex flex-col items-center justify-start p-4 dark:border-lightgray min-h-screen pb-16">
         <div className="flex items-center justify-center w-full space-x-6 mb-10 bg-transparent">
           <div
-            className={`relative h-24 w-24 border-2 border-white rounded-md p-1 animate-colorChange`}
+            className={`relative h-24 w-24 rounded-md p-1 ${authUser?.frameName}`}
           >
             <Image
-              src="/images/pfp/pfp1.jpg"
+              src={
+                !isEmpty(authUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                  : "/images/pfp/pfp1.jpg"
+              }
               alt="pfp"
               className="w-fill h-fill rounded-md shadow-sm border-2 border-white"
               width={2000}
               height={2000}
             />
             <div
-              className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white animate-colorChange rounded-lg`}
+              className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${!isEmpty(authUser?.frameName) ? authUser?.frameName : 'bg-blue-300'} rounded-lg`}
             >
               <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
-                8
+                {authUser?.level}
               </div>
             </div>
           </div>
           <div className="flex flex-col items-start justify-center">
             <p className="text-sm font-semibold mb-2">Total</p>
             <p className="text-2xl font-semibold text-gray-500 dark:text-gray-300">
-              1500
+              {authUser?.score}
             </p>
             <p className="text-l font-semibold text-gray-500 dark:text-gray-300">
               Experience
@@ -57,26 +77,24 @@ function AchievementPage() {
         <div className="flex items-center justify-between space-x-20 mb-5 w-fit border-b dark:border-lightgray h-10">
           <button
             onClick={() => handleToggle2()}
-            className={`text-base focus:outline-none ${
-              showLevels === true
-                ? "border-b-2 border-blockd text-blockd :"
-                : ""
-            }`}
+            className={`text-base focus:outline-none ${showLevels === true
+              ? "border-b-2 border-blockd text-blockd :"
+              : ""
+              }`}
           >
             Levels
           </button>
-          <button
+          {/* <button
             onClick={() => handleToggle1()}
-            className={`text-base focus:outline-none ${
-              showAchievements === true
-                ? "border-b-2 border-blockd text-blockd :"
-                : ""
-            }`}
+            className={`text-base focus:outline-none ${showAchievements === true
+              ? "border-b-2 border-blockd text-blockd :"
+              : ""
+              }`}
           >
             Achievements
-          </button>
+          </button> */}
         </div>
-        {showLevels && <Levels />}
+        {showLevels && <Levels rewards={rewards} />}
         {showAchievements && <Achievements />}
       </div>
     </div>

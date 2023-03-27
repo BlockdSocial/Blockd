@@ -7,6 +7,8 @@ import {
 } from '@heroicons/react/24/outline'
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks'
 import { fetchUserChatrooms } from '../../../../stores/chat/ChatActions'
+import { isEmpty } from 'lodash'
+import { config } from '../../../../constants'
 
 function Chatbar({ setRoom, setReceiver }: any) {
   const dispatch = useAppDispatch();
@@ -20,6 +22,8 @@ function Chatbar({ setRoom, setReceiver }: any) {
     await dispatch(fetchUserChatrooms());
   }
 
+  console.log('chatroom: ', chatrooms);
+
   return (
     <div className='relative flex flex-col col-span-1 pt-4 items-center border-r dark:border-lightgray'>
       <div className='flex flex-col h-full scrollbar-hide overflow-scroll w-full space-y-2'>
@@ -28,12 +32,19 @@ function Chatbar({ setRoom, setReceiver }: any) {
             <div
               onClick={() => {
                 setRoom(chatroom),
-                setReceiver(undefined)
+                  setReceiver(undefined)
               }}
               key={chatroom?.id}
               className='w-full cursor-pointer'
             >
-              <ChatbarRow Picture='/images/placeholder.png' Notif={0} active='' />
+              <ChatbarRow
+                Picture={
+                  !isEmpty(chatroom?.room?.imgName) ?
+                    `${config.url.PUBLIC_URL}/${chatroom?.room?.imgName}` :
+                    '/images/placeholder.png'
+                }
+                Notif={0} active=''
+              />
             </div>
           ))
         }

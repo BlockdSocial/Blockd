@@ -3,15 +3,20 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { fetchAllRooms } from "../../../stores/chat/ChatActions";
+import { addMember, fetchAllRooms, joinRoom } from "../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
 import { config } from "../../../constants";
 
 function OrdinaryChatrooms() {
   const dispatch = useAppDispatch();
   const { allRooms } = useAppSelector((state) => state.chatReducer);
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
+  const [count, setCount] = useState<number>();
+  const [image, setImage] = useState<string>('');
+  const [roomId, setRoomId] = useState<number>();
+  const [isParticipant, setIsParticipant] = useState<boolean>(false);
 
   useEffect(() => {
     getChatrooms();
@@ -21,13 +26,27 @@ function OrdinaryChatrooms() {
     await dispatch(fetchAllRooms());
   }
 
+  const handleJoinRoom = async (e: any) => {
+    e.preventDefault();
+    await dispatch(joinRoom(roomId)).then(() => {
+      setModalOpen(!open);
+      getChatrooms();
+    })
+  }
+
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
       {
         allRooms &&
         allRooms.map((room: any) => (
           <div
-            onClick={() => 0 === room?.private ? {} : setModalOpen(!modalOpen)}
+            onClick={() => {
+              setModalOpen(!modalOpen),
+                setCount(room?.participants),
+                setImage(room?.imgName),
+                setRoomId(room?.id),
+                setIsParticipant(room?.participant)
+            }}
             className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
           >
             <div className="flex items-center justify-start space-x-4">
@@ -233,7 +252,11 @@ function OrdinaryChatrooms() {
             <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
               <div className="flex items-center justify-start space-x-4">
                 <img
-                  src="/images/chatLogo/Bitcoin.png"
+                  src={
+                    !isEmpty(image)
+                      ? `${config.url.PUBLIC_URL}/${image}`
+                      : "/images/placeholder.png"
+                  }
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="flex flex-col items-start justify-start">
@@ -270,10 +293,10 @@ function OrdinaryChatrooms() {
                     Users count
                   </label>
                   <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
-                    30K members
+                    {count} members
                   </div>
                 </div>
-                <div>
+                {/* <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Network
                   </label>
@@ -297,10 +320,21 @@ function OrdinaryChatrooms() {
                   <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
                     10 BTC
                   </div>
-                </div>
-                <button className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                  Request to join
-                </button>
+                </div> */}
+                {
+                  isParticipant ?
+                    <button
+                      className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    >
+                      Joined
+                    </button> :
+                    <button
+                      className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      onClick={(e) => handleJoinRoom(e)}
+                    >
+                      Join
+                    </button>
+                }
               </form>
             </div>
           </div>

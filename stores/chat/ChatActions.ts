@@ -43,7 +43,10 @@ import {
   FETCH_CHATROOM_MESSAGES_FAILURE,
   IS_FETCHING_ALL_ROOMS,
   FETCH_ALL_ROOMS_SUCCESS,
-  FETCH_ALL_ROOMS_FAILURE
+  FETCH_ALL_ROOMS_FAILURE,
+  IS_JOINING_ROOM,
+  JOIN_ROOM_SUCCESS,
+  JOIN_ROOM_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -310,6 +313,24 @@ export function fetchAllRooms() {
       console.log('Fetch all rooms error: ', error.message);
       dispatch({
         type: FETCH_ALL_ROOMS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function joinRoom(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_JOINING_ROOM });
+    try {
+      await chatApi.joinRoom(fields);
+      dispatch({
+        type: JOIN_ROOM_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Join room error: ', error.message);
+      dispatch({
+        type: JOIN_ROOM_FAILURE,
         error: error.message
       });
     }

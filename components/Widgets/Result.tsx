@@ -4,6 +4,7 @@ import { fetchPostImage } from "../../stores/post/PostActions";
 import { useAppDispatch } from "../../stores/hooks";
 import { config } from "../../constants";
 import { encodeQuery } from "../../utils";
+import { isEmpty } from "lodash";
 
 interface Pic {
   name: string;
@@ -20,15 +21,7 @@ interface User {
 function Result({ result }: any) {
   const dispatch = useAppDispatch();
   const [image, setImage] = useState<any>();
-
-  useEffect(() => {
-    if (result?.profilePicId) {
-      dispatch(fetchPostImage(result?.profilePicId)).then((res) => {
-        setImage(res[0]?.name);
-      });
-    }
-  }, []);
-
+  
   return (
     <Link
       href={{
@@ -44,8 +37,8 @@ function Result({ result }: any) {
       >
         <img
           src={
-            image
-              ? `${config.url.PUBLIC_URL}/${image}`
+            !isEmpty(result?.profilePic)
+              ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
               : "/images/placeholder.png"
           }
           className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"

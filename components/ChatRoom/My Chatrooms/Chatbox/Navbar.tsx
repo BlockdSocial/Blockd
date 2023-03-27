@@ -17,7 +17,7 @@ import { config } from '../../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchChatroomMembers } from '../../../../stores/chat/ChatActions';
 
-function Navbar({ room, receiver, chats, setReceiver }: any) {
+function Navbar({ receiver, room, chats, setReceiver }: any) {
 
   const dispatch = useAppDispatch();
   const { members } = useAppSelector((state) => state.chatReducer);
@@ -34,7 +34,7 @@ function Navbar({ room, receiver, chats, setReceiver }: any) {
   }, [room]);
 
   const handleFetchRoomMembers = async () => {
-    await dispatch(fetchChatroomMembers(room?.id));
+    await dispatch(fetchChatroomMembers(room?.roomId));
   }
 
   useEffect(() => {
@@ -100,7 +100,7 @@ function Navbar({ room, receiver, chats, setReceiver }: any) {
                 </div>
               </div>
               {/* <Info /> */}
-              <Members members={members} />
+              <Members members={members} room={room} />
             </div>
           </div>
           <div className='flex flex-col items-center justify-center'>
