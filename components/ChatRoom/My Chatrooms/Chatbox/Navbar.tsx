@@ -16,6 +16,7 @@ import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
 import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchChatroomMembers } from '../../../../stores/chat/ChatActions';
+import { encodeQuery } from '../../../../utils';
 
 function Navbar({ receiver, room, chats, setReceiver }: any) {
 
@@ -143,7 +144,15 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
             </div>
           </div>
           <div className='flex flex-col items-center justify-center'>
-            <p className='text-xs md:text-base font-semibold'>{receiver?.name}</p>
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: receiver?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(receiver?.id, 'profile')}`}
+            >
+              <p className='text-xs md:text-base font-semibold'>{receiver?.name}</p>
+            </Link>
             {/* <p className='text-xs'>480 members, 26 online</p> */}
           </div>
         </div>

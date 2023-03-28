@@ -162,7 +162,7 @@ function Members({ members, room }: any) {
               ))}
           </div></div></div>
       {
-        roomMembers && !isEmpty(input) ?
+        roomMembers && !isEmpty(input) && !isEmpty(room) ?
           roomMembers.map((member: any) => (
             <Link
               href={{
@@ -194,6 +194,7 @@ function Members({ members, room }: any) {
               </div>
             </Link>
           )) :
+          !isEmpty(members) ?
           members.map((member: any) => (
             <Link
               href={{
@@ -224,7 +225,8 @@ function Members({ members, room }: any) {
             </div> */}
               </div>
             </Link>
-          ))
+          )) :
+          <></>
       }
     </div>
   )

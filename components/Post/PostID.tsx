@@ -38,6 +38,7 @@ import moment from "moment";
 import CustomLoadingOverlay from '../CustomLoadingOverlay';
 import { toast } from "react-hot-toast";
 import { useRouter } from 'next/navigation';
+import { encodeQuery } from "../../utils";
 
 interface Pic {
   name: string;
@@ -441,7 +442,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
                 href={{
                   pathname: "/dashboard/profile",
                   query: { user_id: post?.otherUser?.id },
-                }} className="relative flex flex-col w-fit h-fit group"
+                }} 
+                as={`/dashboard/profile?${encodeQuery(post?.otherUser?.id, 'profile')}`}
+                className="relative flex flex-col w-fit h-fit group"
               >
                 <div className={`relative flex flex-col p-1 ${post?.otherUser?.frameName} rounded-lg`}>
                   <Image
