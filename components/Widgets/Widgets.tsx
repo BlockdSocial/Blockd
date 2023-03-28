@@ -98,7 +98,7 @@ function Widgets() {
       <>
         <Slider trendingPosts={trendingPosts} />
       </>
-      <div className="p-2">
+      {/* <div className="p-2">
         <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-6">
           <ArrowTrendingUpIcon className="w-4 h-4 lg:w-5 lg:h-5" />
           <p className="font-semibold text-xs lg:text-base">
@@ -179,10 +179,10 @@ function Widgets() {
             <p className="font-semibold text-sm">See all chatrooms</p>
           </Link>
         </div>
-      </div>
+      </div> */}
       {/* <TrendingChatrooms /> */}
       {/* <TrendingStreams /> */}
-      <div className="p-2">
+      {/* <div className="p-2">
         <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-2">
           <ComputerDesktopIcon className="w-4 h-4 lg:w-5 lg:h-5" />
           <p className="font-semibold text-xs lg:text-base">
@@ -257,7 +257,7 @@ function Widgets() {
             <p className="font-semibold text-sm">See all streamers</p>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

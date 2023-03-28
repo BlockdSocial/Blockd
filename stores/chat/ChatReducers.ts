@@ -47,7 +47,10 @@ import {
   FETCH_ALL_ROOMS_FAILURE,
   IS_JOINING_ROOM,
   JOIN_ROOM_SUCCESS,
-  JOIN_ROOM_FAILURE
+  JOIN_ROOM_FAILURE,
+  IS_SEARCHING_ROOM_MEMBERS,
+  SEARCH_ROOM_MEMBERS_SUCCESS,
+  SEARCH_ROOM_MEMBERS_FAILURE
 } from './ChatActionTypes';
 
 const initialState = {
@@ -67,6 +70,8 @@ const initialState = {
   isFetchingChatroomMessages: false,
   isFetchingAllRooms: false,
   isJoiningRoom: false,
+  isSearchingRoomMembers: false,
+  roomMembersResult: [],
   allRooms: [],
   chatroomMessages: [],
   chatrooms: [],
@@ -385,6 +390,26 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isJoiningRoom: false,
+        error: action.error
+      };
+    }
+    case IS_SEARCHING_ROOM_MEMBERS: {
+      return {
+        ...state,
+        isSearchingRoomMembers: true
+      };
+    }
+    case SEARCH_ROOM_MEMBERS_SUCCESS: {
+      return {
+        ...state,
+        isSearchingRoomMembers: false,
+        roomMembersResult: action.roomMembersResult
+      };
+    }
+    case SEARCH_ROOM_MEMBERS_FAILURE: {
+      return {
+        ...state,
+        isSearchingRoomMembers: false,
         error: action.error
       };
     }

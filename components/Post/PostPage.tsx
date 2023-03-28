@@ -79,6 +79,7 @@ function PostPage() {
           // @ts-ignore
           post={post as Post}
           refetchComments={fetchComments}
+          refetch={fetchPostById}
         />
         {
           postComments &&

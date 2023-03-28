@@ -17,7 +17,7 @@ import {
 import Link from "next/link";
 import Picker from "@emoji-mart/react";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { fetchUser } from "../../stores/user/UserActions";
+import { fetchUser, followUser } from "../../stores/user/UserActions";
 import {
   fetchPostInfo,
   fetchPostImage,
@@ -27,6 +27,8 @@ import {
   fetchIsDisliked,
   fetchPost,
   fetchSharedPost,
+  editPost,
+  deletePost,
 } from "../../stores/post/PostActions";
 import { addComment } from "../../stores/comment/CommentActions";
 import { config } from "../../constants";
@@ -34,6 +36,8 @@ import { isEmpty } from "lodash";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import moment from "moment";
 import CustomLoadingOverlay from '../CustomLoadingOverlay';
+import { toast } from "react-hot-toast";
+import { useRouter } from 'next/navigation';
 
 interface Pic {
   name: string;
@@ -80,10 +84,12 @@ interface Info {
 interface Props {
   post: Post;
   refetchComments: () => void;
+  refetch: () => void;
 }
 
-function PostID({ post, refetchComments }: Props) {
+function PostID({ post, refetchComments, refetch }: Props) {
   const dispatch = useAppDispatch();
+  const { push } = useRouter();
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { isFetchingPost } = useAppSelector((state) => state.postReducer);
@@ -94,14 +100,27 @@ function PostID({ post, refetchComments }: Props) {
   const [profilePicture, setProfilePicture] = useState<string>();
   const [showEmojis, setShowEmojis] = useState<boolean>(false);
   const [textArea, setTextArea] = useState<string>("");
-  const [imageEdit, setImageEdit] = useState<string>("/images/Post1.jpg");
+  const [imageEdit, setImageEdit] = useState<string>("");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
   const [sharedPost, setSharedPost] = useState<any>();
+  const [uploadedEdit, setUploadedEdit] = useState<string>("");
+  const [gifEditBoxIsOpen, setGifEditBoxIsOpen] = useState<boolean>(false);
+  const [showEditGifs, setShowEditGifs] = useState<boolean>(false);
 
   const dropdown = useRef<any>(null);
+
+  const handleUploadProfile = (e: any) => {
+    setImageEdit(URL.createObjectURL(e.target.files[0]));
+    setUploadedEdit(e.target.files[0]);
+  };
+
+  useEffect(() => {
+    // setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");
+    setTextArea(post?.content || "");
+  }, [post]);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -238,6 +257,68 @@ function PostID({ post, refetchComments }: Props) {
     });
   }
 
+  let [editGifUrl, setEditGifUrl] = useState<string>("");
+  const editGif = (gify: any) => {
+    if (gifBoxIsOpen === false) {
+      setGifEditBoxIsOpen(!gifEditBoxIsOpen);
+    }
+    let gifUrl = gify.images.downsized.url;
+    setEditGifUrl(gifUrl);
+    setUploadedVideo(gify.images.downsized);
+  };
+
+  const handleEditPost = async () => {
+    if (uploadedEdit) {
+      await dispatch(
+        editPost(post?.id, {
+          content: textArea,
+          image: uploadedEdit
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+        setUploadedEdit('');
+        setImageEdit('');
+      });
+    }
+    else if (editGifUrl) {
+      await dispatch(
+        editPost(post?.id, {
+          content: textArea,
+          gif: editGifUrl
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+        setEditGifUrl('');
+      });
+    }
+    else {
+      await dispatch(
+        editPost(post?.id, {
+          content: textArea,
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+      });
+    }
+  };
+
+  const handleDeletePost = async () => {
+    //@ts-ignore
+    await dispatch(deletePost(post?.id)).then(async (res: any) => {
+      if (res?.errors) {
+        await new Promise((f) => setTimeout(f, 1000));
+        toast.error(res?.errors);
+        return;
+      } else {
+        setDeletePopUp(false);
+        push('/');
+      }
+    });
+  };
+
   //************************** Edit Post Handeling **************************//
   //************************** Edit Post Handeling **************************//
   //************************** Edit Post Handeling **************************//
@@ -335,6 +416,20 @@ function PostID({ post, refetchComments }: Props) {
     });
   };
 
+  const handleFollowUser = async () => {
+    if (authUser?.id !== post?.otherUser?.id) {
+      await dispatch(
+        followUser({
+          user_id: post?.otherUser?.id,
+        })
+      ).then(() => {
+        toast.success('User Followed!', {
+          duration: 4000
+        });
+      });
+    }
+  };
+
   return (
     <div className="flex flex-col space-x-3 p-4 -z-20 border-y">
       <CustomLoadingOverlay active={isFetchingPost} />
@@ -421,15 +516,18 @@ function PostID({ post, refetchComments }: Props) {
                   )}
                   {post?.userId !== authUser?.id && (
                     <>
-                      <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+                      {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                         Report Post
-                      </div>
-                      <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50">
+                      </div> */}
+                      <div
+                        className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
+                        onClick={() => handleFollowUser()}
+                      >
                         Follow User
                       </div>
-                      <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                      {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                         Follow Post
-                      </div>
+                      </div> */}
                     </>
                   )}
                 </ul>
@@ -722,9 +820,8 @@ function PostID({ post, refetchComments }: Props) {
             </span>
           </button>
         </form>
-
         <div
-          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
             }`}
         >
           <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
@@ -757,9 +854,13 @@ function PostID({ post, refetchComments }: Props) {
               Are you sure you want to delete this post ?
             </div>
             <div className="flex items-center justify-end space-x-3 p-4">
-              <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+              <p
+                onClick={() => handleDeletePost()}
+                className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              >
                 Delete
               </p>
+
               <p
                 onClick={() => setDeletePopUp(!deletePopUp)}
                 className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
@@ -770,10 +871,10 @@ function PostID({ post, refetchComments }: Props) {
           </div>
         </div>
         <div
-          className={`fixed top-0 -left-3 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
             }`}
         >
-          <div className="w-full rounded-lg shadow-lg max-w-md  scrollbar-hide overflow-scroll h-full bg-gray-50">
+          <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
             <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
               <div className="">
                 <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
@@ -802,36 +903,88 @@ function PostID({ post, refetchComments }: Props) {
             <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
               <div className="flex items-start justify-start space-y-2 w-full">
                 <div className="relative flex items-center justify-center w-full group">
-                  <img
-                    src={imageEdit}
-                    alt="Content"
-                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                    width="720"
-                    height="350"
-                  />
-                  <div
-                    onClick={() => onContentClick()}
-                    className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
-                  >
-                    <CameraIcon className="w-8 h-8 text-black" />
-                  </div>
+                  {
+                    editGifUrl ? (
+                      <img
+                        src={editGifUrl}
+                        alt="gif"
+                        className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                        width="720"
+                        height="350"
+                        onClick={() => setShowEditGifs((b) => !b)}
+                      />
+                    ) :
+                      !isEmpty(post?.gif) ? (
+                        <img
+                          src={post?.gif}
+                          alt="gif"
+                          className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                          width="720"
+                          height="350"
+                          onClick={() => setShowEditGifs((b) => !b)}
+                        />
+                      ) :
+                        imageEdit ? (
+                          <img
+                            src={imageEdit}
+                            alt="Content"
+                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                            width="720"
+                            height="350"
+                            onClick={() => onContentClick()}
+                          />
+                        ) :
+                          !isEmpty(post?.postImage) ? (
+                            <img
+                              src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
+                              alt="Content"
+                              className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                              width="720"
+                              height="350"
+                              onClick={() => onContentClick()}
+                            />
+                          ) : (
+                            <img
+                              src="/images/blockdbg.jpg"
+                              alt="Content"
+                              className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                              width="720"
+                              height="350"
+                              onClick={() => onContentClick()}
+                            />
+                          )}
                   <input
                     type="file"
                     id="file"
                     ref={inputFileContent}
                     className="hidden"
                     accept="image/*"
+                    onChange={handleUploadProfile}
                   />
                 </div>
               </div>
-              <div className="flex flex-col items-start justify-start space-y-2 w-full">
-                <p className="font-semibold text-black">Title</p>
-                <input
-                  className="p-2 bg-gray-200 outline-none rounded-lg w-full"
-                  placeholder="Current Title"
-                />
-              </div>
-              <div className="flex flex-col items-start justify-start space-y-2 w-full">
+              <div className="flex flex-col items-start justify-start space-y-2 w-full relative">
+                {showEditGifs && (
+                  <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                    <ReactGiphySearchbox
+                      apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                      onSelect={(item: any) => {
+                        editGif(item),
+                          setShowEditGifs(false)
+                      }}
+                      masonryConfig={[
+                        { columns: 2, imageWidth: 110, gutter: 5 },
+                        {
+                          mq: "700px",
+                          columns: 3,
+                          imageWidth: 110,
+                          gutter: 5,
+                        },
+                      ]}
+                      wrapperClassName="p-4"
+                    />
+                  </div>
+                )}
                 <p className="font-semibold text-black">Description</p>
                 <textarea
                   id="message"
@@ -845,7 +998,10 @@ function PostID({ post, refetchComments }: Props) {
               </div>
             </div>
             <div className="flex items-center justify-end space-x-3 p-2">
-              <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+              <p
+                className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+                onClick={() => handleEditPost()}
+              >
                 Edit
               </p>
               <p

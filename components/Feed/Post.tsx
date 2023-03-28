@@ -112,7 +112,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   useEffect(() => {
     fetchInfo();
     fetchLiked();
-    setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");
+    // setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");
     setTextArea(mainPost?.content || "");
     fetchDisliked();
     if (mainPost?.sharedPostId) {
@@ -294,6 +294,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   //************************** GIF Handeling **************************//
 
   const [showGifs, setShowGifs] = useState<boolean>(false);
+  const [showEditGifs, setShowEditGifs] = useState<boolean>(false);
 
   const gif = useRef<any>(null);
 
@@ -312,7 +313,25 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
     return () => window.removeEventListener("click", handleClick);
   }, [showGifs]);
 
+  const gifEdit = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the gif is opened
+    if (!showEditGifs) return;
+    function handleClick(event: any) {
+      if (showEditGifs === true) {
+        if (gifEdit.current && !gifEdit.current.contains(event.target)) {
+          setShowEditGifs(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showEditGifs]);
+
   const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
+  const [gifEditBoxIsOpen, setGifEditBoxIsOpen] = useState<boolean>(false);
   //Set a color for the frame
 
   let [gifUrl, setGifUrl] = useState<string>("");
@@ -322,6 +341,16 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
     }
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
+    setUploadedVideo(gify.images.downsized);
+  };
+
+  let [editGifUrl, setEditGifUrl] = useState<string>("");
+  const editGif = (gify: any) => {
+    if (gifBoxIsOpen === false) {
+      setGifEditBoxIsOpen(!gifEditBoxIsOpen);
+    }
+    let gifUrl = gify.images.downsized.url;
+    setEditGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
   };
 
@@ -365,7 +394,20 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         setUploadedEdit('');
         setImageEdit('');
       });
-    } else {
+    }
+    else if (editGifUrl) {
+      await dispatch(
+        editPost(mainPost?.id, {
+          content: textArea,
+          gif: editGifUrl
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+        setEditGifUrl('');
+      });
+    }
+    else {
       await dispatch(
         editPost(mainPost?.id, {
           content: textArea,
@@ -417,7 +459,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
       followUser({
         user_id: mainPost?.otherUser?.id,
       })
-    );
+    ).then(() => {
+      toast.success('User Followed!', {
+        duration: 4000
+      });
+    });;
   };
 
   const handleSharePost = async () => {
@@ -539,18 +585,18 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     )}
                     {mainPost?.userId !== authUser?.id && (
                       <>
-                        <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+                        {/* <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                           Report Post
-                        </div>
+                        </div> */}
                         <div
                           className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
                           onClick={() => handleFollowUser()}
                         >
                           Follow User
                         </div>
-                        <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                        {/* <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                           Follow Post
-                        </div>
+                        </div> */}
                       </>
                     )}
                   </ul>
@@ -1044,25 +1090,56 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
             <div className="flex items-start justify-start space-y-2 w-full">
               <div className="relative flex items-center justify-center w-full group">
-                {imageEdit ? (
-                  <img
-                    src={imageEdit}
-                    alt="Content"
-                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                    width="720"
-                    height="350"
-                    onClick={() => onContentClick()}
-                  />
-                ) : (
-                  <img
-                    src="/images/blockdbg.jpg"
-                    alt="Content"
-                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                    width="720"
-                    height="350"
-                    onClick={() => onContentClick()}
-                  />
-                )}
+                {
+                  editGifUrl ? (
+                    <img
+                      src={editGifUrl}
+                      alt="gif"
+                      className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                      width="720"
+                      height="350"
+                      onClick={() => setShowEditGifs((b) => !b)}
+                    />
+                  ) :
+                    !isEmpty(mainPost?.gif) ? (
+                      <img
+                        src={mainPost?.gif}
+                        alt="gif"
+                        className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                        width="720"
+                        height="350"
+                        onClick={() => setShowEditGifs((b) => !b)}
+                      />
+                    ) :
+                      imageEdit ? (
+                        <img
+                          src={imageEdit}
+                          alt="Content"
+                          className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                          width="720"
+                          height="350"
+                          onClick={() => onContentClick()}
+                        />
+                      ) :
+                        !isEmpty(mainPost?.postImage) ? (
+                          <img
+                            src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
+                            alt="Content"
+                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                            width="720"
+                            height="350"
+                            onClick={() => onContentClick()}
+                          />
+                        ) : (
+                          <img
+                            src="/images/blockdbg.jpg"
+                            alt="Content"
+                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                            width="720"
+                            height="350"
+                            onClick={() => onContentClick()}
+                          />
+                        )}
                 <input
                   type="file"
                   id="file"
@@ -1073,7 +1150,28 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 />
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start space-y-2 w-full">
+            <div className="flex flex-col items-start justify-start space-y-2 w-full relative">
+              {showEditGifs && (
+                <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                  <ReactGiphySearchbox
+                    apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                    onSelect={(item: any) => {
+                      editGif(item),
+                        setShowEditGifs(false)
+                    }}
+                    masonryConfig={[
+                      { columns: 2, imageWidth: 110, gutter: 5 },
+                      {
+                        mq: "700px",
+                        columns: 3,
+                        imageWidth: 110,
+                        gutter: 5,
+                      },
+                    ]}
+                    wrapperClassName="p-4"
+                  />
+                </div>
+              )}
               <p className="font-semibold text-black">Description</p>
               <textarea
                 id="message"

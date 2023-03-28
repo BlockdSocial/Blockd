@@ -11,7 +11,7 @@ import { useAppSelector, useAppDispatch } from '../../../../stores/hooks'
 import { searchFilteredUsers } from '../../../../stores/user/UserActions'
 import Link from 'next/link'
 import { encodeQuery } from '../../../../utils'
-import { addMember } from '../../../../stores/chat/ChatActions'
+import { addMember, searchRoomMembers } from '../../../../stores/chat/ChatActions'
 import { toast } from 'react-hot-toast'
 
 function Members({ members, room }: any) {
@@ -23,6 +23,25 @@ function Members({ members, room }: any) {
   let [showSearch, setShowSearch] = useState<boolean>(false)
   let [showAddMember, setShowAddMember] = useState<boolean>(false)
   const [searchResult, setSearchResult] = useState<any>();
+  const [roomMembers, setRoomMembers] = useState<any>();
+
+  useEffect(() => {
+    if (!isEmpty(members)) {
+      setRoomMembers(members);
+    }
+  }, []);
+
+  useEffect(() => {
+    if (input.length > 0) {
+      dispatch(
+        searchRoomMembers(room?.roomId, {
+          search: input
+        })
+      ).then((result: any) => {
+        setRoomMembers(result);
+      });
+    }
+  }, [input]);
 
   const toggleSearch = () => {
     input = ''
@@ -73,6 +92,8 @@ function Members({ members, room }: any) {
       refreshAddMember();
     });
   }
+
+  console.log('roomMembers: ', roomMembers);
 
   return (
     <div className='flex flex-col bg-white border-b'>
@@ -141,30 +162,69 @@ function Members({ members, room }: any) {
               ))}
           </div></div></div>
       {
-        members &&
-        members.map((member: any) => (
-          <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
-            <div className='flex items-center justify-start p-2'>
-              <div className='flex items-center justify-center'>
-                <img
-                  src={
-                    !isEmpty(member?.otherUser?.profilePic)
-                      ? `${config.url.PUBLIC_URL}/${member?.otherUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
-                  }
-                  className='w-10 h-10 rounded-full'
-                />
-              </div>
-              <div className='flex flex-col items-start justify-start ml-4 text-black'>
-                <span className='text-base font-semibold'>@{member?.otherUser?.name}</span>
-                {/* <span className='text-xs'>Last seen Recently</span> */}
-              </div>
-            </div>
-            {/* <div className='flex items-center justify-end p-2 text-orange-600'>
+        roomMembers && !isEmpty(input) ?
+          roomMembers.map((member: any) => (
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: member?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(member?.id, 'profile')}`}
+            >
+              <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
+                <div className='flex items-center justify-start p-2'>
+                  <div className='flex items-center justify-center'>
+                    <img
+                      src={
+                        !isEmpty(member?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${member?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
+                      }
+                      className='w-10 h-10 rounded-full'
+                    />
+                  </div>
+                  <div className='flex flex-col items-start justify-start ml-4 text-black'>
+                    <span className='text-base font-semibold'>@{member?.name}</span>
+                    {/* <span className='text-xs'>Last seen Recently</span> */}
+                  </div>
+                </div>
+                {/* <div className='flex items-center justify-end p-2 text-orange-600'>
               <span className='text-sm font-semibold'>Admin</span>
             </div> */}
-          </div>
-        ))
+              </div>
+            </Link>
+          )) :
+          members.map((member: any) => (
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: member?.otherUser?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(member?.otherUser?.id, 'profile')}`}
+            >
+              <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
+                <div className='flex items-center justify-start p-2'>
+                  <div className='flex items-center justify-center'>
+                    <img
+                      src={
+                        !isEmpty(member?.otherUser?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${member?.otherUser?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
+                      }
+                      className='w-10 h-10 rounded-full'
+                    />
+                  </div>
+                  <div className='flex flex-col items-start justify-start ml-4 text-black'>
+                    <span className='text-base font-semibold'>@{member?.otherUser?.name}</span>
+                    {/* <span className='text-xs'>Last seen Recently</span> */}
+                  </div>
+                </div>
+                {/* <div className='flex items-center justify-end p-2 text-orange-600'>
+              <span className='text-sm font-semibold'>Admin</span>
+            </div> */}
+              </div>
+            </Link>
+          ))
       }
     </div>
   )

@@ -71,6 +71,10 @@ async function joinRoom(fields: any) {
   return apiCall('joinRoom', 'POST', `join/room/${fields}`);
 };
 
+async function searchRoomMembers(id: any, fields: any) {
+  return apiCall('searchRoomMembers', 'POST', `search/members/${id}`, fields);
+};
+
 export default {
   createMessage,
   fetchMessages,
@@ -87,5 +91,6 @@ export default {
   fetchChatroomMembers,
   fetchChatroomMessages,
   fetchAllRooms,
-  joinRoom
+  joinRoom,
+  searchRoomMembers
 };

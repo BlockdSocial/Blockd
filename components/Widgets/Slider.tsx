@@ -76,7 +76,7 @@ function Slider({ trendingPosts }: Props) {
       {!isEmpty(slides) && (
         <div className="mt-3">
           <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-4">
-            <ShareIcon className="w-4 h-4 lg:w-5 lg:h-5" />
+            {/* <ShareIcon className="w-4 h-4 lg:w-5 lg:h-5" /> */}
             <p className="font-semibold text-xs lg:text-base">Trending Posts</p>
           </div>
           <div className="h-52 w-full m-auto p-2 relative group">

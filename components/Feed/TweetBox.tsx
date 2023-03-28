@@ -121,7 +121,6 @@ function TweetBox({ refetchFiltered }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);

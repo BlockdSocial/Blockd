@@ -46,7 +46,10 @@ import {
   FETCH_ALL_ROOMS_FAILURE,
   IS_JOINING_ROOM,
   JOIN_ROOM_SUCCESS,
-  JOIN_ROOM_FAILURE
+  JOIN_ROOM_FAILURE,
+  IS_SEARCHING_ROOM_MEMBERS,
+  SEARCH_ROOM_MEMBERS_SUCCESS,
+  SEARCH_ROOM_MEMBERS_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -331,6 +334,26 @@ export function joinRoom(fields: any) {
       console.log('Join room error: ', error.message);
       dispatch({
         type: JOIN_ROOM_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function searchRoomMembers(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({type: IS_SEARCHING_ROOM_MEMBERS});
+    try {
+      const result = await chatApi.searchRoomMembers(id, fields);
+      dispatch({
+        type: SEARCH_ROOM_MEMBERS_SUCCESS,
+        roomMembersResult: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Search room members error: ', error.message);
+      dispatch({
+        type: SEARCH_ROOM_MEMBERS_FAILURE,
         error: error.message
       });
     }
