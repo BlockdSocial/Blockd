@@ -463,7 +463,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
       toast.success('User Followed!', {
         duration: 4000
       });
-    });;
+    });
   };
 
   const handleSharePost = async () => {
