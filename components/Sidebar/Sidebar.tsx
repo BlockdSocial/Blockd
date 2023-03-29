@@ -118,20 +118,18 @@ function Sidebar() {
         </Link>
 
         <Link
-          // href="/dashboard/achievement"
-          href="#"
-          className="opacity-60"
+          href="/dashboard/achievement"
         >
           {location.pathname === "/dashboard/achievement" ? (
             <SidebarRow
               // @ts-ignore
-              Icon={LockClosedIcon}
+              Icon={FireIcon}
               title="Achievements"
               active="bg-gray-100 dark:bg-lightgray"
             />
           ) : (
             // @ts-ignore
-            <SidebarRow Icon={LockClosedIcon} title="Achievements" active="" />
+            <SidebarRow Icon={FireIcon} title="Achievements" active="" />
           )}
         </Link>
         <Link href="#" className="opacity-60">

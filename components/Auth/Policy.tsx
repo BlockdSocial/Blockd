@@ -117,7 +117,7 @@ function Policy() {
         information
       </p>
       <p className="text-sm font-semibold text-justify">
-        To exercise these rights, please contact us at narek_m@blockd.app.
+        To exercise these rights, please contact us at devteam@blockd.app.
       </p>
       <p className="text-xl font-semibold">6. Changes to the Privacy Policy</p>
       <p className="text-sm font-semibold text-justify">
@@ -130,7 +130,7 @@ function Policy() {
       <p className="text-sm font-semibold text-justify">
         If you have any questions about this privacy policy or our collection,
         use, or sharing of your information, please contact us at
-        narek_m@blockd.app.
+        devteam@blockd.app.
       </p>
     </div>
   );

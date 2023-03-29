@@ -457,7 +457,7 @@ const Navbar = () => {
         </div>
         {showSidebar && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-60 transition-all duration-300 ease-linear`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative flex flex-col items-start mt-3 w-fit ml-4">
               <Link href="/" className="active">
