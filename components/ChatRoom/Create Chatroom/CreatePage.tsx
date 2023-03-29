@@ -99,6 +99,7 @@ function CreatePage() {
                 placeholder="Chatroom Name"
                 onChange={(e) => setName(e.target.value)}
                 value={name}
+                required
               />
             </div>
             <div className="w-full">
@@ -109,6 +110,7 @@ function CreatePage() {
                 placeholder="Enter a small description"
                 onChange={(e) => setDescription(e.target.value)}
                 value={description}
+                required
               />
             </div>
             <div className="w-full">
@@ -150,6 +152,7 @@ function CreatePage() {
                 value={count}
                 onChange={handleCountChange}
                 className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                required
               >
                 <option value="1 - 100" className="outline-none p-2">
                   1 - 100
@@ -172,6 +175,7 @@ function CreatePage() {
                   value={selectedOption}
                   onChange={handleOptionChange}
                   className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                  required
                 >
                   <option value="public" className="outline-none p-2">
                     Public Chatroom
@@ -194,6 +198,7 @@ function CreatePage() {
                     placeholder="CA of the required token"
                     onChange={(e) => setContractAddress(e.target.value)}
                     value={contractAddress}
+                    required
                   />
                 </div>
                 <div className="w-full">
@@ -202,29 +207,40 @@ function CreatePage() {
                     value={network}
                     onChange={handleNetworkChange}
                     className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                    required
                   >
-                    <option value="Polygon" className="outline-none p-2">
-                      Polygon
+                    <option value="1" className="outline-none p-2">
+                      Ethereum Main Network
                     </option>
-                    <option value="Avalanche" className="outline-none p-2">
-                      Avalanche
+                    <option value="3" className="outline-none p-2">
+                      Ropsten Test Network
                     </option>
-                    <option value="Binance Smart Chain" className="outline-none p-2">
+                    <option value="5" className="outline-none p-2">
+                      Goerli Test Network
+                    </option>
+                    <option value="42" className="outline-none p-2">
+                      Kovan Test Network
+                    </option>
+                    <option value="56" className="outline-none p-2">
                       Binance Smart Chain
                     </option>
-                    <option value="option4" className="outline-none p-2">
-                      Fantom
+                    <option value="137" className="outline-none p-2">
+                      Polygon Mainnet
+                    </option>
+                    <option value="1337" className="outline-none p-2">
+                      Ganache
                     </option>
                   </select>
                 </div>
                 <div className="w-full">
-                  <h3 className="text-sm font-semibold pb-1">Token Amount</h3>
+                  <h3 className="text-sm font-semibold pb-1">Token Name</h3>
                   <input
                     type="text"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     placeholder="Enter token amount needed to join"
                     onChange={(e) => setTokenAmount(e.target.value)}
                     value={tokenAmount}
+                    required
                   />
                 </div>
               </>

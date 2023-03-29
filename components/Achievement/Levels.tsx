@@ -23,7 +23,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 1</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Pink to Turquoise Frame</h3>
           {rewards.length >= 1 && (
             <button
               type="button"
@@ -52,7 +52,7 @@ function Levels({ rewards }: any) {
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 2</h1>
           <h3 className="text-sm text-gray-500 mb-2">
-            Unlock Frame Colors
+            Unlock Orange Frame
           </h3>
           {rewards.length >= 2 && (
             <button
@@ -80,7 +80,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 3</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Blue Frame</h3>
           {rewards.length >= 3 && (
             <button
               type="button"
@@ -108,7 +108,7 @@ function Levels({ rewards }: any) {
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 4</h1>
           <h3 className="text-sm text-gray-500 mb-2">
-            Unlock Frame Colors
+            Unlock Mixed Colors Frame
           </h3>
           {rewards.length >= 4 && (
             <button
@@ -136,7 +136,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 5</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Green To Purple Frame</h3>
           {rewards.length >= 5 && (
             <button
               type="button"
@@ -163,7 +163,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 6</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Orange To Pink Frame</h3>
           {rewards.length >= 6 && (
             <button
               type="button"
@@ -190,7 +190,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 7</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Gold To Yellow Frame</h3>
           {rewards.length >= 7 && (
             <button
               type="button"
@@ -217,7 +217,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 8</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Splashed Colors Frame</h3>
           {rewards.length >= 8 && (
             <button
               type="button"
@@ -244,7 +244,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 9</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Green To Gold Frame</h3>
           {rewards.length >= 9 && (
             <button
               type="button"
@@ -271,7 +271,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 10</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Water Color Frame</h3>
           {rewards.length >= 10 && (
             <button
               type="button"
@@ -298,7 +298,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 11</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Green Frame</h3>
           {rewards.length >= 11 && (
             <button
               type="button"
@@ -325,7 +325,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 12</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Green Frame</h3>
           {rewards.length >= 12 && (
             <button
               type="button"
@@ -352,7 +352,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 13</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Yellow Frame</h3>
           {rewards.length >= 13 && (
             <button
               type="button"
@@ -379,7 +379,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 14</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Yellow Frame</h3>
           {rewards.length >= 14 && (
             <button
               type="button"
@@ -406,7 +406,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 15</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Gray Frame</h3>
           {rewards.length >= 15 && (
             <button
               type="button"
@@ -433,7 +433,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 16</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Gray Frame</h3>
           {rewards.length >= 16 && (
             <button
               type="button"
@@ -460,7 +460,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 17</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Purple Frame</h3>
           {rewards.length >= 17 && (
             <button
               type="button"
@@ -487,7 +487,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 18</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Purple Frame</h3>
           {rewards.length >= 18 && (
             <button
               type="button"
@@ -514,7 +514,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 19</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Green To Yellow Frame</h3>
           {rewards.length >= 19 && (
             <button
               type="button"
@@ -541,7 +541,7 @@ function Levels({ rewards }: any) {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 20</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Orange Frame</h3>
           {rewards.length >= 20 && (
             <button
               type="button"
