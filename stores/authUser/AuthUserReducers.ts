@@ -14,7 +14,10 @@ import {
   REGISTER_USER_FAILURE,
   FETCH_USER_MESSAGE,
   FETCH_USER_MESSAGE_SUCCESS,
-  FETCH_USER_MESSAGE_FAILURE
+  FETCH_USER_MESSAGE_FAILURE,
+  IS_SENDING_VERIFICATION,
+  SEND_VERIFICATION_SUCCESS,
+  SEND_VERIFICATION_FAILURE
 } from './AuthUserActionTypes';
 
 const initialState = { 
@@ -26,6 +29,7 @@ const initialState = {
   isFetchingAuthUser: false, 
   isRegisteringUser: false, 
   isFetchingMessage: false,
+  isSendingVerification: false
 };
 
 export function authUserReducer(state = initialState, action: any) {
@@ -127,6 +131,25 @@ export function authUserReducer(state = initialState, action: any) {
         ...state,
         isFetchingMessage: false,
         authError: action.error
+      };
+    }
+    case IS_SENDING_VERIFICATION: {
+      return {
+        ...state,
+        isSendingVerification: true
+      };
+    }
+    case SEND_VERIFICATION_SUCCESS: {
+      return {
+        ...state,
+        isSendingVerification: false
+      };
+    }
+    case SEND_VERIFICATION_FAILURE: {
+      return {
+        ...state,
+        isSendingVerification: false,
+        error: action.error
       };
     }
     default: {

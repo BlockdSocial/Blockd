@@ -4,7 +4,7 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { registerUser } from "../../stores/authUser/AuthUserActions";
+import { registerUser, sendVerification } from "../../stores/authUser/AuthUserActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "../../utils";
 import { config as configUrl } from "../../constants";
@@ -38,8 +38,10 @@ export default function SignUp() {
   );
   const [displayName, setDisplayName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
+  const [code, setCode] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [nftData, setNftData] = useState<boolean>(false);
+  const [step, setStep] = useState(1);
 
   //Data Fetching
   const {
@@ -91,47 +93,53 @@ export default function SignUp() {
   }, [userSignature]);
 
   const handleRegisterUser = async (e: any = null) => {
-    if (
-      !terms ||
-      isEmpty(userMessage) ||
-      isEmpty(address) ||
-      isEmpty(userSignature) ||
-      isEmpty(displayName) ||
-      isEmpty(email)
-    ) {
-      return;
-    }
-    console.log({ userMessageForBackend });
-    console.log({ address });
-    console.log({ userSignature });
-
-    await dispatch(
-      registerUser({
-        name: displayName,
-        email: email,
-        password: "zebbolaali",
-        password_confirmation: "zebbolaali",
-        address: address,
-        signature: userSignature,
-        // @ts-ignore
-        message: userMessageForBackend,
+    if (1 === step) {
+      await dispatch(sendVerification({
+        email: email
+      })).then(() => {
+        setStep(2)
       })
-    ).then(async (res: any) => {
-      if (res?.errors) {
-        await new Promise((f) => setTimeout(f, 1000));
-        toast.error(res?.errors);
+    } else {
+      if (
+        !terms ||
+        isEmpty(userMessage) ||
+        isEmpty(address) ||
+        isEmpty(userSignature) ||
+        isEmpty(displayName) ||
+        isEmpty(email)
+      ) {
         return;
       }
-      router.push(
-        {
-          pathname: "/",
-          query: {
-            isRegistered: true,
+
+      await dispatch(
+        registerUser({
+          name: displayName,
+          email: email,
+          password: "zebbolaali",
+          password_confirmation: "zebbolaali",
+          address: address,
+          signature: userSignature,
+          code: code,
+          // @ts-ignore
+          message: userMessageForBackend,
+        })
+      ).then(async (res: any) => {
+        if (res?.errors) {
+          await new Promise((f) => setTimeout(f, 1000));
+          toast.error(res?.errors);
+          return;
+        }
+        router.push(
+          {
+            pathname: "/",
+            query: {
+              isRegistered: true,
+            },
           },
-        },
-        "/"
-      );
-    });
+          "/"
+        );
+      });
+    }
   };
 
   function validateEmail(input: any) {
@@ -190,7 +198,6 @@ export default function SignUp() {
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
     onSuccess(data: any) {
-      console.log("write", data);
       setNftData(true);
     },
   });
@@ -207,13 +214,11 @@ export default function SignUp() {
     enabled: !!address,
     onSuccess() {
       if (nft_data && Number(nft_data) > 0) {
-        console.log(nft_data);
         setNftData(true);
       }
     },
   });
 
-  console.log(nftData);
   if (!mounted) {
     return null;
   }
@@ -310,6 +315,19 @@ export default function SignUp() {
                   </p>
                 )}
               </div>
+              {
+                2 === step &&
+                <div className="flex flex-col items-start justify-center space-y-1 w-full">
+                  <p className="text-white font-semibold text-l">Verification Code</p>
+                  <input
+                    className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
+                    type="text"
+                    name="code"
+                    placeholder="Enter the verification code sent to your email"
+                    onChange={(e) => setCode(e.target.value)}
+                  />
+                </div>
+              }
               <div className="flex items-center justify-start mt-4 w-full space-x-2">
                 <input
                   onChange={() => setTerms(!terms)}
@@ -368,13 +386,11 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
-                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
-                        isMintLoading && "loading"
-                      } ${
-                        error
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${isMintLoading && "loading"
+                        } ${error
                           ? "bg-orange-300"
                           : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
-                      }`}
+                        }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
                     >
@@ -383,7 +399,7 @@ export default function SignUp() {
                   </div>
 
                   {error && (
-                    <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                    <div className="mt-4 w-full bg-red-500 rounded-md p-2 break-normal">
                       An error occurred preparing the transaction:<br></br>
                       {error.message}
                     </div>
@@ -404,9 +420,8 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayTermsAndConditionsModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -445,9 +460,8 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayPolicyModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayPolicyModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">

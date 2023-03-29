@@ -38,7 +38,10 @@ import {
   RESET_BELL_FAILURE,
   IS_RESETING_MESSAGES,
   RESET_MESSAGES_SUCCESS,
-  RESET_MESSAGES_FAILURE
+  RESET_MESSAGES_FAILURE,
+  IS_SEARCHING_FILTERED_USERS,
+  SEARCH_FILTERED_USERS_SUCCESS,
+  SEARCH_FILTERED_USERS_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -50,6 +53,7 @@ const initialState = {
   isUpdatingUser: false,
   isFetchingUser: false,
   isSearchingPopularUsers: false,
+  isSearchingFilteredUsers: false,
   isFollowingUser: false,
   isFetchingRewards: false,
   isSettingFrame: false,
@@ -59,6 +63,7 @@ const initialState = {
   isResetingMessages: false,
   rewards: [],
   popularUsers: [],
+  filteredUsers: [],
   user: {},
   followers: [],
   followings: []
@@ -200,6 +205,26 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isSearchingPopularUsers: false,
+        error: action.error
+      };
+    }
+    case IS_SEARCHING_FILTERED_USERS: {
+      return {
+        ...state,
+        isSearchingFilteredUsers: true
+      };
+    }
+    case SEARCH_FILTERED_USERS_SUCCESS: {
+      return {
+        ...state,
+        isSearchingFilteredUsers: false,
+        filteredUsers: action.filteredUsers
+      };
+    }
+    case SEARCH_FILTERED_USERS_FAILURE: {
+      return {
+        ...state,
+        isSearchingFilteredUsers: false,
         error: action.error
       };
     }

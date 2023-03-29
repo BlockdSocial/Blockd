@@ -47,7 +47,7 @@ interface Comment {
   content: string;
   createdAt: string;
   userId: number;
-  user: User;
+  otherUser: User;
   gif: string;
   imgName: string;
 }
@@ -282,8 +282,11 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     });
   };
 
+<<<<<<< HEAD
   console.log("info: ", info);
 
+=======
+>>>>>>> origin/mergeToDeploy
   return (
     <div className="relative border-b flex flex-col space-x-2 p-4">
       <div className="flex space-x-2">
@@ -291,18 +294,23 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           href="/dashboard/profile"
           className="flex flex-col w-fit h-fit group"
         >
+<<<<<<< HEAD
           <div
             className={`relative flex flex-col items-center justify-center p-1 ${comment?.user?.frameName} rounded-lg`}
           >
+=======
+          <div className={`relative flex flex-col items-center justify-center p-1 ${comment?.otherUser?.frameName} rounded-lg`}>
+>>>>>>> origin/mergeToDeploy
             <img
               src={
-                !isEmpty(comment?.user?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`
+                !isEmpty(comment?.otherUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
               className="w-14 h-12 md:w-16 md:h-14 rounded-md shadow-sm"
             />
+<<<<<<< HEAD
             <div
               className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${
                 !isEmpty(comment?.user?.frameName)
@@ -310,17 +318,24 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   : "bg-blue-300"
               } rounded-lg`}
             >
+=======
+            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.otherUser?.frameName) ? comment?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
+>>>>>>> origin/mergeToDeploy
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                {comment?.user?.level}
+                {comment?.otherUser?.level}
               </div>
             </div>
           </div>
         </Link>
         <div className="w-full">
           <div className="flex items-center">
+<<<<<<< HEAD
             <p className="mr-1 text-sm md:text-base font-semibold">
               @{comment?.user?.name}
             </p>
+=======
+            <p className="mr-1 font-semibold">@{comment?.otherUser?.name}</p>
+>>>>>>> origin/mergeToDeploy
           </div>
           <div className="flex flex-col items-start justify-start p-1">
             <TimeAgo

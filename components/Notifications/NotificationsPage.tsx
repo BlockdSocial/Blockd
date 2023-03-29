@@ -8,6 +8,7 @@ import toast from 'react-hot-toast'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { fetchUserNotifications } from '../../stores/notification/NotificationActions'
 import { isEmpty } from 'lodash'
+import CustomLoadingOverlay from '../CustomLoadingOverlay'
 
 interface IPic {
   name: string;
@@ -30,7 +31,7 @@ interface User {
 interface INotification {
   id: number;
   type: string;
-  user: User;
+  otherUser: User;
   createdAt: string;
   postId: number;
   commentId: number;
@@ -40,7 +41,7 @@ interface INotification {
 function NotificationsPage() {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { notifications } = useAppSelector((state) => state.notificationReducer);
+  const { notifications, isFetchingUserNotifications } = useAppSelector((state) => state.notificationReducer);
 
   useEffect(() => {
     handleFetchNotifications();
@@ -61,6 +62,7 @@ function NotificationsPage() {
 
   return (
     <div className='min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 md:border-x pb-14'>
+      <CustomLoadingOverlay active={isFetchingUserNotifications} />
       <div className='flex sticky items-center justify-between top-0 p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
         <div className='flex items-center justify-start space-x-1'>
           <BellIcon className='w-5 h-5 md:w-6 md:h-6' />

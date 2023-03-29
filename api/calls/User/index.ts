@@ -56,6 +56,10 @@ async function resetMessages() {
   return apiCall('resetMessages', 'GET', `${endpoints.user}/reset/messages/bell`);
 };
 
+async function searchFilteredUsers(fields: any) {
+  return apiCall('searchFilteredUsers', 'POST', 'search/users', fields);
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -69,5 +73,6 @@ export default {
   setUserFrame,
   isFollowed,
   resetBell,
-  resetMessages
+  resetMessages,
+  searchFilteredUsers
 };

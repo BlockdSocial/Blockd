@@ -4,7 +4,7 @@ import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
 
-function Friends({ chats, setReceiver, closeShowFriends }: any) {
+function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
   return (
     <div className='max-h-screen scrollbar-hide overflow-scroll dark:bg-darkgray'>
       {
@@ -14,16 +14,17 @@ function Friends({ chats, setReceiver, closeShowFriends }: any) {
             key={index}
             className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer group'
             onClick={() => {
-              setReceiver(chat?.receiver)
-              closeShowFriends()
+              setReceiver(chat?.otherUser);
+              setRoom(undefined);
+              closeShowFriends();
             }}
           >
             <div className='flex items-center justify-start p-2'>
               <div className='flex items-center justify-center'>
                 <img
                   src={
-                    !isEmpty(chat?.receiver?.profilePic)
-                      ? `${config.url.PUBLIC_URL}/${chat?.receiver?.profilePic?.name}`
+                    !isEmpty(chat?.otherUser?.profilePic)
+                      ? `${config.url.PUBLIC_URL}/${chat?.otherUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
                   className='w-10 h-10 rounded-md'
@@ -31,7 +32,7 @@ function Friends({ chats, setReceiver, closeShowFriends }: any) {
               </div>
               <div className='flex flex-col items-start justify-start ml-4'>
                 <div className='flex items-center justify-center space-x-2'>
-                  <span className='text-xs md:text-sm font-semibold'>@{chat?.receiver?.name}</span>
+                  <span className='text-xs md:text-sm font-semibold'>@{chat?.otherUser?.name}</span>
                   {/* <span className='w-3 h-3 bg-green-500 rounded-full'></span> */}
                 </div>
                 {/* <span className='text-xs'>Last seen Recently</span> */}

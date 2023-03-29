@@ -49,7 +49,16 @@ import {
   SUGGEST_FAILURE,
   IS_SHARING_POST,
   SHARE_POST_SUCCESS,
-  SHARE_POST_FAILURE
+  SHARE_POST_FAILURE,
+  IS_FETCHING_SHARED_POST,
+  FETCH_POST_SHARED_SUCCESS,
+  FETCH_POST_SHARED_FAILURE,
+  IS_CREATING_SUGGESTION,
+  CREATE_SUGGESTION_SUCCESS,
+  CREATE_SUGGESTION_FAILURE,
+  IS_FETCHING_SUGGESTIONS,
+  FETCH_SUGGESTIONS_SUCCESS,
+  FETCH_SUGGESTIONS_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -73,10 +82,14 @@ const initialState = {
   isUpdatingPost: false,
   isSuggesting: false,
   isSharingPost: false,
+  isCreatingSuggestion: false,
+  isFetchingSuggestions: false,
+  suggestions: [],
   userPosts: [],
   postInfo: {},
   postImage: {},
   post: {},
+  sharedPost: {},
   filteredPosts: {},
   trendingPosts: [],
   postsResults: []
@@ -215,6 +228,26 @@ export function postReducer(state = initialState, action: any) {
       };
     }
     case FETCH_POST_FAILURE: {
+      return {
+        ...state,
+        isFetchingPost: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_SHARED_POST: {
+      return {
+        ...state,
+        isFetchingPost: true
+      };
+    }
+    case FETCH_POST_SHARED_SUCCESS: {
+      return {
+        ...state,
+        isFetchingPost: false,
+        sharedPost: action.sharedPost
+      };
+    }
+    case FETCH_POST_SHARED_FAILURE: {
       return {
         ...state,
         isFetchingPost: false,
@@ -413,6 +446,44 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isSharingPost: false,
+        error: action.error
+      };
+    }
+    case IS_CREATING_SUGGESTION: {
+      return {
+        ...state,
+        isCreatingSuggestion: true
+      };
+    }
+    case CREATE_SUGGESTION_SUCCESS: {
+      return {
+        ...state,
+        isCreatingSuggestion: false
+      };
+    }
+    case CREATE_SUGGESTION_FAILURE: {
+      return {
+        ...state,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_SUGGESTIONS: {
+      return {
+        ...state,
+        isFetchingSuggestions: true
+      };
+    }
+    case FETCH_SUGGESTIONS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingSuggestions: false,
+        suggestions: action.suggestions
+      };
+    }
+    case FETCH_SUGGESTIONS_FAILURE: {
+      return {
+        ...state,
+        isFetchingSuggestions: false,
         error: action.error
       };
     }

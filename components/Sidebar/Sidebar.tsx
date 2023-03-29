@@ -56,12 +56,12 @@ function Sidebar() {
             <SidebarRow
               // @ts-ignore
               Icon={LightBulbIcon}
-              title="Feedback"
+              title="Suggestions"
               active="bg-gray-100 dark:bg-lightgray"
             />
           ) : (
             // @ts-ignore
-            <SidebarRow Icon={LightBulbIcon} title="Feedback" active="" />
+            <SidebarRow Icon={LightBulbIcon} title="Suggestions" active="" />
           )}
         </Link>
         <Link

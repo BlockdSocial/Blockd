@@ -28,6 +28,7 @@ import {
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
+import { encodeQuery } from "../../utils";
 
 interface Pic {
   name: string;
@@ -38,7 +39,7 @@ interface Comment {
   createdAt: string;
   userId: number;
   id: string;
-  user: User;
+  otherUser: User;
   gif: string;
   imgName: string;
 }
@@ -335,19 +336,22 @@ function CommentSection({ comment, post, type }: Props) {
           pathname: "/dashboard/post/comment",
           query: { commentId: comment?.id, postId: post?.id },
         }}
+        as={`/dashboard/post/comment?${encodeQuery(comment?.id, 'comment')}&${encodeQuery(post?.id, 'post')}`}
         className="flex space-x-2 w-full"
       >
         <Link
           href={{
             pathname: "/dashboard/profile",
-            query: { user_id: comment?.user?.id },
-          }} className="flex flex-col w-fit h-fit group"
+            query: { user_id: comment?.otherUser?.id },
+          }}
+          as={`/dashboard/profile?${encodeQuery(comment?.otherUser?.id, 'profile')}`}
+          className="flex flex-col w-fit h-fit group"
         >
           <div className={`relative flex flex-col items-center justify-center p-1 ${post?.user?.frameName} rounded-lg`}>
             <img
               src={
-                !isEmpty(comment?.user?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${comment?.user?.profilePic?.name}`
+                !isEmpty(comment?.otherUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
@@ -355,16 +359,24 @@ function CommentSection({ comment, post, type }: Props) {
               width={60}
               height={60}
             />
+<<<<<<< HEAD
             <div className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${!isEmpty(comment?.user?.frameName) ? comment?.user?.frameName : 'bg-blue-300'} rounded-lg`}>
+=======
+            <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.otherUser?.frameName) ? comment?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
+>>>>>>> origin/mergeToDeploy
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                {post?.user?.level}
+                {comment?.otherUser?.level}
               </div>
             </div>
           </div>
         </Link>
         <div className="w-full">
           <div className="flex items-center space-x-1">
+<<<<<<< HEAD
             <p className="mr-1 text-sm md:text-base font-semibold">@{comment?.user?.name}</p>
+=======
+            <p className="mr-1 font-semibold">@{comment?.otherUser?.name}</p>
+>>>>>>> origin/mergeToDeploy
             <TimeAgo
               date={comment?.createdAt}
               className="text-xs md:text-sm text-gray-500"

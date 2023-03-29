@@ -36,6 +36,7 @@ import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast, { Toaster } from "react-hot-toast";
 import { followUser } from "../../stores/user/UserActions";
 import { useCopyToClipboard } from "usehooks-ts";
+import { encodeQuery } from "../../utils";
 
 interface Pic {
   name: string;
@@ -66,11 +67,12 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-  user: User;
-  images: Image[];
+  otherUser: User;
+  postImage: Image;
   profilePic: any;
   bannerPic: any;
   sharedPostId: number;
+  suggestion: number;
 }
 
 interface Info {
@@ -83,9 +85,10 @@ interface Info {
 interface Props {
   mainPost: Post;
   refetch: () => void;
+  search: boolean;
 }
 
-export default function PostTest({ mainPost, refetch }: Props) {
+export default function PostTest({ mainPost, refetch, search = false }: Props) {
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -94,6 +97,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
   const [input, setInput] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");
   const [imageEdit, setImageEdit] = useState<string>("");
+  const [uploadedEdit, setUploadedEdit] = useState<string>("");
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [sharePopUp, setSharePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
@@ -105,15 +109,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  console.log("postzzzzz: ", sharedPost);
-
   useEffect(() => {
     fetchInfo();
     fetchLiked();
-    setImageEdit(mainPost?.images ? mainPost?.images[0]?.name : "");
+    // setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");
     setTextArea(mainPost?.content || "");
     fetchDisliked();
-
     if (mainPost?.sharedPostId) {
       fetchPostById();
     }
@@ -248,6 +249,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
 
   const handleUploadProfile = (e: any) => {
     setImageEdit(URL.createObjectURL(e.target.files[0]));
+    setUploadedEdit(e.target.files[0]);
   };
 
   const closePicture = () => {
@@ -292,6 +294,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
   //************************** GIF Handeling **************************//
 
   const [showGifs, setShowGifs] = useState<boolean>(false);
+  const [showEditGifs, setShowEditGifs] = useState<boolean>(false);
 
   const gif = useRef<any>(null);
 
@@ -310,7 +313,25 @@ export default function PostTest({ mainPost, refetch }: Props) {
     return () => window.removeEventListener("click", handleClick);
   }, [showGifs]);
 
+  const gifEdit = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the gif is opened
+    if (!showEditGifs) return;
+    function handleClick(event: any) {
+      if (showEditGifs === true) {
+        if (gifEdit.current && !gifEdit.current.contains(event.target)) {
+          setShowEditGifs(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showEditGifs]);
+
   const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
+  const [gifEditBoxIsOpen, setGifEditBoxIsOpen] = useState<boolean>(false);
   //Set a color for the frame
 
   let [gifUrl, setGifUrl] = useState<string>("");
@@ -320,6 +341,16 @@ export default function PostTest({ mainPost, refetch }: Props) {
     }
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
+    setUploadedVideo(gify.images.downsized);
+  };
+
+  let [editGifUrl, setEditGifUrl] = useState<string>("");
+  const editGif = (gify: any) => {
+    if (gifBoxIsOpen === false) {
+      setGifEditBoxIsOpen(!gifEditBoxIsOpen);
+    }
+    let gifUrl = gify.images.downsized.url;
+    setEditGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
   };
 
@@ -351,14 +382,41 @@ export default function PostTest({ mainPost, refetch }: Props) {
   //************************** Backend Handeling **************************//
 
   const handleEditPost = async () => {
-    await dispatch(
-      editPost(mainPost?.id, {
-        content: textArea,
-      })
-    ).then(() => {
-      refetch();
-      setEditPopUp(!editPopUp);
-    });
+    if (uploadedEdit) {
+      await dispatch(
+        editPost(mainPost?.id, {
+          content: textArea,
+          image: uploadedEdit
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+        setUploadedEdit('');
+        setImageEdit('');
+      });
+    }
+    else if (editGifUrl) {
+      await dispatch(
+        editPost(mainPost?.id, {
+          content: textArea,
+          gif: editGifUrl
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+        setEditGifUrl('');
+      });
+    }
+    else {
+      await dispatch(
+        editPost(mainPost?.id, {
+          content: textArea,
+        })
+      ).then(() => {
+        refetch();
+        setEditPopUp(!editPopUp);
+      });
+    }
   };
 
   const closeGif = () => {
@@ -399,9 +457,13 @@ export default function PostTest({ mainPost, refetch }: Props) {
   const handleFollowUser = async () => {
     await dispatch(
       followUser({
-        user_id: mainPost?.user?.id,
+        user_id: mainPost?.otherUser?.id,
       })
-    );
+    ).then(() => {
+      toast.success('User Followed!', {
+        duration: 4000
+      });
+    });
   };
 
   const handleSharePost = async () => {
@@ -417,8 +479,6 @@ export default function PostTest({ mainPost, refetch }: Props) {
     });
   };
 
-  console.log("post: ", mainPost);
-
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
       {/* <>
@@ -433,31 +493,31 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 <Link
                   href={{
                     pathname: "/dashboard/profile",
-                    query: { user_id: mainPost?.user?.id },
+                    query: { user_id: mainPost?.otherUser?.id },
                   }}
+                  as={`/dashboard/profile?${encodeQuery(mainPost?.otherUser?.id, 'profile')}`}
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div
-                    className={`relative flex flex-col p-1 ${mainPost?.user?.frameName} rounded-lg`}
+                    className={`relative flex flex-col p-1 ${mainPost?.otherUser?.frameName} rounded-lg`}
                   >
                     <img
                       src={
-                        !isEmpty(mainPost?.user?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${mainPost?.user?.profilePic?.name}`
+                        !isEmpty(mainPost?.otherUser?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
                     <div
-                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
-                        !isEmpty(mainPost?.user?.frameName)
-                          ? mainPost?.user?.frameName
-                          : "bg-blue-300"
-                      } rounded-lg`}
+                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
+                        ? mainPost?.otherUser?.frameName
+                        : "bg-blue-300"
+                        } rounded-lg`}
                     >
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        {mainPost?.user?.level}
+                        {mainPost?.otherUser?.level}
                       </div>
                     </div>
                   </div>
@@ -468,11 +528,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
                   <Link
                     href={{
                       pathname: "/dashboard/profile",
-                      query: { user_id: mainPost?.user?.id },
+                      query: { user_id: mainPost?.otherUser?.id },
                     }}
+                    as={`/dashboard/profile?${encodeQuery(mainPost?.otherUser?.id, 'profile')}`}
                   >
                     <p className="mr-1 font-semibold text-xs md:text-base">
-                      @{mainPost?.user?.name}
+                      @{mainPost?.otherUser?.name}
                     </p>
                   </Link>
                 </div>
@@ -511,9 +572,8 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 />
                 <div className="relative z-0 flex ite">
                   <ul
-                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
-                      isDropdownVisible ? "" : "hidden"
-                    }`}
+                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
+                      }`}
                   >
                     {mainPost?.userId === authUser?.id && (
                       <div
@@ -525,18 +585,18 @@ export default function PostTest({ mainPost, refetch }: Props) {
                     )}
                     {mainPost?.userId !== authUser?.id && (
                       <>
-                        <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+                        {/* <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                           Report Post
-                        </div>
+                        </div> */}
                         <div
                           className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
                           onClick={() => handleFollowUser()}
                         >
                           Follow User
                         </div>
-                        <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                        {/* <div className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                           Follow Post
-                        </div>
+                        </div> */}
                       </>
                     )}
                   </ul>
@@ -558,15 +618,16 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 pathname: "/dashboard/post/",
                 query: { postId: mainPost?.id },
               }}
+              as={`/dashboard/post?${encodeQuery(mainPost?.id, 'post')}`}
               onClick={() => addView()}
               className="w-full flex flex-col items-start justify-start"
             >
               {mainPost?.content != null && (
                 <p className="pt-5 text-sm lg:text-base">{mainPost?.content}</p>
               )}
-              {mainPost?.images != null ? (
+              {mainPost?.postImage != null ? (
                 <img
-                  src={`${config.url.PUBLIC_URL}/${mainPost?.images[0]?.name}`}
+                  src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                   alt="Post"
                   className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                 />
@@ -588,31 +649,31 @@ export default function PostTest({ mainPost, refetch }: Props) {
                     <Link
                       href={{
                         pathname: "/dashboard/profile",
-                        query: { user_id: sharedPost?.user?.id },
+                        query: { user_id: sharedPost?.otherUser?.id },
                       }}
+                      as={`/dashboard/profile?${encodeQuery(sharedPost?.otherUser?.id, 'profile')}`}
                       className="relative flex flex-col w-fit h-fit group"
                     >
                       <div
-                        className={`relative flex flex-col p-1 ${sharedPost?.user?.frameName} rounded-lg`}
+                        className={`relative flex flex-col p-1 ${sharedPost?.otherUser?.frameName} rounded-lg`}
                       >
                         <img
                           src={
-                            !isEmpty(sharedPost?.user?.profilePic)
-                              ? `${config.url.PUBLIC_URL}/${sharedPost?.user?.profilePic?.name}`
+                            !isEmpty(sharedPost?.otherUser?.profilePic)
+                              ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
                               : "/images/pfp/pfp1.jpg"
                           }
                           alt="pfp"
                           className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                         />
                         <div
-                          className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
-                            !isEmpty(sharedPost?.user?.frameName)
-                              ? sharedPost?.user?.frameName
-                              : "bg-blue-300"
-                          } rounded-lg`}
+                          className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.otherUser?.frameName)
+                            ? sharedPost?.otherUser?.frameName
+                            : "bg-blue-300"
+                            } rounded-lg`}
                         >
                           <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                            {sharedPost?.user?.level}
+                            {sharedPost?.otherUser?.level}
                           </div>
                         </div>
                       </div>
@@ -623,11 +684,12 @@ export default function PostTest({ mainPost, refetch }: Props) {
                       <Link
                         href={{
                           pathname: "/dashboard/profile",
-                          query: { user_id: sharedPost?.user?.id },
+                          query: { user_id: sharedPost?.otherUser?.id },
                         }}
+                        as={`/dashboard/profile?${encodeQuery(sharedPost?.otherUser?.id, 'profile')}`}
                       >
                         <p className="mr-1 font-semibold text-xs md:text-base">
-                          @{sharedPost?.user?.name}
+                          @{sharedPost?.otherUser?.name}
                         </p>
                       </Link>
                     </div>
@@ -662,6 +724,7 @@ export default function PostTest({ mainPost, refetch }: Props) {
                     pathname: "/dashboard/post/",
                     query: { postId: sharedPost?.id },
                   }}
+                  as={`/dashboard/post?${encodeQuery(sharedPost?.id, 'post')}`}
                   onClick={() => addView()}
                   className="w-full flex flex-col items-start justify-start"
                 >
@@ -689,37 +752,32 @@ export default function PostTest({ mainPost, refetch }: Props) {
             </div>
           )}
           <div
-            className={`flex items-center justify-start mt-4 mb-2 ${
-              commentBoxVisible ? "hidden" : ""
-            }`}
+            className={`flex items-center justify-start mt-4 mb-2 ${commentBoxVisible ? "hidden" : ""
+              }`}
           >
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
-                  className={`text-xs ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  }`}
+                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
                 <p
-                  className={`text-xs ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  }`}
+                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -733,36 +791,32 @@ export default function PostTest({ mainPost, refetch }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <ShareIcon
-                  ref={share}
-                  onClick={() => setShareBoxVisible(!shareBoxVisible)}
-                  className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
-                />
-                <p className="text-xs">
-                  {info?.shares != null || undefined ? info?.shares : 0}
-                </p>
-                {shareBoxVisible && (
-                  <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
-                    <div
-                      onClick={() =>
-                        copy(
-                          `${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`
-                        )
-                      }
-                      className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100"
-                    >
-                      Copy Link
+              {
+                isEmpty(sharedPost) && (null == mainPost?.suggestion) &&
+                <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+                  <ShareIcon
+                    ref={share}
+                    onClick={() => setShareBoxVisible(!shareBoxVisible)}
+                    className="h-5 w-5 cursor-pointer transition-transform ease-out duration-150 hover:scale-150"
+                  />
+                  <p className="text-xs">
+                    {info?.shares != null || undefined ? info?.shares : 0}
+                  </p>
+                  {shareBoxVisible && (
+                    <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
+                      <div onClick={() => copy(`${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`)} className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
+                        Copy Link
+                      </div>
+                      <div
+                        onClick={() => setSharePopUp(!sharePopUp)}
+                        className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-b-md bg-transparent hover:bg-gray-100"
+                      >
+                        Share post
+                      </div>
                     </div>
-                    <div
-                      onClick={() => setSharePopUp(!sharePopUp)}
-                      className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-b-md bg-transparent hover:bg-gray-100"
-                    >
-                      Share post
-                    </div>
-                  </div>
-                )}
-              </div>
+                  )}
+                </div>
+              }
             </div>
           </div>
           {commentBoxVisible && (
@@ -791,38 +845,34 @@ export default function PostTest({ mainPost, refetch }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                   <p
-                    className={`text-xs ${
-                      info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
-                    } `}
+                    className={`text-xs ${info?.likes
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
+                      } `}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-5 w-5 cursor-pointer ${
-                      info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${info?.likes
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikePost()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                   <ArrowDownIcon
-                    className={`h-5 w-5 cursor-pointer ${
-                      info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${info?.dislikes
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikePost()}
                   />
                   <p
-                    className={`text-xs ${
-                      info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
-                    } `}
+                    className={`text-xs ${info?.dislikes
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
+                      } `}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
@@ -958,9 +1008,8 @@ export default function PostTest({ mainPost, refetch }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          deletePopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -1009,9 +1058,8 @@ export default function PostTest({ mainPost, refetch }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          editPopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+          }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1042,23 +1090,56 @@ export default function PostTest({ mainPost, refetch }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
             <div className="flex items-start justify-start space-y-2 w-full">
               <div className="relative flex items-center justify-center w-full group">
-                {imageEdit ? (
-                  <img
-                    src={`${config.url.PUBLIC_URL}/${imageEdit}`}
-                    alt="Content"
-                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                    width="720"
-                    height="350"
-                  />
-                ) : (
-                  <img
-                    src="/images/blockdbg.jpg"
-                    alt="Content"
-                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                    width="720"
-                    height="350"
-                  />
-                )}
+                {
+                  editGifUrl ? (
+                    <img
+                      src={editGifUrl}
+                      alt="gif"
+                      className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                      width="720"
+                      height="350"
+                      onClick={() => setShowEditGifs((b) => !b)}
+                    />
+                  ) :
+                    !isEmpty(mainPost?.gif) ? (
+                      <img
+                        src={mainPost?.gif}
+                        alt="gif"
+                        className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                        width="720"
+                        height="350"
+                        onClick={() => setShowEditGifs((b) => !b)}
+                      />
+                    ) :
+                      imageEdit ? (
+                        <img
+                          src={imageEdit}
+                          alt="Content"
+                          className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                          width="720"
+                          height="350"
+                          onClick={() => onContentClick()}
+                        />
+                      ) :
+                        !isEmpty(mainPost?.postImage) ? (
+                          <img
+                            src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
+                            alt="Content"
+                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                            width="720"
+                            height="350"
+                            onClick={() => onContentClick()}
+                          />
+                        ) : (
+                          <img
+                            src="/images/blockdbg.jpg"
+                            alt="Content"
+                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                            width="720"
+                            height="350"
+                            onClick={() => onContentClick()}
+                          />
+                        )}
                 <input
                   type="file"
                   id="file"
@@ -1069,7 +1150,28 @@ export default function PostTest({ mainPost, refetch }: Props) {
                 />
               </div>
             </div>
-            <div className="flex flex-col items-start justify-start space-y-2 w-full">
+            <div className="flex flex-col items-start justify-start space-y-2 w-full relative">
+              {showEditGifs && (
+                <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                  <ReactGiphySearchbox
+                    apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                    onSelect={(item: any) => {
+                      editGif(item),
+                        setShowEditGifs(false)
+                    }}
+                    masonryConfig={[
+                      { columns: 2, imageWidth: 110, gutter: 5 },
+                      {
+                        mq: "700px",
+                        columns: 3,
+                        imageWidth: 110,
+                        gutter: 5,
+                      },
+                    ]}
+                    wrapperClassName="p-4"
+                  />
+                </div>
+              )}
               <p className="font-semibold text-black">Description</p>
               <textarea
                 id="message"
@@ -1099,9 +1201,8 @@ export default function PostTest({ mainPost, refetch }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          sharePopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${sharePopUp ? "" : "hidden"
+          }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1143,39 +1244,36 @@ export default function PostTest({ mainPost, refetch }: Props) {
             </div>
             <div className="flex items-start justify-start border-t w-full py-2 space-x-3">
               <div
-                className={`relative flex flex-col p-1 ${mainPost?.user?.frameName} rounded-lg`}
+                className={`relative flex flex-col p-1 ${mainPost?.otherUser?.frameName} rounded-lg`}
               >
                 <img
                   src={
-                    !isEmpty(mainPost?.user?.profilePic)
-                      ? `${config.url.PUBLIC_URL}/${mainPost?.user?.profilePic?.name}`
+                    !isEmpty(mainPost?.otherUser?.profilePic)
+                      ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
                   className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
-                    !isEmpty(mainPost?.user?.frameName)
-                      ? mainPost?.user?.frameName
-                      : "bg-blue-300"
-                  } rounded-lg`}
+                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
+                    ? mainPost?.otherUser?.frameName
+                    : "bg-blue-300"
+                    } rounded-lg`}
                 >
                   <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                    {mainPost?.user?.level}
+                    {mainPost?.otherUser?.level}
                   </div>
                 </div>
               </div>
               <div className="flex flex-col items-start justify-start h-full pt-1">
-                <p className="text-sm text-black">@{mainPost?.user?.name}</p>
-                <p className="text-xs text-black">
-                  {moment(mainPost?.createdAt).fromNow()}
-                </p>
+                <p className="text-sm text-black">@{mainPost?.otherUser?.name}</p>
+                <p className="text-xs text-black">{moment(mainPost?.createdAt).fromNow()}</p>
               </div>
             </div>
-            {mainPost?.images != null ? (
+            {mainPost?.postImage != null ? (
               <img
-                src={`${config.url.PUBLIC_URL}/${mainPost?.images[0]?.name}`}
+                src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                 alt="Content"
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />

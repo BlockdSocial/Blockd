@@ -8,7 +8,6 @@ const endpoints = {
 };
 
 async function createMessage(fields: any) {
-  console.log('createMessage hussein',fields);
   return apiCall('createMessage', 'POST', `${endpoints.message}`, fields);
 };
 
@@ -32,11 +31,66 @@ async function muteChat(fields: any) {
   return apiCall('muteChat', 'POST', `${endpoints.chat}/mute/${fields}`);
 };
 
+async function createChatroom(fields: any) {
+  return apiCall('createChatroom', 'POST', 'user/create/room', fields);
+}
+
+async function deleteChatroom(fields: any) {
+  return apiCall('deleteChatroom', 'DELETE', `user/delete/room/${fields}`);
+};
+
+async function addMember(id: any, fields: any) {
+  return apiCall('addMember', 'POST', `add/member/room/${id}`, fields)
+};
+
+async function removeMember(id: any, fields: any) {
+  return apiCall('removeMember', 'POST', `remove/member/room/${id}`, fields);
+};
+
+async function createChatroomMessage(id: any, fields: any) {
+  return apiCall('createMessage', 'POST', `message/room/${id}`, fields);
+};
+
+async function fetchUserChatrooms() {
+  return apiCall('fetchUserChatrooms', 'GET', 'user/fetch/rooms');
+};
+
+async function fetchChatroomMembers(fields: any) {
+  return apiCall('fetchChatroomMembers', 'GET', `members/room/${fields}`);
+};
+
+async function fetchChatroomMessages(id: any, fields: any) {
+  return apiCall('fetchChatroomMessages', 'POST', `room/fetch/messages/${id}`, fields);
+};
+
+async function fetchAllRooms() {
+  return apiCall('fetchAllRooms', 'GET', 'fetch/rooms');
+};
+
+async function joinRoom(fields: any) {
+  return apiCall('joinRoom', 'POST', `join/room/${fields}`);
+};
+
+async function searchRoomMembers(id: any, fields: any) {
+  return apiCall('searchRoomMembers', 'POST', `search/members/${id}`, fields);
+};
+
 export default {
   createMessage,
   fetchMessages,
   createChat,
   deleteChat,
   getChat,
-  muteChat
+  muteChat,
+  createChatroom,
+  deleteChatroom,
+  addMember,
+  removeMember,
+  createChatroomMessage,
+  fetchUserChatrooms,
+  fetchChatroomMembers,
+  fetchChatroomMessages,
+  fetchAllRooms,
+  joinRoom,
+  searchRoomMembers
 };

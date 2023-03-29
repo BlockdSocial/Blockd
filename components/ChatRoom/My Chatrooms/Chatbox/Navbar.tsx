@@ -14,14 +14,29 @@ import Members from '../Widget/Members';
 import Friends from '../Widget/Friends';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
+import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
+import { fetchChatroomMembers } from '../../../../stores/chat/ChatActions';
+import { encodeQuery } from '../../../../utils';
 
-function Navbar({ receiver,chats, setReceiver }: any) {
+function Navbar({ receiver, room, chats, setReceiver }: any) {
 
+  const dispatch = useAppDispatch();
+  const { members } = useAppSelector((state) => state.chatReducer);
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
   let [isModalVisible, setIsModalVisible] = useState<boolean>(false);
   const [showFriends, setShowFriends] = useState<boolean>(false);
 
   const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(room)) {
+      handleFetchRoomMembers();
+    }
+  }, [room]);
+
+  const handleFetchRoomMembers = async () => {
+    await dispatch(fetchChatroomMembers(room?.roomId));
+  }
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -38,50 +53,110 @@ function Navbar({ receiver,chats, setReceiver }: any) {
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
 
-  const closeShowFriends = () =>{
+  const closeShowFriends = () => {
     setShowFriends(false);
   }
+
   return (
     <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-4 mt-[1.5px]">
-      {receiver &&
-      <div className='flex items-center space-x-2'>
-        <img
-          // onClick={() => setIsModalVisible(!isModalVisible)}
-          src={
-            !isEmpty(receiver?.profilePic)
-              ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
-              : "/images/pfp/pfp1.jpg"
-          }
-          className='h-8 w-8 cursor-pointer rounded-full'
-        />
-        <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
-          <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
-            <div className='sticky top-0 flex items-center justify-start p-2 z-[1] backdrop-blur-md border-b bg-white/30'>
-              <div className='flex items-center justify-bteween p-1'>
-                <div className='flex items-center justify-start'>
-                  <InformationCircleIcon className='w-5 h-5 text-black' />
-                  <p className='font-semibold ml-2 text-black'>Group Info</p>
+      {!isEmpty(room) &&
+        <div className='flex items-center space-x-2'>
+          <img
+            onClick={() => setIsModalVisible(!isModalVisible)}
+            src={
+              !isEmpty(room?.room?.imgName)
+                ? `${config.url.PUBLIC_URL}/${room?.room?.imgName}`
+                : "/images/placeholder.png"
+            }
+            className='h-8 w-8 cursor-pointer rounded-full'
+          />
+          <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
+            <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
+              <div className='sticky top-0 flex items-center justify-start p-2 z-[1] backdrop-blur-md border-b bg-white/30'>
+                <div className='flex items-center justify-bteween p-1'>
+                  <div className='flex items-center justify-start'>
+                    <InformationCircleIcon className='w-5 h-5 text-black' />
+                    <p className='font-semibold ml-2 text-black'>Group Info</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsModalVisible(!isModalVisible)}
+                    className="absolute right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  >
+                    <svg
+                      aria-hidden="true"
+                      className="w-5 h-5"
+                      fill="currentColor"
+                      viewBox="0 0 20 20"
+                      xmlns="http://www.w3.org/2000/svg"
+                    >
+                      <path
+                        fill-rule="evenodd"
+                        d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                        clip-rule="evenodd">
+                      </path>
+                    </svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
                 </div>
-                <button
-                  type="button"
-                  onClick={() => setIsModalVisible(!isModalVisible)}
-                  className="absolute right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
-                >
-                  <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
-                  <span className="sr-only">Close modal</span>
-                </button>
               </div>
+              {/* <Info /> */}
+              <Members members={members} room={room} />
             </div>
-            <Info />
-            <Members />
+          </div>
+          <div className='flex flex-col items-center justify-center'>
+            <p className='text-xs md:text-base font-semibold'>{room?.room?.displayName}</p>
+            <p className='text-xs'>{members.length} members</p>
           </div>
         </div>
-        <div className='flex flex-col items-center justify-center'>
-          <p className='text-xs md:text-base font-semibold'>{receiver?.name}</p>
-          {/* <p className='text-xs'>480 members, 26 online</p> */}
+      }
+      {receiver &&
+        <div className='flex items-center space-x-2'>
+          <img
+            // onClick={() => setIsModalVisible(!isModalVisible)}
+            src={
+              !isEmpty(receiver?.profilePic)
+                ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
+                : "/images/pfp/pfp1.jpg"
+            }
+            className='h-8 w-8 cursor-pointer rounded-full'
+          />
+          <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
+            <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
+              <div className='sticky top-0 flex items-center justify-start p-2 z-[1] backdrop-blur-md border-b bg-white/30'>
+                <div className='flex items-center justify-bteween p-1'>
+                  <div className='flex items-center justify-start'>
+                    <InformationCircleIcon className='w-5 h-5 text-black' />
+                    <p className='font-semibold ml-2 text-black'>Group Info</p>
+                  </div>
+                  <button
+                    type="button"
+                    onClick={() => setIsModalVisible(!isModalVisible)}
+                    className="absolute right-2 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                  >
+                    <svg aria-hidden="true" className="w-5 h-5" fill="currentColor" viewBox="0 0 20 20" xmlns="http://www.w3.org/2000/svg"><path fill-rule="evenodd" d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z" clip-rule="evenodd"></path></svg>
+                    <span className="sr-only">Close modal</span>
+                  </button>
+                </div>
+              </div>
+              <Info />
+              <Members />
+            </div>
+          </div>
+          <div className='flex flex-col items-center justify-center'>
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: receiver?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(receiver?.id, 'profile')}`}
+            >
+              <p className='text-xs md:text-base font-semibold'>{receiver?.name}</p>
+            </Link>
+            {/* <p className='text-xs'>480 members, 26 online</p> */}
+          </div>
         </div>
-      </div>
-}
+      }
       <div className='lg:hidden flex col-md-2 items-center justify-end text-right w-full'>
         <div ref={dropdown} className='flex flex-col items-center justify-center'>
           <div className='flex items-center justify-center space-x-1'>
@@ -104,13 +179,13 @@ function Navbar({ receiver,chats, setReceiver }: any) {
       {showFriends && (
         <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen right-0 w-80 transition-all duration-300 ease-linear`}>
           <div className='flex items-center justify-start h-[7%] md:h-[10%] p-4 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
-              <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
-                <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />
-              </div>
-              <p className='font-semibold'>Private DMs</p>
-              
+            <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
+              <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />
+            </div>
+            <p className='font-semibold'>Private DMs</p>
+
           </div>
-          <Friends chats={chats} setReceiver={setReceiver} closeShowFriends={closeShowFriends}/>
+          <Friends chats={chats} setReceiver={setReceiver} closeShowFriends={closeShowFriends} />
 
         </div>
       )}

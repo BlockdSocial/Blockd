@@ -13,10 +13,10 @@ import { fetchUser } from '../../stores/user/UserActions'
 
 function chatroom() {
   const dispatch = useAppDispatch();
-  // const { chats } = useAppSelector((state) => state.chatReducer);
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [chats, setChats] = useState<any>();
   const [receiver, setReceiver] = useState<any>();
+  const [room, setRoom] = useState<any>();
   const router = useRouter();
   const { chatReceiverId } = router.query;
 
@@ -49,9 +49,21 @@ function chatroom() {
       <Navbar />
       <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-9 mx-auto overflow-hidden w-full'>
         <Sidebar />
-        <Chatbar />
-        <Chatbox receiver={receiver} chats={chats} setReceiver={setReceiver}/>
-        <Widget chats={chats} setReceiver={setReceiver} />
+        <Chatbar
+          setRoom={setRoom}
+          setReceiver={setReceiver}
+        />
+        <Chatbox
+          receiver={receiver}
+          chats={chats}
+          room={room}
+          setReceiver={setReceiver}
+        />
+        <Widget
+          chats={chats}
+          setReceiver={setReceiver}
+          setRoom={setRoom}
+        />
       </div>
     </div>
   )

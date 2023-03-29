@@ -3,14 +3,12 @@ import dynamic from "next/dynamic";
 import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
 import Slider from "./Slider";
 import Link from "next/link";
-import { fetchTrendingPosts, searchPosts } from "../../stores/post/PostActions";
-import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { searchUsers } from "../../stores/user/UserActions";
-import { isEmpty } from "lodash";
-import { config } from "../../constants";
-import { TrendingStreams } from "./TrendingStreams";
+import { fetchTrendingPosts } from "../../stores/post/PostActions";
+import { useAppDispatch } from "../../stores/hooks";
+import { searchFilteredUsers } from "../../stores/user/UserActions";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import Result from "./Result";
 
 interface Pic {
   name: string;
@@ -31,7 +29,7 @@ function Widgets() {
     ssr: false,
   });
   //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
-  const [searchResult, setSearchResult] = useState<User[]>();
+  const [searchResult, setSearchResult] = useState<any>();
   const [input, setInput] = useState<string>("");
   const [trendingPosts, setTrendingPosts] = useState<any>();
 
@@ -48,12 +46,11 @@ function Widgets() {
   useEffect(() => {
     if (input.length > 0) {
       dispatch(
-        searchUsers({
+        searchFilteredUsers({
           search: input,
-          end: 5,
         })
       ).then((result: any) => {
-        setSearchResult(result?.users);
+        setSearchResult(result);
       });
     }
   }, [input]);
@@ -77,29 +74,8 @@ function Widgets() {
             <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
               <div className="flex flex-col items-center justify-center">
                 {searchResult &&
-                  searchResult?.map((result: any, index: number) => (
-                    <Link
-                      href={{
-                        pathname: "/dashboard/profile",
-                        query: { user_id: result?.id },
-                      }}
-                      className="w-full"
-                    >
-                      <div
-                        key={result?.id}
-                        className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
-                      >
-                        <img
-                          src={
-                            !isEmpty(result?.profilePic)
-                              ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
-                              : "/images/pfp/pfp1.jpg"
-                          }
-                          className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
-                        />
-                        <p className="font-semibold text-sm">@{result?.name}</p>
-                      </div>
-                    </Link>
+                  searchResult?.map((result: any) => (
+                    <Result result={result} key={result?.id} />
                   ))}
                 <Link
                   href={{
@@ -107,6 +83,7 @@ function Widgets() {
                     query: { query: input }
                   }}
                   className="flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+                  onClick={() => setInput('')}
                 >
                   <div className="rounded-full bg-blockd p-2">
                     <MagnifyingGlassIcon className="w-7 h-7 text-white" />
@@ -121,7 +98,7 @@ function Widgets() {
       <>
         <Slider trendingPosts={trendingPosts} />
       </>
-      <div className="p-2">
+      {/* <div className="p-2">
         <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-6">
           <ArrowTrendingUpIcon className="w-4 h-4 lg:w-5 lg:h-5" />
           <p className="font-semibold text-xs lg:text-base">
@@ -202,10 +179,10 @@ function Widgets() {
             <p className="font-semibold text-sm">See all chatrooms</p>
           </Link>
         </div>
-      </div>
+      </div> */}
       {/* <TrendingChatrooms /> */}
       {/* <TrendingStreams /> */}
-      <div className="p-2">
+      {/* <div className="p-2">
         <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-2">
           <ComputerDesktopIcon className="w-4 h-4 lg:w-5 lg:h-5" />
           <p className="font-semibold text-xs lg:text-base">
@@ -280,7 +257,7 @@ function Widgets() {
             <p className="font-semibold text-sm">See all streamers</p>
           </Link>
         </div>
-      </div>
+      </div> */}
     </div>
   );
 }

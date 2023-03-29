@@ -20,8 +20,7 @@ export function fetchUserNotifications() {
       const result: any = await notificationApi.fetchUserNotifications();
       dispatch({ 
         type: FETCH_USER_NOTIFICATIONS_SUCCESS,
-        notifications: result?.notifications,
-        unread: result?.unread
+        notifications: result,
       });
       return result;
     } catch (error: any) {

@@ -8,6 +8,7 @@ import {
 import Link from "next/link";
 import { config } from "../../constants";
 import { isEmpty } from "lodash";
+import { encodeQuery } from "../../utils";
 
 interface Images {
   name: string;
@@ -21,7 +22,7 @@ interface Post {
   hasImg: boolean;
   userId: number;
   gif: string;
-  images: Images[];
+  postImage: Images;
 }
 interface Props {
   trendingPosts: Post[];
@@ -45,7 +46,7 @@ function Slider({ trendingPosts }: Props) {
           const trendingPost = {
             title: trendingPosts[i]?.content,
             id: trendingPosts[i]?.id,
-            url: `${config.url.PUBLIC_URL}/${trendingPosts[i]?.images[0]?.name}`,
+            url: `${config.url.PUBLIC_URL}/${trendingPosts[i]?.postImage?.name}`,
           };
           newSlides.push(trendingPost);
         }
@@ -75,7 +76,7 @@ function Slider({ trendingPosts }: Props) {
       {!isEmpty(slides) && (
         <div className="mt-3">
           <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-4">
-            <ShareIcon className="w-4 h-4 lg:w-5 lg:h-5" />
+            {/* <ShareIcon className="w-4 h-4 lg:w-5 lg:h-5" /> */}
             <p className="font-semibold text-xs lg:text-base">Trending Posts</p>
           </div>
           <div className="h-52 w-full m-auto p-2 relative group">
@@ -84,6 +85,7 @@ function Slider({ trendingPosts }: Props) {
                 pathname: "/dashboard/post/",
                 query: { postId: slides[currentIndex]?.id },
               }}
+              as={`/dashboard/post?${encodeQuery(slides[currentIndex]?.id, 'post')}`}
             >
               <div
                 style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
@@ -94,6 +96,7 @@ function Slider({ trendingPosts }: Props) {
                     pathname: "/dashboard/post/",
                     query: { postId: slides[currentIndex]?.id },
                   }}
+                  as={`/dashboard/post?${encodeQuery(slides[currentIndex]?.id, 'post')}`}
                   className="absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full"
                 >
                   {slides[currentIndex]?.title}

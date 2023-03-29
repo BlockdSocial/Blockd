@@ -4,9 +4,10 @@ import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import MainComment from "./MainComment";
 import CommentSection from './CommentSection';
 import { useAppSelector, useAppDispatch } from '../../stores/hooks';
-import { isEmpty } from "lodash";
+import { isEmpty, result } from "lodash";
 import { fetchComment, fetchCommentReplies } from "../../stores/comment/CommentActions";
 import { fetchPost } from "../../stores/post/PostActions";
+import { parseQueryString } from "../../utils";
 
 interface Pic {
   name: string;
@@ -48,7 +49,10 @@ function CommentPage() {
   const dispatch = useAppDispatch();
   const { comment, commentReplies } = useAppSelector((state) => state.commentReducer);
   const { post } = useAppSelector((state) => state.postReducer);
-  const { commentId, postId } = router.query;
+  const spliced = window.location.search.substring(1);
+  const split = spliced.split('&');
+  const commentId = parseQueryString(split[0]).commentId;
+  const postId = parseQueryString(split[1]).postId;
 
   useEffect(() => {
     if (!isEmpty(router.query)) {

@@ -17,7 +17,40 @@ import {
   FETCH_CHAT_FAILURE,
   IS_MUTING_CHAT,
   MUTE_CHAT_SUCCESS,
-  MUTE_CHAT_FAILURE
+  MUTE_CHAT_FAILURE,
+  IS_CREATING_CHATROOM,
+  CREATE_CHATROOM_SUCCESS,
+  CREATE_CHATROOM_FAILURE,
+  IS_DELETING_CHATROOM,
+  DELETE_CHATROOM_SUCCESS,
+  DELETE_CHATROOM_FAILURE,
+  IS_ADDING_MEMBER,
+  ADD_MEMBER_SUCCESS,
+  ADD_MEMBER_FAILURE,
+  IS_REMOVING_MEMBER,
+  REMOVE_MEMBER_SUCCESS,
+  REMOVE_MEMBER_FAILURE,
+  IS_CREATING_CHATROOM_MESSAGE,
+  CREATE_CHATROOM_MESSAGE_SUCCESS,
+  CREATE_CHATROOM_MESSAGE_FAILURE,
+  IS_FETCHING_USER_CHATROOMS,
+  FETCH_USER_CHATROOMS_SUCCESS,
+  FETCH_USER_CHATROOMS_FAILURE,
+  IS_FETCHING_CHATROOM_MEMBERS,
+  FETCH_CHATROOM_MEMBERS_SUCCESS,
+  FETCH_CHATROOM_MEMBERS_FAILURE,
+  IS_FETCHING_CHATROOM_MESSAGES,
+  FETCH_CHATROOM_MESSAGES_SUCCESS,
+  FETCH_CHATROOM_MESSAGES_FAILURE,
+  IS_FETCHING_ALL_ROOMS,
+  FETCH_ALL_ROOMS_SUCCESS,
+  FETCH_ALL_ROOMS_FAILURE,
+  IS_JOINING_ROOM,
+  JOIN_ROOM_SUCCESS,
+  JOIN_ROOM_FAILURE,
+  IS_SEARCHING_ROOM_MEMBERS,
+  SEARCH_ROOM_MEMBERS_SUCCESS,
+  SEARCH_ROOM_MEMBERS_FAILURE
 } from './ChatActionTypes';
 
 const initialState = {
@@ -27,6 +60,22 @@ const initialState = {
   isDeletingChat: false,
   isFetchingChat: false,
   isMutingChat: false,
+  isCreatingChatroom: false,
+  isDeletingChatroom: false,
+  isAddingMember: false,
+  isRemovingMember: false,
+  isCreatingChatroomMessage: false,
+  isFetchingUserChatrooms: false,
+  isFetchingChatroomMembers: false,
+  isFetchingChatroomMessages: false,
+  isFetchingAllRooms: false,
+  isJoiningRoom: false,
+  isSearchingRoomMembers: false,
+  roomMembersResult: [],
+  allRooms: [],
+  chatroomMessages: [],
+  chatrooms: [],
+  members: [],
   chats: [],
   messages: [],
   error: '',
@@ -147,6 +196,220 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isMutingChat: false,
+        error: action.error
+      };
+    }
+    case IS_CREATING_CHATROOM: {
+      return {
+        ...state,
+        isCreatingChatroom: true
+      };
+    }
+    case CREATE_CHATROOM_SUCCESS: {
+      return {
+        ...state,
+        isCreatingChatroom: false
+      };
+    }
+    case CREATE_CHATROOM_FAILURE: {
+      return {
+        ...state,
+        isCreatingChatroom: false,
+        error: action.error
+      };
+    }
+    case IS_DELETING_CHATROOM: {
+      return {
+        ...state,
+        isDeletingChatroom: true
+      };
+    }
+    case DELETE_CHATROOM_SUCCESS: {
+      return {
+        ...state,
+        isDeletingChatroom: false
+      };
+    }
+    case DELETE_CHATROOM_FAILURE: {
+      return {
+        ...state,
+        isDeletingChatroom: false,
+        error: action.error
+      };
+    }
+    case IS_ADDING_MEMBER: {
+      return {
+        ...state,
+        isAddingMember: true
+      };
+    }
+    case ADD_MEMBER_SUCCESS: {
+      return {
+        ...state,
+        isAddingMember: false,
+      };
+    }
+    case ADD_MEMBER_FAILURE: {
+      return {
+        ...state,
+        isAddingMember: false,
+        error: action.error
+      };
+    }
+    case IS_REMOVING_MEMBER: {
+      return {
+        ...state,
+        isRemovingMember: true
+      };
+    }
+    case REMOVE_MEMBER_SUCCESS: {
+      return {
+        ...state,
+        isRemovingMember: false
+      };
+    }
+    case REMOVE_MEMBER_FAILURE: {
+      return {
+        ...state,
+        isRemovingMember: false,
+        error: action.error
+      };
+    }
+    case IS_CREATING_CHATROOM_MESSAGE: {
+      return {
+        ...state,
+        isCreatingChatroomMessage: true
+      };
+    }
+    case CREATE_CHATROOM_MESSAGE_SUCCESS: {
+      return {
+        ...state,
+        isCreatingChatroomMessage: false
+      };
+    }
+    case CREATE_CHATROOM_MESSAGE_FAILURE: {
+      return {
+        ...state,
+        isCreatingChatroomMessage: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_USER_CHATROOMS: {
+      return {
+        ...state,
+        isFetchingUserChatrooms: true
+      };
+    }
+    case FETCH_USER_CHATROOMS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingUserChatrooms: false,
+        chatrooms: action.chatrooms
+      };
+    }
+    case FETCH_USER_CHATROOMS_FAILURE: {
+      return {
+        ...state,
+        isFetchingUserChatrooms: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_CHATROOM_MEMBERS: {
+      return {
+        ...state,
+        isFetchingChatroomMembers: true
+      };
+    }
+    case FETCH_CHATROOM_MEMBERS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingChatroomMembers: false,
+        members: action.members
+      };
+    }
+    case FETCH_CHATROOM_MEMBERS_FAILURE: {
+      return {
+        ...state,
+        isFetchingChatroomMembers: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_CHATROOM_MESSAGES: {
+      return {
+        ...state,
+        isFetchingChatroomMessages: true
+      };
+    }
+    case FETCH_CHATROOM_MESSAGES_SUCCESS: {
+      return {
+        ...state,
+        isFetchingChatroomMessages: false,
+        chatroomMessages: action.chatroomMessages
+      };
+    }
+    case FETCH_CHATROOM_MESSAGES_FAILURE: {
+      return {
+        ...state,
+        isFetchingChatroomMessages: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_ALL_ROOMS: {
+      return {
+        ...state,
+        isFetchingAllRooms: true
+      };
+    }
+    case FETCH_ALL_ROOMS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingAllRooms: false,
+        allRooms: action.allRooms 
+      };
+    }
+    case FETCH_ALL_ROOMS_FAILURE: {
+      return {
+        ...state,
+        isFetchingAllRooms: false,
+        error: action.error
+      };
+    }
+    case IS_JOINING_ROOM: {
+      return {
+        ...state,
+        isJoiningRoom: true
+      };
+    }
+    case JOIN_ROOM_SUCCESS: {
+      return {
+        ...state,
+        isJoiningRoom: false
+      };
+    }
+    case JOIN_ROOM_FAILURE: {
+      return {
+        ...state,
+        isJoiningRoom: false,
+        error: action.error
+      };
+    }
+    case IS_SEARCHING_ROOM_MEMBERS: {
+      return {
+        ...state,
+        isSearchingRoomMembers: true
+      };
+    }
+    case SEARCH_ROOM_MEMBERS_SUCCESS: {
+      return {
+        ...state,
+        isSearchingRoomMembers: false,
+        roomMembersResult: action.roomMembersResult
+      };
+    }
+    case SEARCH_ROOM_MEMBERS_FAILURE: {
+      return {
+        ...state,
+        isSearchingRoomMembers: false,
         error: action.error
       };
     }

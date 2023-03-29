@@ -168,16 +168,16 @@ const handleApiResponse = async (apiName: any, response: any) => {
 			return 'success';
 		}
 
-		case status == 401:
-		case status == 403: {
-			let failedResponse: any = await response.json();
-			triggerUnauthorizedUserAlert().then(() => {
-				localStorage.removeItem('token');
-				deleteCookie('token');
-				window.location.replace('/');
-			});
-			throw new Error(failedResponse.message);
-		}
+		// case status == 401:
+		// case status == 403: {
+		// 	let failedResponse: any = await response.json();
+		// 	triggerUnauthorizedUserAlert().then(() => {
+		// 		localStorage.removeItem('token');
+		// 		deleteCookie('token');
+		// 		window.location.replace('/');
+		// 	});
+		// 	throw new Error(failedResponse.message);
+		// }
 
 		// Conflict error code
 		case 400 <= status && status <= 500: {
@@ -186,7 +186,6 @@ const handleApiResponse = async (apiName: any, response: any) => {
 		}
 		default: {
 			let textResponse = await response.text();
-			console.log('textResponse: ', textResponse);
 			return textResponse;
 		}
 	}

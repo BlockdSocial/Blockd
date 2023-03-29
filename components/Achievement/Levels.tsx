@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 
-function Levels() {
+function Levels({ rewards }: any) {
   const [isRewardClaimed, setIsRewardClaimed] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
 
@@ -11,7 +11,10 @@ function Levels() {
 
   return (
     <div className="flex flex-col items-center justify-center w-full px-6 bg-transparent">
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 border bg-gray-100 dark:bg-lightgray dark:border-lightgray rounded-lg shadow-lg">
+      <div className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 1
+        ? "bg-gray-100 dark:bg-lightgray"
+        : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+        } rounded-lg shadow-lg`}>
         <div className="flex items-center justify-center w-1/4">
           <img
             src="/images/badges/badge1.png"
@@ -20,24 +23,25 @@ function Levels() {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 1</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Earn 150 XP</h3>
-          <button
-            type="button"
-            className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
-            disabled
-          >
-            Reward Claimed
-          </button>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Pink to Turquoise Frame</h3>
+          {rewards.length >= 1 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
         </div>
       </div>
       <hr className="border-2 h-10 border-blockd"></hr>
       <div
-        onClick={() => setIsDisplayModal(!isDisplayModal)}
-        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${
-          isRewardClaimed
-            ? "bg-gray-100 dark:bg-lightgray"
-            : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray"
-        } rounded-lg shadow-lg`}
+        // onClick={() => setIsDisplayModal(!isDisplayModal)}
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 2
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -48,9 +52,9 @@ function Levels() {
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 2</h1>
           <h3 className="text-sm text-gray-500 mb-2">
-            Unlock Green block icon
+            Unlock Orange Frame
           </h3>
-          {isRewardClaimed === true ? (
+          {rewards.length >= 2 && (
             <button
               type="button"
               className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
@@ -58,18 +62,43 @@ function Levels() {
             >
               Reward Claimed
             </button>
-          ) : (
-            <button
-              type="button"
-              className="text-white bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-6 py-1 text-center"
-            >
-              Claim Reward
-            </button>
           )}
         </div>
       </div>
       <hr className="border-2 h-10 border-blockd"></hr>
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 cursor-pointer border dark:border-lightgray rounded-lg opacity-60">
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 3
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 3</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Blue Frame</h3>
+          {rewards.length >= 3 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 4
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
         <div className="flex items-center justify-center w-1/4">
           <img
             src="/images/badges/badge3.png"
@@ -78,19 +107,27 @@ function Levels() {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 4</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock GIFs</h3>
-          <div className="flex items-center justify-start w-[135px] h-2 rounded bg-gray-200 mb-2 relative group">
-            <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded w-3/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
-            </div>
-            <div className="flex items-center justify-center w-1/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
-            </div>
-          </div>
+          <h3 className="text-sm text-gray-500 mb-2">
+            Unlock Mixed Colors Frame
+          </h3>
+          {rewards.length >= 4 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
         </div>
       </div>
       <hr className="border-2 h-10"></hr>
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 cursor-pointer border dark:border-lightgray rounded-lg opacity-60">
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 5
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
         <div className="flex items-center justify-center w-1/4">
           <img
             src="/images/badges/badge3.png"
@@ -99,21 +136,25 @@ function Levels() {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 5</h1>
-          <h3 className="text-sm text-gray-500 mb-2">
-            Unlocks ability to create/host chatrooms and streams
-          </h3>
-          <div className="flex items-center justify-start w-[135px] h-2 rounded bg-gray-200 mb-2 relative group">
-            <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded w-1/2">
-              {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
-            </div>
-            <div className="flex items-center justify-center w-1/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
-            </div>
-          </div>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Green To Purple Frame</h3>
+          {rewards.length >= 5 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
         </div>
       </div>
       <hr className="border-2 h-10"></hr>
-      <div className="flex items-center justify-center space-x-4 w-72 p-4 px-2 cursor-pointer border dark:border-lightgray rounded-lg opacity-60">
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 6
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
         <div className="flex items-center justify-center w-1/4">
           <img
             src="/images/badges/badge3.png"
@@ -122,22 +163,400 @@ function Levels() {
         </div>
         <div className="flex flex-col items-start justify-start w-3/4">
           <h1 className="text-l font-semibold">Level 6</h1>
-          <h3 className="text-sm text-gray-500 mb-2">Unlock Frame Colors</h3>
-          <div className="flex items-center justify-start w-[135px] h-2 rounded bg-gray-200 mb-2 relative group">
-            <div className="flex items-center justify-center bg-gradient-to-r from-orange-400 via-orange-500 to-orange-600 p-1 h-2 rounded">
-              {/*<span className='text-xs font-semibold cursor-pointer text-white inline'>120 XP</span>*/}
-            </div>
-            <div className="flex items-center justify-center w-1/4">
-              {/*<span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>*/}
-            </div>
-          </div>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Orange To Pink Frame</h3>
+          {rewards.length >= 6 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 7
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 7</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Gold To Yellow Frame</h3>
+          {rewards.length >= 7 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 8
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 8</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Splashed Colors Frame</h3>
+          {rewards.length >= 8 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 9
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 9</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Green To Gold Frame</h3>
+          {rewards.length >= 9 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 10
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 10</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Water Color Frame</h3>
+          {rewards.length >= 10 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 11
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 11</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Green Frame</h3>
+          {rewards.length >= 11 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 12
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 12</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Green Frame</h3>
+          {rewards.length >= 12 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 13
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 13</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Yellow Frame</h3>
+          {rewards.length >= 13 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 14
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 14</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Yellow Frame</h3>
+          {rewards.length >= 14 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 15
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 15</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Gray Frame</h3>
+          {rewards.length >= 15 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 16
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 16</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Gray Frame</h3>
+          {rewards.length >= 16 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 17
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 17</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Dark Purple Frame</h3>
+          {rewards.length >= 17 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 18
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 18</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Purple Frame</h3>
+          {rewards.length >= 18 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 19
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 19</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Green To Yellow Frame</h3>
+          {rewards.length >= 19 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
+        </div>
+      </div>
+      <hr className="border-2 h-10"></hr>
+      <div
+        className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 20
+          ? "bg-gray-100 dark:bg-lightgray"
+          : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
+          } rounded-lg shadow-lg`}
+      >
+        <div className="flex items-center justify-center w-1/4">
+          <img
+            src="/images/badges/badge3.png"
+            className="flex w-14 max-w-full h-auto"
+          />
+        </div>
+        <div className="flex flex-col items-start justify-start w-3/4">
+          <h1 className="text-l font-semibold">Level 20</h1>
+          <h3 className="text-sm text-gray-500 mb-2">Unlock Light Orange Frame</h3>
+          {rewards.length >= 20 && (
+            <button
+              type="button"
+              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              disabled
+            >
+              Reward Claimed
+            </button>
+          )}
         </div>
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full rounded-lg max-w-md h-96">
           <img

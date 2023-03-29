@@ -5,8 +5,10 @@ import Link from "next/link";
 import { useAppDispatch } from "../../stores/hooks";
 import { isEmpty } from "lodash";
 import { config } from "../../constants";
-import moment from "moment";
-import { readNotification } from "../../stores/notification/NotificationActions";
+import moment from 'moment';
+import { readNotification } from '../../stores/notification/NotificationActions';
+import { encodeQuery } from '../../utils';
+
 
 interface IPic {
   name: string;
@@ -29,11 +31,12 @@ interface User {
 interface INotification {
   id: number;
   type: string;
-  user: User;
+  otherUser: User;
   createdAt: string;
   postId: number;
   commentId: number;
   replyId: number;
+  read: number;
 }
 
 interface Props {
@@ -48,21 +51,70 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
     await dispatch(readNotification(notification?.id)).then(() => {
       handleFetchNotifications();
     });
-  };
-  let pathname, query;
-  if (
-    notification?.type == "like" ||
-    notification?.type == "dislike" ||
-    notification?.type == "comment"
-  ) {
-    pathname = "/dashboard/post/";
-    query = { postId: notification?.postId };
-  } else if (notification?.type === "message") {
-    pathname = "/dashboard/myChatrooms/";
-    query = { chatReceiverId: notification?.user?.id };
-  } else {
-    pathname = "/dashboard/profile/";
-    query = {};
+  }
+  let pathname, query, as;
+  switch (notification?.type) {
+    case 'like':
+      if (null != notification?.commentId || undefined != notification?.commentId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+        as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      }
+      else if (null != notification?.replyId || undefined != notification?.replyId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+        as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      }
+      else {
+        pathname = '/dashboard/post/';
+        query = { postId: notification?.postId }
+        as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
+      }
+      break;
+    case 'dislike':
+      if (null != notification?.commentId || undefined != notification?.commentId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+        as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      }
+      else if (null != notification?.replyId || undefined != notification?.replyId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+        as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      }
+      else {
+        pathname = '/dashboard/post/';
+        query = { postId: notification?.postId }
+        as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
+      }
+      break;
+    case 'comment':
+      pathname = '/dashboard/post/comment';
+      query = { commentId: notification?.commentId, postId: notification?.postId }
+      as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      break;
+    case 'follow':
+      pathname = '/dashboard/profile/';
+      query = {}
+      as = '/dashboard/profile/'
+      break;
+    case 'levelUpgrade':
+      pathname = '/dashboard/profile/';
+      query = {}
+      as = '/dashboard/profile/'
+      break;
+    case 'levelDowngrade':
+      pathname = '/dashboard/profile/';
+      query = {}
+      as = '/dashboard/profile/'
+      break;
+    case 'reply':
+      pathname = '/dashboard/post/comment';
+      query = { commentId: notification?.commentId, postId: notification?.postId }
+      as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      break;
+    default:
+      break;
   }
 
   const renderNotificationText = () => {
@@ -116,8 +168,6 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
     }
   };
 
-  console.log("notification: ", notification);
-
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
       <Link
@@ -126,6 +176,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           pathname: pathname,
           query: query,
         }}
+        as={as}
         // @ts-ignore
         className={`flex items-center justify-between group/item border-b dark:border-lightgray ${
           notification?.read == 0 ? "bg-slate-100 dark:bg-lightgray" : ""
@@ -136,14 +187,15 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
             onClick={() => handleReadNotification()}
             href={{
               pathname: "/dashboard/profile",
-              query: { user_id: notification?.user?.id },
+              query: { user_id: notification?.otherUser?.id },
             }}
+            as={`/dashboard/profile?${encodeQuery(notification?.otherUser?.id, 'profile')}`}
           >
             <Image
               className="h-10 w-10 rounded-full"
               src={
-                !isEmpty(notification?.user?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${notification?.user?.profilePic?.name}`
+                !isEmpty(notification?.otherUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               width={50}
@@ -152,54 +204,47 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
             />
           </Link>
           <div className="ml-3 flex items-center justify-center">
-            <p className="text-sm font-medium text-slate-900 dark:text-white">
-              <span className="font-bold">{notification?.user?.name}</span>{" "}
+            <p className="text-sm font-medium text-slate-900 dark:text-white"><span className="font-bold">{notification?.otherUser?.name}</span>{' '}
               {renderNotificationText()}<br></br>
               <span className="text-xs">
-                {moment(notification?.createdAt).fromNow()}
+              {moment(notification?.createdAt).fromNow()}
               </span>
             </p>
           </div>
         </div>
-        {notification?.type === "like" ||
-        notification?.type === "dislike" ||
-        notification?.type === "comment" ? (
-          <div className="hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md">
-            <Link
-              onClick={() => handleReadNotification()}
-              href={{
-                pathname: pathname,
-                query: query,
-              }}
-              className="flex invisible group-hover/item:visible"
-            >
-              <span className="group-hover/edit:text-gray-700 font-semibold">
-                View
-              </span>
-              <div className="flex items-center ml-2">
-                <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
-              </div>
-            </Link>
-          </div>
-        ) : notification?.type === "message" ? (
-          <div className="hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md">
-            <Link
-              onClick={() => handleReadNotification()}
-              href={{
-                pathname: pathname,
-                query: query,
-              }}
-              className="flex invisible group-hover/item:visible"
-            >
-              <span className="group-hover/edit:text-gray-700 font-semibold">
-                View
-              </span>
-              <div className="flex items-center ml-2">
-                <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
-              </div>
-            </Link>
-          </div>
-        ) : null}
+        {
+          notification?.type === 'like' || notification?.type === 'dislike' || notification?.type === 'comment' ?
+            <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
+              <Link onClick={() => handleReadNotification()}
+                href={{
+                  pathname: pathname,
+                  query: query,
+                }}
+                as={as}
+                className="flex invisible group-hover/item:visible">
+                <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
+                <div className='flex items-center ml-2'>
+                  <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
+                </div>
+              </Link>
+            </div> :
+            notification?.type === 'message' ?
+              <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
+                <Link onClick={() => handleReadNotification()}
+                  href={{
+                    pathname: pathname,
+                    query: query,
+                  }}
+                  as={as}
+                  className="flex invisible group-hover/item:visible">
+                  <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
+                  <div className='flex items-center ml-2'>
+                    <ArrowSmallRightIcon className="group-hover/edit:text-slate-500 w-4 h-4" />
+                  </div>
+                </Link>
+              </div> :
+              null
+        }
       </Link>
     </div>
   );

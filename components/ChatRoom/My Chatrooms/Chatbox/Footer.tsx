@@ -7,17 +7,24 @@ import {
   GifIcon,
 } from "@heroicons/react/24/outline";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-import { useAppDispatch } from "../../../../stores/hooks";
-import { createChat, createMessage } from "../../../../stores/chat/ChatActions";
+import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
+import { createChat, createChatroomMessage, createMessage } from "../../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
 import AutoResizeTextarea from "./AutoResizeTextArea";
 
-function Footer({ messages, receiver, getMessages }: any) {
+function Footer({
+  messages,
+  receiver,
+  getMessages,
+  room,
+  fetchRoomMessages
+}: any) {
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
 
   let [showEmojis, setShowEmojis] = useState<boolean>(false);
+  const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [input, setInput] = useState<string>("");
   const [gifUrl, setGifUrl] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -118,41 +125,76 @@ function Footer({ messages, receiver, getMessages }: any) {
   const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
 
   const handleSendMessage = async () => {
-    if (isEmpty(messages)) {
-      await dispatch(createChat(receiver?.id));
+    textArea.rows = 1;
+    if (!isEmpty(receiver)) {
+      if (isEmpty(messages)) {
+        await dispatch(createChat(receiver?.id));
+      }
+      if (uploadedImage) {
+        await dispatch(
+          createMessage({
+            'receiver_id': receiver?.id,
+            'image': uploadedImage
+          })
+        ).then(() => {
+          setUploadedImage('');
+          getMessages();
+        });
+      } else if (gifUrl.length > 0) {
+        await dispatch(
+          createMessage({
+            receiver_id: receiver?.id,
+            gif: gifUrl
+          })
+        ).then(() => {
+          setGifUrl('');
+          getMessages();
+        });
+      } else if (!isEmpty(input)) {
+        await dispatch(
+          createMessage({
+            receiver_id: receiver?.id,
+            content: input
+          })
+        ).then(() => {
+          setInput("");
+          getMessages();
+        });
+      };
     }
-    if (uploadedImage) {
-      await dispatch(
-        createMessage({
-          'receiver_id': receiver?.id,
-          'image': uploadedImage
-        })
-      ).then(() => {
-        setUploadedImage('');
-        getMessages();
-      });
-    } else if (gifUrl.length > 0) {
-      await dispatch(
-        createMessage({
-          receiver_id: receiver?.id,
-          gif: gifUrl
-        })
-      ).then(() => {
-        setGifUrl('');
-        getMessages();
-      });
-    } else if (!isEmpty(input)) {
-      await dispatch(
-        createMessage({
-          receiver_id: receiver?.id,
-          content: input
-        })
-      ).then(() => {
-        setInput("");
-        getMessages();
-      });
-    };
-    // textArea.rows = 1;
+    if (!isEmpty(room)) {
+      if (uploadedImage) {
+        await dispatch(
+          createChatroomMessage(room?.roomId, {
+            'image': uploadedImage,
+            user_id: authUser?.id
+          })
+        ).then(() => {
+          setUploadedImage('');
+          fetchRoomMessages();
+        });
+      } else if (gifUrl.length > 0) {
+        await dispatch(
+          createChatroomMessage(room?.roomId, {
+            gif: gifUrl,
+            user_id: authUser?.id
+          })
+        ).then(() => {
+          setGifUrl('');
+          fetchRoomMessages();
+        });
+      } else if (!isEmpty(input)) {
+        await dispatch(
+          createChatroomMessage(room?.roomId, {
+            content: input,
+            user_id: authUser?.id
+          })
+        ).then(() => {
+          setInput("");
+          fetchRoomMessages();
+        });
+      };
+    }
   }
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {

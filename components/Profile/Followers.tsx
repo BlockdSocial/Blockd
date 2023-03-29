@@ -7,10 +7,11 @@ import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { fetchFollowers } from '../../stores/user/UserActions';
 import { isEmpty } from 'lodash';
 import { config } from '../../constants';
+import CustomLoadingOverlay from '../CustomLoadingOverlay';
 
 function Followers({ user }: any) {
   const dispatch = useAppDispatch();
-  const { followers } = useAppSelector((state) => state.userReducer);
+  const { followers, isFetchingFollowers } = useAppSelector((state) => state.userReducer);
 
   useEffect(() => {
     fetchUserFollowers();
@@ -21,7 +22,8 @@ function Followers({ user }: any) {
   }
 
   return (
-    <div>
+    <div className="relative">
+      <CustomLoadingOverlay active={isFetchingFollowers} wrapped={true} />
       {
         !isEmpty(followers) &&
         followers.map((follower: any, index: any) => (

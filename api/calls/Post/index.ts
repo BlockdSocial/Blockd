@@ -78,6 +78,14 @@ async function sharePost(fields: any) {
   return apiCall('sharePost', 'POST', 'share', fields);
 };
 
+async function createSuggestion(fields: any) {
+  return apiCall('createSuggestion', 'POST', 'user/create/suggestion', fields);
+};
+
+async function fetchSuggestions() {
+  return apiCall('fetchSuggestions', 'GET', 'suggestions/fetch/all');
+};
+
 export default {
   createPost,
   deletePost,
@@ -95,5 +103,7 @@ export default {
   addPostView,
   editPost,
   postSuggestion,
-  sharePost
+  sharePost,
+  createSuggestion,
+  fetchSuggestions
 };

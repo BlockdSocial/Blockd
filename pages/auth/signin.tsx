@@ -75,7 +75,6 @@ export default function SignIn() {
   };
 
   const getSignMessage = async (e: any) => {
-    console.log("getSignMessage");
     e.preventDefault();
     signMessage();
   };

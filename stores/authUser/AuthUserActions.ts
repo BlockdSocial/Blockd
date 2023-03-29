@@ -13,7 +13,10 @@ import {
   REGISTER_USER_FAILURE,
   FETCH_USER_MESSAGE,
   FETCH_USER_MESSAGE_SUCCESS,
-  FETCH_USER_MESSAGE_FAILURE
+  FETCH_USER_MESSAGE_FAILURE,
+  IS_SENDING_VERIFICATION,
+  SEND_VERIFICATION_SUCCESS,
+  SEND_VERIFICATION_FAILURE
 } from './AuthUserActionTypes';
 import { setCookie, deleteCookie } from 'cookies-next';
 import { isEmpty } from '../../utils';
@@ -135,6 +138,24 @@ export function fetchUserMessage() {
     } catch (error: any) {
       dispatch({
         type: FETCH_USER_MESSAGE_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function sendVerification(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SENDING_VERIFICATION });
+    try {
+      await authUserApi.sendVerification(fields);
+      dispatch({
+        type: SEND_VERIFICATION_SUCCESS
+      })
+    } catch (error: any) {
+      console.log('Send verification error: ', error.message);
+      dispatch({
+        type: SEND_VERIFICATION_FAILURE,
         error: error?.message
       });
     }
