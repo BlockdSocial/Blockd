@@ -1,4 +1,4 @@
-import React, { useState, useRef } from "react";
+import React, { useState, useRef,useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { createChatroom } from "../../../stores/chat/ChatActions";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -6,6 +6,7 @@ import { LinkIcon, XMarkIcon, CheckCircleIcon, ExclamationCircleIcon } from "@he
 import { isEmpty } from "lodash";
 import { config } from "../../../constants";
 import { useRouter } from "next/router";
+import { KeyboardReturnOutlined } from "@mui/icons-material";
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -15,20 +16,23 @@ function CreatePage() {
   const [description, setDescription] = useState<string>("");
   const [count, setCount] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>("");
-  const [network, setNetwork] = useState<number>();
+  const [network, setNetwork] = useState<number>(1);
   const [tokenName, setTokenName] = useState<string>("");
   const [tokenNumber, setTokenNumber] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
   const [tokenError, setTokenError] = useState<any>(null);
+  const [errorMessage, setErrorMessage] = useState<string>('');
+
+  const { error } = useAppSelector((state) => state.chatReducer);
   const router = useRouter();
 
   // ALCHEMY URL --> Replace with your API Key at the end
   const url = `https://eth-mainnet.g.alchemy.com/v2/${config.url.ALCHEMY_API_KEY}`;
 
   const validateAddressToken = async () => {
-    console.log('bzez');
+    
     if (!isEmpty(contractAddress)) {
       let WETHContractAddress = contractAddress;
 
@@ -65,7 +69,42 @@ function CreatePage() {
     setNetwork(Number(event.target.value));
   }
 
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      setErrorMessage(error);
+    }
+  }, [error]);
+
   const handleCreateRoom = async () => {
+    if(isEmpty(name)) {
+      setErrorMessage ('Name field is required')
+      return;
+    }
+    if(name.length <= 4) {
+      setErrorMessage ('The name must be at least 4 characters')
+      console.log(name.length);
+      return;
+    }
+    if(isEmpty(description)) {
+      setErrorMessage ('Description field is required')
+      return;
+    }
+    
+    if (selectedOption === 'private') {
+    if (isEmpty(tokenName)) {
+      setErrorMessage ('Token  name field is required')
+      return;
+    }
+    
+    if (isEmpty(tokenNumber)) {
+      setErrorMessage ('Token  amount field is required')
+      return;
+    }
+    if (isEmpty(contractAddress)) {
+      setErrorMessage ('Contract address field is required')
+      return;
+    }
+  }
     if (image) {
       if (selectedOption === 'private') {
         await dispatch(createChatroom({
@@ -79,6 +118,9 @@ function CreatePage() {
           token_name: tokenName,
           amount: Number(tokenNumber)
         })).then((res: any) => {
+          if (!res) {
+        return;
+          }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -94,6 +136,9 @@ function CreatePage() {
           private: 0,
           image: uploadedImage,
         })).then((res: any) => {
+          if (!res) {
+            return;
+              }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -114,6 +159,9 @@ function CreatePage() {
           token_name: tokenName,
           amount: Number(tokenNumber)
         })).then((res: any) => {
+          if (!res) {
+            return;
+              }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -128,6 +176,9 @@ function CreatePage() {
           moderator_id: authUser?.id,
           private: 0,
         })).then((res: any) => {
+          if (!res) {
+            return;
+              }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -137,6 +188,7 @@ function CreatePage() {
         });
       }
     }
+ 
   }
   const inputPicture = useRef<HTMLInputElement | null>(null);
 
@@ -352,7 +404,7 @@ function CreatePage() {
                 <div className="w-full">
                   <h3 className="text-sm font-semibold pb-1">Token Amount</h3>
                   <input
-                    type="text"
+                    type="number"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     placeholder="Enter token amount needed to join"
                     onChange={(e) => setTokenNumber(e.target.value)}
@@ -379,7 +431,14 @@ function CreatePage() {
                   </div>
                 </>
                 :
+                <>
+                {errorMessage && (
+                  <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                    {errorMessage}
+                  </div>
+                )}
                 <div className="flex items-center justify-center w-full mt-4">
+                  
                   <button
                     className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd hover:bg-orange-400"
                     onClick={() => handleCreateRoom()}
@@ -387,6 +446,7 @@ function CreatePage() {
                     Create
                   </button>
                 </div>
+                </>
             }
           </div>
         </div>

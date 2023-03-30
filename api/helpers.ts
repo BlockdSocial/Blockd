@@ -182,7 +182,9 @@ const handleApiResponse = async (apiName: any, response: any) => {
 		// Conflict error code
 		case 400 <= status && status <= 500: {
 			let failedResponse: any = await response.json();
+			//return failedResponse;
 			throw new Error(failedResponse.message);
+			
 		}
 		default: {
 			let textResponse = await response.text();
