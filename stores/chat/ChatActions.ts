@@ -169,8 +169,9 @@ export function createChatroom(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_CREATING_CHATROOM });
     try {
-      await chatApi.createChatroom(fields);
+      const result = await chatApi.createChatroom(fields);
       dispatch({ type: CREATE_CHATROOM_SUCCESS });
+      return result;
     } catch (error: any) {
       console.log('Create chatroom error: ', error.message);
       dispatch({

@@ -5,6 +5,7 @@ import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { LinkIcon, XMarkIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { isEmpty } from "lodash";
 import { config } from "../../../constants";
+import { useRouter } from "next/router";
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -21,6 +22,7 @@ function CreatePage() {
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
   const [tokenError, setTokenError] = useState<any>(null);
+  const router = useRouter();
 
   // ALCHEMY URL --> Replace with your API Key at the end
   const url = `https://eth-mainnet.g.alchemy.com/v2/${config.url.ALCHEMY_API_KEY}`;
@@ -76,16 +78,13 @@ function CreatePage() {
           chainId: network,
           token_name: tokenName,
           amount: Number(tokenNumber)
-        })).then(() => {
-          toast.success('Created!', {
-            duration: 4000
-          });
-          setName('');
-          setDescription('');
-          setContractAddress('');
-          setNetwork(0);
-          setTokenName('');
-          closePicture();
+        })).then((res: any) => {
+          router.push({
+            pathname: '/dashboard/myChatrooms',
+            query: { roomChat: JSON.stringify(res) },
+          },
+            undefined, { shallow: true }
+          )
         });
       } else {
         await dispatch(createChatroom({
@@ -94,13 +93,13 @@ function CreatePage() {
           moderator_id: authUser?.id,
           private: 0,
           image: uploadedImage,
-        })).then(() => {
-          toast.success('Created!', {
-            duration: 4000
-          });
-          setName('');
-          setDescription('');
-          closePicture();
+        })).then((res: any) => {
+          router.push({
+            pathname: '/dashboard/myChatrooms',
+            query: { roomChat: JSON.stringify(res) },
+          },
+            undefined, { shallow: true }
+          )
         });
       }
     } else {
@@ -114,16 +113,13 @@ function CreatePage() {
           chainId: network,
           token_name: tokenName,
           amount: Number(tokenNumber)
-        })).then(() => {
-          toast.success('Created!', {
-            duration: 4000
-          });
-          setName('');
-          setDescription('');
-          setContractAddress('');
-          setNetwork(0);
-          setTokenName('');
-          closePicture();
+        })).then((res: any) => {
+          router.push({
+            pathname: '/dashboard/myChatrooms',
+            query: { roomChat: JSON.stringify(res) },
+          },
+            undefined, { shallow: true }
+          )
         });
       } else {
         await dispatch(createChatroom({
@@ -131,13 +127,13 @@ function CreatePage() {
           description: description,
           moderator_id: authUser?.id,
           private: 0,
-        })).then(() => {
-          toast.success('Created!', {
-            duration: 4000
-          });
-          setName('');
-          setDescription('');
-          closePicture();
+        })).then((res: any) => {
+          router.push({
+            pathname: '/dashboard/myChatrooms',
+            query: { roomChat: JSON.stringify(res) },
+          },
+            undefined, { shallow: true }
+          )
         });
       }
     }
@@ -354,7 +350,7 @@ function CreatePage() {
                   />
                 </div>
                 <div className="w-full">
-                  <h3 className="text-sm font-semibold pb-1">Token Number</h3>
+                  <h3 className="text-sm font-semibold pb-1">Token Amount</h3>
                   <input
                     type="text"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
