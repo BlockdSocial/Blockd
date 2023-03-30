@@ -131,7 +131,6 @@ function CreatePage() {
           description: description,
           moderator_id: authUser?.id,
           private: 0,
-          amount: 1000
         })).then(() => {
           toast.success('Created!', {
             duration: 4000
