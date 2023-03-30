@@ -82,6 +82,7 @@ function NotificationsPage() {
           notification?.type !== 'message' &&
           <Notifications
             key={notification?.id}
+            // @ts-ignore
             notification={notification}
             handleFetchNotifications={handleFetchNotifications}
           />
