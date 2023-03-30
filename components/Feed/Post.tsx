@@ -629,14 +629,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                 />
               ) : null}
               {mainPost?.gif != null ? (
                 <img
                   src={mainPost?.gif}
                   alt="gif"
-                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                 />
               ) : null}
             </Link>
@@ -737,14 +737,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     <img
                       src={`${config.url.PUBLIC_URL}/${sharedPost?.images[0]?.name}`}
                       alt="Post"
-                      className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
+                      className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                     />
                   ) : null}
                   {sharedPost?.gif != null ? (
                     <img
                       src={sharedPost?.gif}
                       alt="gif"
-                      className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                      className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                     />
                   ) : null}
                 </Link>

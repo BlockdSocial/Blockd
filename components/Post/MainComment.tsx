@@ -8,6 +8,7 @@ import {
   FaceSmileIcon,
   XMarkIcon,
   GifIcon,
+  PaperAirplaneIcon,
 } from "@heroicons/react/24/outline";
 import Picker from "@emoji-mart/react";
 import TimeAgo from "react-timeago";
@@ -281,6 +282,11 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     });
   };
 
+<<<<<<< HEAD
+  console.log("info: ", info);
+
+=======
+>>>>>>> origin/mergeToDeploy
   return (
     <div className="relative border-b flex flex-col space-x-2 p-4">
       <div className="flex space-x-2">
@@ -288,7 +294,13 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           href="/dashboard/profile"
           className="flex flex-col w-fit h-fit group"
         >
+<<<<<<< HEAD
+          <div
+            className={`relative flex flex-col items-center justify-center p-1 ${comment?.user?.frameName} rounded-lg`}
+          >
+=======
           <div className={`relative flex flex-col items-center justify-center p-1 ${comment?.otherUser?.frameName} rounded-lg`}>
+>>>>>>> origin/mergeToDeploy
             <img
               src={
                 !isEmpty(comment?.otherUser?.profilePic)
@@ -296,9 +308,19 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
-              className="w-20 h-16 rounded-md shadow-sm"
+              className="w-14 h-12 md:w-16 md:h-14 rounded-md shadow-sm"
             />
+<<<<<<< HEAD
+            <div
+              className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${
+                !isEmpty(comment?.user?.frameName)
+                  ? comment?.user?.frameName
+                  : "bg-blue-300"
+              } rounded-lg`}
+            >
+=======
             <div className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(comment?.otherUser?.frameName) ? comment?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
+>>>>>>> origin/mergeToDeploy
               <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                 {comment?.otherUser?.level}
               </div>
@@ -307,18 +329,24 @@ function MainComment({ comment, post, refetchReplies }: Props) {
         </Link>
         <div className="w-full">
           <div className="flex items-center">
+<<<<<<< HEAD
+            <p className="mr-1 text-sm md:text-base font-semibold">
+              @{comment?.user?.name}
+            </p>
+=======
             <p className="mr-1 font-semibold">@{comment?.otherUser?.name}</p>
+>>>>>>> origin/mergeToDeploy
           </div>
           <div className="flex flex-col items-start justify-start p-1">
             <TimeAgo
               date={comment?.createdAt}
-              className="text-sm text-gray-500"
+              className="text-xs md:text-sm text-gray-500"
             />
           </div>
         </div>
       </div>
       <div className="flex flex-col space-y-2">
-        <p className="mt-6">{comment?.content}</p>
+        <p className="mt-6 text-sm md:text-md">{comment?.content}</p>
         {comment?.imgName != null ? (
           <img
             src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
@@ -497,7 +525,10 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           type="submit"
           className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
         >
-          Comment
+          <span className="hidden md:inline">Comment</span>
+          <span className="flex md:hidden">
+            <PaperAirplaneIcon className="w-5 h-5" />
+          </span>
         </button>
       </form>
     </div>

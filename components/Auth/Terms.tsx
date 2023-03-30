@@ -146,7 +146,7 @@ function Terms() {
       <p className="text-sm font-semibold text-justify">
         <span className="text-blockd">●</span> In the event of termination, you
         may request that we delete your personal data by contacting us at
-        narek_m@blockd.app. Please note that we may retain certain information
+        devteam@blockd.app. Please note that we may retain certain information
         as required by law or for legitimate business purposes. We also reserve
         the right to retain and use any anonymous data derived from your use of
         the platform.

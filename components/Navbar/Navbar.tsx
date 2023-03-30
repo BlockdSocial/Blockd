@@ -189,7 +189,7 @@ const Navbar = () => {
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
-          className="h-5 w-5 fill-white"
+          className="h-5 w-5 md:h-6 md:w-6 fill-white"
           viewBox="0 0 20 20"
           fill="#9333ea"
           role="button"
@@ -208,7 +208,7 @@ const Navbar = () => {
           xmlns="http://www.w3.org/2000/svg"
           viewBox="0 0 24 24"
           fill="#000000"
-          className="w-5 h-5 fill-white stroke-black"
+          className="w-5 h-5 md:h-6 md:w-6 fill-white stroke-black"
           role="button"
           onClick={() => setTheme("dark")}
         >
@@ -279,7 +279,7 @@ const Navbar = () => {
               authUser?.unreadMessages === null ? (
                 <></>
               ) : (
-                <div className="absolute -bottom-1 -right-1 p-[5px] w-1 h-1 rounded-full bg-blockd"></div>
+                <div className="absolute -bottom-1 -right-1 p-[5px] w-1 h-1 rounded-full bg-blockd md:hidden"></div>
               )}
             </div>
             {dropDown && (
@@ -452,7 +452,7 @@ const Navbar = () => {
         </div>
         {showSidebar && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-60 transition-all duration-300 ease-linear`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative flex flex-col items-start mt-3 w-fit ml-4">
               <Link href="/" className="active">

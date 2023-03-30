@@ -254,7 +254,7 @@ export default function SignUp() {
             <h4 className="text-white mt-1 ml-2 pb-3 text-l md:text-l lg:text-xl">
               Already Registered ?{" "}
               <Link href="/auth/signin" className="underline">
-                Login
+                LOGIN
               </Link>
             </h4>
             <br />

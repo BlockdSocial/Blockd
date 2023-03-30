@@ -235,7 +235,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             onClick={() => onBannerClick()}
             className="group-hover:flex items-center justify-center absolute top-50 left-50 hidden cursor-pointer w-10 h-10 p-2 bg-white rounded-full"
           >
-            <CameraIcon className="w-8 h-8 text-black" />
+            <CameraIcon className="w-8 h-8 text-black cursor-pointer" />
           </div>
         )}
         <input
@@ -251,9 +251,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
-              <div
-                className={`relative w-24 h-24 md:w-28 md:h-28 xl:h-24 xl:w-24 border-2 border-white rounded-md p-1 ${frameColor}`}
-              >
+              <div className={`relative rounded-md z-10`}>
+                <img
+                  src="/images/frames/frame5.svg"
+                  alt="pfp"
+                  className="relative w-24 h-24 z-10 border-white"
+                />
                 <img
                   src={
                     !isEmpty(profilePicture)
@@ -261,19 +264,26 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-full h-full rounded-md shadow-sm border-2 border-white"
+                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] z-0 shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${frameColor} rounded-lg`}
+                  className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}
                 >
-                  <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
-                    {user?.level}
+                  <div className="relative">
+                    <img
+                      src="/images/frames/frame5.svg"
+                      alt="pfp"
+                      className="relative w-9 h-9 z-50 stroke-{100px}"
+                    />
+                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                      {user?.level}
+                    </div>
                   </div>
                 </div>
                 {user?.id === authUser?.id && (
                   <div
                     onClick={() => onPfpClick()}
-                    className="flex items-center justify-center absolute -bottom-3 -right-4 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    className="flex items-center z-20 justify-center absolute -bottom-3 -right-3 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
                   >
                     <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
                   </div>
@@ -293,7 +303,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </circle>
           <div className="flex flex-col items-start justify-end rounded-md p-3">
             <div className="flex items-center space-x-1">
-              <p className="mr-1 text-sm lg:text-xl group-hover:underline">
+              <p className="mr-1 text-sm lg:text-base group-hover:underline">
                 @{user?.name}
               </p>
             </div>
@@ -335,18 +345,26 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       Message
                     </p>
                   </Link>
-                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                    <p
-                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                      onClick={() => handleFollowUser()}
-                    >
-                      Follow
-                    </p>
-                  </div>
+                  {isFollowed ? (
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                      <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
+                        followed
+                      </p>
+                    </div>
+                  ) : (
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                      <p
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                        onClick={() => handleFollowUser()}
+                      >
+                        follow
+                      </p>
+                    </div>
+                  )}
                 </div>
               </>
             ) : (
-              <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+              <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray md:hidden">
                 <p
                   className="flex items-center text-xs p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                   onClick={() => setIsModalVisible(!isModalVisible)}
@@ -486,7 +504,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   onClick={(e) => handleUpdateUser(e)}
                   className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
                 >
-                  Edit
+                  Save
                 </button>
               </form>
             </div>

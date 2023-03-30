@@ -432,8 +432,12 @@ function PostID({ post, refetchComments, refetch }: Props) {
   };
 
   return (
+<<<<<<< HEAD
+    <div className="flex flex-col p-4 -z-20 border-y">
+=======
     <div className="flex flex-col space-x-3 p-4 -z-20 border-y">
       <CustomLoadingOverlay active={isFetchingPost} />
+>>>>>>> origin/mergeToDeploy
       <div className="w-full">
         <div className="flex items-center justify-between">
           <div className="flex items-start space-x-2">
@@ -502,7 +506,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
             >
               <EllipsisHorizontalIcon
                 onClick={() => setIsDropdownVisible((b) => !b)}
-                className="w-7 h-7 cursor-pointer"
+                className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
               />
               <div className="relative z-0 flex ite">
                 <ul
@@ -540,7 +544,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon
                   onClick={() => setDeletePopUp(!deletePopUp)}
-                  className="w-7 h-7 cursor-pointer"
+                  className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
                 />
               </div>
             )}
@@ -564,6 +568,118 @@ function PostID({ post, refetchComments, refetch }: Props) {
           ) : null}
         </div>
       </div>
+<<<<<<< HEAD
+      <div className="flex items-start justify-start mt-5">
+        <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
+          <p
+            className={`text-xs ${
+              isLiked ? "text-green-600" : "group-hover:text-green-600"
+            }`}
+          >
+            {info?.likes != null || undefined ? info?.likes : 0}
+          </p>
+          <ArrowUpIcon
+            className={`h-5 w-5 cursor-pointer ${
+              isLiked ? "text-green-600" : "group-hover:text-green-600"
+            } transition-transform ease-out duration-150 hover:scale-150`}
+            onClick={() => handleLikePost()}
+          />
+        </div>
+        <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
+          <ArrowDownIcon
+            className={`h-5 w-5 cursor-pointer ${
+              isDisliked ? "text-red-600" : "group-hover:text-red-600"
+            } transition-transform ease-out duration-150 hover:scale-150`}
+            onClick={() => handleDislikePost()}
+          />
+          <p
+            className={`text-xs ${
+              isDisliked ? "text-red-600" : "group-hover:text-red-600"
+            }`}
+          >
+            {info?.dislikes != null || undefined ? info?.dislikes : 0}
+          </p>
+        </div>
+        <div className="flex cursor-pointer items-center space-x-1 ml-2 text-gray-400 hover:text-black">
+          <ChatBubbleBottomCenterTextIcon className="h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+          <p className="text-xs">
+            {info?.comments != null || undefined ? info?.comments : 0}
+          </p>
+        </div>
+        {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black">
+            <ShareIcon className="h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
+            <p className="text-xs">
+              {info?.shares != null || undefined ? info?.shares : 0}
+            </p>
+          </div> */}
+      </div>
+
+      <form
+        onSubmit={handleAddComment}
+        className="mt-3 flex items-start justify-center space-x-3" 
+      >
+        <div className="flex flex-col items-end justify-center w-full">
+          <input
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none w-full"
+            type="text"
+            placeholder="Write a comment..."
+          />
+          <div className="flex items-end justify-end">
+            <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
+              {!gifUrl && (
+                <PhotoIcon
+                  onClick={() => onUploadPictureClick()}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+              )}
+              <input
+                type="file"
+                id="file"
+                ref={inputPicture}
+                className="hidden"
+                accept="image/*"
+                onChange={handleUploadPicture}
+              />
+              <FaceSmileIcon
+                ref={emoji}
+                onClick={() => setShowEmojis(!showEmojis)}
+                className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+              />
+              {showEmojis && (
+                <div className="absolute righy-0 top-6 z-40">
+                  <Picker
+                    onEmojiSelect={addEmoji}
+                    theme="dark"
+                    set="apple"
+                    icons="outline"
+                    previewPosition="none"
+                    size="1em"
+                    perLine="6"
+                    maxFrequentRows="2"
+                    searchPosition="none"
+                  />
+                </div>
+              )}
+              <div ref={gif}>
+                {!image && (
+                  <GifIcon
+                    onClick={() => setShowGifs((b) => !b)}
+                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                  />
+                )}
+                {showGifs && (
+                  <div className="absolute right-0 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                    <ReactGiphySearchbox
+                      apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                      onSelect={(item: any) => addGif(item)}
+                      masonryConfig={[
+                        { columns: 2, imageWidth: 110, gutter: 5 },
+                        { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
+                      ]}
+                      wrapperClassName="p-4"
+=======
       {
         !isEmpty(sharedPost) &&
         <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2 mt-2">
@@ -588,6 +704,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                       }
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+>>>>>>> origin/mergeToDeploy
                     />
                     <div
                       className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.user?.frameName)
