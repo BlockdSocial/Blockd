@@ -46,6 +46,7 @@ import {
 } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
 import SidebarRow from "../Sidebar/SidebarRow";
+import { setCookie, deleteCookie } from 'cookies-next';
 
 interface Data {
   receiver_id: number;
@@ -172,6 +173,9 @@ const Navbar = () => {
   }, []);
 
   const handleLogoutClick = async () => {
+    localStorage.removeItem("token");
+    localStorage.removeItem("authUser");
+    deleteCookie("token");
     await dispatch(logoutUser());
     router.push("/auth/signin");
   };
