@@ -75,6 +75,10 @@ async function searchRoomMembers(id: any, fields: any) {
   return apiCall('searchRoomMembers', 'POST', `search/members/${id}`, fields);
 };
 
+async function checkBalance(fields: any) {
+  return apiCall('checkBalance', 'GET', `check/balance/${fields}`);
+};
+
 export default {
   createMessage,
   fetchMessages,
@@ -92,5 +96,6 @@ export default {
   fetchChatroomMessages,
   fetchAllRooms,
   joinRoom,
-  searchRoomMembers
+  searchRoomMembers,
+  checkBalance
 };

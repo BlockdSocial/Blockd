@@ -436,10 +436,10 @@ function CommentSection({ comment, post, type }: Props) {
               </p>
             </div>
           )}
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
+          {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
             <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
             <p className="text-xs">1</p>
-          </div>
+          </div> */}
         </div>
       </div>
       {commentBoxVisible && (

@@ -19,8 +19,6 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
   const { isFetchingMessages } = useAppSelector((state) => state.chatReducer);
   const ref = useRef<any>(null);
 
-  console.log('ROOM: ', room);
-
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, []);

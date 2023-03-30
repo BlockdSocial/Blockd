@@ -4,6 +4,7 @@ import { createChatroom } from "../../../stores/chat/ChatActions";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
 import { LinkIcon, XMarkIcon } from "@heroicons/react/24/outline";
 import { isEmpty } from "lodash";
+import { config } from "../../../constants";
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -13,55 +14,134 @@ function CreatePage() {
   const [description, setDescription] = useState<string>("");
   const [count, setCount] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>("");
-  const [network, setNetwork] = useState<string>("");
+  const [network, setNetwork] = useState<number>();
   const [tokenAmount, setTokenAmount] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+
+  // ALCHEMY URL --> Replace with your API Key at the end
+  const url = `https://eth-mainnet.g.alchemy.com/v2/${config.url.ALCHEMY_API_KEY}`;
+
+
+
+  const validateAddressToken = async () => {
+    console.log('bzez');
+    if (!isEmpty(contractAddress)) {
+      let WETHContractAddress = contractAddress;
+
+      // REQUEST OPTIONS
+      const options = {
+        method: "POST",
+        headers: { accept: "application/json", "content-type": "application/json" },
+        body: JSON.stringify({
+          id: 1,
+          jsonrpc: "2.0",
+          method: "alchemy_getTokenMetadata",
+          params: [WETHContractAddress],
+        }),
+      };
+
+      // MAKE THE REQUEST AND PRINT THE RESPONSE
+      fetch(url, options)
+        .then((res) => res.json())
+        .then((json) => {console.log(json), setTokenAmount(json.result.name)})
+        .catch((err) => console.error("error:" + err));
+    }
+  }
 
   // handle selection change
   const handleOptionChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setSelectedOption(event.target.value);
   }
 
-  const handleCountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setCount(event.target.value);
-  }
+  // const handleCountChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+  //   setCount(Number(event.target.value));
+  // }
 
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
-    setNetwork(event.target.value);
+    setNetwork(Number(event.target.value));
   }
 
   const handleCreateRoom = async () => {
     if (image) {
-      await dispatch(createChatroom({
-        display_name: name,
-        description: description,
-        moderator_id: authUser?.id,
-        private: 'private' === selectedOption ? 1 : 0,
-        image: uploadedImage
-      })).then(() => {
-        toast.success('Created!', {
-          duration: 4000
+      if (selectedOption === 'private') {
+        await dispatch(createChatroom({
+          display_name: name,
+          description: description,
+          moderator_id: authUser?.id,
+          private: 1,
+          image: uploadedImage,
+          token_address: contractAddress,
+          chainId: network,
+          token_name: tokenAmount,
+          amount: 1000
+        })).then(() => {
+          toast.success('Created!', {
+            duration: 4000
+          });
+          setName('');
+          setDescription('');
+          setContractAddress('');
+          setNetwork(0);
+          setTokenAmount('');
+          closePicture();
         });
-        setName('');
-        setDescription('');
-        closePicture();
-      });
+      } else {
+        await dispatch(createChatroom({
+          display_name: name,
+          description: description,
+          moderator_id: authUser?.id,
+          private: 0,
+          image: uploadedImage,
+          amount: 1000
+        })).then(() => {
+          toast.success('Created!', {
+            duration: 4000
+          });
+          setName('');
+          setDescription('');
+          closePicture();
+        });
+      }
     } else {
-      await dispatch(createChatroom({
-        display_name: name,
-        description: description,
-        moderator_id: authUser?.id,
-        private: 'private' === selectedOption ? 1 : 0,
-      })).then(() => {
-        toast.success('Created!', {
-          duration: 4000
+      if (selectedOption === 'private') {
+        await dispatch(createChatroom({
+          display_name: name,
+          description: description,
+          moderator_id: authUser?.id,
+          private: 1,
+          token_address: contractAddress,
+          chainId: network,
+          token_name: tokenAmount,
+          amount: 1000
+        })).then(() => {
+          toast.success('Created!', {
+            duration: 4000
+          });
+          setName('');
+          setDescription('');
+          setContractAddress('');
+          setNetwork(0);
+          setTokenAmount('');
+          closePicture();
         });
-        setName('');
-        setDescription('');
-        closePicture();
-      });
+      } else {
+        await dispatch(createChatroom({
+          display_name: name,
+          description: description,
+          moderator_id: authUser?.id,
+          private: 0,
+          amount: 1000
+        })).then(() => {
+          toast.success('Created!', {
+            duration: 4000
+          });
+          setName('');
+          setDescription('');
+          closePicture();
+        });
+      }
     }
   }
   const inputPicture = useRef<HTMLInputElement | null>(null);
@@ -146,7 +226,7 @@ function CreatePage() {
               accept="image/*"
               onChange={handleUploadPicture}
             />
-            <div className="w-full">
+            {/* <div className="w-full">
               <h3 className="text-sm font-semibold pb-1">Users count</h3>
               <select
                 value={count}
@@ -167,7 +247,7 @@ function CreatePage() {
                   5K - 10K
                 </option>
               </select>
-            </div>
+            </div> */}
             <div className="w-full">
               <h3 className="text-sm font-semibold pb-1">Type</h3>
               <div className="w-full">
@@ -198,6 +278,7 @@ function CreatePage() {
                     placeholder="CA of the required token"
                     onChange={(e) => setContractAddress(e.target.value)}
                     value={contractAddress}
+                    onBlur={validateAddressToken}
                     required
                   />
                 </div>
@@ -209,25 +290,25 @@ function CreatePage() {
                     className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     required
                   >
-                    <option value="1" className="outline-none p-2">
+                    <option value={1} className="outline-none p-2">
                       Ethereum Main Network
                     </option>
-                    <option value="3" className="outline-none p-2">
+                    <option value={3} className="outline-none p-2">
                       Ropsten Test Network
                     </option>
-                    <option value="5" className="outline-none p-2">
+                    <option value={5} className="outline-none p-2">
                       Goerli Test Network
                     </option>
-                    <option value="42" className="outline-none p-2">
+                    <option value={42} className="outline-none p-2">
                       Kovan Test Network
                     </option>
-                    <option value="56" className="outline-none p-2">
+                    <option value={56} className="outline-none p-2">
                       Binance Smart Chain
                     </option>
-                    <option value="137" className="outline-none p-2">
+                    <option value={137} className="outline-none p-2">
                       Polygon Mainnet
                     </option>
-                    <option value="1337" className="outline-none p-2">
+                    <option value={1337} className="outline-none p-2">
                       Ganache
                     </option>
                   </select>

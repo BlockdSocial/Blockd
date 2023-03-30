@@ -10,19 +10,7 @@ import { fetchUserChatrooms } from '../../../../stores/chat/ChatActions'
 import { isEmpty } from 'lodash'
 import { config } from '../../../../constants'
 
-function Chatbar({ setRoom, setReceiver }: any) {
-  const dispatch = useAppDispatch();
-  const { chatrooms } = useAppSelector((state) => state.chatReducer);
-
-  useEffect(() => {
-    handleFetchRooms();
-  }, []);
-
-  const handleFetchRooms = async () => {
-    await dispatch(fetchUserChatrooms());
-  }
-
-  console.log('chatroom: ', chatrooms);
+function Chatbar({ setRoom, setReceiver, chatrooms }: any) {
 
   return (
     <div className='relative flex flex-col col-span-1 pt-4 items-center border-r dark:border-lightgray'>

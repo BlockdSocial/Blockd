@@ -74,9 +74,6 @@ export default function Chat({
     boxRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
-  console.log('reciever: ', receiver);
-  console.log('messages: ', messages);
-
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}

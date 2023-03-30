@@ -49,7 +49,10 @@ import {
   JOIN_ROOM_FAILURE,
   IS_SEARCHING_ROOM_MEMBERS,
   SEARCH_ROOM_MEMBERS_SUCCESS,
-  SEARCH_ROOM_MEMBERS_FAILURE
+  SEARCH_ROOM_MEMBERS_FAILURE,
+  IS_CHECKING_BALANCE,
+  CHECK_BALANCE_SUCCESS,
+  CHECK_BALANCE_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -354,6 +357,26 @@ export function searchRoomMembers(id: any, fields: any) {
       console.log('Search room members error: ', error.message);
       dispatch({
         type: SEARCH_ROOM_MEMBERS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function checkBalance(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_CHECKING_BALANCE });
+    try {
+      const result = await chatApi.checkBalance(fields);
+      dispatch({
+        type: CHECK_BALANCE_SUCCESS,
+        balance: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Check Balance error: ', error.message);
+      dispatch({
+        type: CHECK_BALANCE_FAILURE,
         error: error.message
       });
     }

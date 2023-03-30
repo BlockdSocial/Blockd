@@ -3,24 +3,35 @@ import {
   LockClosedIcon,
 } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { addMember, fetchAllRooms, joinRoom } from "../../../stores/chat/ChatActions";
+import { addMember, checkBalance, fetchAllRooms, joinRoom } from "../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
 import { config } from "../../../constants";
+import { useRouter } from "next/router";
+import { toast } from "react-hot-toast";
 
 function OrdinaryChatrooms() {
   const dispatch = useAppDispatch();
-  const { allRooms } = useAppSelector((state) => state.chatReducer);
+  const router = useRouter();
+  const { allRooms, isCheckingBalance, balance, error } = useAppSelector((state) => state.chatReducer);
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [count, setCount] = useState<number>();
   const [image, setImage] = useState<string>('');
   const [roomId, setRoomId] = useState<number>();
+  const [selectedRoom, setSelectedRoom] = useState<any>();
   const [isParticipant, setIsParticipant] = useState<boolean>(false);
+  const [errorMessage, setErrorMessage] = useState<string>('');
 
   useEffect(() => {
     getChatrooms();
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      setErrorMessage(error);
+    }
+  }, [error]);
 
   const getChatrooms = async () => {
     await dispatch(fetchAllRooms());
@@ -30,9 +41,23 @@ function OrdinaryChatrooms() {
     e.preventDefault();
     await dispatch(joinRoom(roomId)).then(() => {
       setModalOpen(!open);
-      getChatrooms();
+      router.push({
+        pathname: '/dashboard/myChatrooms',
+        query: { roomChat: JSON.stringify(selectedRoom) },
+      },
+        undefined, { shallow: true }
+      )
     })
   }
+
+  const handleCheckBalance = async (e: any, room: any) => {
+    e.preventDefault();
+    if (1 === room.private && !room?.participant) {
+      await dispatch(checkBalance(room?.id));
+    }
+  }
+
+  console.log('error: ', error);
 
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
@@ -40,12 +65,15 @@ function OrdinaryChatrooms() {
         allRooms &&
         allRooms.map((room: any) => (
           <div
-            onClick={() => {
-              setModalOpen(!modalOpen),
+            onClick={(e) => {
+              handleCheckBalance(e, room),
+                setModalOpen(!modalOpen),
                 setCount(room?.participants),
                 setImage(room?.imgName),
                 setRoomId(room?.id),
-                setIsParticipant(room?.participant)
+                setIsParticipant(room?.participant),
+                setSelectedRoom(room),
+                setErrorMessage('')
             }}
             className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
           >
@@ -321,6 +349,11 @@ function OrdinaryChatrooms() {
                     10 BTC
                   </div>
                 </div> */}
+                {errorMessage && (
+                  <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                    {errorMessage}
+                  </div>
+                )}
                 {
                   isParticipant ?
                     <button
@@ -328,12 +361,21 @@ function OrdinaryChatrooms() {
                     >
                       Joined
                     </button> :
-                    <button
-                      className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                      onClick={(e) => handleJoinRoom(e)}
-                    >
-                      Join
-                    </button>
+                    errorMessage ?
+                      <button
+                        className="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        disabled={true}
+                      >
+                        Join
+                      </button> :
+                      isCheckingBalance == false ?
+                        <button
+                          className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                          onClick={(e) => handleJoinRoom(e)}
+                        >
+                          Join
+                        </button> :
+                        <></>
                 }
               </form>
             </div>

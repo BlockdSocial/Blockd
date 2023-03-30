@@ -5,7 +5,7 @@ import Chatbox from '../../components/ChatRoom/My Chatrooms/Chatbox/Chatbox'
 import Sidebar from '../../components/ChatRoom/My Chatrooms/Sidebar/Sidebar'
 import Widget from '../../components/ChatRoom/My Chatrooms/Widget/Widget'
 import Navbar from '../../components/Navbar/Navbar'
-import { createChat, fetchChat } from '../../stores/chat/ChatActions'
+import { createChat, fetchChat, fetchUserChatrooms } from '../../stores/chat/ChatActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { useRouter } from "next/router";
 import { isEmpty } from 'lodash'
@@ -19,10 +19,29 @@ function chatroom() {
   const [room, setRoom] = useState<any>();
   const router = useRouter();
   const { chatReceiverId } = router.query;
+  const roomChat = router.query.roomChat != undefined ? JSON.parse(router.query.roomChat as any) : null;
+  const { chatrooms } = useAppSelector((state) => state.chatReducer);
 
   useEffect(() => {
     fetchChats();
+    handleFetchRooms();
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(roomChat)) {
+      var selected = {};
+      console.log('roomChat: ', roomChat);
+      console.log('chatrooms: ', chatrooms);
+      for (let i = 0; i < chatrooms.length; i++) {
+        if (chatrooms[i].roomId === roomChat.id) {
+          console.log('BZAZZZ')
+          setRoom(chatrooms[i]);
+          return;
+        }
+      }
+      setRoom(selected);
+    }
+  }, [chatrooms]);
 
   useEffect(() => {
     handleSetReceiver();
@@ -33,6 +52,10 @@ function chatroom() {
       setChats(result);
     });
   };
+
+  const handleFetchRooms = async () => {
+    await dispatch(fetchUserChatrooms());
+  }
 
   const handleSetReceiver = useCallback(async () => {
 
@@ -52,6 +75,7 @@ function chatroom() {
         <Chatbar
           setRoom={setRoom}
           setReceiver={setReceiver}
+          chatrooms={chatrooms}
         />
         <Chatbox
           receiver={receiver}
