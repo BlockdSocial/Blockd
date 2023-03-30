@@ -171,7 +171,7 @@ function TweetBox({ refetchFiltered }: Props) {
         setInput("");
         closePicture();
       });
-    } else if (gifUrl.length > 0  && !isEmpty(input)) {
+    } else if (gifUrl.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
           content: input,
@@ -216,26 +216,38 @@ function TweetBox({ refetchFiltered }: Props) {
         <div
           className={`relative flex flex-col p-1 ${authUser?.frameName} rounded-lg`}
         >
-          <Image
-            src={
-              !isEmpty(authUser?.profilePic)
-                ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
-            }
-            alt="pfp"
-            className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
-            width={2000}
-            height={2000}
-          />
-          <div
-            className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${
-              !isEmpty(authUser?.frameName)
-                ? authUser?.frameName
-                : "bg-blue-300"
-            } rounded-lg`}
-          >
-            <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-              {authUser?.level}
+          <div className={`relative rounded-md z-10`}>
+            <Image
+              src="/images/frames/frame5.svg"
+              alt="pfp"
+              className="relative w-20 h-20 z-10 border-white"
+              width={2000}
+              height={2000}
+            />
+            <Image
+              src={
+                !isEmpty(authUser?.profilePic)
+                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                  : "/images/pfp/pfp1.jpg"
+              }
+              alt="pfp"
+              className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[65px] h-[65px] z-0 shadow-sm"
+              width={2000}
+              height={2000}
+            />
+            <div className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}>
+              <div className="relative">
+                <Image
+                  src="/images/frames/frame5.svg"
+                  alt="pfp"
+                  className="relative w-8 h-8 z-50 stroke-{100px}"
+                  width={2000}
+                  height={2000}
+                />
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                  {authUser?.level}
+                </div>
+              </div>
             </div>
           </div>
         </div>
