@@ -277,6 +277,7 @@ export default function SignUp() {
       <div className="md:w-1/2 w-full h-screen flex items-center justify-center text-center p-10 z-0">
         <div className="flex items-center py-8 w-[600px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
+
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
               <Image
                 src="/images/logo/logo.png"
@@ -289,75 +290,82 @@ export default function SignUp() {
                 Sign Up
               </h2>
             </div>
+
             <div className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20">
-              <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
-                <p className="text-white font-semibold text-l">Display Name</p>
+              {
+                1 === step &&
+                <>
+                  <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
+                    <p className="text-white font-semibold text-l">Display Name</p>
+                    <input
+                      className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
+                      type="text"
+                      name="name"
+                      placeholder="@"
+                      onChange={(e) => setName(e.target.value)}
+                    />
+                  </div>
+                  <div className="flex flex-col items-start justify-center space-y-1 w-full">
+                    <p className="text-white font-semibold text-l">Email</p>
+                    <input
+                      className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
+                      type="email"
+                      name="email"
+                      placeholder="example@gmail.com"
+                      onChange={(e) => setEmail(e.target.value)}
+                    />
+                    {emailError && (
+                      <p className="text-red-600  text-xs font-bold">
+                        Please enter a valid email address
+                      </p>
+                    )}
+                  </div>
+
+                  <div className="flex items-center justify-start mt-4 w-full space-x-2">
+                    <input
+                      onChange={() => setTerms(!terms)}
+                      type="checkbox"
+                      className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
+                    />
+                    <p
+                      onClick={() =>
+                        setIsDisplayTermsAndConditionsModal(
+                          !isDisplayTermsAndConditionsModal
+                        )
+                      }
+                      className="text-white font-semibold text-l cursor-pointer"
+                    >
+                      Terms and Conditions
+                    </p>
+                  </div>
+                  <div className="flex items-center justify-start mt-4 w-full space-x-2">
+                    <input
+                      onChange={() => setPolicy(!policy)}
+                      type="checkbox"
+                      className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
+                    />
+                    <p
+                      onClick={() => setIsDisplayPolicyModal(!isDisplayPolicyModal)}
+                      className="text-white font-semibold text-l cursor-pointer"
+                    >
+                      Privacy Policy
+                    </p>
+                  </div>
+                </>
+              }
+                          {
+              2 === step &&
+              <div className="flex flex-col items-start justify-center space-y-1 w-full">
+                <p className="text-white font-semibold text-l">Verification Code</p>
                 <input
                   className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
                   type="text"
-                  name="name"
-                  placeholder="@"
-                  onChange={(e) => setName(e.target.value)}
+                  name="code"
+                  placeholder="Enter the verification code sent to your email"
+                  onChange={(e) => setCode(e.target.value)}
                 />
               </div>
-              <div className="flex flex-col items-start justify-center space-y-1 w-full">
-                <p className="text-white font-semibold text-l">Email</p>
-                <input
-                  className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
-                  type="email"
-                  name="email"
-                  placeholder="example@gmail.com"
-                  onChange={(e) => setEmail(e.target.value)}
-                />
-                {emailError && (
-                  <p className="text-red-600  text-xs font-bold">
-                    Please enter a valid email address
-                  </p>
-                )}
-              </div>
-              {
-                2 === step &&
-                <div className="flex flex-col items-start justify-center space-y-1 w-full">
-                  <p className="text-white font-semibold text-l">Verification Code</p>
-                  <input
-                    className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
-                    type="text"
-                    name="code"
-                    placeholder="Enter the verification code sent to your email"
-                    onChange={(e) => setCode(e.target.value)}
-                  />
-                </div>
-              }
-              <div className="flex items-center justify-start mt-4 w-full space-x-2">
-                <input
-                  onChange={() => setTerms(!terms)}
-                  type="checkbox"
-                  className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
-                />
-                <p
-                  onClick={() =>
-                    setIsDisplayTermsAndConditionsModal(
-                      !isDisplayTermsAndConditionsModal
-                    )
-                  }
-                  className="text-white font-semibold text-l cursor-pointer"
-                >
-                  Terms and Conditions
-                </p>
-              </div>
-              <div className="flex items-center justify-start mt-4 w-full space-x-2">
-                <input
-                  onChange={() => setPolicy(!policy)}
-                  type="checkbox"
-                  className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
-                />
-                <p
-                  onClick={() => setIsDisplayPolicyModal(!isDisplayPolicyModal)}
-                  className="text-white font-semibold text-l cursor-pointer"
-                >
-                  Privacy Policy
-                </p>
-              </div>
+            }
               {/* <button
                 className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
                 onClick={(e) => web3Login(e)}
@@ -407,6 +415,7 @@ export default function SignUp() {
                 </>
               )}
             </div>
+
             <div className="w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500">
               <h2 className="text-white text-l lg:text-xl">
                 Already Registered ?{" "}

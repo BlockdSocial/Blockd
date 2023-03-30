@@ -2,7 +2,7 @@ import React, { useState, useRef } from "react";
 import { toast } from "react-hot-toast";
 import { createChatroom } from "../../../stores/chat/ChatActions";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { LinkIcon, XMarkIcon } from "@heroicons/react/24/outline";
+import { LinkIcon, XMarkIcon, CheckCircleIcon, ExclamationCircleIcon } from "@heroicons/react/24/outline";
 import { isEmpty } from "lodash";
 import { config } from "../../../constants";
 
@@ -15,15 +15,15 @@ function CreatePage() {
   const [count, setCount] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>("");
   const [network, setNetwork] = useState<number>();
-  const [tokenAmount, setTokenAmount] = useState<string>("");
+  const [tokenName, setTokenName] = useState<string>("");
+  const [tokenNumber, setTokenNumber] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+  const [tokenError, setTokenError] = useState<any>(null);
 
   // ALCHEMY URL --> Replace with your API Key at the end
   const url = `https://eth-mainnet.g.alchemy.com/v2/${config.url.ALCHEMY_API_KEY}`;
-
-
 
   const validateAddressToken = async () => {
     console.log('bzez');
@@ -45,8 +45,8 @@ function CreatePage() {
       // MAKE THE REQUEST AND PRINT THE RESPONSE
       fetch(url, options)
         .then((res) => res.json())
-        .then((json) => {console.log(json), setTokenAmount(json.result.name)})
-        .catch((err) => console.error("error:" + err));
+        .then((json) => { console.log(json), setTokenName(json.result.name), setTokenError(false) })
+        .catch((err) => { console.error("error:" + err), setTokenError(true) });
     }
   }
 
@@ -74,8 +74,8 @@ function CreatePage() {
           image: uploadedImage,
           token_address: contractAddress,
           chainId: network,
-          token_name: tokenAmount,
-          amount: 1000
+          token_name: tokenName,
+          amount: Number(tokenNumber)
         })).then(() => {
           toast.success('Created!', {
             duration: 4000
@@ -84,7 +84,7 @@ function CreatePage() {
           setDescription('');
           setContractAddress('');
           setNetwork(0);
-          setTokenAmount('');
+          setTokenName('');
           closePicture();
         });
       } else {
@@ -94,7 +94,6 @@ function CreatePage() {
           moderator_id: authUser?.id,
           private: 0,
           image: uploadedImage,
-          amount: 1000
         })).then(() => {
           toast.success('Created!', {
             duration: 4000
@@ -113,8 +112,8 @@ function CreatePage() {
           private: 1,
           token_address: contractAddress,
           chainId: network,
-          token_name: tokenAmount,
-          amount: 1000
+          token_name: tokenName,
+          amount: Number(tokenNumber)
         })).then(() => {
           toast.success('Created!', {
             duration: 4000
@@ -123,7 +122,7 @@ function CreatePage() {
           setDescription('');
           setContractAddress('');
           setNetwork(0);
-          setTokenAmount('');
+          setTokenName('');
           closePicture();
         });
       } else {
@@ -268,7 +267,7 @@ function CreatePage() {
             </div>
             {selectedOption === "private" && (
               <>
-                <div className="w-full">
+                <div className="w-full relative">
                   <h3 className="text-sm font-semibold pb-1">
                     Contract Address
                   </h3>
@@ -276,11 +275,42 @@ function CreatePage() {
                     type="text"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     placeholder="CA of the required token"
-                    onChange={(e) => setContractAddress(e.target.value)}
+                    onChange={(e) => { setContractAddress(e.target.value), setTokenError(null) }}
                     value={contractAddress}
                     onBlur={validateAddressToken}
                     required
                   />
+                  {
+                    false == tokenError &&
+                    // <CheckCircleIcon className="pointer-events-none w-6 h-6 absolute right-3 top-7 text-green-600" />
+                    <>
+                      <span>
+                        <a
+                          href="#"
+                          className="transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+                          data-te-toggle="tooltip"
+                          title={`Verified, the token name is ${tokenName}`}
+                        >
+                          <CheckCircleIcon className="w-6 h-6 absolute right-3 top-7 text-green-600" />
+                        </a>
+                      </span>
+                    </>
+                  }
+                  {
+                    true == tokenError &&
+                    <>
+                      <span>
+                        <a
+                          href="#"
+                          className="transititext-primary text-primary transition duration-150 ease-in-out hover:text-primary-600 focus:text-primary-600 active:text-primary-700 dark:text-primary-400 dark:hover:text-primary-500 dark:focus:text-primary-500 dark:active:text-primary-600"
+                          data-te-toggle="tooltip"
+                          title="Please double check your token address"
+                        >
+                          <ExclamationCircleIcon type="button" data-tooltip-target="tooltip-default" className="w-6 h-6 absolute right-3 top-7 text-orange-400" />
+                        </a>
+                      </span>
+                    </>
+                  }
                 </div>
                 <div className="w-full">
                   <h3 className="text-sm font-semibold pb-1">Network</h3>
@@ -318,9 +348,20 @@ function CreatePage() {
                   <input
                     type="text"
                     className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                    placeholder="Enter token name"
+                    onChange={(e) => setTokenName(e.target.value)}
+                    value={tokenName}
+                    required
+                  />
+                </div>
+                <div className="w-full">
+                  <h3 className="text-sm font-semibold pb-1">Token Number</h3>
+                  <input
+                    type="text"
+                    className="text-sm p-2 w-full rounded-lg outline-none text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
                     placeholder="Enter token amount needed to join"
-                    onChange={(e) => setTokenAmount(e.target.value)}
-                    value={tokenAmount}
+                    onChange={(e) => setTokenNumber(e.target.value)}
+                    value={tokenNumber}
                     required
                   />
                 </div>

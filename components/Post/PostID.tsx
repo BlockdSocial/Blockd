@@ -573,30 +573,30 @@ function PostID({ post, refetchComments, refetch }: Props) {
                 <Link
                   href={{
                     pathname: "/dashboard/profile",
-                    query: { user_id: sharedPost?.user?.id },
+                    query: { user_id: sharedPost?.otherUser?.id },
                   }}
                   className="relative flex flex-col w-fit h-fit group"
                 >
                   <div
-                    className={`relative flex flex-col p-1 ${sharedPost?.user?.frameName} rounded-lg`}
+                    className={`relative flex flex-col p-1 ${sharedPost?.otherUser?.frameName} rounded-lg`}
                   >
                     <img
                       src={
-                        !isEmpty(sharedPost?.user?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${sharedPost?.user?.profilePic?.name}`
+                        !isEmpty(sharedPost?.otherUser?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
                       className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                     />
                     <div
-                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.user?.frameName)
-                        ? sharedPost?.user?.frameName
+                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.otherUser?.frameName)
+                        ? sharedPost?.otherUser?.frameName
                         : "bg-blue-300"
                         } rounded-lg`}
                     >
                       <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        {sharedPost?.user?.level}
+                        {sharedPost?.otherUser?.level}
                       </div>
                     </div>
                   </div>
@@ -607,11 +607,11 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   <Link
                     href={{
                       pathname: "/dashboard/profile",
-                      query: { user_id: sharedPost?.user?.id },
+                      query: { user_id: sharedPost?.otherUser?.id },
                     }}
                   >
                     <p className="mr-1 font-semibold text-xs md:text-base">
-                      @{sharedPost?.user?.name}
+                      @{sharedPost?.otherUser?.name}
                     </p>
                   </Link>
                 </div>
@@ -647,9 +647,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
               {sharedPost?.content != null && (
                 <p className="pt-5 text-sm lg:text-base">{sharedPost?.content}</p>
               )}
-              {sharedPost?.images != null ? (
+              {sharedPost?.postImage != null ? (
                 <img
-                  src={`${config.url.PUBLIC_URL}/${sharedPost?.images[0]?.name}`}
+                  src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                   alt="Post"
                   className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
@@ -707,122 +707,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div> */}
         </div>
 
-        <form
-          onSubmit={handleAddComment}
-          className="mt-3 flex items-start justify-center space-x-3"
-        >
-          <div className="flex flex-col items-end justify-center w-full">
-            <input
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none w-full"
-              type="text"
-              placeholder="Write a comment..."
-            />
-            <div className="flex items-end justify-end">
-              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
-                {!gifUrl && (
-                  <PhotoIcon
-                    onClick={() => onUploadPictureClick()}
-                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                  />
-                )}
-                <input
-                  type="file"
-                  id="file"
-                  ref={inputPicture}
-                  className="hidden"
-                  accept="image/*"
-                  onChange={handleUploadPicture}
-                />
-                <FaceSmileIcon
-                  ref={emoji}
-                  onClick={() => setShowEmojis(!showEmojis)}
-                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                />
-                {showEmojis && (
-                  <div className="absolute righy-0 top-6 z-40">
-                    <Picker
-                      onEmojiSelect={addEmoji}
-                      theme="dark"
-                      set="apple"
-                      icons="outline"
-                      previewPosition="none"
-                      size="1em"
-                      perLine="6"
-                      maxFrequentRows="2"
-                      searchPosition="none"
-                    />
-                  </div>
-                )}
-                <div ref={gif}>
-                  {!image && (
-                    <GifIcon
-                      onClick={() => setShowGifs((b) => !b)}
-                      className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                    />
-                  )}
-                  {showGifs && (
-                    <div className="absolute right-0 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
-                      <ReactGiphySearchbox
-                        apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-                        onSelect={(item: any) => addGif(item)}
-                        masonryConfig={[
-                          { columns: 2, imageWidth: 110, gutter: 5 },
-                          { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
-                        ]}
-                        wrapperClassName="p-4"
-                      />
-                    </div>
-                  )}
-                </div>
-              </div>
-            </div>
-            {image && (
-              <div className="relative w-full mt-2">
-                <img
-                  className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
-                  src={image}
-                  alt=""
-                />
-                <div
-                  onClick={() => closePicture()}
-                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                >
-                  <XMarkIcon className="w-5 h-5" />
-                </div>
-                <hr className="mt-4 mb-4"></hr>
-              </div>
-            )}
-            {gifBoxIsOpen && (
-              <div className="relative w-full">
-                <img
-                  src={gifUrl}
-                  className="rounded-lg max-w-full h-auto"
-                  width="200px"
-                  height="200px"
-                />
-                <div
-                  onClick={() => closeGif()}
-                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                >
-                  <XMarkIcon className="w-5 h-5" />
-                </div>
-                <hr className="mt-4 mb-4"></hr>
-              </div>
-            )}
-          </div>
-          <button
-            disabled={!input && !image && !gifUrl}
-            type="submit"
-            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
-          >
-            <span className="hidden md:inline">Comment</span>
-            <span className="flex md:hidden">
-              <PaperAirplaneIcon className="w-5 h-5" />
-            </span>
-          </button>
-        </form>
+        
         <div
           className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
             }`}
@@ -1017,6 +902,122 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
       </div>
+      <form
+          onSubmit={handleAddComment}
+          className="mt-3 flex items-start justify-center space-x-3"
+        >
+          <div className="flex flex-col items-end justify-center w-full">
+            <input
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              className="flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none w-full"
+              type="text"
+              placeholder="Write a comment..."
+            />
+            <div className="flex items-end justify-end">
+              <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
+                {!gifUrl && (
+                  <PhotoIcon
+                    onClick={() => onUploadPictureClick()}
+                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                  />
+                )}
+                <input
+                  type="file"
+                  id="file"
+                  ref={inputPicture}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleUploadPicture}
+                />
+                <FaceSmileIcon
+                  ref={emoji}
+                  onClick={() => setShowEmojis(!showEmojis)}
+                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                />
+                {showEmojis && (
+                  <div className="absolute righy-0 top-6 z-40">
+                    <Picker
+                      onEmojiSelect={addEmoji}
+                      theme="dark"
+                      set="apple"
+                      icons="outline"
+                      previewPosition="none"
+                      size="1em"
+                      perLine="6"
+                      maxFrequentRows="2"
+                      searchPosition="none"
+                    />
+                  </div>
+                )}
+                <div ref={gif}>
+                  {!image && (
+                    <GifIcon
+                      onClick={() => setShowGifs((b) => !b)}
+                      className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                    />
+                  )}
+                  {showGifs && (
+                    <div className="absolute right-0 top-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                      <ReactGiphySearchbox
+                        apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                        onSelect={(item: any) => addGif(item)}
+                        masonryConfig={[
+                          { columns: 2, imageWidth: 110, gutter: 5 },
+                          { mq: "700px", columns: 3, imageWidth: 110, gutter: 5 },
+                        ]}
+                        wrapperClassName="p-4"
+                      />
+                    </div>
+                  )}
+                </div>
+              </div>
+            </div>
+            {image && (
+              <div className="relative w-full mt-2">
+                <img
+                  className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
+                  src={image}
+                  alt=""
+                />
+                <div
+                  onClick={() => closePicture()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+                <hr className="mt-4 mb-4"></hr>
+              </div>
+            )}
+            {gifBoxIsOpen && (
+              <div className="relative w-full">
+                <img
+                  src={gifUrl}
+                  className="rounded-lg max-w-full h-auto"
+                  width="200px"
+                  height="200px"
+                />
+                <div
+                  onClick={() => closeGif()}
+                  className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <XMarkIcon className="w-5 h-5" />
+                </div>
+                <hr className="mt-4 mb-4"></hr>
+              </div>
+            )}
+          </div>
+          <button
+            disabled={!input && !image && !gifUrl}
+            type="submit"
+            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          >
+            <span className="hidden md:inline">Comment</span>
+            <span className="flex md:hidden">
+              <PaperAirplaneIcon className="w-5 h-5" />
+            </span>
+          </button>
+        </form>
     </div>
   );
 }
