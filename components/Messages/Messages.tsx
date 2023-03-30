@@ -19,6 +19,8 @@ function Messages({ notification, handleFetchNotifications }: any) {
     });
   };
 
+  console.log('notification: ', notification);
+
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
       <Link
@@ -53,7 +55,7 @@ function Messages({ notification, handleFetchNotifications }: any) {
           </Link>
           <div className="ml-3 flex items-center justify-center">
             <p className="text-sm font-medium text-slate-900 dark:text-white">
-              {notification?.user?.name} Sent you a private message.
+              {notification?.otherUser?.name} Sent you a private message.
               <br></br>
               <span className="text-xs">{moment(notification?.createdAt).fromNow()}</span>
             </p>
