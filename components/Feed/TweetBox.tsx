@@ -214,13 +214,13 @@ function TweetBox({ refetchFiltered }: Props) {
         className="relative flex flex-col h-fit group"
       >
         <div
-          className={`relative flex flex-col p-1 ${authUser?.frameName} rounded-lg`}
+          className={`relative flex flex-col p-1 rounded-lg`}
         >
-          <div className={`relative rounded-md z-10`}>
+          <div className={`relative rounded-md`}>
             <Image
               src="/images/frames/frame5.svg"
               alt="pfp"
-              className="relative w-20 h-20 z-10 border-white"
+              className="relative w-20 h-20 border-white"
               width={2000}
               height={2000}
             />
@@ -235,12 +235,12 @@ function TweetBox({ refetchFiltered }: Props) {
               width={2000}
               height={2000}
             />
-            <div className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}>
+            <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
               <div className="relative">
                 <Image
                   src="/images/frames/frame5.svg"
                   alt="pfp"
-                  className="relative w-8 h-8 z-50 stroke-{100px}"
+                  className="relative w-8 h-8 z-[1] stroke-{100px}"
                   width={2000}
                   height={2000}
                 />
