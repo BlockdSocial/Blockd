@@ -310,7 +310,7 @@ function Sidebar() {
                     <p className="text-xs text-white text-justify">
                       You can consult the create chatrooms page to create either
                       private or public chatrooms, you will also be able to set
-                      requirements and add plenty of details
+                      requirements and add plenty of other details
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -354,8 +354,7 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can consult the all chatrooms page and search for your
-                      desired group
+                      View all existing ChatRooms on the platform!
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
