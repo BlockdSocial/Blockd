@@ -31,8 +31,8 @@ function MessagesPage() {
   }
 
   return (
-    <div className='max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 md:border-x'>
-      <div className='flex sticky items-center justify-between top-0 border-b p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
+    <div className='max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5'>
+      <div className='flex sticky items-center justify-between top-0 border-b dark:border-lightgray p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30'>
         <div className='flex items-center justify-start space-x-1'>
           <ChatBubbleBottomCenterTextIcon className='w-5 h-5 md:w-6 md:h-6' />
           <p className='text-base md:text-xl font-semibold'>Messages</p>
@@ -55,6 +55,15 @@ function MessagesPage() {
           />
         ))
       }
+      <div className="flex flex-col items-center justify-start">
+        <img
+          src="/images/badges/no-message.webp"
+          className="object-contain max-w-[300px]"
+        />
+        <p className="p-2 rounded-full px-4 bg-gray-200 dark:bg-lightgray">
+          No Messages Yet !
+        </p>
+      </div>
     </div>
   )
 }
