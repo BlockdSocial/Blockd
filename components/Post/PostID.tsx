@@ -433,8 +433,8 @@ function PostID({ post, refetchComments, refetch }: Props) {
     <div className="flex flex-col p-4 -z-20 border-y">
       <CustomLoadingOverlay active={isFetchingPost} />
       <div className="w-full">
-        <div className="flex items-center justify-between">
-          <div className="flex items-start space-x-2">
+        <div className="flex items-start justify-between">
+          <div className="flex items-start space-x-[4px]">
             <div className="flex">
               <Link
                 href={{

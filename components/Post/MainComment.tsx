@@ -283,32 +283,50 @@ function MainComment({ comment, post, refetchReplies }: Props) {
   };
 
   return (
-    <div className="relative border-b flex flex-col space-x-2 p-4">
-      <div className="flex space-x-2">
+    <div className="relative border-b flex flex-col p-4">
+      <div className="flex items-start justify-start space-x-2">
         <Link
           href="/dashboard/profile"
-          className="flex flex-col w-fit h-fit group"
+          className="flex flex-col items-start justify-start"
         >
-          <div className={`relative flex flex-col items-center justify-center p-1 ${comment?.otherUser?.frameName} rounded-lg`}>
-            <img
+          <div className={`relative rounded-md`}>
+            <Image
+              src="/images/frames/frame5.svg"
+              alt="pfp"
+              className="relative w-20 h-20 border-white"
+              width={2000}
+              height={2000}
+            />
+            <Image
               src={
                 !isEmpty(comment?.otherUser?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
-              className="w-14 h-12 md:w-16 md:h-14 rounded-md shadow-sm"
+              className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] z-0 shadow-sm"
+              width={2000}
+              height={2000}
             />
-            <div className={`absolute -bottom-2 md:-bottom-3 -left-2 flex p-1 w-6 h-6 md:w-7 md:h-7 ${!isEmpty(comment?.otherUser?.frameName) ? comment?.otherUser?.frameName : 'bg-blue-300'} rounded-lg`}>
-              <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                {comment?.otherUser?.level}
+            <div className={`absolute -bottom-1 -left-3 flex rounded-lg`}>
+              <div className="relative">
+                <Image
+                  src="/images/frames/frame5.svg"
+                  alt="pfp"
+                  className="relative w-7 h-7 z-[1] stroke-{100px}"
+                  width={2000}
+                  height={2000}
+                />
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                  {comment?.otherUser?.level}
+                </div>
               </div>
             </div>
           </div>
         </Link>
         <div className="w-full">
           <div className="flex items-center">
-            <p className="mr-1 text-sm md:text-base font-semibold">
+            <p className="mr-1 text-xs md:text-base font-semibold">
               @{comment?.otherUser?.name}
             </p>
           </div>
