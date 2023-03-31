@@ -374,7 +374,7 @@ function CommentSection({ comment, post, type }: Props) {
                 width={2000}
                 height={2000}
               />
-              <div className={`absolute -bottom-1 -left-3 flex rounded-lg`}>
+              <div className={`absolute -bottom-2 -left-3 flex rounded-lg`}>
                 <div className="relative">
                   <Image
                     src="/images/frames/frame5.svg"
