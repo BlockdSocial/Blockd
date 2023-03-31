@@ -338,20 +338,20 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col space-y-2">
+      <div className="flex flex-col items-start justify-center space-y-2 w-full">
         <p className="mt-6 text-sm md:text-md">{comment?.content}</p>
         {comment?.imgName != null ? (
           <img
             src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
             alt="Post"
-            className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+            className="rounded-lg max-w-full object-contain max-h-[400px]"
           />
         ) : null}
         {comment?.gif != null ? (
           <img
             src={comment?.gif}
             alt="gif"
-            className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+            className="rounded-lg max-w-full object-contain max-h-[400px]"
           />
         ) : null}
       </div>

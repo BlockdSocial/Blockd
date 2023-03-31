@@ -572,14 +572,14 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <img
               src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
               alt="Post"
-              className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
+              className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
             />
           ) : null}
           {post?.gif != null ? (
             <img
               src={post?.gif}
               alt="gif"
-              className="m-5 ml-0 mb-1 rounded-lg m max-w-full object-contain shadow-sm"
+              className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
             />
           ) : null}
         </div>
