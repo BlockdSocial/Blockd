@@ -331,7 +331,7 @@ function CommentSection({ comment, post, type }: Props) {
   };
 
   return (
-    <div className="relative border-b flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
+    <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
       <Link
         href={{
           pathname: "/dashboard/post/comment",

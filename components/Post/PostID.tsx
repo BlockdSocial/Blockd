@@ -430,7 +430,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
   };
 
   return (
-    <div className="flex flex-col p-4 -z-20 border-y">
+    <div className="flex flex-col p-4 -z-20 border-y dark:border-lightgray">
       <CustomLoadingOverlay active={isFetchingPost} />
       <div className="w-full">
         <div className="flex items-start justify-between">

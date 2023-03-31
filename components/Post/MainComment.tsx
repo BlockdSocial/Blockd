@@ -283,7 +283,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
   };
 
   return (
-    <div className="relative border-b flex flex-col p-4">
+    <div className="relative border-b dark:border-lightgray flex flex-col p-4">
       <div className="flex items-start justify-start space-x-2">
         <Link
           href="/dashboard/profile"
