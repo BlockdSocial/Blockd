@@ -264,7 +264,7 @@ export default function SignUp() {
             </h4>
             <div className="flex mt-4">
               <a
-                href="https://drive.google.com/file/d/1m1h-lGoUCbwtbHFEZaPETEW8AGPdVUl5/view?usp=sharing"
+                href="/auth/infographic"
                 target="_blank"
                 className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
               >

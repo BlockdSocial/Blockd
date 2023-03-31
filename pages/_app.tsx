@@ -100,6 +100,7 @@ function MyApp({ Component, pageProps }: AppProps) {
               <ThemeProvider enableSystem={true} attribute="class">
                 {router.pathname === "/auth/signin" ||
                   router.pathname === "/auth/signup" ||
+                  router.pathname === "/auth/infographic" ||
                   router.pathname === "/dashboard/myChatrooms" ||
                   router.pathname === "/dashboard/myChatrooms2" ? (
                   <Component {...pageProps} />

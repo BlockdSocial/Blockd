@@ -20,7 +20,7 @@ function AchievementPage() {
 
   const fetchRewards = async () => {
     await dispatch(fetchUserRewards());
-  }
+  };
 
   const handleToggle1 = () => {
     if (showAchievements == false) {
@@ -42,9 +42,14 @@ function AchievementPage() {
     <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5">
       <div className="flex flex-col items-center justify-start p-4 dark:border-lightgray min-h-screen pb-16">
         <div className="flex items-center justify-center w-full space-x-6 mb-10 bg-transparent">
-          <div
-            className={`relative h-24 w-24 rounded-md p-1 ${authUser?.frameName}`}
-          >
+          <div className={`relative rounded-md`}>
+            <Image
+              src="/images/frames/frame5.svg"
+              alt="pfp"
+              className="relative w-24 h-24 border-white"
+              width={2000}
+              height={2000}
+            />
             <Image
               src={
                 !isEmpty(authUser?.profilePic)
@@ -52,15 +57,22 @@ function AchievementPage() {
                   : "/images/pfp/pfp1.jpg"
               }
               alt="pfp"
-              className="w-fill h-fill rounded-md shadow-sm border-2 border-white"
+              className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[80px] h-[80px] z-0 shadow-sm"
               width={2000}
               height={2000}
             />
-            <div
-              className={`absolute -bottom-3 -left-4 flex p-1 w-9 h-9 border-2 border-white ${!isEmpty(authUser?.frameName) ? authUser?.frameName : 'bg-blue-300'} rounded-lg`}
-            >
-              <div className="flex items-center justify-center border-2 border-white text-black font-semibold rounded-md w-full h-full text-sm bg-white">
+            <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
+              <div className="relative">
+                <Image
+                  src="/images/frames/frame5.svg"
+                  alt="pfp"
+                  className="relative w-10 h-10 z-[1] stroke-{100px}"
+                  width={2000}
+                  height={2000}
+                />
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
                 {authUser?.level}
+                </div>
               </div>
             </div>
           </div>
@@ -77,10 +89,11 @@ function AchievementPage() {
         <div className="flex items-center justify-between space-x-20 mb-5 w-fit border-b dark:border-lightgray h-10">
           <button
             onClick={() => handleToggle2()}
-            className={`text-base focus:outline-none ${showLevels === true
-              ? "border-b-2 border-blockd text-blockd :"
-              : ""
-              }`}
+            className={`text-base focus:outline-none ${
+              showLevels === true
+                ? "border-b-2 border-blockd text-blockd :"
+                : ""
+            }`}
           >
             Levels
           </button>

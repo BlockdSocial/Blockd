@@ -386,28 +386,26 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
       await dispatch(
         editPost(mainPost?.id, {
           content: textArea,
-          image: uploadedEdit
+          image: uploadedEdit,
         })
       ).then(() => {
         refetch();
         setEditPopUp(!editPopUp);
-        setUploadedEdit('');
-        setImageEdit('');
+        setUploadedEdit("");
+        setImageEdit("");
       });
-    }
-    else if (editGifUrl) {
+    } else if (editGifUrl) {
       await dispatch(
         editPost(mainPost?.id, {
           content: textArea,
-          gif: editGifUrl
+          gif: editGifUrl,
         })
       ).then(() => {
         refetch();
         setEditPopUp(!editPopUp);
-        setEditGifUrl('');
+        setEditGifUrl("");
       });
-    }
-    else {
+    } else {
       await dispatch(
         editPost(mainPost?.id, {
           content: textArea,
@@ -460,8 +458,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         user_id: mainPost?.otherUser?.id,
       })
     ).then(() => {
-      toast.success('User Followed!', {
-        duration: 4000
+      toast.success("User Followed!", {
+        duration: 4000,
       });
     });
   };
@@ -495,29 +493,45 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     pathname: "/dashboard/profile",
                     query: { user_id: mainPost?.otherUser?.id },
                   }}
-                  as={`/dashboard/profile?${encodeQuery(mainPost?.otherUser?.id, 'profile')}`}
+                  as={`/dashboard/profile?${encodeQuery(
+                    mainPost?.otherUser?.id,
+                    "profile"
+                  )}`}
                   className="relative flex flex-col w-fit h-fit group"
                 >
-                  <div
-                    className={`relative flex flex-col p-1 ${mainPost?.otherUser?.frameName} rounded-lg`}
-                  >
-                    <img
+                  <div className={`relative rounded-md`}>
+                    <Image
+                      src="/images/frames/frame5.svg"
+                      alt="pfp"
+                      className="relative w-16 h-16 border-white"
+                      width={2000}
+                      height={2000}
+                    />
+                    <Image
                       src={
                         !isEmpty(mainPost?.otherUser?.profilePic)
                           ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
-                      className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+                      className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 shadow-sm"
+                      width={2000}
+                      height={2000}
                     />
                     <div
-                      className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
-                        ? mainPost?.otherUser?.frameName
-                        : "bg-blue-300"
-                        } rounded-lg`}
+                      className={`absolute -bottom-3 -left-3 flex rounded-lg`}
                     >
-                      <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                        {mainPost?.otherUser?.level}
+                      <div className="relative">
+                        <Image
+                          src="/images/frames/frame5.svg"
+                          alt="pfp"
+                          className="relative w-7 h-7 z-[1] stroke-{100px}"
+                          width={2000}
+                          height={2000}
+                        />
+                        <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                          {mainPost?.otherUser?.level}
+                        </div>
                       </div>
                     </div>
                   </div>
@@ -530,7 +544,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       pathname: "/dashboard/profile",
                       query: { user_id: mainPost?.otherUser?.id },
                     }}
-                    as={`/dashboard/profile?${encodeQuery(mainPost?.otherUser?.id, 'profile')}`}
+                    as={`/dashboard/profile?${encodeQuery(
+                      mainPost?.otherUser?.id,
+                      "profile"
+                    )}`}
                   >
                     <p className="mr-1 font-semibold text-xs md:text-base">
                       @{mainPost?.otherUser?.name}
@@ -572,8 +589,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 />
                 <div className="relative z-0 flex ite">
                   <ul
-                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
-                      }`}
+                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
+                      isDropdownVisible ? "" : "hidden"
+                    }`}
                   >
                     {mainPost?.userId === authUser?.id && (
                       <div
@@ -618,7 +636,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 pathname: "/dashboard/post/",
                 query: { postId: mainPost?.id },
               }}
-              as={`/dashboard/post?${encodeQuery(mainPost?.id, 'post')}`}
+              as={`/dashboard/post?${encodeQuery(mainPost?.id, "post")}`}
               onClick={() => addView()}
               className="w-full flex flex-col items-start justify-start"
             >
@@ -651,29 +669,45 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         pathname: "/dashboard/profile",
                         query: { user_id: sharedPost?.otherUser?.id },
                       }}
-                      as={`/dashboard/profile?${encodeQuery(sharedPost?.otherUser?.id, 'profile')}`}
+                      as={`/dashboard/profile?${encodeQuery(
+                        sharedPost?.otherUser?.id,
+                        "profile"
+                      )}`}
                       className="relative flex flex-col w-fit h-fit group"
                     >
-                      <div
-                        className={`relative flex flex-col p-1 ${sharedPost?.otherUser?.frameName} rounded-lg`}
-                      >
-                        <img
+                      <div className={`relative rounded-md`}>
+                        <Image
+                          src="/images/frames/frame5.svg"
+                          alt="pfp"
+                          className="relative w-16 h-16 border-white"
+                          width={2000}
+                          height={2000}
+                        />
+                        <Image
                           src={
                             !isEmpty(sharedPost?.otherUser?.profilePic)
                               ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
                               : "/images/pfp/pfp1.jpg"
                           }
                           alt="pfp"
-                          className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+                          className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 shadow-sm"
+                          width={2000}
+                          height={2000}
                         />
                         <div
-                          className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(sharedPost?.otherUser?.frameName)
-                            ? sharedPost?.otherUser?.frameName
-                            : "bg-blue-300"
-                            } rounded-lg`}
+                          className={`absolute -bottom-3 -left-3 flex rounded-lg`}
                         >
-                          <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
+                          <div className="relative">
+                            <Image
+                              src="/images/frames/frame5.svg"
+                              alt="pfp"
+                              className="relative w-7 h-7 z-[1] stroke-{100px}"
+                              width={2000}
+                              height={2000}
+                            />
+                            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
                             {sharedPost?.otherUser?.level}
+                            </div>
                           </div>
                         </div>
                       </div>
@@ -686,7 +720,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           pathname: "/dashboard/profile",
                           query: { user_id: sharedPost?.otherUser?.id },
                         }}
-                        as={`/dashboard/profile?${encodeQuery(sharedPost?.otherUser?.id, 'profile')}`}
+                        as={`/dashboard/profile?${encodeQuery(
+                          sharedPost?.otherUser?.id,
+                          "profile"
+                        )}`}
                       >
                         <p className="mr-1 font-semibold text-xs md:text-base">
                           @{sharedPost?.otherUser?.name}
@@ -724,7 +761,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     pathname: "/dashboard/post/",
                     query: { postId: sharedPost?.id },
                   }}
-                  as={`/dashboard/post?${encodeQuery(sharedPost?.id, 'post')}`}
+                  as={`/dashboard/post?${encodeQuery(sharedPost?.id, "post")}`}
                   onClick={() => addView()}
                   className="w-full flex flex-col items-start justify-start"
                 >
@@ -752,32 +789,37 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </div>
           )}
           <div
-            className={`flex items-center justify-start mt-4 mb-2 ${commentBoxVisible ? "hidden" : ""
-              }`}
+            className={`flex items-center justify-start mt-4 mb-2 ${
+              commentBoxVisible ? "hidden" : ""
+            }`}
           >
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
-                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    }`}
+                  className={`text-xs ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
                 <p
-                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    }`}
+                  className={`text-xs ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -791,8 +833,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   {info?.comments != null || undefined ? info?.comments : 0}
                 </p>
               </div>
-              {
-                isEmpty(sharedPost) && (null == mainPost?.suggestion) &&
+              {isEmpty(sharedPost) && null == mainPost?.suggestion && (
                 <div className="relative flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
                   <ShareIcon
                     ref={share}
@@ -804,7 +845,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   </p>
                   {shareBoxVisible && (
                     <div className="absolute bottom-6 z-10 w-28 mt-1 bg-white dark:bg-lightgray rounded-md shadow-lg">
-                      <div onClick={() => copy(`${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`)} className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100">
+                      <div
+                        onClick={() =>
+                          copy(
+                            `${config.url.DASHBOARD_URL}/post?postId=${mainPost?.id}`
+                          )
+                        }
+                        className="block p-4 text-sm dark:hover:bg-darkgray/50 rounded-t-md bg-transparent hover:bg-gray-100"
+                      >
                         Copy Link
                       </div>
                       <div
@@ -816,7 +864,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     </div>
                   )}
                 </div>
-              }
+              )}
             </div>
           </div>
           {commentBoxVisible && (
@@ -845,34 +893,38 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                   <p
-                    className={`text-xs ${info?.likes
-                      ? "text-green-600"
-                      : "group-hover:text-green-600"
-                      } `}
+                    className={`text-xs ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } `}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-5 w-5 cursor-pointer ${info?.likes
-                      ? "text-green-600"
-                      : "group-hover:text-green-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikePost()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                   <ArrowDownIcon
-                    className={`h-5 w-5 cursor-pointer ${info?.dislikes
-                      ? "text-red-600"
-                      : "group-hover:text-red-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikePost()}
                   />
                   <p
-                    className={`text-xs ${info?.dislikes
-                      ? "text-red-600"
-                      : "group-hover:text-red-600"
-                      } `}
+                    className={`text-xs ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } `}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
@@ -1008,8 +1060,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -1058,8 +1111,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1090,56 +1144,52 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
             <div className="flex items-start justify-start space-y-2 w-full">
               <div className="relative flex items-center justify-center w-full group">
-                {
-                  editGifUrl ? (
-                    <img
-                      src={editGifUrl}
-                      alt="gif"
-                      className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                      width="720"
-                      height="350"
-                      onClick={() => setShowEditGifs((b) => !b)}
-                    />
-                  ) :
-                    !isEmpty(mainPost?.gif) ? (
-                      <img
-                        src={mainPost?.gif}
-                        alt="gif"
-                        className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                        width="720"
-                        height="350"
-                        onClick={() => setShowEditGifs((b) => !b)}
-                      />
-                    ) :
-                      imageEdit ? (
-                        <img
-                          src={imageEdit}
-                          alt="Content"
-                          className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                          width="720"
-                          height="350"
-                          onClick={() => onContentClick()}
-                        />
-                      ) :
-                        !isEmpty(mainPost?.postImage) ? (
-                          <img
-                            src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
-                            alt="Content"
-                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                            width="720"
-                            height="350"
-                            onClick={() => onContentClick()}
-                          />
-                        ) : (
-                          <img
-                            src="/images/blockdbg.jpg"
-                            alt="Content"
-                            className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                            width="720"
-                            height="350"
-                            onClick={() => onContentClick()}
-                          />
-                        )}
+                {editGifUrl ? (
+                  <img
+                    src={editGifUrl}
+                    alt="gif"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => setShowEditGifs((b) => !b)}
+                  />
+                ) : !isEmpty(mainPost?.gif) ? (
+                  <img
+                    src={mainPost?.gif}
+                    alt="gif"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => setShowEditGifs((b) => !b)}
+                  />
+                ) : imageEdit ? (
+                  <img
+                    src={imageEdit}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                ) : !isEmpty(mainPost?.postImage) ? (
+                  <img
+                    src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                ) : (
+                  <img
+                    src="/images/blockdbg.jpg"
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                )}
                 <input
                   type="file"
                   id="file"
@@ -1156,8 +1206,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   <ReactGiphySearchbox
                     apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                     onSelect={(item: any) => {
-                      editGif(item),
-                        setShowEditGifs(false)
+                      editGif(item), setShowEditGifs(false);
                     }}
                     masonryConfig={[
                       { columns: 2, imageWidth: 110, gutter: 5 },
@@ -1201,8 +1250,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${sharePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          sharePopUp ? "" : "hidden"
+        }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1256,10 +1306,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
-                    ? mainPost?.otherUser?.frameName
-                    : "bg-blue-300"
-                    } rounded-lg`}
+                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
+                    !isEmpty(mainPost?.otherUser?.frameName)
+                      ? mainPost?.otherUser?.frameName
+                      : "bg-blue-300"
+                  } rounded-lg`}
                 >
                   <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                     {mainPost?.otherUser?.level}
@@ -1267,8 +1318,12 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 </div>
               </div>
               <div className="flex flex-col items-start justify-start h-full pt-1">
-                <p className="text-sm text-black">@{mainPost?.otherUser?.name}</p>
-                <p className="text-xs text-black">{moment(mainPost?.createdAt).fromNow()}</p>
+                <p className="text-sm text-black">
+                  @{mainPost?.otherUser?.name}
+                </p>
+                <p className="text-xs text-black">
+                  {moment(mainPost?.createdAt).fromNow()}
+                </p>
               </div>
             </div>
             {mainPost?.postImage != null ? (
