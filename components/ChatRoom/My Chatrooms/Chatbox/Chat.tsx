@@ -80,6 +80,15 @@ export default function Chat({
       className="scrollbar-hide overflow-scroll p-2 py-4 h-[86%] md:h-[83%] dark:bg-darkgray z-0"
       id="test"
     >
+      <div className="flex flex-col items-center justify-start">
+        <img
+          src="/images/badges/no-message.webp"
+          className="object-contain max-w-[300px]"
+        />
+        <p className="p-2 rounded-full px-4 bg-gray-200 dark:bg-lightgray">
+          No Messages Yet !
+        </p>
+      </div>
       <div className="">
         {!isEmpty(messages) &&
           messages.map((message: any, index: any) =>

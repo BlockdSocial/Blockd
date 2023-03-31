@@ -218,12 +218,9 @@ function Sidebar() {
         >
           <div className="relative flex items-center justify-center">
             <Link
-              href="/dashboard/myChatrooms"
-              className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
-                showModal6
-                  ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                  : "hover:bg-gray-100 dark:hover:bg-lightgray"
-              } group`}
+              href=""
+              className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray
+               group`}
             >
               <ChatBubbleBottomCenterTextIcon className="h-6 w-6" />
               <p
@@ -240,43 +237,57 @@ function Sidebar() {
                 />
               </div>
             </Link>
-            <div
-              className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                showModal6 ? "" : "hidden"
-              }`}
-            >
-              <div className="flex flex-col items-start justify-start space-y-2">
-                <p className="text-xs text-white text-justify">
-                  The BLOCK’d chatrooms are unlike any other social media
-                  chatroom on the web. In addition to creating a public
-                  chatroom, users can also create private chatrooms with set
-                  requirements enforced by the blockchain to grant access to
-                  users.
-                </p>
-                <div className="flex items-end justify-end w-full space-x-2">
-                  <p
-                    onClick={() => {
-                      setShowModal6(false);
-                    }}
-                    className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
-                  >
-                    Skip
-                  </p>
-                  <p
-                    onClick={() => {
-                      setShowModal6(false);
-                      setShowModal7(true);
-                    }}
-                    className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
-                  >
-                    Next
-                  </p>
-                </div>
-              </div>
-            </div>
           </div>
           {(isOpen || isRegistered != undefined) && (
             <div className="w-full flex flex-col items-center justify-center">
+              <div className="relative w-full">
+                <Link href="/dashboard/myChatrooms">
+                  <div
+                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${
+                      showModal6
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
+                  >
+                    <ChatBubbleLeftIcon className="w-5 h-5" />
+                    <span className="hidden md:inline">My Chatroom</span>
+                  </div>
+                </Link>
+                <div
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal6 ? "" : "hidden"
+                  }`}
+                >
+                  <div className="flex flex-col items-start justify-start space-y-2">
+                    <p className="text-xs text-white text-justify">
+                      The BLOCK’d chatrooms are unlike any other social media
+                      chatroom on the web. In addition to creating a public
+                      chatroom, users can also create private chatrooms with set
+                      requirements enforced by the blockchain to grant access to
+                      users.
+                    </p>
+                    <div className="flex items-end justify-end w-full space-x-2">
+                      <p
+                        onClick={() => {
+                          setShowModal6(false);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      >
+                        Skip
+                      </p>
+                      <p
+                        onClick={() => {
+                          setShowModal6(false);
+                          setShowModal7(true);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      >
+                        Next
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
               <div className="relative w-full">
                 <Link href="/dashboard/createChatroom">
                   <div
@@ -343,7 +354,8 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can consult the all chatrooms page and search for your desired group
+                      You can consult the all chatrooms page and search for your
+                      desired group
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p

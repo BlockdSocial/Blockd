@@ -1,49 +1,48 @@
-import React, { useState } from 'react'
-import SidebarRow from './SidebarRow';
+import React, { useState } from "react";
+import SidebarRow from "./SidebarRow";
 import {
-    MicrophoneIcon,
-    ComputerDesktopIcon,
-    ChatBubbleBottomCenterTextIcon,
-    UserIcon,
-    HomeIcon,
-    ArrowTrendingUpIcon,
-    LightBulbIcon,
-    FireIcon,
-    ChatBubbleLeftIcon,
-    ChatBubbleLeftRightIcon,
-    PlusCircleIcon
-} from '@heroicons/react/24/outline'
-import Link from 'next/link';
-import { useRouter } from 'next/router'
+  MicrophoneIcon,
+  ComputerDesktopIcon,
+  ChatBubbleBottomCenterTextIcon,
+  UserIcon,
+  HomeIcon,
+  ArrowTrendingUpIcon,
+  LightBulbIcon,
+  FireIcon,
+  ChatBubbleLeftIcon,
+  ChatBubbleLeftRightIcon,
+  PlusCircleIcon,
+} from "@heroicons/react/24/outline";
+import Link from "next/link";
+import { useRouter } from "next/router";
 
 function Sidebar() {
+  let location = useRouter();
+  const [isOpen, setOpen] = useState(false);
 
-    let location = useRouter();
-    const [isOpen, setOpen] = useState(false);
-
-    return (
-        <div className="md:flex md:flex-col hidden col-span-1 items-center p-2 border-x dark:border-lightgray">
-            <Link href="/" className='active'>
-                {/* 
+  return (
+    <div className="md:flex md:flex-col hidden col-span-1 items-center p-2 border-x dark:border-lightgray">
+      <Link href="/" className="active">
+        {/* 
                 // @ts-ignore */}
-                <SidebarRow Icon={HomeIcon} active='' />
-            </Link>
-            <Link href="/dashboard/profile">
-                {/* 
+        <SidebarRow Icon={HomeIcon} active="" />
+      </Link>
+      <Link href="/dashboard/profile">
+        {/* 
                 // @ts-ignore */}
-                <SidebarRow Icon={UserIcon} active='' />
-            </Link>
-            <Link href="achievement">
-                {/* 
+        <SidebarRow Icon={UserIcon} active="" />
+      </Link>
+      <Link href="achievement">
+        {/* 
                 // @ts-ignore */}
-                <SidebarRow Icon={FireIcon} active='' />
-            </Link>
-            <Link href="suggestion">
-                {/* 
+        <SidebarRow Icon={FireIcon} active="" />
+      </Link>
+      <Link href="suggestion">
+        {/* 
                 // @ts-ignore */}
-                <SidebarRow Icon={LightBulbIcon} active='' />
-            </Link>
-            <Link
+        <SidebarRow Icon={LightBulbIcon} active="" />
+      </Link>
+      {/* <Link
                 href=""
                 onMouseEnter={() => setOpen(true)}
                 onMouseLeave={() => setOpen(false)}
@@ -67,19 +66,25 @@ function Sidebar() {
                         </Link>
                     </div>
                 )}
-            </Link>
-            <Link href="">
-                {/* 
+            </Link> */}
+      <Link href="/dashboard/createChatroom">
+        {/* 
                 // @ts-ignore */}
-                <SidebarRow Icon={ComputerDesktopIcon} active='' />
-            </Link>
-            <Link href="">
-                {/* 
+        <SidebarRow Icon={PlusCircleIcon} active="" />
+      </Link>
+      <Link href="/dashboard/allChatrooms">
+        {/* 
                 // @ts-ignore */}
-                <SidebarRow Icon={MicrophoneIcon} active='' />
-            </Link>
-        </div>
-    )
+        <SidebarRow Icon={ChatBubbleLeftRightIcon} active="" />
+      </Link>
+      {/* <Link href="">
+        <SidebarRow Icon={ComputerDesktopIcon} active="" />
+      </Link>
+      <Link href="">
+        <SidebarRow Icon={MicrophoneIcon} active="" />
+      </Link> */}
+    </div>
+  );
 }
 
-export default Sidebar
+export default Sidebar;
