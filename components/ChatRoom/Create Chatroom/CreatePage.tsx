@@ -422,7 +422,7 @@ function CreatePage() {
                   </div>
                   <div className="flex items-center justify-center w-full mt-4">
                     <button
-                      className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd bg-gray-500"
+                      className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd"
                       onClick={() => handleCreateRoom()}
                       disabled={true}
                     >

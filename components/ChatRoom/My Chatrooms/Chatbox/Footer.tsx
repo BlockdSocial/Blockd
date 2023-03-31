@@ -8,7 +8,11 @@ import {
 } from "@heroicons/react/24/outline";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
-import { createChat, createChatroomMessage, createMessage } from "../../../../stores/chat/ChatActions";
+import {
+  createChat,
+  createChatroomMessage,
+  createMessage,
+} from "../../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
 import AutoResizeTextarea from "./AutoResizeTextArea";
 
@@ -17,7 +21,7 @@ function Footer({
   receiver,
   getMessages,
   room,
-  fetchRoomMessages
+  fetchRoomMessages,
 }: any) {
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -89,14 +93,12 @@ function Footer({
   const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
   //Set a color for the frame
 
-
   const addGif = (gify: any, event: any) => {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
-
   };
 
   //************************** Picture Handeling **************************//
@@ -114,7 +116,6 @@ function Footer({
 
   const handleUploadPicture = (e: any) => {
     setUploadedImage(e.target.files[0]);
-
   };
 
   useEffect(() => {
@@ -125,7 +126,6 @@ function Footer({
   const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
 
   const handleSendMessage = async () => {
-    textArea.rows = 1;
     if (!isEmpty(receiver)) {
       if (isEmpty(messages)) {
         await dispatch(createChat(receiver?.id));
@@ -133,69 +133,69 @@ function Footer({
       if (uploadedImage) {
         await dispatch(
           createMessage({
-            'receiver_id': receiver?.id,
-            'image': uploadedImage
+            receiver_id: receiver?.id,
+            image: uploadedImage,
           })
         ).then(() => {
-          setUploadedImage('');
+          setUploadedImage("");
           getMessages();
         });
       } else if (gifUrl.length > 0) {
         await dispatch(
           createMessage({
             receiver_id: receiver?.id,
-            gif: gifUrl
+            gif: gifUrl,
           })
         ).then(() => {
-          setGifUrl('');
+          setGifUrl("");
           getMessages();
         });
       } else if (!isEmpty(input)) {
         await dispatch(
           createMessage({
             receiver_id: receiver?.id,
-            content: input
+            content: input,
           })
         ).then(() => {
           setInput("");
           getMessages();
         });
-      };
+      }
     }
     if (!isEmpty(room)) {
       if (uploadedImage) {
         await dispatch(
           createChatroomMessage(room?.roomId, {
-            'image': uploadedImage,
-            user_id: authUser?.id
+            image: uploadedImage,
+            user_id: authUser?.id,
           })
         ).then(() => {
-          setUploadedImage('');
+          setUploadedImage("");
           fetchRoomMessages();
         });
       } else if (gifUrl.length > 0) {
         await dispatch(
           createChatroomMessage(room?.roomId, {
             gif: gifUrl,
-            user_id: authUser?.id
+            user_id: authUser?.id,
           })
         ).then(() => {
-          setGifUrl('');
+          setGifUrl("");
           fetchRoomMessages();
         });
       } else if (!isEmpty(input)) {
         await dispatch(
           createChatroomMessage(room?.roomId, {
             content: input,
-            user_id: authUser?.id
+            user_id: authUser?.id,
           })
         ).then(() => {
           setInput("");
           fetchRoomMessages();
         });
-      };
+      }
     }
-  }
+  };
 
   const handleChange = (event: React.ChangeEvent<HTMLTextAreaElement>) => {
     setInput(event.target.value);
@@ -214,7 +214,14 @@ function Footer({
     <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
       <div className="flex space-x-1 p-1 w-full">
         <div className="w-full">
-          <AutoResizeTextarea value={input} onChange={handleChange} />
+          <textarea
+            className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
+            value={input}
+            onChange={handleChange}
+            placeholder="Send a message"
+            rows={1}
+            id="myTextArea"
+          />
         </div>
         {/* <input
           value={input}
