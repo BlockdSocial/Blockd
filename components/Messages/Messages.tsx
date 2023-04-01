@@ -19,8 +19,6 @@ function Messages({ notification, handleFetchNotifications }: any) {
     });
   };
 
-  console.log('notification: ', notification);
-
   return (
     <div className="divide-slate-200 dark:divide-lightgray">
       <Link

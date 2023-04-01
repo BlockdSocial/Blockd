@@ -32,6 +32,7 @@ function SearchPage() {
   const handleSearchUsers = async () => {
     dispatch(searchUsers({
       search: query,
+      start: 0,
       end: 20,
     }));
   }

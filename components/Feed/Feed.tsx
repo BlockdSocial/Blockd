@@ -74,6 +74,7 @@ function Feed() {
   },[]);
 
   const fetchFiltered = async () => {
+    console.log('FETCH');
     await dispatch(
       fetchFilteredPosts({
         start: 0,
@@ -82,11 +83,13 @@ function Feed() {
     ).then((result: any) => {
       setEndTotal(4);
       setEndCount(4);
+      console.log('RESULT: ', result);
       setFiltered(result?.posts);
     });
   };
 
   const updateFiltered = async (start: number, end: number) => {
+    console.log('bzez')
     await dispatch(
       fetchFilteredPosts({
         start: start,
@@ -123,6 +126,7 @@ function Feed() {
         scrollTop + clientHeight === scrollHeight ||
         scrollTop + clientHeight === scrollHeight - 0.5
       ) {
+        console.log('bzez2')
         if (!isFetchingFilteredPosts) {
           if (endTotal < 4) {
             return;

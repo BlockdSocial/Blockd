@@ -770,9 +770,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       {sharedPost?.content}
                     </p>
                   )}
-                  {sharedPost?.images != null ? (
+                  {sharedPost?.postImage != null ? (
                     <img
-                      src={`${config.url.PUBLIC_URL}/${sharedPost?.images[0]?.name}`}
+                      src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                       alt="Post"
                       className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                     />

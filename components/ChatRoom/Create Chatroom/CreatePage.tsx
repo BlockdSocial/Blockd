@@ -1,4 +1,4 @@
-import React, { useState, useRef,useEffect } from "react";
+import React, { useState, useRef, useEffect } from "react";
 import { toast } from "react-hot-toast";
 import { createChatroom } from "../../../stores/chat/ChatActions";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
@@ -32,7 +32,7 @@ function CreatePage() {
   const url = `https://eth-mainnet.g.alchemy.com/v2/${config.url.ALCHEMY_API_KEY}`;
 
   const validateAddressToken = async () => {
-    
+
     if (!isEmpty(contractAddress)) {
       let WETHContractAddress = contractAddress;
 
@@ -76,35 +76,35 @@ function CreatePage() {
   }, [error]);
 
   const handleCreateRoom = async () => {
-    if(isEmpty(name)) {
-      setErrorMessage ('Name field is required')
+    if (isEmpty(name)) {
+      setErrorMessage('Name field is required')
       return;
     }
-    if(name.length <= 4) {
-      setErrorMessage ('The name must be at least 4 characters')
+    if (name.length <= 4) {
+      setErrorMessage('The name must be at least 4 characters')
       console.log(name.length);
       return;
     }
-    if(isEmpty(description)) {
-      setErrorMessage ('Description field is required')
+    if (isEmpty(description)) {
+      setErrorMessage('Description field is required')
       return;
     }
-    
+
     if (selectedOption === 'private') {
-    if (isEmpty(tokenName)) {
-      setErrorMessage ('Token  name field is required')
-      return;
+      if (isEmpty(tokenName)) {
+        setErrorMessage('Token  name field is required')
+        return;
+      }
+
+      if (isEmpty(tokenNumber)) {
+        setErrorMessage('Token  amount field is required')
+        return;
+      }
+      if (isEmpty(contractAddress)) {
+        setErrorMessage('Contract address field is required')
+        return;
+      }
     }
-    
-    if (isEmpty(tokenNumber)) {
-      setErrorMessage ('Token  amount field is required')
-      return;
-    }
-    if (isEmpty(contractAddress)) {
-      setErrorMessage ('Contract address field is required')
-      return;
-    }
-  }
     if (image) {
       if (selectedOption === 'private') {
         await dispatch(createChatroom({
@@ -119,7 +119,7 @@ function CreatePage() {
           amount: Number(tokenNumber)
         })).then((res: any) => {
           if (!res) {
-        return;
+            return;
           }
           router.push({
             pathname: '/dashboard/myChatrooms',
@@ -138,7 +138,7 @@ function CreatePage() {
         })).then((res: any) => {
           if (!res) {
             return;
-              }
+          }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -161,7 +161,7 @@ function CreatePage() {
         })).then((res: any) => {
           if (!res) {
             return;
-              }
+          }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -178,7 +178,7 @@ function CreatePage() {
         })).then((res: any) => {
           if (!res) {
             return;
-              }
+          }
           router.push({
             pathname: '/dashboard/myChatrooms',
             query: { roomChat: JSON.stringify(res) },
@@ -188,7 +188,7 @@ function CreatePage() {
         });
       }
     }
- 
+
   }
   const inputPicture = useRef<HTMLInputElement | null>(null);
 
@@ -432,20 +432,20 @@ function CreatePage() {
                 </>
                 :
                 <>
-                {errorMessage && (
-                  <div className="mt-4 w-full bg-red-500 rounded-md p-2">
-                    {errorMessage}
+                  {errorMessage && (
+                    <div className="mt-4 w-full bg-red-500 rounded-md p-2">
+                      {errorMessage}
+                    </div>
+                  )}
+                  <div className="flex items-center justify-center w-full mt-4">
+
+                    <button
+                      className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd hover:bg-orange-400"
+                      onClick={() => handleCreateRoom()}
+                    >
+                      Create
+                    </button>
                   </div>
-                )}
-                <div className="flex items-center justify-center w-full mt-4">
-                  
-                  <button
-                    className="text-sm font-semibold p-3 w-full text-white rounded-lg bg-blockd hover:bg-orange-400"
-                    onClick={() => handleCreateRoom()}
-                  >
-                    Create
-                  </button>
-                </div>
                 </>
             }
           </div>

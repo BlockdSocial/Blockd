@@ -37,7 +37,7 @@ function UserResult({ user }: any) {
             src={
               !isEmpty(user?.profilePic)
                 ? `${config.url.PUBLIC_URL}/${user?.profilePic?.name}`
-                : "/images/placeholder.png"
+                : "/images/pfp/pfp1.jpg"
             }
             className="rounded-md w-16 h-16 bg-blockd"
           />

@@ -39,7 +39,7 @@ function Result({ result }: any) {
           src={
             !isEmpty(result?.profilePic)
               ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
-              : "/images/placeholder.png"
+              : "/images/pfp/pfp1.jpg"
           }
           className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
         />

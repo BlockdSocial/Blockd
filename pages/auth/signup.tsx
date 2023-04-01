@@ -26,6 +26,9 @@ import axios from "axios";
 import Policy from "../../components/Auth/Policy";
 import { flatMap, indexOf } from "lodash";
 import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
+import {
+  ArrowLeftCircleIcon
+} from "@heroicons/react/24/outline";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -66,6 +69,7 @@ export default function SignUp() {
   const [userSignature, setUserSignature] = useState<string>("");
   const [terms, setTerms] = useState<boolean>(false);
   const [policy, setPolicy] = useState<boolean>(false);
+  const [displayNameError, setDisplayNameError] = useState<boolean>(false);
   const [
     isDisplayTermsAndConditionsModal,
     setIsDisplayTermsAndConditionsModal,
@@ -80,7 +84,12 @@ export default function SignUp() {
     if (!validateEmail(email)) {
       setEmailError(true);
       return;
-    } else {
+    } 
+    if (displayName.length == 0) {
+      setDisplayNameError(true);
+      return;
+    }
+    else {
       setEmailError(false);
     }
     signMessage();
@@ -319,6 +328,11 @@ export default function SignUp() {
                         Please enter a valid email address
                       </p>
                     )}
+                    {displayNameError && (
+                      <p className="text-red-600  text-xs font-bold">
+                        Please enter a display name
+                      </p>
+                    )}
                   </div>
 
                   <div className="flex items-center justify-start mt-4 w-full space-x-2">
@@ -353,19 +367,20 @@ export default function SignUp() {
                   </div>
                 </>
               }
-                          {
-              2 === step &&
-              <div className="flex flex-col items-start justify-center space-y-1 w-full">
-                <p className="text-white font-semibold text-l">Verification Code</p>
-                <input
-                  className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
-                  type="text"
-                  name="code"
-                  placeholder="Enter the verification code sent to your email"
-                  onChange={(e) => setCode(e.target.value)}
-                />
-              </div>
-            }
+              {
+                2 === step &&
+                <div className="flex flex-col items-start justify-center space-y-1 w-full">
+                  <ArrowLeftCircleIcon className="w-6 h-6 stroke-2 cursor-pointer" onClick={() => setStep(1)} />
+                  <p className="text-white font-semibold text-l">Verification Code</p>
+                  <input
+                    className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
+                    type="text"
+                    name="code"
+                    placeholder="Enter the verification code sent to your email"
+                    onChange={(e) => setCode(e.target.value)}
+                  />
+                </div>
+              }
               {/* <button
                 className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
                 onClick={(e) => web3Login(e)}

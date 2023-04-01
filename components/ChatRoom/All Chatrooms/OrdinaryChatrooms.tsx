@@ -22,6 +22,7 @@ function OrdinaryChatrooms() {
   const [selectedRoom, setSelectedRoom] = useState<any>();
   const [isParticipant, setIsParticipant] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>('');
+  const [displayName, setDisplayName] = useState<string>('');
 
   useEffect(() => {
     getChatrooms();
@@ -57,7 +58,7 @@ function OrdinaryChatrooms() {
     }
   }
 
-  console.log('error: ', error);
+  console.log('room: ', allRooms);
 
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
@@ -73,6 +74,7 @@ function OrdinaryChatrooms() {
                 setRoomId(room?.id),
                 setIsParticipant(room?.participant),
                 setSelectedRoom(room),
+                setDisplayName(room?.displayName),
                 setErrorMessage('')
             }}
             className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
@@ -289,7 +291,7 @@ function OrdinaryChatrooms() {
                 />
                 <div className="flex flex-col items-start justify-start">
                   <p className="text-sm md:text-base font-semibold">
-                    BTC Official
+                    {displayName}
                   </p>
                 </div>
               </div>

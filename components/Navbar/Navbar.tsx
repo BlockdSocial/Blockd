@@ -233,15 +233,6 @@ const Navbar = () => {
     }
   };
 
-  console.log(
-    authUser?.unread,
-    authUser?.unread,
-    authUser?.unread,
-    authUser?.unreadMessages,
-    authUser?.unreadMessages,
-    authUser?.unreadMessages
-  );
-
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray">
       <div
