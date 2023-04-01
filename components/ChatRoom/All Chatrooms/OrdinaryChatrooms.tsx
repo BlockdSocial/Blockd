@@ -290,7 +290,7 @@ function OrdinaryChatrooms() {
                   className="w-10 h-10 rounded-full"
                 />
                 <div className="flex flex-col items-start justify-start">
-                  <p className="text-sm md:text-base font-semibold">
+                  <p className="text-sm md:text-base font-semibold text-black">
                     {displayName}
                   </p>
                 </div>
