@@ -272,7 +272,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   width={2000}
                   height={2000}
                 />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[83px] h-[83px] bg-white dark:bg-lightgray">
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[83px] h-[83px] bg-white dark:bg-darkgray">
                   <Image
                     src={
                       !isEmpty(profilePicture)
@@ -300,7 +300,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       width={2000}
                       height={2000}
                     />
-                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[28px] h-[28px] flex items-center justify-center text-black font-semibold text-sm bg-white">
+                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[31px] h-[31px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
                       {user?.level}
                     </div>
                   </div>

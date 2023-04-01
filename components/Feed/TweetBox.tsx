@@ -260,7 +260,7 @@ function TweetBox({ refetchFiltered }: Props) {
                   width={2000}
                   height={2000}
                 />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[26px] h-[26px] flex items-center justify-center text-black font-semibold text-sm bg-white">
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[28px] h-[28px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-lightgray">
                   {authUser?.level}
                 </div>
               </div>

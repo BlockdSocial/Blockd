@@ -547,7 +547,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           width={2000}
                           height={2000}
                         />
-                        <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[24px] h-[24px] flex items-center justify-center text-black font-semibold text-xs bg-white">
+                        <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[24px] h-[24px] flex items-center justify-center text-black dark:text-white font-semibold text-xs bg-white dark:bg-[#1F2022]">
                           {mainPost?.otherUser?.level}
                         </div>
                       </div>
