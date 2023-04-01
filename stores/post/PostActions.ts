@@ -263,7 +263,7 @@ export function fetchPostInfo(fields: number) {
       console.log('Fetch Post Info Error: ', error);
       dispatch({
         type: FETCH_POST_INFO_FAILURE,
-        error: error.message
+        // error: error.message
       });
     }
   }
@@ -303,7 +303,7 @@ export function fetchIsLiked(fields: number) {
       console.log('Fetch is Liked error: ', error);
       dispatch({
         type: FETCH_IS_LIKED_FAILURE,
-        error: error.message
+        // error: error.message
       });
     }
   }
@@ -323,7 +323,7 @@ export function fetchIsDisliked(fields: number) {
       console.log('Fetch is Disliked error: ', error);
       dispatch({
         type: FETCH_IS_DISLIKED_FAILURE,
-        error: error.message
+        // error: error.message
       });
     }
   }

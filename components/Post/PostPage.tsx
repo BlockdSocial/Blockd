@@ -8,6 +8,7 @@ import { fetchPost } from '../../stores/post/PostActions'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { isEmpty } from 'lodash'
 import { parseQueryString } from '../../utils'
+import { toast } from 'react-hot-toast'
 
 interface Comment {
   content: string;
@@ -45,10 +46,16 @@ interface Post {
 function PostPage() {
   const dispatch = useAppDispatch();
   const { postComments } = useAppSelector((state) => state.commentReducer);
-  const { post } = useAppSelector((state) => state.postReducer);
+  const { post, error } = useAppSelector((state) => state.postReducer);
 
   const router = useRouter();
   const postId = router.query.postId || parseQueryString(window.location.search.substring(1)).postId;
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!isEmpty(router.query)) {

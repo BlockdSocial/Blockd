@@ -164,7 +164,7 @@ export function fetchIsLikedComment(fields: string) {
       console.log('Fetch Is Liked comment error: ', error);
       dispatch({
         type: FETCH_IS_LIKED_COMMENT_FAILURE,
-        error: error?.message
+        // error: error?.message
       });
     }
   }
@@ -184,7 +184,7 @@ export function fetchIsDislikedComment(fields: any) {
       console.log('Fetch Is Disliked comment error: ', error);
       dispatch({
         type: FETCH_IS_DISLIKED_COMMENT_FAILURE,
-        error: error?.message
+        // error: error?.message
       });
     }
   }

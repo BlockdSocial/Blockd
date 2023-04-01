@@ -100,7 +100,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_CREATING_POST: {
       return {
         ...state,
-        isCreatingPost: true
+        isCreatingPost: true,
+        error: ''
       };
     }
     case CREATE_POST_SUCCESS: {
@@ -119,7 +120,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_DELETING_POST: {
       return {
         ...state,
-        isDeletingPost: true
+        isDeletingPost: true,
+        error: ''
       };
     }
     case DELETE_POST_SUCCESS: {
@@ -138,7 +140,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_LIKING_POST: {
       return {
         ...state,
-        isLikingPost: true
+        isLikingPost: true,
+        error: ''
       };
     }
     case LIKE_POST_SUCCESS: {
@@ -157,7 +160,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_SEARCHING_POSTS: {
       return {
         ...state,
-        isSearchingPosts: true
+        isSearchingPosts: true,
+        error: ''
       };
     }
     case SEARCH_POSTS_SUCCESS: {
@@ -177,7 +181,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_TRENDING_POSTS: {
       return {
         ...state,
-        isFetchingTrendingPosts: true
+        isFetchingTrendingPosts: true,
+        error: ''
       };
     }
     case FETCH_TRENDING_POSTS_SUCCESS: {
@@ -197,7 +202,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_FILTERED_POSTS: {
       return {
         ...state,
-        isFetchingFilteredPosts: true
+        isFetchingFilteredPosts: true,
+        error: ''
       };
     }
     case FETCH_FILTERED_POSTS_SUCCESS: {
@@ -217,7 +223,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_POST: {
       return {
         ...state,
-        isFetchingPost: true
+        isFetchingPost: true,
+        error: ''
       };
     }
     case FETCH_POST_SUCCESS: {
@@ -237,7 +244,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_SHARED_POST: {
       return {
         ...state,
-        isFetchingPost: true
+        isFetchingPost: true,
+        error: ''
       };
     }
     case FETCH_POST_SHARED_SUCCESS: {
@@ -257,7 +265,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_POST_IMAGE: {
       return {
         ...state,
-        isFetchingPostImage: true
+        isFetchingPostImage: true,
+        error: ''
       };
     }
     case FETCH_POST_IMAGE_SUCCESS: {
@@ -277,7 +286,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_POST_INFO: {
       return {
         ...state,
-        isFetchingPostInfo: true
+        isFetchingPostInfo: true,
+        error: ''
       };
     }
     case FETCH_POST_INFO_SUCCESS: {
@@ -297,7 +307,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_USER_POSTS: {
       return {
         ...state,
-        isFetchingUserPosts: true
+        isFetchingUserPosts: true,
+        error: ''
       };
     }
     case FETCH_USER_POSTS_SUCCESS: {
@@ -317,7 +328,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_DISLIKING_POST: {
       return {
         ...state,
-        isDislikingPost: true
+        isDislikingPost: true,
+        error: ''
       };
     }
     case DISLIKE_POST_SUCCESS: {
@@ -336,7 +348,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_IS_LIKED: {
       return {
         ...state,
-        isFetchingIsLiked: true
+        isFetchingIsLiked: true,
+        error: ''
       };
     }
     case FETCH_IS_LIKED_SUCCESS: {
@@ -357,6 +370,7 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingIsDisliked: true,
+        error: ''
       };
     }
     case FETCH_IS_DISLIKED_SUCCESS: {
@@ -376,7 +390,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_ADDING_POST_VIEW: {
       return {
         ...state,
-        isAddingPostView: true
+        isAddingPostView: true,
+        error: ''
       };
     }
     case ADD_POST_VIEW_SUCCESS: {
@@ -395,7 +410,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_UPDATING_POST: {
       return {
         ...state,
-        isUpdatingPost: true
+        isUpdatingPost: true,
+        error: ''
       };
     }
     case UPDATE_POST_SUCCESS: {
@@ -415,6 +431,7 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isSuggesting: true,
+        error: ''
       };
     }
     case SUGGEST_SUCCESS: {
@@ -433,7 +450,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_SHARING_POST: {
       return {
         ...state,
-        isSharingPost: true
+        isSharingPost: true,
+        error: ''
       };
     }
     case SHARE_POST_SUCCESS: {
@@ -452,7 +470,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_CREATING_SUGGESTION: {
       return {
         ...state,
-        isCreatingSuggestion: true
+        isCreatingSuggestion: true,
+        error: ''
       };
     }
     case CREATE_SUGGESTION_SUCCESS: {
@@ -470,7 +489,8 @@ export function postReducer(state = initialState, action: any) {
     case IS_FETCHING_SUGGESTIONS: {
       return {
         ...state,
-        isFetchingSuggestions: true
+        isFetchingSuggestions: true,
+        error: ''
       };
     }
     case FETCH_SUGGESTIONS_SUCCESS: {

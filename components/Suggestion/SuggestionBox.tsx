@@ -23,7 +23,7 @@ interface Props {
 
 function SuggestionBox({ refetchFiltered }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { isCreatingPost } = useAppSelector((state) => state.postReducer);
+  const { isCreatingPost, error } = useAppSelector((state) => state.postReducer);
   const [input, setInput] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -37,6 +37,12 @@ function SuggestionBox({ refetchFiltered }: Props) {
   const [showEmojis, setShowEmojis] = useState<boolean>(false);
 
   const emoji = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     dispatch(fetchAuthUser());

@@ -12,6 +12,7 @@ import { useRouter } from 'next/router';
 import { fetchUserPosts } from '../../stores/post/PostActions';
 import CustomLoadingOverlay from '../CustomLoadingOverlay';
 import { parseQueryString } from '../../utils';
+import { toast } from 'react-hot-toast';
 
 interface User {
   id: string;
@@ -37,10 +38,16 @@ function ProfilePage() {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { isFetchingUserPosts, userPosts } = useAppSelector((state) => state.postReducer);
   const { isFetchingAuthUser } = useAppSelector((state) => state.authUserReducer);
-  const { isFetchingUser } = useAppSelector((state) => state.userReducer);
+  const { isFetchingUser, error } = useAppSelector((state) => state.userReducer);
 
   const router = useRouter()
   const user_id = router.query.user_id || parseQueryString(window.location.search.substring(1)).user_id;
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (user_id == undefined || null) {
@@ -58,10 +65,12 @@ function ProfilePage() {
   };
 
   const fetchUserById = async () => {
-    await dispatch(fetchUser(user_id)).then((res: any) => {
-      setUser(res);
-      fetchPosts(res);
-    });
+    if (!isEmpty(user_id)) {
+      await dispatch(fetchUser(user_id)).then((res: any) => {
+        setUser(res);
+        fetchPosts(res);
+      });
+    }
   };
 
   const fetchPosts = async (thisUser: any = {}) => {

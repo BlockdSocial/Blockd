@@ -8,6 +8,7 @@ import { isEmpty, result } from "lodash";
 import { fetchComment, fetchCommentReplies } from "../../stores/comment/CommentActions";
 import { fetchPost } from "../../stores/post/PostActions";
 import { parseQueryString } from "../../utils";
+import { toast } from "react-hot-toast";
 
 interface Pic {
   name: string;
@@ -47,12 +48,18 @@ interface Post {
 function CommentPage() {
   const router = useRouter();
   const dispatch = useAppDispatch();
-  const { comment, commentReplies } = useAppSelector((state) => state.commentReducer);
+  const { comment, commentReplies, error } = useAppSelector((state) => state.commentReducer);
   const { post } = useAppSelector((state) => state.postReducer);
   const spliced = window.location.search.substring(1);
   const split = spliced.split('&');
   const commentId = parseQueryString(split[0]).commentId;
   const postId = parseQueryString(split[1]).postId;
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!isEmpty(router.query)) {

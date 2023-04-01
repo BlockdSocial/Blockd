@@ -5,14 +5,22 @@ import SuggestionBody from "./SuggestionBody";
 import PostTest from "../Feed/Post";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { fetchSuggestions } from "../../stores/post/PostActions";
+import { isEmpty } from "lodash";
+import { toast } from "react-hot-toast";
 
 function SuggestionPage() {
   const dispatch = useAppDispatch();
-  const { suggestions } = useAppSelector((state) => state.postReducer);
+  const { suggestions, error } = useAppSelector((state) => state.postReducer);
 
   useEffect(() => {
     getSuggestions();
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const getSuggestions = async () => {
     await dispatch(fetchSuggestions());

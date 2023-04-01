@@ -74,7 +74,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_UPDATING_PROFILE_PICTURE: {
       return {
         ...state,
-        isUpdatingProfilePicture: true
+        isUpdatingProfilePicture: true,
+        error: ''
       };
     }
     case UPDATE_PROFILE_PICTURE_SUCCESS: {
@@ -93,7 +94,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_UPDATING_PROFILE_BANNER: {
       return {
         ...state,
-        isUpdatingProfileBanner: true
+        isUpdatingProfileBanner: true,
+        error: ''
       };
     }
     case UPDATE_PROFILE_BANNER_SUCCESS: {
@@ -112,7 +114,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_FETCHING_FOLLOWERS: {
       return {
         ...state,
-        isFetchingFollowers: true
+        isFetchingFollowers: true,
+        error: ''
       };
     }
     case FETCH_FOLLOWERS_SUCCESS: {
@@ -132,7 +135,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_FETCHING_FOLLOWINGS: {
       return {
         ...state,
-        isFetchingFollowings: true
+        isFetchingFollowings: true,
+        error: ''
       };
     }
     case FETCH_FOLLOWINGS_SUCCESS: {
@@ -152,7 +156,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_UPDATING_USER: {
       return {
         ...state,
-        isUpdatingUser: true
+        isUpdatingUser: true,
+        error: ''
       };
     }
     case UPDATE_USER_SUCCESS: {
@@ -171,7 +176,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_FETCHING_USER: {
       return {
         ...state,
-        isFetchingUser: true
+        isFetchingUser: true,
+        error: ''
       };
     }
     case FETCH_USER_SUCCESS: {
@@ -191,7 +197,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_SEARCHING_POPULAR_USERS: {
       return {
         ...state,
-        isSearchingPopularUsers: true
+        isSearchingPopularUsers: true,
+        error: ''
       };
     }
     case SEARCH_POPULAR_USERS_SUCCESS: {
@@ -211,7 +218,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_SEARCHING_FILTERED_USERS: {
       return {
         ...state,
-        isSearchingFilteredUsers: true
+        isSearchingFilteredUsers: true,
+        error: ''
       };
     }
     case SEARCH_FILTERED_USERS_SUCCESS: {
@@ -231,7 +239,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_FOLLOWING_USER: {
       return {
         ...state,
-        isFollowingUser: true
+        isFollowingUser: true,
+        error: ''
       };
     }
     case FOLLOW_USER_SUCCESS: {
@@ -250,7 +259,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_FETCHING_REWARDS: {
       return {
         ...state,
-        isFetchingRewards: true
+        isFetchingRewards: true,
+        error: ''
       };
     }
     case FETCH_REWARDS_SUCCESS: {
@@ -270,7 +280,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_SETTING_FRAME: {
       return {
         ...state,
-        isSettingFrame: true
+        isSettingFrame: true,
+        error: ''
       };
     }
     case SET_FRAME_SUCCESS: {
@@ -289,7 +300,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_FETCHING_FOLLOWED: {
       return {
         ...state,
-        isFetchingFollowed: true
+        isFetchingFollowed: true,
+        error: ''
       };
     }
     case FETCH_FOLLOWED_SUCCESS: {
@@ -309,7 +321,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_RESETING_BELL: {
       return {
         ...state,
-        isResetingBell: true
+        isResetingBell: true,
+        error: ''
       };
     }
     case RESET_BELL_SUCCESS: {
@@ -328,7 +341,8 @@ export function userReducer(state = initialState, action: any) {
     case IS_RESETING_MESSAGES: {
       return {
         ...state,
-        isResetingMessages: true
+        isResetingMessages: true,
+        error: ''
       };
     }
     case RESET_MESSAGES_SUCCESS: {

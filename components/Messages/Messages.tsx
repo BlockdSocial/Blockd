@@ -1,17 +1,25 @@
-import React from 'react'
+import React, { useEffect } from 'react'
 import {
   ArrowSmallRightIcon,
 } from '@heroicons/react/24/outline'
 import Link from 'next/link'
-import { useAppDispatch } from '../../stores/hooks';
+import { useAppDispatch, useAppSelector } from '../../stores/hooks';
 import { readNotification } from '../../stores/notification/NotificationActions';
 import { isEmpty } from 'lodash';
 import { config } from '../../constants';
 import moment from 'moment';
 import { encodeQuery } from '../../utils';
+import { toast } from 'react-hot-toast';
 
 function Messages({ notification, handleFetchNotifications }: any) {
   const dispatch = useAppDispatch();
+  const { error } = useAppSelector((state) => state.notificationReducer)
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleReadNotification = async () => {
     await dispatch(readNotification(notification?.id)).then(() => {

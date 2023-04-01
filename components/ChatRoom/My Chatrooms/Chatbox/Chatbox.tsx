@@ -7,8 +7,9 @@ import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
 import { fetchChatroomMessages, fetchMessages } from "../../../../stores/chat/ChatActions";
 import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
+import { toast } from "react-hot-toast";
 
-function Chatbox({ receiver, chats, setReceiver, room }: any) {
+function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const elementRef = useRef<any>(null);
@@ -16,12 +17,18 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
   const [endCount, setEndCount] = useState<number>(4);
   const [endTotal, setEndTotal] = useState<number>(4);
   const [messages, setMessages] = useState<any>();
-  const { isFetchingMessages } = useAppSelector((state) => state.chatReducer);
+  const { isFetchingMessages, error } = useAppSelector((state) => state.chatReducer);
   const ref = useRef<any>(null);
 
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (!isEmpty(receiver)) {
@@ -147,6 +154,18 @@ function Chatbox({ receiver, chats, setReceiver, room }: any) {
         elementRef={elementRef}
         handleScroll={handleScroll}
       />
+      {
+        isEmpty(chats) && isEmpty(chatrooms) &&
+        <div className="flex flex-col items-center justify-start">
+          <img
+            src="/images/badges/no-message.webp"
+            className="object-contain max-w-[300px]"
+          />
+          <p className="p-2 rounded-full px-4 bg-gray-200 dark:bg-lightgray">
+            No Messages Yet !
+          </p>
+        </div>
+      }
       {(!isEmpty(receiver) || !isEmpty(room)) && (
         <Footer
           receiver={receiver}

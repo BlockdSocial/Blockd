@@ -12,7 +12,7 @@ import { toast } from "react-hot-toast";
 function OrdinaryChatrooms() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { allRooms, isCheckingBalance, balance, error } = useAppSelector((state) => state.chatReducer);
+  const { allRooms, isCheckingBalance, balance, balanceError } = useAppSelector((state) => state.chatReducer);
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
@@ -29,10 +29,10 @@ function OrdinaryChatrooms() {
   }, []);
 
   useEffect(() => {
-    if (!isEmpty(error)) {
-      setErrorMessage(error);
+    if (!isEmpty(balanceError)) {
+      setErrorMessage(balanceError);
     }
-  }, [error]);
+  }, [balanceError]);
 
   const getChatrooms = async () => {
     await dispatch(fetchAllRooms());

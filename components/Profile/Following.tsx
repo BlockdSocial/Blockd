@@ -7,10 +7,18 @@ import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { fetchFollowings } from '../../stores/user/UserActions';
 import { isEmpty } from 'lodash';
 import { config } from '../../constants';
+import { toast } from 'react-hot-toast';
+import { encodeQuery } from '../../utils';
 
 function Following({ user }: any) {
   const dispatch = useAppDispatch();
-  const { followings } = useAppSelector((state) => state.userReducer);
+  const { followings, error } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     fetchUserFollowings();
@@ -30,7 +38,9 @@ function Following({ user }: any) {
               href={{
                 pathname: "/dashboard/profile",
                 query: { user_id: following?.otherUser?.id },
-              }} className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer"
+              }}
+              as={`/dashboard/profile?${encodeQuery(following?.otherUser?.id, 'profile')}`}
+              className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer"
             >
               <div className='flex'>
                 <img
@@ -51,7 +61,9 @@ function Following({ user }: any) {
                   href={{
                     pathname: "/dashboard/profile",
                     query: { user_id: following?.otherUser?.id },
-                  }} className="flex invisible group-hover/item:visible"
+                  }}
+                  as={`/dashboard/profile?${encodeQuery(following?.otherUser?.id, 'profile')}`}
+                  className="flex invisible group-hover/item:visible"
                 >
                   <span className="group-hover/edit:text-gray-700 font-semibold">View</span>
                   <div className='flex items-center ml-2'>

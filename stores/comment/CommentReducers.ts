@@ -74,7 +74,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_ADDING_COMMENT: {
       return {
         ...state,
-        isAddingComment: true
+        isAddingComment: true,
+        error: ''
       };
     }
     case ADD_COMMENT_SUCCESS: {
@@ -93,7 +94,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_DELETING_COMMENT: {
       return {
         ...state,
-        isDeletingComment: true
+        isDeletingComment: true,
+        error: ''
       };
     }
     case DELETE_COMMENT_SUCCESS: {
@@ -112,7 +114,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_LIKING_COMMENT: {
       return {
         ...state,
-        isLikingComment: true
+        isLikingComment: true,
+        error: ''
       };
     }
     case LIKE_COMMENT_SUCCESS: {
@@ -131,7 +134,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_DISLIKING_COMMENT: {
       return {
         ...state,
-        isDislikingComment: true
+        isDislikingComment: true,
+        error: ''
       };
     }
     case DISLIKE_COMMENT_SUCCESS: {
@@ -151,6 +155,7 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingPostComments: true,
+        error: ''
       };
     }
     case FETCH_POST_COMMENTS_SUCCESS: {
@@ -171,6 +176,7 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingCommentInfo: true,
+        error: ''
       };
     }
     case FETCH_COMMENT_INFO_SUCCESS: {
@@ -190,7 +196,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_FETCHING_IS_LIKED_COMMENT: {
       return {
         ...state,
-        isFetchingIsLikedCommet: true
+        isFetchingIsLikedCommet: true,
+        error: ''
       };
     }
     case FETCH_IS_LIKED_COMMENT_SUCCESS: {
@@ -210,7 +217,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_FETCHING_IS_DISLIKED_COMMENT: {
       return {
         ...state,
-        isFetchingIsDislikedComment: true
+        isFetchingIsDislikedComment: true,
+        error: ''
       };
     }
     case FETCH_IS_DISLIKED_COMMENT_SUCCESS: {
@@ -230,7 +238,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_REPLYING_COMMENT: {
       return {
         ...state,
-        isReplyingComment: true
+        isReplyingComment: true,
+        error: ''
       };
     }
     case REPLY_COMMENT_SUCCESS: {
@@ -249,7 +258,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_FETCHING_COMMENT: {
       return {
         ...state,
-        isFetchingComment: true
+        isFetchingComment: true,
+        error: ''
       };
     }
     case FETCH_COMMENT_SUCCESS: {
@@ -269,7 +279,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_FETCHING_COMMENT_REPLIES: {
       return {
         ...state,
-        isFetchingCommentReplies: true
+        isFetchingCommentReplies: true,
+        error: ''
       };
     }
     case FETCH_COMMENT_REPLIES_SUCCESS: {
@@ -289,7 +300,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_FETCHING_REPLY_INFO: {
       return {
         ...state,
-        isFetchingReplyInfo: true
+        isFetchingReplyInfo: true,
+        error: ''
       };
     }
     case FETCH_REPLY_INFO_SUCCESS: {
@@ -309,7 +321,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_LIKING_REPLY: {
       return {
         ...state,
-        isLikingReply: true
+        isLikingReply: true,
+        error: ''
       };
     }
     case LIKE_REPLY_SUCCESS: {
@@ -328,7 +341,8 @@ export function commentReducer(state = initialState, action: any) {
     case IS_DISLIKING_REPLY: {
       return {
         ...state,
-        isDislikingReply: true
+        isDislikingReply: true,
+        error: ''
       };
     }
     case DISLIKE_REPLY_SUCCESS: {

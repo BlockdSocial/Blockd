@@ -10,6 +10,7 @@ import { useAppDispatch, useAppSelector } from '../../stores/hooks'
 import { useRouter } from "next/router";
 import { isEmpty } from 'lodash'
 import { fetchUser } from '../../stores/user/UserActions'
+import { toast } from 'react-hot-toast'
 
 function chatroom() {
   const dispatch = useAppDispatch();
@@ -20,7 +21,13 @@ function chatroom() {
   const router = useRouter();
   const { chatReceiverId } = router.query;
   const roomChat = router.query.roomChat != undefined ? JSON.parse(router.query.roomChat as any) : null;
-  const { chatrooms } = useAppSelector((state) => state.chatReducer);
+  const { chatrooms, error } = useAppSelector((state) => state.chatReducer);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     fetchChats();
@@ -59,9 +66,11 @@ function chatroom() {
 
   const handleSetReceiver = useCallback(async () => {
 
-    await dispatch(fetchUser(chatReceiverId)).then((result: any) => {
-      setReceiver(result);
-    });
+    if (!isEmpty(chatReceiverId)) {
+      await dispatch(fetchUser(chatReceiverId)).then((result: any) => {
+        setReceiver(result);
+      });
+    }
   }, []);
 
   return (
@@ -82,6 +91,7 @@ function chatroom() {
           chats={chats}
           room={room}
           setReceiver={setReceiver}
+          chatrooms={chatrooms}
         />
         <Widget
           chats={chats}

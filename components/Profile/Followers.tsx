@@ -8,10 +8,22 @@ import { fetchFollowers } from '../../stores/user/UserActions';
 import { isEmpty } from 'lodash';
 import { config } from '../../constants';
 import CustomLoadingOverlay from '../CustomLoadingOverlay';
+import { toast } from 'react-hot-toast';
+import { encodeQuery } from '../../utils';
 
 function Followers({ user }: any) {
   const dispatch = useAppDispatch();
-  const { followers, isFetchingFollowers } = useAppSelector((state) => state.userReducer);
+  const {
+    followers,
+    isFetchingFollowers,
+    error
+  } = useAppSelector((state) => state.userReducer);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     fetchUserFollowers();
@@ -33,6 +45,7 @@ function Followers({ user }: any) {
                 pathname: "/dashboard/profile",
                 query: { user_id: follower?.otherUser2?.id },
               }}
+              as={`/dashboard/profile?${encodeQuery(follower?.otherUser2?.id, 'profile')}`}
               className="flex items-center justify-between group/item hover:bg-slate-100 dark:hover:bg-lightgray p-4 cursor-pointer"
             >
               <div className='flex'>
@@ -56,6 +69,7 @@ function Followers({ user }: any) {
                     pathname: "/dashboard/profile",
                     query: { user_id: follower?.otherUser2?.id },
                   }}
+                  as={`/dashboard/profile?${encodeQuery(follower?.otherUser2?.id, 'profile')}`}
                   className="flex invisible group-hover/item:visible"
                 >
                   <span className="group-hover/edit:text-gray-700 font-semibold">View</span>

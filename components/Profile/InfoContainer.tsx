@@ -26,6 +26,7 @@ import { fetchPostImage } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
 import { config } from "../../constants";
+import { toast } from "react-hot-toast";
 
 interface User {
   id: string;
@@ -48,7 +49,7 @@ interface Props {
 function InfoContainer({ user, refetchUser, userId }: Props) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { rewards, followers, isFollowed } = useAppSelector(
+  const { rewards, followers, isFollowed, error } = useAppSelector(
     (state) => state.userReducer
   );
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
@@ -66,6 +67,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   //Hide dropdown when clicking outside it
 
   const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -213,6 +220,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const setFrame = async (id: any) => {
     await dispatch(setUserFrame(id));
+    refetchUser();
   };
 
   return (
@@ -253,9 +261,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             <div className="z-0">
               <div className={`relative rounded-md z-10`}>
                 <img
-                  src="/images/frames/frame5.svg"
+                  src={!isEmpty(user?.frameName) ? `/${user?.frameName}` : '/images/frames/frame5.svg'}
                   alt="pfp"
-                  className="relative w-24 h-24 z-10 border-white"
+                  className="relative w-24 h-24 z-0 border-white"
                 />
                 <img
                   src={
@@ -264,7 +272,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] z-0 shadow-sm"
+                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] z-10 shadow-sm"
                 />
                 <div
                   className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}
@@ -520,13 +528,14 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <div className="grid grid-cols-12 z-0 lg:grid-cols-8 w-full place-items-center">
                 {!isEmpty(rewards) &&
                   rewards.map((reward: any, index: any) => (
-                    <div
+                    <img
+                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 rounded-md`}
+                      src={`/${reward?.name}`}
                       key={index}
                       onClick={() => {
                         changeFrameColor(reward?.name), setFrame(reward?.id);
                       }}
-                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 ${reward?.name} rounded-md`}
-                    ></div>
+                    />
                   ))}
                 {/* <div
                   onClick={() => changeFrameColor("bg-orange-500")}

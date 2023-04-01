@@ -26,7 +26,8 @@ export function notificationReducer(state = initialState, action: any) {
     case IS_FETCHING_USER_NOTIFICATIONS: {
       return {
         ...state,
-        isFetchingUserNotifications: true
+        isFetchingUserNotifications: true,
+        error: ''
       };
     }
     case FETCH_USER_NOTIFICATIONS_SUCCESS: {
@@ -46,7 +47,8 @@ export function notificationReducer(state = initialState, action: any) {
     case IS_FETCHING_USER_NOTIFICATION: {
       return {
         ...state,
-        isFetchingUserNotification: true
+        isFetchingUserNotification: true,
+        error: ''
       };
     }
     case FETCH_USER_NOTIFICATION_SUCCESS: {
@@ -66,7 +68,8 @@ export function notificationReducer(state = initialState, action: any) {
     case IS_READING_NOTIFICATION: {
       return {
         ...state,
-        isReadingNotification: true
+        isReadingNotification: true,
+        error: ''
       };
     }
     case READ_NOTIFICATION_SUCCESS: {

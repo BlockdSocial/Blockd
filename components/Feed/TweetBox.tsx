@@ -23,7 +23,7 @@ interface Props {
 
 function TweetBox({ refetchFiltered }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { isCreatingPost } = useAppSelector((state) => state.postReducer);
+  const { isCreatingPost, error } = useAppSelector((state) => state.postReducer);
   const [input, setInput] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -37,6 +37,12 @@ function TweetBox({ refetchFiltered }: Props) {
   const [showEmojis, setShowEmojis] = useState<boolean>(false);
 
   const emoji = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     dispatch(fetchAuthUser());
@@ -214,11 +220,11 @@ function TweetBox({ refetchFiltered }: Props) {
         className="relative flex flex-col h-fit group"
       >
         <div
-          className={`relative flex flex-col p-1 ${authUser?.frameName} rounded-lg`}
+          className={`relative flex flex-col p-1 rounded-lg`}
         >
           <div className={`relative rounded-md`}>
             <Image
-              src="/images/frames/frame5.svg"
+              src={!isEmpty(authUser?.frameName) ? `/${authUser?.frameName}` : '/images/frames/frame5.svg'}
               alt="pfp"
               className="relative w-20 h-20 border-white"
               width={2000}

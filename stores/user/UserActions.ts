@@ -58,7 +58,7 @@ export function updateProfilcePicture(fields: object) {
       console.log('Update Profile Picture error: ', error);
       dispatch({
         type: UPDATE_PROFILE_PICTURE_FAILURE,
-        error: error?.message
+        // error: error?.message
       });
     }
   }
@@ -76,7 +76,7 @@ export function updateProfileBanner(fields: object) {
       console.log('Update Profile Banner error: ', error);
       dispatch({
         type: UPDATE_PROFILE_BANNER_FAILURE,
-        error: error?.message
+        // error: error?.message
       });
     }
   }
@@ -248,7 +248,7 @@ export function setUserFrame(fields: any) {
       console.log('Set frame Error: ', error);
       dispatch({
         type: SET_FRAME_FAILURE,
-        error: error?.message
+        // error: error?.message
       });
     }
   }

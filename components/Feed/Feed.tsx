@@ -39,7 +39,7 @@ function Feed() {
   const router = useRouter();
   const { isRegistered } = router.query;
 
-  const { isFetchingFilteredPosts } = useAppSelector(
+  const { isFetchingFilteredPosts, error } = useAppSelector(
     (state) => state.postReducer
   );
   const [showModal1, setShowModal1] = useState(true);
@@ -50,6 +50,12 @@ function Feed() {
 
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     const handleScroll = () => {

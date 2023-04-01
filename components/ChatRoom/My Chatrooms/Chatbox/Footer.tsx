@@ -15,6 +15,7 @@ import {
 } from "../../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
 import AutoResizeTextarea from "./AutoResizeTextArea";
+import { toast } from "react-hot-toast";
 
 function Footer({
   messages,
@@ -29,6 +30,7 @@ function Footer({
 
   let [showEmojis, setShowEmojis] = useState<boolean>(false);
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { error } = useAppSelector((state) => state.chatReducer);
   const [input, setInput] = useState<string>("");
   const [gifUrl, setGifUrl] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -43,6 +45,12 @@ function Footer({
     }
     setShowEmojis(!showEmojis);
   };
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     // only add the event listener when the emoji is opened

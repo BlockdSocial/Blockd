@@ -44,7 +44,7 @@ function AchievementPage() {
         <div className="flex items-center justify-center w-full space-x-6 mb-10 bg-transparent">
           <div className={`relative rounded-md`}>
             <Image
-              src="/images/frames/frame5.svg"
+              src={!isEmpty(authUser?.frameName) ? `/${authUser?.frameName}` : '/images/frames/frame5.svg'}
               alt="pfp"
               className="relative w-24 h-24 border-white"
               width={2000}
@@ -71,7 +71,7 @@ function AchievementPage() {
                   height={2000}
                 />
                 <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
-                {authUser?.level}
+                  {authUser?.level}
                 </div>
               </div>
             </div>
@@ -89,11 +89,10 @@ function AchievementPage() {
         <div className="flex items-center justify-between space-x-20 mb-5 w-fit border-b dark:border-lightgray h-10">
           <button
             onClick={() => handleToggle2()}
-            className={`text-base focus:outline-none ${
-              showLevels === true
+            className={`text-base focus:outline-none ${showLevels === true
                 ? "border-b-2 border-blockd text-blockd :"
                 : ""
-            }`}
+              }`}
           >
             Levels
           </button>

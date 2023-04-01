@@ -5,6 +5,7 @@ import { followUser } from '../../stores/user/UserActions'
 import { config } from '../../constants'
 import { encodeQuery } from '../../utils'
 import { isEmpty } from 'lodash'
+import { toast } from 'react-hot-toast'
 
 interface Post {
   id: number;
@@ -18,6 +19,13 @@ function UserResult({ user }: any) {
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer)
+  const { error } = useAppSelector((state) => state.userReducer)
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const handleFollowUser = async (userId: any) => {
     if (authUser?.id !== userId) {

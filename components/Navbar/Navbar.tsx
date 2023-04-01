@@ -136,15 +136,15 @@ const Navbar = () => {
       await dispatch(fetchUserNotification(data?.notification)).then(
         async (result: any) => {
           if ("like" === result?.type) {
-            setNotificationInfo(`${result?.user?.name} has liked your post!`);
+            setNotificationInfo(`${result?.otherUser?.name} has liked your post!`);
           } else if ("comment" === result?.type) {
             setNotificationInfo(
-              `${result?.user?.name} commented on your post!`
+              `${result?.otherUser?.name} commented on your post!`
             );
           } else if ("dislike" === result?.type) {
-            setNotificationInfo(`${result?.user?.name} disliked your post!`);
+            setNotificationInfo(`${result?.otherUser?.name} disliked your post!`);
           } else if ("follow" === result?.type) {
-            setNotificationInfo(`${result?.user?.name} has followed you!`);
+            setNotificationInfo(`${result?.otherUser?.name} has followed you!`);
           } else if ("levelUpgrade" === result?.type) {
             setNotificationInfo("Your level has been upgraded!");
           }

@@ -12,11 +12,17 @@ import { isEmpty } from 'lodash'
 function MessagesPage() {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { notifications } = useAppSelector((state) => state.notificationReducer);
+  const { notifications, error } = useAppSelector((state) => state.notificationReducer);
 
   useEffect(() => {
     handleFetchNotifications();
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   const Messages = dynamic(() => import('./Messages'), { ssr: false })
   const handleRefresh = async () => {

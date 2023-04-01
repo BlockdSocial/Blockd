@@ -18,6 +18,7 @@ function Members({ members, room }: any) {
 
   const dispatch = useAppDispatch()
   const { authUser } = useAppSelector((state) => state.authUserReducer)
+  const { error } = useAppSelector((state) => state.chatReducer)
   let [input, setInput] = useState<string>('')
   let [inputAdd, setInputAdd] = useState<string>('')
   let [showSearch, setShowSearch] = useState<boolean>(false)
@@ -30,6 +31,12 @@ function Members({ members, room }: any) {
       setRoomMembers(members);
     }
   }, []);
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     if (input.length > 0) {
@@ -92,8 +99,6 @@ function Members({ members, room }: any) {
       refreshAddMember();
     });
   }
-
-  console.log('roomMembers: ', roomMembers);
 
   return (
     <div className='flex flex-col bg-white border-b'>

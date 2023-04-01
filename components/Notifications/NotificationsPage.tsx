@@ -38,9 +38,15 @@ interface INotification {
 function NotificationsPage() {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { notifications, isFetchingUserNotifications } = useAppSelector(
+  const { notifications, isFetchingUserNotifications, error } = useAppSelector(
     (state) => state.notificationReducer
   );
+
+  useEffect(() => {
+    if (!isEmpty(error)) {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     handleFetchNotifications();

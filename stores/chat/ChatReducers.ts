@@ -76,6 +76,7 @@ const initialState = {
   isSearchingRoomMembers: false,
   isCheckingBalance: false,
   balance: {},
+  balanceError: '',
   roomMembersResult: [],
   allRooms: [],
   chatroomMessages: [],
@@ -91,7 +92,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_CREATING_MESSAGE: {
       return {
         ...state,
-        isCreatingMessage: true
+        isCreatingMessage: true,
+        error: ''
       };
     }
     case CREATE_MESSAGE_SUCCESS: {
@@ -111,6 +113,7 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingMessages: true,
+        error: ''
       };
     }
     case FETCH_MESSAGES_SUCCESS: {
@@ -131,6 +134,7 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isCreatingChat: true,
+        error: ''
       };
     }
     case CREATE_CHAT_SUCCESS: {
@@ -150,6 +154,7 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isDeletingChat: true,
+        error: ''
       };
     }
     case DELETE_CHAT_SUCCESS: {
@@ -168,7 +173,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_FETCHING_CHAT: {
       return {
         ...state,
-        isFetchingChat: true
+        isFetchingChat: true,
+        error: ''
       };
     }
     case FETCH_CHAT_SUCCESS: {
@@ -188,7 +194,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_MUTING_CHAT: {
       return {
         ...state,
-        isMutingChat: true
+        isMutingChat: true,
+        error: ''
       };
     }
     case MUTE_CHAT_SUCCESS: {
@@ -207,7 +214,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_CREATING_CHATROOM: {
       return {
         ...state,
-        isCreatingChatroom: true
+        isCreatingChatroom: true,
+        error: ''
       };
     }
     case CREATE_CHATROOM_SUCCESS: {
@@ -226,7 +234,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_DELETING_CHATROOM: {
       return {
         ...state,
-        isDeletingChatroom: true
+        isDeletingChatroom: true,
+        error: ''
       };
     }
     case DELETE_CHATROOM_SUCCESS: {
@@ -245,7 +254,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_ADDING_MEMBER: {
       return {
         ...state,
-        isAddingMember: true
+        isAddingMember: true,
+        error: ''
       };
     }
     case ADD_MEMBER_SUCCESS: {
@@ -264,7 +274,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_REMOVING_MEMBER: {
       return {
         ...state,
-        isRemovingMember: true
+        isRemovingMember: true,
+        error: ''
       };
     }
     case REMOVE_MEMBER_SUCCESS: {
@@ -283,7 +294,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_CREATING_CHATROOM_MESSAGE: {
       return {
         ...state,
-        isCreatingChatroomMessage: true
+        isCreatingChatroomMessage: true,
+        error: ''
       };
     }
     case CREATE_CHATROOM_MESSAGE_SUCCESS: {
@@ -302,7 +314,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_FETCHING_USER_CHATROOMS: {
       return {
         ...state,
-        isFetchingUserChatrooms: true
+        isFetchingUserChatrooms: true,
+        error: ''
       };
     }
     case FETCH_USER_CHATROOMS_SUCCESS: {
@@ -322,7 +335,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_FETCHING_CHATROOM_MEMBERS: {
       return {
         ...state,
-        isFetchingChatroomMembers: true
+        isFetchingChatroomMembers: true,
+        error: ''
       };
     }
     case FETCH_CHATROOM_MEMBERS_SUCCESS: {
@@ -342,7 +356,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_FETCHING_CHATROOM_MESSAGES: {
       return {
         ...state,
-        isFetchingChatroomMessages: true
+        isFetchingChatroomMessages: true,
+        error: ''
       };
     }
     case FETCH_CHATROOM_MESSAGES_SUCCESS: {
@@ -362,7 +377,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_FETCHING_ALL_ROOMS: {
       return {
         ...state,
-        isFetchingAllRooms: true
+        isFetchingAllRooms: true,
+        error: ''
       };
     }
     case FETCH_ALL_ROOMS_SUCCESS: {
@@ -382,7 +398,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_JOINING_ROOM: {
       return {
         ...state,
-        isJoiningRoom: true
+        isJoiningRoom: true,
+        error: ''
       };
     }
     case JOIN_ROOM_SUCCESS: {
@@ -401,7 +418,8 @@ export function chatReducer(state = initialState, action: any) {
     case IS_SEARCHING_ROOM_MEMBERS: {
       return {
         ...state,
-        isSearchingRoomMembers: true
+        isSearchingRoomMembers: true,
+        error: ''
       };
     }
     case SEARCH_ROOM_MEMBERS_SUCCESS: {
@@ -422,7 +440,7 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isCheckingBalance: true,
-        error: ''
+        balanceError: ''
       };
     }
     case CHECK_BALANCE_SUCCESS: {
@@ -430,14 +448,14 @@ export function chatReducer(state = initialState, action: any) {
         ...state,
         isCheckingBalance: false,
         balance: action.balance,
-        error: ''
+        balanceError: ''
       };
     }
     case CHECK_BALANCE_FAILURE: {
       return {
         ...state,
         isCheckingBalance: false,
-        error: action.error
+        balanceError: action.error
       };
     }
     default: {
