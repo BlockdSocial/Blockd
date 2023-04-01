@@ -705,29 +705,35 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           width={2000}
                           height={2000}
                         />
-                        <Image
-                          src={
-                            !isEmpty(sharedPost?.otherUser?.profilePic)
-                              ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
-                              : "/images/pfp/pfp1.jpg"
-                          }
-                          alt="pfp"
-                          className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 shadow-sm"
-                          width={2000}
-                          height={2000}
-                        />
+                        <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] bg-white dark:bg-darkgray">
+                          <Image
+                            src={
+                              !isEmpty(sharedPost?.otherUser?.profilePic)
+                                ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
+                                : "/images/pfp/pfp1.jpg"
+                            }
+                            alt="pfp"
+                            className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                            width={2000}
+                            height={2000}
+                          />
+                        </div>
                         <div
                           className={`absolute -bottom-3 -left-3 flex rounded-lg`}
                         >
                           <div className="relative">
                             <Image
-                              src="/images/frames/frame5.svg"
+                              src={
+                                !isEmpty(sharedPost?.otherUser?.frameName)
+                                  ? `/${sharedPost?.otherUser?.frameName}`
+                                  : "/images/frames/frame5.svg"
+                              }
                               alt="pfp"
-                              className="relative w-7 h-7 z-[1] stroke-{100px}"
+                              className="relative w-7 h-7"
                               width={2000}
                               height={2000}
                             />
-                            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[24px] h-[24px] z-[1] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
                               {sharedPost?.otherUser?.level}
                             </div>
                           </div>
