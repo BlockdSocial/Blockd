@@ -80,7 +80,7 @@ function AchievementPage() {
                   width={2000}
                   height={2000}
                 />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[32px] h-[32px] z-[1] flex items-center justify-center text-black font-semibold text-sm bg-white">
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[35px] h-[35px] z-[1] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
                   {authUser?.level}
                 </div>
               </div>

@@ -295,7 +295,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
       <div className="flex items-start justify-start space-x-2">
         <Link
           href="/dashboard/profile"
-          className="flex flex-col items-start justify-start"
+          className="relative flex flex-col w-fit h-fit group"
         >
           <div className={`relative rounded-md`}>
             <Image
@@ -305,11 +305,11 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   : "/images/frames/frame5.svg"
               }
               alt="pfp"
-              className="relative w-16 h-16 border-white"
+              className="relative w-16 h-14"
               width={2000}
               height={2000}
             />
-            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[55px] bg-white dark:bg-darkgray">
+            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[45px] h-[45px] bg-white dark:bg-darkgray">
               <Image
                 src={
                   !isEmpty(comment?.otherUser?.profilePic)
@@ -317,12 +317,12 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                     : "/images/pfp/pfp1.jpg"
                 }
                 alt="pfp"
-                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[45px] h-[50px] z-0 rounded-sm"
+                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[40px] h-[40px] z-0 rounded-sm"
                 width={2000}
                 height={2000}
               />
             </div>
-            <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
+            <div className={`absolute -bottom-2 -left-3 flex rounded-lg`}>
               <div className="relative">
                 <Image
                   src={
@@ -336,7 +336,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   height={2000}
                 />
                 <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[24px] h-[24px] z-[1] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
-                {comment?.otherUser?.level}
+                  {comment?.otherUser?.level}
                 </div>
               </div>
             </div>
