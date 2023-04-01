@@ -868,16 +868,14 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <Link href="#" className="opacity-60">
-              {/*
-                // @ts-ignore */}
+            {/* <Link href="#" className="opacity-60">
+              
               <SidebarRow Icon={LockClosedIcon} title="Streams" active="" />
             </Link>
             <Link href="#" className="opacity-60">
-              {/* 
-                // @ts-ignore */}
+              
               <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
-            </Link>
+            </Link> */}
           </div>
         )}
         {isRegistered != undefined && (
