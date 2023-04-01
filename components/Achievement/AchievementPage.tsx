@@ -44,33 +44,43 @@ function AchievementPage() {
         <div className="flex items-center justify-center w-full space-x-6 mb-10 bg-transparent">
           <div className={`relative rounded-md`}>
             <Image
-              src={!isEmpty(authUser?.frameName) ? `/${authUser?.frameName}` : '/images/frames/frame5.svg'}
+              src={
+                !isEmpty(authUser?.frameName)
+                  ? `/${authUser?.frameName}`
+                  : "/images/frames/frame5.svg"
+              }
               alt="pfp"
               className="relative w-24 h-24 border-white"
               width={2000}
               height={2000}
             />
-            <Image
-              src={
-                !isEmpty(authUser?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                  : "/images/pfp/pfp1.jpg"
-              }
-              alt="pfp"
-              className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[80px] h-[80px] z-0 shadow-sm"
-              width={2000}
-              height={2000}
-            />
-            <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
+            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[85px] h-[85px] bg-white dark:bg-lightgray">
+              <Image
+                src={
+                  !isEmpty(authUser?.profilePic)
+                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                    : "/images/pfp/pfp1.jpg"
+                }
+                alt="pfp"
+                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[80px] h-[80px] z-0 rounded-sm"
+                width={2000}
+                height={2000}
+              />
+            </div>
+            <div className={`absolute -bottom-3 -left-4 flex rounded-lg`}>
               <div className="relative">
                 <Image
-                  src="/images/frames/frame5.svg"
+                  src={
+                    !isEmpty(authUser?.frameName)
+                      ? `/${authUser?.frameName}`
+                      : "/images/frames/frame5.svg"
+                  }
                   alt="pfp"
-                  className="relative w-10 h-10 z-[1] stroke-{100px}"
+                  className="relative w-10 h-10"
                   width={2000}
                   height={2000}
                 />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[32px] h-[32px] z-[1] flex items-center justify-center text-black font-semibold text-sm bg-white">
                   {authUser?.level}
                 </div>
               </div>
@@ -89,10 +99,11 @@ function AchievementPage() {
         <div className="flex items-center justify-between space-x-20 mb-5 w-fit border-b dark:border-lightgray h-10">
           <button
             onClick={() => handleToggle2()}
-            className={`text-base focus:outline-none ${showLevels === true
+            className={`text-base focus:outline-none ${
+              showLevels === true
                 ? "border-b-2 border-blockd text-blockd :"
                 : ""
-              }`}
+            }`}
           >
             Levels
           </button>

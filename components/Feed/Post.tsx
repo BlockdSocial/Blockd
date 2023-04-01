@@ -93,7 +93,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { error } = useAppSelector((state) => state.postReducer)
+  const { error } = useAppSelector((state) => state.postReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
   const [textArea, setTextArea] = useState<string>("");
@@ -508,35 +508,46 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 >
                   <div className={`relative rounded-md`}>
                     <Image
-                      src={!isEmpty(mainPost?.otherUser?.frameName) ? `/${mainPost?.otherUser?.frameName}` : '/images/frames/frame5.svg'}
-                      alt="pfp"
-                      className="relative w-16 h-16 border-white"
-                      width={2000}
-                      height={2000}
-                    />
-                    <Image
                       src={
-                        !isEmpty(mainPost?.otherUser?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
-                          : "/images/pfp/pfp1.jpg"
+                        !isEmpty(mainPost?.otherUser?.frameName)
+                          ? `/${mainPost?.otherUser?.frameName}`
+                          : "/images/frames/frame5.svg"
                       }
                       alt="pfp"
-                      className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 shadow-sm"
+                      className="relative w-16 h-16"
                       width={2000}
                       height={2000}
                     />
+                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] z-0 shadow-sm bg-white dark:bg-lightgray p-2">
+                      <Image
+                        src={
+                          !isEmpty(mainPost?.otherUser?.profilePic)
+                            ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
+                            : "/images/pfp/pfp1.jpg"
+                        }
+                        alt="pfp"
+                        className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                        width={2000}
+                        height={2000}
+                      />
+                    </div>
+
                     <div
                       className={`absolute -bottom-3 -left-3 flex rounded-lg`}
                     >
                       <div className="relative">
                         <Image
-                          src="/images/frames/frame5.svg"
+                          src={
+                            !isEmpty(mainPost?.otherUser?.frameName)
+                              ? `/${mainPost?.otherUser?.frameName}`
+                              : "/images/frames/frame5.svg"
+                          }
                           alt="pfp"
-                          className="relative w-7 h-7 z-[1] stroke-{100px}"
+                          className="relative w-7 h-7"
                           width={2000}
                           height={2000}
                         />
-                        <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                        <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[24px] h-[24px] flex items-center justify-center text-black font-semibold text-xs bg-white">
                           {mainPost?.otherUser?.level}
                         </div>
                       </div>
@@ -596,8 +607,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 />
                 <div className="relative z-0 flex ite">
                   <ul
-                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
-                      }`}
+                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
+                      isDropdownVisible ? "" : "hidden"
+                    }`}
                   >
                     {mainPost?.userId === authUser?.id && (
                       <div
@@ -683,7 +695,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     >
                       <div className={`relative rounded-md`}>
                         <Image
-                          src={!isEmpty(sharedPost?.otherUser?.frameName) ? `/${sharedPost?.otherUser?.frameName}` : '/images/frames/frame5.svg'}
+                          src={
+                            !isEmpty(sharedPost?.otherUser?.frameName)
+                              ? `/${sharedPost?.otherUser?.frameName}`
+                              : "/images/frames/frame5.svg"
+                          }
                           alt="pfp"
                           className="relative w-16 h-16 border-white"
                           width={2000}
@@ -795,32 +811,37 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </div>
           )}
           <div
-            className={`flex items-center justify-start mt-4 mb-2 ${commentBoxVisible ? "hidden" : ""
-              }`}
+            className={`flex items-center justify-start mt-4 mb-2 ${
+              commentBoxVisible ? "hidden" : ""
+            }`}
           >
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                 <p
-                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    }`}
+                  className={`text-xs ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikePost()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                 <ArrowDownIcon
-                  className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-5 w-5 cursor-pointer ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikePost()}
                 />
                 <p
-                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    }`}
+                  className={`text-xs ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -894,34 +915,38 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                   <p
-                    className={`text-xs ${info?.likes
-                      ? "text-green-600"
-                      : "group-hover:text-green-600"
-                      } `}
+                    className={`text-xs ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } `}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-5 w-5 cursor-pointer ${info?.likes
-                      ? "text-green-600"
-                      : "group-hover:text-green-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.likes
+                        ? "text-green-600"
+                        : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikePost()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                   <ArrowDownIcon
-                    className={`h-5 w-5 cursor-pointer ${info?.dislikes
-                      ? "text-red-600"
-                      : "group-hover:text-red-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-5 w-5 cursor-pointer ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikePost()}
                   />
                   <p
-                    className={`text-xs ${info?.dislikes
-                      ? "text-red-600"
-                      : "group-hover:text-red-600"
-                      } `}
+                    className={`text-xs ${
+                      info?.dislikes
+                        ? "text-red-600"
+                        : "group-hover:text-red-600"
+                    } `}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
@@ -1057,8 +1082,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -1107,8 +1133,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1245,8 +1272,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${sharePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          sharePopUp ? "" : "hidden"
+        }`}
       >
         <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1300,10 +1328,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
                 />
                 <div
-                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
-                    ? mainPost?.otherUser?.frameName
-                    : "bg-blue-300"
-                    } rounded-lg`}
+                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
+                    !isEmpty(mainPost?.otherUser?.frameName)
+                      ? mainPost?.otherUser?.frameName
+                      : "bg-blue-300"
+                  } rounded-lg`}
                 >
                   <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
                     {mainPost?.otherUser?.level}

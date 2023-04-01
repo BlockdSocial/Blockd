@@ -23,7 +23,9 @@ interface Props {
 
 function TweetBox({ refetchFiltered }: Props) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
-  const { isCreatingPost, error } = useAppSelector((state) => state.postReducer);
+  const { isCreatingPost, error } = useAppSelector(
+    (state) => state.postReducer
+  );
   const [input, setInput] = useState<string>("");
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
@@ -219,38 +221,46 @@ function TweetBox({ refetchFiltered }: Props) {
         href="/dashboard/profile"
         className="relative flex flex-col h-fit group"
       >
-        <div
-          className={`relative flex flex-col p-1 rounded-lg`}
-        >
+        <div className={`relative flex flex-col p-1 rounded-lg`}>
           <div className={`relative rounded-md`}>
             <Image
-              src={!isEmpty(authUser?.frameName) ? `/${authUser?.frameName}` : '/images/frames/frame5.svg'}
+              src={
+                !isEmpty(authUser?.frameName)
+                  ? `/${authUser?.frameName}`
+                  : "/images/frames/frame5.svg"
+              }
               alt="pfp"
               className="relative w-20 h-20 border-white"
               width={2000}
               height={2000}
             />
-            <Image
-              src={
-                !isEmpty(authUser?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                  : "/images/pfp/pfp1.jpg"
-              }
-              alt="pfp"
-              className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[65px] h-[65px] z-0 shadow-sm"
-              width={2000}
-              height={2000}
-            />
+            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[70px] h-[70px] bg-white dark:bg-lightgray z-0 shadow-sm">
+              <Image
+                src={
+                  !isEmpty(authUser?.profilePic)
+                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                    : "/images/pfp/pfp1.jpg"
+                }
+                alt="pfp"
+                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[65px] h-[65px] z-0 rounded-sm"
+                width={2000}
+                height={2000}
+              />
+            </div>
             <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
               <div className="relative">
                 <Image
-                  src="/images/frames/frame5.svg"
+                  src={
+                    !isEmpty(authUser?.frameName)
+                      ? `/${authUser?.frameName}`
+                      : "/images/frames/frame5.svg"
+                  }
                   alt="pfp"
-                  className="relative w-8 h-8 z-[1] stroke-{100px}"
+                  className="relative w-8 h-8 z-[1]"
                   width={2000}
                   height={2000}
                 />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto flex items-center justify-center text-black font-semibold text-sm bg-white">
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[26px] h-[26px] flex items-center justify-center text-black font-semibold text-sm bg-white">
                   {authUser?.level}
                 </div>
               </div>

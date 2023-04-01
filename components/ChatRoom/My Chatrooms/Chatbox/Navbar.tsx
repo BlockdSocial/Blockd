@@ -58,7 +58,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
   }
 
   return (
-    <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-4 mt-[1.5px]">
+    <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-1 mt-[1.5px]">
       {!isEmpty(room) &&
         <div className='flex items-center space-x-2'>
           <img
@@ -104,9 +104,9 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
               <Members members={members} room={room} />
             </div>
           </div>
-          <div className='flex flex-col items-center justify-center'>
+          <div className='flex flex-col items-start justify-center'>
             <p className='text-xs md:text-base font-semibold'>{room?.room?.displayName}</p>
-            <p className='text-xs'>{members.length} members</p>
+            <p className='flex text-xs'><span className='mr-1'>{members.length}</span> members</p>
           </div>
         </div>
       }
@@ -157,7 +157,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
           </div>
         </div>
       }
-      <div className='lg:hidden flex col-md-2 items-center justify-end text-right w-full'>
+      <div className='lg:hidden flex col-md-2 items-center justify-end text-right'>
         <div ref={dropdown} className='flex flex-col items-center justify-center'>
           <div className='flex items-center justify-center space-x-1'>
             {/* <div onClick={() => setIsDropdownVisible(b => !b)} className='flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
