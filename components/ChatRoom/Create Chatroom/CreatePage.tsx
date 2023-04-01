@@ -80,7 +80,7 @@ function CreatePage() {
       setErrorMessage('Name field is required')
       return;
     }
-    if (name.length <= 4) {
+    if (name.length < 4) {
       setErrorMessage('The name must be at least 4 characters')
       console.log(name.length);
       return;
