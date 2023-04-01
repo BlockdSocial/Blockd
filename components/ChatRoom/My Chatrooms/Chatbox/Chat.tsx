@@ -86,7 +86,7 @@ export default function Chat({
             message?.userId == authUser?.id ? (
               <div key={index} className="relative flex flex-col">
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
-                  <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
+                  <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
                     <div className="flex space-x-20 relative z-0 items-center justify-between w-full text-xm font-semibold">
                       <div>
                         <p className="text-sm md:text-base">@{authUser?.name}</p>
@@ -127,7 +127,7 @@ export default function Chat({
                         </div>
                       </div>
                     </div>
-                    <p className="flex items-center justify-start py-2 text-sm md:text-base">
+                    <p className="flex items-center justify-start pt-2 text-sm md:text-base">
                       {message?.content}
                     </p>
                     {
@@ -218,14 +218,14 @@ export default function Chat({
                     alt=""
                   />
                 </div>
-                <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
+                <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-2 px-2 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
                   <div className="flex items-center justify-between w-full text-xm font-semibold">
                     <p className="text-sm md:text-base">@{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}</p>
                     <p className="pl-2 text-sm md:text-base">
                       {moment(message?.createdAt).format("HH:mm")}
                     </p>
                   </div>
-                  <p className="flex items-center justify-start py-2 text-sm md:text-base">
+                  <p className="flex items-center justify-start pt-2 text-sm md:text-base">
                     {message?.content}
                   </p>
                   {
