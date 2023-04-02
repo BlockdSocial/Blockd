@@ -370,7 +370,7 @@ function CommentSection({ comment, post, type }: Props) {
                 src={
                   !isEmpty(comment?.otherUser?.frameName)
                     ? `/${comment?.otherUser?.frameName}`
-                    : "/images/frames/frame5.svg"
+                    : "/images/frames/frame4.jpg"
                 }
                 alt="pfp"
                 className="relative w-16 h-16 border-white"
@@ -396,7 +396,7 @@ function CommentSection({ comment, post, type }: Props) {
                     src={
                       !isEmpty(comment?.otherUser?.frameName)
                         ? `/${comment?.otherUser?.frameName}`
-                        : "/images/frames/frame5.svg"
+                        : "/images/frames/frame4.jpg"
                     }
                     alt="pfp"
                     className="relative w-7 h-7"

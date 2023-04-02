@@ -47,7 +47,7 @@ function AchievementPage() {
               src={
                 !isEmpty(authUser?.frameName)
                   ? `/${authUser?.frameName}`
-                  : "/images/frames/frame5.svg"
+                  : "/images/frames/frame4.jpg"
               }
               alt="pfp"
               className="relative w-24 h-24 border-white"
@@ -73,7 +73,7 @@ function AchievementPage() {
                   src={
                     !isEmpty(authUser?.frameName)
                       ? `/${authUser?.frameName}`
-                      : "/images/frames/frame5.svg"
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
                   className="relative w-10 h-10"

@@ -511,7 +511,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       src={
                         !isEmpty(mainPost?.otherUser?.frameName)
                           ? `/${mainPost?.otherUser?.frameName}`
-                          : "/images/frames/frame5.svg"
+                          : "/images/frames/frame4.jpg"
                       }
                       alt="pfp"
                       className="relative w-16 h-16"
@@ -540,7 +540,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           src={
                             !isEmpty(mainPost?.otherUser?.frameName)
                               ? `/${mainPost?.otherUser?.frameName}`
-                              : "/images/frames/frame5.svg"
+                              : "/images/frames/frame4.jpg"
                           }
                           alt="pfp"
                           className="relative w-7 h-7"
@@ -698,7 +698,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           src={
                             !isEmpty(sharedPost?.otherUser?.frameName)
                               ? `/${sharedPost?.otherUser?.frameName}`
-                              : "/images/frames/frame5.svg"
+                              : "/images/frames/frame4.jpg"
                           }
                           alt="pfp"
                           className="relative w-16 h-16 border-white"
@@ -726,7 +726,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                               src={
                                 !isEmpty(sharedPost?.otherUser?.frameName)
                                   ? `/${sharedPost?.otherUser?.frameName}`
-                                  : "/images/frames/frame5.svg"
+                                  : "/images/frames/frame4.jpg"
                               }
                               alt="pfp"
                               className="relative w-7 h-7"

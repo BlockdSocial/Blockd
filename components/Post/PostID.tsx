@@ -460,7 +460,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                     src={
                       !isEmpty(post?.otherUser?.frameName)
                         ? `/${post?.otherUser?.frameName}`
-                        : "/images/frames/frame5.svg"
+                        : "/images/frames/frame4.jpg"
                     }
                     alt="pfp"
                     className="relative w-16 h-16 border-white"
@@ -486,7 +486,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                         src={
                           !isEmpty(post?.otherUser?.frameName)
                             ? `/${post?.otherUser?.frameName}`
-                            : "/images/frames/frame5.svg"
+                            : "/images/frames/frame4.jpg"
                         }
                         alt="pfp"
                         className="relative w-7 h-7"
@@ -619,7 +619,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                       src={
                         !isEmpty(sharedPost?.otherUser?.frameName)
                           ? `/${sharedPost?.otherUser?.frameName}`
-                          : "/images/frames/frame5.svg"
+                          : "/images/frames/frame4.jpg"
                       }
                       alt="pfp"
                       className="relative w-16 h-16 border-white"
@@ -647,7 +647,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                           src={
                             !isEmpty(sharedPost?.otherUser?.frameName)
                               ? `/${sharedPost?.otherUser?.frameName}`
-                              : "/images/frames/frame5.svg"
+                              : "/images/frames/frame4.jpg"
                           }
                           alt="pfp"
                           className="relative w-7 h-7"

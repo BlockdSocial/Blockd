@@ -265,7 +265,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   src={
                     !isEmpty(user?.frameName)
                       ? `/${user?.frameName}`
-                      : "/images/frames/frame5.svg"
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
                   className="relative w-24 h-24 z-0 border-white"
@@ -293,7 +293,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       src={
                         !isEmpty(user?.frameName)
                           ? `/${user?.frameName}`
-                          : "/images/frames/frame5.svg"
+                          : "/images/frames/frame4.jpg"
                       }
                       alt="pfp"
                       className="relative w-9 h-9"

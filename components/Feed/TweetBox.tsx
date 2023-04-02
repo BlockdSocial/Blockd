@@ -227,7 +227,7 @@ function TweetBox({ refetchFiltered }: Props) {
               src={
                 !isEmpty(authUser?.frameName)
                   ? `/${authUser?.frameName}`
-                  : "/images/frames/frame5.svg"
+                  : "/images/frames/frame4.jpg"
               }
               alt="pfp"
               className="relative w-20 h-20 border-white"
@@ -253,7 +253,7 @@ function TweetBox({ refetchFiltered }: Props) {
                   src={
                     !isEmpty(authUser?.frameName)
                       ? `/${authUser?.frameName}`
-                      : "/images/frames/frame5.svg"
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
                   className="relative w-8 h-8 z-[1]"
