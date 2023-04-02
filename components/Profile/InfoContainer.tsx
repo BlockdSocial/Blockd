@@ -543,12 +543,30 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               </div>
             </div>
             <div className="relative flex flex-col items-start p-4">
+              <div className="flex flex-col items-start justify-start space-y-2 mb-2">
+                <p className="flex items-center justify-start text-base font-semibold w-32">
+                  Current frame
+                </p>
+                <div className="">
+                  <Image
+                    src={
+                      !isEmpty(user?.frameName)
+                        ? `/${user?.frameName}`
+                        : "/images/frames/frame4.jpg"
+                    }
+                    alt="pfp"
+                    className="relative w-20 h-20 z-0 rounded-md"
+                    width={2000}
+                    height={2000}
+                  />
+                </div>
+              </div>
               <h3 className="font-semibold py-2 text-black">My collection</h3>
               <div className="grid grid-cols-12 z-0 lg:grid-cols-8 w-full place-items-center">
                 {!isEmpty(rewards) &&
                   rewards.map((reward: any, index: any) => (
                     <img
-                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 rounded-md`}
+                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mr-1 rounded-md`}
                       src={`/${reward?.name}`}
                       key={index}
                       onClick={() => {
