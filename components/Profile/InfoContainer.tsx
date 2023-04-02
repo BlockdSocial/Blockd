@@ -373,7 +373,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   {isFollowed ? (
                     <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
                       <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
-                        followed
+                        Followed
                       </p>
                     </div>
                   ) : (
@@ -382,7 +382,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                         onClick={() => handleFollowUser()}
                       >
-                        follow
+                        Follow
                       </p>
                     </div>
                   )}
@@ -427,7 +427,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {isFollowed ? (
                   <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
                     <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
-                      followed
+                      Followed
                     </p>
                   </div>
                 ) : (
@@ -436,7 +436,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                       onClick={() => handleFollowUser()}
                     >
-                      follow
+                      Follow
                     </p>
                   </div>
                 )}

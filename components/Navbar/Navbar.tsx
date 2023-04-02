@@ -244,7 +244,6 @@ const Navbar = () => {
         } h-14 px-2`}
       >
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
-          <Toaster />
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
               onClick={() => setShowSidebar(!showSidebar)}
