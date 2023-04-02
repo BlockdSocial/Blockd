@@ -12,14 +12,14 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
         chats.map((chat: any, index: any) => (
           <div
             key={index}
-            className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer group'
+            className='flex items-center justify-between p-2 w-full hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer group'
             onClick={() => {
               setReceiver(chat?.otherUser);
               setRoom(undefined);
               closeShowFriends();
             }}
           >
-            <div className='flex items-center justify-start p-2'>
+            <div className='flex items-center justify-start space-x-2'>
               <div className='flex items-center justify-center'>
                 <img
                   src={
@@ -27,7 +27,7 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
                       ? `${config.url.PUBLIC_URL}/${chat?.otherUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
-                  className='w-10 h-10 rounded-md'
+                  className='w-10 h-10 rounded-md object-cover'
                 />
               </div>
               <div className='flex flex-col items-start justify-start ml-4'>

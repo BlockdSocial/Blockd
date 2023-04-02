@@ -280,7 +280,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
-                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] rounded-sm"
+                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
                     width={2000}
                     height={2000}
                   />
@@ -334,7 +334,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
             <div>
               <p className="mr-1 text-xs md:text-sm group-hover:underline mt-2">
-                {followers.length} followers
+                {followers.length} Followers
               </p>
             </div>
             <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
@@ -373,7 +373,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   {isFollowed ? (
                     <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
                       <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
-                        followed
+                        Followed
                       </p>
                     </div>
                   ) : (
@@ -382,7 +382,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                         onClick={() => handleFollowUser()}
                       >
-                        follow
+                        Follow
                       </p>
                     </div>
                   )}
@@ -427,7 +427,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {isFollowed ? (
                   <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
                     <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200">
-                      followed
+                      Followed
                     </p>
                   </div>
                 ) : (
@@ -436,7 +436,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                       onClick={() => handleFollowUser()}
                     >
-                      follow
+                      Follow
                     </p>
                   </div>
                 )}

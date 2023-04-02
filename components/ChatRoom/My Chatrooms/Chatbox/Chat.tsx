@@ -77,7 +77,7 @@ export default function Chat({
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className="scrollbar-hide overflow-scroll p-2 py-4 h-[86%] md:h-[83%] dark:bg-darkgray z-0"
+      className="scrollbar-hide overflow-scroll p-2 py-4 h-[86%] md:h-[81%] dark:bg-darkgray z-0"
       id="test"
     >
       <div className="">
@@ -178,7 +178,7 @@ export default function Chat({
                           ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                           : "/images/pfp/pfp1.jpg"
                       }
-                      className="object-cover h-10 w-10 rounded-full"
+                      className="object-cover w-8 h-8 md:h-10 md:w-10 rounded-full"
                       alt=""
                     />
                   </div>
@@ -203,7 +203,7 @@ export default function Chat({
             ) : (
               <div
                 key={index}
-                className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8"
+                className="grid grid-cols-10 md:grid-cols-12 mb-1"
               >
                 <div className="col-span-1 flex items-end justify-end">
                   <img
@@ -214,12 +214,12 @@ export default function Chat({
                         `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
                         : "/images/pfp/pfp1.jpg"
                     }
-                    className="object-cover h-10 w-10 rounded-full flex"
+                    className="object-cover w-8 h-8 md:h-10 md:w-10 rounded-full flex"
                     alt=""
                   />
                 </div>
                 <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-2 px-2 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
-                  <div className="flex items-center justify-between w-full text-xm font-semibold">
+                  <div className="flex space-x-20 items-center justify-between w-full text-xm font-semibold">
                     <p className="text-sm md:text-base">@{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}</p>
                     <p className="pl-2 text-sm md:text-base">
                       {moment(message?.createdAt).format("HH:mm")}

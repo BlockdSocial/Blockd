@@ -526,7 +526,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                             : "/images/pfp/pfp1.jpg"
                         }
                         alt="pfp"
-                        className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                        className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
                         width={2000}
                         height={2000}
                       />
@@ -678,7 +678,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </Link>
           </div>
           {!isEmpty(sharedPost) && (
-            <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-2 px-5 mb-2 mt-2">
+            <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-2 px-5 mb-2 mt-4">
               <div className="flex items-center justify-between">
                 <div className="flex items-start space-x-2">
                   <div className="flex">
@@ -713,7 +713,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                                 : "/images/pfp/pfp1.jpg"
                             }
                             alt="pfp"
-                            className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                            className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
                             width={2000}
                             height={2000}
                           />
@@ -1009,7 +1009,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
                 />
                 {showEmojis && (
-                  <div className="absolute right-0 bottom-6 z-0">
+                  <div className="absolute right-0 top-6 z-50">
                     <Picker
                       onEmojiSelect={addEmoji}
                       theme="dark"
@@ -1031,7 +1031,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     />
                   )}
                   {showGifs && (
-                    <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                    <div className="absolute right-0 top-6 z-50 p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
                       <ReactGiphySearchbox
                         apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
                         onSelect={(item: any) => addGif(item)}

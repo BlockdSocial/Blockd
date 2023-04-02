@@ -475,7 +475,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                           : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
-                      className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                      className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
                       width={2000}
                       height={2000}
                     />
@@ -634,7 +634,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                             : "/images/pfp/pfp1.jpg"
                         }
                         alt="pfp"
-                        className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 shadow-sm"
+                        className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 shadow-sm"
                         width={2000}
                         height={2000}
                       />

@@ -184,7 +184,7 @@ export default function SignIn() {
               <a
                 href="/auth/infographic"
                 target="_blank"
-                className="w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
+                className="flex items-center justify-center w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
               >
                 Learn more
               </a>

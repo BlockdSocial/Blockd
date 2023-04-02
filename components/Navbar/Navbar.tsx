@@ -268,7 +268,7 @@ const Navbar = () => {
   }, [dropDown]);
 
   return (
-    <div className="w-full bg-darkblue dark:bg-lightgray">
+    <div className="w-full bg-darkblue dark:bg-lightgray h-14">
       <div
         className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
           router.pathname === "/dashboard/myChatrooms" ||
