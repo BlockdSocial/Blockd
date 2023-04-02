@@ -29,6 +29,7 @@ import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 import {
   ArrowLeftCircleIcon
 } from "@heroicons/react/24/outline";
+import { checkEmail } from "../../stores/user/UserActions";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -45,6 +46,7 @@ export default function SignUp() {
   const [emailError, setEmailError] = useState<boolean>(false);
   const [nftData, setNftData] = useState<boolean>(false);
   const [step, setStep] = useState(1);
+  const [validated, setValidated] = useState<boolean>();
 
   //Data Fetching
   const {
@@ -84,7 +86,7 @@ export default function SignUp() {
     if (!validateEmail(email)) {
       setEmailError(true);
       return;
-    } 
+    }
     if (displayName.length == 0) {
       setDisplayNameError(true);
       return;
@@ -228,6 +230,19 @@ export default function SignUp() {
     },
   });
 
+  const handleCheckEmail = async () => {
+    await dispatch(checkEmail({
+      email: email
+    })).then((result: any) => {
+      console.log('RESULT: ', result);
+      if ('true' === result?.success) {
+        setValidated(true)
+      } else {
+        setValidated(false);
+      }
+    });
+  }
+
   if (!mounted) {
     return null;
   }
@@ -319,7 +334,17 @@ export default function SignUp() {
                       name="email"
                       placeholder="example@gmail.com"
                       onChange={(e) => setEmail(e.target.value)}
+                      onBlur={() => {
+                        handleCheckEmail(),
+                        setEmailError(false)
+                      }}
                     />
+                    {
+                      validated &&
+                      <p className="text-red-600  text-xs font-bold">
+                        This email is already taken.
+                      </p>
+                    }
                     {emailError && (
                       <p className="text-red-600  text-xs font-bold">
                         Please enter a valid email address
@@ -398,6 +423,7 @@ export default function SignUp() {
                   <button
                     className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
                     onClick={(e) => getSignMessage(e)}
+                    disabled={validated}
                   >
                     Sign Up
                   </button>

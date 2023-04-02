@@ -40,7 +40,10 @@ import {
   RESET_MESSAGES_FAILURE,
   IS_SEARCHING_FILTERED_USERS,
   SEARCH_FILTERED_USERS_SUCCESS,
-  SEARCH_FILTERED_USERS_FAILURE
+  SEARCH_FILTERED_USERS_FAILURE,
+  IS_CHECKING_EMAIL,
+  CHECK_EMAIL_SUCCESS,
+  CHECK_EMAIL_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -309,3 +312,22 @@ export function resetMessages() {
     }
   }
 }
+
+export function checkEmail(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_CHECKING_EMAIL });
+    try {
+      const result = await userApi.checkEmail(fields);
+      dispatch({
+        type: CHECK_EMAIL_SUCCESS,
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Check email error: ', error);
+      dispatch({
+        type: CHECK_EMAIL_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+} 
