@@ -265,7 +265,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   src={
                     !isEmpty(user?.frameName)
                       ? `/${user?.frameName}`
-                      : "/images/frames/frame5.svg"
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
                   className="relative w-24 h-24 z-0 border-white"
@@ -280,7 +280,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
-                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] rounded-sm"
+                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
                     width={2000}
                     height={2000}
                   />
@@ -293,7 +293,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       src={
                         !isEmpty(user?.frameName)
                           ? `/${user?.frameName}`
-                          : "/images/frames/frame5.svg"
+                          : "/images/frames/frame4.jpg"
                       }
                       alt="pfp"
                       className="relative w-9 h-9"
@@ -334,7 +334,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
             <div>
               <p className="mr-1 text-xs md:text-sm group-hover:underline mt-2">
-                {followers.length} followers
+                {followers.length} Followers
               </p>
             </div>
             <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
@@ -543,12 +543,30 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               </div>
             </div>
             <div className="relative flex flex-col items-start p-4">
+              <div className="flex flex-col items-start justify-start space-y-2 mb-2">
+                <p className="flex items-center justify-start text-base font-semibold w-32">
+                  Current frame
+                </p>
+                <div className="">
+                  <Image
+                    src={
+                      !isEmpty(user?.frameName)
+                        ? `/${user?.frameName}`
+                        : "/images/frames/frame4.jpg"
+                    }
+                    alt="pfp"
+                    className="relative w-20 h-20 z-0 rounded-md"
+                    width={2000}
+                    height={2000}
+                  />
+                </div>
+              </div>
               <h3 className="font-semibold py-2 text-black">My collection</h3>
               <div className="grid grid-cols-12 z-0 lg:grid-cols-8 w-full place-items-center">
                 {!isEmpty(rewards) &&
                   rewards.map((reward: any, index: any) => (
                     <img
-                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mt-3 mr-1 rounded-md`}
+                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mr-1 rounded-md`}
                       src={`/${reward?.name}`}
                       key={index}
                       onClick={() => {

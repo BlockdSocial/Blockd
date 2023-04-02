@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 
 import {
   MicrophoneIcon,
@@ -233,8 +233,42 @@ const Navbar = () => {
     }
   };
 
+  const sidebar = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the sidebar is opened
+    if (!showSidebar) return;
+    function handleClick(event: any) {
+      if (showSidebar === true) {
+        if (sidebar.current && !sidebar.current.contains(event.target)) {
+          setShowSidebar(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [showSidebar]);
+
+  const dropdown = useRef<any>(null);
+
+  useEffect(() => {
+    // only add the event listener when the sidebar is opened
+    if (!dropDown) return;
+    function handleClick(event: any) {
+      if (dropDown === true) {
+        if (dropdown.current && !dropdown.current.contains(event.target)) {
+          setDropDown(false);
+        }
+      }
+    }
+    window.addEventListener("click", handleClick);
+    // clean up
+    return () => window.removeEventListener("click", handleClick);
+  }, [dropDown]);
+
   return (
-    <div className="w-full bg-darkblue dark:bg-lightgray">
+    <div className="w-full bg-darkblue dark:bg-lightgray h-14">
       <div
         className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
           router.pathname === "/dashboard/myChatrooms" ||
@@ -246,6 +280,7 @@ const Navbar = () => {
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
+              ref={sidebar}
               onClick={() => setShowSidebar(!showSidebar)}
               className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
@@ -270,6 +305,7 @@ const Navbar = () => {
             </Link>
             <div className="flex relative">
               <Image
+                ref={dropdown}
                 src={
                   authUser?.profilePic
                     ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`

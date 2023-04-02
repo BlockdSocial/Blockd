@@ -58,7 +58,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
   }
 
   return (
-    <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-1 mt-[1.5px]">
+    <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
       {!isEmpty(room) &&
         <div className='flex items-center space-x-2'>
           <img
@@ -68,7 +68,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
                 ? `${config.url.PUBLIC_URL}/${room?.room?.imgName}`
                 : "/images/placeholder.png"
             }
-            className='h-8 w-8 cursor-pointer rounded-full'
+            className='h-8 w-8 md:w-10 md:h-10 cursor-pointer rounded-full object-cover'
           />
           <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
             <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
@@ -106,7 +106,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
           </div>
           <div className='flex flex-col items-start justify-center'>
             <p className='text-xs md:text-base font-semibold'>{room?.room?.displayName}</p>
-            <p className='flex text-xs'><span className='mr-1'>{members.length}</span> members</p>
+            <p className='flex text-xs'><span className='mr-1'>{members.length}</span> Members</p>
           </div>
         </div>
       }
@@ -119,7 +119,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
                 ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
                 : "/images/pfp/pfp1.jpg"
             }
-            className='h-8 w-8 cursor-pointer rounded-full'
+            className='h-8 w-8 md:w-10 md:h-10 cursor-pointer object-cover rounded-full'
           />
           <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
             <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">

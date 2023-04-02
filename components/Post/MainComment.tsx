@@ -302,7 +302,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
               src={
                 !isEmpty(comment?.otherUser?.frameName)
                   ? `/${comment?.otherUser?.frameName}`
-                  : "/images/frames/frame5.svg"
+                  : "/images/frames/frame4.jpg"
               }
               alt="pfp"
               className="relative w-16 h-14"
@@ -328,7 +328,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   src={
                     !isEmpty(comment?.otherUser?.frameName)
                       ? `/${comment?.otherUser?.frameName}`
-                      : "/images/frames/frame5.svg"
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
                   className="relative w-7 h-7"

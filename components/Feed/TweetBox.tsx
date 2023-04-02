@@ -227,7 +227,7 @@ function TweetBox({ refetchFiltered }: Props) {
               src={
                 !isEmpty(authUser?.frameName)
                   ? `/${authUser?.frameName}`
-                  : "/images/frames/frame5.svg"
+                  : "/images/frames/frame4.jpg"
               }
               alt="pfp"
               className="relative w-20 h-20 border-white"
@@ -242,7 +242,7 @@ function TweetBox({ refetchFiltered }: Props) {
                     : "/images/pfp/pfp1.jpg"
                 }
                 alt="pfp"
-                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[65px] h-[65px] z-0 rounded-sm"
+                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[65px] h-[65px] object-cover z-0 rounded-sm"
                 width={2000}
                 height={2000}
               />
@@ -253,7 +253,7 @@ function TweetBox({ refetchFiltered }: Props) {
                   src={
                     !isEmpty(authUser?.frameName)
                       ? `/${authUser?.frameName}`
-                      : "/images/frames/frame5.svg"
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
                   className="relative w-8 h-8 z-[1]"
