@@ -89,7 +89,7 @@ function Footer({
     function handleClick(event: any) {
       if (showGifs === true) {
         if (gif.current && !gif.current.contains(event.target)) {
-          setShowGifs(false);
+          // setShowGifs(false);
         }
       }
     }

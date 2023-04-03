@@ -41,7 +41,6 @@ function chatroom() {
       console.log('chatrooms: ', chatrooms);
       for (let i = 0; i < chatrooms.length; i++) {
         if (chatrooms[i].roomId === roomChat.id) {
-          console.log('BZAZZZ')
           setRoom(chatrooms[i]);
           return;
         }
