@@ -9,7 +9,7 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 import { toast } from "react-hot-toast";
 
-function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
+function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const elementRef = useRef<any>(null);
@@ -146,7 +146,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
 
   return (
     <div className="flex min-h-[91vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
-      {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} />}
+      {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} setRoom={setRoom} />}
       <Chat
         receiver={receiver}
         room={room}

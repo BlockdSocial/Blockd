@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchChatroomMembers } from '../../../../stores/chat/ChatActions';
 import { encodeQuery } from '../../../../utils';
 
-function Navbar({ receiver, room, chats, setReceiver }: any) {
+function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
 
   const dispatch = useAppDispatch();
   const { members } = useAppSelector((state) => state.chatReducer);
@@ -185,7 +185,12 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
             <p className='font-semibold'>Private DMs</p>
 
           </div>
-          <Friends chats={chats} setReceiver={setReceiver} closeShowFriends={closeShowFriends} />
+          <Friends
+            chats={chats}
+            setReceiver={setReceiver}
+            setRoom={setRoom}
+            closeShowFriends={closeShowFriends}
+          />
 
         </div>
       )}

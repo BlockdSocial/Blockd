@@ -221,7 +221,7 @@ function Footer({
   return (
     <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
       <div className="flex space-x-1 p-1 w-full">
-        <form className="w-full" onSubmit={handleSendMessage}>
+        <div className="w-full">
           <textarea
             className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
             value={input}
@@ -230,7 +230,7 @@ function Footer({
             rows={1}
             id="myTextArea"
           />
-        </form>
+        </div>
         {/* <input
           value={input}
           onChange={(e: any) => setInput(e.target.value)}

@@ -119,6 +119,12 @@ export default function SignUp() {
         isEmpty(displayName) ||
         isEmpty(email)
       ) {
+        console.log('userMessage: ', userMessage);
+        console.log('address: ', address);
+        console.log('userSignature: ', userSignature);
+        console.log('displayName: ', displayName);
+        console.log('email: ', email);
+
         return;
       }
 

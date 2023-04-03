@@ -93,6 +93,7 @@ function chatroom() {
           room={room}
           setReceiver={setReceiver}
           chatrooms={chatrooms}
+          setRoom={setRoom}
         />
         <Widget
           chats={chats}

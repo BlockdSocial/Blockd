@@ -308,7 +308,7 @@ const Navbar = () => {
                 ref={dropdown}
                 src={
                   authUser?.profilePic
-                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                     : "/images/pfp/pfp1.jpg"
                 }
                 onClick={() => setDropDown(!dropDown)}

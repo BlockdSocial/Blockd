@@ -84,18 +84,16 @@ function Feed() {
     await dispatch(
       fetchFilteredPosts({
         start: 0,
-        end: 4,
+        end: 8,
       })
     ).then((result: any) => {
-      setEndTotal(4);
-      setEndCount(4);
-      console.log('RESULT: ', result);
+      setEndTotal(8);
+      setEndCount(8);
       setFiltered(result?.posts);
     });
   };
 
   const updateFiltered = async (start: number, end: number) => {
-    console.log('bzez')
     await dispatch(
       fetchFilteredPosts({
         start: start,
@@ -134,11 +132,11 @@ function Feed() {
       ) {
         console.log('bzez2')
         if (!isFetchingFilteredPosts) {
-          if (endTotal < 4) {
+          if (endTotal == 0) {
             return;
           } else {
-            await updateFiltered(endCount + 1, endCount + 5);
-            setEndCount(endCount + 5);
+            await updateFiltered(endCount + 1, endCount + 9);
+            setEndCount(endCount + 9);
           }
         }
       }
