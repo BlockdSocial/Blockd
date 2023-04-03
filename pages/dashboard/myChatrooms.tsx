@@ -79,7 +79,7 @@ function chatroom() {
         <title>Blockd</title>
       </Head>
       <Navbar />
-      <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-9 mx-auto overflow-hidden w-full fixed top-14'>
+      <div className='bg-white dark:bg-darkgray grid lg:max-w-7xl grid-cols-9 mx-auto overflow-hidden w-full fixed top-[8vh]'>
         <Sidebar />
         <Chatbar
           setRoom={setRoom}

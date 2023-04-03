@@ -8,7 +8,7 @@ function Widget({ chats, setReceiver, setRoom }: any) {
   }
   return (
     <div className="hidden lg:flex lg:flex-col col-span-2 min-h-[93vh] dark:bg-darkray border-r dark:border-lightgray">
-      <div className="flex items-center justify-start h-[10%] space-x-2 py-4 px-2 z-[1] sticky top-0 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
+      <div className="flex items-center justify-start h-[7vh] border-b dark:border-lightgray space-x-2 py-4 px-2 z-[1] sticky top-0 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
         <ChatBubbleLeftRightIcon className="w-7 h-7" />
         <p>Private DMs</p>
       </div>

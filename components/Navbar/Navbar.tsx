@@ -278,16 +278,16 @@ const Navbar = () => {
   }
 
   return (
-    <div className="w-full bg-darkblue dark:bg-lightgray h-14">
+    <div className="w-full bg-darkblue dark:bg-lightgray h-[8vh]">
       <div
         className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
           router.pathname === "/dashboard/myChatrooms" ||
           router.pathname === "/dashboard/myChatrooms2"
             ? "lg:max-w-7xl "
             : "xl:max-w-[80%]"
-        } h-14 px-2`}
+        } h-[8vh] px-2`}
       >
-        <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
+        <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-[8vh]">
           <Toaster />
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
@@ -410,8 +410,8 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        <div className="hidden md:inline md:col-span-5 h-14">
-          <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
+        <div className="hidden md:inline md:col-span-5 h-[8vh]">
+          <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-[8vh]">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
               {renderThemeChanger()}
@@ -483,7 +483,7 @@ const Navbar = () => {
             <NotifDropDown />
           </div>*/}
             {/* Sign Up */}
-            <li className="h-14 rounded-full flex items-center justify-center space-x-4">
+            <li className="h-[8vh] rounded-full flex items-center justify-center space-x-4">
               <p
                 className="text-white cursor-pointer dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
                 onClick={() => handleLogoutClick()}
@@ -509,7 +509,7 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-[8vh] h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative w-full">
               <Link href="/" className="active">
