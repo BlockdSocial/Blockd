@@ -87,7 +87,7 @@ export default function Chat({
   let [atTop, setAtTop] = useState<boolean>(false);
   const [endCount, setEndCount] = useState<number>(4);
   const [endTotal, setEndTotal] = useState<number>(4);
-  const [messages2, setMessages] = useState<any>();
+  const [messages2, setMessages2] = useState<any>();
   const { isFetchingMessages, error } = useAppSelector(
     (state) => state.chatReducer
   );
@@ -155,7 +155,7 @@ export default function Chat({
       ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages(result?.messages2);
+        setMessages2(result?.messages);
       });
     }
   };
@@ -170,7 +170,7 @@ export default function Chat({
       ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages(result?.messages2);
+        setMessages2(result?.messages);
       });
     }
   };
@@ -182,7 +182,7 @@ export default function Chat({
         end: 100,
       })
     ).then((result: any) => {
-      setMessages(result?.messages2);
+      setMessages2(result?.messages);
     });
   };
 
@@ -194,7 +194,7 @@ export default function Chat({
         end: 100,
       })
     ).then((result: any) => {
-      setMessages(result?.messages2);
+      setMessages2(result?.messages);
     });
   };
 
@@ -214,8 +214,8 @@ export default function Chat({
         />
       </div>
       <div className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
-        {!isEmpty(messages) &&
-          messages.map((message: any, index: any) =>
+        {!isEmpty(messages2) &&
+          messages2.map((message: any, index: any) =>
             message?.userId == authUser?.id ? (
               <div key={index} className="relative flex flex-col">
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-2">
