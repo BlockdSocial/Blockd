@@ -915,7 +915,7 @@ const Navbar = () => {
         )}
         {isRegistered != undefined && (
           <div
-            className={`fixed md:hidden top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
+            className={`fixed top-0 left-0 flex md:hidden p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
               showModal1 ? "" : "hidden"
             }`}
           >

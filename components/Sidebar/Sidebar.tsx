@@ -35,6 +35,8 @@ function Sidebar() {
   const [showModal8, setShowModal8] = useState(false);
   const [showModal9, setShowModal9] = useState(false);
 
+  console.log(showModal1)
+
   return (
     <div className="items-start justify-center lg:justify-start hidden md:flex md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-x dark:border-lightgray pb-14">
       <div className="relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit">
@@ -443,7 +445,7 @@ function Sidebar() {
       </div>
       {isRegistered != undefined && (
         <div
-          className={`fixed top-0 left-0 hidden md:flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
+          className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
             showModal1 ? "" : "hidden"
           }`}
         >
