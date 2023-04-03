@@ -111,11 +111,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     fetchInfo();

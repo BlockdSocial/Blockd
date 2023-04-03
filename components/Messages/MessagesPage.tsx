@@ -18,11 +18,11 @@ function MessagesPage() {
     handleFetchNotifications();
   }, []);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   const Messages = dynamic(() => import('./Messages'), { ssr: false })
   const handleRefresh = async () => {

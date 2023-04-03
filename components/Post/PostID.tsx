@@ -120,11 +120,11 @@ function PostID({ post, refetchComments, refetch }: Props) {
     setUploadedEdit(e.target.files[0]);
   };
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     // setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");

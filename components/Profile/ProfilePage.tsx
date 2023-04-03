@@ -43,11 +43,11 @@ function ProfilePage() {
   const router = useRouter()
   const user_id = router.query.user_id || parseQueryString(window.location.search.substring(1)).user_id;
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     if (user_id == undefined || null) {

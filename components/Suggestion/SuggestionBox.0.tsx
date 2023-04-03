@@ -38,11 +38,11 @@ function SuggestionBox({ refetchFiltered }: Props) {
 
   const emoji = useRef<any>(null);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     dispatch(fetchAuthUser());

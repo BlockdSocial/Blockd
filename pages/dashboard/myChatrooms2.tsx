@@ -24,11 +24,11 @@ function chatroom() {
   const roomChat = router.query.roomChat != undefined ? JSON.parse(router.query.roomChat as any) : null;
   const { chatrooms, error } = useAppSelector((state) => state.chatReducer);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     fetchChats();

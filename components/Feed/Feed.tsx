@@ -51,11 +51,11 @@ function Feed() {
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     const handleScroll = () => {

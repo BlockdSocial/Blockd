@@ -68,11 +68,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened

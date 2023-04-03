@@ -42,11 +42,11 @@ function NotificationsPage() {
     (state) => state.notificationReducer
   );
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     handleFetchNotifications();

@@ -16,11 +16,11 @@ function SuggestionPage() {
     getSuggestions();
   }, []);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   const getSuggestions = async () => {
     await dispatch(fetchSuggestions());

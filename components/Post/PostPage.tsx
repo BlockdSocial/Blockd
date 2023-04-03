@@ -51,11 +51,11 @@ function PostPage() {
   const router = useRouter();
   const postId = router.query.postId || parseQueryString(window.location.search.substring(1)).postId;
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     if (!isEmpty(router.query)) {

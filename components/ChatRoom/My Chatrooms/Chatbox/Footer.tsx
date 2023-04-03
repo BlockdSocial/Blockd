@@ -46,11 +46,11 @@ function Footer({
     setShowEmojis(!showEmojis);
   };
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     // only add the event listener when the emoji is opened
