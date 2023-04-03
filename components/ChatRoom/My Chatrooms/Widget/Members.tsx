@@ -170,6 +170,7 @@ function Members({ members, room }: any) {
         roomMembers && !isEmpty(input) && !isEmpty(room) ?
           roomMembers.map((member: any) => (
             <Link
+              key={member?.id}
               href={{
                 pathname: "/dashboard/profile",
                 query: { user_id: member?.id },
@@ -200,38 +201,39 @@ function Members({ members, room }: any) {
             </Link>
           )) :
           !isEmpty(members) ?
-          members.map((member: any) => (
-            <Link
-              href={{
-                pathname: "/dashboard/profile",
-                query: { user_id: member?.otherUser?.id },
-              }}
-              as={`/dashboard/profile?${encodeQuery(member?.otherUser?.id, 'profile')}`}
-            >
-              <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
-                <div className='flex items-center justify-start p-2'>
-                  <div className='flex items-center justify-center'>
-                    <img
-                      src={
-                        !isEmpty(member?.otherUser?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${member?.otherUser?.profilePic?.name}`
-                          : "/images/pfp/pfp1.jpg"
-                      }
-                      className='w-10 h-10 rounded-full'
-                    />
+            members.map((member: any) => (
+              <Link
+                key={member?.id}
+                href={{
+                  pathname: "/dashboard/profile",
+                  query: { user_id: member?.otherUser?.id },
+                }}
+                as={`/dashboard/profile?${encodeQuery(member?.otherUser?.id, 'profile')}`}
+              >
+                <div className='flex items-center justify-between p-2 w-full space-x-4 hover:bg-gray-100 cursor-pointer'>
+                  <div className='flex items-center justify-start p-2'>
+                    <div className='flex items-center justify-center'>
+                      <img
+                        src={
+                          !isEmpty(member?.otherUser?.profilePic)
+                            ? `${config.url.PUBLIC_URL}/${member?.otherUser?.profilePic?.name}`
+                            : "/images/pfp/pfp1.jpg"
+                        }
+                        className='w-10 h-10 rounded-full'
+                      />
+                    </div>
+                    <div className='flex flex-col items-start justify-start ml-4 text-black'>
+                      <span className='text-base font-semibold'>@{member?.otherUser?.name}</span>
+                      {/* <span className='text-xs'>Last seen Recently</span> */}
+                    </div>
                   </div>
-                  <div className='flex flex-col items-start justify-start ml-4 text-black'>
-                    <span className='text-base font-semibold'>@{member?.otherUser?.name}</span>
-                    {/* <span className='text-xs'>Last seen Recently</span> */}
-                  </div>
-                </div>
-                {/* <div className='flex items-center justify-end p-2 text-orange-600'>
+                  {/* <div className='flex items-center justify-end p-2 text-orange-600'>
               <span className='text-sm font-semibold'>Admin</span>
             </div> */}
-              </div>
-            </Link>
-          )) :
-          <></>
+                </div>
+              </Link>
+            )) :
+            <></>
       }
     </div>
   )

@@ -96,19 +96,19 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
       }
       break;
     case 'comment':
-      pathname = '/dashboard/post/comment';
-      query = { commentId: notification?.commentId, postId: notification?.postId }
-      as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      pathname = '/dashboard/post/';
+      query = { commentId: notification?.postId }
+      as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
       break;
     case 'follow':
       pathname = '/dashboard/profile/';
-      query = {}
-      as = '/dashboard/profile/'
+      query = { user_id: notification?.otherUser?.id },
+        as = `/dashboard/profile?${encodeQuery(notification?.otherUser?.id, 'profile')}`
       break;
     case 'levelUpgrade':
       pathname = '/dashboard/profile/';
-      query = {}
-      as = '/dashboard/profile/'
+      query = {},
+        as = '/dashboard/profile/'
       break;
     case 'levelDowngrade':
       pathname = '/dashboard/profile/';
@@ -123,6 +123,8 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
     default:
       break;
   }
+
+  console.log('notifi: ', notification);
 
   const renderNotificationText = () => {
     switch (notification?.type) {
@@ -185,9 +187,8 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         }}
         as={as}
         // @ts-ignore
-        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${
-          notification?.read == 0 ? "bg-slate-100 dark:bg-lightgray" : ""
-        } p-4 cursor-pointer`}
+        className={`flex items-center justify-between group/item border-b dark:border-lightgray ${notification?.read == 0 ? "bg-slate-100 dark:bg-lightgray" : ""
+          } p-4 cursor-pointer`}
       >
         <div className="flex mr-2">
           <Link
@@ -214,7 +215,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
             <p className="text-sm font-medium text-slate-900 dark:text-white"><span className="font-bold">{notification?.otherUser?.name}</span>{' '}
               {renderNotificationText()}<br></br>
               <span className="text-xs">
-              {moment(notification?.createdAt).fromNow()}
+                {moment(notification?.createdAt).fromNow()}
               </span>
             </p>
           </div>

@@ -152,6 +152,9 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
         room={room}
         messages={messages}
         elementRef={elementRef}
+        chats={chats}
+        setReceiver={setReceiver}
+        setRoom={setRoom}
         handleScroll={handleScroll}
       />
       {

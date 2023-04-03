@@ -87,7 +87,7 @@ export default function Chat({
   let [atTop, setAtTop] = useState<boolean>(false);
   const [endCount, setEndCount] = useState<number>(4);
   const [endTotal, setEndTotal] = useState<number>(4);
-  const [messages2, setMessages] = useState<any>();
+  const [messages2, setMessages2] = useState<any>();
   const { isFetchingMessages, error } = useAppSelector(
     (state) => state.chatReducer
   );
@@ -155,7 +155,7 @@ export default function Chat({
       ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages(result?.messages2);
+        setMessages2(result?.messages);
       });
     }
   };
@@ -170,7 +170,7 @@ export default function Chat({
       ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages(result?.messages2);
+        setMessages2(result?.messages);
       });
     }
   };
@@ -182,7 +182,7 @@ export default function Chat({
         end: 100,
       })
     ).then((result: any) => {
-      setMessages(result?.messages2);
+      setMessages2(result?.messages);
     });
   };
 
@@ -194,7 +194,7 @@ export default function Chat({
         end: 100,
       })
     ).then((result: any) => {
-      setMessages(result?.messages2);
+      setMessages2(result?.messages);
     });
   };
 
@@ -206,16 +206,16 @@ export default function Chat({
     >
       <div className="sticky top-0 z-50">
         <Navbar
-          room={room}
           receiver={receiver}
+          room={room}
           chats={chats}
           setReceiver={setReceiver}
           setRoom={setRoom}
         />
       </div>
       <div className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
-        {!isEmpty(messages) &&
-          messages.map((message: any, index: any) =>
+        {!isEmpty(messages2) &&
+          messages2.map((message: any, index: any) =>
             message?.userId == authUser?.id ? (
               <div key={index} className="relative flex flex-col">
                 <div className="grid grid-cols-10 md:grid-cols-12 mb-2">
@@ -321,9 +321,8 @@ export default function Chat({
                 <div className="grid grid-cols-10 md:grid-cols-12">
                   <div
                     onClick={() => removeReaction()}
-                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
-                      reaction ? "inline" : "hidden"
-                    }`}
+                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
+                      }`}
                   >
                     <input
                       value={reaction}
@@ -347,8 +346,8 @@ export default function Chat({
                       !isEmpty(receiver?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
                         : !isEmpty(message?.otherUser?.profilePic)
-                        ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-                        : "/images/pfp/pfp1.jpg"
+                          ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
                     }
                     className="object-cover h-10 w-10 rounded-full flex"
                     alt=""
