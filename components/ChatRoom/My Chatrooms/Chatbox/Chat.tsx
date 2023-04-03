@@ -206,8 +206,8 @@ export default function Chat({
     >
       <div className="sticky top-0 z-50">
         <Navbar
-          room={room}
           receiver={receiver}
+          room={room}
           chats={chats}
           setReceiver={setReceiver}
           setRoom={setRoom}
@@ -321,9 +321,8 @@ export default function Chat({
                 <div className="grid grid-cols-10 md:grid-cols-12">
                   <div
                     onClick={() => removeReaction()}
-                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
-                      reaction ? "inline" : "hidden"
-                    }`}
+                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
+                      }`}
                   >
                     <input
                       value={reaction}
@@ -347,8 +346,8 @@ export default function Chat({
                       !isEmpty(receiver?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
                         : !isEmpty(message?.otherUser?.profilePic)
-                        ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-                        : "/images/pfp/pfp1.jpg"
+                          ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
                     }
                     className="object-cover h-10 w-10 rounded-full flex"
                     alt=""

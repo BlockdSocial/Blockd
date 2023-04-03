@@ -133,7 +133,10 @@ function Footer({
   const maxRows = 5; // Maximum number of rows
   const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
 
-  const handleSendMessage = async () => {
+  const handleSendMessage = async (e: any = null) => {
+    if (e) {
+      e.preventDefault();
+    }
     if (!isEmpty(receiver)) {
       if (isEmpty(messages)) {
         await dispatch(createChat(receiver?.id));
@@ -218,10 +221,21 @@ function Footer({
     // event.target.style.height = `${textArea.scrollHeight}px`;
   };
 
+  const handleKeyDown = (event: any) => {
+    console.log('code: ', event.keyCode);
+    if (event.keyCode == 13 && event.shiftKey) {
+      return;
+    }
+    if (event.key === 'Enter') {
+      // 👇 Get input value
+      handleSendMessage(event);
+    }
+  };
+
   return (
     <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
       <div className="flex space-x-1 p-1 w-full">
-        <div className="w-full">
+        <form onKeyDown={(e) => handleKeyDown(e)} className="w-full">
           <textarea
             className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
             value={input}
@@ -230,7 +244,7 @@ function Footer({
             rows={1}
             id="myTextArea"
           />
-        </div>
+        </form>
         {/* <input
           value={input}
           onChange={(e: any) => setInput(e.target.value)}

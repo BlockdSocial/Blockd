@@ -5,6 +5,8 @@ import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
 
 function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
+
+  console.log('chats: ', chats);
   return (
     <div className='max-h-screen scrollbar-hide overflow-scroll dark:bg-darkgray'>
       {
