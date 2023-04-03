@@ -497,7 +497,7 @@ const Navbar = () => {
             </li>
           </ul>
         </div>
-        {(showSidebar || isRegistered === undefined) && (
+        {(showSidebar || isRegistered != undefined) && (
           <div
             className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
@@ -707,7 +707,7 @@ const Navbar = () => {
                   </div>
                 </Link>
               </div>
-              {(isOpen || isRegistered === undefined) && (
+              {(isOpen || isRegistered != undefined) && (
                 <div className="w-full flex flex-col items-center justify-start">
                   <div className="relative w-full">
                     <Link href="/dashboard/myChatrooms">
@@ -914,7 +914,7 @@ const Navbar = () => {
             </Link> */}
           </div>
         )}
-        {isRegistered === undefined && (
+        {isRegistered != undefined && (
           <div
             className={`fixed top-0 left-0 flex md:hidden p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
               showModal1 ? "" : "hidden"
