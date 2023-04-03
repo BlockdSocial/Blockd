@@ -281,7 +281,7 @@ const Navbar = () => {
           <Toaster />
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
-              onClick={() => setShowSidebar(true)}
+              onClick={() => setShowSidebar(!showSidebar)}
               className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
             <Link
@@ -498,7 +498,7 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
-            ref={sidebar}
+            // ref={sidebar}
             className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative w-full">
@@ -544,7 +544,7 @@ const Navbar = () => {
                       onClick={() => {
                         setShowModal3(false);
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Skip
                     </p>
@@ -553,7 +553,7 @@ const Navbar = () => {
                         setShowModal3(false);
                         setShowModal4(true);
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Next
                     </p>
@@ -604,7 +604,7 @@ const Navbar = () => {
                       onClick={() => {
                         setShowModal4(false);
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Skip
                     </p>
@@ -613,7 +613,7 @@ const Navbar = () => {
                         setShowModal4(false);
                         setShowModal5(true);
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Next
                     </p>
@@ -665,7 +665,7 @@ const Navbar = () => {
                       onClick={() => {
                         setShowModal5(false);
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Skip
                     </p>
@@ -674,7 +674,7 @@ const Navbar = () => {
                         setShowModal5(false);
                         setShowModal6(true);
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Next
                     </p>
@@ -740,7 +740,7 @@ const Navbar = () => {
                             onClick={() => {
                               setShowModal6(false);
                             }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                           >
                             Skip
                           </p>
@@ -749,7 +749,7 @@ const Navbar = () => {
                               setShowModal6(false);
                               setShowModal7(true);
                             }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                           >
                             Next
                           </p>
@@ -786,7 +786,7 @@ const Navbar = () => {
                             onClick={() => {
                               setShowModal7(false);
                             }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                           >
                             Skip
                           </p>
@@ -795,7 +795,7 @@ const Navbar = () => {
                               setShowModal7(false);
                               setShowModal8(true);
                             }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                           >
                             Next
                           </p>
@@ -831,7 +831,7 @@ const Navbar = () => {
                             onClick={() => {
                               setShowModal8(false);
                             }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                           >
                             Skip
                           </p>
@@ -840,7 +840,7 @@ const Navbar = () => {
                               setShowModal8(false);
                               setShowModal9(true);
                             }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                           >
                             Next
                           </p>
@@ -879,7 +879,7 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
                   showModal9 ? "" : "hidden"
                 }`}
               >
@@ -895,8 +895,9 @@ const Navbar = () => {
                     <p
                       onClick={() => {
                         setShowModal9(false);
+                        setShowSidebar(false)
                       }}
-                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                      className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >
                       Begin
                     </p>

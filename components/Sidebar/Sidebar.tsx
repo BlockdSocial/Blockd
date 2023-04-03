@@ -79,7 +79,7 @@ function Sidebar() {
                   onClick={() => {
                     setShowModal3(false);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Skip
                 </p>
@@ -88,7 +88,7 @@ function Sidebar() {
                     setShowModal3(false);
                     setShowModal4(true);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Next
                 </p>
@@ -135,7 +135,7 @@ function Sidebar() {
                   onClick={() => {
                     setShowModal4(false);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Skip
                 </p>
@@ -144,7 +144,7 @@ function Sidebar() {
                     setShowModal4(false);
                     setShowModal5(true);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Next
                 </p>
@@ -196,7 +196,7 @@ function Sidebar() {
                   onClick={() => {
                     setShowModal5(false);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Skip
                 </p>
@@ -205,7 +205,7 @@ function Sidebar() {
                     setShowModal5(false);
                     setShowModal6(true);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Next
                 </p>
@@ -273,7 +273,7 @@ function Sidebar() {
                         onClick={() => {
                           setShowModal6(false);
                         }}
-                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
                         Skip
                       </p>
@@ -282,7 +282,7 @@ function Sidebar() {
                           setShowModal6(false);
                           setShowModal7(true);
                         }}
-                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
                         Next
                       </p>
@@ -319,7 +319,7 @@ function Sidebar() {
                         onClick={() => {
                           setShowModal7(false);
                         }}
-                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
                         Skip
                       </p>
@@ -328,7 +328,7 @@ function Sidebar() {
                           setShowModal7(false);
                           setShowModal8(true);
                         }}
-                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
                         Next
                       </p>
@@ -363,7 +363,7 @@ function Sidebar() {
                         onClick={() => {
                           setShowModal8(false);
                         }}
-                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
                         Skip
                       </p>
@@ -372,7 +372,7 @@ function Sidebar() {
                           setShowModal8(false);
                           setShowModal9(true);
                         }}
-                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
                         Next
                       </p>
@@ -411,7 +411,7 @@ function Sidebar() {
             )}
           </Link>
           <div
-            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+            className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
               showModal9 ? "" : "hidden"
             }`}
           >
@@ -428,7 +428,7 @@ function Sidebar() {
                   onClick={() => {
                     setShowModal9(false);
                   }}
-                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm"
+                  className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                 >
                   Begin
                 </p>

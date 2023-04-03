@@ -566,7 +566,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {!isEmpty(rewards) &&
                   rewards.map((reward: any, index: any) => (
                     <img
-                      className={`w-24 h-40 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mr-1 rounded-md`}
+                      className={`w-24 h-40 mt-2 opacity-80 hover:opacity-100 col-span-4 lg:col-span-2 cursor-pointer mr-1 rounded-md`}
                       src={`/${reward?.name}`}
                       key={index}
                       onClick={() => {
