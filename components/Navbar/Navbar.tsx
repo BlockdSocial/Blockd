@@ -288,7 +288,6 @@ const Navbar = () => {
         } h-[8vh] px-2`}
       >
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-[8vh]">
-          <Toaster />
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
               ref={sidebar}
@@ -319,7 +318,7 @@ const Navbar = () => {
                 ref={dropdown}
                 src={
                   authUser?.profilePic
-                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic}`
+                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                     : "/images/pfp/pfp1.jpg"
                 }
                 onClick={() => setDropDown(!dropDown)}
@@ -492,7 +491,7 @@ const Navbar = () => {
               </p>
               <Link
                 href="/dashboard/profile"
-                className="rounded-md p-[1px] bg-white w-full"
+                className="rounded-md bg-white w-full"
               >
                 <img
                   src={
@@ -509,7 +508,7 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-[8vh] h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-[8vh] h-[92vh] scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative w-full">
               <Link href="/" className="active">

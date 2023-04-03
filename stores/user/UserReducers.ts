@@ -41,7 +41,10 @@ import {
   RESET_MESSAGES_FAILURE,
   IS_SEARCHING_FILTERED_USERS,
   SEARCH_FILTERED_USERS_SUCCESS,
-  SEARCH_FILTERED_USERS_FAILURE
+  SEARCH_FILTERED_USERS_FAILURE,
+  IS_CHECKING_EMAIL,
+  CHECK_EMAIL_SUCCESS,
+  CHECK_EMAIL_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -61,6 +64,7 @@ const initialState = {
   isFollowed: false,
   isResetingBell: false,
   isResetingMessages: false,
+  isCheckingEmail: false,
   rewards: [],
   popularUsers: [],
   filteredUsers: [],
@@ -355,6 +359,26 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isResetingMessages: false,
+        error: action.error
+      };
+    }
+    case IS_CHECKING_EMAIL: {
+      return {
+        ...state,
+        isCheckingEmail: true,
+        error: ''
+      };
+    }
+    case CHECK_EMAIL_SUCCESS: {
+      return {
+        ...state,
+        isCheckingEmail: false,
+      };
+    }
+    case CHECK_EMAIL_FAILURE: {
+      return {
+        ...state,
+        isCheckingEmail: false,
         error: action.error
       };
     }

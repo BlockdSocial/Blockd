@@ -99,11 +99,11 @@ function CommentSection({ comment, post, type }: Props) {
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   const onUploadPictureClick = () => {
     // `current` points to the mounted file input element

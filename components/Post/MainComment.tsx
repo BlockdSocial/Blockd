@@ -102,11 +102,11 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     }
   };
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   const handleUploadPicture = (e: any) => {
     setImage(URL.createObjectURL(e.target.files[0]));

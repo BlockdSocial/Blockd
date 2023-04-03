@@ -13,8 +13,8 @@ import { config } from '../../../../constants'
 function Chatbar({ setRoom, setReceiver, chatrooms }: any) {
 
   return (
-    <div className='relative flex flex-col col-span-1 pt-4 items-center border-r dark:border-lightgray'>
-      <div className='flex flex-col h-full scrollbar-hide overflow-scroll w-full space-y-2'>
+    <div className='relative flex flex-col col-span-1 pt-4 items-center border-r dark:border-lightgray h-[92vh] scrollbar-hide overflow-scroll'>
+      <div className='flex flex-col w-full space-y-2'>
         {
           chatrooms?.map((chatroom: any) => (
             <div

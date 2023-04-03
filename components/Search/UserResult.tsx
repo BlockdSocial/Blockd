@@ -21,11 +21,11 @@ function UserResult({ user }: any) {
   const { authUser } = useAppSelector((state) => state.authUserReducer)
   const { error } = useAppSelector((state) => state.userReducer)
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   const handleFollowUser = async (userId: any) => {
     if (authUser?.id !== userId) {

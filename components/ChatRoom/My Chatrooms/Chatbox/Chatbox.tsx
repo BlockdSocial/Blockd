@@ -9,7 +9,7 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 import { toast } from "react-hot-toast";
 
-function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
+function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const elementRef = useRef<any>(null);
@@ -24,11 +24,11 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
     dispatch(fetchAuthUser());
   }, []);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     if (!isEmpty(receiver)) {
@@ -145,8 +145,8 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
   };
 
   return (
-    <div className="flex min-h-[90vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
-      {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} />}
+    <div className="flex min-h-[92vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
+      {/* {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} setRoom={setRoom} />} */}
       <Chat
         receiver={receiver}
         room={room}
@@ -166,7 +166,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
           </p>
         </div>
       }
-      {(!isEmpty(receiver) || !isEmpty(room)) && (
+      {/* {(!isEmpty(receiver) || !isEmpty(room)) && (
         <Footer
           receiver={receiver}
           room={room}
@@ -174,7 +174,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
           getMessages={getMessages}
           fetchRoomMessages={fetchRoomMessages}
         />
-      )}
+      )} */}
     </div>
   );
 }

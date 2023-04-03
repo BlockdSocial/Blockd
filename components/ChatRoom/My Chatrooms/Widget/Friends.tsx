@@ -15,7 +15,7 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
             className='flex items-center justify-between p-2 w-full hover:bg-gray-100 dark:hover:bg-lightgray cursor-pointer group'
             onClick={() => {
               setReceiver(chat?.otherUser);
-              setRoom(undefined);
+              setRoom(null);
               closeShowFriends();
             }}
           >

@@ -9,7 +9,7 @@ export function middleware(req: NextRequest) {
   // login & register routes
   if (['/'].includes(req.nextUrl.pathname)) {
     if (!hasToken) {
-      return NextResponse.redirect(new URL('/auth/signin', req.url))
+      return NextResponse.redirect(new URL('/auth/signup', req.url))
     }
   }
   if (['/auth/signup', '/auth/signin'].includes(req.nextUrl.pathname)) {

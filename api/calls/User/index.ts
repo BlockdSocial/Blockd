@@ -60,6 +60,10 @@ async function searchFilteredUsers(fields: any) {
   return apiCall('searchFilteredUsers', 'POST', 'search/users', fields);
 };
 
+async function checkEmail(fields: any) {
+  return apiCall('checkEmail', 'POST', `email/taken/check`, fields)
+};
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -74,5 +78,6 @@ export default {
   isFollowed,
   resetBell,
   resetMessages,
-  searchFilteredUsers
+  searchFilteredUsers,
+  checkEmail
 };

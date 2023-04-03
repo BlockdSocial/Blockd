@@ -14,11 +14,11 @@ function Following({ user }: any) {
   const dispatch = useAppDispatch();
   const { followings, error } = useAppSelector((state) => state.userReducer);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     fetchUserFollowings();

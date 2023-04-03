@@ -19,11 +19,11 @@ function Followers({ user }: any) {
     error
   } = useAppSelector((state) => state.userReducer);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     fetchUserFollowers();

@@ -48,11 +48,11 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.notificationReducer);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   const handleReadNotification = async () => {
     await dispatch(readNotification(notification?.id)).then(() => {

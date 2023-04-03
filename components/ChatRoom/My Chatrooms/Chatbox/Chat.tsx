@@ -16,8 +16,15 @@ import AddReactionRoundedIcon from "@mui/icons-material/AddReactionRounded";
 import Picker from "@emoji-mart/react";
 
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
-import { fetchMessages } from "../../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
+import Navbar from "./Navbar";
+import Footer from "./Footer";
+import {
+  fetchChatroomMessages,
+  fetchMessages,
+} from "../../../../stores/chat/ChatActions";
+import { useChannel } from "@ably-labs/react-hooks";
+import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 
 export default function Chat({
   receiver,
@@ -25,6 +32,9 @@ export default function Chat({
   room,
   elementRef,
   handleScroll,
+  chats,
+  setReceiver,
+  setRoom,
 }: any) {
   const dispatch = useAppDispatch();
 
@@ -74,25 +84,152 @@ export default function Chat({
     boxRef.current?.scrollIntoView({ behavior: "smooth" });
   };
 
+  let [atTop, setAtTop] = useState<boolean>(false);
+  const [endCount, setEndCount] = useState<number>(4);
+  const [endTotal, setEndTotal] = useState<number>(4);
+  const [messages2, setMessages] = useState<any>();
+  const { isFetchingMessages, error } = useAppSelector(
+    (state) => state.chatReducer
+  );
+  const ref = useRef<any>(null);
+
+  useEffect(() => {
+    dispatch(fetchAuthUser());
+  }, []);
+
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
+
+  useEffect(() => {
+    if (!isEmpty(receiver)) {
+      getMessages();
+      ref.current = receiver;
+    }
+    if (!isEmpty(room)) {
+      fetchRoomMessages();
+      ref.current = room;
+    }
+  }, [receiver, room]);
+
+  const [message] = useChannel(
+    `messageNotification-${authUser.id}`,
+    (message) => {
+      updateMessages();
+    }
+  );
+
+  const [roomMessage] = useChannel(
+    `roomNotification-${room?.room?.name}`,
+    (message) => {
+      updateRoomMessages();
+    }
+  );
+
+  useEffect(() => {
+    const handleScroll = () => {
+      if (elementRef?.current?.scrollTop !== 0) {
+        atTop = true;
+        setAtTop(atTop);
+      } else {
+        atTop = false;
+        setAtTop(atTop);
+      }
+    };
+    elementRef?.current?.addEventListener("scroll", handleScroll);
+    return () => {
+      elementRef?.current?.removeEventListener("scroll", handleScroll);
+    };
+  }, []);
+
+  const getMessages = async () => {
+    if (!isEmpty(receiver)) {
+      await dispatch(
+        fetchMessages({
+          receiver_id: receiver?.id,
+          start: 0,
+          end: 100,
+        })
+      ).then((result: any) => {
+        setEndTotal(10);
+        setEndCount(10);
+        setMessages(result?.messages2);
+      });
+    }
+  };
+
+  const fetchRoomMessages = async () => {
+    if (!isEmpty(room)) {
+      await dispatch(
+        fetchChatroomMessages(room?.roomId, {
+          start: 0,
+          end: 100,
+        })
+      ).then((result: any) => {
+        setEndTotal(10);
+        setEndCount(10);
+        setMessages(result?.messages2);
+      });
+    }
+  };
+
+  const updateRoomMessages = async () => {
+    await dispatch(
+      fetchChatroomMessages(room?.roomId, {
+        start: 0,
+        end: 100,
+      })
+    ).then((result: any) => {
+      setMessages(result?.messages2);
+    });
+  };
+
+  const updateMessages = async () => {
+    await dispatch(
+      fetchMessages({
+        receiver_id: ref.current?.id,
+        start: 0,
+        end: 100,
+      })
+    ).then((result: any) => {
+      setMessages(result?.messages2);
+    });
+  };
+
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className="scrollbar-hide overflow-scroll p-2 py-4 h-[86%] md:h-[83%] dark:bg-darkgray z-0"
+      className="relative scrollbar-hide overflow-scroll h-[92vh] dark:bg-darkgray z-0"
       id="test"
     >
-      <div className="">
+      <div className="sticky top-0 z-50">
+        <Navbar
+          room={room}
+          receiver={receiver}
+          chats={chats}
+          setReceiver={setReceiver}
+          setRoom={setRoom}
+        />
+      </div>
+      <div className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
         {!isEmpty(messages) &&
           messages.map((message: any, index: any) =>
             message?.userId == authUser?.id ? (
               <div key={index} className="relative flex flex-col">
-                <div className="grid grid-cols-10 md:grid-cols-12 mb-1">
-                  <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-3 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
+                <div className="grid grid-cols-10 md:grid-cols-12 mb-2">
+                  <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mr-2 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
                     <div className="flex space-x-20 relative z-0 items-center justify-between w-full text-xm font-semibold">
                       <div>
-                        <p className="text-sm md:text-base">@{authUser?.name}</p>
+                        <p className="text-sm md:text-base">
+                          @{authUser?.name}
+                        </p>
                       </div>
                       <div className="relative z-0 flex items-center justify-end space-x-2 pl-2">
-                        <p className="text-sm md:text-base">{moment(message?.createdAt).format("HH:mm")}</p>
+                        <p className="text-sm md:text-base">
+                          {moment(message?.createdAt).format("HH:mm")}
+                        </p>
                         <div
                           ref={dropdown}
                           className="flex relative rounded-md"
@@ -130,24 +267,22 @@ export default function Chat({
                     <p className="flex items-center justify-start py-2 text-sm md:text-base">
                       {message?.content}
                     </p>
-                    {
-                      message?.imgName != null &&
+                    {message?.imgName != null && (
                       <div className="flex items-center justify-start">
                         <img
                           src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
                           className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                         />
                       </div>
-                    }
-                    {
-                      message?.gif != null &&
+                    )}
+                    {message?.gif != null && (
                       <div className="flex items-center justify-start">
                         <img
                           src={message?.gif}
                           className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                         />
                       </div>
-                    }
+                    )}
                     <div className="relative flex items-center justify-start space-x-1 mt-1">
                       <div className="absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md">
                         {/* <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
@@ -186,8 +321,9 @@ export default function Chat({
                 <div className="grid grid-cols-10 md:grid-cols-12">
                   <div
                     onClick={() => removeReaction()}
-                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
-                      }`}
+                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
+                      reaction ? "inline" : "hidden"
+                    }`}
                   >
                     <input
                       value={reaction}
@@ -203,15 +339,15 @@ export default function Chat({
             ) : (
               <div
                 key={index}
-                className="grid grid-cols-10 md:grid-cols-12 mb-4 mt-8"
+                className="grid grid-cols-10 md:grid-cols-12 mb-2"
               >
                 <div className="col-span-1 flex items-end justify-end">
                   <img
                     src={
                       !isEmpty(receiver?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
-                        : !isEmpty(message?.otherUser?.profilePic) ?
-                        `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                        : !isEmpty(message?.otherUser?.profilePic)
+                        ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
                         : "/images/pfp/pfp1.jpg"
                     }
                     className="object-cover h-10 w-10 rounded-full flex"
@@ -220,7 +356,12 @@ export default function Chat({
                 </div>
                 <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
                   <div className="flex items-center justify-between w-full text-xm font-semibold">
-                    <p className="text-sm md:text-base">@{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}</p>
+                    <p className="text-sm md:text-base">
+                      @
+                      {!isEmpty(receiver)
+                        ? receiver?.name
+                        : message?.otherUser?.name}
+                    </p>
                     <p className="pl-2 text-sm md:text-base">
                       {moment(message?.createdAt).format("HH:mm")}
                     </p>
@@ -228,29 +369,38 @@ export default function Chat({
                   <p className="flex items-center justify-start py-2 text-sm md:text-base">
                     {message?.content}
                   </p>
-                  {
-                    message?.imgName != null &&
+                  {message?.imgName != null && (
                     <div className="flex items-center justify-start">
                       <img
                         src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
                         className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                       />
                     </div>
-                  }
-                  {
-                    message?.gif != null &&
+                  )}
+                  {message?.gif != null && (
                     <div className="flex items-center justify-start">
                       <img
                         src={message?.gif}
                         className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                       />
                     </div>
-                  }
+                  )}
                 </div>
               </div>
             )
           )}
         <div ref={boxRef} />
+      </div>
+      <div className="absolute bottom-0 w-full">
+        {(!isEmpty(receiver) || !isEmpty(room)) && (
+          <Footer
+            receiver={receiver}
+            room={room}
+            messages={messages2}
+            getMessages={getMessages}
+            fetchRoomMessages={fetchRoomMessages}
+          />
+        )}
       </div>
     </div>
   );

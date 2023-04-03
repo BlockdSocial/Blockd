@@ -55,11 +55,11 @@ function CommentPage() {
   const commentId = parseQueryString(split[0]).commentId;
   const postId = parseQueryString(split[1]).postId;
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     if (!isEmpty(router.query)) {

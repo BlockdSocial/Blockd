@@ -23,11 +23,11 @@ function chatroom() {
   const roomChat = router.query.roomChat != undefined ? JSON.parse(router.query.roomChat as any) : null;
   const { chatrooms, error } = useAppSelector((state) => state.chatReducer);
 
-  useEffect(() => {
-    if (!isEmpty(error)) {
-      toast.error(error);
-    }
-  }, [error]);
+  // useEffect(() => {
+  //   if (!isEmpty(error)) {
+  //     toast.error(error);
+  //   }
+  // }, [error]);
 
   useEffect(() => {
     fetchChats();
@@ -41,7 +41,6 @@ function chatroom() {
       console.log('chatrooms: ', chatrooms);
       for (let i = 0; i < chatrooms.length; i++) {
         if (chatrooms[i].roomId === roomChat.id) {
-          console.log('BZAZZZ')
           setRoom(chatrooms[i]);
           return;
         }
@@ -92,6 +91,7 @@ function chatroom() {
           room={room}
           setReceiver={setReceiver}
           chatrooms={chatrooms}
+          setRoom={setRoom}
         />
         <Widget
           chats={chats}
