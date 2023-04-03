@@ -281,8 +281,7 @@ const Navbar = () => {
           <Toaster />
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
-              ref={sidebar}
-              onClick={() => setShowSidebar(!showSidebar)}
+              onClick={() => setShowSidebar(true)}
               className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
             <Link
@@ -499,6 +498,7 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
+            ref={sidebar}
             className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative w-full">

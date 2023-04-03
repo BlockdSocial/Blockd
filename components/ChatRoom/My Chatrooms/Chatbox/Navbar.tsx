@@ -58,7 +58,7 @@ function Navbar({ receiver, room, chats, setReceiver }: any) {
   }
 
   return (
-    <div className="flex items-center justify-between relative h-[7%] md:h-[10%] w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
+    <div className="flex items-center justify-between relative h-[7vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
       {!isEmpty(room) &&
         <div className='flex items-center space-x-2'>
           <img
