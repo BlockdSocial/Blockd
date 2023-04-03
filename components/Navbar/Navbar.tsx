@@ -136,13 +136,17 @@ const Navbar = () => {
       await dispatch(fetchUserNotification(data?.notification)).then(
         async (result: any) => {
           if ("like" === result?.type) {
-            setNotificationInfo(`${result?.otherUser?.name} has liked your post!`);
+            setNotificationInfo(
+              `${result?.otherUser?.name} has liked your post!`
+            );
           } else if ("comment" === result?.type) {
             setNotificationInfo(
               `${result?.otherUser?.name} commented on your post!`
             );
           } else if ("dislike" === result?.type) {
-            setNotificationInfo(`${result?.otherUser?.name} disliked your post!`);
+            setNotificationInfo(
+              `${result?.otherUser?.name} disliked your post!`
+            );
           } else if ("follow" === result?.type) {
             setNotificationInfo(`${result?.otherUser?.name} has followed you!`);
           } else if ("levelUpgrade" === result?.type) {
@@ -240,6 +244,7 @@ const Navbar = () => {
     if (!showSidebar) return;
     function handleClick(event: any) {
       if (showSidebar === true) {
+        console.log("hello");
         if (sidebar.current && !sidebar.current.contains(event.target)) {
           setShowSidebar(false);
         }
@@ -267,6 +272,11 @@ const Navbar = () => {
     return () => window.removeEventListener("click", handleClick);
   }, [dropDown]);
 
+  const handleClick = () => {
+    setOpen(!isOpen)
+    setShowSidebar(true)
+  }
+
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray h-14">
       <div
@@ -281,6 +291,7 @@ const Navbar = () => {
           <Toaster />
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
+              ref={sidebar}
               onClick={() => setShowSidebar(!showSidebar)}
               className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
@@ -498,7 +509,6 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
-            // ref={sidebar}
             className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-screen scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative w-full">
@@ -682,9 +692,10 @@ const Navbar = () => {
                 </div>
               </div>
             </div>
-            <div
-              onMouseEnter={() => setOpen(true)}
-              onMouseLeave={() => setOpen(false)}
+            {/* <div
+              // onMouseEnter={() => setOpen(true)}
+              // onMouseLeave={() => setOpen(false)}
+              onClick={handleClick}
               className="relative"
             >
               <div className="relative flex items-start justify-start">
@@ -707,7 +718,7 @@ const Navbar = () => {
                   </div>
                 </Link>
               </div>
-              {(isOpen || isRegistered != undefined) && (
+              {(isOpen || isRegistered != undefined) && ( */}
                 <div className="w-full flex flex-col items-center justify-start">
                   <div className="relative w-full">
                     <Link href="/dashboard/myChatrooms">
@@ -849,8 +860,8 @@ const Navbar = () => {
                     </div>
                   </div>
                 </div>
-              )}
-            </div>
+              {/* )}
+            </div> */}
             <div className="relative w-full">
               <Link href="/dashboard/achievement" className="active">
                 {location.pathname === "/dashboard/achievement" ? (
@@ -895,7 +906,7 @@ const Navbar = () => {
                     <p
                       onClick={() => {
                         setShowModal9(false);
-                        setShowSidebar(false)
+                        setShowSidebar(false);
                       }}
                       className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                     >

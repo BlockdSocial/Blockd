@@ -147,13 +147,6 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
   return (
     <div className="flex min-h-[91vh] flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
       {<Navbar room={room} receiver={receiver} chats={chats} setReceiver={setReceiver} />}
-      <Chat
-        receiver={receiver}
-        room={room}
-        messages={messages}
-        elementRef={elementRef}
-        handleScroll={handleScroll}
-      />
       {
         isEmpty(chats) && isEmpty(chatrooms) &&
         <div className="flex flex-col items-center justify-start">
@@ -166,6 +159,13 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms }: any) {
           </p>
         </div>
       }
+      <Chat
+        receiver={receiver}
+        room={room}
+        messages={messages}
+        elementRef={elementRef}
+        handleScroll={handleScroll}
+      />
       {(!isEmpty(receiver) || !isEmpty(room)) && (
         <Footer
           receiver={receiver}
