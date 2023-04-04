@@ -11,7 +11,7 @@ import {
   GifIcon,
   PaperAirplaneIcon,
   TrashIcon,
-  PencilSquareIcon
+  PencilSquareIcon,
 } from "@heroicons/react/24/outline";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
@@ -91,6 +91,9 @@ function CommentSection({ comment, post, type }: Props) {
 
   const [input, setInput] = useState<string>("");
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
+  const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
+  const [editPopUp, setEditPopUp] = useState<boolean>(false);
+  const [textArea, setTextArea] = useState<string>("");
 
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -100,6 +103,8 @@ function CommentSection({ comment, post, type }: Props) {
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+  const [imageEdit, setImageEdit] = useState<string>("");
+  const [uploadedEdit, setUploadedEdit] = useState<string>("");
 
   // useEffect(() => {
   //   if (!isEmpty(error)) {
@@ -126,11 +131,17 @@ function CommentSection({ comment, post, type }: Props) {
     setUploadedVideo("");
   };
 
+  const handleUploadProfile = (e: any) => {
+    setImageEdit(URL.createObjectURL(e.target.files[0]));
+    setUploadedEdit(e.target.files[0]);
+  };
+
   //************************** GIF Handeling **************************//
   //************************** GIF Handeling **************************//
   //************************** GIF Handeling **************************//
 
   const [showGifs, setShowGifs] = useState<boolean>(false);
+  const [showEditGifs, setShowEditGifs] = useState<boolean>(false);
 
   const gif = useRef<any>(null);
 
@@ -150,6 +161,7 @@ function CommentSection({ comment, post, type }: Props) {
   }, [showGifs]);
 
   const [gifBoxIsOpen, setGifBoxIsOpen] = useState<boolean>(false);
+  const [gifEditBoxIsOpen, setGifEditBoxIsOpen] = useState<boolean>(false);
   //Set a color for the frame
 
   let [gifUrl, setGifUrl] = useState<string>("");
@@ -167,6 +179,16 @@ function CommentSection({ comment, post, type }: Props) {
     gifUrl = "";
     setGifUrl(gifUrl);
     setGifBoxIsOpen(!gifBoxIsOpen);
+  };
+
+  let [editGifUrl, setEditGifUrl] = useState<string>("");
+  const editGif = (gify: any) => {
+    if (gifBoxIsOpen === false) {
+      setGifEditBoxIsOpen(!gifEditBoxIsOpen);
+    }
+    let gifUrl = gify.images.downsized.url;
+    setEditGifUrl(gifUrl);
+    setUploadedVideo(gify.images.downsized);
   };
 
   //************************** Emojie Handeling **************************//
@@ -340,7 +362,14 @@ function CommentSection({ comment, post, type }: Props) {
     }
   };
 
-  console.log("COMMENT: ", comment);
+  const inputFileContent = useRef<HTMLInputElement | null>(null);
+
+  const onContentClick = () => {
+    // `current` points to the mounted file input element
+    if (inputFileContent.current) {
+      inputFileContent.current.click();
+    }
+  };
 
   return (
     <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
@@ -424,13 +453,24 @@ function CommentSection({ comment, post, type }: Props) {
             </div>
           </div>
           <div className="flex space-x-2">
-            <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
-            <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+            <div
+              onClick={async (e) => {
+                setEditPopUp(!editPopUp);
+                e.preventDefault();
+              }}
+              className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+            >
+              <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
             </div>
-            <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
-            <TrashIcon className="w-5 h-5 cursor-pointer" />
+            <div
+              onClick={async (e) => {
+                setDeletePopUp(!deletePopUp);
+                e.preventDefault();
+              }}
+              className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+            >
+              <TrashIcon className="w-5 h-5 cursor-pointer" />
             </div>
-            
           </div>
         </div>
         <div className="w-full">
@@ -682,6 +722,164 @@ function CommentSection({ comment, post, type }: Props) {
           </button>
         </form>
       )}
+      <div
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
+      >
+        <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
+          <div className="relative bg-gray-50 rounded-t-lg">
+            <button
+              type="button"
+              onClick={() => setDeletePopUp(!deletePopUp)}
+              className="absolute top-3 right-2.5 text-gray-400 bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div className="p-4">
+              <h3 className="text-xl font-medium text-gray-900">
+                Delete Comment
+              </h3>
+            </div>
+          </div>
+          <div className="flex items-center justify-start p-4 border-y text-black">
+            Are you sure you want to delete this comment ?
+          </div>
+          <div className="flex items-center justify-end space-x-3 p-4">
+            <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+              Delete
+            </p>
+
+            <p
+              onClick={() => setDeletePopUp(!deletePopUp)}
+              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+            >
+              Cancel
+            </p>
+          </div>
+        </div>
+      </div>
+      <div
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
+          editPopUp ? "" : "hidden"
+        }`}
+      >
+        <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
+          <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
+            <div className="">
+              <h3 className="text-xl font-medium text-gray-900">
+                Edit Comment
+              </h3>
+            </div>
+            <button
+              type="button"
+              onClick={() => setEditPopUp(!editPopUp)}
+              className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5 text-black"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+          </div>
+          <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
+            <div className="flex items-start justify-start space-y-2 w-full">
+              <div className="relative flex items-center justify-center w-full group">
+                <img
+                  src={editGifUrl}
+                  alt="gif"
+                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                  width="720"
+                  height="350"
+                  onClick={() => setShowEditGifs((b) => !b)}
+                />
+                <img
+                  src="/images/blockdbg.jpg"
+                  alt="Content"
+                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                  width="720"
+                  height="350"
+                  onClick={() => onContentClick()}
+                />
+                <input
+                  type="file"
+                  id="file"
+                  ref={inputFileContent}
+                  className="hidden"
+                  accept="image/*"
+                  onChange={handleUploadProfile}
+                />
+              </div>
+            </div>
+            <div className="flex flex-col items-start justify-start space-y-2 w-full relative">
+              {showEditGifs && (
+                <div className="absolute right-0 bottom-6 z-[1] p-2 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                  <ReactGiphySearchbox
+                    apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                    onSelect={(item: any) => {
+                      editGif(item), setShowEditGifs(false);
+                    }}
+                    masonryConfig={[
+                      { columns: 2, imageWidth: 110, gutter: 5 },
+                      {
+                        mq: "700px",
+                        columns: 3,
+                        imageWidth: 110,
+                        gutter: 5,
+                      },
+                    ]}
+                    wrapperClassName="p-4"
+                  />
+                </div>
+              )}
+              <p className="font-semibold text-black">Comment</p>
+              <textarea
+                id="message"
+                maxLength={255}
+                value={textArea}
+                onChange={(e: any) => setTextArea(e.target.value)}
+                data-rows="4"
+                className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
+                placeholder="Current Comment"
+              ></textarea>
+            </div>
+          </div>
+          <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
+            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+              Save
+            </p>
+            <p
+              onClick={() => setEditPopUp(!editPopUp)}
+              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+            >
+              Cancel
+            </p>
+          </div>
+        </div>
+      </div>
     </div>
   );
 }

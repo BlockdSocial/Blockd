@@ -1168,7 +1168,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex  items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
           editPopUp ? "" : "hidden"
         }`}
       >
