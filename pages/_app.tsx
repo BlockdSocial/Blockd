@@ -55,7 +55,7 @@ const wagmiClient = createClient({
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const mounted = useIsMounted();
-  if (process.env.NODE_ENV === "production") console.log = function () { };
+  if (process.env.NODE_ENV === "production") console.log = function () {};
 
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
@@ -64,9 +64,14 @@ function MyApp({ Component, pageProps }: AppProps) {
   }
   return (
     <>
-    <Head>
-    <link rel="shortcut icon" href="/images/favicon.ico" />
-    </Head>
+      <Head>
+        <link
+          rel="icon"
+          type="image/png"
+          sizes="16x16"
+          href="/images/favicon.ico"
+        ></link>
+      </Head>
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-QW4Q5G8G4K"
@@ -99,10 +104,10 @@ function MyApp({ Component, pageProps }: AppProps) {
             <Provider store={store}>
               <ThemeProvider enableSystem={true} attribute="class">
                 {router.pathname === "/auth/signin" ||
-                  router.pathname === "/auth/signup" ||
-                  router.pathname === "/auth/infographic" ||
-                  router.pathname === "/dashboard/myChatrooms" ||
-                  router.pathname === "/dashboard/myChatrooms2" ? (
+                router.pathname === "/auth/signup" ||
+                router.pathname === "/auth/infographic" ||
+                router.pathname === "/dashboard/myChatrooms" ||
+                router.pathname === "/dashboard/myChatrooms2" ? (
                   <Component {...pageProps} />
                 ) : (
                   <Layout>

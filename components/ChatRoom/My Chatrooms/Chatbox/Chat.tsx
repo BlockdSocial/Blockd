@@ -35,6 +35,7 @@ export default function Chat({
   chats,
   setReceiver,
   setRoom,
+  chatrooms
 }: any) {
   const dispatch = useAppDispatch();
 
@@ -201,10 +202,10 @@ export default function Chat({
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className="relative scrollbar-hide overflow-scroll h-[92vh] dark:bg-darkgray z-0"
+      className={`relative ${isEmpty(chats) && isEmpty(chatrooms) ? 'overflow-hidden' : 'scrollbar-hide overflow-scroll'}  h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
-      <div className="sticky top-0 z-50">
+      <div className="sticky top-0 z-50 bg-white">
         <Navbar
           receiver={receiver}
           room={room}
@@ -213,6 +214,18 @@ export default function Chat({
           setRoom={setRoom}
         />
       </div>
+
+      {isEmpty(chats) && isEmpty(chatrooms) && (
+        <div className="absolute top-0 left-0 bottom-0 right-0 flex flex-col items-center justify-center">
+          <img
+            src="/images/badges/no-message.webp"
+            className="object-contain max-w-[300px]"
+          />
+          <p className="p-2 rounded-full w-fit px-4 bg-gray-200 dark:bg-lightgray">
+            No Messages Yet !
+          </p>
+        </div>
+      )}
       <div className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
         {!isEmpty(messages2) &&
           messages2.map((message: any, index: any) =>
@@ -321,8 +334,9 @@ export default function Chat({
                 <div className="grid grid-cols-10 md:grid-cols-12">
                   <div
                     onClick={() => removeReaction()}
-                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
-                      }`}
+                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
+                      reaction ? "inline" : "hidden"
+                    }`}
                   >
                     <input
                       value={reaction}
@@ -346,8 +360,8 @@ export default function Chat({
                       !isEmpty(receiver?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
                         : !isEmpty(message?.otherUser?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-                          : "/images/pfp/pfp1.jpg"
+                        ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                        : "/images/pfp/pfp1.jpg"
                     }
                     className="object-cover h-10 w-10 rounded-full flex"
                     alt=""
