@@ -443,7 +443,7 @@ function Sidebar() {
           <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
         </Link> */}
       </div>
-      {isRegistered === undefined && (
+      {isRegistered !== undefined && (
         <div
           className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
             showModal1 ? "" : "hidden"
@@ -462,20 +462,27 @@ function Sidebar() {
               free social platform that will soon become home to all blockchain
               users (and soon to be blockchain users).
               <br></br>
-              Be aware that only certain features are available during this
-              Beta, which are:
+              BETA Features Available:
               <br></br>
-              <div className="flex w-full items-center justify-start">
+              <div className="flex w-full items-start justify-start mt-1">
                 <span className="text-orange-500 text-xl">•</span>{" "}
-                Creating/Editing a post.
+                Create and edit posts.
               </div>
-              <div className="flex w-full items-center justify-start">
+              <div className="flex w-full items-start justify-start">
                 <span className="text-orange-500 text-xl">•</span>{" "}
-                Consulting/Editing your profile page.
+                Access your feed and interact with other users on the platform.
               </div>
-              <div className="flex w-full items-center justify-start">
-                <span className="text-orange-500 text-xl">•</span> Submitting
-                Feedback.
+              <div className="flex w-full items-start justify-start">
+                <span className="text-orange-500 text-xl">•</span> 
+                Access your profile page and edit PFP, Banners, Frames, etc. 
+              </div>
+              <div className="flex w-full items-start justify-start">
+                <span className="text-orange-500 text-xl">•</span> 
+                ChatRooms (Public & Private) and DMs.
+              </div>
+              <div className="flex w-full items-start justify-start">
+                <span className="text-orange-500 text-xl">•</span> 
+                Submitting Feedback.
               </div>
             </div>
             <div className="flex items-center justify-end space-x-3 p-4">
@@ -510,12 +517,10 @@ function Sidebar() {
             feedback which is very important to us, as this is a community
             driven platform.
             <br></br>
-            <div className="flex w-full items-center justify-start">
-              <span className="text-orange-500 text-xl">*</span>To submit
-              feedback:<span className="text-orange-500 text-xl">*</span>
+            <div className="flex w-full items-start justify-start my-1">
+              To submit feedback:
             </div>
-            Please visit our Suggestions page, select the "Beta Feedback"
-            Category and hit Submit!
+            Please visit our Suggestions page, and write us your feedback.
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
             <p

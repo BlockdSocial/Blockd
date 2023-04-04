@@ -273,9 +273,9 @@ const Navbar = () => {
   }, [dropDown]);
 
   const handleClick = () => {
-    setOpen(!isOpen)
-    setShowSidebar(true)
-  }
+    setOpen(!isOpen);
+    setShowSidebar(true);
+  };
 
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray h-[8vh]">
@@ -718,148 +718,148 @@ const Navbar = () => {
                 </Link>
               </div>
               {(isOpen || isRegistered != undefined) && ( */}
-                <div className="w-full flex flex-col items-center justify-start">
-                  <div className="relative w-full">
-                    <Link href="/dashboard/myChatrooms">
-                      <div
-                        className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
-                          showModal6
-                            ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                            : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                        } group`}
-                      >
-                        <ChatBubbleLeftIcon className="w-5 h-5" />
-                        <span className="">My Chatroom</span>
-                      </div>
-                    </Link>
-                    <div
-                      className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                        showModal6 ? "" : "hidden"
-                      }`}
-                    >
-                      <div className="flex flex-col items-start justify-start space-y-2">
-                        <p className="text-xs text-white text-justify">
-                          The BLOCK’d chatrooms are unlike any other social
-                          media chatroom on the web. In addition to creating a
-                          public chatroom, users can also create private
-                          chatrooms with set requirements enforced by the
-                          blockchain to grant access to users.
-                        </p>
-                        <div className="flex items-end justify-end w-full space-x-2">
-                          <p
-                            onClick={() => {
-                              setShowModal6(false);
-                            }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
-                          >
-                            Skip
-                          </p>
-                          <p
-                            onClick={() => {
-                              setShowModal6(false);
-                              setShowModal7(true);
-                            }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
-                          >
-                            Next
-                          </p>
-                        </div>
-                      </div>
-                    </div>
+            <div className="w-full flex flex-col items-center justify-start">
+              <div className="relative w-full">
+                <Link href="/dashboard/myChatrooms">
+                  <div
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
+                      showModal6
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
+                  >
+                    <ChatBubbleLeftIcon className="w-5 h-5" />
+                    <span className="">My Chatroom</span>
                   </div>
-                  <div className="relative w-full">
-                    <Link href="/dashboard/createChatroom">
-                      <div
-                        className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
-                          showModal7
-                            ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                            : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                        } group`}
+                </Link>
+                <div
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal6 ? "" : "hidden"
+                  }`}
+                >
+                  <div className="flex flex-col items-start justify-start space-y-2">
+                    <p className="text-xs text-white text-justify">
+                      The BLOCK’d chatrooms are unlike any other social media
+                      chatroom on the web. In addition to creating a public
+                      chatroom, users can also create private chatrooms with set
+                      requirements enforced by the blockchain to grant access to
+                      users.
+                    </p>
+                    <div className="flex items-end justify-end w-full space-x-2">
+                      <p
+                        onClick={() => {
+                          setShowModal6(false);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
-                        <PlusCircleIcon className="w-5 h-5" />
-                        <span className="">Create Chatroom</span>
-                      </div>
-                    </Link>
-                    <div
-                      className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                        showModal7 ? "" : "hidden"
-                      }`}
-                    >
-                      <div className="flex flex-col items-start justify-start space-y-2">
-                        <p className="text-xs text-white text-justify">
-                          You can consult the create chatrooms page to create
-                          either private or public chatrooms, you will also be
-                          able to set requirements and add plenty of details
-                        </p>
-                        <div className="flex items-end justify-end w-full space-x-2">
-                          <p
-                            onClick={() => {
-                              setShowModal7(false);
-                            }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
-                          >
-                            Skip
-                          </p>
-                          <p
-                            onClick={() => {
-                              setShowModal7(false);
-                              setShowModal8(true);
-                            }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
-                          >
-                            Next
-                          </p>
-                        </div>
-                      </div>
-                    </div>
-                  </div>
-                  <div className="relative w-full">
-                    <Link href="/dashboard/allChatrooms">
-                      <div
-                        className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
-                          showModal8
-                            ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                            : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                        } group`}
+                        Skip
+                      </p>
+                      <p
+                        onClick={() => {
+                          setShowModal6(false);
+                          setShowModal7(true);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
                       >
-                        <ChatBubbleLeftRightIcon className="w-5 h-5" />
-                        <span className="">All Chatrooms</span>
-                      </div>
-                    </Link>
-                    <div
-                      className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                        showModal8 ? "" : "hidden"
-                      }`}
-                    >
-                      <div className="flex flex-col items-start justify-start space-y-2">
-                        <p className="text-xs text-white text-justify">
-                          You can consult the all chatrooms page and search for
-                          your desired group
-                        </p>
-                        <div className="flex items-end justify-end w-full space-x-2">
-                          <p
-                            onClick={() => {
-                              setShowModal8(false);
-                            }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
-                          >
-                            Skip
-                          </p>
-                          <p
-                            onClick={() => {
-                              setShowModal8(false);
-                              setShowModal9(true);
-                            }}
-                            className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
-                          >
-                            Next
-                          </p>
-                        </div>
-                      </div>
+                        Next
+                      </p>
                     </div>
                   </div>
                 </div>
-              {/* )}
+              </div>
+              <div className="relative w-full">
+                <Link href="/dashboard/createChatroom">
+                  <div
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
+                      showModal7
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
+                  >
+                    <PlusCircleIcon className="w-5 h-5" />
+                    <span className="">Create Chatroom</span>
+                  </div>
+                </Link>
+                <div
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal7 ? "" : "hidden"
+                  }`}
+                >
+                  <div className="flex flex-col items-start justify-start space-y-2">
+                    <p className="text-xs text-white text-justify">
+                      You can consult the create chatrooms page to create either
+                      private or public chatrooms, you will also be able to set
+                      requirements and add plenty of details
+                    </p>
+                    <div className="flex items-end justify-end w-full space-x-2">
+                      <p
+                        onClick={() => {
+                          setShowModal7(false);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
+                      >
+                        Skip
+                      </p>
+                      <p
+                        onClick={() => {
+                          setShowModal7(false);
+                          setShowModal8(true);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
+                      >
+                        Next
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+              <div className="relative w-full">
+                <Link href="/dashboard/allChatrooms">
+                  <div
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
+                      showModal8
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
+                  >
+                    <ChatBubbleLeftRightIcon className="w-5 h-5" />
+                    <span className="">All Chatrooms</span>
+                  </div>
+                </Link>
+                <div
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal8 ? "" : "hidden"
+                  }`}
+                >
+                  <div className="flex flex-col items-start justify-start space-y-2">
+                    <p className="text-xs text-white text-justify">
+                      You can consult the all chatrooms page and search for your
+                      desired group
+                    </p>
+                    <div className="flex items-end justify-end w-full space-x-2">
+                      <p
+                        onClick={() => {
+                          setShowModal8(false);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
+                      >
+                        Skip
+                      </p>
+                      <p
+                        onClick={() => {
+                          setShowModal8(false);
+                          setShowModal9(true);
+                        }}
+                        className="flex items-center justify-center p-1 px-2 bg-white hover:bg-gray-200 cursor-pointer rounded-md text-sm dark:text-black"
+                      >
+                        Next
+                      </p>
+                    </div>
+                  </div>
+                </div>
+              </div>
+            </div>
+            {/* )}
             </div> */}
             <div className="relative w-full">
               <Link href="/dashboard/achievement" className="active">
@@ -944,20 +944,27 @@ const Navbar = () => {
                 free social platform that will soon become home to all
                 blockchain users (and soon to be blockchain users).
                 <br></br>
-                Be aware that only certain features are available during this
-                Beta, which are:
+                BETA Features Available:
                 <br></br>
-                <div className="flex w-full items-center justify-start">
-                  <span className="text-orange-500 text-xl">•</span>{" "}
-                  Creating/Editing a post.
+                <div className="flex w-full items-start justify-start mt-1">
+                  <span className="text-orange-500 text-xl">•</span> Create and
+                  edit posts.
                 </div>
-                <div className="flex w-full items-center justify-start">
-                  <span className="text-orange-500 text-xl">•</span>{" "}
-                  Consulting/Editing your profile page.
+                <div className="flex w-full items-start justify-start">
+                  <span className="text-orange-500 text-xl">•</span> Access your
+                  feed and interact with other users on the platform.
                 </div>
-                <div className="flex w-full items-center justify-start">
-                  <span className="text-orange-500 text-xl">•</span> Submitting
-                  Feedback.
+                <div className="flex w-full items-start justify-start">
+                  <span className="text-orange-500 text-xl">•</span>
+                  Access your profile page and edit PFP, Banners, Frames, etc.
+                </div>
+                <div className="flex w-full items-start justify-start">
+                  <span className="text-orange-500 text-xl">•</span>
+                  ChatRooms (Public & Private) and DMs.
+                </div>
+                <div className="flex w-full items-start justify-start">
+                  <span className="text-orange-500 text-xl">•</span>
+                  Submitting Feedback.
                 </div>
               </div>
               <div className="flex items-center justify-end space-x-3 p-4">
@@ -992,12 +999,10 @@ const Navbar = () => {
               feedback which is very important to us, as this is a community
               driven platform.
               <br></br>
-              <div className="flex w-full items-center justify-start">
-                <span className="text-orange-500 text-xl">*</span>To submit
-                feedback:<span className="text-orange-500 text-xl">*</span>
+              <div className="flex w-full items-start justify-start my-1">
+                To submit feedback:
               </div>
-              Please visit our Suggestions page, select the "Beta Feedback"
-              Category and hit Submit!
+              Please visit our Suggestions page, and write us your feedback.
             </div>
             <div className="flex items-center justify-end space-x-3 p-4">
               <p
