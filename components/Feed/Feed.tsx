@@ -151,7 +151,7 @@ function Feed() {
     >
       <div id="top-page"></div>
       <div
-        className={`flex items-center z-[2] ${
+        className={`flex items-center z-[30] ${
           atTop === false ? "justify-end" : "justify-between"
         } sticky top-0 p-3 md:p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}
       >
