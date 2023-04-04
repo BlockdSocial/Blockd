@@ -368,7 +368,7 @@ export default function Chat({
                   />
                 </div>
                 <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 ml-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
-                  <div className="flex items-center justify-between w-full text-xm font-semibold">
+                  <div className="flex items-center justify-between w-full text-xm font-semibold space-x-20">
                     <p className="text-sm md:text-base">
                       @
                       {!isEmpty(receiver)
