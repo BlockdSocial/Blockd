@@ -619,7 +619,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
                 >
                   <EllipsisHorizontalIcon
-                    onClick={() => setIsDropdownVisible((b) => !b)}
+                    onClick={async (e) => {
+                      setIsDropdownVisible((b) => !b);
+                      e.preventDefault();
+                    }}
                     className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
                   />
                   <div className="relative z-0 flex ite">
