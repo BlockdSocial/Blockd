@@ -7,6 +7,8 @@ import {
   EyeIcon,
   QuestionMarkCircleIcon,
   ChatBubbleLeftIcon,
+  UserPlusIcon,
+  DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
 import { CameraIcon } from "@heroicons/react/24/solid";
 import Link from "next/link";
@@ -224,8 +226,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   };
 
   return (
-    <div className="flex flex-col items-start justify-center relative  bg-cover mt-5 mx-auto">
-      <div className="relative flex items-center justify-center w-full bg-white dark:bg-lightgray group">
+    <div className="flex flex-col items-start justify-center relative mx-auto">
+      <div className="relative flex items-center justify-center mt-5  w-full bg-white dark:bg-lightgray group">
         <img
           src={
             !isEmpty(bannerPicture)
