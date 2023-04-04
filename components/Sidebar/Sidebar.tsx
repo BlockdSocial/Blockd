@@ -443,7 +443,7 @@ function Sidebar() {
           <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
         </Link> */}
       </div>
-      {isRegistered != undefined && (
+      {isRegistered === undefined && (
         <div
           className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
             showModal1 ? "" : "hidden"

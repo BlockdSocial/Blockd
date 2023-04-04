@@ -13,6 +13,8 @@ function SuggestionBox({ refetchFiltered }: any) {
   const [name, setName] = useState<string>("");
   const [email, setEmail] = useState<string>("");
 
+  const remainingChars = 255 - input.length;
+
   useEffect(() => {
     if (!isEmpty(authUser)) {
       setName(authUser?.name);
@@ -76,7 +78,7 @@ function SuggestionBox({ refetchFiltered }: any) {
             </div> */}
           </div>
           <div className="flex items-start p-3 w-full md:w-1/2">
-            <div className="w-full">
+            <div className="relative w-full">
               <h3 className="text-sm font-semibold">Feedback</h3>
               <textarea
                 id="message"
@@ -87,6 +89,7 @@ function SuggestionBox({ refetchFiltered }: any) {
                 className="h-28 w-full p-2 text-black dark:text-white outline-none text-l bg-gray-200 dark:bg-lightgray rounded-lg"
                 placeholder="Write a feedback in 255 characters or less."
               ></textarea>
+              <p className="py-1 px-2 rounded-md bg-gray-200 dark:bg-lightgray w-fit text-sm">{remainingChars} / 255</p>
             </div>
           </div>
         </div>
