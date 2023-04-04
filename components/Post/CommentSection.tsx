@@ -10,6 +10,8 @@ import {
   XMarkIcon,
   GifIcon,
   PaperAirplaneIcon,
+  TrashIcon,
+  PencilSquareIcon
 } from "@heroicons/react/24/outline";
 import TimeAgo from "react-timeago";
 import Link from "next/link";
@@ -353,71 +355,82 @@ function CommentSection({ comment, post, type }: Props) {
         )}&${encodeQuery(post?.id, "post")}`}
         className="flex flex-col space-y-1 w-full"
       >
-        <div className="flex w-full space-x-[4px]">
-          <Link
-            href={{
-              pathname: "/dashboard/profile",
-              query: { user_id: comment?.otherUser?.id },
-            }}
-            as={`/dashboard/profile?${encodeQuery(
-              comment?.otherUser?.id,
-              "profile"
-            )}`}
-            className="flex flex-col group"
-          >
-            <div className={`relative rounded-md`}>
-              <Image
-                src={
-                  !isEmpty(comment?.otherUser?.frameName)
-                    ? `/${comment?.otherUser?.frameName}`
-                    : "/images/frames/frame4.jpg"
-                }
-                alt="pfp"
-                className="relative w-16 h-16 border-white"
-                width={2000}
-                height={2000}
-              />
-              <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] bg-white dark:bg-darkgray">
+        <div className="flex justify-between w-full">
+          <div className="flex space-x-[4px]">
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: comment?.otherUser?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(
+                comment?.otherUser?.id,
+                "profile"
+              )}`}
+              className="flex flex-col group"
+            >
+              <div className={`relative rounded-md`}>
                 <Image
                   src={
-                    !isEmpty(comment?.otherUser?.profilePic)
-                      ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
+                    !isEmpty(comment?.otherUser?.frameName)
+                      ? `/${comment?.otherUser?.frameName}`
+                      : "/images/frames/frame4.jpg"
                   }
                   alt="pfp"
-                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                  className="relative w-16 h-16 border-white"
                   width={2000}
                   height={2000}
                 />
-              </div>
-              <div className={`absolute -bottom-2 -left-3 flex rounded-lg`}>
-                <div className="relative">
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] bg-white dark:bg-darkgray">
                   <Image
                     src={
-                      !isEmpty(comment?.otherUser?.frameName)
-                        ? `/${comment?.otherUser?.frameName}`
-                        : "/images/frames/frame4.jpg"
+                      !isEmpty(comment?.otherUser?.profilePic)
+                        ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
+                        : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
-                    className="relative w-7 h-7"
+                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
                     width={2000}
                     height={2000}
                   />
-                  <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[24px] h-[24px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
-                    {comment?.otherUser?.level}
+                </div>
+                <div className={`absolute -bottom-2 -left-3 flex rounded-lg`}>
+                  <div className="relative">
+                    <Image
+                      src={
+                        !isEmpty(comment?.otherUser?.frameName)
+                          ? `/${comment?.otherUser?.frameName}`
+                          : "/images/frames/frame4.jpg"
+                      }
+                      alt="pfp"
+                      className="relative w-7 h-7"
+                      width={2000}
+                      height={2000}
+                    />
+                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[24px] h-[24px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
+                      {comment?.otherUser?.level}
+                    </div>
                   </div>
                 </div>
               </div>
+            </Link>
+            <div className="flex flex-col items-start space-y-1">
+              <p className="mr-1 text-xs md:text-base font-semibold">
+                @{comment?.otherUser?.name}
+              </p>
+              <TimeAgo
+                date={comment?.createdAt}
+                className="text-xs md:text-sm text-gray-500"
+              />
             </div>
-          </Link>
-          <div className="flex flex-col items-start space-y-1">
-            <p className="mr-1 text-xs md:text-base font-semibold">
-              @{comment?.otherUser?.name}
-            </p>
-            <TimeAgo
-              date={comment?.createdAt}
-              className="text-xs md:text-sm text-gray-500"
-            />
+          </div>
+          <div className="flex space-x-2">
+            <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
+            <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+            </div>
+            <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
+            <TrashIcon className="w-5 h-5 cursor-pointer" />
+            </div>
+            
           </div>
         </div>
         <div className="w-full">
