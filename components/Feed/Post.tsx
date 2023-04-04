@@ -1137,10 +1137,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+        className={`fixed top-0 left-0 p-4 flex  items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${editPopUp ? "" : "hidden"
           }`}
       >
-        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
+        <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
               <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
@@ -1152,7 +1152,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             >
               <svg
                 aria-hidden="true"
-                className="w-5 h-5"
+                className="w-5 h-5 text-black"
                 fill="currentColor"
                 viewBox="0 0 20 20"
                 xmlns="http://www.w3.org/2000/svg"
@@ -1258,12 +1258,12 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               ></textarea>
             </div>
           </div>
-          <div className="flex items-center justify-end space-x-3 p-2">
+          <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
             <p
               className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
               onClick={() => handleEditPost()}
             >
-              Edit
+              Save
             </p>
             <p
               onClick={() => setEditPopUp(!editPopUp)}

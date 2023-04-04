@@ -156,19 +156,8 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
         setReceiver={setReceiver}
         setRoom={setRoom}
         handleScroll={handleScroll}
+        chatrooms={chatrooms}
       />
-      {
-        isEmpty(chats) && isEmpty(chatrooms) &&
-        <div className="flex flex-col items-center justify-start">
-          <img
-            src="/images/badges/no-message.webp"
-            className="object-contain max-w-[300px]"
-          />
-          <p className="p-2 rounded-full px-4 bg-gray-200 dark:bg-lightgray">
-            No Messages Yet !
-          </p>
-        </div>
-      }
       {/* {(!isEmpty(receiver) || !isEmpty(room)) && (
         <Footer
           receiver={receiver}
