@@ -41,7 +41,10 @@ import {
   LIKE_REPLY_FAILURE,
   IS_DISLIKING_REPLY,
   DISLIKE_REPLY_SUCCESS,
-  DISLIKE_REPLY_FAILURE
+  DISLIKE_REPLY_FAILURE,
+  IS_EDITING_COMMENT,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_FAILURE
 } from './CommentActionTypes';
 
 const initialState = {
@@ -59,6 +62,7 @@ const initialState = {
   isReplyingComment: false,
   isFetchingComment: false,
   isFetchingReplyInfo: false,
+  isEditingComment: false,
   replyInfo: {},
   comment: {},
   isFetchingCommentReplies: false,
@@ -355,6 +359,25 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isDislikingReply: false
+      };
+    }
+    case IS_EDITING_COMMENT: {
+      return {
+        ...state,
+        isEditingComment: true
+      };
+    }
+    case EDIT_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        isEditingComment: false
+      };
+    }
+    case EDIT_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isEditingComment: false,
+        error: action.error
       };
     }
     default: {

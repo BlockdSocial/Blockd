@@ -98,6 +98,7 @@ function PostPage() {
               // @ts-ignore
               post={post as Post}
               type='comment'
+              refetchComments={fetchComments}
             />
           ))
         }

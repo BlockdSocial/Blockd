@@ -39,8 +39,8 @@ function AchievementPage() {
   };
 
   return (
-    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5">
-      <div className="flex flex-col items-center justify-start p-4 dark:border-lightgray min-h-screen pb-16">
+    <div className="relative h-[92vh] scrollbar-hide overflow-scroll col-span-9 md:col-span-5">
+      <div className="flex flex-col items-center justify-start p-4 dark:border-lightgray">
         <div className="flex items-center justify-center w-full space-x-6 mb-10 bg-transparent">
           <div className={`relative rounded-md`}>
             <Image

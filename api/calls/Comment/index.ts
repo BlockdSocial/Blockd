@@ -62,6 +62,10 @@ async function dislikeReply(fields: any) {
   return apiCall('dislikeReply', 'POST', `${endpoints.reply}/dislike`, fields);
 };
 
+async function editComment(fields: any) {
+  return apiCall('editComment', 'POST', `/comment/edit/${fields}`);
+};
+
 export default {
   addComment,
   deleteComment,
@@ -76,5 +80,6 @@ export default {
   fetchCommentReplies,
   fetchReplyInfo,
   likeReply,
-  dislikeReply
+  dislikeReply,
+  editComment
 };
