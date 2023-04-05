@@ -509,7 +509,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             as={`/dashboard/post?${encodeQuery(sharedPost?.id, "post")}`}
             onClick={() => addView()}
           >
-            <div className="flex items-center justify-between">
+            <div className="flex items-start justify-between">
               <div className="flex items-start space-x-2">
                 <div className="flex">
                   <Link
