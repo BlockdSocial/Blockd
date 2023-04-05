@@ -33,8 +33,9 @@ import {
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-import { encodeQuery } from "../../utils";
+import { encodeQuery, getDiffTime } from "../../utils";
 import { toast } from "react-hot-toast";
+
 
 interface Pic {
   name: string;
@@ -225,12 +226,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
 
+  
   useEffect(() => {
     if (!isEmpty(comment)) {
       fetchInfo();
       fetchLiked();
       fetchDisliked();
     }
+    
   }, [comment]);
 
   const fetchInfo = async () => {
@@ -498,9 +501,9 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
             </div>
           </div>
           {
-            comment?.otherUser?.id === authUser?.id &&
+            comment?.otherUser?.id === authUser?.id && getDiffTime(comment?.createdAt) < 15 &&
             <div className="flex space-x-2">
-              <div
+              {/* <div
                 onClick={async (e) => {
                   setEditPopUp(!editPopUp);
                   e.preventDefault();
@@ -508,7 +511,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
               >
                 <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
-              </div>
+              </div> */}
               <div
                 onClick={async (e) => {
                   setDeletePopUp(!deletePopUp);

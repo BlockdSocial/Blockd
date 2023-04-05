@@ -36,7 +36,7 @@ import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast, { Toaster } from "react-hot-toast";
 import { followUser } from "../../stores/user/UserActions";
 import { useCopyToClipboard } from "usehooks-ts";
-import { encodeQuery } from "../../utils";
+import { encodeQuery, getDiffTime } from "../../utils";
 
 interface Pic {
   name: string;
@@ -614,6 +614,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 </div>
               </div>
               <div className="flex items-start h-full justify-center space-x-2">
+              {((mainPost?.userId === authUser?.id &&  getDiffTime(mainPost?.createdAt) < 60) || mainPost?.userId !== authUser?.id)  &&(
                 <div
                   ref={dropdown}
                   className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
@@ -631,7 +632,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         isDropdownVisible ? "" : "hidden"
                       }`}
                     >
-                      {mainPost?.userId === authUser?.id && (
+                      {mainPost?.userId === authUser?.id && getDiffTime(mainPost?.createdAt) < 60 && (
                         <div
                           onClick={async (e) => {
                             setEditPopUp(!editPopUp);
@@ -664,6 +665,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     </ul>
                   </div>
                 </div>
+                )}
                 {mainPost?.userId === authUser?.id && (
                   <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                     <XMarkIcon

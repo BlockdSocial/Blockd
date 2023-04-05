@@ -38,7 +38,7 @@ import moment from "moment";
 import CustomLoadingOverlay from "../CustomLoadingOverlay";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { encodeQuery } from "../../utils";
+import { encodeQuery, getDiffTime } from "../../utils";
 
 interface Pic {
   name: string;
@@ -533,6 +533,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
 
           <div className="flex items-start h-full justify-start space-x-2">
+          {((post?.userId === authUser?.id &&  getDiffTime(post?.createdAt) < 60) || post?.userId !== authUser?.id ) &&(
             <div
               ref={dropdown}
               className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
@@ -547,7 +548,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                     isDropdownVisible ? "" : "hidden"
                   }`}
                 >
-                  {post?.userId === authUser?.id && (
+                  {post?.userId === authUser?.id &&  getDiffTime(post?.createdAt) < 60 &&(
                     <div
                       onClick={() => setEditPopUp(!editPopUp)}
                       className="flex items-center text-sm justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
@@ -574,6 +575,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                 </ul>
               </div>
             </div>
+            )}
             {post?.userId === authUser?.id && (
               <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon
