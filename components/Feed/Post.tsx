@@ -501,9 +501,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
     <Link
       href={{
         pathname: "/dashboard/post/",
-        query: { postId: sharedPost?.id },
+        query: { postId: mainPost?.id },
       }}
-      as={`/dashboard/post?${encodeQuery(sharedPost?.id, "post")}`}
+      as={`/dashboard/post?${encodeQuery(mainPost?.id, "post")}`}
       onClick={() => addView()}
     >
       <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">

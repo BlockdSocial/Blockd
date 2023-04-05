@@ -423,15 +423,18 @@ function CommentSection({ comment, post, type }: Props) {
               />
             </div>
           </div>
-          <div className="flex space-x-2">
-            <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
-            <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+          {
+            comment?.otherUser?.id === authUser?.id &&
+            <div className="flex space-x-2">
+              <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
+                <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+              </div>
+              <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
+                <TrashIcon className="w-5 h-5 cursor-pointer" />
+              </div>
+
             </div>
-            <div className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1">
-            <TrashIcon className="w-5 h-5 cursor-pointer" />
-            </div>
-            
-          </div>
+          }
         </div>
         <div className="w-full">
           <div className="flex flex-col items-start justify-start py-2">
@@ -454,37 +457,32 @@ function CommentSection({ comment, post, type }: Props) {
         </div>
       </Link>
       <div
-        className={`flex justify-between mt-2 ${
-          commentBoxVisible ? "hidden" : "flex"
-        }`}
+        className={`flex justify-between mt-2 ${commentBoxVisible ? "hidden" : "flex"
+          }`}
       >
         <div className="flex">
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
-              className={`text-xs ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              }`}
+              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
-              className={`text-xs ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              }`}
+              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -523,30 +521,26 @@ function CommentSection({ comment, post, type }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
-                    className={`text-xs ${
-                      isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    }`}
+                    className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                      }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${
-                      isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon
-                    className={`h-4 w-4 cursor-pointer ${
-                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikeComment()}
                   />
                   <p
-                    className={`text-xs ${
-                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    }`}
+                    className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      }`}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
