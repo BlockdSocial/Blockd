@@ -633,7 +633,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     >
                       {mainPost?.userId === authUser?.id && (
                         <div
-                          onClick={() => setEditPopUp(!editPopUp)}
+                          onClick={async (e) => {
+                            setEditPopUp(!editPopUp);
+                            e.preventDefault();
+                          }}
                           className="flex items-center justify-start text-sm p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
                         >
                           Edit Post
@@ -646,7 +649,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         </div> */}
                           <div
                             className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
-                            onClick={() => handleFollowUser()}
+                            onClick={async (e) => {
+                              handleFollowUser();
+                              e.preventDefault();
+                            }}
                           >
                             Follow User
                           </div>
@@ -1172,7 +1178,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           editPopUp ? "" : "hidden"
         }`}
       >
-        <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-full bg-gray-50">
+        <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
               <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
