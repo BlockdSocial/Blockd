@@ -307,11 +307,11 @@ export function dislikeReply(fields: any) {
   }
 }
 
-export function editComment(fields: any) {
+export function editComment(id: any, fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_EDITING_COMMENT });
     try {
-      await commentApi.editComment(fields);
+      await commentApi.editComment(id, fields);
       dispatch({
         type: EDIT_COMMENT_SUCCESS
       });

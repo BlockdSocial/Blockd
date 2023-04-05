@@ -22,6 +22,7 @@ import {
   deleteComment,
   dislikeComment,
   dislikeReply,
+  editComment,
   fetchCommentInfo,
   fetchIsDislikedComment,
   fetchIsLikedComment,
@@ -377,6 +378,42 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
     await dispatch(deleteComment(comment?.id)).then(() => {
       refetchComments();
     });
+  }
+
+  const handleEditComment = async () => {
+    if (uploadedEdit) {
+      await dispatch(
+        editComment(comment?.id, {
+          content: textArea,
+          image: uploadedEdit,
+        })
+      ).then(() => {
+        refetchComments();
+        setEditPopUp(!editPopUp);
+        setUploadedEdit("");
+        setImageEdit("");
+      });
+    } else if (editGifUrl) {
+      await dispatch(
+        editComment(comment?.id, {
+          content: textArea,
+          gif: editGifUrl,
+        })
+      ).then(() => {
+        refetchComments();
+        setEditPopUp(!editPopUp);
+        setEditGifUrl("");
+      });
+    } else {
+      await dispatch(
+        editComment(comment?.id, {
+          content: textArea,
+        })
+      ).then(() => {
+        refetchComments();
+        setEditPopUp(!editPopUp);
+      });
+    }
   }
 
   return (
@@ -777,15 +814,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
-              <h3 className="text-xl font-medium text-gray-900">
-                Edit Comment
-              </h3>
+              <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
             </div>
             <button
               type="button"
@@ -811,22 +847,52 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
             <div className="flex items-start justify-start space-y-2 w-full">
               <div className="relative flex items-center justify-center w-full group">
-                <img
-                  src={editGifUrl}
-                  alt="gif"
-                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                  width="720"
-                  height="350"
-                  onClick={() => setShowEditGifs((b) => !b)}
-                />
-                <img
-                  src="/images/blockdbg.jpg"
-                  alt="Content"
-                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                  width="720"
-                  height="350"
-                  onClick={() => onContentClick()}
-                />
+                {editGifUrl ? (
+                  <img
+                    src={editGifUrl}
+                    alt="gif"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => setShowEditGifs((b) => !b)}
+                  />
+                ) : !isEmpty(comment?.gif) ? (
+                  <img
+                    src={comment?.gif}
+                    alt="gif"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => setShowEditGifs((b) => !b)}
+                  />
+                ) : imageEdit ? (
+                  <img
+                    src={imageEdit}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                ) : !isEmpty(comment?.imgName) ? (
+                  <img
+                    src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                ) : (
+                  <img
+                    src="/images/blockdbg.jpg"
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                )}
                 <input
                   type="file"
                   id="file"
@@ -858,7 +924,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                   />
                 </div>
               )}
-              <p className="font-semibold text-black">Comment</p>
+              <p className="font-semibold text-black">Description</p>
               <textarea
                 id="message"
                 maxLength={255}
@@ -866,12 +932,15 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 onChange={(e: any) => setTextArea(e.target.value)}
                 data-rows="4"
                 className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
-                placeholder="Current Comment"
+                placeholder="Current Post description"
               ></textarea>
             </div>
           </div>
           <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
-            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+            <p
+              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleEditComment()}
+            >
               Save
             </p>
             <p
