@@ -493,14 +493,16 @@ const Navbar = () => {
                 href="/dashboard/profile"
                 className="rounded-md bg-white w-full"
               >
-                <img
+                <Image
                   src={
                     authUser?.profilePic
                       ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer"
+                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer bg-cover"
+                  width={2000}
+                  height={2000}
                 />
               </Link>
             </li>

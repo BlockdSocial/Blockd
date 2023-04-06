@@ -5,6 +5,7 @@ import { useAppDispatch } from "../../stores/hooks";
 import { config } from "../../constants";
 import { encodeQuery } from "../../utils";
 import { isEmpty } from "lodash";
+import Image from "next/image";
 
 interface Pic {
   name: string;
@@ -35,14 +36,13 @@ function Result({ result }: any) {
         key={result?.id}
         className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
       >
-        <img
-          src={
-            !isEmpty(result?.profilePic)
-              ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
-              : "/images/pfp/pfp1.jpg"
-          }
-          className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
-        />
+        <Image
+          src={!isEmpty(result?.profilePic)
+            ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
+            : "/images/pfp/pfp1.jpg"}
+          className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd bg-cover"
+          width={2000}
+          height={2000} alt={""}        />
         <p className="font-semibold text-sm">@{result?.name}</p>
       </div>
     </Link>
