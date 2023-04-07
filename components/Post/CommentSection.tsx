@@ -97,7 +97,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [textArea, setTextArea] = useState<string>("");
+  const [textArea, setTextArea] = useState<string>(comment?.content);
 
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -226,14 +226,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
 
-  
+
   useEffect(() => {
     if (!isEmpty(comment)) {
       fetchInfo();
       fetchLiked();
       fetchDisliked();
     }
-    
+
   }, [comment]);
 
   const fetchInfo = async () => {
@@ -491,9 +491,20 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               </div>
             </Link>
             <div className="flex flex-col items-start space-y-1">
-              <p className="mr-1 text-xs md:text-base font-semibold">
-                @{comment?.otherUser?.name}
-              </p>
+              <Link
+                href={{
+                  pathname: "/dashboard/profile",
+                  query: { user_id: comment?.otherUser?.id },
+                }}
+                as={`/dashboard/profile?${encodeQuery(
+                  comment?.otherUser?.id,
+                  "profile"
+                )}`}
+              >
+                <p className="mr-1 text-xs md:text-base font-semibold">
+                  @{comment?.otherUser?.name}
+                </p>
+              </Link>
               <TimeAgo
                 date={comment?.createdAt}
                 className="text-xs md:text-sm text-gray-500"
@@ -503,7 +514,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           {
             comment?.otherUser?.id === authUser?.id && getDiffTime(comment?.createdAt) < 15 &&
             <div className="flex space-x-2">
-              {/* <div
+              <div
                 onClick={async (e) => {
                   setEditPopUp(!editPopUp);
                   e.preventDefault();
@@ -511,7 +522,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
               >
                 <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
-              </div> */}
+              </div>
               <div
                 onClick={async (e) => {
                   setDeletePopUp(!deletePopUp);
@@ -644,10 +655,6 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                     </p>
                   </div>
                 )}
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                  <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-                  <p className="text-xs">1</p>
-                </div>
               </div>
               <div className="flex items-end justify-end relative space-x-1 md:space-x-2 text-[#181c44] dark:text-white">
                 {!gifUrl && (
@@ -800,9 +807,9 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
             Are you sure you want to delete this comment ?
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
-            <p 
-            className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
-            onClick={() => handleDeleteComment()}
+            <p
+              className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleDeleteComment()}
             >
               Delete
             </p>
@@ -817,14 +824,13 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
-          editPopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${editPopUp ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
-              <h3 className="text-xl font-medium text-gray-900">Edit Post</h3>
+              <h3 className="text-xl font-medium text-gray-900">Edit Comment</h3>
             </div>
             <button
               type="button"

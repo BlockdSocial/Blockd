@@ -74,7 +74,8 @@ function Widgets() {
             <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
               <div className="flex flex-col items-center justify-center">
                 {searchResult &&
-                  searchResult?.map((result: any) => (
+                  searchResult?.map((result: any, index: any) => (
+                    index <= 4 &&
                     <Result result={result} key={result?.id} />
                   ))}
                 <Link

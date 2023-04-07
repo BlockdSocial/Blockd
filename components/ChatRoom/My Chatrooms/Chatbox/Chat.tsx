@@ -143,7 +143,7 @@ export default function Chat({
     return () => {
       elementRef?.current?.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [messages]);
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
