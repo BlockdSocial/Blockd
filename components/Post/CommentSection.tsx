@@ -37,6 +37,7 @@ import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import { encodeQuery, getDiffTime } from "../../utils";
 import { toast } from "react-hot-toast";
+import Linkify from "react-linkify";
 
 
 interface Pic {
@@ -228,14 +229,12 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
 
-
   useEffect(() => {
     if (!isEmpty(comment)) {
       fetchInfo();
       fetchLiked();
       fetchDisliked();
     }
-
   }, [comment]);
 
   const fetchInfo = async () => {
@@ -380,7 +379,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   };
 
   const handleDeleteComment = async () => {
-    if (type === 'reply') {
+    if (type === "reply") {
       await dispatch(deleteReply(comment?.id)).then(() => {
         refetchComments();
       });
@@ -389,10 +388,10 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         refetchComments();
       });
     }
-  }
+  };
 
   const handleEditComment = async () => {
-    if ('reply' !== type) {
+    if ("reply" !== type) {
       if (uploadedEdit) {
         await dispatch(
           editComment(comment?.id, {
@@ -461,19 +460,41 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         });
       }
     }
-  }
+  };
+  
+  const componentDecorator = (href: string, text: string, key: number) => {
+    console.log(href);
+    return (
+      <a
+        onClick={async (e) => {
+          e.stopPropagation();
+        }}
+        href={href}
+        key={key}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:underline text-blue-400"
+      >
+        {text}
+      </a>
+    );
+  };
 
   return (
     <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
       <Link
         href={{
-          pathname: 'reply' === type ? '#' : "/dashboard/post/comment",
+          pathname: "reply" === type ? "#" : "/dashboard/post/comment",
           query: { commentId: comment?.id, postId: post?.id },
         }}
-        as={'reply' === type ? '#' : `/dashboard/post/comment?${encodeQuery(
-          comment?.id,
-          "comment"
-        )}&${encodeQuery(post?.id, "post")}`}
+        as={
+          "reply" === type
+            ? "#"
+            : `/dashboard/post/comment?${encodeQuery(
+                comment?.id,
+                "comment"
+              )}&${encodeQuery(post?.id, "post")}`
+        }
         className="flex flex-col space-y-1 w-full"
       >
         <div className="flex justify-between w-full">
@@ -555,33 +576,37 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               />
             </div>
           </div>
-          {
-            comment?.otherUser?.id === authUser?.id && getDiffTime(comment?.createdAt) < 15 &&
-            <div className="flex space-x-2">
-              <div
-                onClick={async (e) => {
-                  setEditPopUp(!editPopUp);
-                  e.preventDefault();
-                }}
-                className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
-              >
-                <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+          {comment?.otherUser?.id === authUser?.id &&
+            getDiffTime(comment?.createdAt) < 15 && (
+              <div className="flex space-x-2">
+                <div
+                  onClick={async (e) => {
+                    setEditPopUp(!editPopUp);
+                    e.preventDefault();
+                  }}
+                  className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+                >
+                  <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+                </div>
+                <div
+                  onClick={async (e) => {
+                    setDeletePopUp(!deletePopUp);
+                    e.preventDefault();
+                  }}
+                  className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+                >
+                  <TrashIcon className="w-5 h-5 cursor-pointer" />
+                </div>
               </div>
-              <div
-                onClick={async (e) => {
-                  setDeletePopUp(!deletePopUp);
-                  e.preventDefault();
-                }}
-                className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
-              >
-                <TrashIcon className="w-5 h-5 cursor-pointer" />
-              </div>
-            </div>
-          }
+            )}
         </div>
         <div className="w-full">
           <div className="flex flex-col items-start justify-start py-2">
-            <p className="text-sm md:text-base">{comment?.content}</p>
+            <p className="text-sm md:text-base">
+              <Linkify componentDecorator={componentDecorator}>
+                {comment?.content}
+              </Linkify>
+            </p>
             {comment?.imgName != null ? (
               <img
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
@@ -600,32 +625,37 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </Link>
       <div
-        className={`flex justify-between mt-2 ${commentBoxVisible ? "hidden" : "flex"
-          }`}
+        className={`flex justify-between mt-2 ${
+          commentBoxVisible ? "hidden" : "flex"
+        }`}
       >
         <div className="flex">
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
-              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                }`}
+              className={`text-xs ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
-              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                }`}
+              className={`text-xs ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -664,26 +694,30 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
-                    className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      }`}
+                    className={`text-xs ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon
-                    className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikeComment()}
                   />
                   <p
-                    className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                      }`}
+                    className={`text-xs ${
+                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
@@ -816,8 +850,9 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </form>
       )}
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -868,13 +903,16 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
-              <h3 className="text-xl font-medium text-gray-900">Edit Comment</h3>
+              <h3 className="text-xl font-medium text-gray-900">
+                Edit Comment
+              </h3>
             </div>
             <button
               type="button"

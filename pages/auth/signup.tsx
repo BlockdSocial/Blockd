@@ -451,7 +451,7 @@ export default function SignUp() {
                   </div>
 
                   {error && (
-                    <div className="mt-4 w-full bg-red-500 rounded-md p-2 break-normal">
+                    <div className="mt-4 w-full h-20 bg-red-500 rounded-md p-2 break-normal">
                       An error occurred preparing the transaction:<br></br>
                       {error.message}
                     </div>
