@@ -106,6 +106,7 @@ function CommentPage() {
               // @ts-ignore
               post={post as Post}
               type='reply'
+              refetchComments={fetchReplies}
             />
           ))}
       </div>

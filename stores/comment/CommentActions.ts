@@ -43,7 +43,13 @@ import {
   DISLIKE_REPLY_FAILURE,
   IS_EDITING_COMMENT,
   EDIT_COMMENT_SUCCESS,
-  EDIT_COMMENT_FAILURE
+  EDIT_COMMENT_FAILURE,
+  IS_DELETING_REPLY,
+  DELETE_REPLY_SUCCESS,
+  DELETE_REPLY_FAILURE,
+  IS_EDITING_REPLY,
+  EDIT_REPLY_SUCCESS,
+  EDIT_REPLY_FAILURE
 } from './CommentActionTypes';
 
 // Api
@@ -319,6 +325,40 @@ export function editComment(id: any, fields: any) {
       console.log('Edit comment error: ', error?.message);
       dispatch({
         type: EDIT_COMMENT_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function deleteReply(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_DELETING_REPLY });
+    try {
+      await commentApi.deleteReply(fields);
+      dispatch({ type: DELETE_REPLY_SUCCESS });
+    } catch (error: any) {
+      console.log('Delete reply error: ', error?.message);
+      dispatch({
+        type: DELETE_REPLY_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function editReply(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_EDITING_REPLY });
+    try {
+      await commentApi.editReply(id, fields);
+      dispatch({
+        type: EDIT_REPLY_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Edit reply error: ', error?.message);
+      dispatch({
+        type: EDIT_REPLY_FAILURE,
         error: error?.message
       });
     }

@@ -20,9 +20,11 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import {
   deleteComment,
+  deleteReply,
   dislikeComment,
   dislikeReply,
   editComment,
+  editReply,
   fetchCommentInfo,
   fetchIsDislikedComment,
   fetchIsLikedComment,
@@ -378,44 +380,86 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   };
 
   const handleDeleteComment = async () => {
-    await dispatch(deleteComment(comment?.id)).then(() => {
-      refetchComments();
-    });
+    if (type === 'reply') {
+      await dispatch(deleteReply(comment?.id)).then(() => {
+        refetchComments();
+      });
+    } else {
+      await dispatch(deleteComment(comment?.id)).then(() => {
+        refetchComments();
+      });
+    }
   }
 
   const handleEditComment = async () => {
-    if (uploadedEdit) {
-      await dispatch(
-        editComment(comment?.id, {
-          content: textArea,
-          image: uploadedEdit,
-        })
-      ).then(() => {
-        refetchComments();
-        setEditPopUp(!editPopUp);
-        setUploadedEdit("");
-        setImageEdit("");
-      });
-    } else if (editGifUrl) {
-      await dispatch(
-        editComment(comment?.id, {
-          content: textArea,
-          gif: editGifUrl,
-        })
-      ).then(() => {
-        refetchComments();
-        setEditPopUp(!editPopUp);
-        setEditGifUrl("");
-      });
+    if ('reply' !== type) {
+      if (uploadedEdit) {
+        await dispatch(
+          editComment(comment?.id, {
+            content: textArea,
+            image: uploadedEdit,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setUploadedEdit("");
+          setImageEdit("");
+        });
+      } else if (editGifUrl) {
+        await dispatch(
+          editComment(comment?.id, {
+            content: textArea,
+            gif: editGifUrl,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setEditGifUrl("");
+        });
+      } else {
+        await dispatch(
+          editComment(comment?.id, {
+            content: textArea,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+        });
+      }
     } else {
-      await dispatch(
-        editComment(comment?.id, {
-          content: textArea,
-        })
-      ).then(() => {
-        refetchComments();
-        setEditPopUp(!editPopUp);
-      });
+      if (uploadedEdit) {
+        await dispatch(
+          editReply(comment?.id, {
+            content: textArea,
+            image: uploadedEdit,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setUploadedEdit("");
+          setImageEdit("");
+        });
+      } else if (editGifUrl) {
+        await dispatch(
+          editReply(comment?.id, {
+            content: textArea,
+            gif: editGifUrl,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setEditGifUrl("");
+        });
+      } else {
+        await dispatch(
+          editReply(comment?.id, {
+            content: textArea,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+        });
+      }
     }
   }
 
@@ -423,10 +467,10 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
     <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
       <Link
         href={{
-          pathname: "/dashboard/post/comment",
+          pathname: 'reply' === type ? '#' : "/dashboard/post/comment",
           query: { commentId: comment?.id, postId: post?.id },
         }}
-        as={`/dashboard/post/comment?${encodeQuery(
+        as={'reply' === type ? '#' : `/dashboard/post/comment?${encodeQuery(
           comment?.id,
           "comment"
         )}&${encodeQuery(post?.id, "post")}`}
