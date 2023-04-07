@@ -1,9 +1,12 @@
 import React, { useEffect, useState } from "react";
-import {
-  LockClosedIcon,
-} from "@heroicons/react/24/outline";
+import { LockClosedIcon } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../../stores/hooks";
-import { addMember, checkBalance, fetchAllRooms, joinRoom } from "../../../stores/chat/ChatActions";
+import {
+  addMember,
+  checkBalance,
+  fetchAllRooms,
+  joinRoom,
+} from "../../../stores/chat/ChatActions";
 import { isEmpty } from "lodash";
 import { config } from "../../../constants";
 import { useRouter } from "next/router";
@@ -12,17 +15,19 @@ import { toast } from "react-hot-toast";
 function OrdinaryChatrooms() {
   const dispatch = useAppDispatch();
   const router = useRouter();
-  const { allRooms, isCheckingBalance, balance, balanceError } = useAppSelector((state) => state.chatReducer);
+  const { allRooms, isCheckingBalance, balance, balanceError } = useAppSelector(
+    (state) => state.chatReducer
+  );
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [seeMore, setSeeMore] = useState<boolean>(false);
   const [modalOpen, setModalOpen] = useState<boolean>(false);
   const [count, setCount] = useState<number>();
-  const [image, setImage] = useState<string>('');
+  const [image, setImage] = useState<string>("");
   const [roomId, setRoomId] = useState<number>();
   const [selectedRoom, setSelectedRoom] = useState<any>();
   const [isParticipant, setIsParticipant] = useState<boolean>(false);
-  const [errorMessage, setErrorMessage] = useState<string>('');
-  const [displayName, setDisplayName] = useState<string>('');
+  const [errorMessage, setErrorMessage] = useState<string>("");
+  const [displayName, setDisplayName] = useState<string>("");
 
   useEffect(() => {
     getChatrooms();
@@ -36,34 +41,35 @@ function OrdinaryChatrooms() {
 
   const getChatrooms = async () => {
     await dispatch(fetchAllRooms());
-  }
+  };
 
   const handleJoinRoom = async (e: any) => {
     e.preventDefault();
     await dispatch(joinRoom(roomId)).then(() => {
       setModalOpen(!open);
-      router.push({
-        pathname: '/dashboard/myChatrooms',
-        query: { roomChat: JSON.stringify(selectedRoom) },
-      },
-        undefined, { shallow: true }
-      )
-    })
-  }
+      router.push(
+        {
+          pathname: "/dashboard/myChatrooms",
+          query: { roomChat: JSON.stringify(selectedRoom) },
+        },
+        undefined,
+        { shallow: true }
+      );
+    });
+  };
 
   const handleCheckBalance = async (e: any, room: any) => {
     e.preventDefault();
     if (1 === room.private && !room?.participant) {
       await dispatch(checkBalance(room?.id));
     }
-  }
+  };
 
-  console.log('room: ', allRooms);
+  console.log("room: ", allRooms);
 
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
-      {
-        allRooms &&
+      {allRooms &&
         allRooms.map((room: any) => (
           <div
             onClick={(e) => {
@@ -94,28 +100,30 @@ function OrdinaryChatrooms() {
                   !isEmpty(room?.imgName)
                     ? `${config.url.PUBLIC_URL}/${room?.imgName}`
                     : "/images/placeholder.png"
-                } className="w-10 h-10 rounded-full"
+                }
+                className="w-10 h-10 rounded-full"
               />
               <div className="flex flex-col items-start justify-start">
                 <div className="flex items-center justify-start space-x-1">
-                  <p className="text-sm md:text-base font-semibold">{room?.displayName}</p>
-                  {
-                    1 === room?.private &&
-                    <LockClosedIcon className="w-4 h-4 stroke-2" />
-                  }
+                  <p className="text-sm md:text-base font-semibold">
+                    {room?.displayName}
+                  </p>
                 </div>
-                <p className="text-xs md:text-sm">{room?.participants} Members</p>
+                <p className="text-xs md:text-sm">
+                  {room?.participants} Members
+                </p>
               </div>
             </div>
-            {/* <div className="flex items-center justify-start">
-          <p className="text-sm md:text-base font-semibold bg-red-700 p-2 rounded-md text-white">
-            -20 %
-          </p>
-        </div> */}
+            <div className="flex items-center justify-start">
+              {1 === room?.private && (
+                <p className="text-sm md:text-base font-semibold bg-gray-500 dark:bg-darkgray p-2 rounded-full text-white">
+                  <LockClosedIcon className="w-5 h-5 stroke-2" />
+                </p>
+              )}
+            </div>
             <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
           </div>
-        ))
-      }
+        ))}
       {/* <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
         <div className="flex items-center justify-start space-x-4">
           <img
@@ -283,8 +291,9 @@ function OrdinaryChatrooms() {
         </>
       )} */}
       <div
-        className={`fixed -top-2 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${modalOpen ? "" : "hidden"
-          }`}
+        className={`fixed -top-2 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
+          modalOpen ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">

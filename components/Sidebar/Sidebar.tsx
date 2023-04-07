@@ -35,7 +35,7 @@ function Sidebar() {
   const [showModal8, setShowModal8] = useState(false);
   const [showModal9, setShowModal9] = useState(false);
 
-  console.log(showModal1)
+  console.log(showModal1);
 
   return (
     <div className="items-start justify-center lg:justify-start hidden md:flex md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-x dark:border-lightgray pb-14">
@@ -458,30 +458,34 @@ function Sidebar() {
               </div>
             </div>
             <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
-              Welcome and thank you for being among the first to use the bot
-              free social platform that will soon become home to all blockchain
-              users (and soon to be blockchain users).
+              Welcome! Thank you for being among the first to use BLOCKd! A bot
+              free social media platform and home to all blockchain & crypto
+              enthusiasts!
               <br></br>
               BETA Features Available:
               <br></br>
               <div className="flex w-full items-start justify-start mt-1">
-                <span className="text-orange-500 text-xl">•</span>{" "}
-                Create and edit posts.
+                <span className="text-orange-500 text-xl">•</span> Create and
+                edit posts.
               </div>
               <div className="flex w-full items-start justify-start">
-                <span className="text-orange-500 text-xl">•</span>{" "}
-                Access your feed and interact with other users on the platform.
+                <span className="text-orange-500 text-xl">•</span> Access your
+                feed and interact with other users on the platform.
               </div>
               <div className="flex w-full items-start justify-start">
-                <span className="text-orange-500 text-xl">•</span> 
-                Access your profile page and edit PFP, Banners, Frames, etc. 
+                <span className="text-orange-500 text-xl">•</span>
+                Access your profile page and edit PFP, Banners, Frames, etc.
               </div>
               <div className="flex w-full items-start justify-start">
-                <span className="text-orange-500 text-xl">•</span> 
+                <span className="text-orange-500 text-xl">•</span>
+                Reaching up to Level 20 by gaining XP.
+              </div>
+              <div className="flex w-full items-start justify-start">
+                <span className="text-orange-500 text-xl">•</span>
                 ChatRooms (Public & Private) and DMs.
               </div>
               <div className="flex w-full items-start justify-start">
-                <span className="text-orange-500 text-xl">•</span> 
+                <span className="text-orange-500 text-xl">•</span>
                 Submitting Feedback.
               </div>
             </div>
@@ -520,7 +524,8 @@ function Sidebar() {
             <div className="flex w-full items-start justify-start my-1">
               To submit feedback:
             </div>
-            Please visit our Suggestions page, and write us your feedback.
+            Please visit our Suggestions Page, type in any feedback and click
+            Submit!
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
             <p

@@ -594,7 +594,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         "profile"
                       )}`}
                     >
-                      <p className="mr-1 font-semibold text-xs md:text-base">
+                      <p className="mr-1 font-semibold text-xs md:text-sm">
                         @{mainPost?.otherUser?.name}
                       </p>
                     </Link>
@@ -699,22 +699,26 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 className="w-full flex flex-col items-start justify-start"
               >
                 {mainPost?.content != null && (
-                  <p className="pt-5 text-sm lg:text-base">
+                  <p className="pt-5 text-sm">
                     {mainPost?.content}
                   </p>
                 )}
                 {mainPost?.postImage != null ? (
-                  <img
+                  <Image
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                     alt="Post"
                     className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                    width={2000}
+                    height={2000}
                   />
                 ) : null}
                 {mainPost?.gif != null ? (
-                  <img
+                  <Image
                     src={mainPost?.gif}
                     alt="gif"
                     className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                    width={2000}
+                    height={2000}
                   />
                 ) : null}
               </Link>
@@ -839,22 +843,26 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     className="w-full flex flex-col items-start justify-start"
                   >
                     {sharedPost?.content != null && (
-                      <p className="pt-5 text-sm lg:text-base">
+                      <p className="pt-5 text-sm">
                         {sharedPost?.content}
                       </p>
                     )}
                     {sharedPost?.postImage != null ? (
-                      <img
+                      <Image
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                         alt="Post"
                         className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                        width={2000}
+                        height={2000}
                       />
                     ) : null}
                     {sharedPost?.gif != null ? (
-                      <img
+                      <Image
                         src={sharedPost?.gif}
                         alt="gif"
                         className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                        width={2000}
+                        height={2000}
                       />
                     ) : null}
                   </Link>

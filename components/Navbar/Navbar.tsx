@@ -493,14 +493,16 @@ const Navbar = () => {
                 href="/dashboard/profile"
                 className="rounded-md bg-white w-full"
               >
-                <img
+                <Image
                   src={
                     authUser?.profilePic
                       ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer"
+                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer bg-cover"
+                  width={2000}
+                  height={2000}
                 />
               </Link>
             </li>
@@ -940,9 +942,9 @@ const Navbar = () => {
                 </div>
               </div>
               <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
-                Welcome and thank you for being among the first to use the bot
-                free social platform that will soon become home to all
-                blockchain users (and soon to be blockchain users).
+                Welcome! Thank you for being among the first to use BLOCKd! A
+                bot free social media platform and home to all blockchain &
+                crypto enthusiasts!
                 <br></br>
                 BETA Features Available:
                 <br></br>
@@ -957,6 +959,10 @@ const Navbar = () => {
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
                   Access your profile page and edit PFP, Banners, Frames, etc.
+                </div>
+                <div className="flex w-full items-start justify-start">
+                  <span className="text-orange-500 text-xl">•</span>
+                  Reaching up to Level 20 by gaining XP.
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
@@ -1002,7 +1008,8 @@ const Navbar = () => {
               <div className="flex w-full items-start justify-start my-1">
                 To submit feedback:
               </div>
-              Please visit our Suggestions page, and write us your feedback.
+              Please visit our Suggestions Page, type in any feedback and click
+              Submit!
             </div>
             <div className="flex items-center justify-end space-x-3 p-4">
               <p
