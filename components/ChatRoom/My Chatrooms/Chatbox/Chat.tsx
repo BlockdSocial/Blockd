@@ -25,6 +25,7 @@ import {
 } from "../../../../stores/chat/ChatActions";
 import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
+import Linkify from "react-linkify";
 
 export default function Chat({
   receiver,
@@ -35,7 +36,7 @@ export default function Chat({
   chats,
   setReceiver,
   setRoom,
-  chatrooms
+  chatrooms,
 }: any) {
   const dispatch = useAppDispatch();
 
@@ -199,10 +200,31 @@ export default function Chat({
     });
   };
 
+  const componentDecorator = (href: string, text: string, key: number) => {
+    return (
+      <a
+        onClick={async (e) => {
+          e.stopPropagation();
+        }}
+        href={href}
+        key={key}
+        target="_blank"
+        rel="noopener noreferrer"
+        className="hover:underline"
+      >
+        {text}
+      </a>
+    );
+  };
+
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className={`relative ${isEmpty(chats) && isEmpty(chatrooms) ? 'overflow-hidden' : 'scrollbar-hide overflow-scroll'}  h-[92vh] dark:bg-darkgray z-0`}
+      className={`relative ${
+        isEmpty(chats) && isEmpty(chatrooms)
+          ? "overflow-hidden"
+          : "scrollbar-hide overflow-scroll"
+      }  h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
       <div className="sticky top-0 z-50 bg-white">
@@ -278,7 +300,9 @@ export default function Chat({
                       </div>
                     </div>
                     <p className="flex items-center justify-start py-2 text-sm md:text-base">
-                      {message?.content}
+                      <Linkify componentDecorator={componentDecorator}>
+                        {message?.content}
+                      </Linkify>
                     </p>
                     {message?.imgName != null && (
                       <div className="flex items-center justify-start">
@@ -380,7 +404,9 @@ export default function Chat({
                     </p>
                   </div>
                   <p className="flex items-center justify-start py-2 text-sm md:text-base">
-                    {message?.content}
+                    <Linkify componentDecorator={componentDecorator}>
+                      {message?.content}
+                    </Linkify>
                   </p>
                   {message?.imgName != null && (
                     <div className="flex items-center justify-start">
