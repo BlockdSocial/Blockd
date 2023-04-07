@@ -693,21 +693,17 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   </p>
                 )}
                 {mainPost?.postImage != null ? (
-                  <Image
+                  <img
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                     alt="Post"
                     className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
-                    width={2000}
-                    height={2000}
                   />
                 ) : null}
                 {mainPost?.gif != null ? (
-                  <Image
+                  <img
                     src={mainPost?.gif}
                     alt="gif"
                     className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
-                    width={2000}
-                    height={2000}
                   />
                 ) : null}
               </Link>
@@ -837,21 +833,17 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       </p>
                     )}
                     {sharedPost?.postImage != null ? (
-                      <Image
+                      <img
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                         alt="Post"
                         className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
-                        width={2000}
-                        height={2000}
                       />
                     ) : null}
                     {sharedPost?.gif != null ? (
-                      <Image
+                      <img
                         src={sharedPost?.gif}
                         alt="gif"
                         className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
-                        width={2000}
-                        height={2000}
                       />
                     ) : null}
                   </Link>

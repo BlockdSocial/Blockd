@@ -200,7 +200,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
             as={`/dashboard/profile?${encodeQuery(notification?.otherUser?.id, 'profile')}`}
           >
             <Image
-              className="h-10 w-10 rounded-full"
+              className="h-10 w-10 rounded-full bg-cover"
               src={
                 !isEmpty(notification?.otherUser?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`

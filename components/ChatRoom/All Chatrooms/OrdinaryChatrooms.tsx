@@ -92,26 +92,29 @@ function OrdinaryChatrooms() {
                     ? `${config.url.PUBLIC_URL}/${room?.imgName}`
                     : "/images/placeholder.png"
                 }
-                className="w-10 h-10 rounded-full"
+                className="w-10 h-10 rounded-full bg-cover"
               />
-              <div className="flex flex-col items-start justify-start">
+              <div className="flex flex-col items-start justify-start space-y-1">
                 <div className="flex items-center justify-start space-x-1">
                   <p className="text-sm md:text-base font-semibold">
                     {room?.displayName}
                   </p>
+                  {1 === room?.private && (
+                    <p className="text-sm md:text-base font-semibold bg-gray-500 dark:bg-darkgray p-1 rounded-full text-white">
+                      <LockClosedIcon className="w-4 h-4 stroke-2" />
+                    </p>
+                  )}
                 </div>
                 <p className="text-xs md:text-sm">
                   {room?.participants} Members
                 </p>
               </div>
             </div>
-            <div className="flex items-center justify-start">
-              {1 === room?.private && (
-                <p className="text-sm md:text-base font-semibold bg-gray-500 dark:bg-darkgray p-2 rounded-full text-white">
-                  <LockClosedIcon className="w-5 h-5 stroke-2" />
-                </p>
-              )}
-            </div>
+            {/* <div className="flex items-center justify-start">
+          <p className="text-sm md:text-base font-semibold bg-red-700 p-2 rounded-md text-white">
+            -20 %
+          </p>
+        </div> */}
             <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
           </div>
         ))}

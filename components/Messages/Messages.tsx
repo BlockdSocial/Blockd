@@ -1,4 +1,5 @@
 import React, { useEffect } from 'react'
+import Image from "next/image";
 import {
   ArrowSmallRightIcon,
 } from '@heroicons/react/24/outline'
@@ -49,14 +50,16 @@ function Messages({ notification, handleFetchNotifications }: any) {
             }}
             as={`/dashboard/profile?${encodeQuery(notification?.otherUser?.id, 'profile')}`}
           >
-            <img
-              className="h-10 w-10 rounded-full"
+            <Image
+              className="h-10 w-10 rounded-full bg-cover"
               src={
                 !isEmpty(notification?.otherUser?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`
                   : "/images/pfp/pfp1.jpg"
               }
               alt=""
+              width={2000}
+              height={2000}
             />
           </Link>
           <div className="ml-3 flex items-center justify-center">
