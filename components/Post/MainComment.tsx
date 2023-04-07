@@ -27,6 +27,7 @@ import {
   replyComment,
 } from "../../stores/comment/CommentActions";
 import { toast } from "react-hot-toast";
+import { encodeQuery } from "../../utils";
 
 interface Pic {
   name: string;
@@ -294,7 +295,14 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     <div className="relative border-b dark:border-lightgray flex flex-col p-4">
       <div className="flex items-start justify-start space-x-2">
         <Link
-          href="/dashboard/profile"
+          href={{
+            pathname: "/dashboard/profile",
+            query: { user_id: comment?.otherUser?.id },
+          }}
+          as={`/dashboard/profile?${encodeQuery(
+            comment?.otherUser?.id,
+            "profile"
+          )}`}
           className="relative flex flex-col w-fit h-fit group"
         >
           <div className={`relative rounded-md`}>
@@ -344,9 +352,20 @@ function MainComment({ comment, post, refetchReplies }: Props) {
         </Link>
         <div className="w-full">
           <div className="flex items-center">
-            <p className="mr-1 text-xs md:text-sm font-semibold">
-              @{comment?.otherUser?.name}
-            </p>
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: comment?.otherUser?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(
+                comment?.otherUser?.id,
+                "profile"
+              )}`}
+            >
+              <p className="mr-1 text-xs md:text-sm font-semibold">
+                @{comment?.otherUser?.name}
+              </p>
+            </Link>
           </div>
           <div className="flex flex-col items-start justify-start p-1">
             <TimeAgo
@@ -389,30 +408,26 @@ function MainComment({ comment, post, refetchReplies }: Props) {
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <p
-                  className={`text-xs ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  }`}
+                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-4 w-4 cursor-pointer ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikeComment()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <ArrowDownIcon
-                  className={`h-4 w-4 cursor-pointer ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikeComment()}
                 />
                 <p
-                  className={`text-xs ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  }`}
+                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>

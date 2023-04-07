@@ -41,7 +41,16 @@ import {
   LIKE_REPLY_FAILURE,
   IS_DISLIKING_REPLY,
   DISLIKE_REPLY_SUCCESS,
-  DISLIKE_REPLY_FAILURE
+  DISLIKE_REPLY_FAILURE,
+  IS_EDITING_COMMENT,
+  EDIT_COMMENT_SUCCESS,
+  EDIT_COMMENT_FAILURE,
+  IS_DELETING_REPLY,
+  DELETE_REPLY_SUCCESS,
+  DELETE_REPLY_FAILURE,
+  IS_EDITING_REPLY,
+  EDIT_REPLY_SUCCESS,
+  EDIT_REPLY_FAILURE
 } from './CommentActionTypes';
 
 const initialState = {
@@ -59,6 +68,9 @@ const initialState = {
   isReplyingComment: false,
   isFetchingComment: false,
   isFetchingReplyInfo: false,
+  isEditingComment: false,
+  isDeletingReply: false,
+  isEditingReply: false,
   replyInfo: {},
   comment: {},
   isFetchingCommentReplies: false,
@@ -204,7 +216,7 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingIsLikedCommet: false,
-        isLikedComment: action.isLikedComment 
+        isLikedComment: action.isLikedComment
       };
     }
     case FETCH_IS_LIKED_COMMENT_FAILURE: {
@@ -355,6 +367,63 @@ export function commentReducer(state = initialState, action: any) {
       return {
         ...state,
         isDislikingReply: false
+      };
+    }
+    case IS_EDITING_COMMENT: {
+      return {
+        ...state,
+        isEditingComment: true
+      };
+    }
+    case EDIT_COMMENT_SUCCESS: {
+      return {
+        ...state,
+        isEditingComment: false
+      };
+    }
+    case EDIT_COMMENT_FAILURE: {
+      return {
+        ...state,
+        isEditingComment: false,
+        error: action.error
+      };
+    }
+    case IS_DELETING_REPLY: {
+      return {
+        ...state,
+        isDeletingReply: true
+      };
+    }
+    case DELETE_REPLY_SUCCESS: {
+      return {
+        ...state,
+        isDeletingReply: false
+      };
+    }
+    case DELETE_REPLY_FAILURE: {
+      return {
+        ...state,
+        isDeletingReply: false,
+        error: action.error
+      };
+    }
+    case IS_EDITING_REPLY: {
+      return {
+        ...state,
+        isEditingReply: true
+      };
+    }
+    case EDIT_REPLY_SUCCESS: {
+      return {
+        ...state,
+        isEditingReply: false
+      };
+    }
+    case EDIT_REPLY_FAILURE: {
+      return {
+        ...state,
+        isEditingReply: false,
+        error: action.error
       };
     }
     default: {

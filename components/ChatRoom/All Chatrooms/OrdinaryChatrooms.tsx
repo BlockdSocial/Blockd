@@ -73,15 +73,24 @@ function OrdinaryChatrooms() {
         allRooms.map((room: any) => (
           <div
             onClick={(e) => {
-              handleCheckBalance(e, room),
-                setModalOpen(!modalOpen),
-                setCount(room?.participants),
-                setImage(room?.imgName),
-                setRoomId(room?.id),
-                setIsParticipant(room?.participant),
-                setSelectedRoom(room),
-                setDisplayName(room?.displayName),
-                setErrorMessage("");
+              if (room?.participant) {
+                router.push({
+                  pathname: '/dashboard/myChatrooms',
+                  query: { roomChat: JSON.stringify(room) },
+                },
+                  undefined, { shallow: true }
+                )
+              } else {
+                handleCheckBalance(e, room),
+                  setModalOpen(!modalOpen),
+                  setCount(room?.participants),
+                  setImage(room?.imgName),
+                  setRoomId(room?.id),
+                  setIsParticipant(room?.participant),
+                  setSelectedRoom(room),
+                  setDisplayName(room?.displayName),
+                  setErrorMessage('')
+              }
             }}
             className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
           >
@@ -368,27 +377,23 @@ function OrdinaryChatrooms() {
                     {errorMessage}
                   </div>
                 )}
-                {isParticipant ? (
-                  <button className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center">
-                    Joined
-                  </button>
-                ) : errorMessage ? (
-                  <button
-                    className="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    disabled={true}
-                  >
-                    Join
-                  </button>
-                ) : isCheckingBalance == false ? (
-                  <button
-                    className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                    onClick={(e) => handleJoinRoom(e)}
-                  >
-                    Join
-                  </button>
-                ) : (
-                  <></>
-                )}
+                {
+                  errorMessage ?
+                    <button
+                      className="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                      disabled={true}
+                    >
+                      Join
+                    </button> :
+                    isCheckingBalance == false ?
+                      <button
+                        className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                        onClick={(e) => handleJoinRoom(e)}
+                      >
+                        Join
+                      </button> :
+                      <></>
+                }
               </form>
             </div>
           </div>

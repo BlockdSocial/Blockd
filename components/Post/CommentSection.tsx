@@ -19,8 +19,12 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import {
+  deleteComment,
+  deleteReply,
   dislikeComment,
   dislikeReply,
+  editComment,
+  editReply,
   fetchCommentInfo,
   fetchIsDislikedComment,
   fetchIsLikedComment,
@@ -31,8 +35,9 @@ import {
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-import { encodeQuery } from "../../utils";
+import { encodeQuery, getDiffTime } from "../../utils";
 import { toast } from "react-hot-toast";
+
 
 interface Pic {
   name: string;
@@ -81,9 +86,10 @@ interface Props {
   comment: Comment;
   post: Post;
   type: string;
+  refetchComments: () => void;
 }
 
-function CommentSection({ comment, post, type }: Props) {
+function CommentSection({ comment, post, type, refetchComments }: Props) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { error } = useAppSelector((state) => state.commentReducer);
@@ -93,7 +99,7 @@ function CommentSection({ comment, post, type }: Props) {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [textArea, setTextArea] = useState<string>("");
+  const [textArea, setTextArea] = useState<string>(comment?.content);
 
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -222,12 +228,14 @@ function CommentSection({ comment, post, type }: Props) {
   const [isLiked, setIsLiked] = useState<boolean>();
   const [isDisliked, setIsDisliked] = useState<boolean>();
 
+
   useEffect(() => {
     if (!isEmpty(comment)) {
       fetchInfo();
       fetchLiked();
       fetchDisliked();
     }
+
   }, [comment]);
 
   const fetchInfo = async () => {
@@ -371,14 +379,98 @@ function CommentSection({ comment, post, type }: Props) {
     }
   };
 
+  const handleDeleteComment = async () => {
+    if (type === 'reply') {
+      await dispatch(deleteReply(comment?.id)).then(() => {
+        refetchComments();
+      });
+    } else {
+      await dispatch(deleteComment(comment?.id)).then(() => {
+        refetchComments();
+      });
+    }
+  }
+
+  const handleEditComment = async () => {
+    if ('reply' !== type) {
+      if (uploadedEdit) {
+        await dispatch(
+          editComment(comment?.id, {
+            content: textArea,
+            image: uploadedEdit,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setUploadedEdit("");
+          setImageEdit("");
+        });
+      } else if (editGifUrl) {
+        await dispatch(
+          editComment(comment?.id, {
+            content: textArea,
+            gif: editGifUrl,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setEditGifUrl("");
+        });
+      } else {
+        await dispatch(
+          editComment(comment?.id, {
+            content: textArea,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+        });
+      }
+    } else {
+      if (uploadedEdit) {
+        await dispatch(
+          editReply(comment?.id, {
+            content: textArea,
+            image: uploadedEdit,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setUploadedEdit("");
+          setImageEdit("");
+        });
+      } else if (editGifUrl) {
+        await dispatch(
+          editReply(comment?.id, {
+            content: textArea,
+            gif: editGifUrl,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+          setEditGifUrl("");
+        });
+      } else {
+        await dispatch(
+          editReply(comment?.id, {
+            content: textArea,
+          })
+        ).then(() => {
+          refetchComments();
+          setEditPopUp(!editPopUp);
+        });
+      }
+    }
+  }
+
   return (
     <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
       <Link
         href={{
-          pathname: "/dashboard/post/comment",
+          pathname: 'reply' === type ? '#' : "/dashboard/post/comment",
           query: { commentId: comment?.id, postId: post?.id },
         }}
-        as={`/dashboard/post/comment?${encodeQuery(
+        as={'reply' === type ? '#' : `/dashboard/post/comment?${encodeQuery(
           comment?.id,
           "comment"
         )}&${encodeQuery(post?.id, "post")}`}
@@ -443,35 +535,49 @@ function CommentSection({ comment, post, type }: Props) {
               </div>
             </Link>
             <div className="flex flex-col items-start space-y-1">
-              <p className="mr-1 text-xs md:text-base font-semibold">
-                @{comment?.otherUser?.name}
-              </p>
+              <Link
+                href={{
+                  pathname: "/dashboard/profile",
+                  query: { user_id: comment?.otherUser?.id },
+                }}
+                as={`/dashboard/profile?${encodeQuery(
+                  comment?.otherUser?.id,
+                  "profile"
+                )}`}
+              >
+                <p className="mr-1 text-xs md:text-base font-semibold">
+                  @{comment?.otherUser?.name}
+                </p>
+              </Link>
               <TimeAgo
                 date={comment?.createdAt}
                 className="text-xs md:text-sm text-gray-500"
               />
             </div>
           </div>
-          <div className="flex space-x-2">
-            <div
-              onClick={async (e) => {
-                setEditPopUp(!editPopUp);
-                e.preventDefault();
-              }}
-              className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
-            >
-              <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+          {
+            comment?.otherUser?.id === authUser?.id && getDiffTime(comment?.createdAt) < 15 &&
+            <div className="flex space-x-2">
+              <div
+                onClick={async (e) => {
+                  setEditPopUp(!editPopUp);
+                  e.preventDefault();
+                }}
+                className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+              >
+                <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
+              </div>
+              <div
+                onClick={async (e) => {
+                  setDeletePopUp(!deletePopUp);
+                  e.preventDefault();
+                }}
+                className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+              >
+                <TrashIcon className="w-5 h-5 cursor-pointer" />
+              </div>
             </div>
-            <div
-              onClick={async (e) => {
-                setDeletePopUp(!deletePopUp);
-                e.preventDefault();
-              }}
-              className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
-            >
-              <TrashIcon className="w-5 h-5 cursor-pointer" />
-            </div>
-          </div>
+          }
         </div>
         <div className="w-full">
           <div className="flex flex-col items-start justify-start py-2">
@@ -494,37 +600,32 @@ function CommentSection({ comment, post, type }: Props) {
         </div>
       </Link>
       <div
-        className={`flex justify-between mt-2 ${
-          commentBoxVisible ? "hidden" : "flex"
-        }`}
+        className={`flex justify-between mt-2 ${commentBoxVisible ? "hidden" : "flex"
+          }`}
       >
         <div className="flex">
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
-              className={`text-xs ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              }`}
+              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
-              className={`text-xs ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              }`}
+              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -563,30 +664,26 @@ function CommentSection({ comment, post, type }: Props) {
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
-                    className={`text-xs ${
-                      isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    }`}
+                    className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                      }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${
-                      isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon
-                    className={`h-4 w-4 cursor-pointer ${
-                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikeComment()}
                   />
                   <p
-                    className={`text-xs ${
-                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    }`}
+                    className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      }`}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
@@ -602,10 +699,6 @@ function CommentSection({ comment, post, type }: Props) {
                     </p>
                   </div>
                 )}
-                <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                  <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-                  <p className="text-xs">1</p>
-                </div>
               </div>
               <div className="flex items-end justify-end relative space-x-1 md:space-x-2 text-[#181c44] dark:text-white">
                 {!gifUrl && (
@@ -723,9 +816,8 @@ function CommentSection({ comment, post, type }: Props) {
         </form>
       )}
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          deletePopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -759,7 +851,10 @@ function CommentSection({ comment, post, type }: Props) {
             Are you sure you want to delete this comment ?
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
-            <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+            <p
+              className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleDeleteComment()}
+            >
               Delete
             </p>
 
@@ -773,16 +868,13 @@ function CommentSection({ comment, post, type }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
-          editPopUp ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${editPopUp ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
-              <h3 className="text-xl font-medium text-gray-900">
-                Edit Comment
-              </h3>
+              <h3 className="text-xl font-medium text-gray-900">Edit Comment</h3>
             </div>
             <button
               type="button"
@@ -808,22 +900,52 @@ function CommentSection({ comment, post, type }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-4 w-full">
             <div className="flex items-start justify-start space-y-2 w-full">
               <div className="relative flex items-center justify-center w-full group">
-                <img
-                  src={editGifUrl}
-                  alt="gif"
-                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                  width="720"
-                  height="350"
-                  onClick={() => setShowEditGifs((b) => !b)}
-                />
-                <img
-                  src="/images/blockdbg.jpg"
-                  alt="Content"
-                  className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
-                  width="720"
-                  height="350"
-                  onClick={() => onContentClick()}
-                />
+                {editGifUrl ? (
+                  <img
+                    src={editGifUrl}
+                    alt="gif"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => setShowEditGifs((b) => !b)}
+                  />
+                ) : !isEmpty(comment?.gif) ? (
+                  <img
+                    src={comment?.gif}
+                    alt="gif"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => setShowEditGifs((b) => !b)}
+                  />
+                ) : imageEdit ? (
+                  <img
+                    src={imageEdit}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                ) : !isEmpty(comment?.imgName) ? (
+                  <img
+                    src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                ) : (
+                  <img
+                    src="/images/blockdbg.jpg"
+                    alt="Content"
+                    className="max-w-full h-auto group-hover:opacity-50 rounded-lg"
+                    width="720"
+                    height="350"
+                    onClick={() => onContentClick()}
+                  />
+                )}
                 <input
                   type="file"
                   id="file"
@@ -855,7 +977,7 @@ function CommentSection({ comment, post, type }: Props) {
                   />
                 </div>
               )}
-              <p className="font-semibold text-black">Comment</p>
+              <p className="font-semibold text-black">Description</p>
               <textarea
                 id="message"
                 maxLength={255}
@@ -863,12 +985,15 @@ function CommentSection({ comment, post, type }: Props) {
                 onChange={(e: any) => setTextArea(e.target.value)}
                 data-rows="4"
                 className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
-                placeholder="Current Comment"
+                placeholder="Current Post description"
               ></textarea>
             </div>
           </div>
           <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
-            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
+            <p
+              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              onClick={() => handleEditComment()}
+            >
               Save
             </p>
             <p

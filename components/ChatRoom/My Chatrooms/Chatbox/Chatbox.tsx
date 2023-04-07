@@ -55,22 +55,6 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
     }
   );
 
-  useEffect(() => {
-    const handleScroll = () => {
-      if (elementRef?.current?.scrollTop !== 0) {
-        atTop = true;
-        setAtTop(atTop);
-      } else {
-        atTop = false;
-        setAtTop(atTop);
-      }
-    };
-    elementRef?.current?.addEventListener("scroll", handleScroll);
-    return () => {
-      elementRef?.current?.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
       await dispatch(

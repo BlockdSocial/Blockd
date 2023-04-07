@@ -23,7 +23,7 @@ async function dislikeComment(fields: any) {
 };
 
 async function fetchPostComments(fields: any) {
-  return apiCall('fetchPostComments', 'GET',  `${endpoints.comments}/post/${fields}`);
+  return apiCall('fetchPostComments', 'GET', `${endpoints.comments}/post/${fields}`);
 };
 
 async function fetchCommentInfo(fields: any) {
@@ -62,6 +62,18 @@ async function dislikeReply(fields: any) {
   return apiCall('dislikeReply', 'POST', `${endpoints.reply}/dislike`, fields);
 };
 
+async function editComment(id: any, fields: any) {
+  return apiCall('editComment', 'POST', `comment/edit/${id}`, fields);
+};
+
+async function deleteReply(fields: any) {
+  return apiCall('deleteReply', 'DELETE', `reply/${fields}`);
+}
+
+async function editReply(id: any, fields: any) {
+  return apiCall('editReply', 'POST', `reply/edit/${id}`, fields);
+};
+
 export default {
   addComment,
   deleteComment,
@@ -76,5 +88,8 @@ export default {
   fetchCommentReplies,
   fetchReplyInfo,
   likeReply,
-  dislikeReply
+  dislikeReply,
+  editComment,
+  deleteReply,
+  editReply
 };

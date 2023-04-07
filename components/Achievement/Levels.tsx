@@ -35,7 +35,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10 border-blockd"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 1 ? 'border-blockd' : ''}`}></hr>
       <div
         // onClick={() => setIsDisplayModal(!isDisplayModal)}
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 2
@@ -65,7 +65,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10 border-blockd"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 2 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 3
           ? "bg-gray-100 dark:bg-lightgray"
@@ -92,7 +92,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 3 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 4
           ? "bg-gray-100 dark:bg-lightgray"
@@ -121,7 +121,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 4 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 5
           ? "bg-gray-100 dark:bg-lightgray"
@@ -148,7 +148,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 5 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 6
           ? "bg-gray-100 dark:bg-lightgray"
@@ -175,7 +175,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 6 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 7
           ? "bg-gray-100 dark:bg-lightgray"
@@ -202,7 +202,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 7 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 8
           ? "bg-gray-100 dark:bg-lightgray"
@@ -229,7 +229,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 8 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 9
           ? "bg-gray-100 dark:bg-lightgray"
@@ -256,7 +256,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 9 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 10
           ? "bg-gray-100 dark:bg-lightgray"
@@ -283,7 +283,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 10 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 11
           ? "bg-gray-100 dark:bg-lightgray"
@@ -310,7 +310,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 11 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 12
           ? "bg-gray-100 dark:bg-lightgray"
@@ -337,7 +337,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 12 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 13
           ? "bg-gray-100 dark:bg-lightgray"
@@ -364,7 +364,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 13 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 14
           ? "bg-gray-100 dark:bg-lightgray"
@@ -391,7 +391,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 14 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 15
           ? "bg-gray-100 dark:bg-lightgray"
@@ -418,7 +418,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 15 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 16
           ? "bg-gray-100 dark:bg-lightgray"
@@ -445,7 +445,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 16 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 17
           ? "bg-gray-100 dark:bg-lightgray"
@@ -472,7 +472,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 17 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 18
           ? "bg-gray-100 dark:bg-lightgray"
@@ -499,7 +499,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 18 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 19
           ? "bg-gray-100 dark:bg-lightgray"
@@ -526,7 +526,7 @@ function Levels({ rewards }: any) {
           )}
         </div>
       </div>
-      <hr className="border-2 h-10"></hr>
+      <hr className={`border-2 h-10 ${rewards.length > 19 ? 'border-blockd' : ''}`}></hr>
       <div
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 20
           ? "bg-gray-100 dark:bg-lightgray"

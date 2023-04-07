@@ -114,3 +114,19 @@ export const timeSince = (time: any) => {
 		}
 	return time;
 }
+
+
+export const getDiffTime = (date: any) => {
+	var created: any = new Date(date);
+	var now: any  = new Date();
+	
+	var diffMs = ( now - created);
+	var diffDays = Math.floor(diffMs / 86400000); // days
+	var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
+	var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
+	//return diffDays + " days, " + diffHrs + " hours, " + diffMins + " minutes until Christmas =)";
+
+	var total = (diffDays * 24 * 60)+(diffHrs * 60)+ diffMins;
+
+	return total;
+}

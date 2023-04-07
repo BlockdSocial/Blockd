@@ -143,7 +143,7 @@ export default function Chat({
     return () => {
       elementRef?.current?.removeEventListener("scroll", handleScroll);
     };
-  }, []);
+  }, [messages]);
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
@@ -241,7 +241,7 @@ export default function Chat({
                       </div>
                       <div className="relative z-0 flex items-center justify-end space-x-2 pl-2">
                         <p className="text-sm md:text-base">
-                          {moment(message?.createdAt).format("HH:mm")}
+                          {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
                         </p>
                         <div
                           ref={dropdown}
@@ -376,7 +376,7 @@ export default function Chat({
                         : message?.otherUser?.name}
                     </p>
                     <p className="pl-2 text-sm md:text-base">
-                      {moment(message?.createdAt).format("HH:mm")}
+                      {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
                     </p>
                   </div>
                   <p className="flex items-center justify-start py-2 text-sm md:text-base">

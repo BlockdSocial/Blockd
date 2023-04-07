@@ -157,35 +157,37 @@ function ProfilePage() {
         userId={user_id as string}
       />
 
-      <div className="border-b">
-        <div className="flex items-center justify-start my-5 px-4 space-x-1">
-          <UserPlusIcon className="w-5 h-5 stroke-[2px]" />
-          <p className="text-base font-semibold">Referral Link : </p>
-          <input
-            className="text-base w-20 bg-transparent"
-            value={text}
-            onChange={(e) => setText(e.target.value)}
-            disabled
-          />
-          <DocumentDuplicateIcon
-            onClick={async () => {
-              if ("clipboard" in navigator) {
-                await navigator.clipboard.writeText(text);
-                toast.success("Copied to clipboard!");
-              } else {
-                document.execCommand("copy", true, text);
-              }
-            }}
-            className="w-5 h-5 cursor-pointer copy-button"
-          />
+      {
+        user?.id === authUser?.id &&
+        <div className="border-b">
+          <div className="flex items-center justify-start my-5 px-4 space-x-1">
+            <UserPlusIcon className="w-5 h-5 stroke-[2px]" />
+            <p className="text-base font-semibold">Referral Link : </p>
+            <input
+              className="text-base w-20 bg-transparent"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              disabled
+            />
+            <DocumentDuplicateIcon
+              onClick={async () => {
+                if ("clipboard" in navigator) {
+                  await navigator.clipboard.writeText(text);
+                  toast.success("Copied to clipboard!");
+                } else {
+                  document.execCommand("copy", true, text);
+                }
+              }}
+              className="w-5 h-5 cursor-pointer copy-button"
+            />
+          </div>
         </div>
-      </div>
+      }
       <div className="flex items-center justify-between p-5 w-full border-b dark:border-lightgray h-10 mt-8">
         <button
           onClick={() => handleToggle1()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
-            showFeed === true ? "border-b-2 border-blockd text-blockd :" : ""
-          }`}
+          className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFeed === true ? "border-b-2 border-blockd text-blockd :" : ""
+            }`}
         >
           Feed
         </button>
@@ -194,21 +196,19 @@ function ProfilePage() {
         </button> */}
         <button
           onClick={() => handleToggle3()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
-            showFollowers === true
+          className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowers === true
               ? "border-b-2 border-blockd text-blockd :"
               : ""
-          }`}
+            }`}
         >
           Followers
         </button>
         <button
           onClick={() => handleToggle4()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
-            showFollowing === true
+          className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowing === true
               ? "border-b-2 border-blockd text-blockd :"
               : ""
-          }`}
+            }`}
         >
           Following
         </button>
