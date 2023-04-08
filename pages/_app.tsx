@@ -22,6 +22,10 @@ import {
   metaMaskWallet,
   rainbowWallet,
   walletConnectWallet,
+  coinbaseWallet,
+  argentWallet,
+  ledgerWallet,
+  braveWallet,
 } from "@rainbow-me/rainbowkit/wallets";
 
 /********* Wagmi ************/
@@ -40,8 +44,9 @@ const connectors = connectorsForWallets([
     wallets: [
       injectedWallet({ chains }),
       metaMaskWallet({ chains }),
-      rainbowWallet({ chains }),
       walletConnectWallet({ chains }),
+      coinbaseWallet({ chains, appName: "Block'd" }),
+      rainbowWallet({ chains }),
     ],
   },
 ]);
