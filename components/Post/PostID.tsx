@@ -160,6 +160,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
   const inputPicture = useRef<HTMLInputElement | null>(null);
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+  const [fullScreenImage, setFullScreenImage] = useState<boolean>(false);
 
   const onUploadPictureClick = () => {
     // `current` points to the mounted file input element
@@ -629,7 +630,8 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <img
               src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
               alt="Post"
-              className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+              className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm cursor-pointer"
+              onClick={() => setFullScreenImage(!fullScreenImage)}
             />
           ) : null}
           {post?.gif != null ? (
@@ -810,6 +812,43 @@ function PostID({ post, refetchComments, refetch }: Props) {
               {info?.shares != null || undefined ? info?.shares : 0}
             </p>
           </div> */}
+        </div>
+
+        <div
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+            fullScreenImage ? "" : "hidden"
+          }`}
+        >
+          <div className="relative w-fit rounded-lg shadow-lg max-w-md h-auto m-6">
+            <div className="flex items-center justify-center relative rounded-t-lg">
+              <button
+                type="button"
+                onClick={() => setFullScreenImage(!fullScreenImage)}
+                className="absolute top-1 right-1 text-gray-400 bg-transparent bg-white hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+              >
+                <svg
+                  aria-hidden="true"
+                  className="w-4 h-4"
+                  fill="currentColor"
+                  viewBox="0 0 20 20"
+                  xmlns="http://www.w3.org/2000/svg"
+                >
+                  <path
+                    fillRule="evenodd"
+                    d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                    clipRule="evenodd"
+                  ></path>
+                </svg>
+                <span className="sr-only">Close modal</span>
+              </button>
+              <img
+                src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
+                alt="Post"
+                className="rounded-lg max-w-full object-contain max-h-[600px] shadow-sm cursor-pointer"
+                onClick={() => setFullScreenImage(!fullScreenImage)}
+              />
+            </div>
+          </div>
         </div>
 
         <div
