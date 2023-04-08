@@ -855,7 +855,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     className="w-full flex flex-col items-start justify-start"
                   >
                     {sharedPost?.content != null && (
-                      <p className="pt-5 text-sm">{sharedPost?.content}</p>
+                      <p className="pt-5 text-sm">
+                        <Linkify componentDecorator={componentDecorator}>
+                          {sharedPost?.content}
+                        </Linkify>
+                      </p>
                     )}
                     {sharedPost?.postImage != null ? (
                       <img
