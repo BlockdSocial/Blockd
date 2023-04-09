@@ -962,12 +962,12 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 type="text"
                 placeholder="Write a comment..."
               />
-              <MentionsInput value={input} onChange={(e) => setInput(e.target.value)}>
+              {/* <MentionsInput value={input} onChange={(e) => setInput(e.target.value)}>
                 <Mention
                   trigger="@"
                   data={data}
                 />
-              </MentionsInput>
+              </MentionsInput> */}
               <button
                 disabled={!input && !image && !gifUrl}
                 type="submit"

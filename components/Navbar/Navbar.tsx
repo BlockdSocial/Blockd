@@ -133,7 +133,8 @@ const Navbar = () => {
 
   const checkUserNotification = async (data: Data) => {
 
-    await dispatch(fetchUserNotification(data?.id)).then(
+    console.log('data: ', data);
+    await dispatch(fetchUserNotification(data?.notification)).then(
       async (result: any) => {
         if ("like" === result?.type) {
           setNotificationInfo(

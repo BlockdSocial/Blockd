@@ -49,10 +49,6 @@ export default function Chat({
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
-
-  useEffect(() => {
     // only add the event listener when the dropdown is opened
     if (!isDropdownVisible) return;
     function handleClick(event: any) {
@@ -131,20 +127,22 @@ export default function Chat({
   );
 
   useEffect(() => {
-    const handleScroll = () => {
-      if (elementRef?.current?.scrollTop !== 0) {
-        atTop = true;
-        setAtTop(atTop);
-      } else {
-        atTop = false;
-        setAtTop(atTop);
-      }
-    };
-    elementRef?.current?.addEventListener("scroll", handleScroll);
-    return () => {
-      elementRef?.current?.removeEventListener("scroll", handleScroll);
-    };
-  }, [messages]);
+    scrollToBottom();
+    // console.log('hello');
+    // const handleScroll = () => {
+    //   if (boxRef?.current?.scrollTop !== 0) {
+    //     atTop = true;
+    //     setAtTop(atTop);
+    //   } else {
+    //     atTop = false;
+    //     setAtTop(atTop);
+    //   }
+    // };
+    // boxRef?.current?.addEventListener("scroll", handleScroll);
+    // return () => {
+    //   boxRef?.current?.removeEventListener("scroll", handleScroll);
+    // };
+  }, [messages, messages2]);
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
