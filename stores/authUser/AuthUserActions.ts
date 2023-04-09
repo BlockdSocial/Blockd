@@ -16,7 +16,10 @@ import {
   FETCH_USER_MESSAGE_FAILURE,
   IS_SENDING_VERIFICATION,
   SEND_VERIFICATION_SUCCESS,
-  SEND_VERIFICATION_FAILURE
+  SEND_VERIFICATION_FAILURE,
+  IS_GENERATING_TOKEN,
+  GENERATE_TOKEN_SUCCESS,
+  GENERATE_TOKEN_FAILURE
 } from './AuthUserActionTypes';
 import { setCookie, deleteCookie } from 'cookies-next';
 import { isEmpty } from '../../utils';
@@ -151,13 +154,33 @@ export function sendVerification(fields: any) {
       await authUserApi.sendVerification(fields);
       dispatch({
         type: SEND_VERIFICATION_SUCCESS
-      })
+      });
     } catch (error: any) {
       console.log('Send verification error: ', error.message);
       dispatch({
         type: SEND_VERIFICATION_FAILURE,
         error: error?.message
       });
+    }
+  }
+}
+
+export function subscribeToken() {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_GENERATING_TOKEN });
+    try {
+      const result = await authUserApi.subscribeToken();
+      dispatch({
+        type: GENERATE_TOKEN_SUCCESS,
+        token:  result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Subscribe token error: ', error.message);
+      dispatch({
+        type: GENERATE_TOKEN_FAILURE,
+        error: error?.message
+      })
     }
   }
 }

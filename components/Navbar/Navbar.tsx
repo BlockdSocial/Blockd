@@ -46,20 +46,26 @@ import {
 } from "../../stores/user/UserActions";
 import { config, AblyKey } from "../../constants";
 import SidebarRow from "../Sidebar/SidebarRow";
-import { setCookie, deleteCookie } from "cookies-next";
+import { getCookie, deleteCookie } from "cookies-next";
 
 interface Data {
   receiver_id: number;
   notification: number;
+  id: number;
 }
+
 configureAbly({
-  key: AblyKey,
+  authUrl: `${config.url.API_URL}/subscribe/token/generate`,
+  authHeaders: {
+    Authorization: 'Bearer ' + getCookie('token')
+  }
 });
+
 const Navbar = () => {
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { isRegistered } = router.query;
-  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { authUser }: any = useAppSelector((state) => state.authUserReducer);
   const { notifications } = useAppSelector(
     (state) => state.notificationReducer
   );
@@ -103,12 +109,13 @@ const Navbar = () => {
     await dispatch(fetchUserNotifications());
   };
 
-  const [channel, ably] = useChannel("notifications", (message) => {
+  const [channel, ably] = useChannel(`notifications-${authUser?.id}`, (message) => {
     checkUserNotification(message.data);
+    console.log('message: ', message);
   });
 
   const [message] = useChannel(
-    `messageNotification-${authUser.id}`,
+    `messageNotifications-${authUser.id}`,
     (message) => {
       fetchMessageNotification(message.data);
     }
@@ -125,36 +132,29 @@ const Navbar = () => {
   };
 
   const checkUserNotification = async (data: Data) => {
-    let localStorageAuthUser: any = "";
-    if (isEmpty(authUser)) {
-      // @ts-ignore
-      localStorageAuthUser = JSON.parse(localStorage.getItem("authUser"));
-    } else {
-      localStorageAuthUser = authUser;
-    }
-    if (localStorageAuthUser?.id == data?.receiver_id) {
-      await dispatch(fetchUserNotification(data?.notification)).then(
-        async (result: any) => {
-          if ("like" === result?.type) {
-            setNotificationInfo(
-              `${result?.otherUser?.name} has liked your post!`
-            );
-          } else if ("comment" === result?.type) {
-            setNotificationInfo(
-              `${result?.otherUser?.name} commented on your post!`
-            );
-          } else if ("dislike" === result?.type) {
-            setNotificationInfo(
-              `${result?.otherUser?.name} disliked your post!`
-            );
-          } else if ("follow" === result?.type) {
-            setNotificationInfo(`${result?.otherUser?.name} has followed you!`);
-          } else if ("levelUpgrade" === result?.type) {
-            setNotificationInfo("Your level has been upgraded!");
-          }
+
+    await dispatch(fetchUserNotification(data?.id)).then(
+      async (result: any) => {
+        if ("like" === result?.type) {
+          setNotificationInfo(
+            `${result?.otherUser?.name} has liked your post!`
+          );
+        } else if ("comment" === result?.type) {
+          setNotificationInfo(
+            `${result?.otherUser?.name} commented on your post!`
+          );
+        } else if ("dislike" === result?.type) {
+          setNotificationInfo(
+            `${result?.otherUser?.name} disliked your post!`
+          );
+        } else if ("follow" === result?.type) {
+          setNotificationInfo(`${result?.otherUser?.name} has followed you!`);
+        } else if ("levelUpgrade" === result?.type) {
+          setNotificationInfo("Your level has been upgraded!");
         }
-      );
-    }
+      }
+    );
+
     await handleFetchNotifications();
     await dispatch(fetchAuthUser());
   };
@@ -280,12 +280,11 @@ const Navbar = () => {
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray h-[8vh]">
       <div
-        className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
-          router.pathname === "/dashboard/myChatrooms" ||
+        className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${router.pathname === "/dashboard/myChatrooms" ||
           router.pathname === "/dashboard/myChatrooms2"
-            ? "lg:max-w-7xl "
-            : "xl:max-w-[80%]"
-        } h-[8vh] px-2`}
+          ? "lg:max-w-7xl "
+          : "xl:max-w-[80%]"
+          } h-[8vh] px-2`}
       >
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-[8vh]">
           <div className="relative flex items-center justify-between w-full">
@@ -330,9 +329,9 @@ const Navbar = () => {
               {(authUser?.unread == 0 ||
                 authUser?.unread === undefined ||
                 authUser?.unread === null) &&
-              (authUser?.unreadMessages == 0 ||
-                authUser?.unreadMessages === undefined ||
-                authUser?.unreadMessages === null) ? (
+                (authUser?.unreadMessages == 0 ||
+                  authUser?.unreadMessages === undefined ||
+                  authUser?.unreadMessages === null) ? (
                 <></>
               ) : (
                 <div className="absolute -bottom-1 -right-1 p-[5px] w-1 h-1 rounded-full bg-blockd md:hidden"></div>
@@ -351,8 +350,8 @@ const Navbar = () => {
                       <p>Notifications</p>
                     </div>
                     {authUser?.unread == 0 ||
-                    authUser?.unread === undefined ||
-                    authUser?.unread === null ? (
+                      authUser?.unread === undefined ||
+                      authUser?.unread === null ? (
                       ""
                     ) : (
                       <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
@@ -370,8 +369,8 @@ const Navbar = () => {
                       <p>Messages</p>
                     </div>
                     {authUser?.unreadMessages == 0 ||
-                    authUser?.unreadMessages === undefined ||
-                    authUser?.unreadMessages === null ? (
+                      authUser?.unreadMessages === undefined ||
+                      authUser?.unreadMessages === null ? (
                       ""
                     ) : (
                       <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
@@ -436,8 +435,8 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unreadMessages == 0 ||
-                      authUser?.unreadMessages === undefined ||
-                      authUser?.unreadMessages === null ? (
+                        authUser?.unreadMessages === undefined ||
+                        authUser?.unreadMessages === null ? (
                         ""
                       ) : (
                         <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
@@ -463,8 +462,8 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unread == 0 ||
-                      authUser?.unread === undefined ||
-                      authUser?.unread === null ? (
+                        authUser?.unread === undefined ||
+                        authUser?.unread === null ? (
                         ""
                       ) : (
                         <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
@@ -516,11 +515,10 @@ const Navbar = () => {
               <Link href="/" className="active">
                 {location.pathname === "/" ? (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 ${
-                      showModal3
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "bg-gray-100 dark:bg-lightgray"
-                    } rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 ${showModal3
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "bg-gray-100 dark:bg-lightgray"
+                      } rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
                   >
                     <HomeIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -539,9 +537,8 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                  showModal3 ? "" : "hidden"
-                }`}
+                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal3 ? "" : "hidden"
+                  }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
@@ -586,11 +583,10 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
-                      showModal4
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                    } group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal4
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                      } group`}
                   >
                     <UserIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -600,9 +596,8 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                  showModal4 ? "" : "hidden"
-                }`}
+                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal4 ? "" : "hidden"
+                  }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
@@ -646,11 +641,10 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
-                      showModal5
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                    } group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal5
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                      } group`}
                   >
                     <LightBulbIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -660,9 +654,8 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                  showModal5 ? "" : "hidden"
-                }`}
+                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal5 ? "" : "hidden"
+                  }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
@@ -724,20 +717,18 @@ const Navbar = () => {
               <div className="relative w-full">
                 <Link href="/dashboard/myChatrooms">
                   <div
-                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
-                      showModal6
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                    } group`}
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${showModal6
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                      } group`}
                   >
                     <ChatBubbleLeftIcon className="w-5 h-5" />
                     <span className="">My Chatroom</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                    showModal6 ? "" : "hidden"
-                  }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal6 ? "" : "hidden"
+                    }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -772,20 +763,18 @@ const Navbar = () => {
               <div className="relative w-full">
                 <Link href="/dashboard/createChatroom">
                   <div
-                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
-                      showModal7
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                    } group`}
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${showModal7
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                      } group`}
                   >
                     <PlusCircleIcon className="w-5 h-5" />
                     <span className="">Create Chatroom</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                    showModal7 ? "" : "hidden"
-                  }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal7 ? "" : "hidden"
+                    }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -818,20 +807,18 @@ const Navbar = () => {
               <div className="relative w-full">
                 <Link href="/dashboard/allChatrooms">
                   <div
-                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
-                      showModal8
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                    } group`}
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${showModal8
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                      } group`}
                   >
                     <ChatBubbleLeftRightIcon className="w-5 h-5" />
                     <span className="">All Chatrooms</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                    showModal8 ? "" : "hidden"
-                  }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal8 ? "" : "hidden"
+                    }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -877,11 +864,10 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
-                      showModal9
-                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                    } group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal9
+                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                      } group`}
                   >
                     <FireIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -891,9 +877,8 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
-                  showModal9 ? "" : "hidden"
-                }`}
+                className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal9 ? "" : "hidden"
+                  }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
@@ -929,9 +914,8 @@ const Navbar = () => {
         )}
         {isRegistered != undefined && (
           <div
-            className={`fixed top-0 left-0 flex md:hidden p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
-              showModal1 ? "" : "hidden"
-            }`}
+            className={`fixed top-0 left-0 flex md:hidden p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${showModal1 ? "" : "hidden"
+              }`}
           >
             <div className="relative w-full rounded-lg shadow-lg max-w-md h-fit bg-gray-50 scrollbar-hide overflow-scroll">
               <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
@@ -988,9 +972,8 @@ const Navbar = () => {
           </div>
         )}
         <div
-          className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-            showModal2 ? "" : "hidden"
-          }`}
+          className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal2 ? "" : "hidden"
+            }`}
         >
           <div className="relative w-full rounded-lg shadow-lg max-w-md h-fit bg-gray-50 overflow-scroll scrollbar-hide">
             <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">

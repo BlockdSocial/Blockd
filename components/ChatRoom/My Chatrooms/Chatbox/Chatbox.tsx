@@ -24,12 +24,6 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
     dispatch(fetchAuthUser());
   }, []);
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
-
   useEffect(() => {
     if (!isEmpty(receiver)) {
       getMessages();
@@ -42,7 +36,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
   }, [receiver, room]);
 
   const [message] = useChannel(
-    `messageNotification-${authUser.id}`,
+    `messageNotifications-${authUser.id}`,
     (message) => {
       updateMessages();
     }

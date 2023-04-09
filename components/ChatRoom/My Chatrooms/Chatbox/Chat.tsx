@@ -117,7 +117,7 @@ export default function Chat({
   }, [receiver, room]);
 
   const [message] = useChannel(
-    `messageNotification-${authUser.id}`,
+    `messageNotifications-${authUser.id}`,
     (message) => {
       updateMessages();
     }
