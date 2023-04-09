@@ -215,10 +215,7 @@ export default function SignUp() {
   });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
-    ...config,
-    onSuccess(data: any) {
-      setNftData(true);
-    },
+    ...config
   });
 
   const setName = (e: any) => {
@@ -229,10 +226,13 @@ export default function SignUp() {
   const { data: nft_data } = useContractRead({
     ...nft_contract,
     functionName: "balanceOf",
+    //args:['0x59f1e3E8B0d4a9ED41a62BE637Bd0D70F76307E4'],
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
+      console.log('nft_data',nft_data)
       if (nft_data && Number(nft_data) > 0) {
+        
         setNftData(true);
       }
     },
