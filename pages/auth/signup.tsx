@@ -4,7 +4,10 @@ import Link from "next/link";
 import { useRouter } from "next/router";
 import { ethers } from "ethers";
 import { CheckIcon } from "@heroicons/react/24/outline";
-import { registerUser, sendVerification } from "../../stores/authUser/AuthUserActions";
+import {
+  registerUser,
+  sendVerification,
+} from "../../stores/authUser/AuthUserActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "../../utils";
 import { config as configUrl } from "../../constants";
@@ -26,9 +29,7 @@ import axios from "axios";
 import Policy from "../../components/Auth/Policy";
 import { flatMap, indexOf } from "lodash";
 import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
-import {
-  ArrowLeftCircleIcon
-} from "@heroicons/react/24/outline";
+import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { checkEmail } from "../../stores/user/UserActions";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
@@ -90,8 +91,7 @@ export default function SignUp() {
     if (displayName.length == 0) {
       setDisplayNameError(true);
       return;
-    }
-    else {
+    } else {
       setEmailError(false);
     }
     signMessage();
@@ -105,11 +105,13 @@ export default function SignUp() {
 
   const handleRegisterUser = async (e: any = null) => {
     if (1 === step) {
-      await dispatch(sendVerification({
-        email: email
-      })).then(() => {
-        setStep(2)
-      })
+      await dispatch(
+        sendVerification({
+          email: email,
+        })
+      ).then(() => {
+        setStep(2);
+      });
     } else {
       if (
         !terms ||
@@ -119,11 +121,11 @@ export default function SignUp() {
         isEmpty(displayName) ||
         isEmpty(email)
       ) {
-        console.log('userMessage: ', userMessage);
-        console.log('address: ', address);
-        console.log('userSignature: ', userSignature);
-        console.log('displayName: ', displayName);
-        console.log('email: ', email);
+        console.log("userMessage: ", userMessage);
+        console.log("address: ", address);
+        console.log("userSignature: ", userSignature);
+        console.log("displayName: ", displayName);
+        console.log("email: ", email);
 
         return;
       }
@@ -237,17 +239,19 @@ export default function SignUp() {
   });
 
   const handleCheckEmail = async () => {
-    await dispatch(checkEmail({
-      email: email
-    })).then((result: any) => {
-      console.log('RESULT: ', result);
-      if ('true' === result?.success) {
-        setValidated(true)
+    await dispatch(
+      checkEmail({
+        email: email,
+      })
+    ).then((result: any) => {
+      console.log("RESULT: ", result);
+      if ("true" === result?.success) {
+        setValidated(true);
       } else {
         setValidated(false);
       }
     });
-  }
+  };
 
   if (!mounted) {
     return null;
@@ -304,7 +308,6 @@ export default function SignUp() {
       <div className="md:w-1/2 w-full h-screen flex items-center justify-center text-center p-10 z-0">
         <div className="flex items-center py-8 w-[600px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
-
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
               <Image
                 src="/images/logo/logo.png"
@@ -319,11 +322,12 @@ export default function SignUp() {
             </div>
 
             <div className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20">
-              {
-                1 === step &&
+              {1 === step && (
                 <>
                   <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
-                    <p className="text-white font-semibold text-l">Display Name</p>
+                    <p className="text-white font-semibold text-l">
+                      Display Name
+                    </p>
                     <input
                       className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
                       type="text"
@@ -341,16 +345,14 @@ export default function SignUp() {
                       placeholder="example@gmail.com"
                       onChange={(e) => setEmail(e.target.value)}
                       onBlur={() => {
-                        handleCheckEmail(),
-                        setEmailError(false)
+                        handleCheckEmail(), setEmailError(false);
                       }}
                     />
-                    {
-                      validated &&
+                    {validated && (
                       <p className="text-red-600  text-xs font-bold">
                         This email is already taken.
                       </p>
-                    }
+                    )}
                     {emailError && (
                       <p className="text-red-600  text-xs font-bold">
                         Please enter a valid email address
@@ -387,19 +389,25 @@ export default function SignUp() {
                       className="bg-red-100 border-red-300 text-red-500 focus:ring-red-200"
                     />
                     <p
-                      onClick={() => setIsDisplayPolicyModal(!isDisplayPolicyModal)}
+                      onClick={() =>
+                        setIsDisplayPolicyModal(!isDisplayPolicyModal)
+                      }
                       className="text-white font-semibold text-l cursor-pointer"
                     >
                       Privacy Policy
                     </p>
                   </div>
                 </>
-              }
-              {
-                2 === step &&
+              )}
+              {2 === step && (
                 <div className="flex flex-col items-start justify-center space-y-1 w-full">
-                  <ArrowLeftCircleIcon className="w-6 h-6 stroke-2 cursor-pointer" onClick={() => setStep(1)} />
-                  <p className="text-white font-semibold text-l">Verification Code</p>
+                  <ArrowLeftCircleIcon
+                    className="w-6 h-6 stroke-2 cursor-pointer"
+                    onClick={() => setStep(1)}
+                  />
+                  <p className="text-white font-semibold text-l">
+                    Verification Code
+                  </p>
                   <input
                     className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
                     type="text"
@@ -408,7 +416,7 @@ export default function SignUp() {
                     onChange={(e) => setCode(e.target.value)}
                   />
                 </div>
-              }
+              )}
               {/* <button
                 className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
                 onClick={(e) => web3Login(e)}
@@ -438,11 +446,13 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
-                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${isMintLoading && "loading"
-                        } ${error
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
+                        isMintLoading && "loading"
+                      } ${
+                        error
                           ? "bg-orange-300"
                           : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
-                        }`}
+                      }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
                     >
@@ -473,8 +483,9 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayTermsAndConditionsModal ? "" : "hidden"
+        }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -513,8 +524,9 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayPolicyModal ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayPolicyModal ? "" : "hidden"
+        }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">

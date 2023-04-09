@@ -228,12 +228,7 @@ export default function SignIn() {
                       )}
                     </>
                   }
-                  {error && (
-                    <div className="mt-4 w-full bg-red-500 rounded-md p-2">
-                      An error occurred preparing the transaction:<br></br>
-                      {error.message}
-                    </div>
-                  )}
+               
                 </>
               )}
             </form>
