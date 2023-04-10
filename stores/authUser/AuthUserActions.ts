@@ -30,7 +30,7 @@ import { authUserApi } from '../../api';
 export function fetchAuthUser() {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_AUTH_USER });
-
+   
     try {
       const result = await authUserApi.fetchAuthUser();
       dispatch({

@@ -183,6 +183,15 @@ const handleApiResponse = async (apiName: any, response: any) => {
 		case 400 <= status && status <= 500: {
 			let failedResponse: any = await response.json();
 			//return failedResponse;
+			
+			if(failedResponse.message && failedResponse.message === 'Unauthenticated.') {
+		
+			triggerUnauthorizedUserAlert().then(() => {
+				localStorage.removeItem('token');
+				deleteCookie('token');
+				window.location.replace('/');
+			});
+		}
 			throw new Error(failedResponse.message);
 			
 		}
