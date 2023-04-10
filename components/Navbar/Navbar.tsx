@@ -44,7 +44,7 @@ import {
   resetBell,
   resetMessages,
 } from "../../stores/user/UserActions";
-import { config, AblyKey } from "../../constants";
+import { config } from "../../constants";
 import SidebarRow from "../Sidebar/SidebarRow";
 import { getCookie, deleteCookie } from "cookies-next";
 
