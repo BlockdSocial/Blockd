@@ -73,6 +73,7 @@ export default function SignUp() {
   const [terms, setTerms] = useState<boolean>(false);
   const [policy, setPolicy] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
+  const [displayNamelengthError, setDisplayNamelengthError] = useState<boolean>(false);
   const [
     isDisplayTermsAndConditionsModal,
     setIsDisplayTermsAndConditionsModal,
@@ -81,18 +82,26 @@ export default function SignUp() {
     useState<boolean>(false);
 
   const { address } = useAccount();
-
+console.log({displayNameError})
   const getSignMessage = async (e: any) => {
     e.preventDefault();
     if (!validateEmail(email)) {
       setEmailError(true);
       return;
     }
-    if (displayName.length == 0) {
+    if (displayName.length == 0 ) {
+      
       setDisplayNameError(true);
       return;
     } else {
+      console.log(displayName.length)
       setEmailError(false);
+    }
+    if ( displayName.length < 4) {
+      setDisplayNamelengthError(true);
+      return;
+    } else {
+      setDisplayNamelengthError(false);
     }
     signMessage();
   };
@@ -215,9 +224,13 @@ export default function SignUp() {
   });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
-    ...config
+    ...config,
+    onSuccess(data: any) {
+   
+      setNftData(true);
+    },
   });
-
+console.log({error})
   const setName = (e: any) => {
     const result = e.replace(/[^a-z]/gi, "");
     setDisplayName(result);
@@ -226,7 +239,7 @@ export default function SignUp() {
   const { data: nft_data } = useContractRead({
     ...nft_contract,
     functionName: "balanceOf",
-    //args:['0x59f1e3E8B0d4a9ED41a62BE637Bd0D70F76307E4'],
+    //args:['0x73B394F31C8C9de068eB9fc4e7D37663df878F3c'],
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
@@ -361,6 +374,13 @@ export default function SignUp() {
                     {displayNameError && (
                       <p className="text-red-600  text-xs font-bold">
                         Please enter a display name
+                      </p>
+                    )}
+                
+                    
+                    {displayNamelengthError && (
+                      <p className="text-red-600  text-xs font-bold">
+                        Name must be at least 4 characters
                       </p>
                     )}
                   </div>
