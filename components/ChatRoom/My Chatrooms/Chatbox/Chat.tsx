@@ -46,6 +46,7 @@ export default function Chat({
   let [reaction, setReaction] = useState<string>("");
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const boxRef = useRef<any>(null);
+  const boxRef2 = useRef<any>(null);
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
@@ -115,36 +116,31 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      updateMessages();
+      console.log('message',message)
+    //  updateMessages();
     }
   );
 
-  const [roomMessage] = useChannel(
-    `roomNotification-${room?.room?.name}`,
-    (message) => {
-      updateRoomMessages();
-    }
-  );
+  // const [roomMessage] = useChannel(
+  //   `roomNotification-${room?.room?.name}`,
+  //   (message) => {
+  //     updateRoomMessages();
+  //   }
+  // );
 
   useEffect(() => {
-    scrollToBottom();
-    // console.log('hello');
-    // const handleScroll = () => {
-    //   if (boxRef?.current?.scrollTop !== 0) {
-    //     atTop = true;
-    //     setAtTop(atTop);
-    //   } else {
-    //     atTop = false;
-    //     setAtTop(atTop);
-    //   }
-    // };
-    // boxRef?.current?.addEventListener("scroll", handleScroll);
-    // return () => {
-    //   boxRef?.current?.removeEventListener("scroll", handleScroll);
-    // };
+    
+   // scrollToBottom();
+     console.log('hello',messages2);
+    console.log('hellooo',boxRef2?.current?.scrollTop)
+    if (boxRef2?.current?.scrollTop > 200) {
+      scrollToBottom();
+    } 
+  
   }, [messages, messages2]);
 
   const getMessages = async () => {
+    console.log('sdd');
     if (!isEmpty(receiver)) {
       await dispatch(
         fetchMessages({
@@ -161,6 +157,7 @@ export default function Chat({
   };
 
   const fetchRoomMessages = async () => {
+    console.log('sddfetchRoomMessages')
     if (!isEmpty(room)) {
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
@@ -176,6 +173,7 @@ export default function Chat({
   };
 
   const updateRoomMessages = async () => {
+    console.log('sddupdateRoomMessages')
     await dispatch(
       fetchChatroomMessages(room?.roomId, {
         start: 0,
@@ -187,6 +185,7 @@ export default function Chat({
   };
 
   const updateMessages = async () => {
+    console.log('sddfetchMessages')
     await dispatch(
       fetchMessages({
         receiver_id: ref.current?.id,
@@ -246,7 +245,7 @@ export default function Chat({
           </p>
         </div>
       )}
-      <div className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
+      <div ref={boxRef2} className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
         {!isEmpty(messages2) &&
           messages2.map((message: any, index: any) =>
             message?.userId == authUser?.id ? (

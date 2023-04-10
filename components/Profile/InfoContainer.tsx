@@ -377,7 +377,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200"
                         onClick={() => handleFollowUser()}
                       >
-                        Followed
+                        Unfollow
                       </p>
                     </div>
                   ) : (
@@ -386,7 +386,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                         onClick={() => handleFollowUser()}
                       >
-                        Unfollow
+                        Follow
                       </p>
                     </div>
                   )}
