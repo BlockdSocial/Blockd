@@ -35,12 +35,12 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
     }
   }, [receiver, room]);
 
-  const [message] = useChannel(
-    `messageNotifications-${authUser.id}`,
-    (message) => {
-      updateMessages();
-    }
-  );
+  // const [message] = useChannel(
+  //   `messageNotifications-${authUser.id}`,
+  //   (message) => {
+  //     updateMessages();
+  //   }
+  // );
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {

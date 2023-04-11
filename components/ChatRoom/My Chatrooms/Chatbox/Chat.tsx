@@ -119,7 +119,7 @@ export default function Chat({
     `messageNotifications-${authUser.id}`,
     (message) => {
       console.log('message', message)
-      updateMessages();
+      updateMessages(message?.data?.type);
     }
   );
 
@@ -172,9 +172,8 @@ export default function Chat({
     });
   };
 
-  const updateMessages = async () => {
-    console.log('sddfetchMessages')
-    if (!isEmpty(receiver)) {
+  const updateMessages = async (type: any) => {
+    if ('room' !== type) {
       await dispatch(
         fetchMessages({
           receiver_id: ref.current?.id,

@@ -119,7 +119,10 @@ const Navbar = () => {
     // @ts-ignore
     `messageNotifications-${JSON.parse(localStorage.getItem('authUser')).id}`,
     (message) => {
-      fetchMessageNotification(message.data);
+      console.log('message: ', message);
+      if (message.data !== 'room') {
+        fetchMessageNotification(message.data);
+      }
     }
   );
 
