@@ -69,6 +69,7 @@ export default function SignIn() {
         toast.error(res?.errors);
         return;
       } else {
+        localStorage.setItem("authUser", JSON.stringify(res));
         router.push("/");
       }
     });

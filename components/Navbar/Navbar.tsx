@@ -109,13 +109,15 @@ const Navbar = () => {
     await dispatch(fetchUserNotifications());
   };
 
-  const [channel, ably] = useChannel(`notifications-${authUser?.id}`, (message) => {
+  // @ts-ignore
+  const [channel, ably] = useChannel(`notifications-${JSON.parse(localStorage.getItem('authUser')).id}`, (message) => {
     checkUserNotification(message.data);
     console.log('message: ', message);
   });
 
   const [message] = useChannel(
-    `messageNotifications-${authUser.id}`,
+    // @ts-ignore
+    `messageNotifications-${JSON.parse(localStorage.getItem('authUser')).id}`,
     (message) => {
       fetchMessageNotification(message.data);
     }
@@ -131,28 +133,63 @@ const Navbar = () => {
     await dispatch(fetchAuthUser());
   };
 
-  const checkUserNotification = async (data: Data) => {
+  const renderNotificationText = (notification: any) => {
+    switch (notification?.type) {
+      case "like":
+        if (
+          null != notification?.commentId ||
+          undefined != notification?.commentId
+        ) {
+          return "liked your comment!";
+        }
+        if (
+          null != notification?.replyId ||
+          undefined != notification?.replyId
+        ) {
+          return "liked your reply!";
+        }
+        return "liked your post!";
+        break;
+      case "dislike":
+        if (
+          null != notification?.commentId ||
+          undefined != notification?.commentId
+        ) {
+          return "disliked your comment!";
+        }
+        if (
+          null != notification?.replyId ||
+          undefined != notification?.replyId
+        ) {
+          return "disliked your reply!";
+        }
+        return "disliked your post!";
+        break;
+      case "comment":
+        return "commented on your post!";
+        break;
+      case "follow":
+        return "followed you!";
+        break;
+      case "levelUpgrade":
+        return "Your level has been upgraded!";
+        break;
+      case "levelDowngrade":
+        return "Your level has been downgraded!";
+        break;
+      case "reply":
+        return "replied to your comment!";
+      default:
+        break;
+    }
+  };
 
-    console.log('data: ', data);
+  const checkUserNotification = async (data: Data) => {
     await dispatch(fetchUserNotification(data?.notification)).then(
       async (result: any) => {
-        if ("like" === result?.type) {
-          setNotificationInfo(
-            `${result?.otherUser?.name} has liked your post!`
-          );
-        } else if ("comment" === result?.type) {
-          setNotificationInfo(
-            `${result?.otherUser?.name} commented on your post!`
-          );
-        } else if ("dislike" === result?.type) {
-          setNotificationInfo(
-            `${result?.otherUser?.name} disliked your post!`
-          );
-        } else if ("follow" === result?.type) {
-          setNotificationInfo(`${result?.otherUser?.name} has followed you!`);
-        } else if ("levelUpgrade" === result?.type) {
-          setNotificationInfo("Your level has been upgraded!");
-        }
+        setNotificationInfo(
+          `${result?.otherUser?.name} ${renderNotificationText(result)}`
+        );
       }
     );
 

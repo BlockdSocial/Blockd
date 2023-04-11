@@ -26,6 +26,8 @@ import {
 import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 import Linkify from "react-linkify";
+import Link from "next/link";
+import { encodeQuery } from "../../../../utils";
 
 export default function Chat({
   receiver,
@@ -116,27 +118,13 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      console.log('message',message)
-    //  updateMessages();
+      console.log('message', message)
+      updateMessages();
     }
   );
 
-  // const [roomMessage] = useChannel(
-  //   `roomNotification-${room?.room?.name}`,
-  //   (message) => {
-  //     updateRoomMessages();
-  //   }
-  // );
-
   useEffect(() => {
-    
-   // scrollToBottom();
-     console.log('hello',messages2);
-    console.log('hellooo',boxRef2?.current?.scrollTop)
-    if (boxRef2?.current?.scrollTop > 200) {
-      scrollToBottom();
-    } 
-  
+    scrollToBottom();
   }, [messages, messages2]);
 
   const getMessages = async () => {
@@ -146,7 +134,7 @@ export default function Chat({
         fetchMessages({
           receiver_id: receiver?.id,
           start: 0,
-          end: 100,
+          end: 200,
         })
       ).then((result: any) => {
         setEndTotal(10);
@@ -162,7 +150,7 @@ export default function Chat({
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
           start: 0,
-          end: 100,
+          end: 200,
         })
       ).then((result: any) => {
         setEndTotal(10);
@@ -177,7 +165,7 @@ export default function Chat({
     await dispatch(
       fetchChatroomMessages(room?.roomId, {
         start: 0,
-        end: 100,
+        end: 200,
       })
     ).then((result: any) => {
       setMessages2(result?.messages);
@@ -186,15 +174,26 @@ export default function Chat({
 
   const updateMessages = async () => {
     console.log('sddfetchMessages')
-    await dispatch(
-      fetchMessages({
-        receiver_id: ref.current?.id,
-        start: 0,
-        end: 100,
-      })
-    ).then((result: any) => {
-      setMessages2(result?.messages);
-    });
+    if (!isEmpty(receiver)) {
+      await dispatch(
+        fetchMessages({
+          receiver_id: ref.current?.id,
+          start: 0,
+          end: 200,
+        })
+      ).then((result: any) => {
+        setMessages2(result?.messages);
+      });
+    } else {
+      await dispatch(
+        fetchChatroomMessages(room?.roomId, {
+          start: 0,
+          end: 200,
+        })
+      ).then((result: any) => {
+        setMessages2(result?.messages);
+      });
+    }
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
@@ -217,11 +216,10 @@ export default function Chat({
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className={`relative ${
-        isEmpty(chats) && isEmpty(chatrooms)
-          ? "overflow-hidden"
-          : "scrollbar-hide overflow-scroll"
-      }  h-[92vh] dark:bg-darkgray z-0`}
+      className={`relative ${isEmpty(chats) && isEmpty(chatrooms)
+        ? "overflow-hidden"
+        : "scrollbar-hide overflow-scroll"
+        }  h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
       <div className="sticky top-0 z-50 bg-white">
@@ -254,9 +252,12 @@ export default function Chat({
                   <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mx-2 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
                     <div className="flex space-x-20 relative z-0 items-center justify-between w-full text-xm font-semibold">
                       <div>
-                        <p className="text-sm md:text-base">
+                        <Link
+                          href="/dashboard/profile"
+                          className="text-sm md:text-base"
+                        >
                           @{authUser?.name}
-                        </p>
+                        </Link>
                       </div>
                       <div className="relative z-0 flex items-center justify-end space-x-2 pl-2">
                         <p className="text-sm md:text-base">
@@ -340,7 +341,7 @@ export default function Chat({
                       </div>
                     </div>
                   </div>
-                  <div className="col-span-1 flex items-end justify-start">
+                  <Link href="/dashboard/profile" className="col-span-1 flex items-end justify-start">
                     <img
                       src={
                         !isEmpty(authUser?.profilePic)
@@ -350,14 +351,13 @@ export default function Chat({
                       className="object-cover h-10 w-10 rounded-full"
                       alt=""
                     />
-                  </div>
+                  </Link>
                 </div>
                 <div className="grid grid-cols-10 md:grid-cols-12">
                   <div
                     onClick={() => removeReaction()}
-                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
-                      reaction ? "inline" : "hidden"
-                    }`}
+                    className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
+                      }`}
                   >
                     <input
                       value={reaction}
@@ -375,27 +375,41 @@ export default function Chat({
                 key={index}
                 className="grid grid-cols-10 md:grid-cols-12 mb-2"
               >
-                <div className="col-span-1 flex items-end justify-end">
+                <Link
+                  className="col-span-1 flex items-end justify-end"
+                  href={{
+                    pathname: "/dashboard/profile",
+                    query: { user_id: !isEmpty(receiver) ? receiver?.id : message?.otherUser?.id },
+                  }}
+                  as={`/dashboard/profile?${encodeQuery(!isEmpty(receiver) ? receiver?.id : message?.otherUser?.id, 'profile')}`}
+                >
                   <img
                     src={
                       !isEmpty(receiver?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
                         : !isEmpty(message?.otherUser?.profilePic)
-                        ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-                        : "/images/pfp/pfp1.jpg"
+                          ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
                     }
                     className="object-cover h-10 w-10 rounded-full flex"
                     alt=""
                   />
-                </div>
+                </Link>
                 <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 mx-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
                   <div className="flex items-center justify-between w-full text-xm font-semibold space-x-20">
-                    <p className="text-sm md:text-base">
+                    <Link
+                      href={{
+                        pathname: "/dashboard/profile",
+                        query: { user_id: !isEmpty(receiver) ? receiver?.id : message?.otherUser?.id },
+                      }}
+                      as={`/dashboard/profile?${encodeQuery(!isEmpty(receiver) ? receiver?.id : message?.otherUser?.id, 'profile')}`}
+                      className="text-sm md:text-base"
+                    >
                       @
                       {!isEmpty(receiver)
                         ? receiver?.name
                         : message?.otherUser?.name}
-                    </p>
+                    </Link>
                     <p className="pl-2 text-sm md:text-base">
                       {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
                     </p>

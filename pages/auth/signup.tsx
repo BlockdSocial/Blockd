@@ -156,6 +156,8 @@ console.log({displayNameError})
           await new Promise((f) => setTimeout(f, 1000));
           toast.error(res?.errors);
           return;
+        } else {
+          localStorage.setItem("authUser", JSON.stringify(res));
         }
         router.push(
           {
