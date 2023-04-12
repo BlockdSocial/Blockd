@@ -31,6 +31,7 @@
         "cookies-next": "^2.1.1",
         "emoji-mart": "^5.4.0",
         "ethers": "^5.7.2",
+        "got": "^12.6.0",
         "humps": "^2.0.1",
         "lodash": "^4.17.21",
         "moment": "^2.29.4",

@@ -30,11 +30,16 @@ async function sendVerification(fields: any) {
   return apiCall('sendVerification', 'POST', `${endpoints.authUser}/verify/email`, fields);
 };
 
+async function subscribeToken() {
+  return apiCall('subscribeToken', 'GET', `subscribe/token/generate`);
+};
+
 export default { 
   fetchAuthUser,
   loginUser,
   logoutUser,
   fetchUserMessage,
   registerUser,
-  sendVerification
+  sendVerification,
+  subscribeToken
 };

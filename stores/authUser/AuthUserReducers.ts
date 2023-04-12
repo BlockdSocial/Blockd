@@ -17,13 +17,18 @@ import {
   FETCH_USER_MESSAGE_FAILURE,
   IS_SENDING_VERIFICATION,
   SEND_VERIFICATION_SUCCESS,
-  SEND_VERIFICATION_FAILURE
+  SEND_VERIFICATION_FAILURE,
+  IS_GENERATING_TOKEN,
+  GENERATE_TOKEN_SUCCESS,
+  GENERATE_TOKEN_FAILURE
 } from './AuthUserActionTypes';
 
 const initialState = { 
   authError: '',
   message: '',
-  isLoggingIn: false, 
+  isLoggingIn: false,
+  isGeneratingToken: false,
+  token: {},
   authUser: {}, 
   isLoggingOut: false, 
   isFetchingAuthUser: false, 
@@ -149,6 +154,26 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isSendingVerification: false,
+        error: action.error
+      };
+    }
+    case IS_GENERATING_TOKEN: {
+      return {
+        ...state,
+        isGeneratingToken: true
+      };
+    }
+    case GENERATE_TOKEN_SUCCESS: {
+      return {
+        ...state,
+        isGeneratingToken: false,
+        token: action.token
+      };
+    }
+    case GENERATE_TOKEN_FAILURE: {
+      return {
+        ...state,
+        isGeneratingToken: false,
         error: action.error
       };
     }

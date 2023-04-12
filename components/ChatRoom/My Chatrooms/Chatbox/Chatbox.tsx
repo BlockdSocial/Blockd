@@ -24,12 +24,6 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
     dispatch(fetchAuthUser());
   }, []);
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
-
   useEffect(() => {
     if (!isEmpty(receiver)) {
       getMessages();
@@ -41,19 +35,12 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
     }
   }, [receiver, room]);
 
-  const [message] = useChannel(
-    `messageNotification-${authUser.id}`,
-    (message) => {
-      updateMessages();
-    }
-  );
-
-  const [roomMessage] = useChannel(
-    `roomNotification-${room?.room?.name}`,
-    (message) => {
-      updateRoomMessages();
-    }
-  );
+  // const [message] = useChannel(
+  //   `messageNotifications-${authUser.id}`,
+  //   (message) => {
+  //     updateMessages();
+  //   }
+  // );
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
@@ -61,7 +48,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
         fetchMessages({
           receiver_id: receiver?.id,
           start: 0,
-          end: 100,
+          end: 20,
         })
       ).then((result: any) => {
         setEndTotal(10);
@@ -76,7 +63,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
           start: 0,
-          end: 100
+          end: 20
         })
       ).then((result: any) => {
         setEndTotal(10);
@@ -90,7 +77,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
     await dispatch(
       fetchChatroomMessages(room?.roomId, {
         start: 0,
-        end: 100
+        end: 20
       })
     ).then((result: any) => {
       setMessages(result?.messages);
@@ -102,7 +89,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom }: any
       fetchMessages({
         receiver_id: ref.current?.id,
         start: 0,
-        end: 100,
+        end: 20,
       })
     ).then((result: any) => {
       setMessages(result?.messages);

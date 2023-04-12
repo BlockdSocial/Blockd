@@ -16,6 +16,7 @@ const dev = {
     ALCHEMY_API_KEY: 'MgmBBWoM_qBuALlxo8Y7rKm_eQ_28UB9'
   }
 };
+
 export const config = process.env.NODE_ENV === 'development' ? prod : prod;
 export const GID = process.env.NODE_ENV === 'development' ? '' : '=G-QW4Q5G8G4K';
-export const AblyKey = "SGspkA.hkA1-w:xQcIQuax6oUPd6kvaYaipwsIvhjS_dL58l4zkoJwFBg";
+

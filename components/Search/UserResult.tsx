@@ -1,7 +1,7 @@
 import Link from 'next/link'
 import React, { useState, useEffect } from 'react'
 import { useAppDispatch, useAppSelector } from '../../stores/hooks'
-import { followUser } from '../../stores/user/UserActions'
+import { fetchIsFollowed, followUser } from '../../stores/user/UserActions'
 import { config } from '../../constants'
 import { encodeQuery } from '../../utils'
 import { isEmpty } from 'lodash'
@@ -15,17 +15,15 @@ interface Post {
   comments: number;
 }
 
-function UserResult({ user }: any) {
+function UserResult({ user, refetch }: any) {
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer)
-  const { error } = useAppSelector((state) => state.userReducer)
+  const [isFollowed, setIsFollowed] = useState<boolean>()
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
+  useEffect(() => {
+    followed();
+  }, []);
 
   const handleFollowUser = async (userId: any) => {
     if (authUser?.id !== userId) {
@@ -33,8 +31,16 @@ function UserResult({ user }: any) {
         followUser({
           user_id: userId,
         })
-      );
+      ).then(() => {
+        setIsFollowed(!isFollowed)
+      });
     }
+  };
+
+  const followed = async () => {
+    await dispatch(fetchIsFollowed(user?.id)).then((res) => {
+      setIsFollowed(res.value);
+    });
   };
 
   return (
@@ -74,7 +80,7 @@ function UserResult({ user }: any) {
             className='cursor-pointer p-2 px-6 rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold'
             onClick={() => handleFollowUser(user?.id)}
           >
-            Follow
+            {isFollowed ? 'Unfollow' : 'Follow' }
           </p>
         </div>
       }
