@@ -47,6 +47,7 @@ export default function Chat({
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const boxRef = useRef<any>(null);
   const dropdown = useRef<any>(null);
+  const [fullScreenImage, setFullScreenImage] = useState<boolean>(false);
 
   useEffect(() => {
     scrollToBottom();
@@ -308,7 +309,8 @@ export default function Chat({
                       <div className="flex items-center justify-start">
                         <img
                           src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
-                          className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                          className="object-contain md:max-h-[300px] md:max-w-[400px] cursor-pointer rounded-md"
+                          onClick={() => setFullScreenImage(!fullScreenImage)}
                         />
                       </div>
                     )}
@@ -412,9 +414,11 @@ export default function Chat({
                     <div className="flex items-center justify-start">
                       <img
                         src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
-                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] cursor-pointer rounded-md"
+                        onClick={() => setFullScreenImage(!fullScreenImage)}
                       />
                     </div>
+                    
                   )}
                   {message?.gif != null && (
                     <div className="flex items-center justify-start">
@@ -429,17 +433,17 @@ export default function Chat({
             )
           )}
         <div ref={boxRef} />
-      </div>
-      <div className="absolute bottom-0 w-full">
-        {(!isEmpty(receiver) || !isEmpty(room)) && (
-          <Footer
-            receiver={receiver}
-            room={room}
-            messages={messages2}
-            getMessages={getMessages}
-            fetchRoomMessages={fetchRoomMessages}
-          />
-        )}
+        <div className="absolute bottom-0 w-full">
+          {(!isEmpty(receiver) || !isEmpty(room)) && (
+            <Footer
+              receiver={receiver}
+              room={room}
+              messages={messages2}
+              getMessages={getMessages}
+              fetchRoomMessages={fetchRoomMessages}
+            />
+          )}
+        </div>
       </div>
     </div>
   );
