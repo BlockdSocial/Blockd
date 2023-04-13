@@ -243,6 +243,12 @@ function Footer({
             <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-full space-y-1 p-2 border-l-2 border-orange-500">
               <p className="text-sm">@User Name</p>
               <p className="text-sm">Message to reply to</p>
+              <div className="flex items-center justify-start mt-2">
+                <img
+                  src="/images/bg.jpg"
+                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                />
+              </div>
             </div>
             <div className="pr-3">
               <div onClick={() => setReply(false)} className="p-1 rounded-full hover:bg-gray-200  dark:hover:bg-lightgray cursor-pointer">
