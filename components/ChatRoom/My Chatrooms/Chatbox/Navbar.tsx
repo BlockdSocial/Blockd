@@ -121,8 +121,8 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
             }
             className='h-8 w-8 md:w-10 md:h-10 cursor-pointer object-cover rounded-full'
           />
-          <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
-            <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
+          <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center max-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
+            <div className="relative w-full h-fit max-h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
               <div className='sticky top-0 flex items-center justify-start p-2 z-[1] backdrop-blur-md border-b bg-white/30'>
                 <div className='flex items-center justify-bteween p-1'>
                   <div className='flex items-center justify-start'>
