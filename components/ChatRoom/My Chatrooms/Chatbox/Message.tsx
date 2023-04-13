@@ -249,7 +249,7 @@ export default function Message({ receiver, message }: any) {
                 </div>
               </div>
             </div>
-            <div className="flex flex-col border-l-[3px] my-2 pl-2 opacity-90">
+            <div className="flex flex-col border-l-[3px] border-white my-2 p-2 rounded-md opacity-90 bg-gray-200/20">
               <p className="flex items-center justify-start text-sm">
                 @User Name
               </p>
