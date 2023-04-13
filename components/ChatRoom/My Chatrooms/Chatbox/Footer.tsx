@@ -5,6 +5,7 @@ import {
   PhotoIcon,
   PaperAirplaneIcon,
   GifIcon,
+  XMarkIcon,
 } from "@heroicons/react/24/outline";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
@@ -18,6 +19,8 @@ import AutoResizeTextarea from "./AutoResizeTextArea";
 import { toast } from "react-hot-toast";
 
 function Footer({
+  setReply,
+  reply,
   messages,
   receiver,
   getMessages,
@@ -222,97 +225,114 @@ function Footer({
   };
 
   const handleKeyDown = (event: any) => {
-    console.log('code: ', event.keyCode);
+    console.log("code: ", event.keyCode);
     if (event.keyCode == 13 && event.shiftKey) {
       return;
     }
-    if (event.key === 'Enter') {
+    if (event.key === "Enter") {
       // 👇 Get input value
       handleSendMessage(event);
     }
   };
 
   return (
-    <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
-      <div className="flex space-x-1 p-1 w-full">
-        <form onKeyDown={(e) => handleKeyDown(e)} className="w-full">
-          <textarea
-            className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
-            value={input}
-            onChange={handleChange}
-            placeholder="Send a message"
-            rows={1}
-            id="myTextArea"
-          />
-        </form>
-        {/* <input
+    <>
+      {reply && (
+        <div className="relative flex items-center h-auto w-full dark:bg-darkgray bg-gray-50 p-1 z-50">
+          <div className="flex items-center justify-between w-full space-x-5">
+            <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 w-full space-y-1 p-2 border-l-2 border-orange-500">
+              <p className="text-sm">@User Name</p>
+              <p className="text-sm">Message to reply to</p>
+            </div>
+            <div className="pr-3">
+              <div onClick={() => setReply(false)} className="p-1 rounded-full hover:bg-gray-200 cursor-pointer">
+                <XMarkIcon className="w-7 h-7" />
+              </div>
+            </div>
+          </div>
+        </div>
+      )}
+      <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
+        <div className="flex space-x-1 p-1 w-full">
+          <form onKeyDown={(e) => handleKeyDown(e)} className="w-full">
+            <textarea
+              className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
+              value={input}
+              onChange={handleChange}
+              placeholder="Send a message"
+              rows={1}
+              id="myTextArea"
+            />
+          </form>
+          {/* <input
           value={input}
           onChange={(e: any) => setInput(e.target.value)}
           className='flex-1 rounded-lg bg-gray-200 dark:bg-lightgray p-2 outline-none dark:text-white dark:placeholder:text-white placeholder:text-black placeholder:font-semibold'
           type="text"
           placeholder='Send a Message ...'
         /> */}
-        <div className="flex items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
-          <PaperAirplaneIcon
-            onClick={() => handleSendMessage()}
-            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-          />
-          <PhotoIcon
-            onClick={() => onAddPictureClick()}
-            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-          />
-          <GifIcon
-            ref={gif}
-            onClick={() => setShowGifs((b) => !b)}
-            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-          />
-          <FaceSmileIcon
-            ref={emoji}
-            onClick={() => handleClick()}
-            className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+          <div className="flex items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
+            <PaperAirplaneIcon
+              onClick={() => handleSendMessage()}
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+            />
+            <PhotoIcon
+              onClick={() => onAddPictureClick()}
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+            />
+            <GifIcon
+              ref={gif}
+              onClick={() => setShowGifs((b) => !b)}
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+            />
+            <FaceSmileIcon
+              ref={emoji}
+              onClick={() => handleClick()}
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+            />
+          </div>
+          <input
+            type="file"
+            id="file"
+            ref={inputAddPicture}
+            className="hidden"
+            accept="image/*"
+            onChange={handleUploadPicture}
           />
         </div>
-        <input
-          type="file"
-          id="file"
-          ref={inputAddPicture}
-          className="hidden"
-          accept="image/*"
-          onChange={handleUploadPicture}
-        />
+        <div className="relative">
+          {showGifs && (
+            <div className="absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+              <ReactGiphySearchbox
+                apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                onSelect={(item: any, event: any) => addGif(item, event)}
+                mansonryConfig={[
+                  { columns: 2, imageWidth: 140, gutter: 10 },
+                  { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
+                  { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
+                ]}
+                wrapperClassName="p-4"
+              />
+            </div>
+          )}
+          {showEmojis && (
+            <div className="absolute right-2 bottom-6">
+              <Picker
+                set="apple"
+                onEmojiSelect={addEmoji}
+                theme="dark"
+                icons="outline"
+                previewPosition="none"
+                size="1em"
+                perLine="6"
+                maxFrequentRows="2"
+                searchPosition="none"
+              />
+            </div>
+          )}
+        </div>
       </div>
-      <div className="relative">
-        {showGifs && (
-          <div className="absolute right-2 bottom-6 z-0 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
-            <ReactGiphySearchbox
-              apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-              onSelect={(item: any, event: any) => addGif(item, event)}
-              mansonryConfig={[
-                { columns: 2, imageWidth: 140, gutter: 10 },
-                { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
-                { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
-              ]}
-              wrapperClassName="p-4"
-            />
-          </div>
-        )}
-        {showEmojis && (
-          <div className="absolute right-2 bottom-6">
-            <Picker
-              set="apple"
-              onEmojiSelect={addEmoji}
-              theme="dark"
-              icons="outline"
-              previewPosition="none"
-              size="1em"
-              perLine="6"
-              maxFrequentRows="2"
-              searchPosition="none"
-            />
-          </div>
-        )}
-      </div>
-    </div>
+    </>
   );
 }
 

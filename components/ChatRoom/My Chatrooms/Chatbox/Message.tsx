@@ -18,7 +18,7 @@ import Linkify from "react-linkify";
 import Link from "next/link";
 import { encodeQuery } from "../../../../utils";
 
-export default function Message({ receiver, message }: any) {
+export default function Message({ setReply,receiver, message }: any) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
 
   let [showReaction, setShowReaction] = useState<boolean>(false);
@@ -218,7 +218,7 @@ export default function Message({ receiver, message }: any) {
               </div>
               <div className="relative z-0 flex items-center justify-end space-x-2 pl-2">
                 <p className="text-sm md:text-base">23-04-11 14:14</p>
-                <div ref={dropdown} className="flex relative rounded-md">
+                <div ref={dropdown} className="flex relative rounded-md z-10">
                   {isDropdownVisible && (
                     <ul
                       className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl`}
@@ -235,7 +235,7 @@ export default function Message({ receiver, message }: any) {
                         <EyeDropperIcon className="w-5 h-5 mr-3" />
                         Pin
                       </div>
-                      <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
+                      <div onClick={() => setReply(true)} className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
                         <ArrowUturnLeftIcon className="w-5 h-5 mr-3" />
                         Reply
                       </div>
@@ -245,11 +245,11 @@ export default function Message({ receiver, message }: any) {
                       </div>
                     </ul>
                   )}
-                  {/* <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' /> */}
+                  <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
                 </div>
               </div>
             </div>
-            <div className="flex flex-col border-l-[3px] border-white my-2 p-2 rounded-md opacity-90 bg-gray-200/20">
+            <div className="flex flex-col border-l-[3px] border-white my-2 p-2 rounded-md bg-gray-200/20">
               <p className="flex items-center justify-start text-sm">
                 @User Name
               </p>
