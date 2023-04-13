@@ -240,12 +240,12 @@ function Footer({
       {reply && (
         <div className="relative flex items-center h-auto w-full dark:bg-darkgray bg-gray-50 p-1 z-50">
           <div className="flex items-center justify-between w-full space-x-5">
-            <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 w-full space-y-1 p-2 border-l-2 border-orange-500">
+            <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-full space-y-1 p-2 border-l-2 border-orange-500">
               <p className="text-sm">@User Name</p>
               <p className="text-sm">Message to reply to</p>
             </div>
             <div className="pr-3">
-              <div onClick={() => setReply(false)} className="p-1 rounded-full hover:bg-gray-200 cursor-pointer">
+              <div onClick={() => setReply(false)} className="p-1 rounded-full hover:bg-gray-200  dark:hover:bg-lightgray cursor-pointer">
                 <XMarkIcon className="w-7 h-7" />
               </div>
             </div>
