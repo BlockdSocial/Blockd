@@ -71,7 +71,7 @@ function Sidebar() {
               <p className="text-xs text-white text-justify">
                 The BLOCK’d feed consists of posts created by other users of the
                 platform. Members are able to interact with posts via upvotes,
-                downvotes, comments, and shares. Posts can be edited after they
+                downvotes, comments and shares. Posts can be edited after they
                 are published.
               </p>
               <div className="flex items-end justify-end w-full space-x-2">
@@ -126,9 +126,9 @@ function Sidebar() {
           >
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-xs text-white text-justify">
-                A user’s profile is fully customizable — the banner, profile
-                photo, short biography, and the frame for the profile photo can
-                all be personalized to accurately represent the user.
+                A user’s profile is fully customizable — the banner, a short
+                bio, the profile picture and the frame for the profile picture
+                can all be personalized to accurately represent the user.
               </p>
               <div className="flex items-end justify-end w-full space-x-2">
                 <p
@@ -187,7 +187,7 @@ function Sidebar() {
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-xs text-white text-justify">
                 It is crucial to collect feedback from the users of a social
-                media platform in order to provide better user experience. Our
+                media platform in order to provide a better user experience. Our
                 Suggestions tab allows members of BLOCK’d to anonymously post
                 suggestions to improve the platform.
               </p>
@@ -262,8 +262,8 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      The BLOCK’d chatrooms are unlike any other social media
-                      chatroom on the web. In addition to creating a public
+                      The BLOCKd ChatRoom is unlike any other social media chat
+                      room on the web. In addition to creating a public
                       chatroom, users can also create private chatrooms with set
                       requirements enforced by the blockchain to grant access to
                       users.
@@ -310,9 +310,9 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can consult the create chatrooms page to create either
-                      private or public chatrooms, you will also be able to set
-                      requirements and add plenty of other details
+                      You can visit the create chatrooms page to create either
+                      private or public chatrooms. You will also be able to set
+                      requirements and add plenty of other details.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -356,7 +356,8 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      View all existing ChatRooms on the platform!
+                      You can visit the all chatrooms page and search for your
+                      desired group.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -420,7 +421,7 @@ function Sidebar() {
                 Interacting via a social media platform just became a bit more
                 exciting. Customize your account with collectibles obtained
                 through engagement and milestone-based achievements. Users can
-                personalize their experience with custom frames, badges, and
+                personalize their experience with custom frames, badges and
                 titles.
               </p>
               <div className="flex items-end justify-end w-full space-x-2">
@@ -478,7 +479,7 @@ function Sidebar() {
               </div>
               <div className="flex w-full items-start justify-start">
                 <span className="text-orange-500 text-xl">•</span>
-                Reaching up to Level 20 by gaining XP.
+                Reaching up to Level 10 by gaining XP.
               </div>
               <div className="flex w-full items-start justify-start">
                 <span className="text-orange-500 text-xl">•</span>
