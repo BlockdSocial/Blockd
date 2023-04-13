@@ -159,7 +159,7 @@ function ProfilePage() {
 
       {
         user?.id === authUser?.id &&
-        <div className="border-b">
+        <div className="border-b dark:border-lightgray">
           <div className="flex items-center justify-start my-5 px-4 space-x-1">
             <UserPlusIcon className="w-5 h-5 stroke-[2px]" />
             <p className="text-base font-semibold">Referral Link : </p>
