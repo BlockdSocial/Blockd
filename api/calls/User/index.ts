@@ -64,6 +64,10 @@ async function checkEmail(fields: any) {
   return apiCall('checkEmail', 'POST', `email/taken/check`, fields)
 };
 
+async function searchTagUsers(fields: any) {
+  return apiCall('searchTagUsers', 'POST', 'tag/users', fields);
+}
+
 export default {
   updateProfilePicture,
   updateProfileBanner,
@@ -79,5 +83,6 @@ export default {
   resetBell,
   resetMessages,
   searchFilteredUsers,
-  checkEmail
+  checkEmail,
+  searchTagUsers
 };

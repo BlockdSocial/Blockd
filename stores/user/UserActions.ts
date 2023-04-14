@@ -43,7 +43,10 @@ import {
   SEARCH_FILTERED_USERS_FAILURE,
   IS_CHECKING_EMAIL,
   CHECK_EMAIL_SUCCESS,
-  CHECK_EMAIL_FAILURE
+  CHECK_EMAIL_FAILURE,
+  IS_SEARCHING_TAG_USERS,
+  SEARCH_TAG_USERS_SUCCESS,
+  SEARCH_TAG_USERS_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -330,4 +333,24 @@ export function checkEmail(fields: any) {
       });
     }
   }
-} 
+}
+
+export function searchTagUsers(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SEARCHING_TAG_USERS });
+    try {
+      const result = await userApi.searchTagUsers(fields);
+      dispatch({
+        type: SEARCH_TAG_USERS_SUCCESS,
+        tagUsers: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Search tag users error: ', error);
+      dispatch({
+        type: SEARCH_TAG_USERS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}

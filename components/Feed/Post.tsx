@@ -34,7 +34,7 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast, { Toaster } from "react-hot-toast";
-import { followUser, searchFilteredUsers } from "../../stores/user/UserActions";
+import { followUser, searchFilteredUsers, searchTagUsers } from "../../stores/user/UserActions";
 import { useCopyToClipboard } from "usehooks-ts";
 import { encodeQuery, getDiffTime } from "../../utils";
 import { MentionsInput, Mention } from "react-mentions";
@@ -95,6 +95,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
 
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { tagUsers } = useAppSelector((state) => state.userReducer);
   const { error } = useAppSelector((state) => state.postReducer);
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [input, setInput] = useState<string>("");
@@ -252,6 +253,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   const inputPicture = useRef<HTMLInputElement | null>(null);
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [batata, setBatata] = useState<any>([]);
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
 
   const onUploadPictureClick = () => {
@@ -524,6 +526,13 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
       </a>
     );
   };
+
+  const handleSearch = async (e: any) => {
+       dispatch(searchTagUsers({
+      search: e
+    })).then((res: any) => {  console.log('res: ', res);  setBatata(res);})
+  }
+  //
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
@@ -955,19 +964,27 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           </div>
           {commentBoxVisible && (
             <form onSubmit={handleAddComment} className="mt-3 flex space-x-3">
-              <input
+              {/* <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
                 className="flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none"
                 type="text"
                 placeholder="Write a comment..."
-              />
-              {/* <MentionsInput value={input} onChange={(e) => setInput(e.target.value)}>
+              /> */}
+              <MentionsInput
+                value={input}
+                onChange={(e) => {setInput(e.target.value) ;console.log('ss',input)}}
+                className="w-100 flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none"
+              >
                 <Mention
                   trigger="@"
-                  data={data}
+                  data={batata}
                 />
-              </MentionsInput> */}
+                <Mention
+                  trigger="@"
+                  data={(e) => { handleSearch(e)}}
+                />
+              </MentionsInput>
               <button
                 disabled={!input && !image && !gifUrl}
                 type="submit"
@@ -986,16 +1003,16 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
                   <p
                     className={`text-xs ${info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
                       } `}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
                     className={`h-5 w-5 cursor-pointer ${info?.likes
-                        ? "text-green-600"
-                        : "group-hover:text-green-600"
+                      ? "text-green-600"
+                      : "group-hover:text-green-600"
                       } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikePost()}
                   />
@@ -1003,15 +1020,15 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
                   <ArrowDownIcon
                     className={`h-5 w-5 cursor-pointer ${info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
                       } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikePost()}
                   />
                   <p
                     className={`text-xs ${info?.dislikes
-                        ? "text-red-600"
-                        : "group-hover:text-red-600"
+                      ? "text-red-600"
+                      : "group-hover:text-red-600"
                       } `}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
@@ -1393,8 +1410,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 />
                 <div
                   className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
-                      ? mainPost?.otherUser?.frameName
-                      : "bg-blue-300"
+                    ? mainPost?.otherUser?.frameName
+                    : "bg-blue-300"
                     } rounded-lg`}
                 >
                   <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
