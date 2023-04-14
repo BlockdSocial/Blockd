@@ -101,7 +101,7 @@ function Members({ members, room }: any) {
   }
 
   return (
-    <div className='flex flex-col bg-white border-b'>
+    <div className='flex flex-col bg-white h-[90vh]'>
       <div className='flex items-center justify-between text-black'>
         <div className='flex items-center justify-start space-x-2 p-2'>
           <UsersIcon className='w-5 h-5' />

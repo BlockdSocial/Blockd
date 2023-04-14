@@ -40,7 +40,7 @@ function Result({ result }: any) {
           src={!isEmpty(result?.profilePic)
             ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
             : "/images/pfp/pfp1.jpg"}
-          className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd bg-cover"
+          className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd object-cover"
           width={2000}
           height={2000} alt={""}        />
         <p className="font-semibold text-sm">@{result?.name}</p>

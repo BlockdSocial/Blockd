@@ -483,7 +483,7 @@ console.log({error})
                   </div>
 
                   {error && (
-                    <div className="mt-4 w-full h-20 bg-red-500 rounded-md p-2 break-normal">
+                    <div className="mt-4 w-full h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
                       An error occurred preparing the transaction:<br></br>
                       {error.message}
                     </div>

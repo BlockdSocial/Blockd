@@ -58,7 +58,7 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
   }
 
   return (
-    <div className="flex items-center justify-between relative h-[7vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
+    <div className="flex items-center justify-between relative h-14 w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
       {!isEmpty(room) &&
         <div className='flex items-center space-x-2'>
           <img
@@ -68,7 +68,7 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
                 ? `${config.url.PUBLIC_URL}/${room?.room?.imgName}`
                 : "/images/placeholder.png"
             }
-            className='h-8 w-8 md:w-10 md:h-10 cursor-pointer rounded-full object-cover'
+            className='w-10 h-10 cursor-pointer rounded-full object-cover'
           />
           <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
             <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
@@ -121,8 +121,8 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
             }
             className='h-8 w-8 md:w-10 md:h-10 cursor-pointer object-cover rounded-full'
           />
-          <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
-            <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
+          <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center max-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
+            <div className="relative w-full h-fit max-h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
               <div className='sticky top-0 flex items-center justify-start p-2 z-[1] backdrop-blur-md border-b bg-white/30'>
                 <div className='flex items-center justify-bteween p-1'>
                   <div className='flex items-center justify-start'>
@@ -177,8 +177,8 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
         </div>
       </div>
       {showFriends && (
-        <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-[8vh] h-[92vh] right-0 w-80 transition-all duration-300 ease-linear`}>
-          <div className='flex items-center justify-start h-[7vh] z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
+        <div className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-[92vh] right-0 w-80 transition-all duration-300 ease-linear`}>
+          <div className='flex items-center justify-start h-14 z-[1] sticky top-0 backdrop-blur-md border-b dark:border-lightgray bg-white/30 dark:bg-darkgray/30'>
             <div onClick={() => setShowFriends(!showFriends)} className='flex w-8 h-8 items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-lightgray cursor-pointer'>
               <ChevronRightIcon className='w-5 h-5 dark:text-white text-black' />
             </div>

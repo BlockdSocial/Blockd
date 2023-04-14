@@ -45,9 +45,11 @@ export default function Chat({
   let [showReaction, setShowReaction] = useState<boolean>(false);
   let [reaction, setReaction] = useState<string>("");
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
+  const [reply, setReply] = useState<boolean>(false);
   const boxRef = useRef<any>(null);
   const boxRef2 = useRef<any>(null);
   const dropdown = useRef<any>(null);
+  const [fullScreenImage, setFullScreenImage] = useState<boolean>(false);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -116,7 +118,7 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      console.log('message', message)
+      console.log("message", message);
       updateMessages(message?.data?.type);
     }
   );
@@ -126,7 +128,7 @@ export default function Chat({
   }, [messages, messages2]);
 
   const getMessages = async () => {
-    console.log('sdd');
+    console.log("sdd");
     if (!isEmpty(receiver)) {
       await dispatch(
         fetchMessages({
@@ -143,7 +145,7 @@ export default function Chat({
   };
 
   const fetchRoomMessages = async () => {
-    console.log('sddfetchRoomMessages')
+    console.log("sddfetchRoomMessages");
     if (!isEmpty(room)) {
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
@@ -159,7 +161,7 @@ export default function Chat({
   };
 
   const updateRoomMessages = async () => {
-    console.log('sddupdateRoomMessages')
+    console.log("sddupdateRoomMessages");
     await dispatch(
       fetchChatroomMessages(room?.roomId, {
         start: 0,
@@ -171,7 +173,7 @@ export default function Chat({
   };
 
   const updateMessages = async (type: any) => {
-    if ('room' !== type) {
+    if ("room" !== type) {
       await dispatch(
         fetchMessages({
           receiver_id: ref.current?.id,
@@ -213,21 +215,20 @@ export default function Chat({
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className={`relative ${isEmpty(chats) && isEmpty(chatrooms)
-        ? "overflow-hidden"
-        : "scrollbar-hide overflow-scroll"
-        }  h-[92vh] dark:bg-darkgray z-0`}
+      className={`flex flex-col relative ${
+        isEmpty(chats) && isEmpty(chatrooms)
+          ? "overflow-hidden"
+          : "scrollbar-hide overflow-scroll"
+      }  h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
-      <div className="sticky top-0 z-50 bg-white">
-        <Navbar
-          receiver={receiver}
-          room={room}
-          chats={chats}
-          setReceiver={setReceiver}
-          setRoom={setRoom}
-        />
-      </div>
+      <Navbar
+        receiver={receiver}
+        room={room}
+        chats={chats}
+        setReceiver={setReceiver}
+        setRoom={setRoom}
+      />
 
       {isEmpty(chats) && isEmpty(chatrooms) && (
         <div className="absolute top-0 left-0 bottom-0 right-0 flex flex-col items-center justify-center">
@@ -240,16 +241,23 @@ export default function Chat({
           </p>
         </div>
       )}
-      <div ref={boxRef2} className="py-2 h-[78vh] scrollbar-hide overflow-scroll">
+      <div ref={boxRef2} className="p-2 md:p-0 flex-1 scrollbar-hide overflow-scroll">
         {!isEmpty(messages2) &&
-          messages2.map((message: any) =>
-            <Message receiver={receiver} message={message} />
-          )}
+          messages2.map((message: any) => (
+            <Message
+              setReply={setReply}
+              receiver={receiver}
+              message={message}
+            />
+          ))}
         <div ref={boxRef} />
       </div>
-      <div className="absolute bottom-0 w-full">
+
+      <div className="w-full">
         {(!isEmpty(receiver) || !isEmpty(room)) && (
           <Footer
+            setReply={setReply}
+            reply={reply}
             receiver={receiver}
             room={room}
             messages={messages2}

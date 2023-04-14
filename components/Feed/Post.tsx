@@ -718,10 +718,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 )}
               </div>
             </div>
-            <div className="flex flex-col items-start justify-center space-y-2 w-full">
+            <div className="flex flex-col items-start justify-center space-y-2 w-full mt-6">
               <div className="w-full flex flex-col items-start justify-start">
                 {mainPost?.content != null && (
-                  <p className="pt-5 text-sm">
+                  <p className="text-sm">
                     <Linkify componentDecorator={componentDecorator}>
                       {mainPost?.content}
                     </Linkify>
@@ -731,7 +731,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   <img
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                     alt="Post"
-                    className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                    className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                   />
                 ) : null}
                 {mainPost?.gif != null ? (
@@ -744,7 +744,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               </div>
             </div>
             {!isEmpty(sharedPost) && (
-              <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-2 px-5 mb-2 mt-4">
+              <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-2 px-5 mb-2 mt-2">
                 <div className="flex items-center justify-between">
                   <div className="flex items-start space-x-2">
                     <div className="flex">
@@ -860,10 +860,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       "post"
                     )}`}
                     onClick={() => addView()}
-                    className="w-full flex flex-col items-start justify-start"
+                    className="w-full flex flex-col items-start justify-start mt-6"
                   >
                     {sharedPost?.content != null && (
-                      <p className="pt-5 text-sm">
+                      <p className="text-sm">
                         <Linkify componentDecorator={componentDecorator}>
                           {sharedPost?.content}
                         </Linkify>
@@ -873,7 +873,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       <img
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                         alt="Post"
-                        className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                        className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}
                     {sharedPost?.gif != null ? (

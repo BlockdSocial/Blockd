@@ -319,15 +319,15 @@ const Navbar = () => {
   };
 
   return (
-    <div className="w-full bg-darkblue dark:bg-lightgray h-[8vh]">
+    <div className="w-full bg-darkblue dark:bg-lightgray h-14">
       <div
         className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${router.pathname === "/dashboard/myChatrooms" ||
           router.pathname === "/dashboard/myChatrooms2"
           ? "lg:max-w-7xl "
           : "xl:max-w-[80%]"
-          } h-[8vh] px-2`}
+          } h-14 px-2`}
       >
-        <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-[8vh]">
+        <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
               ref={sidebar}
@@ -449,8 +449,8 @@ const Navbar = () => {
             )}
           </div>
         </div>
-        <div className="hidden md:inline md:col-span-5 h-[8vh]">
-          <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-[8vh]">
+        <div className="hidden md:inline md:col-span-5 h-14">
+          <ul className="flex items-center justify-end space-x-1 z-[2] right-0 w-full pl-0 transition-all ease-in h-14">
             {/* Dark/Light Mode */}
             <li className="relative flex-col items-center text-l mr-2">
               {renderThemeChanger()}
@@ -522,7 +522,7 @@ const Navbar = () => {
             <NotifDropDown />
           </div>*/}
             {/* Sign Up */}
-            <li className="h-[8vh] rounded-full flex items-center justify-center space-x-4">
+            <li className="h-14 rounded-full flex items-center justify-center space-x-4">
               <p
                 className="text-white cursor-pointer dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
                 onClick={() => handleLogoutClick()}
@@ -540,7 +540,7 @@ const Navbar = () => {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer bg-cover"
+                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer object-cover"
                   width={2000}
                   height={2000}
                 />
@@ -550,7 +550,7 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-[8vh] h-[92vh] scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-[92vh] scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
           >
             <div className="relative w-full">
               <Link href="/" className="active">
@@ -585,7 +585,7 @@ const Navbar = () => {
                   <p className="text-xs text-white text-justify">
                     The BLOCK’d feed consists of posts created by other users of
                     the platform. Members are able to interact with posts via
-                    upvotes, downvotes, comments, and shares. Posts can be
+                    upvotes, downvotes, comments and shares. Posts can be
                     edited after they are published.
                   </p>
                   <div className="flex items-end justify-end w-full space-x-2">
@@ -642,8 +642,8 @@ const Navbar = () => {
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
-                    A user’s profile is fully customizable — the banner, profile
-                    photo, short biography, and the frame for the profile photo
+                    A user’s profile is fully customizable — the banner, a short bio, 
+                    the profile picture and the frame for the profile picture
                     can all be personalized to accurately represent the user.
                   </p>
                   <div className="flex items-end justify-end w-full space-x-2">
@@ -701,7 +701,7 @@ const Navbar = () => {
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
                     It is crucial to collect feedback from the users of a social
-                    media platform in order to provide better user experience.
+                    media platform in order to provide a better user experience.
                     Our Suggestions tab allows members of BLOCK’d to anonymously
                     post suggestions to improve the platform.
                   </p>
@@ -773,8 +773,8 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      The BLOCK’d chatrooms are unlike any other social media
-                      chatroom on the web. In addition to creating a public
+                      The BLOCKd ChatRoom is unlike any other social media chat room 
+                      on the web. In addition to creating a public
                       chatroom, users can also create private chatrooms with set
                       requirements enforced by the blockchain to grant access to
                       users.
@@ -819,9 +819,9 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can consult the create chatrooms page to create either
-                      private or public chatrooms, you will also be able to set
-                      requirements and add plenty of details
+                      You can visit the create chatrooms page to create either
+                      private or public chatrooms. You will also be able to set
+                      requirements and add plenty of details.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -863,8 +863,8 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can consult the all chatrooms page and search for your
-                      desired group
+                      You can visit the all chatrooms page and search for your
+                      desired group.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -927,7 +927,7 @@ const Navbar = () => {
                     more exciting. Customize your account with collectibles
                     obtained through engagement and milestone-based
                     achievements. Users can personalize their experience with
-                    custom frames, badges, and titles.
+                    custom frames, badges and titles.
                   </p>
                   <div className="flex items-end justify-end w-full space-x-2">
                     <p
@@ -987,7 +987,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
-                  Reaching up to Level 20 by gaining XP.
+                  Reaching up to Level 10 by gaining XP.
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
