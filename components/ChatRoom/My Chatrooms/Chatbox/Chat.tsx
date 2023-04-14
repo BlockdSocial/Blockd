@@ -215,22 +215,20 @@ export default function Chat({
   return (
     <div
       onScrollCapture={(e: any) => handleScroll(e)}
-      className={`relative ${
+      className={`flex flex-col relative ${
         isEmpty(chats) && isEmpty(chatrooms)
           ? "overflow-hidden"
           : "scrollbar-hide overflow-scroll"
       }  h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
-      <div className="sticky top-0 z-50 bg-white">
-        <Navbar
-          receiver={receiver}
-          room={room}
-          chats={chats}
-          setReceiver={setReceiver}
-          setRoom={setRoom}
-        />
-      </div>
+      <Navbar
+        receiver={receiver}
+        room={room}
+        chats={chats}
+        setReceiver={setReceiver}
+        setRoom={setRoom}
+      />
 
       {isEmpty(chats) && isEmpty(chatrooms) && (
         <div className="absolute top-0 left-0 bottom-0 right-0 flex flex-col items-center justify-center">
@@ -243,10 +241,7 @@ export default function Chat({
           </p>
         </div>
       )}
-      <div
-        ref={boxRef2}
-        className="py-2 h-[78vh] scrollbar-hide overflow-scroll"
-      >
+      <div ref={boxRef2} className="p-2 md:p-0 flex-1 scrollbar-hide overflow-scroll">
         {!isEmpty(messages2) &&
           messages2.map((message: any) => (
             <Message
@@ -256,19 +251,20 @@ export default function Chat({
             />
           ))}
         <div ref={boxRef} />
-        <div className="absolute bottom-0 w-full">
-          {(!isEmpty(receiver) || !isEmpty(room)) && (
-            <Footer
-              setReply={setReply}
-              reply={reply}
-              receiver={receiver}
-              room={room}
-              messages={messages2}
-              getMessages={getMessages}
-              fetchRoomMessages={fetchRoomMessages}
-            />
-          )}
-        </div>
+      </div>
+
+      <div className="w-full">
+        {(!isEmpty(receiver) || !isEmpty(room)) && (
+          <Footer
+            setReply={setReply}
+            reply={reply}
+            receiver={receiver}
+            room={room}
+            messages={messages2}
+            getMessages={getMessages}
+            fetchRoomMessages={fetchRoomMessages}
+          />
+        )}
       </div>
     </div>
   );

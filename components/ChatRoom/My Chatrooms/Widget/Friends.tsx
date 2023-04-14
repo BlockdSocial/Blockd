@@ -8,7 +8,7 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
 
   console.log('chats: ', chats);
   return (
-    <div className='max-h-screen scrollbar-hide overflow-scroll dark:bg-darkgray'>
+    <div className='flex-1 scrollbar-hide overflow-scroll dark:bg-darkgray'>
       {
         !isEmpty(chats) &&
         chats.map((chat: any, index: any) => (

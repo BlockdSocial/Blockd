@@ -58,7 +58,7 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
   }
 
   return (
-    <div className="flex items-center justify-between relative h-[7vh] w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
+    <div className="flex items-center justify-between relative h-14 w-full dark:bg-darkgray border-b dark:border-lightgray p-1">
       {!isEmpty(room) &&
         <div className='flex items-center space-x-2'>
           <img
@@ -68,7 +68,7 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
                 ? `${config.url.PUBLIC_URL}/${room?.room?.imgName}`
                 : "/images/placeholder.png"
             }
-            className='h-8 w-8 md:w-10 md:h-10 cursor-pointer rounded-full object-cover'
+            className='w-10 h-10 cursor-pointer rounded-full object-cover'
           />
           <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
             <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">

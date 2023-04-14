@@ -81,7 +81,7 @@ export default function Message({ setReply,receiver, message }: any) {
       >
         <div className="grid grid-cols-10 md:grid-cols-12 mb-2">
           <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mx-2 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
-            <div className="flex space-x-20 relative z-0 items-center justify-between w-full text-xm font-semibold">
+            <div className="flex space-x-6 relative z-0 items-center justify-between w-full text-xm font-semibold">
               <div>
                 <Link
                   href="/dashboard/profile"
@@ -90,10 +90,8 @@ export default function Message({ setReply,receiver, message }: any) {
                   @{authUser?.name}
                 </Link>
               </div>
-              <div className="relative z-0 flex items-center justify-end space-x-2 pl-2">
-                <p className="text-sm md:text-base">
+              <div className="relative z-0 flex items-center justify-end space-x-2 pl-2 text-sm md:text-base">
                   {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
-                </p>
                 <div ref={dropdown} className="flex relative rounded-md">
                   {isDropdownVisible && (
                     <ul
@@ -207,7 +205,7 @@ export default function Message({ setReply,receiver, message }: any) {
       >
         <div className="grid grid-cols-10 md:grid-cols-12 mb-2">
           <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mx-2 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
-            <div className="flex space-x-20 relative z-0 items-center justify-between w-full text-xm font-semibold">
+            <div className="flex space-x-6 relative z-0 items-center justify-between w-full text-xm font-semibold">
               <div>
                 <Link
                   href="/dashboard/profile"
@@ -349,7 +347,7 @@ export default function Message({ setReply,receiver, message }: any) {
         />
       </Link>
       <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 mx-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
-        <div className="flex items-center justify-between w-full text-xm font-semibold space-x-20">
+        <div className="flex items-center justify-between w-full text-xm font-semibold space-x-6">
           <Link
             href={{
               pathname: "/dashboard/profile",
