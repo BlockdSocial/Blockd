@@ -114,21 +114,6 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  const data = [
-    {
-      id: "isaac",
-      display: "Isaac Newton",
-    },
-    {
-      id: "sam",
-      display: "Sam Victor",
-    },
-    {
-      id: "emma",
-      display: "emmanuel@nobody.com",
-    },
-  ];
-
   useEffect(() => {
     fetchInfo();
     fetchLiked();
@@ -253,7 +238,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   const inputPicture = useRef<HTMLInputElement | null>(null);
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
-  const [batata, setBatata] = useState<any>([]);
+  const [data, setData] = useState<any>([]);
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
 
   const onUploadPictureClick = () => {
@@ -530,9 +515,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   const handleSearch = async (e: any) => {
        dispatch(searchTagUsers({
       search: e
-    })).then((res: any) => {  console.log('res: ', res);  setBatata(res);})
+    })).then((res: any) => setData(res))
   }
-  //
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
@@ -973,12 +957,13 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               /> */}
               <MentionsInput
                 value={input}
-                onChange={(e) => {setInput(e.target.value) ;console.log('ss',input)}}
+                onChange={(e) => setInput(e.target.value)}
                 className="w-100 flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none"
+                placeholder="Write a comment..."
               >
                 <Mention
                   trigger="@"
-                  data={batata}
+                  data={data}
                 />
                 <Mention
                   trigger="@"

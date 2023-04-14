@@ -16,6 +16,8 @@ import toast from "react-hot-toast";
 import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
+import { MentionsInput, Mention } from "react-mentions";
+import { searchTagUsers } from "../../stores/user/UserActions";
 
 interface Props {
   refetchFiltered: () => void;
@@ -30,6 +32,7 @@ function TweetBox({ refetchFiltered }: Props) {
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+  const [data, setData] = useState<any>([]);
   const dispatch = useAppDispatch();
 
   //************************** EMOJI Handeling **************************//
@@ -215,6 +218,12 @@ function TweetBox({ refetchFiltered }: Props) {
     }
   };
 
+  const handleSearch = async (e: any) => {
+    dispatch(searchTagUsers({
+      search: e
+    })).then((res: any) => setData(res))
+  }
+
   return (
     <div className="flex space-x-2 p-4 dark:bg-lightgray border-y dark:border-lightgray">
       <Link
@@ -270,7 +279,7 @@ function TweetBox({ refetchFiltered }: Props) {
       </Link>
       <div className="flex flex-1 items-center pl-2">
         <form className="flex flex-col flex-1">
-          <textarea
+          {/* <textarea
             id="message"
             maxLength={1000}
             value={input}
@@ -278,7 +287,22 @@ function TweetBox({ refetchFiltered }: Props) {
             data-rows="4"
             className="pt-6 h-24 w-full text-black dark:text-white outline-none text-xs md:text-base bg-transparent"
             placeholder="What's the word on the block?"
-          ></textarea>
+          ></textarea> */}
+          <MentionsInput
+            value={input}
+            onChange={(e) => setInput(e.target.value)}
+            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-xs md:text-base bg-transparent"
+            placeholder="What's the word on the block?"
+          >
+            <Mention
+              trigger="@"
+              data={data}
+            />
+            <Mention
+              trigger="@"
+              data={(e) => { handleSearch(e) }}
+            />
+          </MentionsInput>
           <hr className="mb-4 dark:border-darkgray dark:border-2"></hr>
           {gifBoxIsOpen && (
             <div className="relative w-full">

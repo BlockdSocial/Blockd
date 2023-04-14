@@ -13,9 +13,6 @@ import {
   FireIcon,
   ChatBubbleLeftIcon,
   ChatBubbleLeftRightIcon,
-  ChevronDownIcon,
-  ChevronRightIcon,
-  LockClosedIcon,
   ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 
@@ -168,6 +165,26 @@ const Navbar = () => {
         }
         return "disliked your post!";
         break;
+      case "tag":
+        if (
+          null != notification?.commentId ||
+          undefined != notification?.commentId
+        ) {
+          return "mentioned you in a comment!";
+        }
+        if (
+          null != notification?.replyId ||
+          undefined != notification?.replyId
+        ) {
+          return "mentioned you in a reply!";
+        }
+        if (
+          null != notification?.postId ||
+          undefined != notification?.postId
+        ) {
+          return "mentioned you in a post!";
+        }
+        break;
       case "comment":
         return "commented on your post!";
         break;
@@ -188,8 +205,10 @@ const Navbar = () => {
   };
 
   const checkUserNotification = async (data: Data) => {
+    console.log('data: ', data);
     await dispatch(fetchUserNotification(data?.notification)).then(
       async (result: any) => {
+        console.log('result: ', result);
         setNotificationInfo(
           `${result?.otherUser?.name} ${renderNotificationText(result)}`
         );
@@ -642,7 +661,7 @@ const Navbar = () => {
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
-                    A user’s profile is fully customizable — the banner, a short bio, 
+                    A user’s profile is fully customizable — the banner, a short bio,
                     the profile picture and the frame for the profile picture
                     can all be personalized to accurately represent the user.
                   </p>
@@ -773,7 +792,7 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      The BLOCKd ChatRoom is unlike any other social media chat room 
+                      The BLOCKd ChatRoom is unlike any other social media chat room
                       on the web. In addition to creating a public
                       chatroom, users can also create private chatrooms with set
                       requirements enforced by the blockchain to grant access to
