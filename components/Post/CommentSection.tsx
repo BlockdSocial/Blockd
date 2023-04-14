@@ -481,7 +481,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   };
 
   return (
-    <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4">
+    <div className="relative border-b dark:border-lightgray flex flex-col hover:bg-gray-100 dark:hover:bg-lightgray p-4 group">
       <Link
         href={{
           pathname: "reply" === type ? "#" : "/dashboard/post/comment",
@@ -498,7 +498,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         className="flex flex-col space-y-1 w-full"
       >
         <div className="flex justify-between w-full">
-          <div className="flex space-x-[4px]">
+          <div className="flex space-x-[6px]">
             <Link
               href={{
                 pathname: "/dashboard/profile",
@@ -530,7 +530,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                         : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
-                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] z-0 rounded-sm"
+                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto object-cover w-[50px] h-[50px] z-0 rounded-sm"
                     width={2000}
                     height={2000}
                   />
@@ -566,13 +566,13 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                   "profile"
                 )}`}
               >
-                <p className="mr-1 text-xs md:text-base font-semibold">
+                <p className="mr-1 text-xs md:text-sm font-semibold">
                   @{comment?.otherUser?.name}
                 </p>
               </Link>
               <TimeAgo
                 date={comment?.createdAt}
-                className="text-xs md:text-sm text-gray-500"
+                className="text-xs text-gray-500"
               />
             </div>
           </div>
@@ -584,7 +584,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                     setEditPopUp(!editPopUp);
                     e.preventDefault();
                   }}
-                  className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+                  className="flex items-center justify-center bg-gray-100 dark:bg-lightgray group-hover:bg-white dark:group-hover:bg-darkgray h-fit rounded-md p-1"
                 >
                   <PencilSquareIcon className="w-5 h-5 cursor-pointer" />
                 </div>
@@ -593,7 +593,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                     setDeletePopUp(!deletePopUp);
                     e.preventDefault();
                   }}
-                  className="flex items-center justify-center bg-gray-100 dark:bg-lightgray h-fit rounded-md p-1"
+                  className="flex items-center justify-center bg-gray-100 dark:bg-lightgray group-hover:bg-white dark:group-hover:bg-darkgray h-fit rounded-md p-1"
                 >
                   <TrashIcon className="w-5 h-5 cursor-pointer" />
                 </div>
@@ -601,8 +601,8 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
             )}
         </div>
         <div className="w-full">
-          <div className="flex flex-col items-start justify-start py-2">
-            <p className="text-sm md:text-base">
+          <div className="flex flex-col items-start justify-start">
+            <p className="pt-4 text-sm">
               <Linkify componentDecorator={componentDecorator}>
                 {comment?.content}
               </Linkify>
@@ -611,14 +611,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               <img
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
                 alt="Post"
-                className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                className="mt-2 mb-1 rounded-lg max-w-full object-contain shadow-sm"
               />
             ) : null}
             {comment?.gif != null ? (
               <img
                 src={comment?.gif}
                 alt="gif"
-                className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                className="mt-2 mb-1 rounded-lg max-w-full object-contain shadow-sm"
               />
             ) : null}
           </div>
@@ -633,14 +633,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <p
               className={`text-xs ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
+                isLiked ? "text-green-600" : ""
               }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
               className={`h-4 w-4 cursor-pointer ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
+                isLiked ? "text-green-600" : ""
               } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
@@ -648,13 +648,13 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
               className={`h-4 w-4 cursor-pointer ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                isDisliked ? "text-red-600" : ""
               } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
             <p
               className={`text-xs ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                isDisliked ? "text-red-600" : ""
               }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
@@ -695,14 +695,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <p
                     className={`text-xs ${
-                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                      isLiked ? "text-green-600" : ""
                     }`}
                   >
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
                     className={`h-4 w-4 cursor-pointer ${
-                      isLiked ? "text-green-600" : "group-hover:text-green-600"
+                      isLiked ? "text-green-600" : ""
                     } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
@@ -710,13 +710,13 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon
                     className={`h-4 w-4 cursor-pointer ${
-                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      isDisliked ? "text-red-600" : ""
                     } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikeComment()}
                   />
                   <p
                     className={`text-xs ${
-                      isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                      isDisliked ? "text-red-600" : ""
                     }`}
                   >
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}

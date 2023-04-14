@@ -540,7 +540,7 @@ const Navbar = () => {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer bg-cover"
+                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer object-cover"
                   width={2000}
                   height={2000}
                 />

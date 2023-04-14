@@ -462,7 +462,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
       <CustomLoadingOverlay active={isFetchingPost} />
       <div className="w-full">
         <div className="flex items-start justify-between">
-          <div className="flex items-start space-x-[4px]">
+          <div className="flex items-start space-x-[6px]">
             <div className="flex">
               <Link
                 href={{
@@ -621,7 +621,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
         <div className="w-full flex flex-col items-start">
-          <p className="pt-4 text-sm md:text-base">
+          <p className="pt-6 text-sm">
             <Linkify componentDecorator={componentDecorator}>
               {post?.content}
             </Linkify>
@@ -630,7 +630,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <img
               src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
               alt="Post"
-              className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm cursor-pointer"
+              className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm cursor-pointer"
               onClick={() => setFullScreenImage(!fullScreenImage)}
             />
           ) : null}
@@ -638,7 +638,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <img
               src={post?.gif}
               alt="gif"
-              className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+              className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
             />
           ) : null}
         </div>
@@ -646,7 +646,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
       {!isEmpty(sharedPost) && (
         <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-2 px-5 mb-2 mt-2">
           <div className="flex items-center justify-between">
-            <div className="flex items-start space-x-2">
+            <div className="flex items-start space-x-[6px]">
               <div className="flex">
                 <Link
                   href={{
@@ -744,7 +744,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           <div className="flex flex-col items-start justify-center space-y-2 w-full">
             <div className="w-full flex flex-col items-start justify-start">
               {sharedPost?.content != null && (
-                <p className="pt-5 text-sm lg:text-base">
+                <p className="pt-6 text-sm">
                   <Linkify componentDecorator={componentDecorator}>
                     {sharedPost?.content}
                   </Linkify>
@@ -754,14 +754,14 @@ function PostID({ post, refetchComments, refetch }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                   alt="Post"
-                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
+                  className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
               ) : null}
               {sharedPost?.gif != null ? (
                 <img
                   src={sharedPost?.gif}
                   alt="gif"
-                  className="m-5 ml-0 mb-1 rounded-lg max-w-full object-contain shadow-sm"
+                  className="mt-2 mb-1 rounded-lg max-w-full object-contain shadow-sm"
                 />
               ) : null}
             </div>
