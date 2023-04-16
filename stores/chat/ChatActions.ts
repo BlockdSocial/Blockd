@@ -52,7 +52,13 @@ import {
   SEARCH_ROOM_MEMBERS_FAILURE,
   IS_CHECKING_BALANCE,
   CHECK_BALANCE_SUCCESS,
-  CHECK_BALANCE_FAILURE
+  CHECK_BALANCE_FAILURE,
+  IS_FETCHING_MESSAGE,
+  FETCH_MESSAGE_SUCCESS,
+  FETCH_MESSAGE_FAILURE,
+  IS_FETCHING_ROOM_MESSAGE,
+  FETCH_ROOM_MESSAGE_SUCCESS,
+  FETCH_ROOM_MESSAGE_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -378,6 +384,46 @@ export function checkBalance(fields: any) {
       console.log('Check Balance error: ', error.message);
       dispatch({
         type: CHECK_BALANCE_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchMessage(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_MESSAGE });
+    try {
+      const result = await chatApi.fetchMessage(fields);
+      dispatch({
+        type: FETCH_MESSAGE_SUCCESS,
+        message: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch message error: ', error.message);
+      dispatch({
+        type: FETCH_MESSAGE_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchRoomMessage(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_ROOM_MESSAGE });
+    try {
+      const result = await chatApi.fetchRoomMessage(fields);
+      dispatch({
+        type: FETCH_ROOM_MESSAGE_SUCCESS,
+        roomMessage: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch room message error: ', error.message);
+      dispatch({
+        type: FETCH_ROOM_MESSAGE_FAILURE,
         error: error.message
       });
     }

@@ -964,10 +964,12 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <Mention
                   trigger="@"
                   data={data}
+                  markup= '@@@______id____^^______display____@@@^^^'
                 />
                 <Mention
                   trigger="@"
                   data={(e) => { handleSearch(e)}}
+                  markup= '@@@______id____^^______display____@@@^^^'
                 />
               </MentionsInput>
               <button

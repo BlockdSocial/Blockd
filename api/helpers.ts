@@ -252,3 +252,7 @@ export const errorHandler = (apiName: any, error: any, errorStatus = null) => {
  */
 export function endpointParser(fields: any) {
 }
+
+export function getTag(text: any) {
+	return text.match(/price\[(\d+)\]\[(\d+)\]/);
+}

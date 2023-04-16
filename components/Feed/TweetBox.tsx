@@ -156,8 +156,9 @@ function TweetBox({ refetchFiltered }: Props) {
       });
     }
   };
-
+console.log(input)
   const handleSubmitPost = async (e: any) => {
+    
     e.preventDefault();
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
@@ -297,10 +298,12 @@ function TweetBox({ refetchFiltered }: Props) {
             <Mention
               trigger="@"
               data={data}
+              markup= '@@@______id____^^______display____@@@^^^'
             />
             <Mention
               trigger="@"
               data={(e) => { handleSearch(e) }}
+              markup= '@@@______id____^^______display____@@@^^^'
             />
           </MentionsInput>
           <hr className="mb-4 dark:border-darkgray dark:border-2"></hr>

@@ -95,6 +95,23 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
       }
       break;
+      case 'tag':
+        if (null != notification?.commentId || undefined != notification?.commentId) {
+          pathname = '/dashboard/post/comment';
+          query = { commentId: notification?.commentId, postId: notification?.postId }
+          as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+        }
+        else if (null != notification?.replyId || undefined != notification?.replyId) {
+          pathname = '/dashboard/post/comment';
+          query = { commentId: notification?.commentId, postId: notification?.postId }
+          as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+        }
+        else {
+          pathname = '/dashboard/post/';
+          query = { postId: notification?.postId }
+          as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
+        }
+        break;
     case 'comment':
       pathname = '/dashboard/post/';
       query = { commentId: notification?.postId }
@@ -157,6 +174,26 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           return "disliked your reply!";
         }
         return "disliked your post!";
+        break;
+      case "tag":
+        if (
+          null != notification?.commentId ||
+          undefined != notification?.commentId
+        ) {
+          return "mentioned you in a comment!";
+        }
+        if (
+          null != notification?.replyId ||
+          undefined != notification?.replyId
+        ) {
+          return "mentioned you in a reply!";
+        }
+        if (
+          null != notification?.postId ||
+          undefined != notification?.postId
+        ) {
+          return "mentioned you in a post!";
+        }
         break;
       case "comment":
         return "commented on your post!";
