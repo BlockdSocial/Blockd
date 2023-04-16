@@ -958,7 +958,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               <MentionsInput
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="w-100 flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none"
+                className="text-center flex-1 rounded-lg bg-gray-200 dark:bg-darkgray outline-none text-black"
                 placeholder="Write a comment..."
               >
                 <Mention
