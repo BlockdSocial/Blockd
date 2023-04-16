@@ -74,12 +74,14 @@ function OrdinaryChatrooms() {
           <div
             onClick={(e) => {
               if (room?.participant) {
-                router.push({
-                  pathname: '/dashboard/myChatrooms',
-                  query: { roomChat: JSON.stringify(room) },
-                },
-                  undefined, { shallow: true }
-                )
+                router.push(
+                  {
+                    pathname: "/dashboard/myChatrooms",
+                    query: { roomChat: JSON.stringify(room) },
+                  },
+                  undefined,
+                  { shallow: true }
+                );
               } else {
                 handleCheckBalance(e, room),
                   setModalOpen(!modalOpen),
@@ -89,7 +91,7 @@ function OrdinaryChatrooms() {
                   setIsParticipant(room?.participant),
                   setSelectedRoom(room),
                   setDisplayName(room?.displayName),
-                  setErrorMessage('')
+                  setErrorMessage("");
               }
             }}
             className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
@@ -101,7 +103,7 @@ function OrdinaryChatrooms() {
                     ? `${config.url.PUBLIC_URL}/${room?.imgName}`
                     : "/images/placeholder.png"
                 }
-                className="w-10 h-10 rounded-full bg-cover"
+                className="w-10 h-10 rounded-full object-cover"
               />
               <div className="flex flex-col items-start justify-start space-y-1">
                 <div className="flex items-center justify-start space-x-1">
@@ -308,7 +310,7 @@ function OrdinaryChatrooms() {
                       ? `${config.url.PUBLIC_URL}/${image}`
                       : "/images/placeholder.png"
                   }
-                  className="w-10 h-10 rounded-full"
+                  className="w-10 h-10 rounded-full object-cover"
                 />
                 <div className="flex flex-col items-start justify-start">
                   <p className="text-sm md:text-base font-semibold text-black">
@@ -338,7 +340,31 @@ function OrdinaryChatrooms() {
               </button>
             </div>
             <div className="px-6 py-6 lg:px-8">
-              <form className="space-y-6" action="#">
+              <form className="space-y-4" action="#">
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Chatroom Owner
+                  </label>
+                  <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
+                    User Name
+                  </div>
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Description
+                  </label>
+                  <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
+                    Chatroom Description
+                  </div>
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Network
+                  </label>
+                  <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
+                    Polygon
+                  </div>
+                </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Users count
@@ -377,23 +403,23 @@ function OrdinaryChatrooms() {
                     {errorMessage}
                   </div>
                 )}
-                {
-                  errorMessage ?
-                    <button
-                      className="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                      disabled={true}
-                    >
-                      Join
-                    </button> :
-                    isCheckingBalance == false ?
-                      <button
-                        className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
-                        onClick={(e) => handleJoinRoom(e)}
-                      >
-                        Join
-                      </button> :
-                      <></>
-                }
+                {errorMessage ? (
+                  <button
+                    className="w-full text-white bg-gray-600 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    disabled={true}
+                  >
+                    Join
+                  </button>
+                ) : isCheckingBalance == false ? (
+                  <button
+                    className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
+                    onClick={(e) => handleJoinRoom(e)}
+                  >
+                    Join
+                  </button>
+                ) : (
+                  <></>
+                )}
               </form>
             </div>
           </div>
