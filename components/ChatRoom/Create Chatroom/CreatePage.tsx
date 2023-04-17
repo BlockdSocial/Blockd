@@ -7,6 +7,8 @@ import { isEmpty } from "lodash";
 import { config } from "../../../constants";
 import { useRouter } from "next/router";
 import { KeyboardReturnOutlined } from "@mui/icons-material";
+import {renderComment} from  "../../../utils";
+
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -75,6 +77,10 @@ function CreatePage() {
     }
   }, [error]);
 
+
+  useEffect(() => {
+    renderComment('test');
+  }, []);
   const handleCreateRoom = async () => {
     if (isEmpty(name)) {
       setErrorMessage('Name field is required')
