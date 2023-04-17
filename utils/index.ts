@@ -106,6 +106,7 @@ export const timeSince = (time: any) => {
 	var i = 0,
 		format;
 	while (format = time_formats[i++])
+		// @ts-ignore
 		if (seconds < format[0]) {
 			if (typeof format[2] == 'string')
 				return format[list_choice];
@@ -118,15 +119,27 @@ export const timeSince = (time: any) => {
 
 export const getDiffTime = (date: any) => {
 	var created: any = new Date(date);
-	var now: any  = new Date();
-	
-	var diffMs = ( now - created);
+	var now: any = new Date();
+
+	var diffMs = (now - created);
 	var diffDays = Math.floor(diffMs / 86400000); // days
 	var diffHrs = Math.floor((diffMs % 86400000) / 3600000); // hours
 	var diffMins = Math.round(((diffMs % 86400000) % 3600000) / 60000); // minutes
 	//return diffDays + " days, " + diffHrs + " hours, " + diffMins + " minutes until Christmas =)";
 
-	var total = (diffDays * 24 * 60)+(diffHrs * 60)+ diffMins;
+	var total = (diffDays * 24 * 60) + (diffHrs * 60) + diffMins;
 
 	return total;
+}
+
+export const getMentions = (newComment: any) => {
+	if (newComment.length > 0) {
+		console.log('newComment1: ', newComment)
+		// newComment = newComment.split('@@@____').join("<a href=\"/user/")
+		newComment = newComment.split('@@@____').join("<a href=\"/user/")
+		newComment = newComment.split('__^^____').join("\">")
+		newComment = newComment.split('__@@@^^^').join("</a>");
+
+		return newComment;
+	}
 }

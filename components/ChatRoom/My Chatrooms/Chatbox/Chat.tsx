@@ -37,6 +37,7 @@ export default function Chat({
   setReceiver,
   setRoom,
   chatrooms,
+  fetchRooms,
 }: any) {
   const dispatch = useAppDispatch();
 
@@ -229,6 +230,8 @@ export default function Chat({
         chats={chats}
         setReceiver={setReceiver}
         setRoom={setRoom}
+        fetchRooms={fetchRooms}
+        setMessages2={setMessages2}
       />
 
       {isEmpty(chats) && isEmpty(chatrooms) && (

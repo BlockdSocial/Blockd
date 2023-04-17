@@ -87,6 +87,10 @@ async function fetchRoomMessage(fields: any) {
   return apiCall('fetchRoomMessage', 'GET', `room/fetch/message/${fields}`);
 };
 
+async function leaveRoom(fields: any) {
+  return apiCall('leaveRoom', 'DELETE', `leave/room/${fields}`);
+};
+
 export default {
   createMessage,
   fetchMessages,
@@ -107,5 +111,6 @@ export default {
   searchRoomMembers,
   checkBalance,
   fetchMessage,
-  fetchRoomMessage
+  fetchRoomMessage,
+  leaveRoom
 };

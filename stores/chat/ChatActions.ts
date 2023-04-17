@@ -58,7 +58,10 @@ import {
   FETCH_MESSAGE_FAILURE,
   IS_FETCHING_ROOM_MESSAGE,
   FETCH_ROOM_MESSAGE_SUCCESS,
-  FETCH_ROOM_MESSAGE_FAILURE
+  FETCH_ROOM_MESSAGE_FAILURE,
+  IS_LEAVING_ROOM,
+  LEAVE_ROOM_SUCCESS,
+  LEAVE_ROOM_FAILURE
 } from './ChatActionTypes';
 
 // Api
@@ -426,6 +429,24 @@ export function fetchRoomMessage(fields: any) {
         type: FETCH_ROOM_MESSAGE_FAILURE,
         error: error.message
       });
+    }
+  }
+}
+
+export function leaveRoom(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_LEAVING_ROOM });
+    try {
+      await chatApi.leaveRoom(fields);
+      dispatch({
+        type: LEAVE_ROOM_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Leave room error: ', error.message);
+      dispatch({
+        type: LEAVE_ROOM_FAILURE,
+        error: error.message
+      })
     }
   }
 }

@@ -4,6 +4,7 @@ import {
   MagnifyingGlassIcon,
   UserPlusIcon,
   XMarkIcon,
+  ArrowLeftOnRectangleIcon
 } from "@heroicons/react/24/outline";
 import { isEmpty } from "lodash";
 import { config } from "../../../../constants";
@@ -13,11 +14,12 @@ import Link from "next/link";
 import { encodeQuery } from "../../../../utils";
 import {
   addMember,
+  leaveRoom,
   searchRoomMembers,
 } from "../../../../stores/chat/ChatActions";
 import { toast } from "react-hot-toast";
 
-function Members({ members, room }: any) {
+function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMessages2 }: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { error } = useAppSelector((state) => state.chatReducer);
@@ -78,6 +80,15 @@ function Members({ members, room }: any) {
     setInputAdd(inputAdd);
   };
 
+  const handleLeaveRoom = async () => {
+    await dispatch(leaveRoom(room?.roomId)).then(() => {
+      setIsModalVisible(false);
+      setRoom();
+      fetchRooms();
+      setMessages2();
+    })
+  }
+
   useEffect(() => {
     if (inputAdd.length > 0) {
       dispatch(
@@ -106,15 +117,17 @@ function Members({ members, room }: any) {
 
   return (
     <div className="flex flex-col bg-white h-[90vh]">
-      <div className="flex flex-col p-2 border-b">
+      <div className="flex flex-col p-2 border-b text-black">
         <p className="font-semibold">Description</p>
       </div>
       <div>
-        <p className="p-2 text-justify">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Proin
-          fringilla dapibus feugiat. Class aptent taciti sociosqu ad litora
-          torquent per conubia nostra, per inceptos himenaeos.
+        <p className="p-2 text-justify text-black">
+          {room?.room?.description}
         </p>
+      </div>
+      <div className="flex items-center justify-start space-x-2 p-2 text-black border-t cursor-pointer" onClick={() => handleLeaveRoom()}>
+        <ArrowLeftOnRectangleIcon className="w-7 h-7 text-orange-500" />
+        <p className="font-semibold">Leave Room</p>
       </div>
       <div className="flex items-center border-y justify-between text-black">
         <div className="flex items-center justify-start space-x-2 p-2">
@@ -135,9 +148,8 @@ function Members({ members, room }: any) {
         </div>
       </div>
       <div
-        className={`items-center border-b space-x-2 p-2 group ${
-          showSearch ? "flex" : "hidden"
-        }`}
+        className={`items-center border-b space-x-2 p-2 group ${showSearch ? "flex" : "hidden"
+          }`}
       >
         <MagnifyingGlassIcon className="w-5 h-5" />
         <input
@@ -153,9 +165,8 @@ function Members({ members, room }: any) {
         />
       </div>
       <div
-        className={`items-center space-x-2 p-2 group ${
-          showAddMember ? "flex" : "hidden"
-        }`}
+        className={`items-center space-x-2 p-2 group ${showAddMember ? "flex" : "hidden"
+          }`}
       >
         <UserPlusIcon className="w-5 h-5" />
         <input

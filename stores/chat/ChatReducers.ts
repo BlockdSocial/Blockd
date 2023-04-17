@@ -59,7 +59,10 @@ import {
   FETCH_MESSAGE_FAILURE,
   IS_FETCHING_ROOM_MESSAGE,
   FETCH_ROOM_MESSAGE_SUCCESS,
-  FETCH_ROOM_MESSAGE_FAILURE
+  FETCH_ROOM_MESSAGE_FAILURE,
+  IS_LEAVING_ROOM,
+  LEAVE_ROOM_SUCCESS,
+  LEAVE_ROOM_FAILURE
 } from './ChatActionTypes';
 
 const initialState = {
@@ -83,6 +86,7 @@ const initialState = {
   isCheckingBalance: false,
   isFetchingMessage: false,
   isFetchingRoomMessage: false,
+  isLeavingRoom: false,
   roomMessage: {},
   message: {},
   balance: {},
@@ -508,6 +512,25 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingRoomMessage: false,
+        error: action.error
+      };
+    }
+    case IS_LEAVING_ROOM: {
+      return {
+        ...state,
+        isLeavingRoom: true
+      };
+    }
+    case LEAVE_ROOM_SUCCESS: {
+      return {
+        ...state,
+        isLeavingRoom: false
+      };
+    }
+    case LEAVE_ROOM_FAILURE: {
+      return {
+        ...state,
+        isLeavingRoom: false,
         error: action.error
       };
     }

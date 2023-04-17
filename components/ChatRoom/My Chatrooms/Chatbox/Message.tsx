@@ -90,25 +90,25 @@ export default function Message({ setReply, receiver, message, setReplyMessage }
                   @{authUser?.name}
                 </Link>
               </div>
-              <div className="relative z-0 flex items-center justify-end space-x-2 pl-2 text-sm md:text-base">
+              <div className="relative z-2 flex items-center justify-end space-x-2 pl-2 text-sm md:text-base">
                 {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
                 <div ref={dropdown} className="flex relative rounded-md">
                   {isDropdownVisible && (
                     <ul
-                      className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl`}
+                      className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl z-[2]`}
                     >
                       <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-t-md">
                         <TrashIcon className="w-5 h-5 mr-3" />
                         Delete
                       </div>
-                      <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
+                      {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
                         <DocumentDuplicateIcon className="w-5 h-5 mr-3" />
                         Copy
-                      </div>
-                      <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
+                      </div> */}
+                      {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
                         <EyeDropperIcon className="w-5 h-5 mr-3" />
                         Pin
-                      </div>
+                      </div> */}
                       <div onClick={() => {
                         setReply(true),
                           setReplyMessage(message)
@@ -116,10 +116,10 @@ export default function Message({ setReply, receiver, message, setReplyMessage }
                         <ArrowUturnLeftIcon className="w-5 h-5 mr-3" />
                         Reply
                       </div>
-                      <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md">
+                      {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md">
                         <ExclamationCircleIcon className="w-5 h-5 mr-3" />
                         Report
-                      </div>
+                      </div> */}
                     </ul>
                   )}
                   <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
@@ -276,10 +276,46 @@ export default function Message({ setReply, receiver, message, setReplyMessage }
           >
             @{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}
           </Link>
-          <p className="pl-2 text-sm md:text-base">
+          <div className="relative z-2 flex items-center justify-end space-x-2 pl-2 text-sm md:text-base">
             {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
-          </p>
-          <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
+            <div ref={dropdown} className="flex relative rounded-md">
+              {isDropdownVisible && (
+                <ul
+                  className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl z-[2]`}
+                >
+                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-t-md">
+                    <TrashIcon className="w-5 h-5 mr-3" />
+                    Delete
+                  </div> */}
+                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
+                    <DocumentDuplicateIcon className="w-5 h-5 mr-3" />
+                    Copy
+                  </div> */}
+                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
+                    <EyeDropperIcon className="w-5 h-5 mr-3" />
+                    Pin
+                  </div> */}
+                  <div onClick={() => {
+                    setReply(true),
+                      setReplyMessage(message)
+                  }} className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
+                    <ArrowUturnLeftIcon className="w-5 h-5 mr-3" />
+                    Reply
+                  </div>
+                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md">
+                    <ExclamationCircleIcon className="w-5 h-5 mr-3" />
+                    Report
+                  </div> */}
+                </ul>
+              )}
+              <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' />
+            </div>
+          </div>
+          {/* <p className="pl-2 text-sm md:text-base">
+            {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
+            
+          </p> */}
+          {/* <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' /> */}
         </div>
         {
           message?.repliedMessageId &&
@@ -313,7 +349,7 @@ export default function Message({ setReply, receiver, message, setReplyMessage }
             {message?.content}
           </Linkify>
         </p>
-        
+
         {message?.imgName != null && (
           <div className="flex items-center justify-start">
             <img
