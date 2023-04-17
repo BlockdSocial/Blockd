@@ -394,10 +394,10 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           </div>
         </div>
       </div>
-      <div className="flex flex-col items-start justify-center space-y-2 w-full">
+      <div className="flex flex-col items-start justify-center space-y-2 w-full mt-4">
         {
           !isEmpty(comment?.content) &&
-          <p className="mt-4 text-sm md:text-md">
+          <p className="text-sm md:text-md">
             <Linkify componentDecorator={componentDecorator}>
               {renderHTML(renderComment(comment?.content))}
             </Linkify>
