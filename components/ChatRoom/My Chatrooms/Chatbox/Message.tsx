@@ -117,7 +117,7 @@ export default function Message({
                         onClick={() => {
                           setReply(true), setReplyMessage(message);
                         }}
-                        className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"
+                        className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md"
                       >
                         <ArrowUturnLeftIcon className="w-5 h-5 mr-3" />
                         Reply
