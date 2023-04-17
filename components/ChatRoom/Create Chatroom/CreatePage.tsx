@@ -7,6 +7,8 @@ import { isEmpty } from "lodash";
 import { config } from "../../../constants";
 import { useRouter } from "next/router";
 import { KeyboardReturnOutlined } from "@mui/icons-material";
+import {renderComment} from  "../../../utils";
+
 
 function CreatePage() {
   const dispatch = useAppDispatch();
@@ -51,7 +53,7 @@ function CreatePage() {
       // MAKE THE REQUEST AND PRINT THE RESPONSE
       fetch(url, options)
         .then((res) => res.json())
-        .then((json) => { console.log(json), setTokenName(json.result.name), setTokenError(false) })
+        .then((json) => { setTokenName(json.result.name), setTokenError(false) })
         .catch((err) => { console.error("error:" + err), setTokenError(true) });
     }
   }
@@ -75,6 +77,10 @@ function CreatePage() {
     }
   }, [error]);
 
+
+  useEffect(() => {
+    renderComment('test');
+  }, []);
   const handleCreateRoom = async () => {
     if (isEmpty(name)) {
       setErrorMessage('Name field is required')
@@ -82,7 +88,6 @@ function CreatePage() {
     }
     if (name.length < 4) {
       setErrorMessage('The name must be at least 4 characters')
-      console.log(name.length);
       return;
     }
     if (isEmpty(description)) {
@@ -370,23 +375,17 @@ function CreatePage() {
                     <option value={1} className="outline-none p-2">
                       Ethereum Main Network
                     </option>
-                    <option value={3} className="outline-none p-2">
-                      Ropsten Test Network
-                    </option>
-                    <option value={5} className="outline-none p-2">
-                      Goerli Test Network
-                    </option>
-                    <option value={42} className="outline-none p-2">
-                      Kovan Test Network
-                    </option>
                     <option value={56} className="outline-none p-2">
                       Binance Smart Chain
                     </option>
                     <option value={137} className="outline-none p-2">
                       Polygon Mainnet
                     </option>
-                    <option value={1337} className="outline-none p-2">
-                      Ganache
+                    <option value={250} className="outline-none p-2">
+                      Fantom
+                    </option>
+                    <option value={43114} className="outline-none p-2">
+                      Avalanche Network
                     </option>
                   </select>
                 </div>

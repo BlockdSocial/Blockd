@@ -49,6 +49,8 @@ export default function SignUp() {
   const [step, setStep] = useState(1);
   const [validated, setValidated] = useState<boolean>();
 
+  console.log(nftData);
+
   //Data Fetching
   const {
     isLoading: fetchingLoading,
@@ -82,7 +84,7 @@ export default function SignUp() {
     useState<boolean>(false);
 
   const { address } = useAccount();
-console.log({displayNameError})
+
   const getSignMessage = async (e: any) => {
     e.preventDefault();
     if (!validateEmail(email)) {
@@ -228,7 +230,7 @@ console.log({displayNameError})
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
     onSuccess(data: any) {
-   
+      console.log('setNftData')
       setNftData(true);
     },
   });
@@ -237,6 +239,17 @@ console.log({error})
     const result = e.replace(/[^a-z]/gi, "");
     setDisplayName(result);
   };
+
+  useEffect(()=>{
+    console.log('setNftData useEffect')
+    if (nft_data && Number(nft_data) > 0) {
+      
+      setNftData(true);
+    }
+    else{
+      setNftData(false);
+    }
+  },[address])
 
   const { data: nft_data } = useContractRead({
     ...nft_contract,
@@ -247,7 +260,7 @@ console.log({error})
     onSuccess() {
       console.log('nft_data',nft_data)
       if (nft_data && Number(nft_data) > 0) {
-        
+        console.log('setNftData')
         setNftData(true);
       }
     },
@@ -485,7 +498,8 @@ console.log({error})
                   {error && (
                     <div className="mt-4 w-full h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
                       An error occurred preparing the transaction:<br></br>
-                      {error.message}
+                     {/* @ts-ignore */}
+                      {error?.reason}
                     </div>
                   )}
                 </>

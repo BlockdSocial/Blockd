@@ -80,7 +80,6 @@ function Feed() {
   },[]);
 
   const fetchFiltered = async () => {
-    console.log('FETCH');
     await dispatch(
       fetchFilteredPosts({
         start: 0,
@@ -130,7 +129,6 @@ function Feed() {
         scrollTop + clientHeight === scrollHeight ||
         scrollTop + clientHeight === scrollHeight - 0.5
       ) {
-        console.log('bzez2')
         if (!isFetchingFilteredPosts) {
           if (endTotal == 0) {
             return;

@@ -79,6 +79,18 @@ async function checkBalance(fields: any) {
   return apiCall('checkBalance', 'GET', `check/balance/${fields}`);
 };
 
+async function fetchMessage(fields: any) {
+  return apiCall('fetchMessage', 'GET', `message/${fields}`);
+};
+
+async function fetchRoomMessage(fields: any) {
+  return apiCall('fetchRoomMessage', 'GET', `room/fetch/message/${fields}`);
+};
+
+async function leaveRoom(fields: any) {
+  return apiCall('leaveRoom', 'DELETE', `leave/room/${fields}`);
+};
+
 export default {
   createMessage,
   fetchMessages,
@@ -97,5 +109,8 @@ export default {
   fetchAllRooms,
   joinRoom,
   searchRoomMembers,
-  checkBalance
+  checkBalance,
+  fetchMessage,
+  fetchRoomMessage,
+  leaveRoom
 };

@@ -35,11 +35,13 @@ import {
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-import { encodeQuery, getDiffTime } from "../../utils";
+import { encodeQuery, getDiffTime, renderComment } from "../../utils";
 import { toast } from "react-hot-toast";
 import Linkify from "react-linkify";
 import { MentionsInput, Mention } from "react-mentions";
 import { searchTagUsers } from "../../stores/user/UserActions";
+// @ts-ignore
+import renderHTML from 'react-render-html';
 
 interface Pic {
   name: string;
@@ -178,7 +180,6 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
@@ -471,7 +472,6 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
-    console.log(href);
     return (
       <a
         onClick={async (e) => {
@@ -610,11 +610,14 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
         <div className="w-full">
           <div className="flex flex-col items-start justify-start">
-            <p className="pt-4 text-sm">
-              <Linkify componentDecorator={componentDecorator}>
-                {comment?.content}
-              </Linkify>
-            </p>
+            {
+              !isEmpty(comment?.content) &&
+              <p className="pt-4 text-sm">
+                <Linkify componentDecorator={componentDecorator}>
+                  {renderHTML(renderComment(comment?.content))}
+                </Linkify>
+              </p>
+            }
             {comment?.imgName != null ? (
               <img
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
@@ -702,10 +705,12 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               <Mention
                 trigger="@"
                 data={data}
+                markup='@@@______id____^^______display____@@@^^^'
               />
               <Mention
                 trigger="@"
                 data={(e) => { handleSearch(e) }}
+                markup='@@@______id____^^______display____@@@^^^'
               />
             </MentionsInput>
             <div className="flex items-center justify-between w-full py-3">
