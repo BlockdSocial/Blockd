@@ -92,11 +92,13 @@ function chatroom() {
           setReceiver={setReceiver}
           chatrooms={chatrooms}
           setRoom={setRoom}
+          fetchRooms={handleFetchRooms}
         />
         <Widget
           chats={chats}
           setReceiver={setReceiver}
           setRoom={setRoom}
+          refetchChats={fetchChats}
         />
       </div>
     </div>

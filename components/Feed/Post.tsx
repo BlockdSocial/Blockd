@@ -39,6 +39,9 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { encodeQuery, getDiffTime } from "../../utils";
 import { MentionsInput, Mention } from "react-mentions";
 import Linkify from "react-linkify";
+import { getMentions } from "../../utils";
+// @ts-ignore
+import renderHTML from 'react-render-html';
 
 interface Pic {
   name: string;
@@ -707,7 +710,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 {mainPost?.content != null && (
                   <p className="text-sm">
                     <Linkify componentDecorator={componentDecorator}>
-                      {mainPost?.content}
+                      {renderHTML(getMentions(mainPost?.content))}
                     </Linkify>
                   </p>
                 )}
@@ -958,16 +961,18 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               <MentionsInput
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
-                className="w-100 flex-1 rounded-lg bg-gray-200 dark:bg-darkgray p-2 outline-none"
+                className="text-center flex-1 rounded-lg bg-gray-200 dark:bg-darkgray outline-none text-black"
                 placeholder="Write a comment..."
               >
                 <Mention
                   trigger="@"
                   data={data}
+                  markup= '@@@______id____^^______display____@@@^^^'
                 />
                 <Mention
                   trigger="@"
                   data={(e) => { handleSearch(e)}}
+                  markup= '@@@______id____^^______display____@@@^^^'
                 />
               </MentionsInput>
               <button

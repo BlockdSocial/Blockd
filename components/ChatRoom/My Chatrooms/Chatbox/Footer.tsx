@@ -17,6 +17,7 @@ import {
 import { isEmpty } from "lodash";
 import AutoResizeTextarea from "./AutoResizeTextArea";
 import { toast } from "react-hot-toast";
+import { config } from "../../../../constants";
 
 function Footer({
   setReply,
@@ -26,6 +27,8 @@ function Footer({
   getMessages,
   room,
   fetchRoomMessages,
+  replyMessage,
+  setReplyMessage
 }: any) {
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -140,73 +143,157 @@ function Footer({
     if (e) {
       e.preventDefault();
     }
-    if (!isEmpty(receiver)) {
-      if (isEmpty(messages)) {
-        await dispatch(createChat(receiver?.id));
+    if (!isEmpty(replyMessage)) {
+      if (!isEmpty(receiver)) {
+        if (isEmpty(messages)) {
+          await dispatch(createChat(receiver?.id));
+        }
+        if (uploadedImage) {
+          await dispatch(
+            createMessage({
+              receiver_id: receiver?.id,
+              image: uploadedImage,
+              reply: replyMessage?.id
+            })
+          ).then(() => {
+            setUploadedImage("");
+            getMessages();
+            setReply(false);
+          });
+        } else if (gifUrl.length > 0) {
+          await dispatch(
+            createMessage({
+              receiver_id: receiver?.id,
+              gif: gifUrl,
+              reply: replyMessage?.id
+            })
+          ).then(() => {
+            setGifUrl("");
+            getMessages();
+            setReply(false);
+          });
+        } else if (!isEmpty(input)) {
+          await dispatch(
+            createMessage({
+              receiver_id: receiver?.id,
+              content: input,
+              reply: replyMessage?.id
+            })
+          ).then(() => {
+            setInput("");
+            getMessages();
+            setReply(false);
+          });
+        }
       }
-      if (uploadedImage) {
-        await dispatch(
-          createMessage({
-            receiver_id: receiver?.id,
-            image: uploadedImage,
-          })
-        ).then(() => {
-          setUploadedImage("");
-          getMessages();
-        });
-      } else if (gifUrl.length > 0) {
-        await dispatch(
-          createMessage({
-            receiver_id: receiver?.id,
-            gif: gifUrl,
-          })
-        ).then(() => {
-          setGifUrl("");
-          getMessages();
-        });
-      } else if (!isEmpty(input)) {
-        await dispatch(
-          createMessage({
-            receiver_id: receiver?.id,
-            content: input,
-          })
-        ).then(() => {
-          setInput("");
-          getMessages();
-        });
+      if (!isEmpty(room)) {
+        if (uploadedImage) {
+          await dispatch(
+            createChatroomMessage(room?.roomId, {
+              image: uploadedImage,
+              user_id: authUser?.id,
+              reply: replyMessage?.id
+            })
+          ).then(() => {
+            setUploadedImage("");
+            fetchRoomMessages();
+            setReply(false);
+          });
+        } else if (gifUrl.length > 0) {
+          await dispatch(
+            createChatroomMessage(room?.roomId, {
+              gif: gifUrl,
+              user_id: authUser?.id,
+              reply: replyMessage?.id
+            })
+          ).then(() => {
+            setGifUrl("");
+            fetchRoomMessages();
+            setReply(false);
+          });
+        } else if (!isEmpty(input)) {
+          await dispatch(
+            createChatroomMessage(room?.roomId, {
+              content: input,
+              user_id: authUser?.id,
+              reply: replyMessage?.id
+            })
+          ).then(() => {
+            setInput("");
+            fetchRoomMessages();
+            setReply(false);
+          });
+        }
       }
-    }
-    if (!isEmpty(room)) {
-      if (uploadedImage) {
-        await dispatch(
-          createChatroomMessage(room?.roomId, {
-            image: uploadedImage,
-            user_id: authUser?.id,
-          })
-        ).then(() => {
-          setUploadedImage("");
-          fetchRoomMessages();
-        });
-      } else if (gifUrl.length > 0) {
-        await dispatch(
-          createChatroomMessage(room?.roomId, {
-            gif: gifUrl,
-            user_id: authUser?.id,
-          })
-        ).then(() => {
-          setGifUrl("");
-          fetchRoomMessages();
-        });
-      } else if (!isEmpty(input)) {
-        await dispatch(
-          createChatroomMessage(room?.roomId, {
-            content: input,
-            user_id: authUser?.id,
-          })
-        ).then(() => {
-          setInput("");
-          fetchRoomMessages();
-        });
+    } else {
+      if (!isEmpty(receiver)) {
+        if (isEmpty(messages)) {
+          await dispatch(createChat(receiver?.id));
+        }
+        if (uploadedImage) {
+          await dispatch(
+            createMessage({
+              receiver_id: receiver?.id,
+              image: uploadedImage,
+            })
+          ).then(() => {
+            setUploadedImage("");
+            getMessages();
+          });
+        } else if (gifUrl.length > 0) {
+          await dispatch(
+            createMessage({
+              receiver_id: receiver?.id,
+              gif: gifUrl,
+            })
+          ).then(() => {
+            setGifUrl("");
+            getMessages();
+          });
+        } else if (!isEmpty(input)) {
+          await dispatch(
+            createMessage({
+              receiver_id: receiver?.id,
+              content: input,
+            })
+          ).then(() => {
+            setInput("");
+            getMessages();
+          });
+        }
+      }
+      if (!isEmpty(room)) {
+        if (uploadedImage) {
+          await dispatch(
+            createChatroomMessage(room?.roomId, {
+              image: uploadedImage,
+              user_id: authUser?.id,
+            })
+          ).then(() => {
+            setUploadedImage("");
+            fetchRoomMessages();
+          });
+        } else if (gifUrl.length > 0) {
+          await dispatch(
+            createChatroomMessage(room?.roomId, {
+              gif: gifUrl,
+              user_id: authUser?.id,
+            })
+          ).then(() => {
+            setGifUrl("");
+            fetchRoomMessages();
+          });
+        } else if (!isEmpty(input)) {
+          await dispatch(
+            createChatroomMessage(room?.roomId, {
+              content: input,
+              user_id: authUser?.id,
+            })
+          ).then(() => {
+            setInput("");
+            fetchRoomMessages();
+          });
+        }
       }
     }
   };
@@ -225,7 +312,6 @@ function Footer({
   };
 
   const handleKeyDown = (event: any) => {
-    console.log("code: ", event.keyCode);
     if (event.keyCode == 13 && event.shiftKey) {
       return;
     }
@@ -241,17 +327,35 @@ function Footer({
         <div className="relative flex items-center h-auto w-full dark:bg-darkgray bg-gray-50 p-1 z-50">
           <div className="flex items-center justify-between w-full space-x-5">
             <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-full space-y-1 p-2 border-l-2 border-orange-500">
-              <p className="text-sm">@User Name</p>
-              <p className="text-sm">Message to reply to</p>
-              <div className="flex items-center justify-start mt-2">
+              <p className="text-sm">@{isEmpty(replyMessage?.otherUser) ? authUser?.name : replyMessage?.otherUser?.name}</p>
+              <p className="text-sm">{replyMessage?.content}</p>
+              {/* <div className="flex items-center justify-start mt-2">
                 <img
                   src="/images/bg.jpg"
                   className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                 />
+              </div> */}
+              <div className="flex items-center justify-start mt-2">
+                {replyMessage?.imgName != null && (
+                  <img
+                    src={`${config.url.PUBLIC_URL}/${replyMessage?.imgName}`}
+                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                  />
+                )}
+                {replyMessage?.gif != null && (
+                  <img
+                    src={replyMessage?.gif}
+                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
+                  />
+                )}
               </div>
             </div>
             <div className="pr-3">
-              <div onClick={() => setReply(false)} className="p-1 rounded-full hover:bg-gray-200  dark:hover:bg-lightgray cursor-pointer">
+              <div onClick={() => {
+                setReply(false),
+                  setReplyMessage()
+              }}
+                className="p-1 rounded-full hover:bg-gray-200  dark:hover:bg-lightgray cursor-pointer">
                 <XMarkIcon className="w-7 h-7" />
               </div>
             </div>

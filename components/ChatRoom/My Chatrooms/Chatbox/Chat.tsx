@@ -37,6 +37,7 @@ export default function Chat({
   setReceiver,
   setRoom,
   chatrooms,
+  fetchRooms,
 }: any) {
   const dispatch = useAppDispatch();
 
@@ -46,6 +47,7 @@ export default function Chat({
   let [reaction, setReaction] = useState<string>("");
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [reply, setReply] = useState<boolean>(false);
+  const [replyMessage, setReplyMessage] = useState<any>();
   const boxRef = useRef<any>(null);
   const boxRef2 = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -228,6 +230,8 @@ export default function Chat({
         chats={chats}
         setReceiver={setReceiver}
         setRoom={setRoom}
+        fetchRooms={fetchRooms}
+        setMessages2={setMessages2}
       />
 
       {isEmpty(chats) && isEmpty(chatrooms) && (
@@ -245,9 +249,11 @@ export default function Chat({
         {!isEmpty(messages2) &&
           messages2.map((message: any) => (
             <Message
+              key={message?.id}
               setReply={setReply}
               receiver={receiver}
               message={message}
+              setReplyMessage={setReplyMessage}
             />
           ))}
         <div ref={boxRef} />
@@ -263,6 +269,8 @@ export default function Chat({
             messages={messages2}
             getMessages={getMessages}
             fetchRoomMessages={fetchRoomMessages}
+            replyMessage={replyMessage}
+            setReplyMessage={setReplyMessage}
           />
         )}
       </div>

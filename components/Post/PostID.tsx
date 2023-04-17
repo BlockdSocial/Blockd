@@ -1065,10 +1065,12 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <Mention
               trigger="@"
               data={data}
+              markup= '@@@______id____^^______display____@@@^^^'
             />
             <Mention
               trigger="@"
               data={(e) => { handleSearch(e) }}
+              markup= '@@@______id____^^______display____@@@^^^'
             />
           </MentionsInput>
           <div className="flex items-end justify-end">

@@ -3,10 +3,19 @@ import React from 'react'
 import ClearRoundedIcon from '@mui/icons-material/ClearRounded';
 import { isEmpty } from 'lodash';
 import { config } from '../../../../constants';
+import { useAppDispatch } from '../../../../stores/hooks';
+import { deleteChat } from '../../../../stores/chat/ChatActions';
 
-function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
+function Friends({ chats, setReceiver, setRoom, closeShowFriends, refetchChats }: any) {
+  const dispatch = useAppDispatch();
 
-  console.log('chats: ', chats);
+  const handleDeleteChat = async (e: any, chatId: any) => {
+    await dispatch(deleteChat(chatId)).then(() => {
+      refetchChats();
+      setReceiver();
+    });
+  }
+
   return (
     <div className='flex-1 scrollbar-hide overflow-scroll dark:bg-darkgray'>
       {
@@ -40,7 +49,7 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends }: any) {
                 {/* <span className='text-xs'>Last seen Recently</span> */}
               </div>
             </div>
-            <div className='md:hidden md:group-hover:flex items-center justify-center space-x-1'>
+            <div className='md:hidden md:group-hover:flex items-center justify-center space-x-1' onClick={(e: any) => handleDeleteChat(e, chat?.id)}>
               {/* <PersonAddAlt1RoundedIcon className='w-6 h-6 hover:text-gray-600 dark:hover:text-gray-200' /> */}
               <ClearRoundedIcon className='w-5 h-5 md:hidden md:group-hover:inline hover:text-gray-600 dark:hover:text-gray-200' />
             </div>

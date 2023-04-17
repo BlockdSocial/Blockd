@@ -702,10 +702,12 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               <Mention
                 trigger="@"
                 data={data}
+                markup= '@@@______id____^^______display____@@@^^^'
               />
               <Mention
                 trigger="@"
                 data={(e) => { handleSearch(e) }}
+                markup= '@@@______id____^^______display____@@@^^^'
               />
             </MentionsInput>
             <div className="flex items-center justify-between w-full py-3">

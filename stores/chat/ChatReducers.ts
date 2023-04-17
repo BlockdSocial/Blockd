@@ -53,7 +53,16 @@ import {
   SEARCH_ROOM_MEMBERS_FAILURE,
   IS_CHECKING_BALANCE,
   CHECK_BALANCE_SUCCESS,
-  CHECK_BALANCE_FAILURE
+  CHECK_BALANCE_FAILURE,
+  IS_FETCHING_MESSAGE,
+  FETCH_MESSAGE_SUCCESS,
+  FETCH_MESSAGE_FAILURE,
+  IS_FETCHING_ROOM_MESSAGE,
+  FETCH_ROOM_MESSAGE_SUCCESS,
+  FETCH_ROOM_MESSAGE_FAILURE,
+  IS_LEAVING_ROOM,
+  LEAVE_ROOM_SUCCESS,
+  LEAVE_ROOM_FAILURE
 } from './ChatActionTypes';
 
 const initialState = {
@@ -75,6 +84,11 @@ const initialState = {
   isJoiningRoom: false,
   isSearchingRoomMembers: false,
   isCheckingBalance: false,
+  isFetchingMessage: false,
+  isFetchingRoomMessage: false,
+  isLeavingRoom: false,
+  roomMessage: {},
+  message: {},
   balance: {},
   balanceError: '',
   roomMembersResult: [],
@@ -456,6 +470,68 @@ export function chatReducer(state = initialState, action: any) {
         ...state,
         isCheckingBalance: false,
         balanceError: action.error
+      };
+    }
+    case IS_FETCHING_MESSAGE: {
+      return {
+        ...state,
+        isFetchingMessage: true,
+        error: ''
+      };
+    }
+    case FETCH_MESSAGE_SUCCESS: {
+      return {
+        ...state,
+        isFetchingMessage: false,
+        message: action.message
+      };
+    }
+    case FETCH_MESSAGE_FAILURE: {
+      return {
+        ...state,
+        isFetchingMessage: false,
+        error: action.error
+      };
+    }
+
+    case IS_FETCHING_ROOM_MESSAGE: {
+      return {
+        ...state,
+        isFetchingRoomMessage: true,
+        error: ''
+      };
+    }
+    case FETCH_ROOM_MESSAGE_SUCCESS: {
+      return {
+        ...state,
+        isFetchingRoomMessage: false,
+        roomMessage: action.message
+      };
+    }
+    case FETCH_ROOM_MESSAGE_FAILURE: {
+      return {
+        ...state,
+        isFetchingRoomMessage: false,
+        error: action.error
+      };
+    }
+    case IS_LEAVING_ROOM: {
+      return {
+        ...state,
+        isLeavingRoom: true
+      };
+    }
+    case LEAVE_ROOM_SUCCESS: {
+      return {
+        ...state,
+        isLeavingRoom: false
+      };
+    }
+    case LEAVE_ROOM_FAILURE: {
+      return {
+        ...state,
+        isLeavingRoom: false,
+        error: action.error
       };
     }
     default: {

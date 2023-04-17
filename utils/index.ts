@@ -68,6 +68,7 @@ export const parseQueryString = (query: any) => {
 };
 
 export const timeSince = (time: any) => {
+
   switch (typeof time) {
     case "number":
       break;

@@ -18,7 +18,7 @@ import { useAppDispatch, useAppSelector } from '../../../../stores/hooks';
 import { fetchChatroomMembers } from '../../../../stores/chat/ChatActions';
 import { encodeQuery } from '../../../../utils';
 
-function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
+function Navbar({ receiver, room, chats, setReceiver, setRoom, fetchRooms, setMessages2 }: any) {
 
   const dispatch = useAppDispatch();
   const { members } = useAppSelector((state) => state.chatReducer);
@@ -101,7 +101,14 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom }: any) {
                 </div>
               </div>
               {/* <Info /> */}
-              <Members members={members} room={room} />
+              <Members
+                members={members}
+                room={room}
+                setRoom={setRoom}
+                setIsModalVisible={setIsModalVisible}
+                fetchRooms={fetchRooms}
+                setMessages2={setMessages2}
+              />
             </div>
           </div>
           <div className='flex flex-col items-start justify-center'>

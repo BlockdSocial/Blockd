@@ -2,7 +2,7 @@ import React, { useState } from "react";
 import { ChatBubbleLeftRightIcon } from "@heroicons/react/24/outline";
 import Friends from "./Friends";
 
-function Widget({ chats, setReceiver, setRoom }: any) {
+function Widget({ chats, setReceiver, setRoom, refetchChats }: any) {
   const closeShowFriends = () => {
 
   }
@@ -17,6 +17,7 @@ function Widget({ chats, setReceiver, setRoom }: any) {
         setReceiver={setReceiver}
         setRoom={setRoom}
         closeShowFriends={closeShowFriends}
+        refetchChats={refetchChats}
       />
     </div>
   );

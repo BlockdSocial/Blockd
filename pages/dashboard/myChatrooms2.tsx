@@ -98,6 +98,7 @@ function chatroom() {
           chats={chats}
           setReceiver={setReceiver}
           setRoom={setRoom}
+          refetchChats={fetchChats}
         />
       </div>
     </div>
