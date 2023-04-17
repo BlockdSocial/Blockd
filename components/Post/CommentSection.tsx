@@ -686,7 +686,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
       {commentBoxVisible && (
         <form
           onSubmit={handleAddReply}
-          className="flex items-start justify-center w-full mt-4"
+          className="flex items-end justify-center w-full mt-4 space-x-3"
         >
           <div className="flex flex-col items-end justify-center w-full">
             {/* <input
@@ -882,7 +882,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           <button
             disabled={!input && !image && !gifUrl}
             type="submit"
-            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+            className="text-blockd font-semibold disabled:text-gray-200 mb-12 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
           >
             <span className="hidden md:inline">Comment</span>
             <span className="flex md:hidden">

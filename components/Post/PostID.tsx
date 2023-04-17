@@ -1064,7 +1064,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
       </div>
       <form
         onSubmit={handleAddComment}
-        className="mt-3 flex items-start justify-center space-x-3"
+        className="mt-3 flex items-end justify-center space-x-3"
       >
         <div className="flex flex-col items-end justify-center w-full">
           {/* <input
@@ -1214,7 +1214,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
         <button
           disabled={!input && !image && !gifUrl}
           type="submit"
-          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 mb-8 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
         >
           <span className="hidden md:inline">Comment</span>
           <span className="flex md:hidden">
