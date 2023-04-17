@@ -68,7 +68,6 @@ export const parseQueryString = (query: any) => {
 };
 
 export const timeSince = (time: any) => {
-
   switch (typeof time) {
     case "number":
       break;
@@ -150,13 +149,7 @@ export const renderComment = (text: any) => {
       let user_id = matches[i].match(pattern_id)[0];
       let encode = encodeQuery(user_id, "profile");
       let link =
-        '<Link href={{pathname: "/dashboard/profile",query: {user_id:' +
-        user_id +
-        '},}}as={"/dashboard/profile?"'+
-        encode +
-        '}className="text-sm md:text-base" >' +
-        name +
-        '</Link>';
+        '<Link href="/dashboard/profile?"' + encode + '> '+ name + '</Link>';
 
       text = text.replace(matches[i], link);
       console.log({ text });
