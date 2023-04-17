@@ -261,6 +261,7 @@ const Navbar = () => {
     if (!mounted) return null;
 
     if (currentTheme === "dark") {
+      document.documentElement.style.setProperty('--mode', 'light');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -278,6 +279,7 @@ const Navbar = () => {
         </svg>
       );
     } else {
+      document.documentElement.style.setProperty('--mode', 'dark');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
