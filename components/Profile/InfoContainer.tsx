@@ -463,14 +463,14 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <PencilSquareIcon className="w-5 h-5 mr-2" />
               Edit Profile
             </Link>
-            <Link
+            {/* <Link
               type="button"
               href=""
               className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-lightgray/50"
             >
               <QuestionMarkCircleIcon className="w-5 h-5 mr-2" />
               Help Center
-            </Link>
+            </Link> */}
           </ul>
         </div>
       </div>
