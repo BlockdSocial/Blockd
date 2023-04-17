@@ -152,11 +152,11 @@ export const renderComment = (text: any) => {
       let link =
         '<Link href={{pathname: "/dashboard/profile",query: {user_id:' +
         user_id +
-        "},}}as={'/dashboard/profile?" +
+        '},}}as={"/dashboard/profile?"'+
         encode +
-        '\'}className="text-sm md:text-base" >' +
+        '}className="text-sm md:text-base" >' +
         name +
-        "</Link>";
+        '</Link>';
 
       text = text.replace(matches[i], link);
       console.log({ text });
