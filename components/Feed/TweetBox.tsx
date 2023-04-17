@@ -156,9 +156,8 @@ function TweetBox({ refetchFiltered }: Props) {
       });
     }
   };
-console.log(input)
-  const handleSubmitPost = async (e: any) => {
-    
+
+  const handleSubmitPost = async (e: any) => {  
     e.preventDefault();
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(

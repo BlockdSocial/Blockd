@@ -120,7 +120,6 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      console.log("message", message);
       updateMessages(message?.data?.type);
     }
   );
@@ -130,7 +129,6 @@ export default function Chat({
   }, [messages, messages2]);
 
   const getMessages = async () => {
-    console.log("sdd");
     if (!isEmpty(receiver)) {
       await dispatch(
         fetchMessages({
@@ -147,7 +145,6 @@ export default function Chat({
   };
 
   const fetchRoomMessages = async () => {
-    console.log("sddfetchRoomMessages");
     if (!isEmpty(room)) {
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
@@ -163,7 +160,6 @@ export default function Chat({
   };
 
   const updateRoomMessages = async () => {
-    console.log("sddupdateRoomMessages");
     await dispatch(
       fetchChatroomMessages(room?.roomId, {
         start: 0,

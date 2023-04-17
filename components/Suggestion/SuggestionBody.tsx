@@ -72,8 +72,6 @@ function SuggestionBody({ post }: any) {
     });
   };
 
-  console.log('post: ', post);
-
   return (
     <div className='p-4'>
       <div className='flex rounded-md border border-gray-100 dark:border-lightgray justify-center'>

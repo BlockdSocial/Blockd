@@ -35,8 +35,6 @@ function Sidebar() {
   const [showModal8, setShowModal8] = useState(false);
   const [showModal9, setShowModal9] = useState(false);
 
-  console.log(showModal1);
-
   return (
     <div className="items-start justify-center lg:justify-start hidden md:flex md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-x dark:border-lightgray pb-14">
       <div className="relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit">

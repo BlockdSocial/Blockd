@@ -53,7 +53,7 @@ function CreatePage() {
       // MAKE THE REQUEST AND PRINT THE RESPONSE
       fetch(url, options)
         .then((res) => res.json())
-        .then((json) => { console.log(json), setTokenName(json.result.name), setTokenError(false) })
+        .then((json) => { setTokenName(json.result.name), setTokenError(false) })
         .catch((err) => { console.error("error:" + err), setTokenError(true) });
     }
   }
@@ -88,7 +88,6 @@ function CreatePage() {
     }
     if (name.length < 4) {
       setErrorMessage('The name must be at least 4 characters')
-      console.log(name.length);
       return;
     }
     if (isEmpty(description)) {

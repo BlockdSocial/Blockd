@@ -27,8 +27,10 @@ import {
   replyComment,
 } from "../../stores/comment/CommentActions";
 import { toast } from "react-hot-toast";
-import { encodeQuery } from "../../utils";
+import { encodeQuery, renderComment } from "../../utils";
 import Linkify from "react-linkify";
+// @ts-ignore
+import renderHTML from 'react-render-html';
 
 interface Pic {
   name: string;
@@ -153,7 +155,6 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
@@ -293,7 +294,6 @@ function MainComment({ comment, post, refetchReplies }: Props) {
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
-    console.log(href);
     return (
       <a
         onClick={async (e) => {
@@ -313,93 +313,96 @@ function MainComment({ comment, post, refetchReplies }: Props) {
   return (
     <div className="relative border-b dark:border-lightgray flex flex-col p-4">
       <div className="flex space-x-2">
-      <Link
-        href={{
-          pathname: "/dashboard/profile",
-          query: { user_id: comment?.otherUser?.id },
-        }}
-        as={`/dashboard/profile?${encodeQuery(
-          comment?.otherUser?.id,
-          "profile"
-        )}`}
-        className="relative flex flex-col w-fit h-fit group"
-      >
-        <div className={`relative rounded-md`}>
-          <Image
-            src={
-              !isEmpty(comment?.otherUser?.frameName)
-                ? `/${comment?.otherUser?.frameName}`
-                : "/images/frames/frame4.jpg"
-            }
-            alt="pfp"
-            className="relative w-16 h-16 border-white"
-            width={2000}
-            height={2000}
-          />
-          <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] bg-white dark:bg-darkgray">
+        <Link
+          href={{
+            pathname: "/dashboard/profile",
+            query: { user_id: comment?.otherUser?.id },
+          }}
+          as={`/dashboard/profile?${encodeQuery(
+            comment?.otherUser?.id,
+            "profile"
+          )}`}
+          className="relative flex flex-col w-fit h-fit group"
+        >
+          <div className={`relative rounded-md`}>
             <Image
               src={
-                !isEmpty(comment?.otherUser?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
-                  : "/images/pfp/pfp1.jpg"
+                !isEmpty(comment?.otherUser?.frameName)
+                  ? `/${comment?.otherUser?.frameName}`
+                  : "/images/frames/frame4.jpg"
               }
               alt="pfp"
-              className="absolute top-0 bottom-0 left-0 right-0 mx-auto object-cover my-auto w-[50px] h-[50px] z-0 rounded-sm"
+              className="relative w-16 h-16 border-white"
               width={2000}
               height={2000}
             />
-          </div>
-          <div className={`absolute -bottom-2 -left-3 flex rounded-lg`}>
-            <div className="relative">
+            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] bg-white dark:bg-darkgray">
               <Image
                 src={
-                  !isEmpty(comment?.otherUser?.frameName)
-                    ? `/${comment?.otherUser?.frameName}`
-                    : "/images/frames/frame4.jpg"
+                  !isEmpty(comment?.otherUser?.profilePic)
+                    ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
+                    : "/images/pfp/pfp1.jpg"
                 }
                 alt="pfp"
-                className="relative w-7 h-7"
+                className="absolute top-0 bottom-0 left-0 right-0 mx-auto object-cover my-auto w-[50px] h-[50px] z-0 rounded-sm"
                 width={2000}
                 height={2000}
               />
-              <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[24px] h-[24px] z-[1] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
-                {comment?.otherUser?.level}
+            </div>
+            <div className={`absolute -bottom-2 -left-3 flex rounded-lg`}>
+              <div className="relative">
+                <Image
+                  src={
+                    !isEmpty(comment?.otherUser?.frameName)
+                      ? `/${comment?.otherUser?.frameName}`
+                      : "/images/frames/frame4.jpg"
+                  }
+                  alt="pfp"
+                  className="relative w-7 h-7"
+                  width={2000}
+                  height={2000}
+                />
+                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[24px] h-[24px] z-[1] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
+                  {comment?.otherUser?.level}
+                </div>
               </div>
             </div>
           </div>
+        </Link>
+        <div className="flex flex-col space-y-1">
+          <div className="flex items-center">
+            <Link
+              href={{
+                pathname: "/dashboard/profile",
+                query: { user_id: comment?.otherUser?.id },
+              }}
+              as={`/dashboard/profile?${encodeQuery(
+                comment?.otherUser?.id,
+                "profile"
+              )}`}
+            >
+              <p className="mr-1 text-xs md:text-sm font-semibold">
+                @{comment?.otherUser?.name}
+              </p>
+            </Link>
+          </div>
+          <div className="flex flex-col items-start justify-start">
+            <TimeAgo
+              date={comment?.createdAt}
+              className="text-xs text-gray-500"
+            />
+          </div>
         </div>
-      </Link>
-      <div className="flex flex-col space-y-1">
-        <div className="flex items-center">
-          <Link
-            href={{
-              pathname: "/dashboard/profile",
-              query: { user_id: comment?.otherUser?.id },
-            }}
-            as={`/dashboard/profile?${encodeQuery(
-              comment?.otherUser?.id,
-              "profile"
-            )}`}
-          >
-            <p className="mr-1 text-xs md:text-sm font-semibold">
-              @{comment?.otherUser?.name}
-            </p>
-          </Link>
-        </div>
-        <div className="flex flex-col items-start justify-start">
-          <TimeAgo
-            date={comment?.createdAt}
-            className="text-xs text-gray-500"
-          />
-        </div>
-      </div>
       </div>
       <div className="flex flex-col items-start justify-center space-y-2 w-full">
-        <p className="mt-4 text-sm md:text-md">
-          <Linkify componentDecorator={componentDecorator}>
-            {comment?.content}
-          </Linkify>
-        </p>
+        {
+          !isEmpty(comment?.content) &&
+          <p className="mt-4 text-sm md:text-md">
+            <Linkify componentDecorator={componentDecorator}>
+              {renderHTML(renderComment(comment?.content))}
+            </Linkify>
+          </p>
+        }
         {comment?.imgName != null ? (
           <img
             src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
@@ -431,30 +434,26 @@ function MainComment({ comment, post, refetchReplies }: Props) {
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <p
-                  className={`text-xs ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  }`}
+                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-4 w-4 cursor-pointer ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikeComment()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <ArrowDownIcon
-                  className={`h-4 w-4 cursor-pointer ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikeComment()}
                 />
                 <p
-                  className={`text-xs ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  }`}
+                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                    }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>

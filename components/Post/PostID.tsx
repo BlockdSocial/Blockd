@@ -38,9 +38,11 @@ import moment from "moment";
 import CustomLoadingOverlay from "../CustomLoadingOverlay";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { encodeQuery, getDiffTime } from "../../utils";
+import { encodeQuery, getDiffTime, renderComment } from "../../utils";
 import Linkify from "react-linkify";
 import { MentionsInput, Mention } from "react-mentions";
+// @ts-ignore
+import renderHTML from 'react-render-html';
 
 interface Pic {
   name: string;
@@ -214,7 +216,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
@@ -442,7 +443,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
-    console.log(href);
     return (
       <a
         onClick={async (e) => {
@@ -629,9 +629,12 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
         <div className="w-full flex flex-col items-start">
           <p className="pt-6 text-sm">
-            <Linkify componentDecorator={componentDecorator}>
-              {post?.content}
-            </Linkify>
+            {
+              !isEmpty(post?.content) &&
+              <Linkify componentDecorator={componentDecorator}>
+                {renderHTML(renderComment(post?.content))}
+              </Linkify>
+            }
           </p>
           {post?.postImage != null ? (
             <img
@@ -1065,12 +1068,12 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <Mention
               trigger="@"
               data={data}
-              markup= '@@@______id____^^______display____@@@^^^'
+              markup='@@@______id____^^______display____@@@^^^'
             />
             <Mention
               trigger="@"
               data={(e) => { handleSearch(e) }}
-              markup= '@@@______id____^^______display____@@@^^^'
+              markup='@@@______id____^^______display____@@@^^^'
             />
           </MentionsInput>
           <div className="flex items-end justify-end">
