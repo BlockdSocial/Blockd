@@ -183,7 +183,7 @@ export default function Chat({
       });
     } else {
       await dispatch(
-        fetchChatroomMessages(room?.roomId, {
+        fetchChatroomMessages(ref?.current?.roomId, {
           start: 0,
           end: 200,
         })
