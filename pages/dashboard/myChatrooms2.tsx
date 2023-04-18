@@ -38,8 +38,6 @@ function chatroom() {
   useEffect(() => {
     if (!isEmpty(roomChat)) {
       var selected = {};
-      console.log('roomChat: ', roomChat);
-      console.log('chatrooms: ', chatrooms);
       for (let i = 0; i < chatrooms.length; i++) {
         if (chatrooms[i].roomId === roomChat.id) {
           setRoom(chatrooms[i]);

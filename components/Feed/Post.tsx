@@ -30,17 +30,25 @@ import {
   fetchPost,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { isEmpty } from "lodash";
+import { isEmpty, merge } from "lodash";
 import { config } from "../../constants";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast, { Toaster } from "react-hot-toast";
-import { followUser, searchFilteredUsers, searchTagUsers } from "../../stores/user/UserActions";
+import {
+  followUser,
+  searchFilteredUsers,
+  searchTagUsers,
+} from "../../stores/user/UserActions";
 import { useCopyToClipboard } from "usehooks-ts";
-import { encodeQuery, getDiffTime } from "../../utils";
+import { encodeQuery, getDiffTime, renderCommentText } from "../../utils";
 import { MentionsInput, Mention } from "react-mentions";
 import Linkify from "react-linkify";
+// import { getMentions } from "../../utils";
+import { renderComment } from "../../utils";
 // @ts-ignore
-import renderHTML from 'react-render-html';
+import renderHTML from "react-render-html";
+import darkMode from "../../styles/darkMode.module.scss";
+import lightMode from "../../styles/lightMode.module.scss";
 
 interface Pic {
   name: string;
@@ -515,10 +523,12 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   };
 
   const handleSearch = async (e: any) => {
-       dispatch(searchTagUsers({
-      search: e
-    })).then((res: any) => setData(res))
-  }
+    dispatch(
+      searchTagUsers({
+        search: e,
+      })
+    ).then((res: any) => setData(res));
+  };
 
   return (
     <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
@@ -707,9 +717,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             <div className="flex flex-col items-start justify-center space-y-2 w-full mt-6">
               <div className="w-full flex flex-col items-start justify-start">
                 {mainPost?.content != null && (
-                  <p className="text-sm">
+                  <p
+                    onClick={async (e) => {
+                      e.stopPropagation();
+                    }}
+                    className="text-sm"
+                  >
                     <Linkify componentDecorator={componentDecorator}>
-                      {/* {renderHTML(getMentions(mainPost?.content))} */}
+                      {renderHTML(renderComment(mainPost?.content))}
                     </Linkify>
                   </p>
                 )}
@@ -849,9 +864,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     className="w-full flex flex-col items-start justify-start mt-6"
                   >
                     {sharedPost?.content != null && (
-                      <p className="text-sm">
+                      <p
+                        onClick={async (e) => {
+                          e.stopPropagation();
+                        }}
+                        className="text-sm"
+                      >
                         <Linkify componentDecorator={componentDecorator}>
-                          {sharedPost?.content}
+                          {renderHTML(renderComment(sharedPost?.content))}
                         </Linkify>
                       </p>
                     )}
@@ -949,7 +969,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </div>
           </div>
           {commentBoxVisible && (
-            <form onSubmit={handleAddComment} className="mt-3 flex space-x-3">
+            <form
+              onSubmit={handleAddComment}
+              className="mt-3 flex items-end justify-end"
+            >
               {/* <input
                 value={input}
                 onChange={(e) => setInput(e.target.value)}
@@ -957,27 +980,54 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 type="text"
                 placeholder="Write a comment..."
               /> */}
-              <MentionsInput
-                value={input}
-                onChange={(e) => setInput(e.target.value)}
-                className="text-center flex-1 rounded-lg bg-gray-200 dark:bg-darkgray outline-none text-black"
-                placeholder="Write a comment..."
-              >
-                <Mention
-                  trigger="@"
-                  data={data}
-                  markup= '@@@______id____^^______display____@@@^^^'
-                />
-                <Mention
-                  trigger="@"
-                  data={(e) => { handleSearch(e)}}
-                  markup= '@@@______id____^^______display____@@@^^^'
-                />
-              </MentionsInput>
+              <div className="hidden dark:inline dark:w-full mr-3">
+                <MentionsInput
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  classNames={darkMode}
+                  placeholder="Write a comment..."
+                >
+                  <Mention
+                    className={`${darkMode.mentions__mention}`}
+                    trigger="@"
+                    data={data}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                  <Mention
+                    trigger="@"
+                    data={(e) => {
+                      handleSearch(e);
+                    }}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                </MentionsInput>
+              </div>
+              <div className="dark:hidden w-full mr-3">
+                <MentionsInput
+                  value={input}
+                  onChange={(e) => setInput(e.target.value)}
+                  classNames={lightMode}
+                  placeholder="Write a comment..."
+                >
+                  <Mention
+                    className={`${lightMode.mentions__mention}`}
+                    trigger="@"
+                    data={data}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                  <Mention
+                    trigger="@"
+                    data={(e) => {
+                      handleSearch(e);
+                    }}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                </MentionsInput>
+              </div>
               <button
                 disabled={!input && !image && !gifUrl}
                 type="submit"
-                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-1 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+                className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
               >
                 <span className="hidden md:inline">Comment</span>
                 <span className="flex md:hidden">
@@ -1314,15 +1364,28 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 </div>
               )}
               <p className="font-semibold text-black">Description</p>
-              <textarea
-                id="message"
-                maxLength={255}
-                value={textArea}
-                onChange={(e: any) => setTextArea(e.target.value)}
-                data-rows="4"
-                className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
-                placeholder="Current Post description"
-              ></textarea>
+              <div className="w-full mt-1 mb-3">
+                <MentionsInput
+                  value={textArea}
+                  onChange={(e) => setTextArea(e.target.value)}
+                  classNames={lightMode}
+                  placeholder="Current Post description"
+                >
+                  <Mention
+                    className={`${lightMode.mentions__mention}`}
+                    trigger="@"
+                    data={data}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                  <Mention
+                    trigger="@"
+                    data={(e) => {
+                      handleSearch(e);
+                    }}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                </MentionsInput>
+              </div>
             </div>
           </div>
           <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
@@ -1345,7 +1408,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
         className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${sharePopUp ? "" : "hidden"
           }`}
       >
-        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto bg-gray-50">
+        <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-auto max-h-[90vh] bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
             <div className="">
               <h3 className="text-xl font-medium text-gray-900">Share Post</h3>
@@ -1374,15 +1437,28 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           <div className="flex flex-col items-start justify-start p-4 border-y space-y-2 w-full">
             <div className="flex flex-col items-start justify-start space-y-2 w-full">
               <p className="font-semibold text-black">Add a caption</p>
-              <textarea
-                id="message"
-                maxLength={255}
-                onChange={(e: any) => setSharedText(e.target.value)}
-                data-rows="4"
-                className="h-24 p-2 bg-gray-200 text-black text-sm outline-none rounded-lg w-full"
-                placeholder="Add a caption"
-                value={sharedText}
-              ></textarea>
+              <div className="w-full mt-1 mb-3">
+                <MentionsInput
+                  value={sharedText}
+                  onChange={(e) => setSharedText(e.target.value)}
+                  classNames={lightMode}
+                  placeholder="Add a caption"
+                >
+                  <Mention
+                    className={`${lightMode.mentions__mention}`}
+                    trigger="@"
+                    data={data}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                  <Mention
+                    trigger="@"
+                    data={(e) => {
+                      handleSearch(e);
+                    }}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                </MentionsInput>
+              </div>
             </div>
             <div className="flex items-start justify-start border-t w-full py-2 space-x-3">
               <div
@@ -1395,7 +1471,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm"
+                  className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm object-cover"
                 />
                 <div
                   className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${!isEmpty(mainPost?.otherUser?.frameName)
@@ -1431,7 +1507,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />
             ) : null}
-            <p className="text-sm text-black">{mainPost?.content}</p>
+            {!isEmpty(mainPost?.content) && (
+              <p className="text-sm text-black">
+                {renderHTML(renderComment(mainPost?.content))}
+              </p>
+            )}
           </div>
           <div className="flex items-center justify-end space-x-3 p-2">
             <p

@@ -66,7 +66,11 @@ async function checkEmail(fields: any) {
 
 async function searchTagUsers(fields: any) {
   return apiCall('searchTagUsers', 'POST', 'tag/users', fields);
-}
+};
+
+async function searchTagParticipants(id: any, fields: any) {
+  return apiCall('searchTagParticipants', 'POST', `tag/participants/${id}`, fields);
+};
 
 export default {
   updateProfilePicture,
@@ -84,5 +88,6 @@ export default {
   resetMessages,
   searchFilteredUsers,
   checkEmail,
-  searchTagUsers
+  searchTagUsers,
+  searchTagParticipants
 };

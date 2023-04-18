@@ -84,6 +84,12 @@ function ProfilePage() {
     }
   };
 
+  const fetchAuthUserPosts = async () => {
+    await dispatch(fetchUserPosts(authUser?.id)).then((res) => {
+      setPosts(res);
+    });
+  }
+
   const fetchPosts = async (thisUser: any = {}) => {
     if (!thisUser) {
       thisUser = user;
@@ -214,7 +220,7 @@ function ProfilePage() {
         </button>
       </div>
 
-      {showFeed && <Feed posts={posts} refetch={fetchPosts} />}
+      {showFeed && <Feed posts={posts} refetch={fetchAuthUserPosts} />}
       {showInteractions && <Interactions />}
       {showFollowers && <Followers user={user} />}
       {showFollowing && <Following user={user} />}

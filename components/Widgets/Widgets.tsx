@@ -67,6 +67,7 @@ function Widgets() {
             type="text"
             placeholder="Search Blockd"
             className="flex-1 outline-none bg-transparent"
+            onBlur={() => setInput('')}
           />
         </div>
         {input && (

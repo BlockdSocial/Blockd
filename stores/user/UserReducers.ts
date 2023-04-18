@@ -47,7 +47,10 @@ import {
   CHECK_EMAIL_FAILURE,
   IS_SEARCHING_TAG_USERS,
   SEARCH_TAG_USERS_SUCCESS,
-  SEARCH_TAG_USERS_FAILURE
+  SEARCH_TAG_USERS_FAILURE,
+  IS_SEARCHING_TAG_PARTICIPANTS,
+  SEARCH_TAG_PARTICIPANTS_SUCCESS,
+  SEARCH_TAG_PARTICIPANTS_FAILURE
 } from './UserActionTypes';
 
 const initialState = {
@@ -69,7 +72,9 @@ const initialState = {
   isResetingMessages: false,
   isCheckingEmail: false,
   isSearchingTagUsers: false,
+  isSearchingTagParticipants: false,
   tagUsers: [],
+  tagParticipants: [],
   rewards: [],
   popularUsers: [],
   filteredUsers: [],
@@ -404,6 +409,26 @@ export function userReducer(state = initialState, action: any) {
       return {
         ...state,
         isSearchingTagUsers: false,
+        error: action.error
+      };
+    }
+    case IS_SEARCHING_TAG_PARTICIPANTS: {
+      return {
+        ...state,
+        isSearchingTagParticipants: true
+      };
+    }
+    case SEARCH_TAG_PARTICIPANTS_SUCCESS: {
+      return {
+        ...state,
+        isSearchingTagParticipants: false,
+        tagParticipants: action.tagParticipants
+      };
+    }
+    case SEARCH_TAG_PARTICIPANTS_FAILURE: {
+      return {
+        ...state,
+        isSearchingTagParticipants: false,
         error: action.error
       };
     }

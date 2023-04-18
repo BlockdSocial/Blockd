@@ -141,8 +141,6 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
       break;
   }
 
-  console.log('notifi: ', notification);
-
   const renderNotificationText = () => {
     switch (notification?.type) {
       case "like":

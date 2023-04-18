@@ -17,7 +17,11 @@ import {
 import Link from "next/link";
 import Picker from "@emoji-mart/react";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { fetchUser, followUser, searchTagUsers } from "../../stores/user/UserActions";
+import {
+  fetchUser,
+  followUser,
+  searchTagUsers,
+} from "../../stores/user/UserActions";
 import {
   fetchPostInfo,
   fetchPostImage,
@@ -38,9 +42,13 @@ import moment from "moment";
 import CustomLoadingOverlay from "../CustomLoadingOverlay";
 import { toast } from "react-hot-toast";
 import { useRouter } from "next/navigation";
-import { encodeQuery, getDiffTime } from "../../utils";
+import { encodeQuery, getDiffTime, renderComment } from "../../utils";
 import Linkify from "react-linkify";
 import { MentionsInput, Mention } from "react-mentions";
+// @ts-ignore
+import renderHTML from "react-render-html";
+import darkMode from "../../styles/darkMode.module.scss";
+import lightMode from "../../styles/lightMode.module.scss";
 
 interface Pic {
   name: string;
@@ -214,7 +222,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
@@ -442,7 +449,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
-    console.log(href);
     return (
       <a
         onClick={async (e) => {
@@ -460,10 +466,12 @@ function PostID({ post, refetchComments, refetch }: Props) {
   };
 
   const handleSearch = async (e: any) => {
-    dispatch(searchTagUsers({
-      search: e
-    })).then((res: any) => setData(res))
-  }
+    dispatch(
+      searchTagUsers({
+        search: e,
+      })
+    ).then((res: any) => setData(res));
+  };
 
   return (
     <div className="flex flex-col p-4 -z-20 border-y dark:border-lightgray">
@@ -629,9 +637,11 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
         <div className="w-full flex flex-col items-start">
           <p className="pt-6 text-sm">
-            <Linkify componentDecorator={componentDecorator}>
-              {post?.content}
-            </Linkify>
+            {!isEmpty(post?.content) && (
+              <Linkify componentDecorator={componentDecorator}>
+                {renderHTML(renderComment(post?.content))}
+              </Linkify>
+            )}
           </p>
           {post?.postImage != null ? (
             <img
@@ -753,7 +763,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               {sharedPost?.content != null && (
                 <p className="pt-6 text-sm">
                   <Linkify componentDecorator={componentDecorator}>
-                    {sharedPost?.content}
+                    {renderHTML(renderComment(sharedPost?.content))}
                   </Linkify>
                 </p>
               )}
@@ -1016,7 +1026,29 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   </div>
                 )}
                 <p className="font-semibold text-black">Description</p>
-                <textarea
+                <div className="w-full mt-1 mb-3">
+                  <MentionsInput
+                    value={textArea}
+                    onChange={(e) => setTextArea(e.target.value)}
+                    classNames={lightMode}
+                    placeholder="Add a caption"
+                  >
+                    <Mention
+                      className={`${lightMode.mentions__mention}`}
+                      trigger="@"
+                      data={data}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                    <Mention
+                      trigger="@"
+                      data={(e) => {
+                        handleSearch(e);
+                      }}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                  </MentionsInput>
+                </div>
+                {/* <textarea
                   id="message"
                   maxLength={255}
                   value={textArea}
@@ -1024,7 +1056,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   data-rows="4"
                   className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
                   placeholder="Current Post description"
-                ></textarea>
+                ></textarea> */}
               </div>
             </div>
             <div className="flex items-center justify-end space-x-3 p-2">
@@ -1046,7 +1078,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
       </div>
       <form
         onSubmit={handleAddComment}
-        className="mt-3 flex items-start justify-center space-x-3"
+        className="mt-3 flex items-end justify-center space-x-3"
       >
         <div className="flex flex-col items-end justify-center w-full">
           {/* <input
@@ -1056,23 +1088,50 @@ function PostID({ post, refetchComments, refetch }: Props) {
             type="text"
             placeholder="Write a comment..."
           /> */}
-          <MentionsInput
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="flex-1 rounded-lg bg-gray-100 dark:bg-lightgray p-2 outline-none w-full"
-            placeholder="Write a comment..."
-          >
-            <Mention
-              trigger="@"
-              data={data}
-              markup= '@@@______id____^^______display____@@@^^^'
-            />
-            <Mention
-              trigger="@"
-              data={(e) => { handleSearch(e) }}
-              markup= '@@@______id____^^______display____@@@^^^'
-            />
-          </MentionsInput>
+          <div className="hidden dark:inline dark:w-full">
+            <MentionsInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              classNames={darkMode}
+              placeholder="Write a comment..."
+            >
+              <Mention
+                className={`${darkMode.mentions__mention}`}
+                trigger="@"
+                data={data}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                trigger="@"
+                data={(e) => {
+                  handleSearch(e);
+                }}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+            </MentionsInput>
+          </div>
+          <div className="dark:hidden w-full">
+            <MentionsInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              classNames={lightMode}
+              placeholder="Write a comment..."
+            >
+              <Mention
+                className={`${lightMode.mentions__mention}`}
+                trigger="@"
+                data={data}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                trigger="@"
+                data={(e) => {
+                  handleSearch(e);
+                }}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+            </MentionsInput>
+          </div>
           <div className="flex items-end justify-end">
             <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white flex-1 mt-2">
               {!gifUrl && (
@@ -1169,7 +1228,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
         <button
           disabled={!input && !image && !gifUrl}
           type="submit"
-          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 mb-8 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
         >
           <span className="hidden md:inline">Comment</span>
           <span className="flex md:hidden">

@@ -21,7 +21,7 @@ function Sidebar() {
   const [isOpen, setOpen] = useState(false);
 
   return (
-    <div className="md:flex md:flex-col hidden col-span-1 items-center p-2 pt-4 border-x dark:border-lightgray h-[92vh] scrollbar-hide overflow-scroll">
+    <div className="md:flex md:flex-col hidden col-span-1 items-center p-2 pt-4 border-x dark:border-lightgray flex-1 scrollbar-hide overflow-scroll">
       <Link href="/" className="active">
         {/* 
                 // @ts-ignore */}

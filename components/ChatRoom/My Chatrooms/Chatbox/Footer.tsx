@@ -18,6 +18,10 @@ import { isEmpty } from "lodash";
 import AutoResizeTextarea from "./AutoResizeTextArea";
 import { toast } from "react-hot-toast";
 import { config } from "../../../../constants";
+import { MentionsInput, Mention } from "react-mentions";
+import darkMode from "../../../../styles/darkMode2.module.scss";
+import lightMode from "../../../../styles/lightMode2.module.scss";
+import { searchTagParticipants } from "../../../../stores/user/UserActions";
 
 function Footer({
   setReply,
@@ -40,6 +44,7 @@ function Footer({
   const [input, setInput] = useState<string>("");
   const [gifUrl, setGifUrl] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
+  const [data, setData] = useState<any>([]);
 
   const dispatch = useAppDispatch();
 
@@ -321,6 +326,14 @@ function Footer({
     }
   };
 
+  const handleSearch = async (e: any) => {
+    dispatch(
+      searchTagParticipants(room?.roomId, {
+        search: e,
+      })
+    ).then((res: any) => setData(res));
+  };
+
   return (
     <>
       {reply && (
@@ -365,22 +378,67 @@ function Footer({
       <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
         <div className="flex space-x-1 p-1 w-full">
           <form onKeyDown={(e) => handleKeyDown(e)} className="w-full">
-            <textarea
-              className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
-              value={input}
-              onChange={handleChange}
-              placeholder="Send a message"
-              rows={1}
-              id="myTextArea"
-            />
+            {
+              isEmpty(room) &&
+              <textarea
+                className="flex items-center justify-center resize-none w-full px-1 py-2 text-gray-700 dark:text-white border bg-gray-200 dark:bg-lightgray rounded-md focus:outline-none focus:shadow-outline-blue focus:border-orange-300"
+                value={input}
+                onChange={handleChange}
+                placeholder="Send a message"
+                rows={1}
+                id="myTextArea"
+              />
+            }
+            {
+              !isEmpty(room) &&
+              <>
+                <div className="hidden dark:inline dark:w-full mt-1 mb-3">
+                  <MentionsInput
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    classNames={darkMode}
+                    placeholder="Send a message"
+                  >
+                    <Mention
+                      className={`${darkMode.mentions__mention}`}
+                      trigger="@"
+                      data={data}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                    <Mention
+                      trigger="@"
+                      data={(e) => {
+                        handleSearch(e);
+                      }}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                  </MentionsInput>
+                </div>
+                <div className="dark:hidden w-full mt-1 mb-3">
+                  <MentionsInput
+                    value={input}
+                    onChange={(e) => setInput(e.target.value)}
+                    classNames={lightMode}
+                    placeholder="Send a message"
+                  >
+                    <Mention
+                      className={`${lightMode.mentions__mention}`}
+                      trigger="@"
+                      data={data}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                    <Mention
+                      trigger="@"
+                      data={(e) => {
+                        handleSearch(e);
+                      }}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                  </MentionsInput>
+                </div>
+              </>
+            }
           </form>
-          {/* <input
-          value={input}
-          onChange={(e: any) => setInput(e.target.value)}
-          className='flex-1 rounded-lg bg-gray-200 dark:bg-lightgray p-2 outline-none dark:text-white dark:placeholder:text-white placeholder:text-black placeholder:font-semibold'
-          type="text"
-          placeholder='Send a Message ...'
-        /> */}
           <div className="flex items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
             <PaperAirplaneIcon
               onClick={() => handleSendMessage()}

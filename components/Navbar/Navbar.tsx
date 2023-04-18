@@ -109,14 +109,12 @@ const Navbar = () => {
   // @ts-ignore
   const [channel, ably] = useChannel(`notifications-${JSON.parse(localStorage.getItem('authUser')).id}`, (message) => {
     checkUserNotification(message.data);
-    console.log('message: ', message);
   });
 
   const [message] = useChannel(
     // @ts-ignore
     `messageNotifications-${JSON.parse(localStorage.getItem('authUser')).id}`,
     (message) => {
-      console.log('message: ', message);
       if (message.data !== 'room') {
         fetchMessageNotification(message.data);
       }
@@ -205,10 +203,8 @@ const Navbar = () => {
   };
 
   const checkUserNotification = async (data: Data) => {
-    console.log('data: ', data);
     await dispatch(fetchUserNotification(data?.notification)).then(
       async (result: any) => {
-        console.log('result: ', result);
         setNotificationInfo(
           `${result?.otherUser?.name} ${renderNotificationText(result)}`
         );
@@ -261,6 +257,7 @@ const Navbar = () => {
     if (!mounted) return null;
 
     if (currentTheme === "dark") {
+      document.documentElement.style.setProperty('--mode', 'light');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -278,6 +275,7 @@ const Navbar = () => {
         </svg>
       );
     } else {
+      document.documentElement.style.setProperty('--mode', 'dark');
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -304,7 +302,6 @@ const Navbar = () => {
     if (!showSidebar) return;
     function handleClick(event: any) {
       if (showSidebar === true) {
-        console.log("hello");
         if (sidebar.current && !sidebar.current.contains(event.target)) {
           setShowSidebar(false);
         }

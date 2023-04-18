@@ -96,7 +96,6 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
           search: inputAdd,
         })
       ).then((result: any) => {
-        console.log("resSULT: ", result);
         setSearchResult(result);
       });
     }

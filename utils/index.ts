@@ -112,6 +112,7 @@ export const timeSince = (time: any) => {
   var i = 0,
     format;
   while ((format = time_formats[i++]))
+    // @ts-ignore
     if (seconds < format[0]) {
       if (typeof format[2] == "string") return format[list_choice];
       else
@@ -141,18 +142,37 @@ export const renderComment = (text: any) => {
   const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
   const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
   const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
-  const matches = text.match(pattern);
+  const matches = text?.match(pattern);
 
   if (matches && matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
       let name = matches[i].match(pattern_username)[0];
       let user_id = matches[i].match(pattern_id)[0];
       let encode = encodeQuery(user_id, "profile");
-      let link =
-        '<Link href="/dashboard/profile?"' + encode + '> '+ name + '</Link>';
+      let link = `<a href="/dashboard/profile?${encode}" className="hover:underline text-blue-400">@${name}</a>`;
 
       text = text.replace(matches[i], link);
-      console.log({ text });
+    }
+  }
+
+  return text;
+};
+
+export const renderCommentText = (text: any) => {
+  //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
+  const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
+  const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
+  const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
+  const matches = text?.match(pattern);
+
+  if (matches && matches.length > 0) {
+    for (let i = 0; i < matches.length; i++) {
+      let name = matches[i].match(pattern_username)[0];
+      let user_id = matches[i].match(pattern_id)[0];
+      let encode = encodeQuery(user_id, "profile");
+      let link = `@${name}`;
+
+      text = text.replace(matches[i], link);
     }
   }
 

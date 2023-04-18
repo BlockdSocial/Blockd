@@ -46,7 +46,10 @@ import {
   CHECK_EMAIL_FAILURE,
   IS_SEARCHING_TAG_USERS,
   SEARCH_TAG_USERS_SUCCESS,
-  SEARCH_TAG_USERS_FAILURE
+  SEARCH_TAG_USERS_FAILURE,
+  IS_SEARCHING_TAG_PARTICIPANTS,
+  SEARCH_TAG_PARTICIPANTS_SUCCESS,
+  SEARCH_TAG_PARTICIPANTS_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -349,6 +352,26 @@ export function searchTagUsers(fields: any) {
       console.log('Search tag users error: ', error);
       dispatch({
         type: SEARCH_TAG_USERS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function searchTagParticipants(id: any, fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SEARCHING_TAG_PARTICIPANTS });
+    try {
+      const result = await userApi.searchTagParticipants(id, fields);
+      dispatch({
+        type: SEARCH_TAG_PARTICIPANTS_SUCCESS,
+        tagParticipants: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Search tag participants error: ', error);
+      dispatch({
+        type: SEARCH_TAG_PARTICIPANTS_FAILURE,
         error: error.message
       });
     }

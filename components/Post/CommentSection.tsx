@@ -35,11 +35,15 @@ import {
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-import { encodeQuery, getDiffTime } from "../../utils";
+import { encodeQuery, getDiffTime, renderComment, renderCommentText } from "../../utils";
 import { toast } from "react-hot-toast";
 import Linkify from "react-linkify";
 import { MentionsInput, Mention } from "react-mentions";
 import { searchTagUsers } from "../../stores/user/UserActions";
+// @ts-ignore
+import renderHTML from "react-render-html";
+import darkMode from "../../styles/darkMode.module.scss";
+import lightMode from "../../styles/lightMode.module.scss";
 
 interface Pic {
   name: string;
@@ -102,7 +106,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [textArea, setTextArea] = useState<string>(comment?.content);
+  const [textArea, setTextArea] = useState<string>(renderCommentText(comment?.content));
 
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -178,7 +182,6 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
     if (gifBoxIsOpen === false) {
       setGifBoxIsOpen(!gifBoxIsOpen);
     }
-    console.log(gify);
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
     setUploadedVideo(gify.images.downsized);
@@ -393,10 +396,12 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   };
 
   const handleSearch = async (e: any) => {
-    dispatch(searchTagUsers({
-      search: e
-    })).then((res: any) => setData(res))
-  }
+    dispatch(
+      searchTagUsers({
+        search: e,
+      })
+    ).then((res: any) => setData(res));
+  };
 
   const handleEditComment = async () => {
     if ("reply" !== type) {
@@ -471,7 +476,6 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
-    console.log(href);
     return (
       <a
         onClick={async (e) => {
@@ -499,9 +503,9 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           "reply" === type
             ? "#"
             : `/dashboard/post/comment?${encodeQuery(
-              comment?.id,
-              "comment"
-            )}&${encodeQuery(post?.id, "post")}`
+                comment?.id,
+                "comment"
+              )}&${encodeQuery(post?.id, "post")}`
         }
         className="flex flex-col space-y-1 w-full"
       >
@@ -610,11 +614,13 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
         <div className="w-full">
           <div className="flex flex-col items-start justify-start">
-            <p className="pt-4 text-sm">
-              <Linkify componentDecorator={componentDecorator}>
-                {comment?.content}
-              </Linkify>
-            </p>
+            {!isEmpty(comment?.content) && (
+              <p className="pt-4 text-sm">
+                <Linkify componentDecorator={componentDecorator}>
+                  {renderHTML(renderComment(comment?.content))}
+                </Linkify>
+              </p>
+            )}
             {comment?.imgName != null ? (
               <img
                 src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
@@ -633,33 +639,30 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </Link>
       <div
-        className={`flex justify-between mt-2 ${commentBoxVisible ? "hidden" : "flex"
-          }`}
+        className={`flex justify-between mt-2 ${
+          commentBoxVisible ? "hidden" : "flex"
+        }`}
       >
         <div className="flex">
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
-            <p
-              className={`text-xs ${isLiked ? "text-green-600" : ""
-                }`}
-            >
+            <p className={`text-xs ${isLiked ? "text-green-600" : ""}`}>
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : ""
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isLiked ? "text-green-600" : ""
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikeComment()}
             />
           </div>
           <div className="flex cursor-pointer items-center md:space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
             <ArrowDownIcon
-              className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : ""
-                } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-4 w-4 cursor-pointer ${
+                isDisliked ? "text-red-600" : ""
+              } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikeComment()}
             />
-            <p
-              className={`text-xs ${isDisliked ? "text-red-600" : ""
-                }`}
-            >
+            <p className={`text-xs ${isDisliked ? "text-red-600" : ""}`}>
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
           </div>
@@ -683,7 +686,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
       {commentBoxVisible && (
         <form
           onSubmit={handleAddReply}
-          className="flex items-start justify-center w-full"
+          className="flex items-end justify-center w-full mt-4 space-x-3"
         >
           <div className="flex flex-col items-end justify-center w-full">
             {/* <input
@@ -693,48 +696,71 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
               type="text"
               placeholder="Write a comment..."
             /> */}
-            <MentionsInput
-              value={input}
-              onChange={(e) => setInput(e.target.value)}
-              className="flex-1 rounded-lg bg-gray-200 dark:bg-lightgray dark:group-hover:bg-darkgray p-2 outline-none w-full"
-              placeholder="Write a comment..."
-            >
-              <Mention
-                trigger="@"
-                data={data}
-                markup= '@@@______id____^^______display____@@@^^^'
-              />
-              <Mention
-                trigger="@"
-                data={(e) => { handleSearch(e) }}
-                markup= '@@@______id____^^______display____@@@^^^'
-              />
-            </MentionsInput>
+            <div className="hidden dark:inline dark:w-full">
+              <MentionsInput
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                classNames={darkMode}
+                placeholder="Write a comment..."
+              >
+                <Mention
+                  className={`${darkMode.mentions__mention}`}
+                  trigger="@"
+                  data={data}
+                  markup="@@@______id____^^______display____@@@^^^"
+                />
+                <Mention
+                  trigger="@"
+                  data={(e) => {
+                    handleSearch(e);
+                  }}
+                  markup="@@@______id____^^______display____@@@^^^"
+                />
+              </MentionsInput>
+            </div>
+            <div className="dark:hidden w-full">
+              <MentionsInput
+                value={input}
+                onChange={(e) => setInput(e.target.value)}
+                classNames={lightMode}
+                placeholder="Write a comment..."
+              >
+                <Mention
+                  className={`${lightMode.mentions__mention}`}
+                  trigger="@"
+                  data={data}
+                  markup="@@@______id____^^______display____@@@^^^"
+                />
+                <Mention
+                  trigger="@"
+                  data={(e) => {
+                    handleSearch(e);
+                  }}
+                  markup="@@@______id____^^______display____@@@^^^"
+                />
+              </MentionsInput>
+            </div>
             <div className="flex items-center justify-between w-full py-3">
               <div className="flex">
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
-                  <p
-                    className={`text-xs ${isLiked ? "text-green-600" : ""
-                      }`}
-                  >
+                  <p className={`text-xs ${isLiked ? "text-green-600" : ""}`}>
                     {info?.likes != null || undefined ? info?.likes : 0}
                   </p>
                   <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : ""
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isLiked ? "text-green-600" : ""
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleLikeComment()}
                   />
                 </div>
                 <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                   <ArrowDownIcon
-                    className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : ""
-                      } transition-transform ease-out duration-150 hover:scale-150`}
+                    className={`h-4 w-4 cursor-pointer ${
+                      isDisliked ? "text-red-600" : ""
+                    } transition-transform ease-out duration-150 hover:scale-150`}
                     onClick={() => handleDislikeComment()}
                   />
-                  <p
-                    className={`text-xs ${isDisliked ? "text-red-600" : ""
-                      }`}
-                  >
+                  <p className={`text-xs ${isDisliked ? "text-red-600" : ""}`}>
                     {info?.dislikes != null || undefined ? info?.dislikes : 0}
                   </p>
                 </div>
@@ -856,7 +882,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
           <button
             disabled={!input && !image && !gifUrl}
             type="submit"
-            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+            className="text-blockd font-semibold disabled:text-gray-200 mb-12 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
           >
             <span className="hidden md:inline">Comment</span>
             <span className="flex md:hidden">
@@ -866,8 +892,9 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </form>
       )}
       <div
-        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          deletePopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
           <div className="relative bg-gray-50 rounded-t-lg">
@@ -918,8 +945,9 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </div>
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${editPopUp ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 ${
+          editPopUp ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit max-h-full bg-gray-50">
           <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1030,15 +1058,28 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 </div>
               )}
               <p className="font-semibold text-black">Description</p>
-              <textarea
-                id="message"
-                maxLength={255}
-                value={textArea}
-                onChange={(e: any) => setTextArea(e.target.value)}
-                data-rows="4"
-                className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
-                placeholder="Current Post description"
-              ></textarea>
+              <div className="w-full mt-1 mb-3">
+                <MentionsInput
+                  value={textArea}
+                  onChange={(e) => setTextArea(e.target.value)}
+                  classNames={lightMode}
+                  placeholder="Add a caption"
+                >
+                  <Mention
+                    className={`${lightMode.mentions__mention}`}
+                    trigger="@"
+                    data={data}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                  <Mention
+                    trigger="@"
+                    data={(e) => {
+                      handleSearch(e);
+                    }}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                </MentionsInput>
+              </div>
             </div>
           </div>
           <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
