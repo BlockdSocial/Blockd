@@ -28,6 +28,7 @@ function OrdinaryChatrooms() {
   const [isParticipant, setIsParticipant] = useState<boolean>(false);
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [displayName, setDisplayName] = useState<string>("");
+  const [chainId, setChainId] = useState<number>();
 
   useEffect(() => {
     getChatrooms();
@@ -65,11 +66,37 @@ function OrdinaryChatrooms() {
     }
   };
 
+  const renderNetwork = () => {
+    switch (chainId) {
+      case 1:
+        return 'Ethereum Main Network';
+        break;
+      case 56:
+        return 'Binance Smart Chain';
+        break;
+      case 137:
+        return 'Polygon Mainnet';
+        break;
+      case 250:
+        return 'Fantom';
+        break;
+      case 43114:
+        return 'Avalanche Network';
+        break;
+      default:
+        return 'N/A';
+        break;
+    }
+  }
+
+  console.log('allRooms: ', allRooms);
+
   return (
     <div className="flex flex-col items-center justify-center mt-2 space-y-1">
       {allRooms &&
         allRooms.map((room: any) => (
           <div
+            key={room?.id}
             onClick={(e) => {
               if (room?.participant) {
                 router.push(
@@ -90,6 +117,7 @@ function OrdinaryChatrooms() {
                   setSelectedRoom(room),
                   setDisplayName(room?.displayName),
                   setErrorMessage("");
+                setChainId(room?.chainId);
               }
             }}
             className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
@@ -127,176 +155,9 @@ function OrdinaryChatrooms() {
             <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
           </div>
         ))}
-      {/* <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
-        <div className="flex items-center justify-start space-x-4">
-          <img
-            src="/images/chatLogo/Ethereum.png"
-            className="w-10 h-10 rounded-full"
-          />
-          <div className="flex flex-col items-start justify-start">
-            <p className="text-sm md:text-base font-semibold">
-              Ethereum Official
-            </p>
-            <p className="text-xs md:text-sm">3K Members</p>
-          </div>
-        </div>
-        <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
-          <p className="text-sm md:text-base font-semibold text-white">
-            +50 %
-          </p>
-        </div>
-        <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-      </div>
-      <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
-        <div className="flex items-center justify-start space-x-4">
-          <img
-            src="/images/chatLogo/Polygon.png"
-            className="w-10 h-10 rounded-full"
-          />
-          <div className="flex flex-col items-start justify-start">
-            <p className="text-sm md:text-base font-semibold">
-              Polygon Official
-            </p>
-            <p className="text-xs md:text-sm">2K Members</p>
-          </div>
-        </div>
-        <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
-          <p className="text-sm md:text-base font-semibold text-white">
-            +12.5 %
-          </p>
-        </div>
-        <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-      </div>
-      <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
-        <div className="flex items-center justify-start space-x-4">
-          <img
-            src="/images/chatLogo/EGO.png"
-            className="w-10 h-10 rounded-full"
-          />
-          <div className="flex flex-col items-start justify-start">
-            <p className="text-sm md:text-base font-semibold">
-              EGO Whales Group
-            </p>
-            <p className="text-xs md:text-sm">1K Members</p>
-          </div>
-        </div>
-        <div className="flex items-center justify-start bg-red-700 p-2 rounded-md">
-          <p className="text-sm md:text-base font-semibold text-white">
-            -2 %
-          </p>
-        </div>
-        <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-      </div> */}
-      {/* <div
-        onClick={() => setSeeMore(!seeMore)}
-        className={`p-2 bg-gray-200 hover:bg-gray-300 dark:hover:bg-lightgray/50 dark:bg-lightgray rounded-md cursor-pointer ${
-          seeMore ? "hidden" : ""
-        }`}
-      >
-        See more
-      </div>
-      {seeMore && (
-        <>
-          <div
-            onClick={() => setModalOpen(!modalOpen)}
-            className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4"
-          >
-            <div className="flex items-center justify-start space-x-4">
-              <img
-                src="/images/chatLogo/Bitcoin.png"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="flex flex-col items-start justify-start">
-                <div className="flex items-center justify-start space-x-1">
-                  <p className="text-sm md:text-base font-semibold">
-                    BTC Official
-                  </p>
-                  <LockClosedIcon className="w-4 h-4 stroke-2" />
-                </div>
-                <p className="text-xs md:text-sm">30K Members</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-start">
-              <p className="text-sm md:text-base font-semibold bg-green-700 p-2 rounded-md text-white">
-                +1200 %
-              </p>
-            </div>
-            <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-          </div>
-          <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
-            <div className="flex items-center justify-start space-x-4">
-              <img
-                src="/images/chatLogo/Ethereum.png"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="flex flex-col items-start justify-start">
-                <p className="text-sm md:text-base font-semibold">
-                  Ethereum Official
-                </p>
-                <p className="text-xs md:text-sm">3K Members</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
-              <p className="text-sm md:text-base font-semibold text-white">
-                +700 %
-              </p>
-            </div>
-            <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-          </div>
-          <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
-            <div className="flex items-center justify-start space-x-4">
-              <img
-                src="/images/chatLogo/Polygon.png"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="flex flex-col items-start justify-start">
-                <p className="text-sm md:text-base font-semibold">
-                  Polygon Official
-                </p>
-                <p className="text-xs md:text-sm">2K Members</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
-              <p className="text-sm md:text-base font-semibold text-white">
-                +300 %
-              </p>
-            </div>
-            <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-          </div>
-          <div className="relative flex items-center justify-between group cursor-pointer bg-gray-100 dark:bg-lightgray w-full p-2 px-4">
-            <div className="flex items-center justify-start space-x-4">
-              <img
-                src="/images/chatLogo/EGO.png"
-                className="w-10 h-10 rounded-full"
-              />
-              <div className="flex flex-col items-start justify-start">
-                <p className="text-sm md:text-base font-semibold">
-                  EGO Whales Group
-                </p>
-                <p className="text-xs md:text-sm">1K Members</p>
-              </div>
-            </div>
-            <div className="flex items-center justify-start bg-green-700 p-2 rounded-md">
-              <p className="text-sm md:text-base font-semibold text-white">
-                +200 %
-              </p>
-            </div>
-            <div className="absolute top-0 -inset-full h-full w-5/6 z-5 block transform -skew-x-12 bg-gradient-to-r from-transparent to-lightgray dark:to-white opacity-40 group-hover:animate-shine"></div>
-          </div>
-          <div
-            onClick={() => setSeeMore(!seeMore)}
-            className={`p-2 bg-gray-200 hover:bg-gray-300 dark:hover:bg-lightgray/50 dark:bg-lightgray rounded-md cursor-pointer ${
-              !seeMore ? "hidden" : ""
-            }`}
-          >
-            See less
-          </div>
-        </>
-      )} */}
       <div
-        className={`fixed -top-2 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
-          modalOpen ? "" : "hidden"
-        }`}
+        className={`fixed -top-2 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${modalOpen ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
@@ -360,7 +221,7 @@ function OrdinaryChatrooms() {
                     Network
                   </label>
                   <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
-                    Polygon
+                    {renderNetwork()}
                   </div>
                 </div>
                 <div>

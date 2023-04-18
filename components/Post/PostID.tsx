@@ -756,7 +756,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               {sharedPost?.content != null && (
                 <p className="pt-6 text-sm">
                   <Linkify componentDecorator={componentDecorator}>
-                    {sharedPost?.content}
+                    {renderHTML(renderComment(sharedPost?.content))}
                   </Linkify>
                 </p>
               )}
