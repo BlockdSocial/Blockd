@@ -145,6 +145,7 @@ function Footer({
   const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
 
   const handleSendMessage = async (e: any = null) => {
+    setInput("");
     if (e) {
       e.preventDefault();
     }
