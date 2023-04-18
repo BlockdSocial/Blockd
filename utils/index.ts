@@ -1,4 +1,5 @@
 import Link from "next/link";
+import renderHTML from "react-render-html";
 
 export const isEmpty = (variable: any) => {
   if (variable === false) {
@@ -154,6 +155,7 @@ export const renderComment = (text: any) => {
       text = text.replace(matches[i], link);
     }
   }
+  console.log('renderComment',renderHTML(text))
 
   return text;
 };
@@ -175,6 +177,7 @@ export const renderCommentText = (text: any) => {
       text = text.replace(matches[i], link);
     }
   }
+ 
 
   return text;
 };

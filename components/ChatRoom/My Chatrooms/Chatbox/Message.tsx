@@ -144,7 +144,7 @@ export default function Message({
                 </p>
                 {
                   !isEmpty(message?.originMessage?.content) &&
-                  <p className="flex items-center justify-start pt-2 text-sm">
+                  <p className=" pt-2 text-sm">
                     <Linkify componentDecorator={componentDecorator}>
                       {renderHTML(renderComment(message?.originMessage?.content))}
                     </Linkify>
@@ -168,7 +168,7 @@ export default function Message({
             )}
             {
               !isEmpty(message?.content) &&
-              <p className="flex items-center justify-start py-2 text-sm md:text-base">
+              <p className=" py-2 text-sm md:text-base">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment(message?.content))}
                 </Linkify>
@@ -349,7 +349,7 @@ export default function Message({
             </p>
             {
               !isEmpty(message?.originMessage?.content) &&
-              <p className="flex items-center justify-start pt-2 text-sm">
+              <p className=" pt-2 text-sm">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment(message?.originMessage?.content))}
                 </Linkify>
@@ -373,7 +373,7 @@ export default function Message({
         )}
         {
           !isEmpty(message?.content) &&
-          <p className="flex items-center justify-start py-2 text-sm md:text-base">
+          <p className=" py-2 text-sm md:text-base">
             <Linkify componentDecorator={componentDecorator}>
               {renderHTML(renderComment(message?.content))}
             </Linkify>
