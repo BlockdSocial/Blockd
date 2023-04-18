@@ -39,7 +39,6 @@ import { useCopyToClipboard } from "usehooks-ts";
 import { encodeQuery, getDiffTime } from "../../utils";
 import { MentionsInput, Mention } from "react-mentions";
 import Linkify from "react-linkify";
-import { getMentions } from "../../utils";
 // @ts-ignore
 import renderHTML from 'react-render-html';
 
@@ -710,7 +709,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 {mainPost?.content != null && (
                   <p className="text-sm">
                     <Linkify componentDecorator={componentDecorator}>
-                      {renderHTML(getMentions(mainPost?.content))}
+                      {/* {renderHTML(getMentions(mainPost?.content))} */}
                     </Linkify>
                   </p>
                 )}
