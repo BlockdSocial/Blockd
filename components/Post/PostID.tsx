@@ -583,49 +583,48 @@ function PostID({ post, refetchComments, refetch }: Props) {
             {((post?.userId === authUser?.id &&
               getDiffTime(post?.createdAt) < 60) ||
               post?.userId !== authUser?.id) && (
-              <div
-                ref={dropdown}
-                className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
-              >
-                <EllipsisHorizontalIcon
-                  onClick={() => setIsDropdownVisible((b) => !b)}
-                  className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
-                />
-                <div className="relative z-0 flex ite">
-                  <ul
-                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
-                      isDropdownVisible ? "" : "hidden"
-                    }`}
-                  >
-                    {post?.userId === authUser?.id &&
-                      getDiffTime(post?.createdAt) < 60 && (
-                        <div
-                          onClick={() => setEditPopUp(!editPopUp)}
-                          className="flex items-center text-sm justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
-                        >
-                          Edit Post
-                        </div>
-                      )}
-                    {post?.userId !== authUser?.id && (
-                      <>
-                        {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+                <div
+                  ref={dropdown}
+                  className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <EllipsisHorizontalIcon
+                    onClick={() => setIsDropdownVisible((b) => !b)}
+                    className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
+                  />
+                  <div className="relative z-0 flex ite">
+                    <ul
+                      className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
+                        }`}
+                    >
+                      {post?.userId === authUser?.id &&
+                        getDiffTime(post?.createdAt) < 60 && (
+                          <div
+                            onClick={() => setEditPopUp(!editPopUp)}
+                            className="flex items-center text-sm justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
+                          >
+                            Edit Post
+                          </div>
+                        )}
+                      {post?.userId !== authUser?.id && (
+                        <>
+                          {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                         Report Post
                       </div> */}
-                        <div
-                          className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
-                          onClick={() => handleFollowUser()}
-                        >
-                          Follow User
-                        </div>
-                        {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                          <div
+                            className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
+                            onClick={() => handleFollowUser()}
+                          >
+                            Follow User
+                          </div>
+                          {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                         Follow Post
                       </div> */}
-                      </>
-                    )}
-                  </ul>
+                        </>
+                      )}
+                    </ul>
+                  </div>
                 </div>
-              </div>
-            )}
+              )}
             {post?.userId === authUser?.id && (
               <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon
@@ -790,30 +789,26 @@ function PostID({ post, refetchComments, refetch }: Props) {
         <div className="flex">
           <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
             <p
-              className={`text-xs ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              }`}
+              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                }`}
             >
               {info?.likes != null || undefined ? info?.likes : 0}
             </p>
             <ArrowUpIcon
-              className={`h-5 w-5 cursor-pointer ${
-                isLiked ? "text-green-600" : "group-hover:text-green-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleLikePost()}
             />
           </div>
           <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
             <ArrowDownIcon
-              className={`h-5 w-5 cursor-pointer ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              } transition-transform ease-out duration-150 hover:scale-150`}
+              className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                } transition-transform ease-out duration-150 hover:scale-150`}
               onClick={() => handleDislikePost()}
             />
             <p
-              className={`text-xs ${
-                isDisliked ? "text-red-600" : "group-hover:text-red-600"
-              }`}
+              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                }`}
             >
               {info?.dislikes != null || undefined ? info?.dislikes : 0}
             </p>
@@ -833,9 +828,8 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
 
         <div
-          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-            fullScreenImage ? "" : "hidden"
-          }`}
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${fullScreenImage ? "" : "hidden"
+            }`}
         >
           <div className="relative w-fit rounded-lg shadow-lg max-w-md h-auto m-6">
             <div className="flex items-center justify-center relative rounded-t-lg">
@@ -870,9 +864,8 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
 
         <div
-          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-            deletePopUp ? "" : "hidden"
-          }`}
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
+            }`}
         >
           <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
             <div className="relative bg-gray-50 rounded-t-lg">
@@ -923,9 +916,8 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
         <div
-          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-            editPopUp ? "" : "hidden"
-          }`}
+          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
+            }`}
         >
           <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
             <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1034,7 +1026,29 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   </div>
                 )}
                 <p className="font-semibold text-black">Description</p>
-                <textarea
+                <div className="w-full mt-1 mb-3">
+                  <MentionsInput
+                    value={textArea}
+                    onChange={(e) => setTextArea(e.target.value)}
+                    classNames={lightMode}
+                    placeholder="Add a caption"
+                  >
+                    <Mention
+                      className={`${lightMode.mentions__mention}`}
+                      trigger="@"
+                      data={data}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                    <Mention
+                      trigger="@"
+                      data={(e) => {
+                        handleSearch(e);
+                      }}
+                      markup="@@@______id____^^______display____@@@^^^"
+                    />
+                  </MentionsInput>
+                </div>
+                {/* <textarea
                   id="message"
                   maxLength={255}
                   value={textArea}
@@ -1042,7 +1056,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   data-rows="4"
                   className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
                   placeholder="Current Post description"
-                ></textarea>
+                ></textarea> */}
               </div>
             </div>
             <div className="flex items-center justify-end space-x-3 p-2">

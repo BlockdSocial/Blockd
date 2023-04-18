@@ -29,6 +29,8 @@ function OrdinaryChatrooms() {
   const [errorMessage, setErrorMessage] = useState<string>("");
   const [displayName, setDisplayName] = useState<string>("");
   const [chainId, setChainId] = useState<number>();
+  const [description, setDescription] = useState<string>("");
+  const [moderator, setModerator] = useState<string>("");
 
   useEffect(() => {
     getChatrooms();
@@ -117,6 +119,8 @@ function OrdinaryChatrooms() {
                   setSelectedRoom(room),
                   setDisplayName(room?.displayName),
                   setErrorMessage("");
+                  setModerator(room?.moderator?.name)
+                setDescription(room?.description);
                 setChainId(room?.chainId);
               }
             }}
@@ -205,7 +209,7 @@ function OrdinaryChatrooms() {
                     Chatroom Owner
                   </label>
                   <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
-                    User Name
+                    {moderator}
                   </div>
                 </div>
                 <div>
@@ -213,7 +217,7 @@ function OrdinaryChatrooms() {
                     Description
                   </label>
                   <div className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg w-full p-2.5">
-                    Chatroom Description
+                    {description}
                   </div>
                 </div>
                 <div>
