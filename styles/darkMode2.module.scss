@@ -2,6 +2,7 @@
   width: 100%;
   border-radius: 5px;
   background-color: #343434;
+  min-height: 100px;
 }
 
 .mentions--singleLine .mentions__control {
@@ -55,6 +56,6 @@
 }
 
 .mentions__mention {
-  color: #90CAF9;
+  color: #90caf9;
   font-size: 12pt;
 }

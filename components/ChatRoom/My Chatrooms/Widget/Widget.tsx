@@ -7,7 +7,7 @@ function Widget({ chats, setReceiver, setRoom, refetchChats }: any) {
 
   }
   return (
-    <div className="hidden lg:flex lg:flex-col col-span-2 min-h-[93vh] dark:bg-darkray border-r dark:border-lightgray">
+    <div className="hidden lg:flex lg:flex-col col-span-2  h-full dark:bg-darkray border-r dark:border-lightgray">
       <div className="flex items-center justify-start h-14 border-b dark:border-lightgray space-x-2 py-4 px-2 bg-white/30 dark:bg-darkgray/30">
         <ChatBubbleLeftRightIcon className="w-7 h-7" />
         <p>Private DMs</p>

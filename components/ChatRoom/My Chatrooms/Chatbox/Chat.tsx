@@ -217,7 +217,7 @@ export default function Chat({
         isEmpty(chats) && isEmpty(chatrooms)
           ? "overflow-hidden"
           : "scrollbar-hide overflow-scroll"
-      }  h-[92vh] dark:bg-darkgray z-0`}
+      } h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
       <Navbar

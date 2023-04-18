@@ -18,6 +18,8 @@ import { config } from "../../constants";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { MentionsInput, Mention } from "react-mentions";
 import { searchTagUsers } from "../../stores/user/UserActions";
+import darkMode from "../../styles/darkMode2.module.scss";
+import lightMode from "../../styles/lightMode2.module.scss";
 
 interface Props {
   refetchFiltered: () => void;
@@ -157,7 +159,7 @@ function TweetBox({ refetchFiltered }: Props) {
     }
   };
 
-  const handleSubmitPost = async (e: any) => {  
+  const handleSubmitPost = async (e: any) => {
     e.preventDefault();
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
@@ -219,10 +221,12 @@ function TweetBox({ refetchFiltered }: Props) {
   };
 
   const handleSearch = async (e: any) => {
-    dispatch(searchTagUsers({
-      search: e
-    })).then((res: any) => setData(res))
-  }
+    dispatch(
+      searchTagUsers({
+        search: e,
+      })
+    ).then((res: any) => setData(res));
+  };
 
   return (
     <div className="flex space-x-2 p-4 dark:bg-lightgray border-y dark:border-lightgray">
@@ -288,24 +292,51 @@ function TweetBox({ refetchFiltered }: Props) {
             className="pt-6 h-24 w-full text-black dark:text-white outline-none text-xs md:text-base bg-transparent"
             placeholder="What's the word on the block?"
           ></textarea> */}
-          <MentionsInput
-            value={input}
-            onChange={(e) => setInput(e.target.value)}
-            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-xs md:text-base bg-transparent"
-            placeholder="What's the word on the block?"
-          >
-            <Mention
-              trigger="@"
-              data={data}
-              markup= '@@@______id____^^______display____@@@^^^'
-            />
-            <Mention
-              trigger="@"
-              data={(e) => { handleSearch(e) }}
-              markup= '@@@______id____^^______display____@@@^^^'
-            />
-          </MentionsInput>
-          <hr className="mb-4 dark:border-darkgray dark:border-2"></hr>
+          <div className="hidden dark:inline dark:w-full mt-1 mb-3">
+            <MentionsInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              classNames={darkMode}
+              placeholder="What's the word on the block?"
+            >
+              <Mention
+                className={`${darkMode.mentions__mention}`}
+                trigger="@"
+                data={data}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                trigger="@"
+                data={(e) => {
+                  handleSearch(e);
+                }}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+            </MentionsInput>
+          </div>
+          <div className="dark:hidden w-full mt-1 mb-3">
+            <MentionsInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              classNames={lightMode}
+              placeholder="What's the word on the block?"
+            >
+              <Mention
+                className={`${lightMode.mentions__mention}`}
+                trigger="@"
+                data={data}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                trigger="@"
+                data={(e) => {
+                  handleSearch(e);
+                }}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+            </MentionsInput>
+          </div>
+          <hr className="mb-4 dark:border-darkgray"></hr>
           {gifBoxIsOpen && (
             <div className="relative w-full">
               <img
