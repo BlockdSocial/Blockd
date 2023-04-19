@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from 'react'
 import PostTest from '../Feed/Post'
+import { useAppSelector } from '../../stores/hooks';
 
 interface Post {
   id: number;
@@ -18,6 +19,9 @@ interface Props {
 }
 
 function Feed({ posts, refetch }: Props) {
+  const { isFetchingUserPosts } = useAppSelector(
+    (state) => state.postReducer
+  );
 
   return (
     <div className='p-4'>
@@ -33,6 +37,11 @@ function Feed({ posts, refetch }: Props) {
           />
         ))
       }
+      {isFetchingUserPosts && (
+        <p className="flex items-center justify-center space-x-3 p-4">
+          Loading ...
+        </p>
+      )}
     </div>
   )
 }

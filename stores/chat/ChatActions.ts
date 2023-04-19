@@ -92,7 +92,7 @@ export function fetchMessages(fields: any) {
       const result = await chatApi.fetchMessages(fields);
       dispatch({
         type: FETCH_MESSAGES_SUCCESS,
-        messages: result
+        // messages: result
       });
       return result;
     } catch (error: any) {

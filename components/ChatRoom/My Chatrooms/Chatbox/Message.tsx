@@ -139,9 +139,9 @@ export default function Message({
             </div>
             {message?.repliedMessageId && (
               <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-                <p className="flex items-center justify-start text-sm">
-                  {message?.otherUser?.name}
-                </p>
+                {/* <p className="flex items-center justify-start text-sm">
+                  @{message?.originMessage?.otherUser?.name}
+                </p> */}
                 {
                   !isEmpty(message?.originMessage?.content) &&
                   <p className=" pt-2 text-sm">
@@ -344,9 +344,9 @@ export default function Message({
         </div>
         {message?.repliedMessageId && (
           <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-            <p className="flex items-center justify-start text-sm">
-              @{message?.otherUser?.name}
-            </p>
+            {/* <p className="flex items-center justify-start text-sm">
+              @{message?.originMessage?.otherUser?.name}
+            </p> */}
             {
               !isEmpty(message?.originMessage?.content) &&
               <p className=" pt-2 text-sm">

@@ -32,7 +32,8 @@ function Footer({
   room,
   fetchRoomMessages,
   replyMessage,
-  setReplyMessage
+  setReplyMessage,
+  setLoad
 }: any) {
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -145,6 +146,7 @@ function Footer({
   const textArea = document.getElementById("myTextArea") as HTMLTextAreaElement;
 
   const handleSendMessage = async (e: any = null) => {
+    setLoad(true);
     setInput("");
     if (e) {
       e.preventDefault();

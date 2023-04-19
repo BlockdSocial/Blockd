@@ -67,6 +67,8 @@ function NotificationsPage() {
     await dispatch(fetchUserNotifications());
   };
 
+  console.log('notifications: ', notifications);
+
   return (
     <div className="min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
       <CustomLoadingOverlay active={isFetchingUserNotifications} />

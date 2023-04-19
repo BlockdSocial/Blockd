@@ -269,11 +269,11 @@ export function fetchPostInfo(fields: number) {
   }
 }
 
-export function fetchUserPosts(fields: any) {
+export function fetchUserPosts(id: any, fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_USER_POSTS });
     try {
-      const result = await postApi.fetchUserPosts(fields);
+      const result = await postApi.fetchUserPosts(id, fields);
       dispatch({ 
         type: FETCH_USER_POSTS_SUCCESS, 
         userPosts: result

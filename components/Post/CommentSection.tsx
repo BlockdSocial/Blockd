@@ -106,7 +106,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [textArea, setTextArea] = useState<string>(renderCommentText(comment?.content));
+  const [textArea, setTextArea] = useState<string>(!isEmpty(comment?.content) ? renderCommentText(comment?.content) : '');
 
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//

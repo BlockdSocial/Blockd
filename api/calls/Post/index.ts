@@ -50,8 +50,8 @@ async function fetchPostInfo(fields: any) {
   return apiCall('fetchPostInfo', 'GET', `${endpoints.post}/info/${fields}`);
 };
 
-async function fetchUserPosts(fields: any) {
-  return apiCall('fetchUserPosts', 'GET', `${endpoints.post}/user/${fields}`);
+async function fetchUserPosts(id: any, fields: any) {
+  return apiCall('fetchUserPosts', 'POST', `${endpoints.post}/user/${id}`, fields);
 };
 
 async function fetchIsLiked(fields: any) {

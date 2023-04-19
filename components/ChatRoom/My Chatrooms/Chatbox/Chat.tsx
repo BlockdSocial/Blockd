@@ -1,16 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  ArrowUturnLeftIcon,
-  EllipsisVerticalIcon,
-  ExclamationCircleIcon,
-  TrashIcon,
-  EyeDropperIcon,
-  DocumentDuplicateIcon,
-} from "@heroicons/react/24/outline";
-import moment from "moment";
-import { config } from "../../../../constants";
-
-import Picker from "@emoji-mart/react";
 
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -43,6 +31,7 @@ export default function Chat({
 
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { isFetchingChatroomMessages } = useAppSelector((state) => state.chatReducer);
+  const [load, setLoad] = useState<boolean>(true);
 
   let [showReaction, setShowReaction] = useState<boolean>(false);
   let [reaction, setReaction] = useState<string>("");
@@ -115,13 +104,19 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      updateMessages(endCount, endTotal);
+      if (!isEmpty(room)) {
+        fetchRoomMessages();
+      } else {
+        getMessages();
+      }
     }
   );
 
   useEffect(() => {
-    scrollToBottom();
-  }, [messages]);
+    if (load) {
+      scrollToBottom();
+    }
+  }, [messages, messages2]);
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
@@ -129,12 +124,12 @@ export default function Chat({
         fetchMessages({
           receiver_id: receiver?.id,
           start: 0,
-          end: 200,
+          end: 10,
         })
-      ).then(async (result: any) => {
+      ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        await setMessages2(result?.messages.reverse());
+        setMessages2(result?.messages.reverse());
         scrollToBottom();
       });
     }
@@ -147,10 +142,10 @@ export default function Chat({
           start: 0,
           end: 100,
         })
-      ).then(async (result: any) => {
+      ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        await setMessages2(result?.messages.reverse());
+        setMessages2(result?.messages.reverse());
         scrollToBottom();
       });
     }
@@ -168,6 +163,7 @@ export default function Chat({
   };
 
   const updateMessages = async (start: number, end: number) => {
+    setLoad(false);
     if (isEmpty(room)) {
       await dispatch(
         fetchMessages({
@@ -176,7 +172,7 @@ export default function Chat({
           end: end,
         })
       ).then((result: any) => {
-        const newMessages = messages2?.concat(result?.messages);
+        const newMessages = result?.messages?.reverse()?.concat(messages2);
         setEndTotal(result?.total);
         setMessages2(newMessages);
       });
@@ -291,6 +287,7 @@ export default function Chat({
             fetchRoomMessages={fetchRoomMessages}
             replyMessage={replyMessage}
             setReplyMessage={setReplyMessage}
+            setLoad={setLoad}
           />
         )}
       </div>
