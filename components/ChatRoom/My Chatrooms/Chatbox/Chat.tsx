@@ -42,6 +42,7 @@ export default function Chat({
   const dispatch = useAppDispatch();
 
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { isFetchingChatroomMessages } = useAppSelector((state) => state.chatReducer);
 
   let [showReaction, setShowReaction] = useState<boolean>(false);
   let [reaction, setReaction] = useState<string>("");
@@ -100,12 +101,6 @@ export default function Chat({
     dispatch(fetchAuthUser());
   }, []);
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
-
   useEffect(() => {
     if (!isEmpty(receiver)) {
       getMessages();
@@ -120,13 +115,13 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      updateMessages(message?.data?.type);
+      updateMessages(endCount, endTotal);
     }
   );
 
   useEffect(() => {
     scrollToBottom();
-  }, [messages, messages2]);
+  }, [messages]);
 
   const getMessages = async () => {
     if (!isEmpty(receiver)) {
@@ -136,10 +131,11 @@ export default function Chat({
           start: 0,
           end: 200,
         })
-      ).then((result: any) => {
+      ).then(async (result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages2(result?.messages);
+        await setMessages2(result?.messages.reverse());
+        scrollToBottom();
       });
     }
   };
@@ -149,12 +145,13 @@ export default function Chat({
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
           start: 0,
-          end: 200,
+          end: 100,
         })
-      ).then((result: any) => {
+      ).then(async (result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages2(result?.messages);
+        await setMessages2(result?.messages.reverse());
+        scrollToBottom();
       });
     }
   };
@@ -170,25 +167,30 @@ export default function Chat({
     });
   };
 
-  const updateMessages = async (type: any) => {
-    if ("room" !== type) {
+  const updateMessages = async (start: number, end: number) => {
+    if (isEmpty(room)) {
       await dispatch(
         fetchMessages({
           receiver_id: ref.current?.id,
-          start: 0,
-          end: 200,
+          start: start,
+          end: end,
         })
       ).then((result: any) => {
-        setMessages2(result?.messages);
+        const newMessages = messages2?.concat(result?.messages);
+        setEndTotal(result?.total);
+        setMessages2(newMessages);
       });
     } else {
       await dispatch(
         fetchChatroomMessages(ref?.current?.roomId, {
-          start: 0,
-          end: 200,
+          start: start,
+          end: end,
         })
       ).then((result: any) => {
-        setMessages2(result?.messages);
+        console.log('result: ', result);
+        const newMessages = result?.messages?.reverse()?.concat(messages2);
+        setEndTotal(result?.total);
+        setMessages2(newMessages);
       });
     }
   };
@@ -210,14 +212,31 @@ export default function Chat({
     );
   };
 
+  const handleScroll2 = async () => {
+    if (boxRef2.current) {
+      const { scrollTop, scrollHeight, clientHeight } = boxRef2.current;
+      if (
+        scrollTop === 0
+      ) {
+        if (!isFetchingChatroomMessages) {
+          if (endTotal == 0) {
+            return;
+          } else {
+            await updateMessages(endCount + 1, endCount + 9);
+            setEndCount(endCount + 9);
+          }
+        }
+      }
+    }
+  };
+
   return (
     <div
-      onScrollCapture={(e: any) => handleScroll(e)}
-      className={`flex flex-col relative ${
-        isEmpty(chats) && isEmpty(chatrooms)
-          ? "overflow-hidden"
-          : "scrollbar-hide overflow-scroll"
-      } h-[92vh] dark:bg-darkgray z-0`}
+      onScrollCapture={() => handleScroll2()}
+      className={`flex flex-col relative ${isEmpty(chats) && isEmpty(chatrooms)
+        ? "overflow-hidden"
+        : "scrollbar-hide overflow-scroll"
+        } h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
       <Navbar
@@ -242,10 +261,15 @@ export default function Chat({
         </div>
       )}
       <div ref={boxRef2} className="p-2 md:p-0 flex-1 scrollbar-hide overflow-scroll">
+        {isFetchingChatroomMessages && (
+          <p className="flex items-center justify-center space-x-3 p-4">
+            Loading ...
+          </p>
+        )}
         {!isEmpty(messages2) &&
-          messages2.map((message: any) => (
+          messages2.map((message: any, index: any) => (
             <Message
-              key={message?.id}
+              key={index}
               setReply={setReply}
               receiver={receiver}
               message={message}

@@ -301,8 +301,8 @@ export function fetchChatroomMessages(id: any, fields: any) {
     try {
       const result = await chatApi.fetchChatroomMessages(id, fields);
       dispatch({
-        type:  FETCH_CHATROOM_MESSAGES_SUCCESS,
-        chatroomMessages: result
+        type: FETCH_CHATROOM_MESSAGES_SUCCESS,
+        // chatroomMessages: result
       });
       return result;
     } catch (error: any) {
