@@ -107,13 +107,13 @@ const Navbar = () => {
   };
 
   // @ts-ignore
-  const [channel, ably] = useChannel(`notifications-${JSON.parse(localStorage.getItem('authUser')).id}`, (message) => {
+  const [channel, ably] = useChannel(`notifications-${JSON.parse(localStorage.getItem('authUser'))?.id}`, (message) => {
     checkUserNotification(message.data);
   });
 
   const [message] = useChannel(
     // @ts-ignore
-    `messageNotifications-${JSON.parse(localStorage.getItem('authUser')).id}`,
+    `messageNotifications-${JSON.parse(localStorage.getItem('authUser'))?.id}`,
     (message) => {
       if (message.data !== 'room') {
         fetchMessageNotification(message.data);

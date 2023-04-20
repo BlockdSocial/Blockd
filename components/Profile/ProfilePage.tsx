@@ -30,7 +30,7 @@ interface User {
   frameName: string;
   bio: string;
   facebook: string;
-  insta: string;
+  instagram: string;
   linktree: string;
 }
 
