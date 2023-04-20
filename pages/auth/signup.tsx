@@ -238,7 +238,7 @@ export default function SignUp() {
   } = usePrepareContractWrite({
     ...nft_contract,
     functionName: "mint",
-    args: args,
+    args: ["Nft mint"],
     overrides: {
       value: data,
     },
