@@ -116,7 +116,7 @@ function Chatbox({ receiver, chats, setReceiver, room, chatrooms, setRoom, fetch
   };
 
   return (
-    <div className="flex h-full flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
+    <div className="flex flex-col col-span-8 md:col-span-7 lg:col-span-5 relative border-r dark:border-lightgray">
       <Chat
         receiver={receiver}
         room={room}

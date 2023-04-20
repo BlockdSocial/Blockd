@@ -385,7 +385,7 @@ const Navbar = () => {
                 }
                 onClick={() => setDropDown(!dropDown)}
                 alt="pfp"
-                className="w-10 h-10 rounded-md shadow-sm cursor-pointer md:hidden"
+                className="w-10 h-10 rounded-md shadow-sm cursor-pointer md:hidden object-cover"
                 width={2000}
                 height={2000}
               />
@@ -993,7 +993,7 @@ const Navbar = () => {
                 bot free social media platform and home to all blockchain &
                 crypto enthusiasts!
                 <br></br>
-                BETA Features Available:
+                Features Available:
                 <br></br>
                 <div className="flex w-full items-start justify-start mt-1">
                   <span className="text-orange-500 text-xl">•</span> Create and
@@ -1009,7 +1009,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
-                  Reaching up to Level 10 by gaining XP.
+                  Reaching up to Level 20 by gaining XP.
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
@@ -1047,7 +1047,7 @@ const Navbar = () => {
               </div>
             </div>
             <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
-              We appreciate you taking your time  during our Beta and providing
+              We appreciate you taking your time and providing
               feedback which is very important to us, as this is a community
               driven platform.
               <br></br>
