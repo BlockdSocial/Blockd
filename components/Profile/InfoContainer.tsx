@@ -483,13 +483,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         </p>
       </div>
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        <a href="#">
+        <a href="#" target="_blank">
           <img src="/images/logo/facebook.png" className="w-8 h-8 object-cover rounded-md" />
         </a>
-        <a href="#">
+        <a href="#" target="_blank">
           <img src="/images/logo/instagram.png" className="w-8 h-8 object-cover rounded-md" />
         </a>
-        <a href="#">
+        <a href="#" target="_blank">
           <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
         </a>
       </div>
