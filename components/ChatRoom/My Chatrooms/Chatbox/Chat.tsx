@@ -12,7 +12,7 @@ import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
 import Linkify from "react-linkify";
 import Link from "next/link";
-import { encodeQuery } from "../../../../utils";
+import useWindowDimensions, { encodeQuery } from "../../../../utils";
 import Message from "./Message";
 
 export default function Chat({
@@ -42,6 +42,10 @@ export default function Chat({
   const boxRef2 = useRef<any>(null);
   const dropdown = useRef<any>(null);
   const [fullScreenImage, setFullScreenImage] = useState<boolean>(false);
+
+  let { height, width } = useWindowDimensions();
+
+  height = height - 56 - 56
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -192,23 +196,6 @@ export default function Chat({
         setMessages2(newMessages);
       });
     }
-  };
-
-  const componentDecorator = (href: string, text: string, key: number) => {
-    return (
-      <a
-        onClick={async (e) => {
-          e.stopPropagation();
-        }}
-        href={href}
-        key={key}
-        target="_blank"
-        rel="noopener noreferrer"
-        className="hover:underline"
-      >
-        {text}
-      </a>
-    );
   };
 
   const handleScroll2 = async () => {
