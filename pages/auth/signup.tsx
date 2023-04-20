@@ -30,7 +30,7 @@ import Policy from "../../components/Auth/Policy";
 import { flatMap, indexOf } from "lodash";
 import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
-import { checkEmail } from "../../stores/user/UserActions";
+import { checkAddress, checkEmail } from "../../stores/user/UserActions";
 import { nft_abi } from "../../abi/nft.abi";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
@@ -49,6 +49,8 @@ export default function SignUp() {
   const [nftData, setNftData] = useState<boolean>(false);
   const [step, setStep] = useState(1);
   const [validated, setValidated] = useState<boolean>();
+  const [validateAddress, setValidateAddress] = useState<boolean>();
+
 
   console.log(nftData);
 
@@ -279,6 +281,7 @@ export default function SignUp() {
 
   useEffect(() => {
     console.log("setNftData useEffect");
+    handleCheckAddress();
     if (nft_data && Number(nft_data) > 0) {
       setNftData(true);
     } else {
@@ -315,6 +318,23 @@ export default function SignUp() {
       }
     });
   };
+
+  
+  const handleCheckAddress = async () => {
+    await dispatch(
+      checkAddress({
+        address: address,
+      })
+    ).then((result: any) => {
+      console.log("RESULT: ", result);
+      if ("true" === result?.success) {
+        setValidateAddress(true);
+      } else {
+        setValidateAddress(false);
+      }
+    });
+  };
+  
 
   if (!mounted) {
     return null;
@@ -506,13 +526,17 @@ export default function SignUp() {
                   }}
                 ></ConnectButton>
               </div>
-
+              {validateAddress && (
+                      <p className="text-red-600  text-xs font-bold">
+                        This address is already used.
+                      </p>
+                    )}
               {nftData ? (
                 <div className="w-full flex items-center justify-center">
                   <button
                     className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
                     onClick={(e) => getSignMessage(e)}
-                    disabled={validated}
+                    disabled={validated || validateAddress}
                   >
                     Sign Up
                   </button>
