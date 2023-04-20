@@ -120,7 +120,7 @@ function Members({
       refreshAddMember();
     });
   };
-console.log(roomMembers,'member');
+  console.log(roomMembers, "member");
   return (
     <div className="flex flex-col bg-white h-[90vh]">
       <div className="flex flex-col p-2 border-b text-black">
@@ -217,7 +217,6 @@ console.log(roomMembers,'member');
                       <p className="font-semibold text-sm">@{result?.name}</p>
                     </div>
                     <div className="flex items-center justify-center">
-                      
                       <img
                         src="/images/badges/crown.png"
                         className="w-7 h-7 object-cover mr-4"
@@ -258,10 +257,14 @@ console.log(roomMembers,'member');
                   {/* <span className='text-xs'>Last seen Recently</span> */}
                 </div>
               </div>
-              {room?.room?.moderatorId === member?.userId &&
-              <div className="flex items-center justify-center">
-                <img src="/images/badges/crown.png" className="w-7 h-7 object-cover mr-4" />
-              </div>}
+              {room?.room?.moderatorId === member?.userId && (
+                <div className="flex items-center justify-center">
+                  <img
+                    src="/images/badges/crown.png"
+                    className="w-7 h-7 object-cover mr-4"
+                  />
+                </div>
+              )}
               {/* <div className='flex items-center justify-end p-2 text-orange-600'>
               <span className='text-sm font-semibold'>Admin</span>
             </div> */}
@@ -300,11 +303,14 @@ console.log(roomMembers,'member');
                   {/* <span className='text-xs'>Last seen Recently</span> */}
                 </div>
               </div>
-              {room?.room?.moderatorId === member?.userId &&
-              <div className="flex items-center justify-center">
-                <img src="/images/badges/crown.png" className="w-7 h-7 object-cover mr-4" />
-              </div>
-}
+              {room?.room?.moderatorId === member?.userId && (
+                <div className="flex items-center justify-center">
+                  <img
+                    src="/images/badges/crown.png"
+                    className="w-7 h-7 object-cover mr-4"
+                  />
+                </div>
+              )}
               {/* <div className='flex items-center justify-end p-2 text-orange-600'>
               <span className='text-sm font-semibold'>Admin</span>
             </div> */}
