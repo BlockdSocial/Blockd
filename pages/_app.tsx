@@ -68,7 +68,7 @@ function MyApp({ Component, pageProps }: AppProps) {
     return null;
   }
   return (
-    <>
+    <html className="h-screen">
       <Head>
         <link
           rel="icon"
@@ -90,7 +90,6 @@ function MyApp({ Component, pageProps }: AppProps) {
         gtag('config', 'G-QW4Q5G8G4K');
         `}
       </Script>
-
       <QueryClientProvider client={queryClient}>
         <WagmiConfig client={wagmiClient}>
           <RainbowKitProvider
@@ -106,6 +105,7 @@ function MyApp({ Component, pageProps }: AppProps) {
             modalSize="compact"
             id="rainbow"
           >
+      <div className="h-screen">
             <Provider store={store}>
               <ThemeProvider enableSystem={true} attribute="class">
                 {router.pathname === "/auth/signin" ||
@@ -120,11 +120,12 @@ function MyApp({ Component, pageProps }: AppProps) {
                   </Layout>
                 )}
               </ThemeProvider>
-            </Provider>
+            </Provider></div>
           </RainbowKitProvider>
+      
         </WagmiConfig>
       </QueryClientProvider>
-    </>
+    </html>
   );
 }
 

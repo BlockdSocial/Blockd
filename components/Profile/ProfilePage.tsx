@@ -28,6 +28,10 @@ interface User {
   level: number;
   levelTotal: number;
   frameName: string;
+  bio: string;
+  facebook: string;
+  insta: string;
+  linktree: string;
 }
 
 function ProfilePage() {

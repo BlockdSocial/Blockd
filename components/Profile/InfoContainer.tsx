@@ -40,6 +40,10 @@ interface User {
   level: number;
   levelTotal: number;
   frameName: string;
+  bio: string;
+  facebook: string;
+  insta: string;
+  linktree: string;
 }
 
 interface Props {
@@ -63,6 +67,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [profilePicture, setProfilePicture] = useState<string>();
   const [bannerPicture, setBannerPicture] = useState<string>();
   const [scorePercentage, setScorePercentage] = useState<any>(0);
+  const [bio, setBio] = useState<string>();
+  const [facebook, setFacebook] = useState<string>()
+  const [insta, setInsta] = useState<string>()
+  const [linktree, setLinktree] = useState<string>()
   // const [isFollowed, setIsFollowed] = useState<any>(false);
   let [frameColor, setFrameColor] = useState<string>();
 
@@ -179,6 +187,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       updateUser({
         name: userName,
         email: userEmail,
+        facebook: facebook,
+        insta: insta,
+        linktree: linktree,
+        bio: bio
       })
     ).then(() => {
       setIsModalVisible(false);
@@ -235,9 +247,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-72 ${
-            user?.id === authUser?.id && "group-hover:opacity-50"
-          }`}
+          className={`w-full max-h-72 ${user?.id === authUser?.id && "group-hover:opacity-50"
+            }`}
           width="720"
           height="350"
         />
@@ -452,9 +463,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
-              isDropdownVisible ? "" : "hidden"
-            }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
+              }`}
           >
             <Link
               type="button"
@@ -477,29 +487,39 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         </div>
       </div>
 
-{/*    TODO HASAN SAADO   
-      <div className="py-2 px-6">
-        <p className="text-sm w-full md:w-3/4 text-justify">
-          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
-          vestibulum massa viverra nisl vulputate commodo.{" "}
-        </p>
-      </div>
+      {/* TODO HASAN SAADO    */}
+      {
+        !isEmpty(user?.bio) &&
+        <div className="py-2 px-6">
+          <p className="text-sm w-full md:w-3/4 text-justify">
+            {user?.bio}{" "}
+          </p>
+        </div>
+      }
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        <a href="#" target="_blank">
-          <img src="/images/logo/facebook.png" className="w-8 h-8 object-cover rounded-md" />
-        </a>
-        <a href="#" target="_blank">
-          <img src="/images/logo/instagram.png" className="w-8 h-8 object-cover rounded-md" />
-        </a>
-        <a href="#" target="_blank">
-          <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
-        </a>
-      </div> */}
+        {
+          user?.facebook &&
+          <a href={user?.facebook} target="_blank">
+            <img src="/images/logo/facebook.png" className="w-8 h-8 object-cover rounded-md" />
+          </a>
+        }
+        {
+          user?.insta &&
+          <a href={user?.insta} target="_blank">
+            <img src="/images/logo/instagram.png" className="w-8 h-8 object-cover rounded-md" />
+          </a>
+        }
+        {
+          user?.linktree &&
+          <a href={user?.linktree} target="_blank">
+            <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
+          </a>
+        }
+      </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
-          isModalVisible ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
+          }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
@@ -554,7 +574,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     onChange={(e) => setUserEmail(e.target.value)}
                   />
                 </div>
-{/*       TODO HASAN SAADO          
+                {/* TODO HASAN SAADO */}
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Your bio
@@ -563,6 +583,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     placeholder="Write something ..."
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     rows={2}
+                    value={bio}
+                    onChange={(e) => setBio(e.target.value)}
                   />
                 </div>
                 <div>
@@ -574,16 +596,20 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     type="text"
                     name="insta"
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    value={insta}
+                    onChange={(e) => setInsta(e.target.value)}
                   />
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your Twitter
+                    Your Facebook
                   </label>
                   <input
                     placeholder="Type your link"
                     type="text"
-                    name="twitter"
+                    name="facebook"
+                    value={facebook}
+                    onChange={(e) => setFacebook(e.target.value)}
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   />
                 </div>
@@ -595,9 +621,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     placeholder="Type your link"
                     type="text"
                     name="linkTree"
+                    value={linktree}
+                    onChange={(e) => setLinktree(e.target.value)}
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   />
-                </div> */}
+                </div>
                 <button
                   onClick={(e) => handleUpdateUser(e)}
                   className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
