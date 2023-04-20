@@ -41,6 +41,11 @@ export const encodeQuery = (query: any, type: any) => {
         "base64"
       );
     }
+    if ("referralLink" === type) {
+      return Buffer.from("referralAddress=" + query.toString(), "utf-8").toString(
+        "base64"
+      );
+    }
   }
 };
 

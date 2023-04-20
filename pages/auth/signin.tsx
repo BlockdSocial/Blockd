@@ -106,10 +106,7 @@ export default function SignIn() {
     },
   });
 
-  const { data } = useContractRead({
-    ...nft_contract,
-    functionName: "mintPrice",
-  });
+
 
   const { data: nft_data } = useContractRead({
     ...nft_contract,
@@ -118,24 +115,9 @@ export default function SignIn() {
     enabled: !!address,
   });
 
-  const {
-    config,
-    isError: isMintError,
-    isFetching: isMintFetching,
-    error,
-  } = usePrepareContractWrite({
-    ...nft_contract,
-    functionName: "mint",
-    args: ["Nft mint"],
-    overrides: {
-      value: data,
-    },
-    enabled: !!data && !!address,
-  });
+  
 
-  const { writeAsync, isLoading: isMintLoading } = useContractWrite({
-    ...config,
-  });
+  
 
   if (!mounted) {
     return null;

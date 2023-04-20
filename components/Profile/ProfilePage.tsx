@@ -11,7 +11,7 @@ import { isEmpty } from "lodash";
 import { useRouter } from "next/router";
 import { fetchUserPosts } from "../../stores/post/PostActions";
 import CustomLoadingOverlay from "../CustomLoadingOverlay";
-import { parseQueryString } from "../../utils";
+import { parseQueryString, encodeQuery } from "../../utils";
 import { toast } from "react-hot-toast";
 import {
   DocumentDuplicateIcon,
@@ -50,9 +50,10 @@ function ProfilePage() {
   );
 
   const router = useRouter();
+  
   const user_id =
-    router.query.user_id ||
-    parseQueryString(window.location.search.substring(1)).user_id;
+  router.query.user_id ||
+  parseQueryString(window.location.search.substring(1)).user_id;
 
   // useEffect(() => {
   //   if (!isEmpty(error)) {
@@ -149,7 +150,15 @@ function ProfilePage() {
     }
   };
 
-  const [text, setText] = useState("ReferralID");
+  useEffect(() => {
+    if(authUser?.address) {
+      let referralLink = `https://blockd.app/auth/signup?${encodeQuery(authUser?.address, "referralLink")}`;
+      setText(referralLink)
+    }
+  },[authUser])
+  
+  
+  const [text, setText] = useState("ReferralID ReferralID ReferralID");
 
   return (
     <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
@@ -170,7 +179,7 @@ function ProfilePage() {
             <UserPlusIcon className="w-5 h-5 stroke-[2px]" />
             <p className="text-base font-semibold">Referral Link : </p>
             <input
-              className="text-base w-20 bg-transparent"
+              className="text-base w-20 bg-transparent truncate"
               value={text}
               onChange={(e) => setText(e.target.value)}
               disabled

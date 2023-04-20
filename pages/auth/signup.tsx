@@ -9,7 +9,7 @@ import {
   sendVerification,
 } from "../../stores/authUser/AuthUserActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { isEmpty } from "../../utils";
+import { isEmpty, parseQueryString } from "../../utils";
 import { config as configUrl } from "../../constants";
 import Terms from "../../components/Auth/Terms";
 import { ConnectButton } from "@rainbow-me/rainbowkit";
@@ -75,6 +75,7 @@ export default function SignUp() {
   const [terms, setTerms] = useState<boolean>(false);
   const [policy, setPolicy] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
+  const [displayTermsError, setDisplayTermsError] = useState<boolean>(false);
   const [displayNamelengthError, setDisplayNamelengthError] = useState<boolean>(false);
   const [
     isDisplayTermsAndConditionsModal,
@@ -84,6 +85,13 @@ export default function SignUp() {
     useState<boolean>(false);
 
   const { address } = useAccount();
+
+
+  const referralAddress =
+  router.query.referralAddress ||
+  parseQueryString(window.location.search.substring(1)).referralAddress;
+
+  console.log({referralAddress})
 
   const getSignMessage = async (e: any) => {
     e.preventDefault();
@@ -104,6 +112,12 @@ export default function SignUp() {
       return;
     } else {
       setDisplayNamelengthError(false);
+    }
+    if(!terms) {
+      setDisplayTermsError(true);
+      return;
+    } else {
+      setDisplayTermsError(false);
     }
     signMessage();
   };
@@ -209,6 +223,13 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
+  let args;
+  if(isEmpty(referralAddress)) {
+    args = ["Nft mint"];
+  }
+  else {
+    args = ["","",referralAddress];
+  }
   const {
     config,
     isError: isMintError,
@@ -217,7 +238,7 @@ export default function SignUp() {
   } = usePrepareContractWrite({
     ...nft_contract,
     functionName: "mint",
-    args: ["Nft mint"],
+    args: args,
     overrides: {
       value: data,
     },
@@ -389,6 +410,11 @@ console.log({error})
                     {displayNameError && (
                       <p className="text-red-600  text-xs font-bold">
                         Please enter a display name
+                      </p>
+                    )}
+                    {displayTermsError && (
+                      <p className="text-red-600  text-xs font-bold">
+                        Please accept Terms and Conditions and Privacy Policy to continue
                       </p>
                     )}
                 
