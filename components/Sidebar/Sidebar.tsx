@@ -42,10 +42,11 @@ function Sidebar() {
           <Link id="dashboardLink" href="/" className="active">
             {location.pathname === "/" ? (
               <div
-                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 ${showModal3
+                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 ${
+                  showModal3
                     ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                     : "bg-gray-100 dark:bg-lightgray"
-                  } rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
+                } rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
               >
                 <HomeIcon className="h-6 w-6" />
                 <p className={`text-base lg:text-xl cursor-pointer`}>Home</p>
@@ -60,8 +61,9 @@ function Sidebar() {
             )}
           </Link>
           <div
-            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal3 ? "" : "hidden"
-              }`}
+            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+              showModal3 ? "" : "hidden"
+            }`}
           >
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-xs text-white text-justify">
@@ -104,10 +106,11 @@ function Sidebar() {
               </div>
             ) : (
               <div
-                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal4
+                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
+                  showModal4
                     ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                     : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                  } group`}
+                } group`}
               >
                 <UserIcon className="h-6 w-6" />
                 <p className={`text-base lg:text-xl cursor-pointer`}>Profile</p>
@@ -115,8 +118,9 @@ function Sidebar() {
             )}
           </Link>
           <div
-            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal4 ? "" : "hidden"
-              }`}
+            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+              showModal4 ? "" : "hidden"
+            }`}
           >
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-xs text-white text-justify">
@@ -147,7 +151,11 @@ function Sidebar() {
           </div>
         </div>
         <div className="relative w-full">
-          <Link id="suggestionLink" href="/dashboard/suggestion" className="active">
+          <Link
+            id="suggestionLink"
+            href="/dashboard/suggestion"
+            className="active"
+          >
             {location.pathname === "/dashboard/suggestion" ? (
               <div
                 className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 bg-gray-100 dark:bg-lightgray
@@ -160,10 +168,11 @@ function Sidebar() {
               </div>
             ) : (
               <div
-                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal5
+                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
+                  showModal5
                     ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                     : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                  } group`}
+                } group`}
               >
                 <LightBulbIcon className="h-6 w-6" />
                 <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -173,8 +182,9 @@ function Sidebar() {
             )}
           </Link>
           <div
-            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal5 ? "" : "hidden"
-              }`}
+            className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+              showModal5 ? "" : "hidden"
+            }`}
           >
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-xs text-white text-justify">
@@ -237,18 +247,20 @@ function Sidebar() {
               <div className="relative w-full">
                 <Link id="myChatroomsLink" href="/dashboard/myChatrooms">
                   <div
-                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${showModal6
+                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${
+                      showModal6
                         ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                         : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    } group`}
                   >
                     <ChatBubbleLeftIcon className="w-5 h-5" />
                     <span className="hidden md:inline">My Chatroom</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal6 ? "" : "hidden"
-                    }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal6 ? "" : "hidden"
+                  }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -283,18 +295,20 @@ function Sidebar() {
               <div className="relative w-full">
                 <Link id="createChatroomLink" href="/dashboard/createChatroom">
                   <div
-                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${showModal7
+                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${
+                      showModal7
                         ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                         : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    } group`}
                   >
                     <PlusCircleIcon className="w-5 h-5" />
                     <span className="hidden md:inline">Create Chatroom</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal7 ? "" : "hidden"
-                    }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal7 ? "" : "hidden"
+                  }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -327,18 +341,20 @@ function Sidebar() {
               <div className="relative w-full">
                 <Link id="allChatroomsLink" href="/dashboard/allChatrooms">
                   <div
-                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${showModal8
+                    className={`flex items-center justify-center md:justify-start p-4 md:space-x-2 rounded-full ${
+                      showModal8
                         ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                         : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    } group`}
                   >
                     <ChatBubbleLeftRightIcon className="w-5 h-5" />
                     <span className="hidden md:inline">All Chatrooms</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal8 ? "" : "hidden"
-                    }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal8 ? "" : "hidden"
+                  }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -371,7 +387,11 @@ function Sidebar() {
           )}
         </div>
         <div className="relative w-full">
-          <Link id="achievementLink" href="/dashboard/achievement" className="active">
+          <Link
+            id="achievementLink"
+            href="/dashboard/achievement"
+            className="active"
+          >
             {location.pathname === "/dashboard/achievement" ? (
               <div
                 className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 bg-gray-100 dark:bg-lightgray
@@ -384,10 +404,11 @@ function Sidebar() {
               </div>
             ) : (
               <div
-                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal9
+                className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
+                  showModal9
                     ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
                     : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                  } group`}
+                } group`}
               >
                 <FireIcon className="h-6 w-6" />
                 <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -397,8 +418,9 @@ function Sidebar() {
             )}
           </Link>
           <div
-            className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal9 ? "" : "hidden"
-              }`}
+            className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+              showModal9 ? "" : "hidden"
+            }`}
           >
             <div className="flex flex-col items-start justify-start space-y-2">
               <p className="text-xs text-white text-justify">
@@ -430,8 +452,9 @@ function Sidebar() {
       </div>
       {isRegistered !== undefined && (
         <div
-          className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${showModal1 ? "" : "hidden"
-            }`}
+          className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
+            showModal1 ? "" : "hidden"
+          }`}
         >
           <div className="relative w-full rounded-lg shadow-lg max-w-md h-fit bg-gray-50 scrollbar-hide overflow-scroll">
             <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
@@ -488,8 +511,9 @@ function Sidebar() {
         </div>
       )}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal2 ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          showModal2 ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full rounded-lg shadow-lg max-w-md h-fit bg-gray-50 overflow-scroll scrollbar-hide">
           <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
@@ -500,15 +524,11 @@ function Sidebar() {
             </div>
           </div>
           <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
-            We appreciate you taking your time and providing
-            feedback which is very important to us, as this is a community
-            driven platform.
+            We appreciate you taking your time to use our platform. Your
+            feedback is extremely important to us. 
             <br></br>
-            <div className="flex w-full items-start justify-start my-1">
-              To submit feedback:
-            </div>
-            Please visit our Suggestions Page, type in any feedback and click
-            Submit!
+            Kindly leave us a suggestion using the "Suggestions" tab so that
+            we can continue to facilitate the best user experience.
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
             <p

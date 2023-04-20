@@ -1047,16 +1047,12 @@ const Navbar = () => {
               </div>
             </div>
             <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
-              We appreciate you taking your time and providing
-              feedback which is very important to us, as this is a community
-              driven platform.
+              We appreciate you taking your time to use our platform. Your
+              feedback is extremely important to us. 
               <br></br>
-              <div className="flex w-full items-start justify-start my-1">
-                To submit feedback:
+              Kindly leave us a suggestion using the "Suggestions" tab so that
+              we can continue to facilitate the best user experience.
               </div>
-              Please visit our Suggestions Page, type in any feedback and click
-              Submit!
-            </div>
             <div className="flex items-center justify-end space-x-3 p-4">
               <p
                 onClick={() => {
