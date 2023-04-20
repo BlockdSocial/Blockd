@@ -1,4 +1,3 @@
-
 export const nft_abi = [
   { inputs: [], stateMutability: "nonpayable", type: "constructor" },
   { inputs: [], name: "ReentrancyGuardReentrantCall", type: "error" },
@@ -83,6 +82,31 @@ export const nft_abi = [
   {
     anonymous: false,
     inputs: [
+      {
+        indexed: false,
+        internalType: "address",
+        name: "referrer",
+        type: "address",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "commission",
+        type: "uint256",
+      },
+      {
+        indexed: false,
+        internalType: "uint256",
+        name: "tokenId",
+        type: "uint256",
+      },
+    ],
+    name: "ReferrerRewarded",
+    type: "event",
+  },
+  {
+    anonymous: false,
+    inputs: [
       { indexed: true, internalType: "bytes32", name: "role", type: "bytes32" },
       {
         indexed: true,
@@ -157,6 +181,27 @@ export const nft_abi = [
   },
   {
     inputs: [],
+    name: "BURNER_ROLE",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "DENOMINATOR",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "PREMIUM_REFERRER_ROLE",
+    outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
     name: "PRICE_UPDATER_ROLE",
     outputs: [{ internalType: "bytes32", name: "", type: "bytes32" }],
     stateMutability: "view",
@@ -177,6 +222,15 @@ export const nft_abi = [
     name: "balanceOf",
     outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256[]", name: "tokenIds", type: "uint256[]" },
+    ],
+    name: "burn",
+    outputs: [],
+    stateMutability: "nonpayable",
     type: "function",
   },
   {
@@ -251,6 +305,16 @@ export const nft_abi = [
     type: "function",
   },
   {
+    inputs: [
+      { internalType: "string", name: "identityHash", type: "string" },
+      { internalType: "address payable", name: "referrer", type: "address" },
+    ],
+    name: "mint",
+    outputs: [],
+    stateMutability: "payable",
+    type: "function",
+  },
+  {
     inputs: [{ internalType: "string", name: "identityHash", type: "string" }],
     name: "mint",
     outputs: [],
@@ -275,6 +339,20 @@ export const nft_abi = [
     inputs: [{ internalType: "uint256", name: "tokenId", type: "uint256" }],
     name: "ownerOf",
     outputs: [{ internalType: "address", name: "", type: "address" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "referrerCommission",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
+    stateMutability: "view",
+    type: "function",
+  },
+  {
+    inputs: [],
+    name: "referrerPremiumCommission",
+    outputs: [{ internalType: "uint256", name: "", type: "uint256" }],
     stateMutability: "view",
     type: "function",
   },
@@ -327,6 +405,20 @@ export const nft_abi = [
       { internalType: "bool", name: "approved", type: "bool" },
     ],
     name: "setApprovalForAll",
+    outputs: [],
+    stateMutability: "nonpayable",
+    type: "function",
+  },
+  {
+    inputs: [
+      { internalType: "uint256", name: "referrerCommission_", type: "uint256" },
+      {
+        internalType: "uint256",
+        name: "referrerPremiumCommission_",
+        type: "uint256",
+      },
+    ],
+    name: "setCommissions",
     outputs: [],
     stateMutability: "nonpayable",
     type: "function",
@@ -405,6 +497,3 @@ export const nft_abi = [
     type: "function",
   },
 ] as const;
-
-
-
