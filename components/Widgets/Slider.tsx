@@ -8,7 +8,7 @@ import {
 import Link from "next/link";
 import { config } from "../../constants";
 import { isEmpty } from "lodash";
-import { encodeQuery, renderComment } from "../../utils";
+import { encodeQuery, renderComment, renderCommentText } from "../../utils";
 // @ts-ignore
 import renderHTML from "react-render-html";
 
@@ -103,7 +103,7 @@ function Slider({ trendingPosts }: Props) {
                 >
                   {
                     !isEmpty(slides[currentIndex]?.title) &&
-                    renderHTML(renderComment(slides[currentIndex]?.title))
+                    renderHTML(renderCommentText(slides[currentIndex]?.title))
                   }
                 </Link>
               </div>
