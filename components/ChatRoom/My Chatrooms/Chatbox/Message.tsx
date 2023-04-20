@@ -368,7 +368,7 @@ export default function Message({
         </p>
 
         {message?.imgName != null && (
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-start py-2">
             <img
               src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
               className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
@@ -376,7 +376,7 @@ export default function Message({
           </div>
         )}
         {message?.gif != null && (
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-start py-2">
             <img
               src={message?.gif}
               className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
