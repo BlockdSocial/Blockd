@@ -31,6 +31,7 @@ import { flatMap, indexOf } from "lodash";
 import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { checkEmail } from "../../stores/user/UserActions";
+import { nft_abi } from "../../abi/nft.abi";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -65,6 +66,9 @@ export default function SignUp() {
     },
   });
 
+
+  const [args, setArgs] = useState<any>(["Nft mint"]);
+  const [functionName, setFunctionName] = useState<any>("mint(string,address)");
   const [userMessage, setUserMessage] = useState<string>(fetchingData);
   const [userMessageForBackend, setUserMessageForBackend] =
     useState<string>("");
@@ -72,11 +76,13 @@ export default function SignUp() {
 
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
+  const [referralAddress, setReferralAddress] = useState<string>(router.query.referralAddress || parseQueryString(window.location.search.substring(1)).referralAddress);
   const [terms, setTerms] = useState<boolean>(false);
   const [policy, setPolicy] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
   const [displayTermsError, setDisplayTermsError] = useState<boolean>(false);
-  const [displayNamelengthError, setDisplayNamelengthError] = useState<boolean>(false);
+  const [displayNamelengthError, setDisplayNamelengthError] =
+    useState<boolean>(false);
   const [
     isDisplayTermsAndConditionsModal,
     setIsDisplayTermsAndConditionsModal,
@@ -86,12 +92,11 @@ export default function SignUp() {
 
   const { address } = useAccount();
 
+  // const referralAddress =
+  //   router.query.referralAddress ||
+  //   parseQueryString(window.location.search.substring(1)).referralAddress;
 
-  const referralAddress =
-  router.query.referralAddress ||
-  parseQueryString(window.location.search.substring(1)).referralAddress;
-
-  console.log({referralAddress})
+  console.log({ referralAddress });
 
   const getSignMessage = async (e: any) => {
     e.preventDefault();
@@ -99,21 +104,20 @@ export default function SignUp() {
       setEmailError(true);
       return;
     }
-    if (displayName.length == 0 ) {
-      
+    if (displayName.length == 0) {
       setDisplayNameError(true);
       return;
     } else {
-      console.log(displayName.length)
+      console.log(displayName.length);
       setEmailError(false);
     }
-    if ( displayName.length < 4) {
+    if (displayName.length < 4) {
       setDisplayNamelengthError(true);
       return;
     } else {
       setDisplayNamelengthError(false);
     }
-    if(!terms) {
+    if (!terms) {
       setDisplayTermsError(true);
       return;
     } else {
@@ -223,13 +227,25 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-  let args;
-  if(isEmpty(referralAddress)) {
-    args = ["Nft mint"];
-  }
-  else {
-    args = ["","",referralAddress];
-  }
+
+  const nft_address =
+    "0xdE1dEBADfc466cc50BBaad33917a954d9D77b874" as `0x${string}`;
+
+    useEffect(() => {
+      if (isEmpty(referralAddress)) {
+        setArgs(["Nft mint"]);
+        setFunctionName("mint");
+      } else {
+        setArgs(["Nft mint",  referralAddress]);
+        setFunctionName ("mint(string,address)");
+      }
+
+    },[referralAddress])
+  
+  console.log(args);
+  console.log(args);
+
+
   const {
     config,
     isError: isMintError,
@@ -237,8 +253,8 @@ export default function SignUp() {
     error,
   } = usePrepareContractWrite({
     ...nft_contract,
-    functionName: "mint",
-    args: ["Nft mint"],
+    functionName: functionName,
+    args: args,
     overrides: {
       value: data,
     },
@@ -251,26 +267,24 @@ export default function SignUp() {
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
     onSuccess(data: any) {
-      console.log('setNftData')
+      console.log("setNftData");
       setNftData(true);
     },
   });
-console.log({error})
+  console.log({ error });
   const setName = (e: any) => {
     const result = e.replace(/[^a-z]/gi, "");
     setDisplayName(result);
   };
 
-  useEffect(()=>{
-    console.log('setNftData useEffect')
+  useEffect(() => {
+    console.log("setNftData useEffect");
     if (nft_data && Number(nft_data) > 0) {
-      
       setNftData(true);
-    }
-    else{
+    } else {
       setNftData(false);
     }
-  },[address])
+  }, [address]);
 
   const { data: nft_data } = useContractRead({
     ...nft_contract,
@@ -279,9 +293,9 @@ console.log({error})
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
-      console.log('nft_data',nft_data)
+      console.log("nft_data", nft_data);
       if (nft_data && Number(nft_data) > 0) {
-        console.log('setNftData')
+        console.log("setNftData");
         setNftData(true);
       }
     },
@@ -414,11 +428,11 @@ console.log({error})
                     )}
                     {displayTermsError && (
                       <p className="text-red-600  text-xs font-bold">
-                        Please accept Terms and Conditions and Privacy Policy to continue
+                        Please accept Terms and Conditions and Privacy Policy to
+                        continue
                       </p>
                     )}
-                
-                    
+
                     {displayNamelengthError && (
                       <p className="text-red-600  text-xs font-bold">
                         Name must be at least 4 characters
@@ -524,8 +538,8 @@ console.log({error})
                   {error && (
                     <div className="mt-4 w-full h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
                       An error occurred preparing the transaction:<br></br>
-                     {/* @ts-ignore */}
-                      {error?.reason}
+                      {/* @ts-ignore */}
+                      {error?.reason ? error?.reason : error?.message}
                     </div>
                   )}
                 </>
