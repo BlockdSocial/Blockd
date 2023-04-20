@@ -5,10 +5,15 @@ const endpoints = {
   messages: 'messages',
   chat: 'chat',
   chats: 'chats',
+  checkUserBalance: 'check/user/balance',
 };
 
 async function createMessage(fields: any) {
   return apiCall('createMessage', 'POST', `${endpoints.message}`, fields);
+};
+
+async function checkUserBalance(fields: any) {
+  return apiCall('checkUserBalance', 'POST', `${endpoints.checkUserBalance}`, fields);
 };
 
 async function fetchMessages(fields: any) {
@@ -112,5 +117,6 @@ export default {
   checkBalance,
   fetchMessage,
   fetchRoomMessage,
-  leaveRoom
+  leaveRoom,
+  checkUserBalance
 };

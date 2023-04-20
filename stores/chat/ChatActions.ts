@@ -92,7 +92,7 @@ export function fetchMessages(fields: any) {
       const result = await chatApi.fetchMessages(fields);
       dispatch({
         type: FETCH_MESSAGES_SUCCESS,
-        messages: result
+        // messages: result
       });
       return result;
     } catch (error: any) {
@@ -301,8 +301,8 @@ export function fetchChatroomMessages(id: any, fields: any) {
     try {
       const result = await chatApi.fetchChatroomMessages(id, fields);
       dispatch({
-        type:  FETCH_CHATROOM_MESSAGES_SUCCESS,
-        chatroomMessages: result
+        type: FETCH_CHATROOM_MESSAGES_SUCCESS,
+        // chatroomMessages: result
       });
       return result;
     } catch (error: any) {

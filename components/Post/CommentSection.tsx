@@ -35,7 +35,7 @@ import {
 } from "../../stores/comment/CommentActions";
 import Picker from "@emoji-mart/react";
 import ReactGiphySearchbox from "react-giphy-searchbox";
-import { encodeQuery, getDiffTime, renderComment } from "../../utils";
+import { encodeQuery, getDiffTime, renderComment, renderCommentText } from "../../utils";
 import { toast } from "react-hot-toast";
 import Linkify from "react-linkify";
 import { MentionsInput, Mention } from "react-mentions";
@@ -106,7 +106,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
   const [commentBoxVisible, setCommentBoxVisible] = useState<boolean>(false);
   const [deletePopUp, setDeletePopUp] = useState<boolean>(false);
   const [editPopUp, setEditPopUp] = useState<boolean>(false);
-  const [textArea, setTextArea] = useState<string>(comment?.content);
+  const [textArea, setTextArea] = useState<string>(!isEmpty(comment?.content) ? renderCommentText(comment?.content) : '');
 
   //************************** Image Handeling **************************//
   //************************** Image Handeling **************************//
@@ -1058,15 +1058,28 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                 </div>
               )}
               <p className="font-semibold text-black">Description</p>
-              <textarea
-                id="message"
-                maxLength={255}
-                value={textArea}
-                onChange={(e: any) => setTextArea(e.target.value)}
-                data-rows="4"
-                className="h-24 p-2 bg-gray-200 text-black outline-none rounded-lg w-full"
-                placeholder="Current Post description"
-              ></textarea>
+              <div className="w-full mt-1 mb-3">
+                <MentionsInput
+                  value={textArea}
+                  onChange={(e) => setTextArea(e.target.value)}
+                  classNames={lightMode}
+                  placeholder="Add a caption"
+                >
+                  <Mention
+                    className={`${lightMode.mentions__mention}`}
+                    trigger="@"
+                    data={data}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                  <Mention
+                    trigger="@"
+                    data={(e) => {
+                      handleSearch(e);
+                    }}
+                    markup="@@@______id____^^______display____@@@^^^"
+                  />
+                </MentionsInput>
+              </div>
             </div>
           </div>
           <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">

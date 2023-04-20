@@ -134,7 +134,7 @@ export function chatReducer(state = initialState, action: any) {
       return {
         ...state,
         isFetchingMessages: false,
-        messages: action.messages
+        // messages: action.messages
       };
     }
     case FETCH_MESSAGES_FAILURE: {

@@ -157,3 +157,47 @@ export const renderComment = (text: any) => {
 
   return text;
 };
+
+export const renderComment2 = (text: any) => {
+  //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
+
+  const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
+  const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
+  const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
+  const matches = text?.match(pattern);
+
+  if (matches && matches.length > 0) {
+    for (let i = 0; i < matches.length; i++) {
+      let name = matches[i].match(pattern_username)[0];
+      let user_id = matches[i].match(pattern_id)[0];
+      let encode = encodeQuery(user_id, "profile");
+      let link = `<a href="/dashboard/profile?${encode}" className="underline text-white">@${name}</a>`;
+
+      text = text.replace(matches[i], link);
+    }
+  }
+
+  return text;
+};
+
+export const renderCommentText = (text: any) => {
+  //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
+  const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
+  const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
+  const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
+  const matches = text?.match(pattern);
+
+  if (matches && matches.length > 0) {
+    for (let i = 0; i < matches.length; i++) {
+      let name = matches[i].match(pattern_username)[0];
+      let user_id = matches[i].match(pattern_id)[0];
+      let encode = encodeQuery(user_id, "profile");
+      let link = `@${name}`;
+
+      text = text.replace(matches[i], link);
+    }
+  }
+ 
+
+  return text;
+};

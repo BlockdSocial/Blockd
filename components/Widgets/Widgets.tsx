@@ -9,6 +9,7 @@ import { searchFilteredUsers } from "../../stores/user/UserActions";
 import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import Result from "./Result";
+import { isEmpty } from "lodash";
 
 interface Pic {
   name: string;
@@ -55,6 +56,18 @@ function Widgets() {
     }
   }, [input]);
 
+  const handleBlur = (e: any) => {
+    if (!isEmpty(e.relatedTarget)) {
+      if (e.relatedTarget.className !== 'w-full search-result') {
+        setInput('');
+      } else {
+        return;
+      }
+    } else {
+      setInput('');
+    }
+  }
+
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
       {/* Search */}
@@ -67,16 +80,17 @@ function Widgets() {
             type="text"
             placeholder="Search Blockd"
             className="flex-1 outline-none bg-transparent"
+            onBlur={(e: any) => handleBlur(e)}
           />
         </div>
         {input && (
-          <div className="relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
+          <div id="dropdownResults" className="relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
             <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
               <div className="flex flex-col items-center justify-center">
                 {searchResult &&
                   searchResult?.map((result: any, index: any) => (
                     index <= 4 &&
-                    <Result result={result} key={result?.id} />
+                    <Result result={result} key={result?.id} setInput={setInput} />
                   ))}
                 <Link
                   href={{

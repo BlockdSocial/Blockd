@@ -4,16 +4,17 @@ interface Props {
   Picture: string;
   Notif: number;
   active: string;
+  chatroom: any
 }
 
-function ChatbarRow({ Picture, Notif, active }: Props) {
+function ChatbarRow({ Picture, Notif, active, chatroom }: Props) {
   return (
     <div
       data-te-toggle="tooltip"
       data-te-placement="top"
       data-te-ripple-init
       data-te-ripple-color="light"
-      title="Chatroom Name"
+      title={chatroom?.room?.displayName}
       className={`flex relative items-center justify-center w-full md:p-1 ${active} hover:bg-gray-100 dark:hover:bg-lightgray group`}
     >
       <strong className="relative inline-flex items-center">

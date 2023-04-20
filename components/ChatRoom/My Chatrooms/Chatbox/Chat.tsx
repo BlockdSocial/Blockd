@@ -1,16 +1,4 @@
 import React, { useState, useEffect, useRef } from "react";
-import {
-  ArrowUturnLeftIcon,
-  EllipsisVerticalIcon,
-  ExclamationCircleIcon,
-  TrashIcon,
-  EyeDropperIcon,
-  DocumentDuplicateIcon,
-} from "@heroicons/react/24/outline";
-import moment from "moment";
-import { config } from "../../../../constants";
-
-import Picker from "@emoji-mart/react";
 
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
 import { isEmpty } from "lodash";
@@ -42,6 +30,8 @@ export default function Chat({
   const dispatch = useAppDispatch();
 
   const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { isFetchingChatroomMessages } = useAppSelector((state) => state.chatReducer);
+  const [load, setLoad] = useState<boolean>(true);
 
   let [showReaction, setShowReaction] = useState<boolean>(false);
   let [reaction, setReaction] = useState<string>("");
@@ -88,8 +78,8 @@ export default function Chat({
   };
 
   let [atTop, setAtTop] = useState<boolean>(false);
-  const [endCount, setEndCount] = useState<number>(4);
-  const [endTotal, setEndTotal] = useState<number>(4);
+  const [endCount, setEndCount] = useState<number>(9);
+  const [endTotal, setEndTotal] = useState<number>(9);
   const [messages2, setMessages2] = useState<any>();
   const { isFetchingMessages, error } = useAppSelector(
     (state) => state.chatReducer
@@ -99,12 +89,6 @@ export default function Chat({
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, []);
-
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
 
   useEffect(() => {
     if (!isEmpty(receiver)) {
@@ -120,26 +104,39 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      updateMessages(message?.data?.type);
+      if (!isEmpty(room)) {
+        fetchRoomMessages();
+      } else {
+        console.log('test');
+        getMessages();
+      }
     }
   );
 
   useEffect(() => {
-    scrollToBottom();
+    if (load) {
+      scrollToBottom();
+    }
   }, [messages, messages2]);
 
+  console.log('receiver222: ', receiver);
+
+
   const getMessages = async () => {
+    console.log('receiver: ', receiver);
     if (!isEmpty(receiver)) {
+      console.log('test2');
       await dispatch(
         fetchMessages({
           receiver_id: receiver?.id,
           start: 0,
-          end: 200,
+          end: 10,
         })
       ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages2(result?.messages);
+        setMessages2(result?.messages.reverse());
+        scrollToBottom();
       });
     }
   };
@@ -149,12 +146,13 @@ export default function Chat({
       await dispatch(
         fetchChatroomMessages(room?.roomId, {
           start: 0,
-          end: 200,
+          end: 100,
         })
       ).then((result: any) => {
         setEndTotal(10);
         setEndCount(10);
-        setMessages2(result?.messages);
+        setMessages2(result?.messages.reverse());
+        scrollToBottom();
       });
     }
   };
@@ -170,25 +168,31 @@ export default function Chat({
     });
   };
 
-  const updateMessages = async (type: any) => {
-    if ("room" !== type) {
+  const updateMessages = async (start: number, end: number) => {
+    setLoad(false);
+    if (isEmpty(room)) {
       await dispatch(
         fetchMessages({
           receiver_id: ref.current?.id,
-          start: 0,
-          end: 200,
+          start: start,
+          end: end,
         })
       ).then((result: any) => {
-        setMessages2(result?.messages);
+        const newMessages = result?.messages?.reverse()?.concat(messages2);
+        setEndTotal(result?.total);
+        setMessages2(newMessages);
       });
     } else {
       await dispatch(
-        fetchChatroomMessages(room?.roomId, {
-          start: 0,
-          end: 200,
+        fetchChatroomMessages(ref?.current?.roomId, {
+          start: start,
+          end: end,
         })
       ).then((result: any) => {
-        setMessages2(result?.messages);
+        console.log('result: ', result);
+        const newMessages = result?.messages?.reverse()?.concat(messages2);
+        setEndTotal(result?.total);
+        setMessages2(newMessages);
       });
     }
   };
@@ -210,14 +214,31 @@ export default function Chat({
     );
   };
 
+  const handleScroll2 = async () => {
+    if (boxRef2.current) {
+      const { scrollTop, scrollHeight, clientHeight } = boxRef2.current;
+      if (
+        scrollTop === 0
+      ) {
+        if (!isFetchingChatroomMessages) {
+          if (endTotal == 0) {
+            return;
+          } else {
+            await updateMessages(endCount + 1, endCount + 9);
+            setEndCount(endCount + 9);
+          }
+        }
+      }
+    }
+  };
+
   return (
     <div
-      onScrollCapture={(e: any) => handleScroll(e)}
-      className={`flex flex-col relative ${
-        isEmpty(chats) && isEmpty(chatrooms)
-          ? "overflow-hidden"
-          : "scrollbar-hide overflow-scroll"
-      } h-[92vh] dark:bg-darkgray z-0`}
+      onScrollCapture={() => handleScroll2()}
+      className={`flex flex-col relative ${isEmpty(chats) && isEmpty(chatrooms)
+        ? "overflow-hidden"
+        : "scrollbar-hide overflow-scroll"
+        } h-[92vh] dark:bg-darkgray z-0`}
       id="test"
     >
       <Navbar
@@ -242,10 +263,15 @@ export default function Chat({
         </div>
       )}
       <div ref={boxRef2} className="p-2 md:p-0 flex-1 scrollbar-hide overflow-scroll">
+        {isFetchingChatroomMessages && (
+          <p className="flex items-center justify-center space-x-3 p-4">
+            Loading ...
+          </p>
+        )}
         {!isEmpty(messages2) &&
-          messages2.map((message: any) => (
+          messages2.map((message: any, index: any) => (
             <Message
-              key={message?.id}
+              key={index}
               setReply={setReply}
               receiver={receiver}
               message={message}
@@ -267,6 +293,7 @@ export default function Chat({
             fetchRoomMessages={fetchRoomMessages}
             replyMessage={replyMessage}
             setReplyMessage={setReplyMessage}
+            setLoad={setLoad}
           />
         )}
       </div>

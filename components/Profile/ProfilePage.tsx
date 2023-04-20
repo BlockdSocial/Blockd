@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import InfoContainer from "./InfoContainer";
 import Feed from "./Feed";
 import Interactions from "./Interactions";
@@ -32,6 +32,9 @@ interface User {
 
 function ProfilePage() {
   const dispatch = useAppDispatch();
+  const elementRef = useRef<any>(null);
+  const [endCount, setEndCount] = useState<number>(8);
+  const [endTotal, setEndTotal] = useState<number>(8);
   let [showFeed, setShowFeed] = useState<boolean>(true);
   let [showInteractions, setShowInteractions] = useState<boolean>(false);
   let [showFollowers, setShowFollowers] = useState<boolean>(false);
@@ -53,12 +56,6 @@ function ProfilePage() {
   const user_id =
     router.query.user_id ||
     parseQueryString(window.location.search.substring(1)).user_id;
-
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
 
   useEffect(() => {
     if (user_id == undefined || null) {
@@ -84,15 +81,40 @@ function ProfilePage() {
     }
   };
 
+  const fetchAuthUserPosts = async () => {
+    await dispatch(fetchUserPosts(authUser?.id, {
+      start: 0,
+      end: 8
+    })).then((res) => {
+      setPosts(res?.posts);
+    });
+  }
+
   const fetchPosts = async (thisUser: any = {}) => {
     if (!thisUser) {
       thisUser = user;
     }
     if (!isEmpty(thisUser)) {
-      await dispatch(fetchUserPosts(thisUser?.id)).then((res) => {
-        setPosts(res);
+      await dispatch(fetchUserPosts(thisUser?.id, {
+        start: 0,
+        end: 8
+      })).then((res) => {
+        setPosts(res?.posts);
       });
     }
+  };
+
+  const updateUserPosts = async (start: number, end: number) => {
+    await dispatch(
+      fetchUserPosts(user?.id, {
+        start: start,
+        end: end,
+      })
+    ).then((result: any) => {
+      const newPosts = posts?.concat(result?.posts);
+      setEndTotal(result?.total);
+      setPosts(newPosts);
+    });
   };
 
   const handleToggle1 = () => {
@@ -143,10 +165,35 @@ function ProfilePage() {
     }
   };
 
+  const handleScroll = async () => {
+    if (elementRef.current) {
+      const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
+      if (
+        scrollTop + clientHeight === scrollHeight ||
+        scrollTop + clientHeight === scrollHeight - 0.5
+      ) {
+        if (!isFetchingUserPosts) {
+          if (endTotal == 0) {
+            return;
+          } else {
+            await updateUserPosts(endCount + 1, endCount + 8);
+            setEndCount(endCount + 8);
+          }
+        }
+      }
+    }
+  };
+
+  console.log('POSTS: ', posts);
+
   const [text, setText] = useState("ReferralID");
 
   return (
-    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
+    <div
+      className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
+      ref={elementRef}
+      onScrollCapture={() => handleScroll()}
+    >
       <CustomLoadingOverlay
         active={isFetchingUserPosts || isFetchingAuthUser || isFetchingUser}
       />
@@ -197,8 +244,8 @@ function ProfilePage() {
         <button
           onClick={() => handleToggle3()}
           className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowers === true
-              ? "border-b-2 border-blockd text-blockd :"
-              : ""
+            ? "border-b-2 border-blockd text-blockd :"
+            : ""
             }`}
         >
           Followers
@@ -206,15 +253,18 @@ function ProfilePage() {
         <button
           onClick={() => handleToggle4()}
           className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowing === true
-              ? "border-b-2 border-blockd text-blockd :"
-              : ""
+            ? "border-b-2 border-blockd text-blockd :"
+            : ""
             }`}
         >
           Following
         </button>
       </div>
 
-      {showFeed && <Feed posts={posts} refetch={fetchPosts} />}
+      {showFeed && <Feed
+        posts={posts}
+        refetch={fetchAuthUserPosts}
+      />}
       {showInteractions && <Interactions />}
       {showFollowers && <Followers user={user} />}
       {showFollowing && <Following user={user} />}

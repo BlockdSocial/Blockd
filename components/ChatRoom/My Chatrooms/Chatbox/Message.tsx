@@ -16,7 +16,9 @@ import { useAppSelector } from "../../../../stores/hooks";
 import { isEmpty } from "lodash";
 import Linkify from "react-linkify";
 import Link from "next/link";
-import { encodeQuery } from "../../../../utils";
+import { encodeQuery, renderComment2 } from "../../../../utils";
+// @ts-ignore
+import renderHTML from "react-render-html";
 
 export default function Message({
   setReply,
@@ -137,14 +139,17 @@ export default function Message({
             </div>
             {message?.repliedMessageId && (
               <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-                <p className="flex items-center justify-start text-sm">
-                  {message?.otherUser?.name}
-                </p>
-                <p className="flex items-center justify-start pt-2 text-sm">
-                  <Linkify componentDecorator={componentDecorator}>
-                    {message?.originMessage?.content}
-                  </Linkify>
-                </p>
+                {/* <p className="flex items-center justify-start text-sm">
+                  @{message?.originMessage?.otherUser?.name}
+                </p> */}
+                {
+                  !isEmpty(message?.originMessage?.content) &&
+                  <p className=" pt-2 text-sm">
+                    <Linkify componentDecorator={componentDecorator}>
+                      {renderHTML(renderComment2(message?.originMessage?.content))}
+                    </Linkify>
+                  </p>
+                }
                 <div className="flex items-center justify-start mt-2">
                   {message?.originMessage?.imgName != null && (
                     <img
@@ -161,11 +166,14 @@ export default function Message({
                 </div>
               </div>
             )}
-            <p className="flex items-center justify-start py-2 text-sm md:text-base">
-              <Linkify componentDecorator={componentDecorator}>
-                {message?.content}
-              </Linkify>
-            </p>
+            {
+              !isEmpty(message?.content) &&
+              <p className=" py-2 text-sm md:text-base">
+                <Linkify componentDecorator={componentDecorator}>
+                  {renderHTML(renderComment2(message?.content))}
+                </Linkify>
+              </p>
+            }
             {message?.imgName != null && (
               <div className="flex items-center justify-start">
                 <img
@@ -228,9 +236,8 @@ export default function Message({
         <div className="grid grid-cols-10 md:grid-cols-12">
           <div
             onClick={() => removeReaction()}
-            className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
-              reaction ? "inline" : "hidden"
-            }`}
+            className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
+              }`}
           >
             <input
               value={reaction}
@@ -264,8 +271,8 @@ export default function Message({
             !isEmpty(receiver?.profilePic)
               ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
               : !isEmpty(message?.otherUser?.profilePic)
-              ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-              : "/images/pfp/pfp1.jpg"
+                ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                : "/images/pfp/pfp1.jpg"
           }
           className="object-cover h-10 w-10 rounded-full flex"
           alt=""
@@ -337,14 +344,17 @@ export default function Message({
         </div>
         {message?.repliedMessageId && (
           <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-            <p className="flex items-center justify-start text-sm">
-              @{message?.otherUser?.name}
-            </p>
-            <p className="flex items-center justify-start pt-2 text-sm">
-              <Linkify componentDecorator={componentDecorator}>
-                {message?.originMessage?.content}
-              </Linkify>
-            </p>
+            {/* <p className="flex items-center justify-start text-sm">
+              @{message?.originMessage?.otherUser?.name}
+            </p> */}
+            {
+              !isEmpty(message?.originMessage?.content) &&
+              <p className=" pt-2 text-sm">
+                <Linkify componentDecorator={componentDecorator}>
+                  {renderHTML(renderComment2(message?.originMessage?.content))}
+                </Linkify>
+              </p>
+            }
             <div className="flex items-center justify-start mt-2">
               {message?.originMessage?.imgName != null && (
                 <img
@@ -361,11 +371,14 @@ export default function Message({
             </div>
           </div>
         )}
-        <p className="flex items-center justify-start py-2 text-sm md:text-base">
-          <Linkify componentDecorator={componentDecorator}>
-            {message?.content}
-          </Linkify>
-        </p>
+        {
+          !isEmpty(message?.content) &&
+          <p className=" py-2 text-sm md:text-base">
+            <Linkify componentDecorator={componentDecorator}>
+              {renderHTML(renderComment2(message?.content))}
+            </Linkify>
+          </p>
+        }
 
         {message?.imgName != null && (
           <div className="flex items-center justify-start py-2">
