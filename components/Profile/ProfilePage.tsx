@@ -33,8 +33,8 @@ interface User {
 function ProfilePage() {
   const dispatch = useAppDispatch();
   const elementRef = useRef<any>(null);
-  const [endCount, setEndCount] = useState<number>(4);
-  const [endTotal, setEndTotal] = useState<number>(4);
+  const [endCount, setEndCount] = useState<number>(8);
+  const [endTotal, setEndTotal] = useState<number>(8);
   let [showFeed, setShowFeed] = useState<boolean>(true);
   let [showInteractions, setShowInteractions] = useState<boolean>(false);
   let [showFollowers, setShowFollowers] = useState<boolean>(false);
@@ -176,13 +176,15 @@ function ProfilePage() {
           if (endTotal == 0) {
             return;
           } else {
-            await updateUserPosts(endCount + 1, endCount + 9);
-            setEndCount(endCount + 9);
+            await updateUserPosts(endCount + 1, endCount + 8);
+            setEndCount(endCount + 8);
           }
         }
       }
     }
   };
+
+  console.log('POSTS: ', posts);
 
   const [text, setText] = useState("ReferralID");
 

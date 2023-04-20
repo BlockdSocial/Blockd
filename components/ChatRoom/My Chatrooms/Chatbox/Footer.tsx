@@ -233,6 +233,7 @@ function Footer({
           });
         }
       }
+      setReplyMessage()
     } else {
       if (!isEmpty(receiver)) {
         if (isEmpty(messages)) {

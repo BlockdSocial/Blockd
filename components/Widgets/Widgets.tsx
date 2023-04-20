@@ -57,7 +57,13 @@ function Widgets() {
   }, [input]);
 
   const handleBlur = (e: any) => {
-    if (isEmpty(e.relatedTarget)) {
+    if (!isEmpty(e.relatedTarget)) {
+      if (e.relatedTarget.className !== 'w-full search-result') {
+        setInput('');
+      } else {
+        return;
+      }
+    } else {
       setInput('');
     }
   }
@@ -84,7 +90,7 @@ function Widgets() {
                 {searchResult &&
                   searchResult?.map((result: any, index: any) => (
                     index <= 4 &&
-                    <Result result={result} key={result?.id} />
+                    <Result result={result} key={result?.id} setInput={setInput} />
                   ))}
                 <Link
                   href={{

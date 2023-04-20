@@ -89,5 +89,5 @@ export default {
   searchFilteredUsers,
   checkEmail,
   searchTagUsers,
-  searchTagParticipants
+  searchTagParticipants,
 };

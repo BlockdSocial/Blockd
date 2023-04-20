@@ -34,6 +34,9 @@ function chatroom() {
     handleFetchRooms();
   }, []);
 
+  console.log('receiver :::' , receiver);
+
+
   useEffect(() => {
     if (!isEmpty(roomChat)) {
       var selected = {};

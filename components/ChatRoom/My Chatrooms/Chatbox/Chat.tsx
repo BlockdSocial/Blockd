@@ -78,8 +78,8 @@ export default function Chat({
   };
 
   let [atTop, setAtTop] = useState<boolean>(false);
-  const [endCount, setEndCount] = useState<number>(4);
-  const [endTotal, setEndTotal] = useState<number>(4);
+  const [endCount, setEndCount] = useState<number>(9);
+  const [endTotal, setEndTotal] = useState<number>(9);
   const [messages2, setMessages2] = useState<any>();
   const { isFetchingMessages, error } = useAppSelector(
     (state) => state.chatReducer
@@ -107,6 +107,7 @@ export default function Chat({
       if (!isEmpty(room)) {
         fetchRoomMessages();
       } else {
+        console.log('test');
         getMessages();
       }
     }
@@ -118,8 +119,13 @@ export default function Chat({
     }
   }, [messages, messages2]);
 
+  console.log('receiver222: ', receiver);
+
+
   const getMessages = async () => {
+    console.log('receiver: ', receiver);
     if (!isEmpty(receiver)) {
+      console.log('test2');
       await dispatch(
         fetchMessages({
           receiver_id: receiver?.id,

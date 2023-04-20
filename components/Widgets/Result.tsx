@@ -19,7 +19,7 @@ interface User {
   profilePic: Pic;
 }
 
-function Result({ result }: any) {
+function Result({ result, setInput }: any) {
   const dispatch = useAppDispatch();
   const [image, setImage] = useState<any>();
   
@@ -30,7 +30,8 @@ function Result({ result }: any) {
         query: { user_id: result?.id },
       }}
       as={`/dashboard/profile?${encodeQuery(result?.id, 'profile')}`}
-      className="w-full"
+      className="w-full search-result"
+      onClick={() => setInput('')}
     >
       <div
         key={result?.id}
