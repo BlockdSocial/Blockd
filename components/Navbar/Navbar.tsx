@@ -182,6 +182,12 @@ const Navbar = () => {
         ) {
           return "mentioned you in a post!";
         }
+        if (
+          null != notification?.roomId ||
+          undefined != notification?.roomId
+        ) {
+          return "mentioned you in a conversation!";
+        }
         break;
       case "comment":
         return "commented on your post!";

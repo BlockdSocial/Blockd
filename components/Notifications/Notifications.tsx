@@ -37,6 +37,7 @@ interface INotification {
   commentId: number;
   replyId: number;
   read: number;
+  roomId: number;
 }
 
 interface Props {
@@ -95,23 +96,27 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
       }
       break;
-      case 'tag':
-        if (null != notification?.commentId || undefined != notification?.commentId) {
-          pathname = '/dashboard/post/comment';
-          query = { commentId: notification?.commentId, postId: notification?.postId }
-          as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
-        }
-        else if (null != notification?.replyId || undefined != notification?.replyId) {
-          pathname = '/dashboard/post/comment';
-          query = { commentId: notification?.commentId, postId: notification?.postId }
-          as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
-        }
-        else {
-          pathname = '/dashboard/post/';
-          query = { postId: notification?.postId }
-          as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
-        }
-        break;
+    case 'tag':
+      if (null != notification?.commentId || undefined != notification?.commentId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+        as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      }
+      else if (null != notification?.replyId || undefined != notification?.replyId) {
+        pathname = '/dashboard/post/comment';
+        query = { commentId: notification?.commentId, postId: notification?.postId }
+        as = `/dashboard/post/comment?${encodeQuery(notification?.commentId, 'comment')}&${encodeQuery(notification?.postId, 'post')}`
+      }
+      else if (null != notification?.roomId || undefined != notification?.roomId) {
+        pathname = '/dashboard/myChatrooms';
+        query = { roomChat: JSON.stringify({ id: notification?.roomId }) }
+      }
+      else {
+        pathname = '/dashboard/post/';
+        query = { postId: notification?.postId }
+        as = `/dashboard/post?${encodeQuery(notification?.postId, 'post')}`
+      }
+      break;
     case 'comment':
       pathname = '/dashboard/post/';
       query = { commentId: notification?.postId }
@@ -192,6 +197,12 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         ) {
           return "mentioned you in a post!";
         }
+        if (
+          null != notification?.roomId ||
+          undefined != notification?.roomId
+        ) {
+          return "mentioned you in a conversation!";
+        }
         break;
       case "comment":
         return "commented on your post!";
@@ -256,7 +267,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
           </div>
         </div>
         {
-          notification?.type === 'like' || notification?.type === 'dislike' || notification?.type === 'comment' ?
+          notification?.type === 'like' || notification?.type === 'dislike' || notification?.type === 'comment' || notification?.type === 'tag' ?
             <div className='hover:bg-slate-200 dark:hover:bg-darkgray p-2 mr-1 md:mr-2 lg:mr-6 rounded-md'>
               <Link onClick={() => handleReadNotification()}
                 href={{

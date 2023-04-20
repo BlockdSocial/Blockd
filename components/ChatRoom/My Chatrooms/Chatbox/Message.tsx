@@ -16,7 +16,7 @@ import { useAppSelector } from "../../../../stores/hooks";
 import { isEmpty } from "lodash";
 import Linkify from "react-linkify";
 import Link from "next/link";
-import { encodeQuery, renderComment } from "../../../../utils";
+import { encodeQuery, renderComment2 } from "../../../../utils";
 // @ts-ignore
 import renderHTML from "react-render-html";
 
@@ -139,14 +139,14 @@ export default function Message({
             </div>
             {message?.repliedMessageId && (
               <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-                <p className="flex items-center justify-start text-sm">
-                  {message?.otherUser?.name}
-                </p>
+                {/* <p className="flex items-center justify-start text-sm">
+                  @{message?.originMessage?.otherUser?.name}
+                </p> */}
                 {
                   !isEmpty(message?.originMessage?.content) &&
                   <p className=" pt-2 text-sm">
                     <Linkify componentDecorator={componentDecorator}>
-                      {renderHTML(renderComment(message?.originMessage?.content))}
+                      {renderHTML(renderComment2(message?.originMessage?.content))}
                     </Linkify>
                   </p>
                 }
@@ -170,7 +170,7 @@ export default function Message({
               !isEmpty(message?.content) &&
               <p className=" py-2 text-sm md:text-base">
                 <Linkify componentDecorator={componentDecorator}>
-                  {renderHTML(renderComment(message?.content))}
+                  {renderHTML(renderComment2(message?.content))}
                 </Linkify>
               </p>
             }
@@ -344,14 +344,14 @@ export default function Message({
         </div>
         {message?.repliedMessageId && (
           <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-            <p className="flex items-center justify-start text-sm">
-              @{message?.otherUser?.name}
-            </p>
+            {/* <p className="flex items-center justify-start text-sm">
+              @{message?.originMessage?.otherUser?.name}
+            </p> */}
             {
               !isEmpty(message?.originMessage?.content) &&
               <p className=" pt-2 text-sm">
                 <Linkify componentDecorator={componentDecorator}>
-                  {renderHTML(renderComment(message?.originMessage?.content))}
+                  {renderHTML(renderComment2(message?.originMessage?.content))}
                 </Linkify>
               </p>
             }
@@ -375,13 +375,13 @@ export default function Message({
           !isEmpty(message?.content) &&
           <p className=" py-2 text-sm md:text-base">
             <Linkify componentDecorator={componentDecorator}>
-              {renderHTML(renderComment(message?.content))}
+              {renderHTML(renderComment2(message?.content))}
             </Linkify>
           </p>
         }
 
         {message?.imgName != null && (
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-start py-2">
             <img
               src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
               className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
@@ -389,7 +389,7 @@ export default function Message({
           </div>
         )}
         {message?.gif != null && (
-          <div className="flex items-center justify-start">
+          <div className="flex items-center justify-start py-2">
             <img
               src={message?.gif}
               className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"

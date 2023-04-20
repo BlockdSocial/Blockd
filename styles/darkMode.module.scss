@@ -18,7 +18,7 @@
 }
 
 .mentions--multiLine .mentions__control {
-  font-family: monospace;
+  font-family: "calibri", sans-serif;
   font-size: 12pt;
 }
 .mentions--multiLine .mentions__highlighter {
@@ -42,6 +42,8 @@
   height: 200px;
   padding: 3px;
   position: absolute;
+  bottom: 20px;
+  left: -10px;
 }
 
 .mentions__suggestions__item {
@@ -55,6 +57,5 @@
 }
 
 .mentions__mention {
-  color: #90CAF9;
-  font-size: 12pt;
+  text-decoration: underline;
 }

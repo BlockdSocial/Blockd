@@ -27,6 +27,7 @@ function Chatbar({ setRoom, setReceiver, chatrooms }: any) {
               }
               Notif={0}
               active=""
+              chatroom={chatroom}
             />
           </div>
         ))}

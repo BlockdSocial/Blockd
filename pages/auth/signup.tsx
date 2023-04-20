@@ -31,6 +31,8 @@ import { flatMap, indexOf } from "lodash";
 import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { checkEmail } from "../../stores/user/UserActions";
+import { nft_abi } from "../../abi/nft.abi";
+
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -224,6 +226,8 @@ export default function SignUp() {
   });
 
   let args;
+  const nft_address = "0xdE1dEBADfc466cc50BBaad33917a954d9D77b874" as `0x${string}`
+
   if(isEmpty(referralAddress)) {
     args = ["Nft mint"];
   }
@@ -236,12 +240,8 @@ export default function SignUp() {
     isFetching: isMintFetching,
     error,
   } = usePrepareContractWrite({
-    ...nft_contract,
-    functionName: "mint",
-    args: args,
-    overrides: {
-      value: data,
-    },
+    address: nft_address,
+    abi: nft_abi,
     enabled: !!data && !!address,
     onSuccess(data: any) {
       console.log("call useEffect", data);

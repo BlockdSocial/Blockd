@@ -8,7 +8,9 @@ import {
 import Link from "next/link";
 import { config } from "../../constants";
 import { isEmpty } from "lodash";
-import { encodeQuery } from "../../utils";
+import { encodeQuery, renderComment } from "../../utils";
+// @ts-ignore
+import renderHTML from "react-render-html";
 
 interface Images {
   name: string;
@@ -99,7 +101,10 @@ function Slider({ trendingPosts }: Props) {
                   as={`/dashboard/post?${encodeQuery(slides[currentIndex]?.id, 'post')}`}
                   className="absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full"
                 >
-                  {slides[currentIndex]?.title}
+                  {
+                    !isEmpty(slides[currentIndex]?.title) &&
+                    renderHTML(renderComment(slides[currentIndex]?.title))
+                  }
                 </Link>
               </div>
             </Link>

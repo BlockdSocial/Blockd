@@ -226,7 +226,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   };
 
   return (
-    <div className="flex flex-col items-start justify-center relative mx-auto">
+    <div className="flex flex-col items-start justify-center relative mx-auto border-b dark:border-lightgray">
       <div className="relative flex items-center justify-center mt-5  w-full bg-white dark:bg-lightgray group">
         <img
           src={
@@ -235,8 +235,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-72 ${user?.id === authUser?.id && "group-hover:opacity-50"
-            }`}
+          className={`w-full max-h-72 ${
+            user?.id === authUser?.id && "group-hover:opacity-50"
+          }`}
           width="720"
           height="350"
         />
@@ -257,7 +258,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           onChange={(e) => handleUploadProfileBanner(e.target.files![0])}
         />
       </div>
-      <div className="flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray border-b dark:border-lightgray">
+      <div className="flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray">
         <div className="flex items-center justify-start ">
           <circle className="flex items-center justify-start p-3">
             <div className="z-0">
@@ -451,8 +452,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
-              }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
+              isDropdownVisible ? "" : "hidden"
+            }`}
           >
             <Link
               type="button"
@@ -474,10 +476,28 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </ul>
         </div>
       </div>
+      <div className="py-2 px-6">
+        <p className="text-sm w-full md:w-3/4 text-justify">
+          Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
+          vestibulum massa viverra nisl vulputate commodo.{" "}
+        </p>
+      </div>
+      <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
+        <a href="#" target="_blank">
+          <img src="/images/logo/facebook.png" className="w-8 h-8 object-cover rounded-md" />
+        </a>
+        <a href="#" target="_blank">
+          <img src="/images/logo/instagram.png" className="w-8 h-8 object-cover rounded-md" />
+        </a>
+        <a href="#" target="_blank">
+          <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
+        </a>
+      </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
+          isModalVisible ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
@@ -507,7 +527,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               </button>
             </div>
             <div className="px-6 py-6 lg:px-8">
-              <form className="space-y-6" action="#">
+              <form className="space-y-3" action="#">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Your Display Name
@@ -530,6 +550,49 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                     value={userEmail}
                     onChange={(e) => setUserEmail(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Your bio
+                  </label>
+                  <textarea
+                    placeholder="Write something ..."
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    rows={2}
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Your Instagram
+                  </label>
+                  <input
+                    placeholder="Type your link"
+                    type="text"
+                    name="insta"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Your Twitter
+                  </label>
+                  <input
+                    placeholder="Type your link"
+                    type="text"
+                    name="twitter"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Your LinkTree
+                  </label>
+                  <input
+                    placeholder="Type your link"
+                    type="text"
+                    name="linkTree"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   />
                 </div>
                 <button
