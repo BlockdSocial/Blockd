@@ -4,7 +4,7 @@ import {
   MagnifyingGlassIcon,
   UserPlusIcon,
   XMarkIcon,
-  ArrowLeftOnRectangleIcon
+  ArrowLeftOnRectangleIcon,
 } from "@heroicons/react/24/outline";
 import { isEmpty } from "lodash";
 import { config } from "../../../../constants";
@@ -19,7 +19,14 @@ import {
 } from "../../../../stores/chat/ChatActions";
 import { toast } from "react-hot-toast";
 
-function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMessages2 }: any) {
+function Members({
+  members,
+  room,
+  setRoom,
+  setIsModalVisible,
+  fetchRooms,
+  setMessages2,
+}: any) {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { error } = useAppSelector((state) => state.chatReducer);
@@ -86,8 +93,8 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
       setRoom();
       fetchRooms();
       setMessages2();
-    })
-  }
+    });
+  };
 
   useEffect(() => {
     if (inputAdd.length > 0) {
@@ -120,11 +127,12 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
         <p className="font-semibold">Description</p>
       </div>
       <div>
-        <p className="p-2 text-justify text-black">
-          {room?.room?.description}
-        </p>
+        <p className="p-2 text-justify text-black">{room?.room?.description}</p>
       </div>
-      <div className="flex items-center justify-start space-x-2 p-2 text-black border-t cursor-pointer" onClick={() => handleLeaveRoom()}>
+      <div
+        className="flex items-center justify-start space-x-2 p-2 text-black border-t cursor-pointer"
+        onClick={() => handleLeaveRoom()}
+      >
         <ArrowLeftOnRectangleIcon className="w-7 h-7 text-orange-500" />
         <p className="font-semibold">Leave Room</p>
       </div>
@@ -147,8 +155,9 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
         </div>
       </div>
       <div
-        className={`items-center border-b space-x-2 p-2 group ${showSearch ? "flex" : "hidden"
-          }`}
+        className={`items-center border-b space-x-2 p-2 group ${
+          showSearch ? "flex" : "hidden"
+        }`}
       >
         <MagnifyingGlassIcon className="w-5 h-5" />
         <input
@@ -164,8 +173,9 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
         />
       </div>
       <div
-        className={`items-center space-x-2 p-2 group ${showAddMember ? "flex" : "hidden"
-          }`}
+        className={`items-center space-x-2 p-2 group ${
+          showAddMember ? "flex" : "hidden"
+        }`}
       >
         <UserPlusIcon className="w-5 h-5" />
         <input
@@ -191,19 +201,27 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
                   key={result?.id}
                   onClick={() => handleAddMember(result?.id)}
                 >
-                  <div
-                    key={result?.id}
-                    className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
-                  >
-                    <img
-                      src={
-                        !isEmpty(result?.profilePic)
-                          ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
-                          : "/images/placeholder.png"
-                      }
-                      className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
-                    />
-                    <p className="font-semibold text-sm">@{result?.name}</p>
+                  <div className="flex items-center justify-between">
+                    <div
+                      key={result?.id}
+                      className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+                    >
+                      <img
+                        src={
+                          !isEmpty(result?.profilePic)
+                            ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
+                            : "/images/placeholder.png"
+                        }
+                        className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
+                      />
+                      <p className="font-semibold text-sm">@{result?.name}</p>
+                    </div>
+                    <div className="flex items-center justify-center">
+                      <img
+                        src="/images/badges/crown.png"
+                        className="w-7 h-7 object-cover mr-4"
+                      />
+                    </div>
                   </div>
                 </div>
               ))}
@@ -238,6 +256,9 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
                   </span>
                   {/* <span className='text-xs'>Last seen Recently</span> */}
                 </div>
+              </div>
+              <div className="flex items-center justify-center">
+                <img src="/images/badges/crown.png" className="w-7 h-7 object-cover mr-4" />
               </div>
               {/* <div className='flex items-center justify-end p-2 text-orange-600'>
               <span className='text-sm font-semibold'>Admin</span>
@@ -276,6 +297,9 @@ function Members({ members, room, setRoom, setIsModalVisible, fetchRooms, setMes
                   </span>
                   {/* <span className='text-xs'>Last seen Recently</span> */}
                 </div>
+              </div>
+              <div className="flex items-center justify-center">
+                <img src="/images/badges/crown.png" className="w-7 h-7 object-cover mr-4" />
               </div>
               {/* <div className='flex items-center justify-end p-2 text-orange-600'>
               <span className='text-sm font-semibold'>Admin</span>
