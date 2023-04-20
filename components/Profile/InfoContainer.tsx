@@ -476,6 +476,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </ul>
         </div>
       </div>
+
+{/*    TODO HASAN SAADO   
       <div className="py-2 px-6">
         <p className="text-sm w-full md:w-3/4 text-justify">
           Lorem ipsum dolor sit amet, consectetur adipiscing elit. Morbi
@@ -492,7 +494,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         <a href="#" target="_blank">
           <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
         </a>
-      </div>
+      </div> */}
 
       <div
         className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
@@ -552,6 +554,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     onChange={(e) => setUserEmail(e.target.value)}
                   />
                 </div>
+{/*       TODO HASAN SAADO          
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
                     Your bio
@@ -594,7 +597,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     name="linkTree"
                     className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
                   />
-                </div>
+                </div> */}
                 <button
                   onClick={(e) => handleUpdateUser(e)}
                   className="w-full text-white bg-orange-600 hover:bg-orange-700 focus:ring-4 focus:outline-none focus:ring-orange-300 font-medium rounded-lg text-sm px-5 py-2.5 text-center"
