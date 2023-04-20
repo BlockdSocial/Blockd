@@ -42,7 +42,7 @@ interface User {
   frameName: string;
   bio: string;
   facebook: string;
-  insta: string;
+  instagram: string;
   linktree: string;
 }
 
@@ -105,6 +105,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       setUserEmail(user?.email);
       fetchProfilePicture(user?.profilePicId);
       fetchBannerPicture(user?.bannerPicId);
+      setBio(user?.bio);
+      setInsta(user?.instagram);
+      setLinktree(user?.linktree);
+      setFacebook(user?.facebook);
       getScorePercentage();
       fetchRewards();
       fetchUserFollowers();
@@ -187,10 +191,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       updateUser({
         name: userName,
         email: userEmail,
-        facebook: facebook,
-        insta: insta,
-        linktree: linktree,
-        bio: bio
+        facebook: facebook ? facebook : '',
+        instagram: insta ? insta : '',
+        linktree: linktree ? linktree : '',
+        bio: bio ? bio : '',
       })
     ).then(() => {
       setIsModalVisible(false);
@@ -499,19 +503,19 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
         {
           user?.facebook &&
-          <a href={user?.facebook} target="_blank">
+          <a href={`https://${user?.facebook}`} target="_blank">
             <img src="/images/logo/facebook.png" className="w-8 h-8 object-cover rounded-md" />
           </a>
         }
         {
-          user?.insta &&
-          <a href={user?.insta} target="_blank">
+          user?.instagram &&
+          <a href={`https://${user?.instagram}`} target="_blank">
             <img src="/images/logo/instagram.png" className="w-8 h-8 object-cover rounded-md" />
           </a>
         }
         {
           user?.linktree &&
-          <a href={user?.linktree} target="_blank">
+          <a href={`https://${user?.linktree}`} target="_blank">
             <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
           </a>
         }

@@ -108,7 +108,8 @@ export default function Chat({
   const [message] = useChannel(
     `messageNotifications-${authUser.id}`,
     (message) => {
-      if (!isEmpty(room)) {
+      console.log('MESSAGE: ', message);
+      if ('room' === message?.data?.type) {
         fetchRoomMessages();
       } else {
         console.log('test');
@@ -124,9 +125,7 @@ export default function Chat({
   }, [messages, messages2]);
 
   const getMessages = async () => {
-    console.log('receiver: ', receiver);
     if (!isEmpty(receiver) || !isEmpty(ref.current)) {
-      console.log('test2');
       await dispatch(
         fetchMessages({
           receiver_id: receiver?.id || ref.current.id,
@@ -143,9 +142,11 @@ export default function Chat({
   };
 
   const fetchRoomMessages = async () => {
-    if (!isEmpty(room)) {
+    console.log('room: ', room);
+    console.log('ref: ', ref);
+    if (!isEmpty(room) || ref.current.roomId) {
       await dispatch(
-        fetchChatroomMessages(room?.roomId, {
+        fetchChatroomMessages(room?.roomId || ref.current.roomId, {
           start: 0,
           end: 100,
         })
