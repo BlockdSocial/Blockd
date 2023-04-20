@@ -119,16 +119,13 @@ export default function Chat({
     }
   }, [messages, messages2]);
 
-  console.log('receiver222: ', receiver);
-
-
   const getMessages = async () => {
     console.log('receiver: ', receiver);
-    if (!isEmpty(receiver)) {
+    if (!isEmpty(receiver) || !isEmpty(ref.current)) {
       console.log('test2');
       await dispatch(
         fetchMessages({
-          receiver_id: receiver?.id,
+          receiver_id: receiver?.id || ref.current.id,
           start: 0,
           end: 10,
         })
