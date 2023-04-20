@@ -334,7 +334,7 @@ console.log({error})
         </div>
       </div>
       <div className="md:w-1/2 w-full h-screen flex items-center justify-center text-center p-10 z-0">
-        <div className="flex items-center py-8 w-[600px] bg-color relative rounded-md">
+        <div className="flex items-center w-[500px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
               <Image
@@ -349,7 +349,7 @@ console.log({error})
               </h2>
             </div>
 
-            <div className="flex flex-col items-center justify-center w-full h-full px-10 py-5 lg:px-20">
+            <div className="flex flex-col items-center justify-center w-full h-full px-10 py-5">
               {1 === step && (
                 <>
                   <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
@@ -496,7 +496,7 @@ console.log({error})
                   </div>
 
                   {error && (
-                    <div className="mt-4 w-full h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
+                    <div className="mt-4 w-full max-h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
                       An error occurred preparing the transaction:<br></br>
                      {/* @ts-ignore */}
                       {error?.reason}
