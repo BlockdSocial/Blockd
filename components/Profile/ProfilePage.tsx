@@ -219,10 +219,9 @@ function ProfilePage() {
         user?.id === authUser?.id &&
         <div className="border-b dark:border-lightgray">
           <div className="flex items-center justify-start my-5 px-6 space-x-1">
-            <UserPlusIcon className="w-5 h-5 stroke-[2px]" />
-            <p className="text-base font-semibold">Referral Link : </p>
+            <p className="text-sm md:text-base font-semibold">Referral Link : </p>
             <input
-              className="text-base w-20 bg-transparent truncate"
+              className="text-sm md:text-base w-fit bg-transparent truncate"
               value={text}
               onChange={(e) => setText(e.target.value)}
               disabled

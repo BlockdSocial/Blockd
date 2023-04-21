@@ -168,14 +168,14 @@ export default function Message({
             )}
             {
               !isEmpty(message?.content) &&
-              <p className=" py-2 text-sm md:text-base">
+              <p className="py-2 text-sm md:text-base">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment2(message?.content))}
                 </Linkify>
               </p>
             }
             {message?.imgName != null && (
-              <div className="flex items-center justify-start">
+              <div className="flex items-center justify-start my-2">
                 <img
                   src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
                   className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
@@ -183,7 +183,7 @@ export default function Message({
               </div>
             )}
             {message?.gif != null && (
-              <div className="flex items-center justify-start">
+              <div className="flex items-center justify-start my-2">
                 <img
                   src={message?.gif}
                   className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
@@ -381,7 +381,7 @@ export default function Message({
         }
 
         {message?.imgName != null && (
-          <div className="flex items-center justify-start py-2">
+          <div className="flex items-center justify-start my-2">
             <img
               src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
               className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
@@ -389,7 +389,7 @@ export default function Message({
           </div>
         )}
         {message?.gif != null && (
-          <div className="flex items-center justify-start py-2">
+          <div className="flex items-center justify-start my-2">
             <img
               src={message?.gif}
               className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
