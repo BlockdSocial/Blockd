@@ -74,11 +74,9 @@ export default function SignUp() {
   //   },
   // });
 
-  
-
   const [args, setArgs] = useState<any>(["Nft mint"]);
   const [functionName, setFunctionName] = useState<any>("mint(string,address)");
-  const [userMessage, setUserMessage] = useState<string>('');
+  const [userMessage, setUserMessage] = useState<string>("");
   const [userMessageForBackend, setUserMessageForBackend] =
     useState<string>("");
   //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
@@ -110,10 +108,7 @@ export default function SignUp() {
 
   console.log({ referralAddress });
   useEffect(() => {
-    if(step == 1) {
-      axios.get(messageUrl).then((res) => setUserMessage(res?.data?.message));
-
-    }
+    axios.get(messageUrl).then((res) => setUserMessage(res?.data?.message));
   }, [userMessageForBackend]);
 
   const getSignMessage = async (e: any) => {
@@ -145,12 +140,12 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    console.log({step})
+    console.log({ step });
     console.log("userMessage2: ", userMessage);
-        console.log("address2: ", address);
-        console.log("userSignature2: ", userSignature);
-        console.log("displayName2: ", displayName);
-        console.log("email2: ", email);
+    console.log("address2: ", address);
+    console.log("userSignature2: ", userSignature);
+    console.log("displayName2: ", displayName);
+    console.log("email2: ", email);
 
     if (!isEmpty(userSignature)) {
       handleRegisterUser();
@@ -158,12 +153,12 @@ export default function SignUp() {
   }, [userSignature]);
 
   const handleRegisterUser = async (e: any = null) => {
-    console.log({step})
+    console.log({ step });
     console.log("userMessage: ", userMessage);
-        console.log("address: ", address);
-        console.log("userSignature: ", userSignature);
-        console.log("displayName: ", displayName);
-        console.log("email: ", email);
+    console.log("address: ", address);
+    console.log("userSignature: ", userSignature);
+    console.log("displayName: ", displayName);
+    console.log("email: ", email);
 
     if (1 === step) {
       await dispatch(
@@ -174,7 +169,6 @@ export default function SignUp() {
         setStep(2);
       });
     } else {
-      
       if (
         !terms ||
         isEmpty(userMessage) ||

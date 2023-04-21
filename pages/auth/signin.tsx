@@ -25,29 +25,37 @@ import {
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 export default function SignIn() {
   const dispatch = useAppDispatch();
-  const { isLoggingIn } = useAppSelector((state) => state.authUserReducer);
+  const { isLoggingIn,authError } = useAppSelector((state) => state.authUserReducer);
   const mounted = useIsMounted();
   const router = useRouter();
 
   //Data Fetching
-  const {
-    isLoading: fetchingLoading,
-    error: fetchingError,
-    data: fetchingData,
-    isFetching,
-  } = useQuery({
-    queryKey: ["userMessageToSign"],
-    queryFn: () => axios.get(messageUrl).then((res) => res.data),
-    onSuccess(data) {
-      setUserMessage(data?.message);
-    },
-  });
-  const [userMessage, setUserMessage] = useState<string>(fetchingData);
+  // const {
+  //   isLoading: fetchingLoading,
+  //   error: fetchingError,
+  //   data: fetchingData,
+  //   isFetching,
+  // } = useQuery({
+  //   queryKey: ["userMessageToSign"],
+  //   queryFn: () => axios.get(messageUrl).then((res) => res.data),
+  //   onSuccess(data) {
+  //     setUserMessage(data?.message);
+  //   },
+  // });
+  useEffect(() => {
+    if (authError?.message && authError?.message !== "Unauthenticated") {
+      toast.error(authError?.message);
+    }
+  }, [authError]);
+
+  const [userMessage, setUserMessage] = useState<string>('');
   const [userMessageForBackend, setUserMessageForBackend] =
     useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
   const { address } = useAccount();
-
+  useEffect(() => {
+    axios.get(messageUrl).then((res) => setUserMessage(res?.data?.message));
+  }, [userMessageForBackend]);
   const handleLoginUser = async () => {
     if (
       isEmpty(userMessageForBackend) ||

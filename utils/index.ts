@@ -143,17 +143,28 @@ export const getDiffTime = (date: any) => {
 };
 
 export const renderComment = (text: any) => {
-  //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
+ // text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
 
   const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
-  const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
-  const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
+  const pattern_username = /(?:__\^\^____)(.*?)(?:__@@@)/;
+  const pattern_id = /(?:@@@____)([0-9]+)(?:\__)/;
   const matches = text?.match(pattern);
+  
 
   if (matches && matches.length > 0) {
+    console.log(matches[0].match(pattern_username),'hussein');
+    console.log(matches[0].match(pattern_id), 'hussein');
     for (let i = 0; i < matches.length; i++) {
-      let name = matches[i].match(pattern_username)[0];
-      let user_id = matches[i].match(pattern_id)[0];
+      let name = matches[i].match(pattern_username);
+      console.log(name, 'HUSEIN', name.length)
+      if(name.length > 1) {
+        name = name[1];
+      }
+      
+      let user_id = matches[i].match(pattern_id);
+      if(user_id.length > 1) {
+        user_id = user_id[1];
+      }
       let encode = encodeQuery(user_id, "profile");
       let link = `<a href="/dashboard/profile?${encode}" className="hover:underline text-blue-400">@${name}</a>`;
 
@@ -168,41 +179,62 @@ export const renderComment2 = (text: any) => {
   //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
 
   const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
-  const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
-  const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
+  const pattern_username = /(?:__\^\^____)(.*?)(?:__@@@)/;
+  const pattern_id = /(?:\@@@____)([0-9]+)(?:\__)/;
   const matches = text?.match(pattern);
 
   if (matches && matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
-      let name = matches[i].match(pattern_username)[0];
-      let user_id = matches[i].match(pattern_id)[0];
+      let name = matches[i].match(pattern_username);
+
+      if(name.length > 1) {
+        name = name[1];
+      }
+      
+      let user_id = matches[i].match(pattern_id);
+      if(user_id.length > 1) {
+        user_id = user_id[1];
+      }
       let encode = encodeQuery(user_id, "profile");
       let link = `<a href="/dashboard/profile?${encode}" className="underline text-white">@${name}</a>`;
 
       text = text.replace(matches[i], link);
     }
   }
+  
 
   return text;
 };
 
 export const renderCommentText = (text: any) => {
+  
   //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
   const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
-  const pattern_username = /(?<=__\^\^____)([^]*?)(?=__@@@)/gi;
-  const pattern_id = /(?<=\@@@____)([0-9]+)(?=\__)/gi;
+  const pattern_username = /(?:__\^\^____)(.*?)(?:__@@@)/;
+  const pattern_id = /(?:\@@@____)([0-9]+)(?:\__)/;
   const matches = text?.match(pattern);
 
   if (matches && matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
-      let name = matches[i].match(pattern_username)[0];
-      let user_id = matches[i].match(pattern_id)[0];
+      
+      let name = matches[i].match(pattern_username);
+      
+      if(name.length > 1) {
+        name = name[1];
+      
+      }
+      
+      let user_id = matches[i].match(pattern_id);
+      if(user_id.length > 1) {
+        user_id = user_id[1];
+      }
       let encode = encodeQuery(user_id, "profile");
       let link = `@${name}`;
 
       text = text.replace(matches[i], link);
     }
   }
+  
  
 
   return text;
