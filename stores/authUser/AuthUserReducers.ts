@@ -20,7 +20,10 @@ import {
   SEND_VERIFICATION_FAILURE,
   IS_GENERATING_TOKEN,
   GENERATE_TOKEN_SUCCESS,
-  GENERATE_TOKEN_FAILURE
+  GENERATE_TOKEN_FAILURE,
+  IS_RESENDING_VERIFICATION,
+  RESEND_VERIFICATION_SUCCESS,
+  RESEND_VERIFICATION_FAILURE
 } from './AuthUserActionTypes';
 
 const initialState = { 
@@ -34,7 +37,8 @@ const initialState = {
   isFetchingAuthUser: false, 
   isRegisteringUser: false, 
   isFetchingMessage: false,
-  isSendingVerification: false
+  isSendingVerification: false,
+  isResendingVerification: false
 };
 
 export function authUserReducer(state = initialState, action: any) {
@@ -154,6 +158,25 @@ export function authUserReducer(state = initialState, action: any) {
       return {
         ...state,
         isSendingVerification: false,
+        error: action.error
+      };
+    }
+    case IS_RESENDING_VERIFICATION: {
+      return {
+        ...state,
+        isResendingVerification: true
+      };
+    }
+    case RESEND_VERIFICATION_SUCCESS: {
+      return {
+        ...state,
+        isResendingVerification: false
+      };
+    }
+    case RESEND_VERIFICATION_FAILURE: {
+      return {
+        ...state,
+        isResendingVerification: false,
         error: action.error
       };
     }

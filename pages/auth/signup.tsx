@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from "react";
+import React, { useState, useEffect, useRef } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -6,6 +6,7 @@ import { ethers } from "ethers";
 import { CheckIcon } from "@heroicons/react/24/outline";
 import {
   registerUser,
+  resendVerification,
   sendVerification,
 } from "../../stores/authUser/AuthUserActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
@@ -50,6 +51,8 @@ export default function SignUp() {
   const [nftDataOnSuccess, setNftDataOnSuccess] = useState<any>();
   const [step, setStep] = useState(1);
   const [validated, setValidated] = useState<boolean>();
+  const emailRef = useRef<any>(null);
+  const userNameRef = useRef<any>(null);
   const [validateAddress, setValidateAddress] = useState<boolean>();
 
   console.log(nftData);
@@ -161,6 +164,8 @@ export default function SignUp() {
     console.log("email: ", email);
 
     if (1 === step) {
+      emailRef.current = email;
+      userNameRef.current = displayName;
       await dispatch(
         sendVerification({
           email: email,
@@ -342,6 +347,12 @@ export default function SignUp() {
     });
   };
 
+  const handleResendCode = async () => {
+    await dispatch(resendVerification({
+      email: email,
+    }));
+  }
+  
   const handleCheckAddress = async () => {
     await dispatch(
       checkAddress({
@@ -438,6 +449,7 @@ export default function SignUp() {
                       type="text"
                       name="name"
                       placeholder="@"
+                      value={displayName}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
@@ -449,6 +461,7 @@ export default function SignUp() {
                       name="email"
                       placeholder="example@gmail.com"
                       onChange={(e) => setEmail(e.target.value)}
+                      value={email}
                       onBlur={() => {
                         handleCheckEmail(), setEmailError(false);
                       }}
@@ -532,6 +545,9 @@ export default function SignUp() {
                     placeholder="Enter the verification code sent to your email"
                     onChange={(e) => setCode(e.target.value)}
                   />
+                  <p onClick={() => handleResendCode()} className="underline font-semibold cursor-pointer">
+                    Resend Code
+                  </p>
                 </div>
               )}
               {/* <button
@@ -567,13 +583,11 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
-                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
-                        isMintLoading && "loading"
-                      } ${
-                        error
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${isMintLoading && "loading"
+                        } ${error
                           ? "bg-orange-300"
                           : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
-                      }`}
+                        }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
                     >
@@ -605,9 +619,8 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayTermsAndConditionsModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -646,9 +659,8 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
-          isDisplayPolicyModal ? "" : "hidden"
-        }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayPolicyModal ? "" : "hidden"
+          }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">

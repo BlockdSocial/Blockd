@@ -19,7 +19,10 @@ import {
   SEND_VERIFICATION_FAILURE,
   IS_GENERATING_TOKEN,
   GENERATE_TOKEN_SUCCESS,
-  GENERATE_TOKEN_FAILURE
+  GENERATE_TOKEN_FAILURE,
+  IS_RESENDING_VERIFICATION,
+  RESEND_VERIFICATION_SUCCESS,
+  RESEND_VERIFICATION_FAILURE
 } from './AuthUserActionTypes';
 import { setCookie, deleteCookie } from 'cookies-next';
 import { isEmpty } from '../../utils';
@@ -159,6 +162,24 @@ export function sendVerification(fields: any) {
       console.log('Send verification error: ', error.message);
       dispatch({
         type: SEND_VERIFICATION_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
+export function resendVerification(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_RESENDING_VERIFICATION });
+    try {
+      await authUserApi.resendVerification(fields);
+      dispatch({
+        type: RESEND_VERIFICATION_SUCCESS
+      });
+    } catch (error: any) {
+      console.log('Resend verification error: ', error.message);
+      dispatch({
+        type: RESEND_VERIFICATION_FAILURE,
         error: error?.message
       });
     }

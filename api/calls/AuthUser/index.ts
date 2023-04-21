@@ -30,6 +30,10 @@ async function sendVerification(fields: any) {
   return apiCall('sendVerification', 'POST', `${endpoints.authUser}/verify/email`, fields);
 };
 
+async function resendVerification(fields: any) {
+  return apiCall('resendVerification', 'POST', `${endpoints.authUser}/verify/email/resend`, fields);
+}
+
 async function subscribeToken() {
   return apiCall('subscribeToken', 'GET', `subscribe/token/generate`);
 };
@@ -41,5 +45,6 @@ export default {
   fetchUserMessage,
   registerUser,
   sendVerification,
-  subscribeToken
+  subscribeToken,
+  resendVerification
 };
