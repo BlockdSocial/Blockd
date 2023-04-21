@@ -338,6 +338,25 @@ export function checkEmail(fields: any) {
   }
 }
 
+export function checkAddress(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_CHECKING_EMAIL });
+    try {
+      const result = await userApi.checkAddress(fields);
+      dispatch({
+        type: CHECK_EMAIL_SUCCESS,
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Check email error: ', error);
+      dispatch({
+        type: CHECK_EMAIL_FAILURE,
+        error: error?.message
+      });
+    }
+  }
+}
+
 export function searchTagUsers(fields: any) {
   return async (dispatch: any) => {
     dispatch({ type: IS_SEARCHING_TAG_USERS });

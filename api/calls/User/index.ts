@@ -64,6 +64,10 @@ async function checkEmail(fields: any) {
   return apiCall('checkEmail', 'POST', `email/taken/check`, fields)
 };
 
+async function checkAddress(fields: any) {
+  return apiCall('checkAddress', 'POST', `address/taken/check`, fields)
+};
+
 async function searchTagUsers(fields: any) {
   return apiCall('searchTagUsers', 'POST', 'tag/users', fields);
 };
@@ -90,4 +94,5 @@ export default {
   checkEmail,
   searchTagUsers,
   searchTagParticipants,
+  checkAddress
 };

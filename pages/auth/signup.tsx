@@ -31,7 +31,7 @@ import Policy from "../../components/Auth/Policy";
 import { flatMap, indexOf } from "lodash";
 import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
-import { checkEmail } from "../../stores/user/UserActions";
+import { checkAddress, checkEmail } from "../../stores/user/UserActions";
 import { nft_abi } from "../../abi/nft.abi";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
@@ -48,38 +48,50 @@ export default function SignUp() {
   const [code, setCode] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [nftData, setNftData] = useState<boolean>(false);
+  const [nftDataOnSuccess, setNftDataOnSuccess] = useState<any>();
   const [step, setStep] = useState(1);
   const [validated, setValidated] = useState<boolean>();
   const emailRef = useRef<any>(null);
   const userNameRef = useRef<any>(null);
+  const [validateAddress, setValidateAddress] = useState<boolean>();
 
   console.log(nftData);
 
-  //Data Fetching
-  const {
-    isLoading: fetchingLoading,
-    error: fetchingError,
-    data: fetchingData,
-    isFetching,
-  } = useQuery({
-    queryKey: ["userMessageToSign"],
-    queryFn: () => axios.get(messageUrl).then((res) => res.data),
-    onSuccess(data) {
-      setUserMessage(data?.message);
-    },
-  });
+  useEffect(() => {
+    if (authError?.message && authError?.message !== "Unauthenticated") {
+      toast.error(authError?.message);
+    }
+  }, [authError]);
 
+  //Data Fetching
+  // const {
+  //   isLoading: fetchingLoading,
+  //   error: fetchingError,
+  //   data: fetchingData,
+  //   isFetching,
+  // } = useQuery({
+  //   queryKey: ["userMessageToSign"],
+  //   queryFn: () => axios.get(messageUrl).then((res) => res.data),
+  //   onSuccess(data) {
+  //     setUserMessage(data?.message);
+  //   },
+  // });
+
+  
 
   const [args, setArgs] = useState<any>(["Nft mint"]);
   const [functionName, setFunctionName] = useState<any>("mint(string,address)");
-  const [userMessage, setUserMessage] = useState<string>(fetchingData);
+  const [userMessage, setUserMessage] = useState<string>('');
   const [userMessageForBackend, setUserMessageForBackend] =
     useState<string>("");
   //const [userMessage, setUserMessage] = useState<string>('Sign this message to confirm you own this wallet a…ll not cost any gas fees. Nonce: XPM35n0APkJkeIqZ');
 
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
-  const [referralAddress, setReferralAddress] = useState<string>(router.query.referralAddress || parseQueryString(window.location.search.substring(1)).referralAddress);
+  const [referralAddress, setReferralAddress] = useState<string>(
+    router.query.referralAddress ||
+      parseQueryString(window.location.search.substring(1)).referralAddress
+  );
   const [terms, setTerms] = useState<boolean>(false);
   const [policy, setPolicy] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
@@ -100,6 +112,12 @@ export default function SignUp() {
   //   parseQueryString(window.location.search.substring(1)).referralAddress;
 
   console.log({ referralAddress });
+  useEffect(() => {
+    if(step == 1) {
+      axios.get(messageUrl).then((res) => setUserMessage(res?.data?.message));
+
+    }
+  }, [userMessageForBackend]);
 
   const getSignMessage = async (e: any) => {
     e.preventDefault();
@@ -130,12 +148,26 @@ export default function SignUp() {
   };
 
   useEffect(() => {
+    console.log({step})
+    console.log("userMessage2: ", userMessage);
+        console.log("address2: ", address);
+        console.log("userSignature2: ", userSignature);
+        console.log("displayName2: ", displayName);
+        console.log("email2: ", email);
+
     if (!isEmpty(userSignature)) {
       handleRegisterUser();
     }
   }, [userSignature]);
 
   const handleRegisterUser = async (e: any = null) => {
+    console.log({step})
+    console.log("userMessage: ", userMessage);
+        console.log("address: ", address);
+        console.log("userSignature: ", userSignature);
+        console.log("displayName: ", displayName);
+        console.log("email: ", email);
+
     if (1 === step) {
       emailRef.current = email;
       userNameRef.current = displayName;
@@ -147,6 +179,7 @@ export default function SignUp() {
         setStep(2);
       });
     } else {
+      
       if (
         !terms ||
         isEmpty(userMessage) ||
@@ -168,8 +201,8 @@ export default function SignUp() {
         registerUser({
           name: displayName,
           email: email,
-          password: "zebbolaali",
-          password_confirmation: "zebbolaali",
+          password: "passwordpassword",
+          password_confirmation: "passwordpassword",
           address: address,
           signature: userSignature,
           code: code,
@@ -232,7 +265,6 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-
   const nft_address =
     "0xdE1dEBADfc466cc50BBaad33917a954d9D77b874" as `0x${string}`;
 
@@ -244,12 +276,10 @@ export default function SignUp() {
       setArgs(["Nft mint", referralAddress]);
       setFunctionName("mint(string,address)");
     }
-
-  }, [referralAddress])
+  }, [referralAddress]);
 
   console.log(args);
   console.log(args);
-
 
   const {
     config,
@@ -284,12 +314,13 @@ export default function SignUp() {
 
   useEffect(() => {
     console.log("setNftData useEffect");
+    handleCheckAddress();
     if (nft_data && Number(nft_data) > 0) {
       setNftData(true);
     } else {
       setNftData(false);
     }
-  }, [address]);
+  }, [address, nftDataOnSuccess]);
 
   const { data: nft_data } = useContractRead({
     ...nft_contract,
@@ -298,6 +329,7 @@ export default function SignUp() {
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
+      setNftDataOnSuccess(nft_data);
       console.log("nft_data", nft_data);
       if (nft_data && Number(nft_data) > 0) {
         console.log("setNftData");
@@ -325,6 +357,21 @@ export default function SignUp() {
     await dispatch(resendVerification({
       email: email,
     }));
+  }
+  
+  const handleCheckAddress = async () => {
+    await dispatch(
+      checkAddress({
+        address: address,
+      })
+    ).then((result: any) => {
+      console.log("RESULT: ", result);
+      if ("true" === result?.success) {
+        setValidateAddress(true);
+      } else {
+        setValidateAddress(false);
+      }
+    });
   };
 
   if (!mounted) {
@@ -332,6 +379,7 @@ export default function SignUp() {
   }
   return (
     <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+      <Toaster />
       <CustomLoadingOverlay active={isRegisteringUser} />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
@@ -522,13 +570,17 @@ export default function SignUp() {
                   }}
                 ></ConnectButton>
               </div>
-
+              {validateAddress && (
+                <p className="text-red-600  text-xs font-bold mt-3">
+                  This address is already used.
+                </p>
+              )}
               {nftData ? (
                 <div className="w-full flex items-center justify-center">
                   <button
                     className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
                     onClick={(e) => getSignMessage(e)}
-                    disabled={validated}
+                    disabled={validated || validateAddress}
                   >
                     Sign Up
                   </button>

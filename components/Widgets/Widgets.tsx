@@ -58,7 +58,8 @@ function Widgets() {
 
   const handleBlur = (e: any) => {
     if (!isEmpty(e.relatedTarget)) {
-      if (e.relatedTarget.className !== 'w-full search-result') {
+      console.log(e.relatedTarget.className)
+      if (e.relatedTarget.className !== 'w-full search-result' && e.relatedTarget.className !== 'flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer') {
         setInput('');
       } else {
         return;
