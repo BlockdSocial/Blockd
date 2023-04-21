@@ -494,8 +494,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       {/* TODO HASAN SAADO    */}
       {
         !isEmpty(user?.bio) &&
-        <div className="py-2 px-6">
-          <p className="text-sm w-full md:w-3/4 text-justify">
+        <div className="py-2 w-full md:w-3/4 px-6 pr-10">
+          <p className="text-sm w-full">
             {user?.bio}{" "}
           </p>
         </div>
