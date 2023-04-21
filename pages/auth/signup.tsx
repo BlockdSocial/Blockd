@@ -47,6 +47,7 @@ export default function SignUp() {
   const [code, setCode] = useState<string>("");
   const [emailError, setEmailError] = useState<boolean>(false);
   const [nftData, setNftData] = useState<boolean>(false);
+  const [nftDataOnSuccess, setNftDataOnSuccess] = useState<any>()
   const [step, setStep] = useState(1);
   const [validated, setValidated] = useState<boolean>();
   const [validateAddress, setValidateAddress] = useState<boolean>();
@@ -287,7 +288,7 @@ export default function SignUp() {
     } else {
       setNftData(false);
     }
-  }, [address]);
+  }, [address,nftDataOnSuccess]);
 
   const { data: nft_data } = useContractRead({
     ...nft_contract,
@@ -296,6 +297,7 @@ export default function SignUp() {
     args: [address ?? ("" as `0x${string}`)],
     enabled: !!address,
     onSuccess() {
+      setNftDataOnSuccess(nft_data);
       console.log("nft_data", nft_data);
       if (nft_data && Number(nft_data) > 0) {
         console.log("setNftData");
