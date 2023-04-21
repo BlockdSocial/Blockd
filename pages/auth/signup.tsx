@@ -292,6 +292,10 @@ export default function SignUp() {
       console.log("call useEffect", data);
     },
   });
+  useEffect(() => {
+    console.log("setNftData useEffect refetch");
+    refetch();
+  },[])
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
@@ -307,7 +311,8 @@ export default function SignUp() {
   };
 
   useEffect(() => {
-    console.log("setNftData useEffect");
+    console.log("setNftData useEffect refetch");
+    refetch();
     handleCheckAddress();
     if (nft_data && Number(nft_data) > 0) {
       setNftData(true);
@@ -316,7 +321,7 @@ export default function SignUp() {
     }
   }, [address, nftDataOnSuccess]);
 
-  const { data: nft_data } = useContractRead({
+  const { refetch, data: nft_data } = useContractRead({
     ...nft_contract,
     functionName: "balanceOf",
     //args:['0x73B394F31C8C9de068eB9fc4e7D37663df878F3c'],
