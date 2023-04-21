@@ -220,10 +220,7 @@ export default function Chat({
   return (
     <div
       onScrollCapture={() => handleScroll2()}
-      className={`flex flex-col relative ${isEmpty(chats) && isEmpty(chatrooms)
-        ? "overflow-hidden"
-        : "scrollbar-hide overflow-scroll"
-        } h-[92vh] dark:bg-darkgray z-0`}
+      className={`flex flex-col relative overflow-hidden h-full dark:bg-darkgray z-0`}
       id="test"
     >
       <Navbar
