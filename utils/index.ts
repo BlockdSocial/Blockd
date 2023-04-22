@@ -152,11 +152,8 @@ export const renderComment = (text: any) => {
   
 
   if (matches && matches.length > 0) {
-    console.log(matches[0].match(pattern_username),'hussein');
-    console.log(matches[0].match(pattern_id), 'hussein');
     for (let i = 0; i < matches.length; i++) {
       let name = matches[i].match(pattern_username);
-      console.log(name, 'HUSEIN', name.length)
       if(name.length > 1) {
         name = name[1];
       }
