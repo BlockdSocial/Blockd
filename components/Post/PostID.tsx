@@ -636,7 +636,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
         <div className="w-full flex flex-col items-start">
-          <p className="pt-6 text-sm">
+          <p className="pt-6 text-sm whitespace-normal break-words w-fit max-w-full">
             {!isEmpty(post?.content) && (
               <Linkify componentDecorator={componentDecorator}>
                 {renderHTML(renderComment(post?.content))}
@@ -761,7 +761,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           <div className="flex flex-col items-start justify-center space-y-2 w-full">
             <div className="w-full flex flex-col items-start justify-start">
               {sharedPost?.content != null && (
-                <p className="pt-6 text-sm">
+                <p className="pt-6 text-sm whitespace-normal break-words w-fit max-w-full">
                   <Linkify componentDecorator={componentDecorator}>
                     {renderHTML(renderComment(sharedPost?.content))}
                   </Linkify>

@@ -615,7 +615,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         <div className="w-full">
           <div className="flex flex-col items-start justify-start">
             {!isEmpty(comment?.content) && (
-              <p className="pt-4 text-sm">
+              <p className="pt-4 text-sm whitespace-normal break-words w-fit max-w-full">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment(comment?.content))}
                 </Linkify>

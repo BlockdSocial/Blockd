@@ -388,18 +388,18 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     </p>
                   </Link>
                   {isFollowed ? (
-                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
                       <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200"
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md"
                         onClick={() => handleFollowUser()}
                       >
                         Unfollow
                       </p>
                     </div>
                   ) : (
-                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
                       <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
                         onClick={() => handleFollowUser()}
                       >
                         Follow
@@ -445,18 +445,18 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   <ChatBubbleLeftIcon className="w-5 h-5" />
                 </Link>
                 {isFollowed ? (
-                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
                     <p
-                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200"
+                      className="text-xs lg:text-base p-2 cursor-pointer text-white rounded-md bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
                       onClick={() => handleFollowUser()}
                     >
                       Unfollow
                     </p>
                   </div>
                 ) : (
-                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
                     <p
-                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
                       onClick={() => handleFollowUser()}
                     >
                       Follow

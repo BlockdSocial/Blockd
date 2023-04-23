@@ -7,6 +7,7 @@ import {
   EyeDropperIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
+import AddReactionIcon from "@mui/icons-material/AddReaction";
 import moment from "moment";
 import { config } from "../../../../constants";
 
@@ -86,8 +87,8 @@ export default function Message({
         key={message?.id}
         className={`relative flex flex-col ${isDropdownVisible ? "z-50" : ""} `}
       >
-        <div className="grid grid-cols-10 md:grid-cols-12 mb-2">
-          <div className="flex flex-col place-self-end w-fit col-span-9 md:col-span-11 mx-2 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
+        <div className="grid grid-cols-10 md:grid-cols-12 mb-4 ml-10 mt-2">
+          <div className="flex flex-col place-self-end w-fit max-w-full whitespace-normal break-words col-span-9 md:col-span-11 mx-2 ml-10 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
             <div className="flex space-x-24 relative z-0 items-center justify-between w-full text-xm font-semibold">
               <div>
                 <Link
@@ -142,14 +143,15 @@ export default function Message({
                 {/* <p className="flex items-center justify-start text-sm">
                   @{message?.originMessage?.otherUser?.name}
                 </p> */}
-                {
-                  !isEmpty(message?.originMessage?.content) &&
+                {!isEmpty(message?.originMessage?.content) && (
                   <p className=" pt-2 text-sm">
                     <Linkify componentDecorator={componentDecorator}>
-                      {renderHTML(renderComment2(message?.originMessage?.content))}
+                      {renderHTML(
+                        renderComment2(message?.originMessage?.content)
+                      )}
                     </Linkify>
                   </p>
-                }
+                )}
                 <div className="flex items-center justify-start mt-2">
                   {message?.originMessage?.imgName != null && (
                     <img
@@ -166,14 +168,13 @@ export default function Message({
                 </div>
               </div>
             )}
-            {
-              !isEmpty(message?.content) &&
-              <p className="py-2 text-sm md:text-base">
+            {!isEmpty(message?.content) && (
+              <p className="py-2 text-sm md:text-base whitespace-normal break-words">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment2(message?.content))}
                 </Linkify>
               </p>
-            }
+            )}
             {message?.imgName != null && (
               <div className="flex items-center justify-start my-2">
                 <img
@@ -190,19 +191,38 @@ export default function Message({
                 />
               </div>
             )}
-            <div className="w-full flex items-end justify-end">
+            <div className="w-full flex items-end justify-between">
+              <div className="">
+                <div
+                  onClick={() => removeReaction()}
+                  className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
+                    reaction ? "inline" : "hidden"
+                  }`}
+                >
+                  <input
+                    value={reaction}
+                    onChange={(e: any) => setReaction(e.target.value)}
+                    className="bg-transparent cursor-pointer w-6 text-sm"
+                    disabled
+                  />
+                  <p className="text-xs font-bold text-white">4</p>
+                </div>
+                <div className="col-span-1 flex items-end justify-end"></div>
+              </div>
               <p className="font-semibold">
                 {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
               </p>
             </div>
             <div className="relative flex items-center justify-start space-x-1 mt-1">
               <div className="absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md">
-                {/* <div className='flex rounded-full p-1 h-full bg-white dark:bg-darkgray'>
-                          <AddReactionRoundedIcon onClick={() => setShowReaction(!showReaction)} className="cursor-pointer text-orange-600 dark:text-pink-800" />
-                        </div> */}
-
+                <div className="flex rounded-full p-1 h-full bg-white dark:bg-darkgray">
+                  <AddReactionIcon
+                    onClick={() => setShowReaction(!showReaction)}
+                    className="cursor-pointer text-orange-600 dark:text-yellow-400"
+                  />
+                </div>
                 {showReaction && (
-                  <div className="absolute top-8 left-0">
+                  <div className="absolute top-8 left-0 z-50">
                     <Picker
                       set="apple"
                       onEmojiSelect={addReaction}
@@ -233,26 +253,10 @@ export default function Message({
             />
           </Link>
         </div>
-        <div className="grid grid-cols-10 md:grid-cols-12">
-          <div
-            onClick={() => removeReaction()}
-            className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${reaction ? "inline" : "hidden"
-              }`}
-          >
-            <input
-              value={reaction}
-              onChange={(e: any) => setReaction(e.target.value)}
-              className="bg-transparent cursor-pointer w-6 text-sm"
-              disabled
-            />
-            <p className="text-xs font-bold text-white">4</p>
-          </div>
-          <div className="col-span-1 flex items-end justify-end"></div>
-        </div>
       </div>
     </>
   ) : (
-    <div key={message?.id} className="grid grid-cols-10 md:grid-cols-12 mb-2">
+    <div key={message?.id} className="grid grid-cols-10 md:grid-cols-12 mb-4 mr-10 mt-2">
       <Link
         className="col-span-1 flex items-end justify-end"
         href={{
@@ -271,14 +275,14 @@ export default function Message({
             !isEmpty(receiver?.profilePic)
               ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
               : !isEmpty(message?.otherUser?.profilePic)
-                ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
+              ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+              : "/images/pfp/pfp1.jpg"
           }
           className="object-cover h-10 w-10 rounded-full flex"
           alt=""
         />
       </Link>
-      <div className="flex flex-col place-self-start w-fit col-span-9 md:col-span-11 mx-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
+      <div className="flex flex-col place-self-start w-fit max-w-full whitespace-normal break-words col-span-9 md:col-span-11 mx-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
         <div className="flex items-center justify-between w-full text-xm font-semibold space-x-24">
           <Link
             href={{
@@ -347,14 +351,13 @@ export default function Message({
             {/* <p className="flex items-center justify-start text-sm">
               @{message?.originMessage?.otherUser?.name}
             </p> */}
-            {
-              !isEmpty(message?.originMessage?.content) &&
+            {!isEmpty(message?.originMessage?.content) && (
               <p className=" pt-2 text-sm">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment2(message?.originMessage?.content))}
                 </Linkify>
               </p>
-            }
+            )}
             <div className="flex items-center justify-start mt-2">
               {message?.originMessage?.imgName != null && (
                 <img
@@ -371,14 +374,13 @@ export default function Message({
             </div>
           </div>
         )}
-        {
-          !isEmpty(message?.content) &&
-          <p className=" py-2 text-sm md:text-base">
+        {!isEmpty(message?.content) && (
+          <p className=" py-2 text-sm md:text-base whitespace-normal break-words">
             <Linkify componentDecorator={componentDecorator}>
               {renderHTML(renderComment2(message?.content))}
             </Linkify>
           </p>
-        }
+        )}
 
         {message?.imgName != null && (
           <div className="flex items-center justify-start my-2">

@@ -221,7 +221,7 @@ function ProfilePage() {
           <div className="flex items-center justify-start my-5 px-6 space-x-1">
             <p className="text-sm md:text-base font-semibold">Referral Link : </p>
             <input
-              className="text-sm md:text-base w-fit bg-transparent truncate"
+              className="text-sm md:text-base w-32 md:w-fit bg-transparent truncate"
               value={text}
               onChange={(e) => setText(e.target.value)}
               disabled

@@ -721,7 +721,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     onClick={async (e) => {
                       e.stopPropagation();
                     }}
-                    className="text-sm"
+                    className="text-sm whitespace-normal break-words w-fit max-w-full"
                   >
                     <Linkify componentDecorator={componentDecorator}>
                       {renderHTML(renderComment(mainPost?.content))}
@@ -868,7 +868,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         onClick={async (e) => {
                           e.stopPropagation();
                         }}
-                        className="text-sm"
+                        className="text-sm whitespace-normal break-words w-fit max-w-full"
                       >
                         <Linkify componentDecorator={componentDecorator}>
                           {renderHTML(renderComment(sharedPost?.content))}
@@ -1508,7 +1508,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               />
             ) : null}
             {!isEmpty(mainPost?.content) && (
-              <p className="text-sm text-black">
+              <p className="text-sm text-black whitespace-normal break-words w-fit max-w-full">
                 {renderHTML(renderComment(mainPost?.content))}
               </p>
             )}

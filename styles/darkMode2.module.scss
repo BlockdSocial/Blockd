@@ -19,7 +19,7 @@
 }
 
 .mentions--multiLine .mentions__control {
-  font-family: 'calibri', sans-serif;
+  font-family: monospace;
   font-size: 12pt;
 }
 .mentions--multiLine .mentions__highlighter {
@@ -40,8 +40,7 @@
   border: 1px solid rgba(0, 0, 0, 0.15);
   font-size: 10pt;
   overflow: auto;
-  max-height: 200px;
-  height: auto;
+  height: 200px;
   padding: 3px;
   position: absolute;
 }

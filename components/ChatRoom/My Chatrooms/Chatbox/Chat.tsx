@@ -10,8 +10,6 @@ import {
 } from "../../../../stores/chat/ChatActions";
 import { useChannel } from "@ably-labs/react-hooks";
 import { fetchAuthUser } from "../../../../stores/authUser/AuthUserActions";
-import Linkify from "react-linkify";
-import Link from "next/link";
 import useWindowDimensions, { encodeQuery } from "../../../../utils";
 import Message from "./Message";
 

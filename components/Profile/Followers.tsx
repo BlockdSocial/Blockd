@@ -50,7 +50,7 @@ function Followers({ user }: any) {
             >
               <div className='flex'>
                 <img
-                  className="h-10 w-10 rounded-full"
+                  className="h-10 w-10 rounded-full object-cover"
                   src={
                     !isEmpty(follower?.otherUser2?.profilePic)
                       ? `${config.url.PUBLIC_URL}/${follower?.otherUser2?.profilePic?.name}`
