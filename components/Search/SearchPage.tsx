@@ -24,7 +24,8 @@ function SearchPage() {
   const [users, setUsers] = useState([])
   const [isCompleted, setIsCompleted] = useState(false)
   const [index, setIndex] = useState(5)
-  const [initialUsers, setInitialUsers] = useState<any>()
+  // const [initialUsers, setInitialUsers] = useState<any>()
+  const initialUsers = slice(users, 0, index)
 
   const [posts, setPosts] = useState([])
   const [isCompleted2, setIsCompleted2] = useState(false)
@@ -43,10 +44,7 @@ function SearchPage() {
     }
   }, [query]);
 
-  useEffect(() => {
-    setInitialUsers(slice(users, 0, index))
-  }, [users]);
-
+  console.log(users);
   const loadMore = () => {
     setIndex(index + 5)
     console.log(index)
@@ -97,7 +95,7 @@ function SearchPage() {
             ))
           }
           {
-            initialUsers?.length == 0 || isCompleted ?
+            initialUsers?.length == 0 || isCompleted || users?.length == 5 ?
               <></> :
               <div onClick={loadMore} className='flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold'>View more</div>
           }
@@ -116,7 +114,7 @@ function SearchPage() {
           ))
         }
         {
-           initialPosts?.length == 0 || isCompleted2 ?
+           initialPosts?.length == 0 || isCompleted2 || posts?.length == 5 ?
             <></> :
             <div onClick={loadMore2} className='flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold'>View more</div>
         }

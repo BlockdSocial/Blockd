@@ -32,7 +32,7 @@ function SuggestionPage() {
       {/* <SuggestionSearch /> */}
       <div className="p-4">
         {suggestions &&
-          suggestions?.map((post: any, index: number) => (
+          suggestions.slice(0).reverse()?.map((post: any, index: number) => (
             // @ts-ignore
             // <PostTest
             //   key={`${index}-post`}

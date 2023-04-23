@@ -129,6 +129,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
     fetchLiked();
     // setImageEdit(mainPost?.postImage ? mainPost?.postImage?.name : "");
     setTextArea(mainPost?.content || "");
+    setSharedPost(null);
     fetchDisliked();
     if (mainPost?.sharedPostId) {
       fetchPostById();

@@ -163,7 +163,6 @@ console.log(tokenNumber);
         return false;
       }
       let checkBalance = await checkUserBalance();
-      console.log("hussein", checkBalance);
       if (checkBalance !== "true") {
         setErrorMessage(checkBalance);
         return false;
