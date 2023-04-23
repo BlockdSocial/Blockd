@@ -283,15 +283,6 @@ function TweetBox({ refetchFiltered }: Props) {
       </Link>
       <div className="flex flex-1 items-center pl-2">
         <form className="flex flex-col flex-1">
-          {/* <textarea
-            id="message"
-            maxLength={1000}
-            value={input}
-            onChange={(e: any) => setInput(e.target.value)}
-            data-rows="4"
-            className="pt-6 h-24 w-full text-black dark:text-white outline-none text-xs md:text-base bg-transparent"
-            placeholder="What's the word on the block?"
-          ></textarea> */}
           <div className="hidden dark:inline dark:w-full mt-1 mb-3">
             <MentionsInput
               value={input}
