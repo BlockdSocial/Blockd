@@ -23,6 +23,7 @@ import lightMode from "../../../../styles/lightMode.module.scss";
 import { MentionsInput, Mention } from "react-mentions";
 import { searchTagUsers } from "../../../../stores/user/UserActions";
 import { searchTagParticipants } from "../../../../stores/user/UserActions";
+import { renderCommentText } from "../../../../utils";
 
 function Footer({
   setReply,
@@ -355,7 +356,7 @@ function Footer({
                   ? authUser?.name
                   : repliedUser}
               </p>
-              <p className="text-sm">{replyMessage?.content}</p>
+              <p className="text-sm">{renderCommentText(replyMessage?.content)}</p>
               {/* <div className="flex items-center justify-start mt-2">
                 <img
                   src="/images/bg.jpg"

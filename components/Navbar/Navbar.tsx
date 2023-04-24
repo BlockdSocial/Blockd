@@ -1,7 +1,7 @@
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 
 import {
   MicrophoneIcon,
@@ -14,6 +14,7 @@ import {
   ChatBubbleLeftIcon,
   ChatBubbleLeftRightIcon,
   ArrowLeftOnRectangleIcon,
+  MagnifyingGlassIcon,
 } from "@heroicons/react/24/outline";
 
 import {
@@ -42,8 +43,11 @@ import {
   resetMessages,
 } from "../../stores/user/UserActions";
 import { config } from "../../constants";
-import SidebarRow from "../Sidebar/SidebarRow";
 import { getCookie, deleteCookie } from "cookies-next";
+import { fetchTrendingPosts } from "../../stores/post/PostActions";
+import { searchFilteredUsers } from "../../stores/user/UserActions";
+import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import Result from "../Widgets/Result";
 
 interface Data {
   receiver_id: number;
@@ -54,8 +58,8 @@ interface Data {
 configureAbly({
   authUrl: `${config.url.API_URL}/subscribe/token/generate`,
   authHeaders: {
-    Authorization: 'Bearer ' + getCookie('token')
-  }
+    Authorization: "Bearer " + getCookie("token"),
+  },
 });
 
 const Navbar = () => {
@@ -74,6 +78,7 @@ const Navbar = () => {
   const [notificationInfo, setNotificationInfo] = useState<string>();
   const [showSidebar, setShowSidebar] = useState<boolean>(false);
   const [isOpen, setOpen] = useState(false);
+  const [searchInput, setSearchInput] = useState(false);
 
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
@@ -84,6 +89,39 @@ const Navbar = () => {
   const [showModal7, setShowModal7] = useState(false);
   const [showModal8, setShowModal8] = useState(false);
   const [showModal9, setShowModal9] = useState(false);
+
+  //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
+  const [searchResult, setSearchResult] = useState<any>();
+  const [input, setInput] = useState<string>("");
+
+  useEffect(() => {
+    if (input.length > 0) {
+      dispatch(
+        searchFilteredUsers({
+          search: input,
+        })
+      ).then((result: any) => {
+        setSearchResult(result);
+      });
+    }
+  }, [input]);
+
+  const handleBlur = (e: any) => {
+    if (!isEmpty(e.relatedTarget)) {
+      console.log(e.relatedTarget.className);
+      if (
+        e.relatedTarget.className !== "w-full search-result" &&
+        e.relatedTarget.className !==
+          "flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+      ) {
+        setInput("");
+      } else {
+        return;
+      }
+    } else {
+      setInput("");
+    }
+  };
 
   useEffect(() => {
     setNotificationInfo("");
@@ -114,7 +152,7 @@ const Navbar = () => {
 
   const [message] = useChannel(
     // @ts-ignore
-    `messageNotifications-${JSON.parse(localStorage.getItem('authUser'))?.id}`,
+    `messageNotifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
     (message) => {
       setNotificationInfo('');
       if (message.data !== 'room') {
@@ -178,16 +216,10 @@ const Navbar = () => {
         ) {
           return "mentioned you in a reply!";
         }
-        if (
-          null != notification?.postId ||
-          undefined != notification?.postId
-        ) {
+        if (null != notification?.postId || undefined != notification?.postId) {
           return "mentioned you in a post!";
         }
-        if (
-          null != notification?.roomId ||
-          undefined != notification?.roomId
-        ) {
+        if (null != notification?.roomId || undefined != notification?.roomId) {
           return "mentioned you in a conversation!";
         }
         break;
@@ -265,7 +297,7 @@ const Navbar = () => {
     if (!mounted) return null;
 
     if (currentTheme === "dark") {
-      document.documentElement.style.setProperty('--mode', 'light');
+      document.documentElement.style.setProperty("--mode", "light");
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -283,7 +315,7 @@ const Navbar = () => {
         </svg>
       );
     } else {
-      document.documentElement.style.setProperty('--mode', 'dark');
+      document.documentElement.style.setProperty("--mode", "dark");
       return (
         <svg
           xmlns="http://www.w3.org/2000/svg"
@@ -302,6 +334,8 @@ const Navbar = () => {
       );
     }
   };
+
+  console.log(searchInput);
 
   const sidebar = useRef<any>(null);
 
@@ -345,11 +379,12 @@ const Navbar = () => {
   return (
     <div className="w-full bg-darkblue dark:bg-lightgray h-14">
       <div
-        className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${router.pathname === "/dashboard/myChatrooms" ||
+        className={`bg-darkblue dark:bg-lightgray grid grid-cols-9 place-content-center mx-auto ${
+          router.pathname === "/dashboard/myChatrooms" ||
           router.pathname === "/dashboard/myChatrooms2"
-          ? "lg:max-w-7xl "
-          : "xl:max-w-[80%]"
-          } h-14 px-2`}
+            ? "lg:max-w-7xl "
+            : "xl:max-w-[80%]"
+        } h-14 px-2`}
       >
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <div className="relative flex items-center justify-between w-full">
@@ -377,7 +412,7 @@ const Navbar = () => {
                 height={40}
               />
             </Link>
-            <div className="flex relative">
+            <div className="flex items-center space-x-4 relative">
               <Image
                 ref={dropdown}
                 src={
@@ -394,9 +429,9 @@ const Navbar = () => {
               {(authUser?.unread == 0 ||
                 authUser?.unread === undefined ||
                 authUser?.unread === null) &&
-                (authUser?.unreadMessages == 0 ||
-                  authUser?.unreadMessages === undefined ||
-                  authUser?.unreadMessages === null) ? (
+              (authUser?.unreadMessages == 0 ||
+                authUser?.unreadMessages === undefined ||
+                authUser?.unreadMessages === null) ? (
                 <></>
               ) : (
                 <div className="absolute -bottom-1 -right-1 p-[5px] w-1 h-1 rounded-full bg-blockd md:hidden"></div>
@@ -415,8 +450,8 @@ const Navbar = () => {
                       <p>Notifications</p>
                     </div>
                     {authUser?.unread == 0 ||
-                      authUser?.unread === undefined ||
-                      authUser?.unread === null ? (
+                    authUser?.unread === undefined ||
+                    authUser?.unread === null ? (
                       ""
                     ) : (
                       <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
@@ -434,8 +469,8 @@ const Navbar = () => {
                       <p>Messages</p>
                     </div>
                     {authUser?.unreadMessages == 0 ||
-                      authUser?.unreadMessages === undefined ||
-                      authUser?.unreadMessages === null ? (
+                    authUser?.unreadMessages === undefined ||
+                    authUser?.unreadMessages === null ? (
                       ""
                     ) : (
                       <span className="text-white text-xs h-6 w-6 rounded-full bg-blockd flex justify-center items-center">
@@ -443,6 +478,13 @@ const Navbar = () => {
                       </span>
                     )}
                   </Link>
+                  <div
+                    onClick={() => setSearchInput(!searchInput)}
+                    className="flex space-x-2 cursor-pointer p-2 text-sm border-b dark:border-lightgray w-full"
+                  >
+                    <MagnifyingGlassIcon className="w-5 h-5 text-white" />
+                    <p>Search</p>
+                  </div>
                   {currentTheme === "dark" ? (
                     <div
                       onClick={() => setTheme("light")}
@@ -500,8 +542,8 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unreadMessages == 0 ||
-                        authUser?.unreadMessages === undefined ||
-                        authUser?.unreadMessages === null ? (
+                      authUser?.unreadMessages === undefined ||
+                      authUser?.unreadMessages === null ? (
                         ""
                       ) : (
                         <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
@@ -527,8 +569,8 @@ const Navbar = () => {
                   <div className="">
                     <strong className="relative inline-flex items-center px-2.5 py-1.5">
                       {authUser?.unread == 0 ||
-                        authUser?.unread === undefined ||
-                        authUser?.unread === null ? (
+                      authUser?.unread === undefined ||
+                      authUser?.unread === null ? (
                         ""
                       ) : (
                         <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
@@ -580,10 +622,11 @@ const Navbar = () => {
               <Link href="/" className="active">
                 {location.pathname === "/" ? (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 ${showModal3
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "bg-gray-100 dark:bg-lightgray"
-                      } rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 ${
+                      showModal3
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "bg-gray-100 dark:bg-lightgray"
+                    } rounded-full hover:bg-gray-100 dark:hover:bg-lightgray group`}
                   >
                     <HomeIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -602,15 +645,16 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal3 ? "" : "hidden"
-                  }`}
+                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                  showModal3 ? "" : "hidden"
+                }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
                     The BLOCK’d feed consists of posts created by other users of
                     the platform. Members are able to interact with posts via
-                    upvotes, downvotes, comments and shares. Posts can be
-                    edited after they are published.
+                    upvotes, downvotes, comments and shares. Posts can be edited
+                    after they are published.
                   </p>
                   <div className="flex items-end justify-end w-full space-x-2">
                     <p
@@ -648,10 +692,11 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal4
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
+                      showModal4
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
                   >
                     <UserIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -661,14 +706,16 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal4 ? "" : "hidden"
-                  }`}
+                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                  showModal4 ? "" : "hidden"
+                }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
-                    A user’s profile is fully customizable — the banner, a short bio,
-                    the profile picture and the frame for the profile picture
-                    can all be personalized to accurately represent the user.
+                    A user’s profile is fully customizable — the banner, a short
+                    bio, the profile picture and the frame for the profile
+                    picture can all be personalized to accurately represent the
+                    user.
                   </p>
                   <div className="flex items-end justify-end w-full space-x-2">
                     <p
@@ -706,10 +753,11 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal5
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
+                      showModal5
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
                   >
                     <LightBulbIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -719,8 +767,9 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal5 ? "" : "hidden"
-                  }`}
+                className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                  showModal5 ? "" : "hidden"
+                }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
@@ -782,23 +831,25 @@ const Navbar = () => {
               <div className="relative w-full">
                 <Link href="/dashboard/myChatrooms">
                   <div
-                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${showModal6
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
+                      showModal6
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
                   >
                     <ChatBubbleLeftIcon className="w-5 h-5" />
                     <span className="">My Chatroom</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal6 ? "" : "hidden"
-                    }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal6 ? "" : "hidden"
+                  }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      The BLOCKd ChatRoom is unlike any other social media chat room
-                      on the web. In addition to creating a public
+                      The BLOCKd ChatRoom is unlike any other social media chat
+                      room on the web. In addition to creating a public
                       chatroom, users can also create private chatrooms with set
                       requirements enforced by the blockchain to grant access to
                       users.
@@ -828,18 +879,20 @@ const Navbar = () => {
               <div className="relative w-full">
                 <Link href="/dashboard/createChatroom">
                   <div
-                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${showModal7
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
+                      showModal7
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
                   >
                     <PlusCircleIcon className="w-5 h-5" />
                     <span className="">Create Chatroom</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal7 ? "" : "hidden"
-                    }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal7 ? "" : "hidden"
+                  }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -872,18 +925,20 @@ const Navbar = () => {
               <div className="relative w-full">
                 <Link href="/dashboard/allChatrooms">
                   <div
-                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${showModal8
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    className={`flex items-center justify-start p-4 space-x-2 rounded-full w-fit ${
+                      showModal8
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
                   >
                     <ChatBubbleLeftRightIcon className="w-5 h-5" />
                     <span className="">All Chatrooms</span>
                   </div>
                 </Link>
                 <div
-                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal8 ? "" : "hidden"
-                    }`}
+                  className={`absolute z-10 left-0 top-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                    showModal8 ? "" : "hidden"
+                  }`}
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
@@ -929,10 +984,11 @@ const Navbar = () => {
                   </div>
                 ) : (
                   <div
-                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${showModal9
-                      ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
-                      : "hover:bg-gray-100 dark:hover:bg-lightgray"
-                      } group`}
+                    className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full ${
+                      showModal9
+                        ? "bg-gradient-to-r from-blockd via-orange-400 to-orange-300 text-white"
+                        : "hover:bg-gray-100 dark:hover:bg-lightgray"
+                    } group`}
                   >
                     <FireIcon className="h-6 w-6" />
                     <p className={`text-base lg:text-xl cursor-pointer`}>
@@ -942,8 +998,9 @@ const Navbar = () => {
                 )}
               </Link>
               <div
-                className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${showModal9 ? "" : "hidden"
-                  }`}
+                className={`absolute z-10 left-0 bottom-[60px] p-2 bg-gradient-to-r from-blockd via-orange-400 to-orange-300 rounded-md ${
+                  showModal9 ? "" : "hidden"
+                }`}
               >
                 <div className="flex flex-col items-start justify-start space-y-2">
                   <p className="text-xs text-white text-justify">
@@ -979,8 +1036,9 @@ const Navbar = () => {
         )}
         {isRegistered != undefined && (
           <div
-            className={`fixed top-0 left-0 flex md:hidden p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${showModal1 ? "" : "hidden"
-              }`}
+            className={`fixed top-0 left-0 flex md:hidden p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
+              showModal1 ? "" : "hidden"
+            }`}
           >
             <div className="relative w-full rounded-lg shadow-lg max-w-md h-fit bg-gray-50 scrollbar-hide overflow-scroll">
               <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
@@ -1037,8 +1095,9 @@ const Navbar = () => {
           </div>
         )}
         <div
-          className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${showModal2 ? "" : "hidden"
-            }`}
+          className={`fixed top-0 left-0 p-4 flex items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+            showModal2 ? "" : "hidden"
+          }`}
         >
           <div className="relative w-full rounded-lg shadow-lg max-w-md h-fit bg-gray-50 overflow-scroll scrollbar-hide">
             <div className="sticky top-0 rounded-t-lg backdrop-blur-md bg-white/30">
@@ -1050,11 +1109,11 @@ const Navbar = () => {
             </div>
             <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
               We appreciate you taking your time to use our platform. Your
-              feedback is extremely important to us. 
+              feedback is extremely important to us.
               <br></br>
               Kindly leave us a suggestion using the "Suggestions" tab so that
               we can continue to facilitate the best user experience.
-              </div>
+            </div>
             <div className="flex items-center justify-end space-x-3 p-4">
               <p
                 onClick={() => {
@@ -1075,6 +1134,88 @@ const Navbar = () => {
               >
                 Start
               </p>
+            </div>
+          </div>
+        </div>
+        <div
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+            searchInput ? "" : "hidden"
+          }`}
+        >
+          <div className="relative w-full rounded-lg max-w-md h-full bg-transparent">
+            <button
+              type="button"
+              onClick={() => setSearchInput(!searchInput)}
+              className="absolute top-3 right-2.5 text-black bg-transparent hover:bg-gray-200 hover:text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center z-50"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <div className="flex items-center justify-center p-4">
+              <div className="">
+                <div className="flex items-center space-x-2 bg-gray-100 py-2 dark:bg-darkgray rounded-md dark:border-white border group">
+                  <MagnifyingGlassIcon className="hidden lg:inline w-5 h-5 ml-2 text-gray-400 dark:text-white" />
+                  <input
+                    value={input}
+                    onChange={(e: any) => setInput(e.target.value)}
+                    type="text"
+                    placeholder="Search Blockd"
+                    className="flex-1 outline-none bg-transparent"
+                    onBlur={(e: any) => handleBlur(e)}
+                  />
+                </div>
+                {input && (
+                  <div
+                    id="dropdownResults"
+                    className="relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30"
+                  >
+                    <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
+                      <div className="flex flex-col items-center justify-center">
+                        {searchResult &&
+                          searchResult?.map(
+                            (result: any, index: any) =>
+                              index <= 4 && (
+                                <Result
+                                  searchInput={searchInput}
+                                  setSearchInput={setSearchInput}
+                                  result={result}
+                                  key={result?.id}
+                                  setInput={setInput}
+                                />
+                              )
+                          )}
+                        <Link
+                          href={{
+                            pathname: "/search",
+                            query: { query: input },
+                          }}
+                          className="flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+                          onClick={() => setInput("")}
+                        >
+                          <div className="rounded-full bg-blockd p-2">
+                            <MagnifyingGlassIcon className="w-7 h-7 text-white" />
+                          </div>
+                          <p className="font-semibold text-sm">
+                            Search {input}
+                          </p>
+                        </Link>
+                      </div>
+                    </div>
+                  </div>
+                )}
+              </div>
             </div>
           </div>
         </div>

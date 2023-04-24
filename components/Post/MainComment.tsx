@@ -30,7 +30,11 @@ import { toast } from "react-hot-toast";
 import { encodeQuery, renderComment } from "../../utils";
 import Linkify from "react-linkify";
 // @ts-ignore
-import renderHTML from 'react-render-html';
+import renderHTML from "react-render-html";
+import { MentionsInput, Mention } from "react-mentions";
+import darkMode from "../../styles/darkMode.module.scss";
+import lightMode from "../../styles/lightMode.module.scss";
+import { searchTagUsers } from "../../stores/user/UserActions";
 
 interface Pic {
   name: string;
@@ -310,6 +314,16 @@ function MainComment({ comment, post, refetchReplies }: Props) {
     );
   };
 
+  const [data, setData] = useState<any>([]);
+
+  const handleSearch = async (e: any) => {
+    dispatch(
+      searchTagUsers({
+        search: e,
+      })
+    ).then((res: any) => setData(res));
+  };
+
   return (
     <div className="relative border-b dark:border-lightgray flex flex-col p-4">
       <div className="flex space-x-2">
@@ -395,14 +409,13 @@ function MainComment({ comment, post, refetchReplies }: Props) {
         </div>
       </div>
       <div className="flex flex-col items-start justify-center space-y-2 w-full mt-4">
-        {
-          !isEmpty(comment?.content) &&
+        {!isEmpty(comment?.content) && (
           <p className="text-sm md:text-md whitespace-normal break-words w-fit max-w-full">
             <Linkify componentDecorator={componentDecorator}>
               {renderHTML(renderComment(comment?.content))}
             </Linkify>
           </p>
-        }
+        )}
         {comment?.imgName != null ? (
           <img
             src={`${config.url.PUBLIC_URL}/${comment?.imgName}`}
@@ -420,40 +433,88 @@ function MainComment({ comment, post, refetchReplies }: Props) {
       </div>
       <form
         onSubmit={handleAddReply}
-        className="mt-3 flex items-start justify-center space-x-3"
+        className="mt-3 flex items-start justify-end space-x-3"
       >
         <div className="flex flex-col items-end justify-center w-full">
-          <input
+          {/* <input
             value={input}
             onChange={(e) => setInput(e.target.value)}
             className="flex-1 rounded-lg bg-gray-200 dark:bg-lightgray dark:group-hover:bg-darkgray p-2 outline-none w-full"
             type="text"
             placeholder="Write a comment..."
-          />
+          /> */}
+          <div className="hidden dark:inline dark:w-full">
+            <MentionsInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              classNames={darkMode}
+              placeholder="Write a comment..."
+            >
+              <Mention
+                className={`${darkMode.mentions__mention}`}
+                trigger="@"
+                data={data}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                trigger="@"
+                data={(e) => {
+                  handleSearch(e);
+                }}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+            </MentionsInput>
+          </div>
+          <div className="dark:hidden w-full">
+            <MentionsInput
+              value={input}
+              onChange={(e) => setInput(e.target.value)}
+              classNames={lightMode}
+              placeholder="Write a comment..."
+            >
+              <Mention
+                className={`${lightMode.mentions__mention}`}
+                trigger="@"
+                data={data}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                trigger="@"
+                data={(e) => {
+                  handleSearch(e);
+                }}
+                markup="@@@______id____^^______display____@@@^^^"
+              />
+            </MentionsInput>
+          </div>
           <div className="flex items-center justify-between w-full py-3">
             <div className="flex">
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <p
-                  className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    }`}
+                  className={`text-xs ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  }`}
                 >
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
                 <ArrowUpIcon
-                  className={`h-4 w-4 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${
+                    isLiked ? "text-green-600" : "group-hover:text-green-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleLikeComment()}
                 />
               </div>
               <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
                 <ArrowDownIcon
-                  className={`h-4 w-4 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    } transition-transform ease-out duration-150 hover:scale-150`}
+                  className={`h-4 w-4 cursor-pointer ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  } transition-transform ease-out duration-150 hover:scale-150`}
                   onClick={() => handleDislikeComment()}
                 />
                 <p
-                  className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                    }`}
+                  className={`text-xs ${
+                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                  }`}
                 >
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
@@ -572,16 +633,18 @@ function MainComment({ comment, post, refetchReplies }: Props) {
             </div>
           )}
         </div>
-        <button
-          disabled={!input && !image && !gifUrl}
-          type="submit"
-          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
-        >
-          <span className="hidden md:inline">Comment</span>
-          <span className="flex md:hidden">
-            <PaperAirplaneIcon className="w-5 h-5" />
-          </span>
-        </button>
+        <div className="flex items-end h-full">
+          <button
+            disabled={!input && !image && !gifUrl}
+            type="submit"
+            className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          >
+            <span className="hidden md:inline">Comment</span>
+            <span className="flex md:hidden">
+              <PaperAirplaneIcon className="w-5 h-5" />
+            </span>
+          </button>
+        </div>
       </form>
     </div>
   );

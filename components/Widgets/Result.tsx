@@ -19,9 +19,11 @@ interface User {
   profilePic: Pic;
 }
 
-function Result({ result, setInput }: any) {
+function Result({ result, setInput, searchInput, setSearchInput }: any) {
   const dispatch = useAppDispatch();
   const [image, setImage] = useState<any>();
+
+  searchInput = false
   
   return (
     <Link
@@ -34,6 +36,7 @@ function Result({ result, setInput }: any) {
       onClick={() => setInput('')}
     >
       <div
+        onClick={() => setSearchInput(searchInput)}
         key={result?.id}
         className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
       >
