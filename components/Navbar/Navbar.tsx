@@ -1143,7 +1143,7 @@ const Navbar = () => {
             searchInput ? "" : "hidden"
           }`}
         >
-          <div className="relative w-full rounded-lg shadow-lg max-w-md h-full bg-transparent">
+          <div className="relative w-full rounded-lg max-w-md h-full bg-transparent">
             <button
               type="button"
               onClick={() => setSearchInput(!searchInput)}
