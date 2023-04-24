@@ -336,7 +336,7 @@ const Navbar = () => {
     }
   };
 
-  console.log(searchInput)
+  console.log(searchInput);
 
   const sidebar = useRef<any>(null);
 
@@ -414,12 +414,6 @@ const Navbar = () => {
               />
             </Link>
             <div className="flex items-center space-x-4 relative">
-              <div
-                onClick={() => setSearchInput(!searchInput)}
-                className="cursor-pointer"
-              >
-                <MagnifyingGlassIcon className="w-7 h-7 text-white" />
-              </div>
               <Image
                 ref={dropdown}
                 src={
@@ -485,6 +479,13 @@ const Navbar = () => {
                       </span>
                     )}
                   </Link>
+                  <div
+                    onClick={() => setSearchInput(!searchInput)}
+                    className="flex space-x-2 cursor-pointer p-2 text-sm border-b dark:border-lightgray w-full"
+                  >
+                    <MagnifyingGlassIcon className="w-5 h-5 text-white" />
+                    <p>Search</p>
+                  </div>
                   {currentTheme === "dark" ? (
                     <div
                       onClick={() => setTheme("light")}
