@@ -26,6 +26,7 @@ export default function Message({
   receiver,
   message,
   setReplyMessage,
+  setRepliedUser
 }: any) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
 
@@ -321,7 +322,7 @@ export default function Message({
                   </div> */}
                   <div
                     onClick={() => {
-                      setReply(true), setReplyMessage(message);
+                      setReply(true), setReplyMessage(message), setRepliedUser(receiver?.name);
                     }}
                     className="flex items-center justify-start text-black dark:text-white rounded-md bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"
                   >

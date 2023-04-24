@@ -36,6 +36,7 @@ export default function Chat({
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [reply, setReply] = useState<boolean>(false);
   const [replyMessage, setReplyMessage] = useState<any>();
+  const [repliedUser, setRepliedUser] = useState<any>();
   const boxRef = useRef<any>(null);
   const boxRef2 = useRef<any>(null);
   const dropdown = useRef<any>(null);
@@ -256,6 +257,7 @@ export default function Chat({
               receiver={receiver}
               message={message}
               setReplyMessage={setReplyMessage}
+              setRepliedUser={setRepliedUser}
             />
           ))}
         <div ref={boxRef} />
@@ -274,6 +276,8 @@ export default function Chat({
             replyMessage={replyMessage}
             setReplyMessage={setReplyMessage}
             setLoad={setLoad}
+            repliedUser={repliedUser}
+            setRepliedUser={setRepliedUser}
           />
         )}
       </div>

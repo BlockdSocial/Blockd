@@ -34,7 +34,9 @@ function Footer({
   fetchRoomMessages,
   replyMessage,
   setReplyMessage,
-  setLoad
+  setLoad,
+  setRepliedUser,
+  repliedUser
 }: any) {
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -233,7 +235,8 @@ function Footer({
           });
         }
       }
-      setReplyMessage()
+      setReplyMessage();
+      setRepliedUser()
     } else {
       if (!isEmpty(receiver)) {
         if (isEmpty(messages)) {
@@ -348,9 +351,9 @@ function Footer({
             <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-full space-y-1 p-2 border-l-2 border-orange-500">
               <p className="text-sm">
                 @
-                {isEmpty(replyMessage?.otherUser)
+                {isEmpty(repliedUser)
                   ? authUser?.name
-                  : replyMessage?.otherUser?.name}
+                  : repliedUser}
               </p>
               <p className="text-sm">{replyMessage?.content}</p>
               {/* <div className="flex items-center justify-start mt-2">
@@ -377,7 +380,7 @@ function Footer({
             <div className="pr-3">
               <div
                 onClick={() => {
-                  setReply(false), setReplyMessage();
+                  setReply(false), setReplyMessage(), setRepliedUser();
                 }}
                 className="p-1 rounded-full hover:bg-gray-200  dark:hover:bg-lightgray cursor-pointer"
               >

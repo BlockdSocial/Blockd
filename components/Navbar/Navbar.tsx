@@ -108,6 +108,7 @@ const Navbar = () => {
 
   // @ts-ignore
   const [channel, ably] = useChannel(`notifications-${JSON.parse(localStorage.getItem('authUser'))?.id}`, (message) => {
+    setNotificationInfo('');
     checkUserNotification(message.data);
   });
 
@@ -115,6 +116,7 @@ const Navbar = () => {
     // @ts-ignore
     `messageNotifications-${JSON.parse(localStorage.getItem('authUser'))?.id}`,
     (message) => {
+      setNotificationInfo('');
       if (message.data !== 'room') {
         fetchMessageNotification(message.data);
       }
