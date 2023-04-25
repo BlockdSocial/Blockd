@@ -10,6 +10,7 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends, refetchChats }
   const dispatch = useAppDispatch();
 
   const handleDeleteChat = async (e: any, chatId: any) => {
+    e.stopPropagation();
     await dispatch(deleteChat(chatId)).then(() => {
       refetchChats();
       setReceiver();

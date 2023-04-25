@@ -68,9 +68,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [bannerPicture, setBannerPicture] = useState<string>();
   const [scorePercentage, setScorePercentage] = useState<any>(0);
   const [bio, setBio] = useState<string>();
-  const [facebook, setFacebook] = useState<string>()
-  const [insta, setInsta] = useState<string>()
-  const [linktree, setLinktree] = useState<string>()
+  const [facebook, setFacebook] = useState<string>();
+  const [insta, setInsta] = useState<string>();
+  const [linktree, setLinktree] = useState<string>();
+  const [fullScreenImage, setFullScreenImage] = useState<boolean>(false);
   // const [isFollowed, setIsFollowed] = useState<any>(false);
   let [frameColor, setFrameColor] = useState<string>();
 
@@ -191,10 +192,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       updateUser({
         name: userName,
         email: userEmail,
-        facebook: facebook ? facebook : '',
-        instagram: insta ? insta : '',
-        linktree: linktree ? linktree : '',
-        bio: bio ? bio : '',
+        facebook: facebook ? facebook : "",
+        instagram: insta ? insta : "",
+        linktree: linktree ? linktree : "",
+        bio: bio ? bio : "",
       })
     ).then(() => {
       setIsModalVisible(false);
@@ -251,8 +252,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               : "/images/blockdbg.jpg"
           }
           alt="Banner"
-          className={`w-full max-h-72 ${user?.id === authUser?.id && "group-hover:opacity-50"
-            }`}
+          className={`w-full max-h-72 ${
+            user?.id === authUser?.id && "group-hover:opacity-50"
+          }`}
           width="720"
           height="350"
         />
@@ -297,9 +299,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                         : "/images/pfp/pfp1.jpg"
                     }
                     alt="pfp"
-                    className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
+                    className="absolute cursor-pointer top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
                     width={2000}
                     height={2000}
+                    onClick={() => setFullScreenImage(!fullScreenImage)}
                   />
                 </div>
                 <div
@@ -390,7 +393,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   {isFollowed ? (
                     <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
                       <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md"
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
                         onClick={() => handleFollowUser()}
                       >
                         Unfollow
@@ -399,7 +402,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   ) : (
                     <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
                       <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
                         onClick={() => handleFollowUser()}
                       >
                         Follow
@@ -467,8 +470,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </>
           )}
           <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${isDropdownVisible ? "" : "hidden"
-              }`}
+            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
+              isDropdownVisible ? "" : "hidden"
+            }`}
           >
             <Link
               type="button"
@@ -492,38 +496,42 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       </div>
 
       {/* TODO HASAN SAADO    */}
-      {
-        !isEmpty(user?.bio) &&
+      {!isEmpty(user?.bio) && (
         <div className="py-2 w-full md:w-3/4 px-6 pr-10">
-          <p className="text-sm w-full">
-            {user?.bio}{" "}
-          </p>
+          <p className="text-sm w-full">{user?.bio} </p>
         </div>
-      }
+      )}
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        {
-          user?.facebook &&
+        {user?.facebook && (
           <a href={`${user?.facebook}`} target="_blank">
-            <img src="/images/logo/facebook.png" className="w-8 h-8 object-cover rounded-md" />
+            <img
+              src="/images/logo/facebook.png"
+              className="w-8 h-8 object-cover rounded-md"
+            />
           </a>
-        }
-        {
-          user?.instagram &&
+        )}
+        {user?.instagram && (
           <a href={`${user?.instagram}`} target="_blank">
-            <img src="/images/logo/instagram.png" className="w-8 h-8 object-cover rounded-md" />
+            <img
+              src="/images/logo/instagram.png"
+              className="w-8 h-8 object-cover rounded-md"
+            />
           </a>
-        }
-        {
-          user?.linktree &&
+        )}
+        {user?.linktree && (
           <a href={`${user?.linktree}`} target="_blank">
-            <img src="/images/logo/linktree.png" className="w-8 h-8 object-cover rounded-md" />
+            <img
+              src="/images/logo/linktree.png"
+              className="w-8 h-8 object-cover rounded-md"
+            />
           </a>
-        }
+        )}
       </div>
 
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
+          isModalVisible ? "" : "hidden"
+        }`}
       >
         <div className="relative w-full h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
           <div className="relative bg-white rounded-lg">
@@ -744,6 +752,54 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 </div>
               </div>
             </div> */}
+          </div>
+        </div>
+      </div>
+      <div
+        className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          fullScreenImage ? "" : "hidden"
+        }`}
+      >
+        <div className="relative w-fit rounded-lg shadow-lg max-w-md h-auto m-6">
+          <div className="flex items-center justify-center relative rounded-t-lg">
+            <button
+              type="button"
+              onClick={() => setFullScreenImage(!fullScreenImage)}
+              className="absolute top-1 right-1 text-gray-400 bg-transparent bg-white hover:bg-gray-200 hover:text-gray-900 rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-4 h-4"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+              <span className="sr-only">Close modal</span>
+            </button>
+            <Image
+              src={
+                !isEmpty(profilePicture)
+                  ? `${config.url.PUBLIC_URL}/${profilePicture}`
+                  : "/images/pfp/pfp1.jpg"
+              }
+              alt="pfp"
+              className="rounded-lg max-w-full object-contain max-h-[600px] shadow-sm cursor-pointer"
+              width={2000}
+              height={2000}
+              onClick={() => setFullScreenImage(!fullScreenImage)}
+            />
+            {/* <img
+                src={`${config.url.PUBLIC_URL}/${post?.postImage?.name}`}
+                alt="Post"
+                className="rounded-lg max-w-full object-contain max-h-[600px] shadow-sm cursor-pointer"
+                onClick={() => setFullScreenImage(!fullScreenImage)}
+              /> */}
           </div>
         </div>
       </div>
