@@ -76,7 +76,18 @@ function MyApp({ Component, pageProps }: AppProps) {
           sizes="16x16"
           href="/images/favicon.ico"
         ></link>
+        <title>Blockd</title>
+        <meta
+          name="description"
+          content="The Ultimate Hub for Crypto and Blockchain enthusiasts"
+        />
+        
       </Head>
+      <Script
+        async
+        defer
+        src="https://tools.luckyorange.com/core/lo.js?site-id=6dbbf30b"
+      ></Script>
       <Script
         async
         src="https://www.googletagmanager.com/gtag/js?id=G-QW4Q5G8G4K"
@@ -105,24 +116,24 @@ function MyApp({ Component, pageProps }: AppProps) {
             modalSize="compact"
             id="rainbow"
           >
-      <div className="h-screen">
-            <Provider store={store}>
-              <ThemeProvider enableSystem={true} attribute="class">
-                {router.pathname === "/auth/signin" ||
-                router.pathname === "/auth/signup" ||
-                router.pathname === "/auth/infographic" ||
-                router.pathname === "/dashboard/myChatrooms" ||
-                router.pathname === "/dashboard/myChatrooms2" ? (
-                  <Component {...pageProps} />
-                ) : (
-                  <Layout>
+            <div className="h-screen">
+              <Provider store={store}>
+                <ThemeProvider enableSystem={true} attribute="class">
+                  {router.pathname === "/auth/signin" ||
+                  router.pathname === "/auth/signup" ||
+                  router.pathname === "/auth/infographic" ||
+                  router.pathname === "/dashboard/myChatrooms" ||
+                  router.pathname === "/dashboard/myChatrooms2" ? (
                     <Component {...pageProps} />
-                  </Layout>
-                )}
-              </ThemeProvider>
-            </Provider></div>
+                  ) : (
+                    <Layout>
+                      <Component {...pageProps} />
+                    </Layout>
+                  )}
+                </ThemeProvider>
+              </Provider>
+            </div>
           </RainbowKitProvider>
-      
         </WagmiConfig>
       </QueryClientProvider>
     </html>
