@@ -208,8 +208,8 @@ export default function Chat({
           if (endTotal == 0) {
             return;
           } else {
-            await updateMessages(endCount + 1, endCount + 9);
-            setEndCount(endCount + 9);
+            await updateMessages(endCount + 0, endCount + 10);
+            setEndCount(endCount + 10);
           }
         }
       }
