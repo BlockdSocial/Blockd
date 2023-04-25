@@ -483,7 +483,7 @@ const Navbar = () => {
                     onClick={() => setSearchInput(!searchInput)}
                     className="flex space-x-2 cursor-pointer p-2 text-sm border-b dark:border-lightgray w-full"
                   >
-                    <MagnifyingGlassIcon className="w-5 h-5 text-white" />
+                    <MagnifyingGlassIcon className="w-5 h-5 dark:text-white" />
                     <p>Search</p>
                   </div>
                   {currentTheme === "dark" ? (
@@ -1203,7 +1203,10 @@ const Navbar = () => {
                             query: { query: input },
                           }}
                           className="flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
-                          onClick={() => setInput("")}
+                          onClick={() => {
+                            setInput("");
+                            setSearchInput(false);
+                          }}
                         >
                           <div className="rounded-full bg-blockd p-2">
                             <MagnifyingGlassIcon className="w-7 h-7 text-white" />
