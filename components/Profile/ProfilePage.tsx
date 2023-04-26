@@ -190,8 +190,8 @@ function ProfilePage() {
           if (endTotal == 0) {
             return;
           } else {
-            await updateUserPosts(endCount + 1, endCount + 8);
-            setEndCount(endCount + 8);
+            await updateUserPosts(endCount + 0, endCount + 10);
+            setEndCount(endCount + 10);
           }
         }
       }

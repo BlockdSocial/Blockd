@@ -91,7 +91,7 @@ function Widgets() {
                 {searchResult &&
                   searchResult?.map((result: any, index: any) => (
                     index <= 4 &&
-                    <Result result={result} key={result?.id} setInput={setInput} />
+                    <Result result={result} key={result?.id} setInput={setInput} setSearchInput={() => {}} />
                   ))}
                 <Link
                   href={{
