@@ -105,41 +105,47 @@ export default function SignUp() {
 
   const { address } = useAccount();
 
-  // const referralAddress =
-  //   router.query.referralAddress ||
-  //   parseQueryString(window.location.search.substring(1)).referralAddress;
-
-  console.log({ referralAddress });
   useEffect(() => {
+    console.log({ userMessageForBackend });
     axios.get(messageUrl).then((res) => setUserMessage(res?.data?.message));
   }, [userMessageForBackend]);
 
   const getSignMessage = async (e: any) => {
     e.preventDefault();
+    console.log(step);
+    if (validateRegister()) {
+      if (step === 1) {
+        handleRegisterUser();
+      } else {
+        signMessage();
+      }
+    }
+  };
+
+  const validateRegister = () => {
     if (!validateEmail(email)) {
       setEmailError(true);
-      return;
+      return false;
     }
     if (displayName.length == 0) {
       setDisplayNameError(true);
-      return;
+      return false;
     } else {
       console.log(displayName.length);
       setEmailError(false);
     }
     if (displayName.length < 4) {
       setDisplayNamelengthError(true);
-      return;
+      return false;
     } else {
       setDisplayNamelengthError(false);
     }
     if (!terms) {
       setDisplayTermsError(true);
-      return;
+      return false;
     } else {
       setDisplayTermsError(false);
     }
-    signMessage();
   };
 
   useEffect(() => {
@@ -259,9 +265,6 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-  const nft_address =
-    "0xdE1dEBADfc466cc50BBaad33917a954d9D77b874" as `0x${string}`;
-
   useEffect(() => {
     if (isEmpty(referralAddress)) {
       setArgs(["Nft mint"]);
@@ -271,9 +274,6 @@ export default function SignUp() {
       setFunctionName("mint(string,address)");
     }
   }, [referralAddress]);
-
-  console.log(args);
-  console.log(args);
 
   const {
     config,
@@ -295,7 +295,7 @@ export default function SignUp() {
   useEffect(() => {
     console.log("setNftData useEffect refetch");
     refetch();
-  },[])
+  }, []);
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
@@ -312,13 +312,17 @@ export default function SignUp() {
 
   useEffect(() => {
     console.log("setNftData useEffect refetch");
-    refetch();
-    handleCheckAddress();
-    if (nft_data && Number(nft_data) > 0) {
-      setNftData(true);
-    } else {
-      setNftData(false);
+    const get_nft_data = async() =>{
+      await refetch();
+      handleCheckAddress();
+      if (nft_data && Number(nft_data) > 0) {
+        setNftData(true);
+      } else {
+        setNftData(false);
+      }
     }
+    
+    get_nft_data();
   }, [address, nftDataOnSuccess]);
 
   const { refetch, data: nft_data } = useContractRead({
@@ -353,11 +357,13 @@ export default function SignUp() {
   };
 
   const handleResendCode = async () => {
-    await dispatch(resendVerification({
-      email: email,
-    }));
-  }
-  
+    await dispatch(
+      resendVerification({
+        email: email,
+      })
+    );
+  };
+
   const handleCheckAddress = async () => {
     await dispatch(
       checkAddress({
@@ -550,7 +556,10 @@ export default function SignUp() {
                     placeholder="Enter the verification code sent to your email"
                     onChange={(e) => setCode(e.target.value)}
                   />
-                  <p onClick={() => handleResendCode()} className="underline font-semibold cursor-pointer">
+                  <p
+                    onClick={() => handleResendCode()}
+                    className="underline font-semibold cursor-pointer"
+                  >
                     Resend Code
                   </p>
                 </div>
@@ -588,11 +597,13 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
-                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${isMintLoading && "loading"
-                        } ${error
+                      className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
+                        isMintLoading && "loading"
+                      } ${
+                        error
                           ? "bg-orange-300"
                           : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
-                        }`}
+                      }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
                     >
@@ -624,8 +635,9 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayTermsAndConditionsModal ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayTermsAndConditionsModal ? "" : "hidden"
+        }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
@@ -664,8 +676,9 @@ export default function SignUp() {
       </div>
       {/*  ****************Modal****************   */}
       <div
-        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayPolicyModal ? "" : "hidden"
-          }`}
+        className={`fixed top-0 left-0 p-4 flex items-stretch justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+          isDisplayPolicyModal ? "" : "hidden"
+        }`}
       >
         <div className="relative flex flex-col w-full max-w-md bg-white rounded-lg overflow-scroll scrollbar-hide">
           <div className="relative flex flex-col rounded-lg">
