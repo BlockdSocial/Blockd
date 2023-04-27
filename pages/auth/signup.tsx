@@ -127,12 +127,15 @@ export default function SignUp() {
       setEmailError(true);
       return false;
     }
+    else{
+      setEmailError(false);
+    }
     if (displayName.length == 0) {
       setDisplayNameError(true);
       return false;
     } else {
       console.log(displayName.length);
-      setEmailError(false);
+      setDisplayNameError(false);
     }
     if (displayName.length < 4) {
       setDisplayNamelengthError(true);
@@ -146,6 +149,7 @@ export default function SignUp() {
     } else {
       setDisplayTermsError(false);
     }
+    return true;
   };
 
   useEffect(() => {
