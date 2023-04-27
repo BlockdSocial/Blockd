@@ -624,6 +624,9 @@ export default function SignUp() {
                   )}
                 </>
               )}
+               <p className="text-orange-500  text font-bold mt-3">
+               Account Creation Requirement: 4 Matic + Gas Fees
+                </p>
             </div>
 
             <div className="w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500">
