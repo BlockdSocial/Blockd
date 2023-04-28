@@ -831,7 +831,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
           className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${fullScreenImage ? "" : "hidden"
             }`}
         >
-          <div className="relative w-fit rounded-lg shadow-lg max-w-md h-auto m-6">
+          <div className="relative w-fit rounded-lg shadow-lg max-w-2xl h-auto m-6">
             <div className="flex items-center justify-center relative rounded-t-lg">
               <button
                 type="button"
@@ -1078,7 +1078,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
       </div>
       <form
         onSubmit={handleAddComment}
-        className="mt-3 flex items-end justify-center space-x-3"
+        className="mt-3 flex items-start justify-center space-x-3"
       >
         <div className="flex flex-col items-end justify-center w-full">
           {/* <input

@@ -20,19 +20,28 @@ import Link from "next/link";
 import { encodeQuery, renderComment2 } from "../../../../utils";
 // @ts-ignore
 import renderHTML from "react-render-html";
+import Modal from "./Modal";
 
 export default function Message({
   setReply,
   receiver,
   message,
   setReplyMessage,
-  setRepliedUser
+  setRepliedUser,
 }: any) {
   const { authUser } = useAppSelector((state) => state.authUserReducer);
 
   let [showReaction, setShowReaction] = useState<boolean>(false);
   let [reaction, setReaction] = useState<string>("");
   let [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
+  const [fullScreenImage1, setFullScreenImage1] = useState<boolean>(false);
+  const [fullScreenImage2, setFullScreenImage2] = useState<boolean>(false);
+  const [fullScreenImage3, setFullScreenImage3] = useState<boolean>(false);
+  const [fullScreenImage4, setFullScreenImage4] = useState<boolean>(false);
+  const [fullScreenImage5, setFullScreenImage5] = useState<boolean>(false);
+  const [fullScreenImage6, setFullScreenImage6] = useState<boolean>(false);
+  const [fullScreenImage7, setFullScreenImage7] = useState<boolean>(false);
+  const [fullScreenImage8, setFullScreenImage8] = useState<boolean>(false);
   const dropdown = useRef<any>(null);
 
   useEffect(() => {
@@ -155,16 +164,32 @@ export default function Message({
                 )}
                 <div className="flex items-center justify-start mt-2">
                   {message?.originMessage?.imgName != null && (
-                    <img
-                      src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
-                      className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
-                    />
+                    <>
+                      <img
+                        src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                        onClick={() => setFullScreenImage1(!fullScreenImage1)}
+                      />
+                      <Modal
+                        fullScreenImage={fullScreenImage1}
+                        setFullScreenImage={setFullScreenImage1}
+                        src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
+                      />
+                    </>
                   )}
                   {message?.originMessage?.gif != null && (
-                    <img
-                      src={message?.originMessage?.gif}
-                      className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
-                    />
+                    <>
+                      <img
+                        src={message?.originMessage?.gif}
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                        onClick={() => setFullScreenImage2(!fullScreenImage2)}
+                      />
+                      <Modal
+                        fullScreenImage={fullScreenImage2}
+                        setFullScreenImage={setFullScreenImage2}
+                        src={message?.originMessage?.gif}
+                      />
+                    </>
                   )}
                 </div>
               </div>
@@ -177,20 +202,36 @@ export default function Message({
               </p>
             )}
             {message?.imgName != null && (
-              <div className="flex items-center justify-start my-2">
-                <img
+              <>
+                <div className="flex items-center justify-start my-2">
+                  <img
+                    src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
+                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                    onClick={() => setFullScreenImage3(!fullScreenImage3)}
+                  />
+                </div>
+                <Modal
+                  fullScreenImage={fullScreenImage3}
+                  setFullScreenImage={setFullScreenImage3}
                   src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
-                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                 />
-              </div>
+              </>
             )}
             {message?.gif != null && (
-              <div className="flex items-center justify-start my-2">
-                <img
+              <>
+                <div className="flex items-center justify-start my-2">
+                  <img
+                    src={message?.gif}
+                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                    onClick={() => setFullScreenImage4(!fullScreenImage4)}
+                  />
+                </div>
+                <Modal
+                  fullScreenImage={fullScreenImage4}
+                  setFullScreenImage={setFullScreenImage4}
                   src={message?.gif}
-                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
                 />
-              </div>
+              </>
             )}
             <div className="w-full flex items-end justify-between">
               <div className="">
@@ -257,7 +298,10 @@ export default function Message({
       </div>
     </>
   ) : (
-    <div key={message?.id} className="grid grid-cols-10 md:grid-cols-12 mb-4 mr-10 mt-2">
+    <div
+      key={message?.id}
+      className="grid grid-cols-10 md:grid-cols-12 mb-4 mr-10 mt-2"
+    >
       <Link
         className="col-span-1 flex items-end justify-end"
         href={{
@@ -322,7 +366,9 @@ export default function Message({
                   </div> */}
                   <div
                     onClick={() => {
-                      setReply(true), setReplyMessage(message), setRepliedUser(receiver?.name);
+                      setReply(true),
+                        setReplyMessage(message),
+                        setRepliedUser(receiver?.name);
                     }}
                     className="flex items-center justify-start text-black dark:text-white rounded-md bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"
                   >
@@ -361,16 +407,32 @@ export default function Message({
             )}
             <div className="flex items-center justify-start mt-2">
               {message?.originMessage?.imgName != null && (
-                <img
-                  src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
-                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
-                />
+                <>
+                  <img
+                    src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
+                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                    onClick={() => setFullScreenImage5(!fullScreenImage5)}
+                  />
+                  <Modal
+                    fullScreenImage={fullScreenImage5}
+                    setFullScreenImage={setFullScreenImage5}
+                    src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
+                  />
+                </>
               )}
               {message?.originMessage?.gif != null && (
-                <img
-                  src={message?.originMessage?.gif}
-                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
-                />
+                <>
+                  <img
+                    src={message?.originMessage?.gif}
+                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                    onClick={() => setFullScreenImage6(!fullScreenImage6)}
+                  />
+                  <Modal
+                    fullScreenImage={fullScreenImage6}
+                    setFullScreenImage={setFullScreenImage6}
+                    src={message?.originMessage?.gif}
+                  />
+                </>
               )}
             </div>
           </div>
@@ -384,20 +446,36 @@ export default function Message({
         )}
 
         {message?.imgName != null && (
-          <div className="flex items-center justify-start my-2">
-            <img
+          <>
+            <div className="flex items-center justify-start my-2">
+              <img
+                src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
+                className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                onClick={() => setFullScreenImage7(!fullScreenImage7)}
+              />
+            </div>
+            <Modal
+              fullScreenImage={fullScreenImage7}
+              setFullScreenImage={setFullScreenImage7}
               src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
-              className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
             />
-          </div>
+          </>
         )}
         {message?.gif != null && (
-          <div className="flex items-center justify-start my-2">
-            <img
+          <>
+            <div className="flex items-center justify-start my-2">
+              <img
+                src={message?.gif}
+                className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                onClick={() => setFullScreenImage8(!fullScreenImage8)}
+              />
+            </div>
+            <Modal
+              fullScreenImage={fullScreenImage8}
+              setFullScreenImage={setFullScreenImage8}
               src={message?.gif}
-              className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md"
             />
-          </div>
+          </>
         )}
         <div className="w-full flex items-end justify-end">
           <p className="font-semibold">
