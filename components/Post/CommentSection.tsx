@@ -686,7 +686,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
       {commentBoxVisible && (
         <form
           onSubmit={handleAddReply}
-          className="flex items-end justify-center w-full mt-4 space-x-3"
+          className="flex items-start justify-center w-full mt-4 space-x-3"
         >
           <div className="flex flex-col items-end justify-center w-full">
             {/* <input
