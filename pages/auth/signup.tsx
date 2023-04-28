@@ -387,7 +387,7 @@ export default function SignUp() {
     return null;
   }
   return (
-    <section className="min-h-screen flex items-stretch overflow-hidden text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <Toaster />
       <CustomLoadingOverlay active={isRegisteringUser} />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
@@ -436,7 +436,7 @@ export default function SignUp() {
           </div>
         </div>
       </div>
-      <div className="md:w-1/2 w-full h-screen flex items-center justify-center text-center p-10 z-0">
+      <div className="md:w-1/2 w-full  flex items-center justify-center text-center p-10 z-0">
         <div className="flex items-center w-[500px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
             <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
