@@ -352,7 +352,7 @@ export default function SignUp() {
     fetch(`${baseUrl}/brokers/pixel?action=3&vid=${v_id}`)
         .then((result) => {
             //successful request
-            alert('Request was sent, Thank you. ' + v_id)
+           // alert('Request was sent, Thank you. ' + v_id)
         })
         .catch((err) => {
             //failed request
