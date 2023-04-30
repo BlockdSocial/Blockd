@@ -1,4 +1,4 @@
-import React, { useState, useEffect, useRef } from "react";
+import React, { useState, useEffect, useRef, useCallback } from "react";
 import Image from "next/image";
 import Link from "next/link";
 import { useRouter } from "next/router";
@@ -86,10 +86,22 @@ export default function SignUp() {
 
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
-  const [referralAddress, setReferralAddress] = useState<string>(
-    router.query.referralAddress ||
-      parseQueryString(window.location.search.substring(1)).referralAddress
-  );
+  const [referralAddress, setReferralAddress] = useState<string>("");
+  const [vid, setVid] = useState<string | undefined | string[]>();
+
+  useEffect(() => {
+    if (router.query?.vid) {
+      setVid(router.query.vid);
+      localStorage.setItem("vid", vid as string);
+
+    }
+    setReferralAddress(
+      router.query.referralAddress ||
+        parseQueryString(window.location.search.substring(1)).referralAddress
+    );
+    console.log("vid:", router.query.vid);
+  }, [router.query]);
+
   const [terms, setTerms] = useState<boolean>(false);
   const [policy, setPolicy] = useState<boolean>(false);
   const [displayNameError, setDisplayNameError] = useState<boolean>(false);
@@ -122,12 +134,13 @@ export default function SignUp() {
     }
   };
 
+  console.log({ vid });
+
   const validateRegister = () => {
     if (!validateEmail(email)) {
       setEmailError(true);
       return false;
-    }
-    else{
+    } else {
       setEmailError(false);
     }
     if (displayName.length == 0) {
@@ -269,6 +282,7 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
+
   useEffect(() => {
     if (isEmpty(referralAddress)) {
       setArgs(["Nft mint"]);
@@ -292,10 +306,13 @@ export default function SignUp() {
       value: data,
     },
     enabled: !!data && !!address,
-    onSuccess(data: any) {
+     onSuccess(data: any) {
       console.log("call useEffect", data);
+     
     },
   });
+
+
   useEffect(() => {
     console.log("setNftData useEffect refetch");
     refetch();
@@ -303,11 +320,46 @@ export default function SignUp() {
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
-    onSuccess(data: any) {
-      console.log("setNftData");
-      setNftData(true);
+    async onSuccess(data) {
+      const tx = await data.wait(1);
+      if(tx.status === 1) {
+        magicEvent();
+        setNftData(true);
+      }
+      
     },
   });
+
+
+  
+  const magicEvent = useCallback(async () => {
+    console.log('magicEvent', vid)
+    let v_id: string | string[] | undefined
+    if (!isEmpty(vid)) {
+        v_id = vid
+    } else {
+        v_id =
+            typeof window !== 'undefined'
+                ? (localStorage.getItem('vid') as string)
+                : ''
+    }
+    if (isEmpty(v_id)) {
+        return
+    }
+    console.log('magicEvent')
+    const baseUrl = 'https://magic.lol/4bbad3f1'
+    //const vid = getCookie('vid')
+    fetch(`${baseUrl}/brokers/pixel?action=3&vid=${v_id}`)
+        .then((result) => {
+            //successful request
+            alert('Request was sent, Thank you. ' + v_id)
+        })
+        .catch((err) => {
+            //failed request
+            console.error('magicEvent :Failed to register')
+        })
+},[window])
+
   console.log({ error });
   const setName = (e: any) => {
     const result = e.replace(/[^a-z]/gi, "");
@@ -316,7 +368,7 @@ export default function SignUp() {
 
   useEffect(() => {
     console.log("setNftData useEffect refetch");
-    const get_nft_data = async() =>{
+    const get_nft_data = async () => {
       await refetch();
       handleCheckAddress();
       if (nft_data && Number(nft_data) > 0) {
@@ -324,8 +376,8 @@ export default function SignUp() {
       } else {
         setNftData(false);
       }
-    }
-    
+    };
+
     get_nft_data();
   }, [address, nftDataOnSuccess]);
 
@@ -568,12 +620,7 @@ export default function SignUp() {
                   </p>
                 </div>
               )}
-              {/* <button
-                className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-full"
-                onClick={(e) => web3Login(e)}
-              >
-                {!isEmpty(userSignature) ? <span>🟢 Connected</span> : <span>Connect Wallet</span>}
-              </button> */}
+
               <div className="w-full mt-4 flex items-center justify-center">
                 <ConnectButton
                   showBalance={{
@@ -624,9 +671,9 @@ export default function SignUp() {
                   )}
                 </>
               )}
-               <p className="text-orange-500  text font-bold mt-3">
-               Account Creation Requirement: 4 Matic + Gas Fees
-                </p>
+              <p className="text-orange-500  text font-bold mt-3">
+                Account Creation Requirement: 4 Matic + Gas Fees
+              </p>
             </div>
 
             <div className="w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500">

@@ -53,9 +53,12 @@ export default function SignIn() {
     useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
   const { address } = useAccount();
+  
   useEffect(() => {
     axios.get(messageUrl).then((res) => setUserMessage(res?.data?.message));
   }, [userMessageForBackend]);
+
+
   const handleLoginUser = async () => {
     if (
       isEmpty(userMessageForBackend) ||
