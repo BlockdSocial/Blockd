@@ -54,7 +54,7 @@ interface Props {
 
 function InfoContainer({ user, refetchUser, userId }: Props) {
   const dispatch = useAppDispatch();
-  const { authUser } = useAppSelector((state) => state.authUserReducer);
+  const { authUser, isFetchingAuthUser } = useAppSelector((state) => state.authUserReducer);
   const { rewards, followers, isFollowed, error } = useAppSelector(
     (state) => state.userReducer
   );
@@ -79,11 +79,14 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
+  useEffect(() =>{
+    setUserName('');
+    setUserEmail('');
+    setBio('');
+    setInsta('');
+    setLinktree('');
+    setFacebook('');
+  }, [isFetchingAuthUser]);
 
   useEffect(() => {
     // only add the event listener when the dropdown is opened
@@ -99,6 +102,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     // clean up
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
+  
 
   useEffect(() => {
     if (!isEmpty(user)) {
