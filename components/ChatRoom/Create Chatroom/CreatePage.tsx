@@ -33,6 +33,8 @@ function CreatePage() {
   const [count, setCount] = useState<string>("");
   const [contractAddress, setContractAddress] = useState<string>("");
   const [network, setNetwork] = useState<number>(1);
+  const [type, setType] = useState<string>('ERC20');
+
   const [tokenName, setTokenName] = useState<string>("");
   const [tokenNumber, setTokenNumber] = useState<number>(0);
   let [image, setImage] = useState<string>("");
@@ -88,6 +90,7 @@ function CreatePage() {
     let fields = {
       token_address: contractAddress,
       chainId: network,
+      type: type,
       token_name: tokenName,
       amount: Number(tokenNumber),
     };
@@ -105,6 +108,7 @@ console.log(tokenNumber);
     let authUserAddress: `0x${string}` = authUser?.address;
     if (authUserAddress && address) {
       if (authUserAddress !== address) {
+        console.log('hussein',authUserAddress,address )
         setConnectAddressError(
           "Can't Use this address please use the same address that you previously created"
         );
@@ -116,6 +120,9 @@ console.log(tokenNumber);
 
   const handleNetworkChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
     setNetwork(Number(event.target.value));
+  };
+  const handleTypeChange = (event: React.ChangeEvent<HTMLSelectElement>) => {
+    setType(event.target.value);
   };
 
   useEffect(() => {
@@ -167,7 +174,9 @@ console.log(tokenNumber);
         setErrorMessage(checkBalance);
         return false;
       }
+
     }
+    console.log('kosas')
     setErrorMessage("");
     return true;
   };
@@ -184,6 +193,7 @@ console.log(tokenNumber);
             image: uploadedImage,
             token_address: contractAddress,
             chainId: network,
+            type: type,
             token_name: tokenName,
             amount: Number(tokenNumber),
           })
@@ -233,6 +243,7 @@ console.log(tokenNumber);
             private: 1,
             token_address: contractAddress,
             chainId: network,
+            type: type,
             token_name: tokenName,
             amount: Number(tokenNumber),
           })
@@ -330,6 +341,7 @@ console.log(tokenNumber);
       writeAsync && writeAsync();
     }
   };
+  
 
   return (
     <div className="min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
@@ -484,6 +496,23 @@ console.log(tokenNumber);
                   )}
                 </div>
                 <div className="w-full">
+                  <h3 className="text-sm font-semibold pb-1">Token/NFT</h3>
+                  <select
+                    value={type}
+                    onChange={handleTypeChange}
+                    className="w-full rounded-lg border-none outline-none p-2 text-black placeholder:text-gray-400 dark:text-white bg-gray-200 dark:bg-lightgray"
+                    required
+                  >
+                    <option value={'ERC20'} className="outline-none p-2">
+                    ERC20
+                    </option>
+                    <option value={'NFT'} className="outline-none p-2">
+                    NFT
+                    </option>
+                    
+                  </select>
+                </div>
+                <div className="w-full">
                   <h3 className="text-sm font-semibold pb-1">Network</h3>
                   <select
                     value={network}
@@ -574,12 +603,12 @@ console.log(tokenNumber);
                         className={`w-full mt-4 text-white   font-semibold py-3 px-4 rounded-md  ${
                           isMintLoading && "loading"
                         } ${
-                          error
+                          error || isMintError || isMintFetching || connectAddressError
                             ? "bg-orange-300"
                             : "cursor-pointer bg-gradient-to-r  from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
                         }`}
                         disabled={
-                          isMintError || isMintFetching || connectAddressError
+                          isMintError || isMintFetching || connectAddressError || error
                             ? true
                             : false
                         }
@@ -587,7 +616,15 @@ console.log(tokenNumber);
                       >
                         Mint
                       </button>
+                     
                     </div>
+                    {error && (
+                    <div className="mt-4 w-full text-center max-h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
+                      An error occurred preparing the transaction:<br></br>
+                      {/* @ts-ignore */}
+                      {error?.reason ? error?.reason : error?.message}
+                    </div>
+                  )}
                   </div>
                 </div>
               </>
