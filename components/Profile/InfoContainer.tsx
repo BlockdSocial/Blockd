@@ -29,6 +29,7 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import { toast } from "react-hot-toast";
+import CropImage from "../Cropper/CropperEasy";
 
 interface User {
   id: string;
@@ -54,12 +55,15 @@ interface Props {
 
 function InfoContainer({ user, refetchUser, userId }: Props) {
   const dispatch = useAppDispatch();
-  const { authUser, isFetchingAuthUser } = useAppSelector((state) => state.authUserReducer);
+  const { authUser, isFetchingAuthUser } = useAppSelector(
+    (state) => state.authUserReducer
+  );
   const { rewards, followers, isFollowed, error } = useAppSelector(
     (state) => state.userReducer
   );
   const [isDropdownVisible, setIsDropdownVisible] = useState<boolean>(false);
   const [isModalVisible, setIsModalVisible] = useState<boolean>(false);
+  const [isCropperVisible, setIsCropperVisible] = useState<boolean>(false);
   const [isDisplayModal, setIsDisplayModal] = useState<boolean>(false);
   const [color, setColor] = useState<string>("bg-blue-300");
   const [userName, setUserName] = useState<string>();
@@ -72,6 +76,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [insta, setInsta] = useState<string>();
   const [linktree, setLinktree] = useState<string>();
   const [fullScreenImage, setFullScreenImage] = useState<boolean>(false);
+  const [file, setFile] = useState<File | null>(null);
   // const [isFollowed, setIsFollowed] = useState<any>(false);
   let [frameColor, setFrameColor] = useState<string>();
 
@@ -79,13 +84,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const dropdown = useRef<any>(null);
 
-  useEffect(() =>{
-    setUserName('');
-    setUserEmail('');
-    setBio('');
-    setInsta('');
-    setLinktree('');
-    setFacebook('');
+  useEffect(() => {
+    setUserName("");
+    setUserEmail("");
+    setBio("");
+    setInsta("");
+    setLinktree("");
+    setFacebook("");
   }, [isFetchingAuthUser]);
 
   useEffect(() => {
@@ -102,7 +107,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     // clean up
     return () => window.removeEventListener("click", handleClick);
   }, [isDropdownVisible]);
-  
 
   useEffect(() => {
     if (!isEmpty(user)) {
@@ -246,6 +250,24 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     refetchUser();
   };
 
+  const [photoURL, setPhotoURL] = useState<string | null>(null);
+  const [openCrop, setOpenCrop] = useState<boolean>(false);
+
+  const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    if (e.target.files && e.target.files.length > 0) {
+      const file = e.target.files[0];
+      setFile(file);
+      const reader = new FileReader();
+      reader.readAsDataURL(e.target.files[0]);
+      reader.onload = () => {
+        if (typeof reader.result === "string") {
+          setPhotoURL(reader.result);
+        }
+      };
+    }
+    setOpenCrop(!openCrop);
+  };
+
   return (
     <div className="flex flex-col items-start justify-center relative mx-auto border-b dark:border-lightgray">
       <div className="relative flex items-center justify-center mt-5  w-full bg-white dark:bg-lightgray group">
@@ -343,9 +365,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   ref={inputFilePfp}
                   className="hidden"
                   accept="image/*"
-                  onChange={(e) =>
-                    handleUploadProfilePicture(e.target.files![0])
-                  }
+                  onChange={onImageChange}
+                  // onChange={(e) =>
+                  //   handleUploadProfilePicture(e.target.files![0])
+                  // }
                 />
               </div>
             </div>
@@ -530,6 +553,46 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             />
           </a>
         )}
+      </div>
+
+      <div
+        className={`fixed top-0 left-0 p-4 flex flex-col items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
+          openCrop ? "" : "hidden"
+        }`}
+      >
+        <div className="relative w-full h-full shadow-xl rounded-lg max-w-2xl  bg-white scrollbar-hide overflow-scroll">
+          <div className="relative p-10 h-auto w-auto bg-white">
+            <button
+              type="button"
+              onClick={() => setOpenCrop(!openCrop)}
+              className="absolute top-2 right-2 bg-transparent hover:bg-gray-200 text-gray-900 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+            >
+              <svg
+                aria-hidden="true"
+                className="w-5 h-5"
+                fill="currentColor"
+                viewBox="0 0 20 20"
+                xmlns="http://www.w3.org/2000/svg"
+              >
+                <path
+                  fillRule="evenodd"
+                  d="M4.293 4.293a1 1 0 011.414 0L10 8.586l4.293-4.293a1 1 0 111.414 1.414L11.414 10l4.293 4.293a1 1 0 01-1.414 1.414L10 11.414l-4.293 4.293a1 1 0 01-1.414-1.414L8.586 10 4.293 5.707a1 1 0 010-1.414z"
+                  clipRule="evenodd"
+                ></path>
+              </svg>
+            </button>
+            <div className="">
+              <CropImage
+               user={user}
+                photoURL={photoURL}
+                setOpenCrop={setOpenCrop}
+                setPhotoURL={setPhotoURL}
+                setFile={setFile}
+                refetchUser={refetchUser}
+              />
+            </div>
+          </div>
+        </div>
       </div>
 
       <div

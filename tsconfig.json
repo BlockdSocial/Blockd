@@ -15,7 +15,7 @@
     "jsx": "preserve",
     "incremental": true,
   },
-  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "api/helpers.ts", "api/utils.js", "components/Layout.tsx"],
+  "include": ["next-env.d.ts", "**/*.ts", "**/*.tsx", "api/helpers.ts", "api/utils.js", "components/Layout.tsx", "components/Cropper/CropperEasy.tsxx", "components/Cropper/CropperEasy.tsx", "components/Cropper/utils/cropImage.js"],
   "exclude": ["node_modules"],
   "typeRoots": [
     "./typings",
