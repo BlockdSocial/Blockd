@@ -86,20 +86,26 @@ export default function SignUp() {
 
   // const [userAddress, setUserAddress] = useState<string>("");
   const [userSignature, setUserSignature] = useState<string>("");
-  const [referralAddress, setReferralAddress] = useState<string>("");
+  const [referralAddress, setReferralAddress] = useState<string | string[]>("");
   const [vid, setVid] = useState<string | undefined | string[]>();
 
   useEffect(() => {
     if (router.query?.vid) {
       setVid(router.query.vid);
       localStorage.setItem("vid", vid as string);
-
     }
-    setReferralAddress(
-      router.query.referralAddress ||
+    if (router.query?.referralAddress) {
+      setReferralAddress(router.query?.referralAddress);
+    } else if (
+      parseQueryString(window.location.search.substring(1)).referralAddress
+    ) {
+      setReferralAddress(
         parseQueryString(window.location.search.substring(1)).referralAddress
-    );
+      );
+    }
+
     console.log("vid:", router.query.vid);
+    console.log({ referralAddress });
   }, [router.query]);
 
   const [terms, setTerms] = useState<boolean>(false);
@@ -234,6 +240,7 @@ export default function SignUp() {
         } else {
           localStorage.setItem("authUser", JSON.stringify(res));
         }
+        magicEventAct3();
         router.push(
           {
             pathname: "/",
@@ -282,7 +289,6 @@ export default function SignUp() {
     functionName: "mintPrice",
   });
 
-
   useEffect(() => {
     if (isEmpty(referralAddress)) {
       setArgs(["Nft mint"]);
@@ -306,12 +312,10 @@ export default function SignUp() {
       value: data,
     },
     enabled: !!data && !!address,
-     onSuccess(data: any) {
+    onSuccess(data: any) {
       console.log("call useEffect", data);
-     
     },
   });
-
 
   useEffect(() => {
     console.log("setNftData useEffect refetch");
@@ -322,43 +326,65 @@ export default function SignUp() {
     ...config,
     async onSuccess(data) {
       const tx = await data.wait(1);
-      if(tx.status === 1) {
-        magicEvent();
+      if (tx.status === 1) {
+        magicEventAct7();
         setNftData(true);
       }
-      
     },
   });
 
-
-  
-  const magicEvent = useCallback(async () => {
-    console.log('magicEvent', vid)
-    let v_id: string | string[] | undefined
+  const magicEventAct3 = useCallback(async () => {
+    let v_id: string | string[] | undefined;
     if (!isEmpty(vid)) {
-        v_id = vid
+      v_id = vid;
     } else {
-        v_id =
-            typeof window !== 'undefined'
-                ? (localStorage.getItem('vid') as string)
-                : ''
+      v_id =
+        typeof window !== "undefined"
+          ? (localStorage.getItem("vid") as string)
+          : "";
     }
     if (isEmpty(v_id)) {
-        return
+      return;
     }
-    console.log('magicEvent')
-    const baseUrl = 'https://magic.lol/4bbad3f1'
+
+    const baseUrl = "https://magic.lol/4bbad3f1";
     //const vid = getCookie('vid')
     fetch(`${baseUrl}/brokers/pixel?action=3&vid=${v_id}`)
-        .then((result) => {
-            //successful request
-           // alert('Request was sent, Thank you. ' + v_id)
-        })
-        .catch((err) => {
-            //failed request
-            console.error('magicEvent :Failed to register')
-        })
-},[window])
+      .then((result) => {
+        //successful request
+        // alert('Request was sent, Thank you. ' + v_id)
+        console.log("magicEventAct3 :successfully");
+      })
+      .catch((err) => {
+        //failed request
+        console.error("magicEventAct3 :Failed to register");
+      });
+  }, [window]);
+
+  const magicEventAct7 = useCallback(async () => {
+    let v_id: string | string[] | undefined;
+    if (!isEmpty(vid)) {
+      v_id = vid;
+    } else {
+      v_id =
+        typeof window !== "undefined"
+          ? (localStorage.getItem("vid") as string)
+          : "";
+    }
+    if (isEmpty(v_id)) {
+      return;
+    }
+    const baseUrl = "https://magic.lol/4bbad3f1";
+
+    fetch(`${baseUrl}/brokers/pixel?action=7&vid=${vid}`)
+      .then((result) => {
+        //Call was created successfully
+        console.log("magicEventAct7 :successfully");
+      })
+      .catch((err) => {
+        console.error("magicEventAct7 :Failed to register");
+      });
+  }, [window]);
 
   console.log({ error });
   const setName = (e: any) => {
