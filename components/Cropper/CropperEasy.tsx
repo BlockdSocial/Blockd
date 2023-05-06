@@ -65,6 +65,7 @@ const CropperEasy = ({
       );
       setPhotoURL(url);
       setFile(file);
+      console.log(url)
       await dispatch(
         updateProfilcePicture({
           user_id: user?.id,
@@ -74,7 +75,9 @@ const CropperEasy = ({
         refetchUser();
         setOpenCrop(false);
       });
-    } catch (error) {}
+    } catch (error) {
+      console.log('error')
+    }
   };
 
   return (

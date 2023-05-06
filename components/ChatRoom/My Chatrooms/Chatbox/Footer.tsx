@@ -348,15 +348,15 @@ function Footer({
     <>
       {reply && (
         <div className="relative flex items-center h-auto w-full dark:bg-darkgray bg-gray-50 p-1 z-0">
-          <div className="flex items-center justify-between w-full space-x-5">
-            <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-full space-y-1 p-2 border-l-2 border-orange-500">
+          <div className="flex items-center justify-between w-full">
+            <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-[90%] space-y-1 p-2 border-l-2 border-orange-500">
               <p className="text-sm">
                 @
                 {isEmpty(repliedUser)
                   ? authUser?.name
                   : repliedUser}
               </p>
-              <p className="text-sm">{renderCommentText(replyMessage?.content)}</p>
+              <p className="text-sm w-fit max-w-full whitespace-normal break-words">{renderCommentText(replyMessage?.content)}</p>
               {/* <div className="flex items-center justify-start mt-2">
                 <img
                   src="/images/bg.jpg"
@@ -378,7 +378,7 @@ function Footer({
                 )}
               </div>
             </div>
-            <div className="pr-3">
+            <div className="flex items-center justify-center w-[10%]">
               <div
                 onClick={() => {
                   setReply(false), setReplyMessage(), setRepliedUser();
@@ -393,7 +393,7 @@ function Footer({
       )}
       <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
         <div className="flex space-x-1 p-1 w-full">
-          <form onKeyDown={(e) => handleKeyDown(e)} className="w-full">
+          <form onKeyDown={(e) => handleKeyDown(e)} className="w-[80%]">
             {
               isEmpty(room) &&
               <textarea
