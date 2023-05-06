@@ -218,9 +218,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         user_id: user?.id,
         image: file,
       })
-    ).then(() => {   
-       setOpenCrop(false);
-
+    ).then(() => {
+      setOpenCrop(false);
       refetchUser();
     });
   };
@@ -232,6 +231,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         image: file,
       })
     ).then(() => {
+      setOpenCrop(false);
       refetchUser();
     });
   };
@@ -254,6 +254,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
   const [photoURL, setPhotoURL] = useState<string | null>(null);
   const [openCrop, setOpenCrop] = useState<boolean>(false);
+  const [openCropPfp, setOpenCropPfp] = useState<boolean>(false);
+  const [openCropBanner, setOpenCropBanner] = useState<boolean>(false);
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
     console.log(e);
@@ -302,7 +304,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           ref={inputFileBanner}
           className="hidden"
           accept="image/*"
-          onChange={(e) => handleUploadProfileBanner(e.target.files![0])}
+          onChange={(e) => {
+            onImageChange(e), (e.target.value = "");
+            setOpenCropPfp(false);
+            setOpenCropBanner(true);
+          }}
         />
       </div>
       <div className="flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray">
@@ -370,15 +376,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   className="hidden"
                   accept="image/*"
                   //onClick={(target) =>  {target = null;}}
-                 
-                 //onImageChange onChange={onImageChange}
-                   onChange={ (e) => {
-                  
-                    onImageChange(e),
-                    e.target.value = ''
-                   }
-                    
-                   }
+
+                  //onImageChange onChange={onImageChange}
+                  onChange={(e) => {
+                    onImageChange(e), (e.target.value = "");
+                    setOpenCropPfp(true);
+                    setOpenCropBanner(false);
+                  }}
                 />
               </div>
             </div>
@@ -592,14 +596,26 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               </svg>
             </button>
             <div className="">
-              <CropImage
-               user={user}
-                photoURL={photoURL}
-                setOpenCrop={setOpenCrop}
-                setPhotoURL={setPhotoURL}
-                setFile={setFile}
-                submit = {handleUploadProfilePicture}
-              />
+              {!openCropPfp && (
+                <CropImage
+                  photoURL={photoURL}
+                  setOpenCrop={setOpenCrop}
+                  setPhotoURL={setPhotoURL}
+                  setFile={setFile}
+                  submit={handleUploadProfileBanner}
+                  aspect={3}
+                />
+              )}
+              {!openCropBanner && (
+                <CropImage
+                  photoURL={photoURL}
+                  setOpenCrop={setOpenCrop}
+                  setPhotoURL={setPhotoURL}
+                  setFile={setFile}
+                  submit={handleUploadProfilePicture}
+                  aspect={1}
+                />
+              )}
             </div>
           </div>
         </div>

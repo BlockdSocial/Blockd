@@ -10,43 +10,24 @@ import Cropper from "react-easy-crop";
 import { Box } from "@mui/system";
 import { Cancel, Crop } from "@mui/icons-material";
 import getCroppedImg from "./utils/cropImage";
-import { useAppDispatch } from "../../stores/hooks";
-import { updateProfilcePicture } from "../../stores/user/UserActions";
-
-interface User {
-  id: string;
-  name: string;
-  email: string;
-  profilePicId: number;
-  bannerPicId: number;
-  score: number;
-  level: number;
-  levelTotal: number;
-  frameName: string;
-  bio: string;
-  facebook: string;
-  instagram: string;
-  linktree: string;
-}
 
 interface Props {
-  user: User;
+  aspect: number;
   photoURL: any;
   setOpenCrop: any;
   setPhotoURL: any;
   setFile: any;
-  submit:any;
+  submit: any;
 }
 
 const CropperEasy = ({
-  user,
   photoURL,
   setOpenCrop,
   setPhotoURL,
   setFile,
   submit,
+  aspect
 }: Props) => {
-  const dispatch = useAppDispatch();
   const [crop, setCrop] = useState<any>({ x: 0, y: 0 });
   const [zoom, setZoom] = useState<any>(1);
   const [rotation, setRotation] = useState<any>(0);
@@ -57,7 +38,7 @@ const CropperEasy = ({
   };
 
   const cropImage = async () => {
-   // handleUploadProfilePicture();
+    // handleUploadProfilePicture();
     try {
       const { file, url } = await getCroppedImg(
         photoURL,
@@ -66,24 +47,13 @@ const CropperEasy = ({
       );
       setPhotoURL(url);
       setFile(file);
-     
       var new_file = new File([file], file?.name);
-       submit(new_file);
-        /*
-      await dispatch(
-        updateProfilcePicture({
-          user_id: user?.id,
-          image: new_file,
-        })
-      ).then(() => {
-        refetchUser();
-        setOpenCrop(false);
-      });
-      */
+      submit(new_file);
+      setRotation(0)
+      setZoom(1)
     } catch (error) {
-      console.log('error')
+      console.log("error");
     }
-    
   };
 
   return (
@@ -103,7 +73,7 @@ const CropperEasy = ({
           crop={crop}
           zoom={zoom}
           rotation={rotation}
-          aspect={1}
+          aspect={aspect}
           onZoomChange={setZoom}
           onRotationChange={setRotation}
           onCropChange={setCrop}
@@ -144,7 +114,7 @@ const CropperEasy = ({
             Cancel
           </Button>
           <Button variant="contained" startIcon={<Crop />} onClick={cropImage}>
-            Crop
+            Edit
           </Button>
         </Box>
       </DialogActions>
