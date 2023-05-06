@@ -218,7 +218,9 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         user_id: user?.id,
         image: file,
       })
-    ).then(() => {
+    ).then(() => {   
+       setOpenCrop(false);
+
       refetchUser();
     });
   };
@@ -254,6 +256,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [openCrop, setOpenCrop] = useState<boolean>(false);
 
   const onImageChange = (e: React.ChangeEvent<HTMLInputElement>) => {
+    console.log(e);
     if (e.target.files && e.target.files.length > 0) {
       const file = e.target.files[0];
       setFile(file);
@@ -265,7 +268,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         }
       };
     }
-    setOpenCrop(!openCrop);
+    e.target.files = null;
+    setOpenCrop(true);
   };
 
   return (
@@ -365,10 +369,16 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   ref={inputFilePfp}
                   className="hidden"
                   accept="image/*"
-                  onChange={onImageChange}
-                  // onChange={(e) =>
-                  //   handleUploadProfilePicture(e.target.files![0])
-                  // }
+                  //onClick={(target) =>  {target = null;}}
+                 
+                 //onImageChange onChange={onImageChange}
+                   onChange={ (e) => {
+                  
+                    onImageChange(e),
+                    e.target.value = ''
+                   }
+                    
+                   }
                 />
               </div>
             </div>
@@ -588,7 +598,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 setOpenCrop={setOpenCrop}
                 setPhotoURL={setPhotoURL}
                 setFile={setFile}
-                refetchUser={refetchUser}
+                submit = {handleUploadProfilePicture}
               />
             </div>
           </div>
