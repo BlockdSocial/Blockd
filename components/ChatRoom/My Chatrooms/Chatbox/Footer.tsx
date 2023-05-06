@@ -37,7 +37,7 @@ function Footer({
   setReplyMessage,
   setLoad,
   setRepliedUser,
-  repliedUser
+  repliedUser,
 }: any) {
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -237,7 +237,7 @@ function Footer({
         }
       }
       setReplyMessage();
-      setRepliedUser()
+      setRepliedUser();
     } else {
       if (!isEmpty(receiver)) {
         if (isEmpty(messages)) {
@@ -351,12 +351,11 @@ function Footer({
           <div className="flex items-center justify-between w-full">
             <div className="flex flex-col items-start justify-start rounded-[3px] bg-gray-200 dark:bg-lightgray w-[90%] space-y-1 p-2 border-l-2 border-orange-500">
               <p className="text-sm">
-                @
-                {isEmpty(repliedUser)
-                  ? authUser?.name
-                  : repliedUser}
+                @{isEmpty(repliedUser) ? authUser?.name : repliedUser}
               </p>
-              <p className="text-sm w-fit max-w-full whitespace-normal break-words">{renderCommentText(replyMessage?.content)}</p>
+              <p className="text-sm w-fit max-w-full whitespace-normal break-words">
+                {renderCommentText(replyMessage?.content)}
+              </p>
               {/* <div className="flex items-center justify-start mt-2">
                 <img
                   src="/images/bg.jpg"
@@ -393,9 +392,11 @@ function Footer({
       )}
       <div className="flex items-center justify-between sticky bottom-0 h-auto w-full dark:bg-darkgray bg-gray-50">
         <div className="flex space-x-1 p-1 w-full">
-          <form onKeyDown={(e) => handleKeyDown(e)} className="w-[80%]">
-            {
-              isEmpty(room) &&
+          <form
+            onKeyDown={(e) => handleKeyDown(e)}
+            className="w-[65%] md:w-[75%] lg:w-[80%]"
+          >
+            {isEmpty(room) && (
               <textarea
                 className="flex items-center justify-center resize-none w-full p-[10px] text-gray-700 dark:text-white bg-gray-200 dark:bg-[#343434] rounded-md outline-none"
                 value={input}
@@ -404,9 +405,8 @@ function Footer({
                 rows={1}
                 id="myTextArea"
               />
-            }
-            {
-              !isEmpty(room) &&
+            )}
+            {!isEmpty(room) && (
               <>
                 <div className="hidden dark:flex dark:w-full">
                   <MentionsInput
@@ -422,7 +422,7 @@ function Footer({
                       markup="@@@______id____^^______display____@@@^^^"
                     />
                     <Mention
-                    className={`${darkMode.mentions__mention}`}
+                      className={`${darkMode.mentions__mention}`}
                       trigger="@"
                       data={(e) => {
                         handleSearch(e);
@@ -454,9 +454,38 @@ function Footer({
                   </MentionsInput>
                 </div>
               </>
-            }
+            )}
           </form>
-          <div className="flex flex-1 items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
+          <div className="flex flex-1 relative items-end justify-center space-x-2 text-[#181c44] dark:text-white pb-2">
+            {showGifs && (
+              <div className="absolute right-0 bottom-10 z-20 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
+                <ReactGiphySearchbox
+                  apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
+                  onSelect={(item: any, event: any) => addGif(item, event)}
+                  mansonryConfig={[
+                    { columns: 2, imageWidth: 140, gutter: 10 },
+                    { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
+                    { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
+                  ]}
+                  wrapperClassName="p-4"
+                />
+              </div>
+            )}
+            {showEmojis && (
+              <div className="absolute right-0 bottom-10 z-20">
+                <Picker
+                  set="apple"
+                  onEmojiSelect={addEmoji}
+                  theme="dark"
+                  icons="outline"
+                  previewPosition="none"
+                  size="1em"
+                  perLine="6"
+                  maxFrequentRows="2"
+                  searchPosition="none"
+                />
+              </div>
+            )}
             <PaperAirplaneIcon
               onClick={() => handleSendMessage()}
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
@@ -484,37 +513,6 @@ function Footer({
             accept="image/*"
             onChange={handleUploadPicture}
           />
-        </div>
-        <div className="relative">
-          {showGifs && (
-            <div className="absolute right-2 bottom-6 z-20 p-1 bg-white dark:bg-darkgray border border-gray-200 dark:border-lightgray rounded-lg">
-              <ReactGiphySearchbox
-                apiKey="MfOuTXFXq8lOxXbxjHqJwGP1eimMQgUS" // Required: get your on https://developers.giphy.com
-                onSelect={(item: any, event: any) => addGif(item, event)}
-                mansonryConfig={[
-                  { columns: 2, imageWidth: 140, gutter: 10 },
-                  { mq: "700px", columns: 3, imageWidth: 200, gutter: 10 },
-                  { mq: "1000px", columns: 4, imageWidth: 220, gutter: 10 },
-                ]}
-                wrapperClassName="p-4"
-              />
-            </div>
-          )}
-          {showEmojis && (
-            <div className="absolute right-2 bottom-6 z-20">
-              <Picker
-                set="apple"
-                onEmojiSelect={addEmoji}
-                theme="dark"
-                icons="outline"
-                previewPosition="none"
-                size="1em"
-                perLine="6"
-                maxFrequentRows="2"
-                searchPosition="none"
-              />
-            </div>
-          )}
         </div>
       </div>
     </>

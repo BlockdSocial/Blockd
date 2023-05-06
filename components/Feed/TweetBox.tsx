@@ -229,60 +229,62 @@ function TweetBox({ refetchFiltered }: Props) {
   };
 
   return (
-    <div className="flex space-x-2 p-4 dark:bg-lightgray border-y dark:border-lightgray">
-      <Link
-        href="/dashboard/profile"
-        className="relative flex flex-col h-fit group"
-      >
-        <div className={`relative flex flex-col p-1 rounded-lg`}>
-          <div className={`relative rounded-md`}>
-            <Image
-              src={
-                !isEmpty(authUser?.frameName)
-                  ? `/${authUser?.frameName}`
-                  : "/images/frames/frame4.jpg"
-              }
-              alt="pfp"
-              className="relative w-20 h-20 border-white"
-              width={2000}
-              height={2000}
-            />
-            <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[70px] h-[70px] bg-white dark:bg-lightgray z-0 shadow-sm">
+    <div className="flex items-start justify-center space-x-2 p-4 w-full dark:bg-lightgray border-y dark:border-lightgray">
+      <div className="flex items-start justify-center w-[20%]">
+        <Link
+          href="/dashboard/profile"
+          className="relative flex flex-col h-fit group"
+        >
+          <div className={`relative flex flex-col p-1 rounded-lg`}>
+            <div className={`relative rounded-md`}>
               <Image
                 src={
-                  !isEmpty(authUser?.profilePic)
-                    ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                  !isEmpty(authUser?.frameName)
+                    ? `/${authUser?.frameName}`
+                    : "/images/frames/frame4.jpg"
                 }
                 alt="pfp"
-                className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[65px] h-[65px] object-cover z-0 rounded-sm"
+                className="relative w-14 h-14 md:w-20 md:h-20 border-white"
                 width={2000}
                 height={2000}
               />
-            </div>
-            <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
-              <div className="relative">
+              <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] md:w-[70px] md:h-[70px] bg-white dark:bg-lightgray z-0 shadow-sm">
                 <Image
                   src={
-                    !isEmpty(authUser?.frameName)
-                      ? `/${authUser?.frameName}`
-                      : "/images/frames/frame4.jpg"
+                    !isEmpty(authUser?.profilePic)
+                      ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                      : "/images/pfp/pfp1.jpg"
                   }
                   alt="pfp"
-                  className="relative w-8 h-8 z-[1]"
+                  className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[45px] h-[45px] md:w-[65px] md:h-[65px] object-cover z-0 rounded-sm"
                   width={2000}
                   height={2000}
                 />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[28px] h-[28px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-lightgray">
-                  {authUser?.level}
+              </div>
+              <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
+                <div className="relative">
+                  <Image
+                    src={
+                      !isEmpty(authUser?.frameName)
+                        ? `/${authUser?.frameName}`
+                        : "/images/frames/frame4.jpg"
+                    }
+                    alt="pfp"
+                    className="relative w-8 h-8 z-[1]"
+                    width={2000}
+                    height={2000}
+                  />
+                  <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[28px] h-[28px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-lightgray">
+                    {authUser?.level}
+                  </div>
                 </div>
               </div>
             </div>
           </div>
-        </div>
-      </Link>
-      <div className="flex flex-1 items-center pl-2">
-        <form className="flex flex-col flex-1">
+        </Link>
+      </div>
+      <div className="flex items-center w-[70%]">
+        <form className="flex flex-col w-full">
           <div className="hidden dark:inline dark:w-full mt-1 mb-3">
             <MentionsInput
               value={input}
