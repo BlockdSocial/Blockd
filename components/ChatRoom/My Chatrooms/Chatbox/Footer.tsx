@@ -456,7 +456,7 @@ function Footer({
               </>
             }
           </form>
-          <div className="flex items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
+          <div className="flex flex-1 items-end justify-end space-x-2 text-[#181c44] dark:text-white pb-2">
             <PaperAirplaneIcon
               onClick={() => handleSendMessage()}
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
