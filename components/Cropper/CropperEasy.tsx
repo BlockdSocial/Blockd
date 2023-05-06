@@ -35,7 +35,7 @@ interface Props {
   setOpenCrop: any;
   setPhotoURL: any;
   setFile: any;
-  refetchUser: any;
+  submit:any;
 }
 
 const CropperEasy = ({
@@ -44,7 +44,7 @@ const CropperEasy = ({
   setOpenCrop,
   setPhotoURL,
   setFile,
-  refetchUser,
+  submit,
 }: Props) => {
   const dispatch = useAppDispatch();
   const [crop, setCrop] = useState<any>({ x: 0, y: 0 });
@@ -57,6 +57,7 @@ const CropperEasy = ({
   };
 
   const cropImage = async () => {
+   // handleUploadProfilePicture();
     try {
       const { file, url } = await getCroppedImg(
         photoURL,
@@ -65,19 +66,24 @@ const CropperEasy = ({
       );
       setPhotoURL(url);
       setFile(file);
-      console.log(url)
+     
+      var new_file = new File([file], file?.name);
+       submit(new_file);
+        /*
       await dispatch(
         updateProfilcePicture({
           user_id: user?.id,
-          image: url,
+          image: new_file,
         })
       ).then(() => {
         refetchUser();
         setOpenCrop(false);
       });
+      */
     } catch (error) {
       console.log('error')
     }
+    
   };
 
   return (
