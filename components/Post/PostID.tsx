@@ -583,48 +583,49 @@ function PostID({ post, refetchComments, refetch }: Props) {
             {((post?.userId === authUser?.id &&
               getDiffTime(post?.createdAt) < 60) ||
               post?.userId !== authUser?.id) && (
-                <div
-                  ref={dropdown}
-                  className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
-                >
-                  <EllipsisHorizontalIcon
-                    onClick={() => setIsDropdownVisible((b) => !b)}
-                    className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
-                  />
-                  <div className="relative z-0 flex ite">
-                    <ul
-                      className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${isDropdownVisible ? "" : "hidden"
-                        }`}
-                    >
-                      {post?.userId === authUser?.id &&
-                        getDiffTime(post?.createdAt) < 60 && (
-                          <div
-                            onClick={() => setEditPopUp(!editPopUp)}
-                            className="flex items-center text-sm justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
-                          >
-                            Edit Post
-                          </div>
-                        )}
-                      {post?.userId !== authUser?.id && (
-                        <>
-                          {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
+              <div
+                ref={dropdown}
+                className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <EllipsisHorizontalIcon
+                  onClick={() => setIsDropdownVisible((b) => !b)}
+                  className="w-6 h-6 md:w-7 md:h-7 cursor-pointer"
+                />
+                <div className="relative z-0 flex ite">
+                  <ul
+                    className={`absolute top-5 right-0 w-32 cursor-pointer bg-white dark:bg-lightgray rounded-lg shadow-xl ${
+                      isDropdownVisible ? "" : "hidden"
+                    }`}
+                  >
+                    {post?.userId === authUser?.id &&
+                      getDiffTime(post?.createdAt) < 60 && (
+                        <div
+                          onClick={() => setEditPopUp(!editPopUp)}
+                          className="flex items-center text-sm justify-start p-3 hover:bg-gray-200  hover:rounded-t-md dark:hover:bg-darkgray/50"
+                        >
+                          Edit Post
+                        </div>
+                      )}
+                    {post?.userId !== authUser?.id && (
+                      <>
+                        {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-darkgray/50">
                         Report Post
                       </div> */}
-                          <div
-                            className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
-                            onClick={() => handleFollowUser()}
-                          >
-                            Follow User
-                          </div>
-                          {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
+                        <div
+                          className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-md dark:hover:bg-darkgray/50"
+                          onClick={() => handleFollowUser()}
+                        >
+                          Follow User
+                        </div>
+                        {/* <div className="flex items-center text-sm justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-darkgray/50">
                         Follow Post
                       </div> */}
-                        </>
-                      )}
-                    </ul>
-                  </div>
+                      </>
+                    )}
+                  </ul>
                 </div>
-              )}
+              </div>
+            )}
             {post?.userId === authUser?.id && (
               <div className="flex items-center justify-center p-1 rounded-full hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon
@@ -785,51 +786,70 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
       )}
-      <div className="flex justify-between mt-5">
-        <div className="flex">
-          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-green-600 group">
-            <p
-              className={`text-xs ${isLiked ? "text-green-600" : "group-hover:text-green-600"
+      <div className="flex justify-between w-full">
+        <div className="flex items-center justify-start w-full mt-4 mb-2 p-3 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
+          <div className="flex items-center justify-between w-full space-x-4">
+            <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group">
+              <div
+                className={`p-1 border rounded-md ${
+                  isLiked
+                    ? "border-green-600 bg-green-600"
+                    : "dark:border-gray-400 group-hover:border-green-600"
                 }`}
-            >
-              {info?.likes != null || undefined ? info?.likes : 0}
-            </p>
-            <ArrowUpIcon
-              className={`h-5 w-5 cursor-pointer ${isLiked ? "text-green-600" : "group-hover:text-green-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
-              onClick={() => handleLikePost()}
-            />
-          </div>
-          <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-red-600 group">
-            <ArrowDownIcon
-              className={`h-5 w-5 cursor-pointer ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                } transition-transform ease-out duration-150 hover:scale-150`}
-              onClick={() => handleDislikePost()}
-            />
-            <p
-              className={`text-xs ${isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              >
+                <ArrowUpIcon
+                  className={`h-4 w-4 cursor-pointer ${
+                    isLiked ? "text-white" : "group-hover:text-green-600"
+                  } `}
+                  onClick={() => handleLikePost()}
+                />
+              </div>
+              <p
+                className={`text-xs ${
+                  isLiked ? "text-green-600" : "group-hover:text-green-600"
                 }`}
-            >
-              {info?.dislikes != null || undefined ? info?.dislikes : 0}
-            </p>
+              >
+                {info?.likes != null || undefined ? info?.likes : 0}
+              </p>
+            </div>
+            <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-red-600 group">
+              <div
+                className={`p-1 border rounded-md ${
+                  isDisliked
+                    ? "border-red-600 bg-red-600"
+                    : "dark:border-gray-400 group-hover:border-red-600"
+                }`}
+              >
+                <ArrowDownIcon
+                  className={`h-4 w-4 cursor-pointer ${
+                    isDisliked ? "text-white" : "group-hover:text-red-600"
+                  } `}
+                  onClick={() => handleDislikePost()}
+                />
+              </div>
+              <p
+                className={`text-xs ${
+                  isDisliked ? "text-red-600" : "group-hover:text-red-600"
+                }`}
+              >
+                {info?.dislikes != null || undefined ? info?.dislikes : 0}
+              </p>
+            </div>
+            <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group">
+              <div className="p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
+                <ChatBubbleBottomCenterTextIcon className="h-4 w-4 cursor-pointer" />
+              </div>
+              <p className="text-xs">
+                {info?.comments != null || undefined ? info?.comments : 0}
+              </p>
+            </div>
           </div>
-          <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black">
-            <ChatBubbleBottomCenterTextIcon className="h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-            <p className="text-xs">
-              {info?.comments != null || undefined ? info?.comments : 0}
-            </p>
-          </div>
-          {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black">
-            <ShareIcon className="h-5 w-5  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-            <p className="text-xs">
-              {info?.shares != null || undefined ? info?.shares : 0}
-            </p>
-          </div> */}
         </div>
 
         <div
-          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${fullScreenImage ? "" : "hidden"
-            }`}
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+            fullScreenImage ? "" : "hidden"
+          }`}
         >
           <div className="relative w-fit rounded-lg shadow-lg max-w-2xl h-auto m-6">
             <div className="flex items-center justify-center relative rounded-t-lg">
@@ -864,8 +884,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
 
         <div
-          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${deletePopUp ? "" : "hidden"
-            }`}
+          className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+            deletePopUp ? "" : "hidden"
+          }`}
         >
           <div className="relative w-full rounded-lg shadow-lg max-w-md h-auto bg-gray-50 m-6">
             <div className="relative bg-gray-50 rounded-t-lg">
@@ -916,8 +937,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
         <div
-          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${editPopUp ? "" : "hidden"
-            }`}
+          className={`fixed top-0 -left-3 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${
+            editPopUp ? "" : "hidden"
+          }`}
         >
           <div className="w-full rounded-lg shadow-lg max-w-md scrollbar-hide overflow-scroll h-fit bg-gray-50">
             <div className="sticky top-0 left-0 z-[1] flex items-center justify-between p-4 border-b backdrop-blur-md bg-white/30">
@@ -1076,6 +1098,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
           </div>
         </div>
       </div>
+      <div className="mt-3">
+        <p>Comments : <span className="font-bold">{info?.comments != null || undefined ? info?.comments : 0}</span></p>
+      </div>
       <form
         onSubmit={handleAddComment}
         className="mt-3 flex items-start justify-center space-x-3"
@@ -1204,7 +1229,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
               >
                 <XMarkIcon className="w-5 h-5" />
               </div>
-              <hr className="mt-4 mb-4"></hr>
             </div>
           )}
           {gifBoxIsOpen && (
@@ -1221,7 +1245,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
               >
                 <XMarkIcon className="w-5 h-5" />
               </div>
-              <hr className="mt-4 mb-4"></hr>
             </div>
           )}
         </div>

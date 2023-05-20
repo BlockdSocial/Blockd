@@ -431,6 +431,73 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           />
         ) : null}
       </div>
+      <div className="flex items-center justify-start w-full mt-4 mb-2 p-3 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
+        <div className="flex items-center justify-between w-full space-x-4">
+          <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group">
+            <div
+              className={`p-1 border rounded-md ${
+                isLiked
+                  ? "border-green-600 bg-green-600"
+                  : "dark:border-gray-400 group-hover:border-green-600"
+              }`}
+            >
+              <ArrowUpIcon
+                className={`h-4 w-4 cursor-pointer ${
+                  isLiked ? "text-white" : "group-hover:text-green-600"
+                } `}
+                onClick={() => handleLikeComment()}
+              />
+            </div>
+            <p
+              className={`text-xs ${
+                isLiked ? "text-green-600" : "group-hover:text-green-600"
+              }`}
+            >
+              {info?.likes != null || undefined ? info?.likes : 0}
+            </p>
+          </div>
+          <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-red-600 group">
+            <div
+              className={`p-1 border rounded-md ${
+                isDisliked
+                  ? "border-red-600 bg-red-600"
+                  : "dark:border-gray-400 group-hover:border-red-600"
+              }`}
+            >
+              <ArrowDownIcon
+                className={`h-4 w-4 cursor-pointer ${
+                  isDisliked ? "text-white" : "group-hover:text-red-600"
+                } `}
+                onClick={() => handleDislikeComment()}
+              />
+            </div>
+            <p
+              className={`text-xs ${
+                isDisliked ? "text-red-600" : "group-hover:text-red-600"
+              }`}
+            >
+              {info?.dislikes != null || undefined ? info?.dislikes : 0}
+            </p>
+          </div>
+          <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group">
+            <div className="p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
+              <ChatBubbleBottomCenterTextIcon className="h-4 w-4 cursor-pointer" />
+            </div>
+            <p className="text-xs">
+              {info?.replies != null || undefined ? info?.replies : 0}
+            </p>
+          </div>
+        </div>
+      </div>
+
+      <div className="mt-3">
+        <p>
+          Comments :{" "}
+          <span className="font-bold">
+            {info?.replies != null || undefined ? info?.replies : 0}
+          </span>
+        </p>
+      </div>
       <form
         onSubmit={handleAddReply}
         className="mt-3 flex items-start justify-end space-x-3"
@@ -487,49 +554,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
               />
             </MentionsInput>
           </div>
-          <div className="flex items-center justify-between w-full py-3">
-            <div className="flex">
-              <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
-                <p
-                  className={`text-xs ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  }`}
-                >
-                  {info?.likes != null || undefined ? info?.likes : 0}
-                </p>
-                <ArrowUpIcon
-                  className={`h-4 w-4 cursor-pointer ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
-                  onClick={() => handleLikeComment()}
-                />
-              </div>
-              <div className="flex cursor-pointer items-center space-x-1 text-gray-400 hover:text-black dark:hover:text-white">
-                <ArrowDownIcon
-                  className={`h-4 w-4 cursor-pointer ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  } transition-transform ease-out duration-150 hover:scale-150`}
-                  onClick={() => handleDislikeComment()}
-                />
-                <p
-                  className={`text-xs ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  }`}
-                >
-                  {info?.dislikes != null || undefined ? info?.dislikes : 0}
-                </p>
-              </div>
-              <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <ChatBubbleBottomCenterTextIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-                <p className="text-xs">
-                  {info?.replies != null || undefined ? info?.replies : 0}
-                </p>
-              </div>
-              {/* <div className="flex cursor-pointer items-center space-x-1 ml-3 text-gray-400 hover:text-black dark:hover:text-white">
-                <ShareIcon className="h-4 w-4  cursor-pointer transition-transform ease-out duration-150 hover:scale-150" />
-                <p className="text-xs">1</p>
-              </div> */}
-            </div>
+          <div className="flex items-center justify-end w-full py-3">
             <div className="flex items-end justify-end relative space-x-2 text-[#181c44] dark:text-white">
               {!gifUrl && (
                 <PhotoIcon
