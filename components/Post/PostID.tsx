@@ -789,7 +789,10 @@ function PostID({ post, refetchComments, refetch }: Props) {
       <div className="flex justify-between w-full">
         <div className="flex items-center justify-start w-full mt-4 mb-2 p-3 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
           <div className="flex items-center justify-between w-full space-x-4">
-            <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group">
+            <div
+              className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group"
+              onClick={() => handleLikePost()}
+            >
               <div
                 className={`p-1 border rounded-md ${
                   isLiked
@@ -801,7 +804,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   className={`h-4 w-4 cursor-pointer ${
                     isLiked ? "text-white" : "group-hover:text-green-600"
                   } `}
-                  onClick={() => handleLikePost()}
                 />
               </div>
               <p
@@ -812,7 +814,10 @@ function PostID({ post, refetchComments, refetch }: Props) {
                 {info?.likes != null || undefined ? info?.likes : 0}
               </p>
             </div>
-            <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-red-600 group">
+            <div
+              className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-red-600 group"
+              onClick={() => handleDislikePost()}
+            >
               <div
                 className={`p-1 border rounded-md ${
                   isDisliked
@@ -824,7 +829,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   className={`h-4 w-4 cursor-pointer ${
                     isDisliked ? "text-white" : "group-hover:text-red-600"
                   } `}
-                  onClick={() => handleDislikePost()}
                 />
               </div>
               <p
@@ -1099,7 +1103,12 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
       </div>
       <div className="mt-3">
-        <p>Comments : <span className="font-bold">{info?.comments != null || undefined ? info?.comments : 0}</span></p>
+        <p>
+          Comments :{" "}
+          <span className="font-bold">
+            {info?.comments != null || undefined ? info?.comments : 0}
+          </span>
+        </p>
       </div>
       <form
         onSubmit={handleAddComment}
