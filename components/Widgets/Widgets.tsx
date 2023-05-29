@@ -183,8 +183,8 @@ function Widgets() {
       <>
         <Slider trendingPosts={trendingPosts} />
       </>
-      <div className="p-2 flex flex-col space-y-2 mt-4">
-        <div className="flex items-center justify-start space-x-2 w-full">
+      <div className="p-2 flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
+        <div className="flex items-center justify-start space-x-2 w-full mb-2">
           <ArrowTrendingUpIcon className="w-5 h-5" />
           <p>Live Charts</p>
         </div>
