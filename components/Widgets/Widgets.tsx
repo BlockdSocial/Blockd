@@ -1,12 +1,15 @@
 import React, { useState, useEffect, useCallback } from "react";
 import dynamic from "next/dynamic";
-import { MagnifyingGlassIcon } from "@heroicons/react/24/outline";
+import {
+  MagnifyingGlassIcon,
+  ArrowDownRightIcon,
+  ArrowUpRightIcon,
+} from "@heroicons/react/24/outline";
 import Slider from "./Slider";
 import Link from "next/link";
 import { fetchTrendingPosts } from "../../stores/post/PostActions";
 import { useAppDispatch } from "../../stores/hooks";
 import { searchFilteredUsers } from "../../stores/user/UserActions";
-import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import Result from "./Result";
 import { isEmpty } from "lodash";
@@ -43,8 +46,13 @@ function Widgets() {
   const [trendingPosts, setTrendingPosts] = useState<any>();
 
   let [BNBPrice, setBNBPrice] = useState<any>();
+  let [BNBPriceChange, setBNBPriceChange] = useState<any>();
   let [ETHPrice, setETHPrice] = useState<any>();
+  let [ETHPriceChange, setETHPriceChange] = useState<any>();
   let [MATICPrice, setMATICPrice] = useState<any>();
+  let [MATICPriceChange, setMATICPriceChange] = useState<any>();
+
+  const MINUTE_MS = 1000;
 
   //Get the Token Price
 
@@ -69,25 +77,51 @@ function Widgets() {
     //const tokensResponse = await getPairsMatchingBaseTokenAddress("0x1DF2C6DF4d4E7F3188487F4515587c5E8b75dbfa");
 
     BNBPrice = await BNBResponse.pair.priceUsd;
+    BNBPriceChange = await BNBResponse.pair.priceChange.h1;
     ETHPrice = await ETHResponse.pair.priceUsd;
+    ETHPriceChange = await ETHResponse.pair.priceChange.h1;
     MATICPrice = await MATICResponse.pair.priceUsd;
+    MATICPriceChange = await MATICResponse.pair.priceChange.h1;
 
     // priceChange = pairsResponse.pairs[0].priceChange.h24;
 
-    return { BNBPrice, ETHPrice };
+    return {
+      BNBPrice,
+      ETHPrice,
+      MATICPrice,
+      BNBPriceChange,
+      ETHPriceChange,
+      MATICPriceChange,
+    };
   };
 
   useEffect(() => {
-    fetchData().then(() => {
-      const BNB = BNBPrice;
-      setBNBPrice(BNB);
-      const ETH = ETHPrice;
-      setETHPrice(ETH);
-      const MATIC = MATICPrice;
-      setMATICPrice(MATIC);
-    });
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, [BNBPrice, ETHPrice]);
+    const interval = setInterval(() => {
+      fetchData().then(() => {
+        const BNB = BNBPrice;
+        setBNBPrice(BNB);
+        const BNBChange = BNBPriceChange;
+        setBNBPriceChange(BNBChange);
+        const ETH = ETHPrice;
+        setETHPrice(ETH);
+        const ETHChange = ETHPriceChange;
+        setETHPriceChange(ETHChange);
+        const MATIC = MATICPrice;
+        setMATICPrice(MATIC);
+        const MATICChange = MATICPriceChange;
+        setMATICPriceChange(MATICChange);
+      });
+    }, MINUTE_MS);
+
+    return () => clearInterval(interval);
+  }, []);
+
+  const BNBResponse = getPairInformationByChain(
+    "bsc",
+    "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
+  );
+
+  console.log(BNBResponse, "test_ismail");
 
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
@@ -189,21 +223,54 @@ function Widgets() {
           <p>Live Charts</p>
         </div>
         {ETHPrice && (
-          <div className="flex items-center justify-start space-x-2 w-full">
-            <img src="/images/logo/eth-logo-2.png" className="w-5 h-5"/>
-            <p>{ETHPrice}</p>
+          <div className="flex items-center justify-between space-x-2 w-full">
+            <img src="/images/logo/eth-logo-2.png" className="w-5 h-5" />
+            <p
+              className={`${
+                ETHPriceChange > 0 ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {ETHPrice}
+            </p>
+            {ETHPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
           </div>
         )}
         {MATICPrice && (
-          <div className="flex items-center justify-start space-x-2 w-full">
-          <img src="/images/logo/matic-logo.png" className="w-5 h-5"/>
-            <p>{MATICPrice}</p>
+          <div className="flex items-center justify-between space-x-2 w-full">
+            <img src="/images/logo/matic-logo.png" className="w-5 h-5" />
+            <p
+              className={`${
+                MATICPriceChange > 0 ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {MATICPrice}
+            </p>
+            {MATICPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
           </div>
         )}
         {BNBPrice && (
-          <div className="flex items-center justify-start space-x-2 w-full">
-          <img src="/images/logo/bnb-logo.png" className="w-5 h-5"/>
-            <p>{BNBPrice}</p>
+          <div className="flex items-center justify-between space-x-2 w-full">
+            <img src="/images/logo/bnb-logo.png" className="w-5 h-5" />
+            <p
+              className={`${
+                BNBPriceChange > 0 ? "text-green-600" : "text-red-600"
+              }`}
+            >
+              {BNBPrice}
+            </p>
+            {BNBPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
           </div>
         )}
       </div>
