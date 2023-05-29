@@ -908,23 +908,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 href="/auth/signup"
               >
                 <div
-                  className={`p-1 border rounded-md ${
-                    isLiked
-                      ? "border-green-600 bg-green-600"
-                      : "dark:border-gray-400 group-hover:border-green-600"
-                  }`}
+                  className={`p-1 border rounded-md dark:border-gray-400 group-hover:border-green-600`}
                 >
-                  <ArrowUpIcon
-                    className={`h-4 w-4 cursor-pointer ${
-                      isLiked ? "text-white" : "group-hover:text-green-600"
-                    } `}
-                  />
+                  <ArrowUpIcon className={`h-4 w-4 cursor-pointer`} />
                 </div>
-                <p
-                  className={`text-xs ${
-                    isLiked ? "text-green-600" : "group-hover:text-green-600"
-                  }`}
-                >
+                <p className={`text-xs group-hover:text-green-600`}>
                   {info?.likes != null || undefined ? info?.likes : 0}
                 </p>
               </Link>
@@ -933,23 +921,13 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 href="/auth/signup"
               >
                 <div
-                  className={`p-1 border rounded-md ${
-                    isDisliked
-                      ? "border-red-600 bg-red-600"
-                      : "dark:border-gray-400 group-hover:border-red-600"
-                  }`}
+                  className={`p-1 border rounded-md dark:border-gray-400 group-hover:border-red-600`}
                 >
                   <ArrowDownIcon
-                    className={`h-4 w-4 cursor-pointer ${
-                      isDisliked ? "text-white" : "group-hover:text-red-600"
-                    } `}
+                    className={`h-4 w-4 cursor-pointer group-hover:text-red-600 `}
                   />
                 </div>
-                <p
-                  className={`text-xs ${
-                    isDisliked ? "text-red-600" : "group-hover:text-red-600"
-                  }`}
-                >
+                <p className={`text-xs group-hover:text-red-600`}>
                   {info?.dislikes != null || undefined ? info?.dislikes : 0}
                 </p>
               </Link>

@@ -10,6 +10,7 @@ import { ComputerDesktopIcon } from "@heroicons/react/24/outline";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import Result from "./Result";
 import { isEmpty } from "lodash";
+import { getPairInformationByChain } from "dexscreener-api";
 
 interface Pic {
   name: string;
@@ -23,6 +24,13 @@ interface User {
   profilePic: Pic;
 }
 
+type ETHARRAY = {
+  name: string;
+  image: string;
+  current_price: number;
+  market_cap_change_percentage_24h: number;
+};
+
 function Widgets() {
   const dispatch = useAppDispatch();
   // const { trendingPosts } = useAppSelector((state) => state.postReducer);
@@ -33,6 +41,53 @@ function Widgets() {
   const [searchResult, setSearchResult] = useState<any>();
   const [input, setInput] = useState<string>("");
   const [trendingPosts, setTrendingPosts] = useState<any>();
+
+  let [BNBPrice, setBNBPrice] = useState<any>();
+  let [ETHPrice, setETHPrice] = useState<any>();
+  let [MATICPrice, setMATICPrice] = useState<any>();
+
+  //Get the Token Price
+
+  const fetchData = async () => {
+    //Get pair information by chain
+    const BNBResponse = await getPairInformationByChain(
+      "bsc",
+      "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
+    );
+
+    const ETHResponse = await getPairInformationByChain(
+      "ethereum",
+      "0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640"
+    );
+
+    const MATICResponse = await getPairInformationByChain(
+      "polygon",
+      "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7"
+    );
+
+    //Get pairs matching base token address
+    //const tokensResponse = await getPairsMatchingBaseTokenAddress("0x1DF2C6DF4d4E7F3188487F4515587c5E8b75dbfa");
+
+    BNBPrice = await BNBResponse.pair.priceUsd;
+    ETHPrice = await ETHResponse.pair.priceUsd;
+    MATICPrice = await MATICResponse.pair.priceUsd;
+
+    // priceChange = pairsResponse.pairs[0].priceChange.h24;
+
+    return { BNBPrice, ETHPrice };
+  };
+
+  useEffect(() => {
+    fetchData().then(() => {
+      const BNB = BNBPrice;
+      setBNBPrice(BNB);
+      const ETH = ETHPrice;
+      setETHPrice(ETH);
+      const MATIC = MATICPrice;
+      setMATICPrice(MATIC);
+    });
+    // eslint-disable-next-line react-hooks/exhaustive-deps
+  }, [BNBPrice, ETHPrice]);
 
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
@@ -58,16 +113,20 @@ function Widgets() {
 
   const handleBlur = (e: any) => {
     if (!isEmpty(e.relatedTarget)) {
-      console.log(e.relatedTarget.className)
-      if (e.relatedTarget.className !== 'w-full search-result' && e.relatedTarget.className !== 'flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer') {
-        setInput('');
+      console.log(e.relatedTarget.className);
+      if (
+        e.relatedTarget.className !== "w-full search-result" &&
+        e.relatedTarget.className !==
+          "flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
+      ) {
+        setInput("");
       } else {
         return;
       }
     } else {
-      setInput('');
+      setInput("");
     }
-  }
+  };
 
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
@@ -85,21 +144,31 @@ function Widgets() {
           />
         </div>
         {input && (
-          <div id="dropdownResults" className="relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30">
+          <div
+            id="dropdownResults"
+            className="relative mt-2 backdrop-blur-md bg-white/30 dark:bg-darkgray/30"
+          >
             <div className="absolute top-0 left-0 bg-gray-100 dark:bg-darkgray border border-gray-200 dark:border-white rounded-md w-full z-10">
               <div className="flex flex-col items-center justify-center">
                 {searchResult &&
-                  searchResult?.map((result: any, index: any) => (
-                    index <= 4 &&
-                    <Result result={result} key={result?.id} setInput={setInput} setSearchInput={() => {}} />
-                  ))}
+                  searchResult?.map(
+                    (result: any, index: any) =>
+                      index <= 4 && (
+                        <Result
+                          result={result}
+                          key={result?.id}
+                          setInput={setInput}
+                          setSearchInput={() => {}}
+                        />
+                      )
+                  )}
                 <Link
                   href={{
                     pathname: "/search",
-                    query: { query: input }
+                    query: { query: input },
                   }}
                   className="flex items-center justify-start space-x-2 hover:rounded-b-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full cursor-pointer"
-                  onClick={() => setInput('')}
+                  onClick={() => setInput("")}
                 >
                   <div className="rounded-full bg-blockd p-2">
                     <MagnifyingGlassIcon className="w-7 h-7 text-white" />
@@ -114,6 +183,30 @@ function Widgets() {
       <>
         <Slider trendingPosts={trendingPosts} />
       </>
+      <div className="p-2 flex flex-col space-y-2 mt-4">
+        <div className="flex items-center justify-start space-x-2 w-full">
+          <ArrowTrendingUpIcon className="w-5 h-5" />
+          <p>Live Charts</p>
+        </div>
+        {ETHPrice && (
+          <div className="flex items-center justify-start space-x-2 w-full">
+            <img src="/images/logo/eth-logo-2.png" className="w-5 h-5"/>
+            <p>{ETHPrice}</p>
+          </div>
+        )}
+        {MATICPrice && (
+          <div className="flex items-center justify-start space-x-2 w-full">
+          <img src="/images/logo/matic-logo.png" className="w-5 h-5"/>
+            <p>{MATICPrice}</p>
+          </div>
+        )}
+        {BNBPrice && (
+          <div className="flex items-center justify-start space-x-2 w-full">
+          <img src="/images/logo/bnb-logo.png" className="w-5 h-5"/>
+            <p>{BNBPrice}</p>
+          </div>
+        )}
+      </div>
       {/* <div className="p-2">
         <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-6">
           <ArrowTrendingUpIcon className="w-4 h-4 lg:w-5 lg:h-5" />

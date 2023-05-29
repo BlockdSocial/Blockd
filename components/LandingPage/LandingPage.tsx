@@ -159,7 +159,7 @@ function Feed() {
       </div>
 
       <div>
-        <div className="p-4">
+        <div className="px-4">
           {filtered &&
             filtered?.slice(0, 7).map((post: Post, index: number) => (
               // @ts-ignore
@@ -170,6 +170,11 @@ function Feed() {
                 refetch={handleRefresh}
               />
             ))}
+        </div>
+        <div className="p-4">
+          <div className="flex items-center justify-center p-4 rounded-md w-full bg-orange-200 hover:bg-blockd text-white cursor-pointer">
+              Sign up to view more
+          </div>
         </div>
       </div>
     </div>
