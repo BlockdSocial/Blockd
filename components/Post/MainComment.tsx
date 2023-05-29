@@ -35,6 +35,9 @@ import { MentionsInput, Mention } from "react-mentions";
 import darkMode from "../../styles/darkMode.module.scss";
 import lightMode from "../../styles/lightMode.module.scss";
 import { searchTagUsers } from "../../stores/user/UserActions";
+import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
+import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
+import FavoriteIcon from "@mui/icons-material/Favorite";
 
 interface Pic {
   name: string;
@@ -444,10 +447,11 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   : "dark:border-gray-400 group-hover:border-green-600"
               }`}
             >
-              <ArrowUpIcon
+              <FavoriteIcon
                 className={`h-4 w-4 cursor-pointer ${
                   isLiked ? "text-white" : "group-hover:text-green-600"
                 } `}
+                sx={{ fontSize: 20 }}
               />
             </div>
             <p
@@ -469,10 +473,11 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                   : "dark:border-gray-400 group-hover:border-red-600"
               }`}
             >
-              <ArrowDownIcon
+              <HeartBrokenIcon
                 className={`h-4 w-4 cursor-pointer ${
                   isDisliked ? "text-white" : "group-hover:text-red-600"
                 } `}
+                sx={{ fontSize: 20 }}
               />
             </div>
             <p
@@ -485,7 +490,10 @@ function MainComment({ comment, post, refetchReplies }: Props) {
           </div>
           <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group">
             <div className="p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
-              <ChatBubbleBottomCenterTextIcon className="h-4 w-4 cursor-pointer" />
+              <AddCommentOutlinedIcon
+                className="h-4 w-4 cursor-pointer"
+                sx={{ fontSize: 20 }}
+              />
             </div>
             <p className="text-xs">
               {info?.replies != null || undefined ? info?.replies : 0}
