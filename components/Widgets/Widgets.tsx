@@ -45,22 +45,25 @@ function Widgets() {
   const [input, setInput] = useState<string>("");
   const [trendingPosts, setTrendingPosts] = useState<any>();
 
-  let [BNBPrice, setBNBPrice] = useState<any>();
-  let [BNBPriceChange, setBNBPriceChange] = useState<any>();
+  let [BTCPrice, setBTCPrice] = useState<any>();
+  let [BTCUrl, setBTCUrl] = useState<any>();
+  let [BTCPriceChange, setBTCPriceChange] = useState<any>();
   let [ETHPrice, setETHPrice] = useState<any>();
+  let [ETHUrl, setETHUrl] = useState<any>();
   let [ETHPriceChange, setETHPriceChange] = useState<any>();
   let [MATICPrice, setMATICPrice] = useState<any>();
+  let [MATICUrl, setMATICUrl] = useState<any>();
   let [MATICPriceChange, setMATICPriceChange] = useState<any>();
 
-  const MINUTE_MS = 10000;
+  const MINUTE_MS = 1000;
 
   //Get the Token Price
 
   const fetchData = async () => {
     //Get pair information by chain
-    const BNBResponse = await getPairInformationByChain(
+    const BTCResponse = await getPairInformationByChain(
       "bsc",
-      "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
+      "0x46cf1cf8c69595804ba91dfdd8d6b960c9b0a7c4"
     );
 
     const ETHResponse = await getPairInformationByChain(
@@ -76,52 +79,64 @@ function Widgets() {
     //Get pairs matching base token address
     //const tokensResponse = await getPairsMatchingBaseTokenAddress("0x1DF2C6DF4d4E7F3188487F4515587c5E8b75dbfa");
 
-    BNBPrice = await BNBResponse.pair.priceUsd;
-    BNBPriceChange = await BNBResponse.pair.priceChange.h1;
+    BTCPrice = await BTCResponse.pair.priceUsd;
+    BTCUrl = await BTCResponse.pair.url;
+    BTCPriceChange = await BTCResponse.pair.priceChange.h1;
+    ETHUrl = await ETHResponse.pair.url;
     ETHPrice = await ETHResponse.pair.priceUsd;
     ETHPriceChange = await ETHResponse.pair.priceChange.h1;
+    MATICUrl = await MATICResponse.pair.url;
     MATICPrice = await MATICResponse.pair.priceUsd;
     MATICPriceChange = await MATICResponse.pair.priceChange.h1;
 
     // priceChange = pairsResponse.pairs[0].priceChange.h24;
 
     return {
-      BNBPrice,
+      BTCPrice,
       ETHPrice,
       MATICPrice,
-      BNBPriceChange,
+      BTCPriceChange,
       ETHPriceChange,
       MATICPriceChange,
+      BTCUrl,
+      ETHUrl,
+      MATICUrl,
     };
   };
 
   useEffect(() => {
     const interval = setInterval(() => {
       fetchData().then(() => {
-        const BNB = BNBPrice;
-        setBNBPrice(BNB);
-        const BNBChange = BNBPriceChange;
-        setBNBPriceChange(BNBChange);
+        const BTC = BTCPrice;
+        setBTCPrice(BTC);
+        const BTCChange = BTCPriceChange;
+        setBTCPriceChange(BTCChange);
+        const BtcUrl = BTCUrl;
+        setBTCUrl(BtcUrl);
         const ETH = ETHPrice;
         setETHPrice(ETH);
         const ETHChange = ETHPriceChange;
         setETHPriceChange(ETHChange);
+        const EthUrl = ETHUrl;
+        setETHUrl(EthUrl);
         const MATIC = MATICPrice;
         setMATICPrice(MATIC);
         const MATICChange = MATICPriceChange;
         setMATICPriceChange(MATICChange);
+        const MaticUrl = MATICUrl;
+        setMATICUrl(MaticUrl);
       });
     }, MINUTE_MS);
 
     return () => clearInterval(interval);
   }, []);
 
-  const BNBResponse = getPairInformationByChain(
+  const BTCResponse = getPairInformationByChain(
     "bsc",
     "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
   );
 
-  console.log(BNBResponse, "test_ismail");
+  console.log(BTCResponse, "test_ismail");
 
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
@@ -217,14 +232,18 @@ function Widgets() {
       <>
         <Slider trendingPosts={trendingPosts} />
       </>
-      <div className="p-2 flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
-        <div className="flex items-center justify-start space-x-2 w-full mb-2">
+      <div className="flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
+        <div className="p-2 flex items-center justify-start space-x-2 w-full">
           <ArrowTrendingUpIcon className="w-5 h-5" />
           <p>Live Charts</p>
         </div>
         {ETHPrice && (
-          <div className="flex items-center justify-between space-x-2 w-full">
-            <img src="/images/logo/eth-logo-2.png" className="w-5 h-5" />
+          <Link
+            href={ETHUrl}
+            target="_blank"
+            className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          >
+            <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
             <p
               className={`${
                 ETHPriceChange > 0 ? "text-green-600" : "text-red-600"
@@ -237,11 +256,15 @@ function Widgets() {
             ) : (
               <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
             )}
-          </div>
+          </Link>
         )}
         {MATICPrice && (
-          <div className="flex items-center justify-between space-x-2 w-full">
-            <img src="/images/logo/matic-logo.png" className="w-5 h-5" />
+          <Link
+            href={MATICUrl}
+            target="_blank"
+            className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          >
+            <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
             <p
               className={`${
                 MATICPriceChange > 0 ? "text-green-600" : "text-red-600"
@@ -254,27 +277,31 @@ function Widgets() {
             ) : (
               <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
             )}
-          </div>
+          </Link>
         )}
-        {BNBPrice && (
-          <div className="flex items-center justify-between space-x-2 w-full">
-            <img src="/images/logo/bnb-logo.png" className="w-5 h-5" />
+        {BTCPrice && (
+          <Link
+            href={BTCUrl}
+            target="_blank"
+            className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          >
+            <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
             <p
               className={`${
-                BNBPriceChange > 0 ? "text-green-600" : "text-red-600"
+                BTCPriceChange > 0 ? "text-green-600" : "text-red-600"
               }`}
             >
-              {BNBPrice}
+              {BTCPrice}
             </p>
-            {BNBPriceChange > 0 ? (
+            {BTCPriceChange > 0 ? (
               <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
             ) : (
               <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
             )}
-          </div>
+          </Link>
         )}
       </div>
-      <div className="flex flex-col mt-4 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
+      {/* <div className="flex flex-col mt-4 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
         <p className="flex items-center justify-start space-x-2 p-2">
           <HashtagIcon className="w-4 h-4" />
           Trending Hashtags
@@ -289,166 +316,6 @@ function Widgets() {
         </div>
         <div className="px-2 py-3 flex flex-col hover:bg-gray-200 hover:dark:bg-[#1F2022] hover:rounded-b-md text-sm cursor-pointer">
           <Link href="/dashboard/trendingHashtags" className="">View More</Link>
-        </div>
-      </div>
-      {/* <div className="p-2">
-        <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-6">
-          <ArrowTrendingUpIcon className="w-4 h-4 lg:w-5 lg:h-5" />
-          <p className="font-semibold text-xs lg:text-base">
-            Trending Chatrooms
-          </p>
-        </div>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-1">
-            <div className="rounded-full w-3 h-3 bg-blockd"></div>
-            <p className="font-semibold text-sm">EGO Official</p>
-          </div>
-          <div className="lg:flex items-center justify-end lg:col-span-3 hidden">
-            <p className="font-semibold text-green-800 dark:text-white">
-              +1200%
-            </p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-1">
-            <div className="rounded-full w-3 h-3 bg-blockd"></div>
-            <p className="font-semibold text-sm">Shiba Inu</p>
-          </div>
-          <div className="lg:flex items-center justify-end lg:col-span-3 hidden">
-            <p className="font-semibold text-green-800 dark:text-white">
-              +700%
-            </p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-1">
-            <div className="rounded-full w-3 h-3 bg-blockd"></div>
-            <p className="font-semibold text-sm">BTC</p>
-          </div>
-          <div className="lg:flex items-center justify-end lg:col-span-3 hidden">
-            <p className="font-semibold text-green-800 dark:text-white">
-              +100%
-            </p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-1">
-            <div className="rounded-full w-3 h-3 bg-blockd"></div>
-            <p className="font-semibold text-sm">TRT Token</p>
-          </div>
-          <div className="lg:flex items-center justify-end lg:col-span-3 hidden">
-            <p className="font-semibold text-green-800 dark:text-white">+25%</p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-1">
-            <div className="rounded-full w-3 h-3 bg-blockd"></div>
-            <p className="font-semibold text-sm">Solar Official</p>
-          </div>
-          <div className="lg:flex items-center justify-end lg:col-span-3 hidden">
-            <p className="font-semibold text-green-800 dark:text-white">+20%</p>
-          </div>
-        </Link>
-        <div className="flex items-center justify-start">
-          <Link
-            href="/dashboard/trending"
-            className="flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1"
-          >
-            <p className="font-semibold text-sm">See all chatrooms</p>
-          </Link>
-        </div>
-      </div> */}
-      {/* <TrendingChatrooms /> */}
-      {/* <TrendingStreams /> */}
-      {/* <div className="p-2">
-        <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-2">
-          <ComputerDesktopIcon className="w-4 h-4 lg:w-5 lg:h-5" />
-          <p className="font-semibold text-xs lg:text-base">
-            Trending Streamers
-          </p>
-        </div>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-2">
-            <img
-              src="/images/pfp/pfp1.jpg"
-              className="rounded-full w-6 h-6 bg-blockd"
-            />
-            <p className="font-semibold text-sm">@Crypto_punk</p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-2">
-            <img
-              src="/images/pfp/pfp1.jpg"
-              className="rounded-full w-6 h-6 bg-blockd"
-            />
-            <p className="font-semibold text-sm">@Egoist</p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-2">
-            <img
-              src="/images/pfp/pfp3.jpg"
-              className="rounded-full w-6 h-6 bg-blockd"
-            />
-            <p className="font-semibold text-sm">@Crypto_crazy</p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-2">
-            <img
-              src="/images/pfp/pfp1.jpg"
-              className="rounded-full w-6 h-6 bg-blockd"
-            />
-            <p className="font-semibold text-sm">@Crypto_queen</p>
-          </div>
-        </Link>
-        <Link
-          href="/dashboard/chatroom"
-          className="grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1"
-        >
-          <div className="flex items-center justify-start col-span-8 lg:col-span-5 space-x-2">
-            <img
-              src="/images/pfp/pfp3.jpg"
-              className="rounded-full w-6 h-6 bg-blockd"
-            />
-            <p className="font-semibold text-sm">@Shiba_king</p>
-          </div>
-        </Link>
-        <div className="flex items-center justify-start">
-          <Link
-            href="/dashboard/trending"
-            className="flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1"
-          >
-            <p className="font-semibold text-sm">See all streamers</p>
-          </Link>
         </div>
       </div> */}
     </div>
