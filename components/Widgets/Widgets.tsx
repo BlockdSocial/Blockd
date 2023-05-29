@@ -10,7 +10,7 @@ import Link from "next/link";
 import { fetchTrendingPosts } from "../../stores/post/PostActions";
 import { useAppDispatch } from "../../stores/hooks";
 import { searchFilteredUsers } from "../../stores/user/UserActions";
-import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
+import { ArrowTrendingUpIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import Result from "./Result";
 import { isEmpty } from "lodash";
 import { getPairInformationByChain } from "dexscreener-api";
@@ -52,7 +52,7 @@ function Widgets() {
   let [MATICPrice, setMATICPrice] = useState<any>();
   let [MATICPriceChange, setMATICPriceChange] = useState<any>();
 
-  const MINUTE_MS = 1000;
+  const MINUTE_MS = 10000;
 
   //Get the Token Price
 
@@ -273,6 +273,23 @@ function Widgets() {
             )}
           </div>
         )}
+      </div>
+      <div className="flex flex-col mt-4 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
+        <p className="flex items-center justify-start space-x-2 p-2">
+          <HashtagIcon className="w-4 h-4" />
+          Trending Hashtags
+        </p>
+        <div className="px-2 py-3 flex flex-col hover:bg-gray-200 hover:dark:bg-[#1F2022] text-sm cursor-pointer">
+          <p>#Hashtag1</p>
+          <p>27 Posts</p>
+        </div>
+        <div className="px-2 py-3 flex flex-col hover:bg-gray-200 hover:dark:bg-[#1F2022] text-sm cursor-pointer">
+          <p>#Hashtag2</p>
+          <p>15K Posts</p>
+        </div>
+        <div className="px-2 py-3 flex flex-col hover:bg-gray-200 hover:dark:bg-[#1F2022] hover:rounded-b-md text-sm cursor-pointer">
+          <Link href="/dashboard/trendingHashtags" className="">View More</Link>
+        </div>
       </div>
       {/* <div className="p-2">
         <div className="flex items-center justify-start rounded-md space-x-2 p-2 mt-6">
