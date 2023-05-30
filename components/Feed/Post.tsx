@@ -50,7 +50,7 @@ import renderHTML from "react-render-html";
 import darkMode from "../../styles/darkMode.module.scss";
 import lightMode from "../../styles/lightMode.module.scss";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
-import AddCommentOutlinedIcon from "@mui/icons-material/AddCommentOutlined";
+import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 
@@ -964,7 +964,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group"
               >
                 <div className="flex items-center justify-center p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
-                  <AddCommentOutlinedIcon
+                  <CommentOutlinedIcon
                     className="h-5 w-5 cursor-pointer"
                     sx={{ fontSize: 20 }}
                   />
