@@ -912,7 +912,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 onClick={() => handleLikePost()}
               >
                 <div
-                  className={`p-1 border rounded-md ${
+                  className={`flex items-center justify-center p-1 border rounded-md ${
                     isLiked
                       ? "border-green-600 bg-green-600"
                       : "dark:border-gray-400 group-hover:border-green-600"
@@ -938,7 +938,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 onClick={() => handleDislikePost()}
               >
                 <div
-                  className={`p-1 border rounded-md ${
+                  className={`flex items-center justify-center p-1 border rounded-md ${
                     isDisliked
                       ? "border-red-600 bg-red-600"
                       : "dark:border-gray-400 group-hover:border-red-600"
@@ -963,7 +963,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 onClick={() => setCommentBoxVisible(!commentBoxVisible)}
                 className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group"
               >
-                <div className="p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
+                <div className="flex items-center justify-center p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
                   <AddCommentOutlinedIcon
                     className="h-5 w-5 cursor-pointer"
                     sx={{ fontSize: 20 }}
@@ -975,7 +975,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               </div>
               {isEmpty(sharedPost) && null == mainPost?.suggestion && (
                 <div className="relative flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group">
-                  <div className="p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
+                  <div className="flex items-center justify-center p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
                     <ShareOutlinedIcon
                       ref={share}
                       onClick={() => setShareBoxVisible(!shareBoxVisible)}

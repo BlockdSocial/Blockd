@@ -83,7 +83,7 @@ const CropperEasy = ({
       <DialogActions sx={{ flexDirection: "column", mx: 3, my: 2 }}>
         <Box sx={{ width: "100%", mb: 1 }}>
           <Box>
-            <Typography>Zoom: {zoomPercent(zoom)}</Typography>
+            <Typography sx={{ color: "black" }}>Zoom: {zoomPercent(zoom)}</Typography>
             <Slider
               valueLabelDisplay="auto"
               valueLabelFormat={zoomPercent}
@@ -95,7 +95,7 @@ const CropperEasy = ({
             ></Slider>
           </Box>
           <Box>
-            <Typography>Rotation: {rotation}</Typography>
+            <Typography sx={{ color: "black" }}>Rotation: {rotation}</Typography>
             <Slider
               valueLabelDisplay="auto"
               min={0}

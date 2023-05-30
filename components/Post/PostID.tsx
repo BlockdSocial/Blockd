@@ -797,7 +797,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               onClick={() => handleLikePost()}
             >
               <div
-                className={`p-1 border rounded-md ${
+                className={`flex items-center justify-center p-1 border rounded-md ${
                   isLiked
                     ? "border-green-600 bg-green-600"
                     : "dark:border-gray-400 group-hover:border-green-600"
@@ -823,7 +823,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               onClick={() => handleDislikePost()}
             >
               <div
-                className={`p-1 border rounded-md ${
+                className={`flex items-center justify-center p-1 border rounded-md ${
                   isDisliked
                     ? "border-red-600 bg-red-600"
                     : "dark:border-gray-400 group-hover:border-red-600"
@@ -845,7 +845,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               </p>
             </div>
             <div className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-black dark:hover:text-white group">
-              <div className="p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
+              <div className="flex items-center justify-center p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
                 <AddCommentOutlinedIcon
                   className="h-4 w-4 cursor-pointer"
                   sx={{ fontSize: 20 }}

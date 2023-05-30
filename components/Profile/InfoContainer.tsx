@@ -72,6 +72,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
   const [bannerPicture, setBannerPicture] = useState<string>();
   const [scorePercentage, setScorePercentage] = useState<any>(0);
   const [bio, setBio] = useState<string>();
+  const [twitter, setTwitter] = useState<string>();
+  const [lens, setLens] = useState<string>();
   const [facebook, setFacebook] = useState<string>();
   const [insta, setInsta] = useState<string>();
   const [linktree, setLinktree] = useState<string>();
@@ -543,6 +545,18 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         </div>
       )}
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
+        <a href="#" target="_blank">
+          <img
+            src="/images/logo/twitter.png"
+            className="w-8 h-8 object-cover rounded-md"
+          />
+        </a>
+        <a href="#" target="_blank">
+          <img
+            src="/images/logo/lensProtocol.jpeg"
+            className="w-8 h-8 object-cover rounded-md"
+          />
+        </a>
         {user?.facebook && (
           <a href={`${user?.facebook}`} target="_blank">
             <img
@@ -657,7 +671,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <form className="space-y-3" action="#">
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your Display Name
+                    Display Name
                   </label>
                   <input
                     type="text"
@@ -669,7 +683,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your email
+                    Email
                   </label>
                   <input
                     type="email"
@@ -682,7 +696,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 {/* TODO HASAN SAADO */}
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your bio
+                    Bio
                   </label>
                   <textarea
                     placeholder="Write something ..."
@@ -694,7 +708,33 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your Instagram
+                    Twitter
+                  </label>
+                  <input
+                    placeholder="Type your link"
+                    type="text"
+                    name="twitter"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    value={twitter}
+                    onChange={(e) => setTwitter(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Lens Protocol
+                  </label>
+                  <input
+                    placeholder="Type your link"
+                    type="text"
+                    name="lens"
+                    className="bg-gray-100 outline-none text-gray-900 text-sm rounded-lg focus:ring-blue-500 focus:border-blue-500 block w-full p-2.5"
+                    value={lens}
+                    onChange={(e) => setLens(e.target.value)}
+                  />
+                </div>
+                <div>
+                  <label className="block mb-2 text-sm font-medium text-gray-900">
+                    Instagram
                   </label>
                   <input
                     placeholder="Type your link"
@@ -707,7 +747,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your Facebook
+                    Facebook
                   </label>
                   <input
                     placeholder="Type your link"
@@ -720,7 +760,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                 </div>
                 <div>
                   <label className="block mb-2 text-sm font-medium text-gray-900">
-                    Your LinkTree
+                    LinkTree
                   </label>
                   <input
                     placeholder="Type your link"
