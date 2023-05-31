@@ -12,7 +12,7 @@ import {
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
-import { useRouter } from "next/router";
+import Link from "next/link";
 
 interface Post {
   id: number;
@@ -31,8 +31,7 @@ interface Filtered {
 
 function Feed() {
   const dispatch = useAppDispatch();
-  const router = useRouter();
-  const { isRegistered } = router.query;
+
 
   const { isFetchingFilteredPosts, error } = useAppSelector(
     (state) => state.postReducer
@@ -44,30 +43,8 @@ function Feed() {
   let [atTop, setAtTop] = useState<boolean>(false);
   const elementRef = useRef<any>(null);
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
-
   useEffect(() => {
-    const handleScroll = () => {
-      if (elementRef?.current?.scrollTop !== 0) {
-        atTop = true;
-        setAtTop(atTop);
-      } else {
-        atTop = false;
-        setAtTop(atTop);
-      }
-    };
-    elementRef?.current?.addEventListener("scroll", handleScroll);
-    return () => {
-      elementRef?.current?.removeEventListener("scroll", handleScroll);
-    };
-  }, []);
-
-  useEffect(() => {
-    dispatch(fetchAuthUser());
+   
     setFiltered(undefined);
     fetchFiltered();
   },[]);
@@ -85,18 +62,6 @@ function Feed() {
     });
   };
 
-  const updateFiltered = async (start: number, end: number) => {
-    await dispatch(
-      fetchFilteredPosts({
-        start: start,
-        end: end,
-      })
-    ).then((result: any) => {
-      const newPosts = filtered?.concat(result?.posts);
-      setEndTotal(result?.total);
-      setFiltered(newPosts);
-    });
-  };
 
   const goToTopOfPage = () => {
     const element = document.getElementById("top-page");
@@ -115,28 +80,10 @@ function Feed() {
     });
   };
 
-  const handleScroll = async () => {
-    if (elementRef.current) {
-      const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
-      if (
-        scrollTop + clientHeight === scrollHeight ||
-        scrollTop + clientHeight === scrollHeight - 0.5
-      ) {
-        if (!isFetchingFilteredPosts) {
-          if (endTotal == 0) {
-            return;
-          } else {
-            await updateFiltered(endCount + 0, endCount + 10);
-            setEndCount(endCount + 10);
-          }
-        }
-      }
-    }
-  };
+ 
 
   return (
     <div
-      onScrollCapture={() => handleScroll()}
       ref={elementRef}
       className="relative max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
     >
@@ -172,9 +119,17 @@ function Feed() {
             ))}
         </div>
         <div className="p-4">
+        <Link
+            href={{
+              pathname: "/auth/signup",
+            
+            }}
+            
+          >
           <div className="flex items-center justify-center p-4 rounded-md w-full bg-orange-200 hover:bg-blockd text-white cursor-pointer">
               Sign up to view more
           </div>
+          </Link>
         </div>
       </div>
     </div>

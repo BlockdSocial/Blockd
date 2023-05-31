@@ -11,6 +11,11 @@ import { isEmpty } from "lodash";
 import { encodeQuery, renderComment, renderCommentText } from "../../utils";
 // @ts-ignore
 import renderHTML from "react-render-html";
+import {
+  fetchAuthUser,
+} from "../../stores/authUser/AuthUserActions";
+import { useAppDispatch, useAppSelector } from "../../stores/hooks";
+
 
 interface Images {
   name: string;
@@ -37,8 +42,10 @@ interface Slide {
 }
 
 function Slider({ trendingPosts }: Props) {
+  const dispatch = useAppDispatch();
   const [currentIndex, setCurrentIndex] = useState(0);
   const [slides, setSlides] = useState<Slide[]>([]);
+  const { authUser }: any = useAppSelector((state) => state.authUserReducer);
 
   useEffect(() => {
     if (trendingPosts != undefined) {
@@ -56,6 +63,10 @@ function Slider({ trendingPosts }: Props) {
       setSlides(newSlides);
     }
   }, [trendingPosts]);
+  useEffect(() => {
+   
+    dispatch(fetchAuthUser());
+  }, []);
 
   const prevSlide = () => {
     const isFirstSlide = currentIndex === 0;
@@ -72,6 +83,7 @@ function Slider({ trendingPosts }: Props) {
   const goToSlide = (slideIndex: any) => {
     setCurrentIndex(slideIndex);
   };
+  console.log(authUser);
 
   return (
     <>
@@ -82,13 +94,22 @@ function Slider({ trendingPosts }: Props) {
             <p className="text-xs lg:text-base">Trending Posts</p>
           </div>
           <div className="h-52 w-full m-auto p-2 relative group">
+         
             <Link
+             
+
               href={{
-                pathname: "/dashboard/post/",
+                
+
+            
+                pathname: authUser ? "/dashboard/post/" : "/auth/signup",
                 query: { postId: slides[currentIndex]?.id },
               }}
+             
               as={`/dashboard/post?${encodeQuery(slides[currentIndex]?.id, 'post')}`}
+             
             >
+     
               <div
                 style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
                 className="w-full h-full relative rounded-md bg-center bg-cover duration-500"
