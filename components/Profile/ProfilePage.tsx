@@ -29,6 +29,8 @@ interface User {
   levelTotal: number;
   frameName: string;
   bio: string;
+  twitter:string;
+  lensProtocol:string;
   facebook: string;
   instagram: string;
   linktree: string;
