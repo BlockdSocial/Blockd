@@ -43,9 +43,10 @@ export const encodeQuery = (query: any, type: any) => {
       );
     }
     if ("referralLink" === type) {
-      return Buffer.from("referralAddress=" + query.toString(), "utf-8").toString(
-        "base64"
-      );
+      return Buffer.from(
+        "referralAddress=" + query.toString(),
+        "utf-8"
+      ).toString("base64");
     }
   }
 };
@@ -143,27 +144,26 @@ export const getDiffTime = (date: any) => {
 };
 
 export const renderComment = (text: any) => {
- // text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
+  // text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
 
   const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
   const pattern_username = /(?:__\^\^____)(.*?)(?:__@@@)/;
   const pattern_id = /(?:@@@____)([0-9]+)(?:\__)/;
   const matches = text?.match(pattern);
-  
-  const patternHash = /(^|\s)([#][a-z\d-]+)/;
-  const hashMatches = text?.match(patternHash);
-  let link2 = '';
 
+  const patternHash = /([#][a-z\d-]+)/gim;
+  const hashMatches = text?.match(patternHash);
+  let link2 = "";
 
   if (matches && matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
       let name = matches[i].match(pattern_username);
-      if(name.length > 1) {
+      if (name.length > 1) {
         name = name[1];
       }
-      
+
       let user_id = matches[i].match(pattern_id);
-      if(user_id.length > 1) {
+      if (user_id.length > 1) {
         user_id = user_id[1];
       }
       let encode = encodeQuery(user_id, "profile");
@@ -174,7 +174,11 @@ export const renderComment = (text: any) => {
   }
 
   if (hashMatches || hashMatches?.length > 0 || !isEmpty(hashMatches)) {
-    text = `<a href="/dashboard/hashtag?${hashMatches[0].slice(1)}" className="hover:underline text-blue-400">${hashMatches[0]}</a>`;
+    for (let i = 0; i < hashMatches.length; i++) {
+      let hash = hashMatches[i];
+      let link = `<a href="/dashboard/hashtag?${hash}" className="hover:underline text-blue-400">${hash}</a>`;
+      text = text.replace(hashMatches[i], link);
+    }
   }
 
   return text;
@@ -192,12 +196,12 @@ export const renderComment2 = (text: any) => {
     for (let i = 0; i < matches.length; i++) {
       let name = matches[i].match(pattern_username);
 
-      if(name.length > 1) {
+      if (name.length > 1) {
         name = name[1];
       }
-      
+
       let user_id = matches[i].match(pattern_id);
-      if(user_id.length > 1) {
+      if (user_id.length > 1) {
         user_id = user_id[1];
       }
       let encode = encodeQuery(user_id, "profile");
@@ -206,13 +210,11 @@ export const renderComment2 = (text: any) => {
       text = text.replace(matches[i], link);
     }
   }
-  
 
   return text;
 };
 
 export const renderCommentText = (text: any) => {
-  
   //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
   const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
   const pattern_username = /(?:__\^\^____)(.*?)(?:__@@@)/;
@@ -221,16 +223,14 @@ export const renderCommentText = (text: any) => {
 
   if (matches && matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
-      
       let name = matches[i].match(pattern_username);
-      
-      if(name.length > 1) {
+
+      if (name.length > 1) {
         name = name[1];
-      
       }
-      
+
       let user_id = matches[i].match(pattern_id);
-      if(user_id.length > 1) {
+      if (user_id.length > 1) {
         user_id = user_id[1];
       }
       let encode = encodeQuery(user_id, "profile");
@@ -239,8 +239,6 @@ export const renderCommentText = (text: any) => {
       text = text.replace(matches[i], link);
     }
   }
-  
- 
 
   return text;
 };
@@ -249,20 +247,22 @@ function getWindowDimensions() {
   const { innerWidth: width, innerHeight: height } = window;
   return {
     width,
-    height
+    height,
   };
 }
 
 export default function useWindowDimensions() {
-  const [windowDimensions, setWindowDimensions] = useState(getWindowDimensions());
+  const [windowDimensions, setWindowDimensions] = useState(
+    getWindowDimensions()
+  );
 
   useEffect(() => {
     function handleResize() {
       setWindowDimensions(getWindowDimensions());
     }
 
-    window.addEventListener('resize', handleResize);
-    return () => window.removeEventListener('resize', handleResize);
+    window.addEventListener("resize", handleResize);
+    return () => window.removeEventListener("resize", handleResize);
   }, []);
 
   return windowDimensions;
