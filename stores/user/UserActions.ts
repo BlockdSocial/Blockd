@@ -49,7 +49,10 @@ import {
   SEARCH_TAG_USERS_FAILURE,
   IS_SEARCHING_TAG_PARTICIPANTS,
   SEARCH_TAG_PARTICIPANTS_SUCCESS,
-  SEARCH_TAG_PARTICIPANTS_FAILURE
+  SEARCH_TAG_PARTICIPANTS_FAILURE,
+  IS_SEARCHING_HASH_TAGS,
+  SEARCH_HASH_TAGS_SUCCESS,
+  SEARCH_HASH_TAGS_FAILURE
 } from './UserActionTypes';
 
 // Api
@@ -371,6 +374,26 @@ export function searchTagUsers(fields: any) {
       console.log('Search tag users error: ', error);
       dispatch({
         type: SEARCH_TAG_USERS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function searchHashTags(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_SEARCHING_HASH_TAGS });
+    try {
+      const result = await userApi.searchHashTags(fields);
+      dispatch({
+        type: SEARCH_HASH_TAGS_SUCCESS,
+        hashtags: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Search hash tags error: ', error);
+      dispatch({
+        type: SEARCH_HASH_TAGS_FAILURE,
         error: error.message
       });
     }

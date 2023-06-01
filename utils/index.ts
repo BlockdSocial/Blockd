@@ -150,6 +150,10 @@ export const renderComment = (text: any) => {
   const pattern_id = /(?:@@@____)([0-9]+)(?:\__)/;
   const matches = text?.match(pattern);
   
+  const patternHash = /(^|\s)([#][a-z\d-]+)/;
+  const hashMatches = text?.match(patternHash);
+  let link2 = '';
+
 
   if (matches && matches.length > 0) {
     for (let i = 0; i < matches.length; i++) {
@@ -167,6 +171,10 @@ export const renderComment = (text: any) => {
 
       text = text.replace(matches[i], link);
     }
+  }
+
+  if (hashMatches || hashMatches?.length > 0 || !isEmpty(hashMatches)) {
+    text = `<a href="/dashboard/hashtag?${hashMatches[0].slice(1)}" className="hover:underline text-blue-400">${hashMatches[0]}</a>`;
   }
 
   return text;

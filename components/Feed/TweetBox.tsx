@@ -17,7 +17,7 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { MentionsInput, Mention } from "react-mentions";
-import { searchTagUsers } from "../../stores/user/UserActions";
+import { searchTagUsers, searchHashTags } from "../../stores/user/UserActions";
 import darkMode from "../../styles/darkMode2.module.scss";
 import lightMode from "../../styles/lightMode2.module.scss";
 
@@ -35,6 +35,7 @@ function TweetBox({ refetchFiltered }: Props) {
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
   const [data, setData] = useState<any>([]);
+  const [hashData, setHashData] = useState<any>([]);
   const dispatch = useAppDispatch();
 
   //************************** EMOJI Handeling **************************//
@@ -228,6 +229,17 @@ function TweetBox({ refetchFiltered }: Props) {
     ).then((res: any) => setData(res));
   };
 
+  console.log("data: ", data);
+  console.log("hashData: ", hashData);
+
+  const handleSearchHashTags = async (e: any) => {
+    dispatch(
+      searchHashTags({
+        search: e,
+      })
+    ).then((res: any) => setHashData(res));
+  };
+
   return (
     <div className="flex items-start justify-center space-x-2 p-4 w-full dark:bg-lightgray border-y dark:border-lightgray">
       <div className="flex items-start justify-center w-[20%]">
@@ -305,6 +317,19 @@ function TweetBox({ refetchFiltered }: Props) {
                 }}
                 markup="@@@______id____^^______display____@@@^^^"
               />
+              <Mention
+                className={`${darkMode.mentions__mention}`}
+                trigger="#"
+                data={hashData}
+                markup="#__display__"
+              />
+              <Mention
+                trigger="#"
+                data={(e) => {
+                  handleSearchHashTags(e);
+                }}
+                markup="#__display__"
+              />
             </MentionsInput>
           </div>
           <div className="dark:hidden w-full mt-1 mb-3">
@@ -326,6 +351,19 @@ function TweetBox({ refetchFiltered }: Props) {
                   handleSearch(e);
                 }}
                 markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                className={`${lightMode.mentions__mention}`}
+                trigger="#"
+                data={hashData}
+                markup="#__display__"
+              />
+              <Mention
+                trigger="#"
+                data={(e) => {
+                  handleSearchHashTags(e);
+                }}
+                markup="#__display__"
               />
             </MentionsInput>
           </div>

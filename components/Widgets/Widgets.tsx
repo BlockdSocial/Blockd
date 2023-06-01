@@ -136,8 +136,6 @@ function Widgets() {
     "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
   );
 
-  console.log(BTCResponse, "test_ismail");
-
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
       setTrendingPosts(res);
@@ -162,7 +160,6 @@ function Widgets() {
 
   const handleBlur = (e: any) => {
     if (!isEmpty(e.relatedTarget)) {
-      console.log(e.relatedTarget.className);
       if (
         e.relatedTarget.className !== "w-full search-result" &&
         e.relatedTarget.className !==

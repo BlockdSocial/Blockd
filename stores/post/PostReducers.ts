@@ -58,7 +58,10 @@ import {
   CREATE_SUGGESTION_FAILURE,
   IS_FETCHING_SUGGESTIONS,
   FETCH_SUGGESTIONS_SUCCESS,
-  FETCH_SUGGESTIONS_FAILURE
+  FETCH_SUGGESTIONS_FAILURE,
+  IS_FETCHING_HASH_POSTS,
+  FETCH_HASH_POSTS_SUCCESS,
+  FETCH_HASH_POSTS_FAILURE
 } from './PostActionTypes';
 
 const initialState = {
@@ -84,6 +87,8 @@ const initialState = {
   isSharingPost: false,
   isCreatingSuggestion: false,
   isFetchingSuggestions: false,
+  isFetchingHashPosts: false,
+  hashPosts: [],
   suggestions: [],
   userPosts: [],
   postInfo: {},
@@ -175,6 +180,27 @@ export function postReducer(state = initialState, action: any) {
       return {
         ...state,
         isSearchingPosts: false,
+        error: action.error
+      };
+    }
+    case IS_FETCHING_HASH_POSTS: {
+      return {
+        ...state,
+        isFetchingHashPosts: true,
+        error: ''
+      };
+    }
+    case FETCH_HASH_POSTS_SUCCESS: {
+      return {
+        ...state,
+        isFetchingHashPosts: false,
+        hashPosts: action.hashPosts
+      };
+    }
+    case FETCH_HASH_POSTS_FAILURE: {
+      return {
+        ...state,
+        isFetchingHashPosts: false,
         error: action.error
       };
     }
