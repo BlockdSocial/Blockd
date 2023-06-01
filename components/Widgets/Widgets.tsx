@@ -55,7 +55,7 @@ function Widgets() {
   let [MATICUrl, setMATICUrl] = useState<any>();
   let [MATICPriceChange, setMATICPriceChange] = useState<any>();
 
-  const MINUTE_MS = 1000;
+  const MINUTE_MS = 100000;
 
   //Get the Token Price
 
@@ -129,6 +129,59 @@ function Widgets() {
     }, MINUTE_MS);
 
     return () => clearInterval(interval);
+  }, []);
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData().then(() => {
+        const BTC = BTCPrice;
+        setBTCPrice(BTC);
+        const BTCChange = BTCPriceChange;
+        setBTCPriceChange(BTCChange);
+        const BtcUrl = BTCUrl;
+        setBTCUrl(BtcUrl);
+        const ETH = ETHPrice;
+        setETHPrice(ETH);
+        const ETHChange = ETHPriceChange;
+        setETHPriceChange(ETHChange);
+        const EthUrl = ETHUrl;
+        setETHUrl(EthUrl);
+        const MATIC = MATICPrice;
+        setMATICPrice(MATIC);
+        const MATICChange = MATICPriceChange;
+        setMATICPriceChange(MATICChange);
+        const MaticUrl = MATICUrl;
+        setMATICUrl(MaticUrl);
+      });
+    }, MINUTE_MS);
+
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+  
+      fetchData().then(() => {
+        const BTC = BTCPrice;
+        setBTCPrice(BTC);
+        const BTCChange = BTCPriceChange;
+        setBTCPriceChange(BTCChange);
+        const BtcUrl = BTCUrl;
+        setBTCUrl(BtcUrl);
+        const ETH = ETHPrice;
+        setETHPrice(ETH);
+        const ETHChange = ETHPriceChange;
+        setETHPriceChange(ETHChange);
+        const EthUrl = ETHUrl;
+        setETHUrl(EthUrl);
+        const MATIC = MATICPrice;
+        setMATICPrice(MATIC);
+        const MATICChange = MATICPriceChange;
+        setMATICPriceChange(MATICChange);
+        const MaticUrl = MATICUrl;
+        setMATICUrl(MaticUrl);
+      });
+    
+
+    
   }, []);
 
   const BTCResponse = getPairInformationByChain(

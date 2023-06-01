@@ -25,7 +25,12 @@ function HashtagPage() {
       hashtag: `#${hashtag}`,
       start: start,
       end:  end
-    })).then((res) => setPosts(res?.posts));
+    })).then((res) => {
+      setPosts(res?.posts)
+    if (res?.posts?.length < 5) {
+      setComplete(true);
+    }
+  });
   }
 
   const handleLoadClick = async () => {

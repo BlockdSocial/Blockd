@@ -13,7 +13,7 @@ import Picker from "@emoji-mart/react";
 import Link from "next/link";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast from "react-hot-toast";
-import { isEmpty } from "lodash";
+import { isEmpty, replace } from "lodash";
 import { config } from "../../constants";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { MentionsInput, Mention } from "react-mentions";
@@ -162,10 +162,12 @@ function TweetBox({ refetchFiltered }: Props) {
 
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
+
+   let clean_input = input.replace(/\#\#/g, "#")
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
-          content: input,
+          content: clean_input,
           public: 1,
           image: uploadedImage,
         })
@@ -188,7 +190,7 @@ function TweetBox({ refetchFiltered }: Props) {
     } else if (gifUrl.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
-          content: input,
+          content: clean_input,
           public: 1,
           gif: gifUrl,
         })
@@ -211,7 +213,7 @@ function TweetBox({ refetchFiltered }: Props) {
     } else {
       await dispatch(
         createPost({
-          content: input,
+          content: clean_input,
           public: 1,
         })
       ).then(() => {
@@ -220,6 +222,7 @@ function TweetBox({ refetchFiltered }: Props) {
       });
     }
   };
+
 
   const handleSearch = async (e: any) => {
     dispatch(
@@ -233,11 +236,16 @@ function TweetBox({ refetchFiltered }: Props) {
   console.log("hashData: ", hashData);
 
   const handleSearchHashTags = async (e: any) => {
+    console.log('hussein')
     dispatch(
       searchHashTags({
         search: e,
       })
-    ).then((res: any) => setHashData(res));
+    ).then((res: any) => {
+      console.log(res,'husseinres')
+
+      setHashData(res)
+    });
   };
 
   return (

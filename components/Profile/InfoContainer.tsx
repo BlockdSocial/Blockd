@@ -42,6 +42,8 @@ interface User {
   levelTotal: number;
   frameName: string;
   bio: string;
+  twitter:string;
+  lensProtocol:string;
   facebook: string;
   instagram: string;
   linktree: string;
@@ -117,6 +119,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       fetchProfilePicture(user?.profilePicId);
       fetchBannerPicture(user?.bannerPicId);
       setBio(user?.bio);
+      setTwitter(user?.twitter);
+      setLens(user?.lensProtocol);
       setInsta(user?.instagram);
       setLinktree(user?.linktree);
       setFacebook(user?.facebook);
@@ -206,6 +210,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         instagram: insta ? insta : "",
         linktree: linktree ? linktree : "",
         bio: bio ? bio : "",
+        twitter: twitter ? twitter : "",
+        lensProtocol: lens ? lens : ""
       })
     ).then(() => {
       setIsModalVisible(false);
@@ -545,18 +551,22 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         </div>
       )}
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        <a href="#" target="_blank">
+      {user?.twitter && (
+             <a href={`${user?.twitter}`} target="_blank">
           <img
             src="/images/logo/twitter.png"
             className="w-8 h-8 object-cover rounded-md"
           />
         </a>
-        <a href="#" target="_blank">
+      )}
+       {user?.lensProtocol && (
+         <a href={`${user?.lensProtocol}`} target="_blank">
           <img
             src="/images/logo/lensProtocol.jpeg"
             className="w-8 h-8 object-cover rounded-md"
           />
         </a>
+       )}
         {user?.facebook && (
           <a href={`${user?.facebook}`} target="_blank">
             <img

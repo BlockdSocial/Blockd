@@ -8,9 +8,7 @@ export function middleware(req: NextRequest) {
 
   console.log('req.nextUrl.pathname',req.nextUrl.pathname)
   // login & register routes
-  if (['/landingPage'].includes(req.nextUrl.pathname)) {
-    return;
-  }
+
   if (['/'].includes(req.nextUrl.pathname)) {
     if (!hasToken) {
       return NextResponse.redirect(new URL('/auth/signup', req.url))
