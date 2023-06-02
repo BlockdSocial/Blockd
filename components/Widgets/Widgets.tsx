@@ -235,7 +235,7 @@ function Widgets() {
       <div className="flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
         <div className="p-2 flex items-center justify-start space-x-2 w-full">
           <ArrowTrendingUpIcon className="w-5 h-5" />
-          <p>Live Charts</p>
+          <p>Live Chart</p>
         </div>
         {ETHPrice && (
           <Link
