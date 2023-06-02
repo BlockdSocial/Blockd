@@ -72,6 +72,10 @@ async function searchTagUsers(fields: any) {
   return apiCall('searchTagUsers', 'POST', 'tag/users', fields);
 };
 
+async function searchHashTags(fields: any) {
+  return apiCall('searchHashTags', 'POST', 'hashtags/indexing', fields);
+};
+
 async function searchTagParticipants(id: any, fields: any) {
   return apiCall('searchTagParticipants', 'POST', `tag/participants/${id}`, fields);
 };
@@ -94,5 +98,6 @@ export default {
   checkEmail,
   searchTagUsers,
   searchTagParticipants,
-  checkAddress
+  checkAddress,
+  searchHashTags
 };

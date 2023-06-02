@@ -58,7 +58,10 @@ import {
   CREATE_SUGGESTION_FAILURE,
   IS_FETCHING_SUGGESTIONS,
   FETCH_SUGGESTIONS_SUCCESS,
-  FETCH_SUGGESTIONS_FAILURE
+  FETCH_SUGGESTIONS_FAILURE,
+  IS_FETCHING_HASH_POSTS,
+  FETCH_HASH_POSTS_SUCCESS,
+  FETCH_HASH_POSTS_FAILURE
 } from './PostActionTypes';
 
 // Api
@@ -143,6 +146,26 @@ export function searchPosts(fields: object) {
       console.log('Search Posts error: ', error);
       dispatch({
         type: SEARCH_POSTS_FAILURE,
+        error: error.message
+      });
+    }
+  }
+}
+
+export function fetchHashTagPosts(fields: object) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_HASH_POSTS });
+    try {
+      const result = await postApi.fetchHashTagPosts(fields);
+      dispatch({
+        type: FETCH_HASH_POSTS_SUCCESS,
+        hashPosts: result
+      });
+      return result;
+    } catch (error: any) {
+      console.log('Fetch hash Posts error: ', error);
+      dispatch({
+        type: FETCH_HASH_POSTS_FAILURE,
         error: error.message
       });
     }

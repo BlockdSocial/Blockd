@@ -55,7 +55,7 @@ function Widgets() {
   let [MATICUrl, setMATICUrl] = useState<any>();
   let [MATICPriceChange, setMATICPriceChange] = useState<any>();
 
-  const MINUTE_MS = 1000;
+  const MINUTE_MS = 100000;
 
   //Get the Token Price
 
@@ -131,12 +131,63 @@ function Widgets() {
     return () => clearInterval(interval);
   }, []);
 
+  useEffect(() => {
+    const interval = setInterval(() => {
+      fetchData().then(() => {
+        const BTC = BTCPrice;
+        setBTCPrice(BTC);
+        const BTCChange = BTCPriceChange;
+        setBTCPriceChange(BTCChange);
+        const BtcUrl = BTCUrl;
+        setBTCUrl(BtcUrl);
+        const ETH = ETHPrice;
+        setETHPrice(ETH);
+        const ETHChange = ETHPriceChange;
+        setETHPriceChange(ETHChange);
+        const EthUrl = ETHUrl;
+        setETHUrl(EthUrl);
+        const MATIC = MATICPrice;
+        setMATICPrice(MATIC);
+        const MATICChange = MATICPriceChange;
+        setMATICPriceChange(MATICChange);
+        const MaticUrl = MATICUrl;
+        setMATICUrl(MaticUrl);
+      });
+    }, MINUTE_MS);
+
+    return () => clearInterval(interval);
+  }, []);
+  useEffect(() => {
+  
+      fetchData().then(() => {
+        const BTC = BTCPrice;
+        setBTCPrice(BTC);
+        const BTCChange = BTCPriceChange;
+        setBTCPriceChange(BTCChange);
+        const BtcUrl = BTCUrl;
+        setBTCUrl(BtcUrl);
+        const ETH = ETHPrice;
+        setETHPrice(ETH);
+        const ETHChange = ETHPriceChange;
+        setETHPriceChange(ETHChange);
+        const EthUrl = ETHUrl;
+        setETHUrl(EthUrl);
+        const MATIC = MATICPrice;
+        setMATICPrice(MATIC);
+        const MATICChange = MATICPriceChange;
+        setMATICPriceChange(MATICChange);
+        const MaticUrl = MATICUrl;
+        setMATICUrl(MaticUrl);
+      });
+    
+
+    
+  }, []);
+
   const BTCResponse = getPairInformationByChain(
     "bsc",
     "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
   );
-
-  console.log(BTCResponse, "test_ismail");
 
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
@@ -162,7 +213,6 @@ function Widgets() {
 
   const handleBlur = (e: any) => {
     if (!isEmpty(e.relatedTarget)) {
-      console.log(e.relatedTarget.className);
       if (
         e.relatedTarget.className !== "w-full search-result" &&
         e.relatedTarget.className !==

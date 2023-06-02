@@ -13,11 +13,11 @@ import Picker from "@emoji-mart/react";
 import Link from "next/link";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import toast from "react-hot-toast";
-import { isEmpty } from "lodash";
+import { isEmpty, replace } from "lodash";
 import { config } from "../../constants";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { MentionsInput, Mention } from "react-mentions";
-import { searchTagUsers } from "../../stores/user/UserActions";
+import { searchTagUsers, searchHashTags } from "../../stores/user/UserActions";
 import darkMode from "../../styles/darkMode2.module.scss";
 import lightMode from "../../styles/lightMode2.module.scss";
 
@@ -35,6 +35,7 @@ function TweetBox({ refetchFiltered }: Props) {
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
   const [data, setData] = useState<any>([]);
+  const [hashData, setHashData] = useState<any>([]);
   const dispatch = useAppDispatch();
 
   //************************** EMOJI Handeling **************************//
@@ -161,10 +162,12 @@ function TweetBox({ refetchFiltered }: Props) {
 
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
+
+   let clean_input = input.replace(/\#\#/g, "#")
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
-          content: input,
+          content: clean_input,
           public: 1,
           image: uploadedImage,
         })
@@ -187,7 +190,7 @@ function TweetBox({ refetchFiltered }: Props) {
     } else if (gifUrl.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
-          content: input,
+          content: clean_input,
           public: 1,
           gif: gifUrl,
         })
@@ -210,7 +213,7 @@ function TweetBox({ refetchFiltered }: Props) {
     } else {
       await dispatch(
         createPost({
-          content: input,
+          content: clean_input,
           public: 1,
         })
       ).then(() => {
@@ -220,12 +223,29 @@ function TweetBox({ refetchFiltered }: Props) {
     }
   };
 
+
   const handleSearch = async (e: any) => {
     dispatch(
       searchTagUsers({
         search: e,
       })
     ).then((res: any) => setData(res));
+  };
+
+  console.log("data: ", data);
+  console.log("hashData: ", hashData);
+
+  const handleSearchHashTags = async (e: any) => {
+    console.log('hussein')
+    dispatch(
+      searchHashTags({
+        search: e,
+      })
+    ).then((res: any) => {
+      console.log(res,'husseinres')
+
+      setHashData(res)
+    });
   };
 
   return (
@@ -305,6 +325,19 @@ function TweetBox({ refetchFiltered }: Props) {
                 }}
                 markup="@@@______id____^^______display____@@@^^^"
               />
+              <Mention
+                className={`${darkMode.mentions__mention}`}
+                trigger="#"
+                data={hashData}
+                markup="#__display__"
+              />
+              <Mention
+                trigger="#"
+                data={(e) => {
+                  handleSearchHashTags(e);
+                }}
+                markup="#__display__"
+              />
             </MentionsInput>
           </div>
           <div className="dark:hidden w-full mt-1 mb-3">
@@ -326,6 +359,19 @@ function TweetBox({ refetchFiltered }: Props) {
                   handleSearch(e);
                 }}
                 markup="@@@______id____^^______display____@@@^^^"
+              />
+              <Mention
+                className={`${lightMode.mentions__mention}`}
+                trigger="#"
+                data={hashData}
+                markup="#__display__"
+              />
+              <Mention
+                trigger="#"
+                data={(e) => {
+                  handleSearchHashTags(e);
+                }}
+                markup="#__display__"
               />
             </MentionsInput>
           </div>

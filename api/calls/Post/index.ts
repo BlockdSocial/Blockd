@@ -86,6 +86,10 @@ async function fetchSuggestions() {
   return apiCall('fetchSuggestions', 'GET', 'suggestions/fetch/all');
 };
 
+async function fetchHashTagPosts(fields: any) {
+  return apiCall('fetchHashTagPosts', 'POST', 'posts/hashtag/listing', fields);
+};
+
 export default {
   createPost,
   deletePost,
@@ -105,5 +109,6 @@ export default {
   postSuggestion,
   sharePost,
   createSuggestion,
-  fetchSuggestions
+  fetchSuggestions,
+  fetchHashTagPosts
 };

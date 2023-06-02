@@ -42,6 +42,8 @@ interface User {
   levelTotal: number;
   frameName: string;
   bio: string;
+  twitter: string;
+  lensProtocol: string;
   facebook: string;
   instagram: string;
   linktree: string;
@@ -117,6 +119,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       fetchProfilePicture(user?.profilePicId);
       fetchBannerPicture(user?.bannerPicId);
       setBio(user?.bio);
+      setTwitter(user?.twitter);
+      setLens(user?.lensProtocol);
       setInsta(user?.instagram);
       setLinktree(user?.linktree);
       setFacebook(user?.facebook);
@@ -206,6 +210,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         instagram: insta ? insta : "",
         linktree: linktree ? linktree : "",
         bio: bio ? bio : "",
+        twitter: twitter ? twitter : "",
+        lensProtocol: lens ? lens : "",
       })
     ).then(() => {
       setIsModalVisible(false);
@@ -274,6 +280,27 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     }
     e.target.files = null;
     setOpenCrop(true);
+  };
+
+  const renderLink = (tarea: any, type: any) => {
+    if (tarea.indexOf("http://") == 0 || tarea.indexOf("https://") == 0) {
+      return (
+        <a href={`${tarea}`} target="_blank">
+          <img
+            src={`/images/logo/${type}`}
+            className="w-8 h-8 object-cover rounded-md"
+          />
+        </a>
+      );
+    }
+    return (
+      <a href={`https://${tarea}`} target="_blank">
+        <img
+          src={`/images/logo/${type}`}
+          className="w-8 h-8 object-cover rounded-md"
+        />
+      </a>
+    );
   };
 
   return (
@@ -545,42 +572,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         </div>
       )}
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        <a href="#" target="_blank">
-          <img
-            src="/images/logo/twitter.png"
-            className="w-8 h-8 object-cover rounded-md"
-          />
-        </a>
-        <a href="#" target="_blank">
-          <img
-            src="/images/logo/lensProtocol.jpeg"
-            className="w-8 h-8 object-cover rounded-md"
-          />
-        </a>
-        {user?.facebook && (
-          <a href={`${user?.facebook}`} target="_blank">
-            <img
-              src="/images/logo/facebook.png"
-              className="w-8 h-8 object-cover rounded-md"
-            />
-          </a>
-        )}
-        {user?.instagram && (
-          <a href={`${user?.instagram}`} target="_blank">
-            <img
-              src="/images/logo/instagram.png"
-              className="w-8 h-8 object-cover rounded-md"
-            />
-          </a>
-        )}
-        {user?.linktree && (
-          <a href={`${user?.linktree}`} target="_blank">
-            <img
-              src="/images/logo/linktree.png"
-              className="w-8 h-8 object-cover rounded-md"
-            />
-          </a>
-        )}
+        {user?.twitter && renderLink(user?.twitter, "twitter.png")}
+        {user?.lensProtocol && renderLink(user?.lensProtocol, "lensProtocol.jpeg")}
+        {user?.facebook && renderLink(user?.facebook, "facebook.png")}
+        {user?.instagram && renderLink(user?.instagram, "instagram.png")}
+        {user?.linktree && renderLink(user?.linktree, "linktree.png")}
       </div>
 
       <div
