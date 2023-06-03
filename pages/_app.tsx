@@ -8,7 +8,6 @@ import useIsMounted from "../hooks/useIsMounted";
 import Script from "next/script";
 import { GID } from "../constants";
 import { useRouter } from "next/router";
-
 /******** Rainbow Kit  **********/
 
 import {
@@ -60,11 +59,13 @@ const wagmiClient = createClient({
 function MyApp({ Component, pageProps }: AppProps) {
   const router = useRouter();
   const mounted = useIsMounted();
+ 
   if (process.env.NODE_ENV === "production") console.log = function () {};
 
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
     console.log(GID);
+   
     return null;
   }
   return (

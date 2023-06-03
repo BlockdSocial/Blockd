@@ -9,7 +9,7 @@ import Slider from "./Slider";
 import Link from "next/link";
 import { fetchTrendingPosts } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-import { searchFilteredUsers } from "../../stores/user/UserActions";
+import { fetchUser, searchFilteredUsers } from "../../stores/user/UserActions";
 import { ArrowTrendingUpIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import Result from "./Result";
 import { isEmpty } from "lodash";
@@ -27,7 +27,7 @@ type ETHARRAY = {
 
 function Widgets() {
   const dispatch = useAppDispatch();
-  const { user }: any = useAppSelector((state) => state.authUserReducer);
+  const { user, authUser }: any = useAppSelector((state) => state.authUserReducer);
   // const { trendingPosts } = useAppSelector((state) => state.postReducer);
   const TrendingChatrooms = dynamic(() => import("./TrendingChatrooms"), {
     ssr: false,
@@ -50,7 +50,10 @@ function Widgets() {
   const MINUTE_MS = 100000;
 
   //Get the Token Price
-
+  useEffect(() => {
+    //dispatch(fetchUser())
+    
+  })
   const fetchData = async () => {
     //Get pair information by chain
     const BTCResponse = await getPairInformationByChain(
@@ -214,11 +217,11 @@ function Widgets() {
       setInput("");
     }
   };
-
+console.log('hussein',user,authUser);
   return (
     <div className="col-span-2 hidden md:inline min-h-screen scrollbar-hide overflow-scroll pb-16 border-x dark:border-lightgray">
       {/* Search */}
-      {!isEmpty(user) ? (
+      {!isEmpty(authUser) ? (
         <div className="sticky p-2 top-0 backdrop-blur-md bg-white/30 dark:bg-darkgray/30 z-[1]">
           <div className="flex items-center space-x-2 bg-gray-100 py-2 dark:bg-darkgray rounded-md dark:border-white border group">
             <MagnifyingGlassIcon className="hidden lg:inline w-5 h-5 ml-2 text-gray-400 dark:text-white" />
@@ -271,7 +274,7 @@ function Widgets() {
       ) : (
         <></>
       )}
-      <>{!isEmpty(user) ? <Slider trendingPosts={trendingPosts} /> : <></>}</>
+      <>{!isEmpty(authUser) ? <Slider trendingPosts={trendingPosts} /> : <></>}</>
       <div className="flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
         <div className="p-2 flex items-center justify-start space-x-2 w-full">
           <ArrowTrendingUpIcon className="w-5 h-5" />

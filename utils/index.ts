@@ -1,3 +1,5 @@
+import { Token } from "@mui/icons-material";
+import { getCookie, setCookie } from "cookies-next";
 import Link from "next/link";
 import { useEffect, useState } from "react";
 
@@ -176,8 +178,8 @@ export const renderComment = (text: any) => {
   if (hashMatches || hashMatches?.length > 0 || !isEmpty(hashMatches)) {
     for (let i = 0; i < hashMatches.length; i++) {
       let hash = hashMatches[i];
-     
-       hash = hash.replace(/\#/g, "")
+
+      hash = hash.replace(/\#/g, "");
       let link = `<a href="/dashboard/hashtag?${hash}" className="hover:underline text-blue-400">#${hash}</a>`;
       text = text.replace(hashMatches[i], link);
     }
@@ -310,3 +312,5 @@ export default function useWindowDimensions() {
 
   return windowDimensions;
 }
+
+
