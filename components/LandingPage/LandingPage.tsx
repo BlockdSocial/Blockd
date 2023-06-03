@@ -1,14 +1,11 @@
-import React, {
-  useEffect,
-  useRef,
-  useState,
-} from "react";
+import React, { useEffect, useRef, useState } from "react";
 import { ArrowPathIcon } from "@heroicons/react/24/outline";
 import { ChevronDoubleUpIcon } from "@heroicons/react/24/solid";
 import toast from "react-hot-toast";
 import LandingPost from "./Post";
 import {
   fetchFilteredPosts,
+  fetchUnauthPosts,
 } from "../../stores/post/PostActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
@@ -32,7 +29,6 @@ interface Filtered {
 function Feed() {
   const dispatch = useAppDispatch();
 
-
   const { isFetchingFilteredPosts, error } = useAppSelector(
     (state) => state.postReducer
   );
@@ -44,14 +40,13 @@ function Feed() {
   const elementRef = useRef<any>(null);
 
   useEffect(() => {
-   
     setFiltered(undefined);
     fetchFiltered();
-  },[]);
+  }, []);
 
   const fetchFiltered = async () => {
     await dispatch(
-      fetchFilteredPosts({
+      fetchUnauthPosts({
         start: 0,
         end: 8,
       })
@@ -61,7 +56,6 @@ function Feed() {
       setFiltered(result?.posts);
     });
   };
-
 
   const goToTopOfPage = () => {
     const element = document.getElementById("top-page");
@@ -79,8 +73,6 @@ function Feed() {
       id: refreshToast,
     });
   };
-
- 
 
   return (
     <div
@@ -119,16 +111,14 @@ function Feed() {
             ))}
         </div>
         <div className="p-4">
-        <Link
+          <Link
             href={{
               pathname: "/auth/signup",
-            
             }}
-            
           >
-          <div className="flex items-center justify-center p-4 rounded-md w-full bg-orange-200 hover:bg-blockd text-white cursor-pointer">
+            <div className="flex items-center justify-center p-4 rounded-md w-full bg-orange-200 hover:bg-blockd text-white cursor-pointer">
               Sign up to view more
-          </div>
+            </div>
           </Link>
         </div>
       </div>

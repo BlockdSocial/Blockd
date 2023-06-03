@@ -145,17 +145,20 @@ const Navbar = () => {
   };
 
   // @ts-ignore
-  const [channel, ably] = useChannel(`notifications-${JSON.parse(localStorage.getItem('authUser'))?.id}`, (message) => {
-    setNotificationInfo('');
-    checkUserNotification(message.data);
-  });
+  const [channel, ably] = useChannel(
+    `notifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
+    (message) => {
+      setNotificationInfo("");
+      checkUserNotification(message.data);
+    }
+  );
 
   const [message] = useChannel(
     // @ts-ignore
     `messageNotifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
     (message) => {
-      setNotificationInfo('');
-      if (message.data !== 'room') {
+      setNotificationInfo("");
+      if (message.data !== "room") {
         fetchMessageNotification(message.data);
       }
     }
@@ -288,7 +291,7 @@ const Navbar = () => {
     localStorage.removeItem("authUser");
     deleteCookie("token");
     await dispatch(logoutUser());
-    router.push("/auth/signin");
+    router.push("/auth/signup");
   };
 
   const currentTheme = theme === "system" ? systemTheme : theme;
@@ -394,7 +397,7 @@ const Navbar = () => {
               className="w-7 h-7 text-white cursor-pointer md:hidden"
             />
             <Link
-              href="/"
+              href={!isEmpty(authUser) ? "/" : "/auth/signup"}
               className="h-full cursor-pointer flex items-center justify-center"
             >
               <Image
@@ -522,95 +525,115 @@ const Navbar = () => {
               {renderThemeChanger()}
             </li>
             {/* Messages */}
-            <li className="flex-col items-center text-l hidden">
-              <Link href="/dashboard/messages">
-                {/*
+            {!isEmpty(authUser) ? (
+              <>
+                <li className="flex-col items-center text-l hidden">
+                  <Link href="/dashboard/messages">
+                    {/*
                 // @ts-ignore */}
-                <IconGroup
-                  //@ts-ignore
-                  Icon={ChatBubbleBottomCenterTextIcon}
-                  notif="10"
-                ></IconGroup>
-              </Link>
-            </li>
+                    <IconGroup
+                      //@ts-ignore
+                      Icon={ChatBubbleBottomCenterTextIcon}
+                      notif="10"
+                    ></IconGroup>
+                  </Link>
+                </li>
 
-            <li className="flex md:flex-col items-center text-l">
-              <Link href="/dashboard/messages" onClick={() => handleMsg()}>
-                {/*
+                <li className="flex md:flex-col items-center text-l">
+                  <Link href="/dashboard/messages" onClick={() => handleMsg()}>
+                    {/*
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
-                  <div className="">
-                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
-                      {authUser?.unreadMessages == 0 ||
-                      authUser?.unreadMessages === undefined ||
-                      authUser?.unreadMessages === null ? (
-                        ""
-                      ) : (
-                        <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                          <span>{authUser?.unreadMessages}</span>
-                        </span>
-                      )}
-                      <ChatBubbleBottomCenterTextIcon className="h-6 w-6 inline text-white dark:text-white" />
-                    </strong>
-                  </div>
-                </div>
-              </Link>
-            </li>
+                    <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group">
+                      <div className="">
+                        <strong className="relative inline-flex items-center px-2.5 py-1.5">
+                          {authUser?.unreadMessages == 0 ||
+                          authUser?.unreadMessages === undefined ||
+                          authUser?.unreadMessages === null ? (
+                            ""
+                          ) : (
+                            <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                              <span>{authUser?.unreadMessages}</span>
+                            </span>
+                          )}
+                          <ChatBubbleBottomCenterTextIcon className="h-6 w-6 inline text-white dark:text-white" />
+                        </strong>
+                      </div>
+                    </div>
+                  </Link>
+                </li>
+              </>
+            ) : (
+              <></>
+            )}
             {/* Notifications */}
-
-            <li className="flex flex-col items-center text-l">
-              <Link
-                href="/dashboard/notifications"
-                onClick={() => handleNotif()}
-              >
-                {/*
+            {!isEmpty(authUser) ? (
+              <li className="flex flex-col items-center text-l">
+                <Link
+                  href="/dashboard/notifications"
+                  onClick={() => handleNotif()}
+                >
+                  {/*
                 // @ts-ignore */}
-                <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
-                  <div className="">
-                    <strong className="relative inline-flex items-center px-2.5 py-1.5">
-                      {authUser?.unread == 0 ||
-                      authUser?.unread === undefined ||
-                      authUser?.unread === null ? (
-                        ""
-                      ) : (
-                        <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
-                          <span>{authUser?.unread}</span>
-                        </span>
-                      )}
-                      <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
-                    </strong>
+                  <div className="flex max-w-fit items-center space-x-2 rounded-ful transition-all duration-100 group mr-2">
+                    <div className="">
+                      <strong className="relative inline-flex items-center px-2.5 py-1.5">
+                        {authUser?.unread == 0 ||
+                        authUser?.unread === undefined ||
+                        authUser?.unread === null ? (
+                          ""
+                        ) : (
+                          <span className="text-white absolute text-xs -top-1 -right-0 h-6 w-6 rounded-full group-hover:bg-orange-600 bg-blockd flex justify-center items-center items border-2 border-[#181c44] dark:border-lightgray">
+                            <span>{authUser?.unread}</span>
+                          </span>
+                        )}
+                        <BellIcon className="h-6 w-6 inline text-white dark:text-white" />
+                      </strong>
+                    </div>
                   </div>
-                </div>
-              </Link>
-            </li>
+                </Link>
+              </li>
+            ) : (
+              <></>
+            )}
             {/*
           <div className={`${dropdownNotifOpen ? 'hidden md:inline' : 'hidden'}`}>
             <NotifDropDown />
           </div>*/}
             {/* Sign Up */}
             <li className="h-14 rounded-full flex items-center justify-center space-x-4">
-              <p
-                className="text-white cursor-pointer dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
-                onClick={() => handleLogoutClick()}
-              >
-                Logout
-              </p>
-              <Link
-                href="/dashboard/profile"
-                className="rounded-md bg-white w-full"
-              >
-                <Image
-                  src={
-                    authUser?.profilePic
-                      ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
-                  }
-                  alt="pfp"
-                  className="w-10 h-10 rounded-md shadow-sm cursor-pointer object-cover"
-                  width={2000}
-                  height={2000}
-                />
-              </Link>
+              {!isEmpty(authUser) ? (
+                <>
+                  <p
+                    className="text-white cursor-pointer dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
+                    onClick={() => handleLogoutClick()}
+                  >
+                    Logout
+                  </p>
+                  <Link
+                    href="/dashboard/profile"
+                    className="rounded-md bg-white w-full"
+                  >
+                    <Image
+                      src={
+                        authUser?.profilePic
+                          ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
+                      }
+                      alt="pfp"
+                      className="w-10 h-10 rounded-md shadow-sm cursor-pointer object-cover"
+                      width={2000}
+                      height={2000}
+                    />
+                  </Link>
+                </>
+              ) : (
+                <Link
+                  href="/auth/signup"
+                  className="text-white cursor-pointer dark:text-white hover:text-gray-300 dark:hover:text-gray-300 font-semibold"
+                >
+                  Signup
+                </Link>
+              )}
             </li>
           </ul>
         </div>

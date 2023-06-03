@@ -184,6 +184,47 @@ export const renderComment = (text: any) => {
   return text;
 };
 
+export const renderUnauthComment = (text: any) => {
+  // text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
+
+  const pattern = /@@@____[0-9]*__\^\^____(.*?)__@@@\^\^\^/gim;
+  const pattern_username = /(?:__\^\^____)(.*?)(?:__@@@)/;
+  const pattern_id = /(?:@@@____)([0-9]+)(?:\__)/;
+  const matches = text?.match(pattern);
+
+  const patternHash = /([#][a-z\d-]+)/gim;
+  const hashMatches = text?.match(patternHash);
+  let link2 = "";
+
+  if (matches && matches.length > 0) {
+    for (let i = 0; i < matches.length; i++) {
+      let name = matches[i].match(pattern_username);
+      if (name.length > 1) {
+        name = name[1];
+      }
+
+      let user_id = matches[i].match(pattern_id);
+      if (user_id.length > 1) {
+        user_id = user_id[1];
+      }
+      let encode = encodeQuery(user_id, "profile");
+      let link = `<a href="/auth/signup" className="hover:underline text-blue-400">@${name}</a>`;
+
+      text = text.replace(matches[i], link);
+    }
+  }
+
+  if (hashMatches || hashMatches?.length > 0 || !isEmpty(hashMatches)) {
+    for (let i = 0; i < hashMatches.length; i++) {
+      let hash = hashMatches[i];
+      let link = `<a href="/auth/signup" className="hover:underline text-blue-400">${hash}</a>`;
+      text = text.replace(hashMatches[i], link);
+    }
+  }
+
+  return text;
+};
+
 export const renderComment2 = (text: any) => {
   //text = "@@@____9__^^____display__@@@^^^ ds @@@____18__^^____display__@@@^^^";
 

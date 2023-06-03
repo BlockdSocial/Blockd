@@ -11,7 +11,7 @@ export function middleware(req: NextRequest) {
   if (["/"].includes(req.nextUrl.pathname)) {
     if (!hasToken) {
       // return NextResponse.redirect(new URL('/landingPage', req.url))
-      return NextResponse.redirect(new URL("/auth/signup", req.url));
+      return NextResponse.redirect(new URL("/landingPage", req.url));
     }
   }
   if (["/auth/signup", "/auth/signin"].includes(req.nextUrl.pathname)) {
