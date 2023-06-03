@@ -146,6 +146,7 @@ const Navbar = () => {
 
   // @ts-ignore
   const [channel, ably] = useChannel(
+    // @ts-ignore
     `notifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
     (message) => {
       setNotificationInfo("");
