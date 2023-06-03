@@ -287,7 +287,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       return (
         <a href={`${tarea}`} target="_blank">
           <img
-            src={`/images/logo/${type}.png`}
+            src={`/images/logo/${type}`}
             className="w-8 h-8 object-cover rounded-md"
           />
         </a>
@@ -296,7 +296,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     return (
       <a href={`https://${tarea}`} target="_blank">
         <img
-          src={`/images/logo/${type}.png`}
+          src={`/images/logo/${type}`}
           className="w-8 h-8 object-cover rounded-md"
         />
       </a>
@@ -572,11 +572,11 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         </div>
       )}
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        {user?.twitter && renderLink(user?.twitter, "twitter")}
-        {user?.lensProtocol && renderLink(user?.lensProtocol, "lensProtocol")}
-        {user?.facebook && renderLink(user?.facebook, "facebook")}
-        {user?.instagram && renderLink(user?.instagram, "instagram")}
-        {user?.linktree && renderLink(user?.linktree, "linktree")}
+        {user?.twitter && renderLink(user?.twitter, "twitter.png")}
+        {user?.lensProtocol && renderLink(user?.lensProtocol, "lensProtocol.jpeg")}
+        {user?.facebook && renderLink(user?.facebook, "facebook.png")}
+        {user?.instagram && renderLink(user?.instagram, "instagram.png")}
+        {user?.linktree && renderLink(user?.linktree, "linktree.png")}
       </div>
 
       <div

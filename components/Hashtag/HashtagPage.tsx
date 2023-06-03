@@ -19,7 +19,7 @@ function HashtagPage() {
       handleFetchHashPosts();
     }
   }, [hashtag]);
-
+  console.log({hashtag})
   const handleFetchHashPosts = async () => {
     await dispatch(fetchHashTagPosts({
       hashtag: `#${hashtag}`,
