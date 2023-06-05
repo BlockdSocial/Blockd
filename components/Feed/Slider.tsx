@@ -27,6 +27,9 @@ function Slider() {
   let [MATICPrice, setMATICPrice] = useState<any>();
   let [MATICUrl, setMATICUrl] = useState<any>("");
   let [MATICPriceChange, setMATICPriceChange] = useState<any>();
+  let [BNBPrice, setBNBPrice] = useState<any>();
+  let [BNBUrl, setBNBUrl] = useState<any>("");
+  let [BNBPriceChange, setBNBPriceChange] = useState<any>();
 
   const MINUTE_MS = 100000;
 
@@ -49,6 +52,11 @@ function Slider() {
       "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7"
     );
 
+    const BNBResponse = await getPairInformationByChain(
+      "bsc",
+      "0x16b9a82891338f9ba80e2d6970fdda79d1eb0dae"
+    );
+
     //Get pairs matching base token address
     //const tokensResponse = await getPairsMatchingBaseTokenAddress("0x1DF2C6DF4d4E7F3188487F4515587c5E8b75dbfa");
 
@@ -61,6 +69,9 @@ function Slider() {
     MATICUrl = await MATICResponse.pair.url;
     MATICPrice = await MATICResponse.pair.priceUsd;
     MATICPriceChange = await MATICResponse.pair.priceChange.h1;
+    BNBUrl = await BNBResponse.pair.url;
+    BNBPrice = await BNBResponse.pair.priceUsd;
+    BNBPriceChange = await BNBResponse.pair.priceChange.h1;
 
     // priceChange = pairsResponse.pairs[0].priceChange.h24;
 
@@ -68,12 +79,15 @@ function Slider() {
       BTCPrice,
       ETHPrice,
       MATICPrice,
+      BNBPrice,
       BTCPriceChange,
       ETHPriceChange,
       MATICPriceChange,
+      BNBPriceChange,
       BTCUrl,
       ETHUrl,
       MATICUrl,
+      BNBUrl
     };
   };
 
@@ -98,6 +112,12 @@ function Slider() {
         setMATICPriceChange(MATICChange);
         const MaticUrl = MATICUrl;
         setMATICUrl(MaticUrl);
+        const BNB = BNBPrice;
+        setBNBPrice(BNB);
+        const BNBChange = BNBPriceChange;
+        setBNBPriceChange(BNBChange);
+        const BnbUrl = BNBUrl;
+        setBNBUrl(BnbUrl);
       });
     }, MINUTE_MS);
 
@@ -124,23 +144,14 @@ function Slider() {
       setMATICPriceChange(MATICChange);
       const MaticUrl = MATICUrl;
       setMATICUrl(MaticUrl);
+      const BNB = BNBPrice;
+      setBNBPrice(BNB);
+      const BNBChange = BNBPriceChange;
+      setBNBPriceChange(BNBChange);
+      const BnbUrl = BNBUrl;
+      setBNBUrl(BnbUrl);
     });
   }, []);
-
-  console.log(BTCPriceChange)
-  // const bg = [
-  //   "from-[#EC9F05] to-[#FF4E00]",
-  //   "from-[#A4BFEF] to-[#6A93CB]",
-  //   "from-[#5F0A87] to-[#A4508B]",
-  // ];
-  // const url = [BTCUrl, ETHUrl, MATICUrl];
-  // const images = [
-  //   "/images/logo/btc-logo.png",
-  //   "/images/logo/eth-logo-2.png",
-  //   "/images/logo/matic-logo.png",
-  // ];
-  // const price = [BTCPrice, ETHPrice, MATICPrice];
-  // const priceChange = [BTCPriceChange, BTCPriceChange, BTCPriceChange];
 
   return (
     <div className="flex w-[100vw] md:hidden slider r_to_l h-14 bg-gradient-to-r from-orange-300 via-orange-400 to-blockd">
@@ -148,7 +159,7 @@ function Slider() {
         <Link
           href={BTCUrl}
           target="_blank"
-          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+          className="flex items-center justify-center space-x-2 w-[50%] p-2"
         >
           <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
             <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
@@ -171,7 +182,7 @@ function Slider() {
         <Link
           href={ETHUrl}
           target="_blank"
-          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+          className="flex items-center justify-center space-x-2 w-[50%] p-2"
         >
           <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
             <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
@@ -185,29 +196,6 @@ function Slider() {
               {ETHPrice}
             </p>
             {ETHPriceChange > 0 ? (
-              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-            ) : (
-              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-            )}
-          </div>
-        </Link>
-        <Link
-          href={MATICUrl}
-          target="_blank"
-          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
-        >
-          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
-            <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
-          </div>
-          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
-            <p
-              className={`${
-                MATICPriceChange > 0 ? "text-green-600 " : "text-red-600"
-              }`}
-            >
-              {MATICPrice}
-            </p>
-            {MATICPriceChange > 0 ? (
               <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
             ) : (
               <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
@@ -217,45 +205,22 @@ function Slider() {
       </div>
       <div className="slider_inner min-w-[100vw] flex">
         <Link
-          href={BTCUrl}
+          href={BNBUrl}
           target="_blank"
-          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+          className="flex items-center justify-center space-x-2 w-[50%] p-2"
         >
           <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
-            <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
+            <img src="/images/logo/bnb-logo.png" className="w-7 h-7" />
           </div>
           <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
             <p
               className={`${
-                BTCPriceChange > 0 ? "text-green-600 " : "text-red-600"
+                BNBPriceChange > 0 ? "text-green-600 " : "text-red-600"
               }`}
             >
-              {BTCPrice}
+              {BNBPrice}
             </p>
-            {BTCPriceChange > 0 ? (
-              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-            ) : (
-              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-            )}
-          </div>
-        </Link>
-        <Link
-          href={ETHUrl}
-          target="_blank"
-          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
-        >
-          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
-            <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
-          </div>
-          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
-            <p
-              className={`${
-                ETHPriceChange > 0 ? "text-green-600 " : "text-red-600"
-              }`}
-            >
-              {ETHPrice}
-            </p>
-            {ETHPriceChange > 0 ? (
+            {BNBPriceChange > 0 ? (
               <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
             ) : (
               <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
@@ -265,7 +230,7 @@ function Slider() {
         <Link
           href={MATICUrl}
           target="_blank"
-          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+          className="flex items-center justify-center space-x-2 w-[50%] p-2"
         >
           <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
             <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
@@ -305,7 +270,7 @@ function Slider() {
     //       <img src={images[currentIndex]} className="w-7 h-7" />
     //     </div>
     //     <p
-    //       className={`p-1 px-3 bg-white rounded-md dark:bg-lightgray ${
+    //       className={`p-1 px-1 bg-white rounded-md dark:bg-lightgray ${
     //         priceChange[currentIndex] > 0 ? "text-green-600 " : "text-red-600"
     //       }`}
     //     >
