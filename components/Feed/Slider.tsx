@@ -143,7 +143,7 @@ function Slider() {
   // const priceChange = [BTCPriceChange, BTCPriceChange, BTCPriceChange];
 
   return (
-    <div className="flex w-[100vw] slider r_to_l h-14 bg-gradient-to-r from-orange-300 via-orange-400 to-blockd">
+    <div className="flex w-[100vw] md:hidden slider r_to_l h-14 bg-gradient-to-r from-orange-300 via-orange-400 to-blockd">
       <div className="slider_inner min-w-[100vw] flex">
         <Link
           href={BTCUrl}
