@@ -242,46 +242,6 @@ function Slider() {
         </Link>
       </div>
     </div>
-    // <div
-    //   className={`flex md:hidden items-center justify-center h-10 bg-gradient-to-r ${bg[currentIndex]} py-6`}
-    // >
-    //   <button
-    //     className="mr-2 hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    //     onClick={goToPreviousSlide}
-    //   >
-    //     Previous
-    //   </button>
-    //   <Link
-    //     href={url[currentIndex]}
-    //     target="_blank"
-    //     className="flex items-center justify-evenly space-x-4 w-full p-2"
-    //   >
-    //     <div className="p-1 bg-white dark:bg-lightgray rounded-full">
-    //       <img src={images[currentIndex]} className="w-7 h-7" />
-    //     </div>
-    //     <p
-    //       className={`p-1 px-1 bg-white rounded-md dark:bg-lightgray ${
-    //         priceChange[currentIndex] > 0 ? "text-green-600 " : "text-red-600"
-    //       }`}
-    //     >
-    //       {price[currentIndex]}
-    //     </p>
-    //     <div className="p-2 bg-white dark:bg-lightgray rounded-full">
-    //       {priceChange[currentIndex] > 0 ? (
-    //         <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-    //       ) : (
-    //         <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-    //       )}
-    //     </div>
-    //   </Link>
-    //   {/* <h1 className="text-4xl">{slides[currentIndex]}</h1> */}
-    //   <button
-    //     className="ml-2 hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-    //     onClick={goToNextSlide}
-    //   >
-    //     Next
-    //   </button>
-    // </div>
   );
 }
 
