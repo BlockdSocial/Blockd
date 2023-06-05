@@ -18,6 +18,8 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { useRouter } from "next/router";
+import { Carousel } from "flowbite";
+import Slider from "./Slider";
 
 interface Post {
   id: number;
@@ -77,7 +79,7 @@ function Feed() {
     dispatch(fetchAuthUser());
     setFiltered(undefined);
     fetchFiltered();
-  },[]);
+  }, []);
 
   const fetchFiltered = async () => {
     await dispatch(
@@ -148,6 +150,9 @@ function Feed() {
       className="relative max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
     >
       <div id="top-page"></div>
+
+      <Slider />
+      
       <div
         className={`flex items-center z-[30] ${
           atTop === false ? "justify-end" : "justify-between"
@@ -164,7 +169,6 @@ function Feed() {
           className="flex items-center justify-end w-6 h-6 cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
         />
       </div>
-      
 
       <div>
         <TweetBox refetchFiltered={fetchFiltered} />

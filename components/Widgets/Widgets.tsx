@@ -132,32 +132,6 @@ function Widgets() {
   }, []);
 
   useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData().then(() => {
-        const BTC = BTCPrice;
-        setBTCPrice(BTC);
-        const BTCChange = BTCPriceChange;
-        setBTCPriceChange(BTCChange);
-        const BtcUrl = BTCUrl;
-        setBTCUrl(BtcUrl);
-        const ETH = ETHPrice;
-        setETHPrice(ETH);
-        const ETHChange = ETHPriceChange;
-        setETHPriceChange(ETHChange);
-        const EthUrl = ETHUrl;
-        setETHUrl(EthUrl);
-        const MATIC = MATICPrice;
-        setMATICPrice(MATIC);
-        const MATICChange = MATICPriceChange;
-        setMATICPriceChange(MATICChange);
-        const MaticUrl = MATICUrl;
-        setMATICUrl(MaticUrl);
-      });
-    }, MINUTE_MS);
-
-    return () => clearInterval(interval);
-  }, []);
-  useEffect(() => {
   
       fetchData().then(() => {
         const BTC = BTCPrice;
@@ -180,14 +154,7 @@ function Widgets() {
         setMATICUrl(MaticUrl);
       });
     
-
-    
   }, []);
-
-  const BTCResponse = getPairInformationByChain(
-    "bsc",
-    "0x16b9a82891338f9bA80E2D6970FddA79D1eb0daE"
-  );
 
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
