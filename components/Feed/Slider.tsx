@@ -7,16 +7,6 @@ import Link from "next/link";
 import React, { useEffect, useState } from "react";
 
 function Slider() {
-  const [currentIndex, setCurrentIndex] = useState(0);
-  const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]; // Replace with your actual items
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
-    }, 3000);
-
-    return () => clearInterval(interval);
-  }, [items.length]);
 
   let [BTCPrice, setBTCPrice] = useState<any>();
   let [BTCUrl, setBTCUrl] = useState<any>("");

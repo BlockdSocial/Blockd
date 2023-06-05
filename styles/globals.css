@@ -99,9 +99,11 @@ em-emoji-picker {
 /**右から左に動かすアニメーション**/
 .r_to_l .slider_inner:first-of-type {
   animation: reverse-loop 50s -25s linear infinite;
+  animation-duration: 10s;
 }
 .r_to_l .slider_inner:last-of-type {
   animation: reverse-loop2 50s linear infinite;
+  animation-duration: 10s;
 }
 
 @keyframes reverse-loop {
