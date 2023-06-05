@@ -11,11 +11,8 @@ import { isEmpty } from "lodash";
 import { encodeQuery, renderComment, renderCommentText } from "../../utils";
 // @ts-ignore
 import renderHTML from "react-render-html";
-import {
-  fetchAuthUser,
-} from "../../stores/authUser/AuthUserActions";
+import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
-
 
 interface Images {
   name: string;
@@ -64,7 +61,6 @@ function Slider({ trendingPosts }: Props) {
     }
   }, [trendingPosts]);
   useEffect(() => {
-   
     dispatch(fetchAuthUser());
   }, []);
 
@@ -94,22 +90,16 @@ function Slider({ trendingPosts }: Props) {
             <p className="text-xs lg:text-base">Trending Posts</p>
           </div>
           <div className="h-52 w-full m-auto p-2 relative group">
-         
             <Link
-             
-
               href={{
-                
-
-            
                 pathname: authUser ? "/dashboard/post/" : "/auth/signup",
                 query: { postId: slides[currentIndex]?.id },
               }}
-             
-              as={`/dashboard/post?${encodeQuery(slides[currentIndex]?.id, 'post')}`}
-             
+              as={`/dashboard/post?${encodeQuery(
+                slides[currentIndex]?.id,
+                "post"
+              )}`}
             >
-     
               <div
                 style={{ backgroundImage: `url(${slides[currentIndex]?.url})` }}
                 className="w-full h-full relative rounded-md bg-center bg-cover duration-500"
@@ -119,13 +109,14 @@ function Slider({ trendingPosts }: Props) {
                     pathname: "/dashboard/post/",
                     query: { postId: slides[currentIndex]?.id },
                   }}
-                  as={`/dashboard/post?${encodeQuery(slides[currentIndex]?.id, 'post')}`}
+                  as={`/dashboard/post?${encodeQuery(
+                    slides[currentIndex]?.id,
+                    "post"
+                  )}`}
                   className="absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full"
                 >
-                  {
-                    !isEmpty(slides[currentIndex]?.title) &&
-                    renderHTML(renderCommentText(slides[currentIndex]?.title))
-                  }
+                  {!isEmpty(slides[currentIndex]?.title) &&
+                    renderHTML(renderCommentText(slides[currentIndex]?.title))}
                 </Link>
               </div>
             </Link>

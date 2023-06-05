@@ -14,6 +14,7 @@ import { ArrowTrendingUpIcon, HashtagIcon } from "@heroicons/react/24/outline";
 import Result from "./Result";
 import { isEmpty } from "lodash";
 import { getPairInformationByChain } from "dexscreener-api";
+import LiveChart from "./LiveChart";
 
 interface Pic {
   name: string;
@@ -37,117 +38,11 @@ function Widgets() {
   const [input, setInput] = useState<string>("");
   const [trendingPosts, setTrendingPosts] = useState<any>();
 
-  let [BTCPrice, setBTCPrice] = useState<any>();
-  let [BTCUrl, setBTCUrl] = useState<any>();
-  let [BTCPriceChange, setBTCPriceChange] = useState<any>();
-  let [ETHPrice, setETHPrice] = useState<any>();
-  let [ETHUrl, setETHUrl] = useState<any>();
-  let [ETHPriceChange, setETHPriceChange] = useState<any>();
-  let [MATICPrice, setMATICPrice] = useState<any>();
-  let [MATICUrl, setMATICUrl] = useState<any>();
-  let [MATICPriceChange, setMATICPriceChange] = useState<any>();
-
-  const MINUTE_MS = 100000;
-
   //Get the Token Price
   useEffect(() => {
     //dispatch(fetchUser())
     
   })
-  const fetchData = async () => {
-    //Get pair information by chain
-    const BTCResponse = await getPairInformationByChain(
-      "bsc",
-      "0x46cf1cf8c69595804ba91dfdd8d6b960c9b0a7c4"
-    );
-
-    const ETHResponse = await getPairInformationByChain(
-      "ethereum",
-      "0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640"
-    );
-
-    const MATICResponse = await getPairInformationByChain(
-      "polygon",
-      "0x9B08288C3Be4F62bbf8d1C20Ac9C5e6f9467d8B7"
-    );
-
-    //Get pairs matching base token address
-    //const tokensResponse = await getPairsMatchingBaseTokenAddress("0x1DF2C6DF4d4E7F3188487F4515587c5E8b75dbfa");
-
-    BTCPrice = await BTCResponse.pair.priceUsd;
-    BTCUrl = await BTCResponse.pair.url;
-    BTCPriceChange = await BTCResponse.pair.priceChange.h1;
-    ETHUrl = await ETHResponse.pair.url;
-    ETHPrice = await ETHResponse.pair.priceUsd;
-    ETHPriceChange = await ETHResponse.pair.priceChange.h1;
-    MATICUrl = await MATICResponse.pair.url;
-    MATICPrice = await MATICResponse.pair.priceUsd;
-    MATICPriceChange = await MATICResponse.pair.priceChange.h1;
-
-    // priceChange = pairsResponse.pairs[0].priceChange.h24;
-
-    return {
-      BTCPrice,
-      ETHPrice,
-      MATICPrice,
-      BTCPriceChange,
-      ETHPriceChange,
-      MATICPriceChange,
-      BTCUrl,
-      ETHUrl,
-      MATICUrl,
-    };
-  };
-
-  useEffect(() => {
-    const interval = setInterval(() => {
-      fetchData().then(() => {
-        const BTC = BTCPrice;
-        setBTCPrice(BTC);
-        const BTCChange = BTCPriceChange;
-        setBTCPriceChange(BTCChange);
-        const BtcUrl = BTCUrl;
-        setBTCUrl(BtcUrl);
-        const ETH = ETHPrice;
-        setETHPrice(ETH);
-        const ETHChange = ETHPriceChange;
-        setETHPriceChange(ETHChange);
-        const EthUrl = ETHUrl;
-        setETHUrl(EthUrl);
-        const MATIC = MATICPrice;
-        setMATICPrice(MATIC);
-        const MATICChange = MATICPriceChange;
-        setMATICPriceChange(MATICChange);
-        const MaticUrl = MATICUrl;
-        setMATICUrl(MaticUrl);
-      });
-    }, MINUTE_MS);
-
-    return () => clearInterval(interval);
-  }, []);
-
-  useEffect(() => {
-    fetchData().then(() => {
-      const BTC = BTCPrice;
-      setBTCPrice(BTC);
-      const BTCChange = BTCPriceChange;
-      setBTCPriceChange(BTCChange);
-      const BtcUrl = BTCUrl;
-      setBTCUrl(BtcUrl);
-      const ETH = ETHPrice;
-      setETHPrice(ETH);
-      const ETHChange = ETHPriceChange;
-      setETHPriceChange(ETHChange);
-      const EthUrl = ETHUrl;
-      setETHUrl(EthUrl);
-      const MATIC = MATICPrice;
-      setMATICPrice(MATIC);
-      const MATICChange = MATICPriceChange;
-      setMATICPriceChange(MATICChange);
-      const MaticUrl = MATICUrl;
-      setMATICUrl(MaticUrl);
-    });
-  }, []);
 
   const fetchTrendings = useCallback(() => {
     dispatch(fetchTrendingPosts()).then((res) => {
@@ -244,75 +139,9 @@ console.log('hussein',user,authUser);
         <></>
       )}
       <>{!isEmpty(authUser) ? <Slider trendingPosts={trendingPosts} /> : <></>}</>
-      <div className="flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
-        <div className="p-2 flex items-center justify-start space-x-2 w-full">
-          <ArrowTrendingUpIcon className="w-5 h-5" />
-          <p>Live Chart</p>
-        </div>
-        {ETHPrice && (
-          <Link
-            href={ETHUrl}
-            target="_blank"
-            className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
-          >
-            <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
-            <p
-              className={`${
-                ETHPriceChange > 0 ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {ETHPrice}
-            </p>
-            {ETHPriceChange > 0 ? (
-              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-            ) : (
-              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-            )}
-          </Link>
-        )}
-        {MATICPrice && (
-          <Link
-            href={MATICUrl}
-            target="_blank"
-            className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
-          >
-            <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
-            <p
-              className={`${
-                MATICPriceChange > 0 ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {MATICPrice}
-            </p>
-            {MATICPriceChange > 0 ? (
-              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-            ) : (
-              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-            )}
-          </Link>
-        )}
-        {BTCPrice && (
-          <Link
-            href={BTCUrl}
-            target="_blank"
-            className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
-          >
-            <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
-            <p
-              className={`${
-                BTCPriceChange > 0 ? "text-green-600" : "text-red-600"
-              }`}
-            >
-              {BTCPrice}
-            </p>
-            {BTCPriceChange > 0 ? (
-              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-            ) : (
-              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-            )}
-          </Link>
-        )}
-      </div>
+
+      <LiveChart />
+      
       {/* <div className="flex flex-col mt-4 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
         <p className="flex items-center justify-start space-x-2 p-2">
           <HashtagIcon className="w-4 h-4" />
