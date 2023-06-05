@@ -96,6 +96,52 @@ em-emoji-picker {
   align-items: center;
 }
 
-.slider {
-  padding: 22px 0px;
+/**右から左に動かすアニメーション**/
+.r_to_l .slider_inner:first-of-type {
+  animation: reverse-loop 50s -25s linear infinite;
+}
+.r_to_l .slider_inner:last-of-type {
+  animation: reverse-loop2 50s linear infinite;
+}
+
+@keyframes reverse-loop {
+  0% {
+    transform: translateX(100%);
+  }
+  to {
+    transform: translateX(-100%);
+  }
+}
+@keyframes reverse-loop2 {
+  0% {
+    transform: translateX(0%);
+  }
+  to {
+    transform: translateX(-200%);
+  }
+}
+
+/**左から右に動かすアニメーション**/
+.l_to_r .slider_inner:first-of-type {
+  animation: loop 50s -25s linear infinite;
+}
+.l_to_r .slider_inner:last-of-type {
+  animation: loop2 50s linear infinite;
+}
+
+@keyframes loop {
+  0% {
+    transform: translateX(-100%);
+  }
+  to {
+    transform: translateX(100%);
+  }
+}
+@keyframes loop2 {
+  0% {
+    transform: translateX(-200%);
+  }
+  to {
+    transform: translateX(0);
+  }
 }

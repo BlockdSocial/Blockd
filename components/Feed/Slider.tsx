@@ -8,6 +8,15 @@ import React, { useEffect, useState } from "react";
 
 function Slider() {
   const [currentIndex, setCurrentIndex] = useState(0);
+  const items = ["Item 1", "Item 2", "Item 3", "Item 4", "Item 5"]; // Replace with your actual items
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+      setCurrentIndex((prevIndex) => (prevIndex + 1) % items.length);
+    }, 3000);
+
+    return () => clearInterval(interval);
+  }, [items.length]);
 
   let [BTCPrice, setBTCPrice] = useState<any>();
   let [BTCUrl, setBTCUrl] = useState<any>("");
@@ -118,78 +127,206 @@ function Slider() {
     });
   }, []);
 
-  const bg = ["from-[#EC9F05] to-[#FF4E00]", "from-[#A4BFEF] to-[#6A93CB]", "from-[#5F0A87] to-[#A4508B]"];
-  const url = [BTCUrl, ETHUrl, MATICUrl];
-  const images = [
-    "/images/logo/btc-logo.png",
-    "/images/logo/eth-logo-2.png",
-    "/images/logo/matic-logo.png",
-  ];
-  const price = [BTCPrice, ETHPrice, MATICPrice];
-  const priceChange = [BTCPriceChange, BTCPriceChange, BTCPriceChange];
+  console.log(BTCPriceChange)
+  // const bg = [
+  //   "from-[#EC9F05] to-[#FF4E00]",
+  //   "from-[#A4BFEF] to-[#6A93CB]",
+  //   "from-[#5F0A87] to-[#A4508B]",
+  // ];
+  // const url = [BTCUrl, ETHUrl, MATICUrl];
+  // const images = [
+  //   "/images/logo/btc-logo.png",
+  //   "/images/logo/eth-logo-2.png",
+  //   "/images/logo/matic-logo.png",
+  // ];
+  // const price = [BTCPrice, ETHPrice, MATICPrice];
+  // const priceChange = [BTCPriceChange, BTCPriceChange, BTCPriceChange];
 
-  console.log(BTCUrl);
-
-  useEffect(() => {
-    const timer = setInterval(goToNextSlide, 3000); // Transition every 3 seconds
-
-    return () => {
-      clearInterval(timer); // Clean up the timer on component unmount
-    };
-  }, []);
-
-  const goToPreviousSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === 0 ? url.length - 1 : prevIndex - 1
-    );
-  };
-
-  const goToNextSlide = () => {
-    setCurrentIndex((prevIndex) =>
-      prevIndex === url.length - 1 ? 0 : prevIndex + 1
-    );
-  };
   return (
-    <div
-      className={`flex md:hidden items-center justify-center h-10 bg-gradient-to-r ${bg[currentIndex]} py-6`}
-    >
-      <button
-        className="mr-2 hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={goToPreviousSlide}
-      >
-        Previous
-      </button>
-      <Link
-        href={url[currentIndex]}
-        target="_blank"
-        className="flex items-center justify-evenly space-x-4 w-full p-2"
-      >
-        <div className="p-1 bg-white dark:bg-lightgray rounded-full">
-          <img src={images[currentIndex]} className="w-7 h-7" />
-        </div>
-        <p
-          className={`p-1 px-3 bg-white rounded-md dark:bg-lightgray ${
-            priceChange[currentIndex] > 0 ? "text-green-600 " : "text-red-600"
-          }`}
+    <div className="flex w-[100vw] slider r_to_l h-14 bg-gradient-to-r from-orange-300 via-orange-400 to-blockd">
+      <div className="slider_inner min-w-[100vw] flex">
+        <Link
+          href={BTCUrl}
+          target="_blank"
+          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
         >
-          {price[currentIndex]}
-        </p>
-        <div className="p-2 bg-white dark:bg-lightgray rounded-full">
-          {priceChange[currentIndex] > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
-          ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
-          )}
-        </div>
-      </Link>
-      {/* <h1 className="text-4xl">{slides[currentIndex]}</h1> */}
-      <button
-        className="ml-2 hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
-        onClick={goToNextSlide}
-      >
-        Next
-      </button>
+          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
+            <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
+          </div>
+          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
+            <p
+              className={`${
+                BTCPriceChange > 0 ? "text-green-600 " : "text-red-600"
+              }`}
+            >
+              {BTCPrice}
+            </p>
+            {BTCPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
+          </div>
+        </Link>
+        <Link
+          href={ETHUrl}
+          target="_blank"
+          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+        >
+          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
+            <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
+          </div>
+          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
+            <p
+              className={`${
+                ETHPriceChange > 0 ? "text-green-600 " : "text-red-600"
+              }`}
+            >
+              {ETHPrice}
+            </p>
+            {ETHPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
+          </div>
+        </Link>
+        <Link
+          href={MATICUrl}
+          target="_blank"
+          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+        >
+          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
+            <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
+          </div>
+          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
+            <p
+              className={`${
+                MATICPriceChange > 0 ? "text-green-600 " : "text-red-600"
+              }`}
+            >
+              {MATICPrice}
+            </p>
+            {MATICPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
+          </div>
+        </Link>
+      </div>
+      <div className="slider_inner min-w-[100vw] flex">
+        <Link
+          href={BTCUrl}
+          target="_blank"
+          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+        >
+          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
+            <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
+          </div>
+          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
+            <p
+              className={`${
+                BTCPriceChange > 0 ? "text-green-600 " : "text-red-600"
+              }`}
+            >
+              {BTCPrice}
+            </p>
+            {BTCPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
+          </div>
+        </Link>
+        <Link
+          href={ETHUrl}
+          target="_blank"
+          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+        >
+          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
+            <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
+          </div>
+          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
+            <p
+              className={`${
+                ETHPriceChange > 0 ? "text-green-600 " : "text-red-600"
+              }`}
+            >
+              {ETHPrice}
+            </p>
+            {ETHPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
+          </div>
+        </Link>
+        <Link
+          href={MATICUrl}
+          target="_blank"
+          className="flex items-center justify-center space-x-2 w-[33.33%] p-2"
+        >
+          <div className="p-1 bg-white dark:bg-lightgray w-fit rounded-full">
+            <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
+          </div>
+          <div className="flex items-center justify-center p-1 px-3 bg-white rounded-md dark:bg-lightgray space-x-2">
+            <p
+              className={`${
+                MATICPriceChange > 0 ? "text-green-600 " : "text-red-600"
+              }`}
+            >
+              {MATICPrice}
+            </p>
+            {MATICPriceChange > 0 ? (
+              <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            ) : (
+              <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            )}
+          </div>
+        </Link>
+      </div>
     </div>
+    // <div
+    //   className={`flex md:hidden items-center justify-center h-10 bg-gradient-to-r ${bg[currentIndex]} py-6`}
+    // >
+    //   <button
+    //     className="mr-2 hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    //     onClick={goToPreviousSlide}
+    //   >
+    //     Previous
+    //   </button>
+    //   <Link
+    //     href={url[currentIndex]}
+    //     target="_blank"
+    //     className="flex items-center justify-evenly space-x-4 w-full p-2"
+    //   >
+    //     <div className="p-1 bg-white dark:bg-lightgray rounded-full">
+    //       <img src={images[currentIndex]} className="w-7 h-7" />
+    //     </div>
+    //     <p
+    //       className={`p-1 px-3 bg-white rounded-md dark:bg-lightgray ${
+    //         priceChange[currentIndex] > 0 ? "text-green-600 " : "text-red-600"
+    //       }`}
+    //     >
+    //       {price[currentIndex]}
+    //     </p>
+    //     <div className="p-2 bg-white dark:bg-lightgray rounded-full">
+    //       {priceChange[currentIndex] > 0 ? (
+    //         <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+    //       ) : (
+    //         <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+    //       )}
+    //     </div>
+    //   </Link>
+    //   {/* <h1 className="text-4xl">{slides[currentIndex]}</h1> */}
+    //   <button
+    //     className="ml-2 hidden bg-blue-500 hover:bg-blue-700 text-white font-bold py-2 px-4 rounded"
+    //     onClick={goToNextSlide}
+    //   >
+    //     Next
+    //   </button>
+    // </div>
   );
 }
 
