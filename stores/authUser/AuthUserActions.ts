@@ -22,37 +22,40 @@ import {
   GENERATE_TOKEN_FAILURE,
   IS_RESENDING_VERIFICATION,
   RESEND_VERIFICATION_SUCCESS,
-  RESEND_VERIFICATION_FAILURE
-} from './AuthUserActionTypes';
-import { setCookie, deleteCookie } from 'cookies-next';
-import { isEmpty } from '../../utils';
+  RESEND_VERIFICATION_FAILURE,
+} from "./AuthUserActionTypes";
+import { setCookie, deleteCookie, getCookie } from "cookies-next";
+import { isEmpty } from "../../utils";
 
 // Api
-import { authUserApi } from '../../api';
+import { authUserApi } from "../../api";
 
 export function fetchAuthUser() {
   return async (dispatch: any) => {
     dispatch({ type: IS_FETCHING_AUTH_USER });
-   
+
     try {
       const result = await authUserApi.fetchAuthUser();
       dispatch({
         type: FETCH_AUTH_USER_SUCCESS,
-        user: result
+        user: result,
       });
       if (!isEmpty(result)) {
         localStorage.setItem("authUser", JSON.stringify(result));
+        if (!getCookie("token")) {
+          setCookie("token", localStorage.getItem("token"));
+        }
       }
       return result;
     } catch (error: any) {
-      console.log('Auth User Error: ', error);
+      console.log("Auth User Error: ", error);
 
       dispatch({
         type: FETCH_AUTH_USER_FAILURE,
-        error: error?.message
+        error: error?.message,
       });
     }
-  }
+  };
 }
 
 export function loginUser(fields: any) {
@@ -68,21 +71,21 @@ export function loginUser(fields: any) {
 
       if (!isEmpty(result.token)) {
         localStorage.setItem("token", JSON.stringify(result.token));
-        setCookie('token', result.token);
+        setCookie("token", result.token);
       }
 
       return result;
     } catch (error: any) {
-      console.log('Login error: ', error);
+      console.log("Login error: ", error);
 
       dispatch({
         type: LOGIN_USER_FAILURE,
-        error: error.message
+        error: error.message,
       });
 
-      return ({ errors: error?.message });
+      return { errors: error?.message };
     }
-  }
+  };
 }
 
 export function registerUser(fields: object) {
@@ -95,20 +98,20 @@ export function registerUser(fields: object) {
       });
       if (!isEmpty(result?.token)) {
         localStorage.setItem("token", JSON.stringify(result?.token));
-        setCookie('token', result.token);
+        setCookie("token", result.token);
       }
       return result;
     } catch (error: any) {
-      console.log('Register user Error: ', error);
+      console.log("Register user Error: ", error);
 
       dispatch({
         type: REGISTER_USER_FAILURE,
-        error: error?.message
+        error: error?.message,
       });
 
-      return ({ errors: error?.message });
+      return { errors: error?.message };
     }
-  }
+  };
 }
 
 export function logoutUser() {
@@ -124,10 +127,10 @@ export function logoutUser() {
     } catch (error: any) {
       dispatch({
         type: LOGOUT_USER_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchUserMessage() {
@@ -138,16 +141,16 @@ export function fetchUserMessage() {
       const result = await authUserApi.fetchUserMessage();
       dispatch({
         type: FETCH_USER_MESSAGE_SUCCESS,
-        message: result
+        message: result,
       });
       return result;
     } catch (error: any) {
       dispatch({
         type: FETCH_USER_MESSAGE_FAILURE,
-        error: error?.message
+        error: error?.message,
       });
     }
-  }
+  };
 }
 
 export function sendVerification(fields: any) {
@@ -156,16 +159,16 @@ export function sendVerification(fields: any) {
     try {
       await authUserApi.sendVerification(fields);
       dispatch({
-        type: SEND_VERIFICATION_SUCCESS
+        type: SEND_VERIFICATION_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Send verification error: ', error.message);
+      console.log("Send verification error: ", error.message);
       dispatch({
         type: SEND_VERIFICATION_FAILURE,
-        error: error?.message
+        error: error?.message,
       });
     }
-  }
+  };
 }
 
 export function resendVerification(fields: any) {
@@ -174,16 +177,16 @@ export function resendVerification(fields: any) {
     try {
       await authUserApi.resendVerification(fields);
       dispatch({
-        type: RESEND_VERIFICATION_SUCCESS
+        type: RESEND_VERIFICATION_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Resend verification error: ', error.message);
+      console.log("Resend verification error: ", error.message);
       dispatch({
         type: RESEND_VERIFICATION_FAILURE,
-        error: error?.message
+        error: error?.message,
       });
     }
-  }
+  };
 }
 
 export function subscribeToken() {
@@ -193,15 +196,15 @@ export function subscribeToken() {
       const result = await authUserApi.subscribeToken();
       dispatch({
         type: GENERATE_TOKEN_SUCCESS,
-        token:  result
+        token: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Subscribe token error: ', error.message);
+      console.log("Subscribe token error: ", error.message);
       dispatch({
         type: GENERATE_TOKEN_FAILURE,
-        error: error?.message
-      })
+        error: error?.message,
+      });
     }
-  }
+  };
 }

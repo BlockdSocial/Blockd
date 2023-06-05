@@ -61,11 +61,14 @@ import {
   FETCH_SUGGESTIONS_FAILURE,
   IS_FETCHING_HASH_POSTS,
   FETCH_HASH_POSTS_SUCCESS,
-  FETCH_HASH_POSTS_FAILURE
-} from './PostActionTypes';
+  FETCH_HASH_POSTS_FAILURE,
+  IS_FETCHING_UNAUTH_POSTS,
+  FETCH_UNAUTH_POSTS_SUCCESS,
+  FETCH_UNAUTH_POSTS_FAILURE,
+} from "./PostActionTypes";
 
 // Api
-import { postApi } from '../../api';
+import { postApi } from "../../api";
 
 export function createPost(fields: object) {
   return async (dispatch: any) => {
@@ -74,13 +77,13 @@ export function createPost(fields: object) {
       await postApi.createPost(fields);
       dispatch({ type: CREATE_POST_SUCCESS });
     } catch (error: any) {
-      console.log('Post error: ', error);
+      console.log("Post error: ", error);
       dispatch({
         type: CREATE_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function deletePost(fields: any) {
@@ -90,14 +93,14 @@ export function deletePost(fields: any) {
       await postApi.deletePost(fields);
       dispatch({ type: DELETE_POST_SUCCESS });
     } catch (error: any) {
-      console.log('Delete Post error: ', error);
+      console.log("Delete Post error: ", error);
       dispatch({
         type: DELETE_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
-      return ({ errors: error?.message });
+      return { errors: error?.message };
     }
-  }
+  };
 }
 
 export function likePost(fields: object) {
@@ -107,13 +110,13 @@ export function likePost(fields: object) {
       await postApi.likePost(fields);
       dispatch({ type: LIKE_POST_SUCCESS });
     } catch (error: any) {
-      console.log('Like Post error: ', error);
+      console.log("Like Post error: ", error);
       dispatch({
         type: LIKE_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function dislikePost(fields: object) {
@@ -123,13 +126,33 @@ export function dislikePost(fields: object) {
       await postApi.dislikePost(fields);
       dispatch({ type: DISLIKE_POST_SUCCESS });
     } catch (error: any) {
-      console.log('Dislike Post error: ', error);
+      console.log("Dislike Post error: ", error);
       dispatch({
         type: DISLIKE_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
+}
+
+export function fetchUnauthPosts(fields: any) {
+  return async (dispatch: any) => {
+    dispatch({ type: IS_FETCHING_UNAUTH_POSTS });
+    try {
+      const result = await postApi.fetchUnauthPosts(fields);
+      dispatch({
+        type: FETCH_UNAUTH_POSTS_SUCCESS,
+        unAuthPosts: result,
+      });
+      return result;
+    } catch (error: any) {
+      console.log("Fetch Unauth posts error: ", error);
+      dispatch({
+        type: FETCH_UNAUTH_POSTS_FAILURE,
+        error: error.message,
+      });
+    }
+  };
 }
 
 export function searchPosts(fields: object) {
@@ -139,17 +162,17 @@ export function searchPosts(fields: object) {
       const result = await postApi.searchPosts(fields);
       dispatch({
         type: SEARCH_POSTS_SUCCESS,
-        postsResult: result
+        postsResult: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Search Posts error: ', error);
+      console.log("Search Posts error: ", error);
       dispatch({
         type: SEARCH_POSTS_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchHashTagPosts(fields: object) {
@@ -159,17 +182,17 @@ export function fetchHashTagPosts(fields: object) {
       const result = await postApi.fetchHashTagPosts(fields);
       dispatch({
         type: FETCH_HASH_POSTS_SUCCESS,
-        hashPosts: result
+        hashPosts: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch hash Posts error: ', error);
+      console.log("Fetch hash Posts error: ", error);
       dispatch({
         type: FETCH_HASH_POSTS_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchTrendingPosts() {
@@ -179,17 +202,17 @@ export function fetchTrendingPosts() {
       const result = await postApi.fetchTrendingPosts();
       dispatch({
         type: FETCH_TRENDING_POSTS_SUCCESS,
-        trendingPosts: result
+        trendingPosts: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch Trending posts error: ', error);
+      console.log("Fetch Trending posts error: ", error);
       dispatch({
         type: FETCH_TRENDING_POSTS_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchFilteredPosts(fields: object) {
@@ -199,17 +222,17 @@ export function fetchFilteredPosts(fields: object) {
       const result = await postApi.fetchFilteredPosts(fields);
       dispatch({
         type: FETCH_FILTERED_POSTS_SUCCESS,
-        filteredPosts: result
+        filteredPosts: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch Filtered posts error: ', error);
+      console.log("Fetch Filtered posts error: ", error);
       dispatch({
         type: FETCH_FILTERED_POSTS_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchPost(fields: any) {
@@ -219,17 +242,17 @@ export function fetchPost(fields: any) {
       const result = await postApi.fetchPost(fields);
       dispatch({
         type: FETCH_POST_SUCCESS,
-        post: result
+        post: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch Post Error: ', error);
+      console.log("Fetch Post Error: ", error);
       dispatch({
         type: FETCH_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchSharedPost(fields: any) {
@@ -239,17 +262,17 @@ export function fetchSharedPost(fields: any) {
       const result = await postApi.fetchPost(fields);
       dispatch({
         type: FETCH_POST_SHARED_SUCCESS,
-        sharedPost: result
+        sharedPost: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch Post Error: ', error);
+      console.log("Fetch Post Error: ", error);
       dispatch({
         type: FETCH_POST_SHARED_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchPostImage(fields: number) {
@@ -259,17 +282,17 @@ export function fetchPostImage(fields: number) {
       const result = await postApi.fetchPostImage(fields);
       dispatch({
         type: FETCH_POST_IMAGE_SUCCESS,
-        image: result
+        image: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch Post Image Error: ', error);
+      console.log("Fetch Post Image Error: ", error);
       dispatch({
         type: FETCH_POST_IMAGE_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchPostInfo(fields: number) {
@@ -279,17 +302,17 @@ export function fetchPostInfo(fields: number) {
       const result = await postApi.fetchPostInfo(fields);
       dispatch({
         type: FETCH_POST_INFO_SUCCESS,
-        postInfo: result
+        postInfo: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch Post Info Error: ', error);
+      console.log("Fetch Post Info Error: ", error);
       dispatch({
         type: FETCH_POST_INFO_FAILURE,
         // error: error.message
       });
     }
-  }
+  };
 }
 
 export function fetchUserPosts(id: any, fields: any) {
@@ -297,19 +320,19 @@ export function fetchUserPosts(id: any, fields: any) {
     dispatch({ type: IS_FETCHING_USER_POSTS });
     try {
       const result = await postApi.fetchUserPosts(id, fields);
-      dispatch({ 
-        type: FETCH_USER_POSTS_SUCCESS, 
-        userPosts: result
+      dispatch({
+        type: FETCH_USER_POSTS_SUCCESS,
+        userPosts: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch User Posts error: ', error);
+      console.log("Fetch User Posts error: ", error);
       dispatch({
         type: FETCH_USER_POSTS_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchIsLiked(fields: number) {
@@ -319,17 +342,17 @@ export function fetchIsLiked(fields: number) {
       const result = await postApi.fetchIsLiked(fields);
       dispatch({
         type: FETCH_IS_LIKED_SUCCESS,
-        isLiked: result
+        isLiked: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch is Liked error: ', error);
+      console.log("Fetch is Liked error: ", error);
       dispatch({
         type: FETCH_IS_LIKED_FAILURE,
         // error: error.message
       });
     }
-  }
+  };
 }
 
 export function fetchIsDisliked(fields: number) {
@@ -339,17 +362,17 @@ export function fetchIsDisliked(fields: number) {
       const result = await postApi.fetchIsDisliked(fields);
       dispatch({
         type: FETCH_IS_DISLIKED_SUCCESS,
-        isDisliked: result
+        isDisliked: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Fetch is Disliked error: ', error);
+      console.log("Fetch is Disliked error: ", error);
       dispatch({
         type: FETCH_IS_DISLIKED_FAILURE,
         // error: error.message
       });
     }
-  }
+  };
 }
 
 export function addPostView(fields: any) {
@@ -361,13 +384,13 @@ export function addPostView(fields: any) {
         type: ADD_POST_VIEW_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Add Post View Error: ', error);
+      console.log("Add Post View Error: ", error);
       dispatch({
         type: ADD_POST_VIEW_ERROR,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function editPost(id: any, fields: any) {
@@ -376,16 +399,16 @@ export function editPost(id: any, fields: any) {
     try {
       await postApi.editPost(id, fields);
       dispatch({
-        type: UPDATE_POST_SUCCESS
+        type: UPDATE_POST_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Update Post Error: ', error);
+      console.log("Update Post Error: ", error);
       dispatch({
         type: UPDATE_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function postSuggestion(fields: any) {
@@ -394,16 +417,16 @@ export function postSuggestion(fields: any) {
     try {
       await postApi.postSuggestion(fields);
       dispatch({
-        type: SUGGEST_SUCCESS
+        type: SUGGEST_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Suggestion Failed: ', error);
+      console.log("Suggestion Failed: ", error);
       dispatch({
         type: SUGGEST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function sharePost(fields: any) {
@@ -412,16 +435,16 @@ export function sharePost(fields: any) {
     try {
       await postApi.sharePost(fields);
       dispatch({
-        type: SHARE_POST_SUCCESS
+        type: SHARE_POST_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Share Failed: ', error);
+      console.log("Share Failed: ", error);
       dispatch({
         type: SHARE_POST_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function createSuggestion(fields: any) {
@@ -430,16 +453,16 @@ export function createSuggestion(fields: any) {
     try {
       await postApi.createSuggestion(fields);
       dispatch({
-        type: CREATE_SUGGESTION_SUCCESS
+        type: CREATE_SUGGESTION_SUCCESS,
       });
     } catch (error: any) {
-      console.log('Create Suggestion error: ', error);
+      console.log("Create Suggestion error: ", error);
       dispatch({
         type: CREATE_SUGGESTION_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }
 
 export function fetchSuggestions() {
@@ -449,15 +472,15 @@ export function fetchSuggestions() {
       const result = await postApi.fetchSuggestions();
       dispatch({
         type: FETCH_SUGGESTIONS_SUCCESS,
-        suggestions: result
+        suggestions: result,
       });
       return result;
     } catch (error: any) {
-      console.log('Create Suggestion error: ', error);
+      console.log("Create Suggestion error: ", error);
       dispatch({
         type: FETCH_SUGGESTIONS_FAILURE,
-        error: error.message
+        error: error.message,
       });
     }
-  }
+  };
 }

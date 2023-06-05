@@ -5,9 +5,7 @@ import {
   ArrowDownIcon,
   ChatBubbleBottomCenterTextIcon,
   ShareIcon,
-
   XMarkIcon,
-
 } from "@heroicons/react/24/outline";
 import Link from "next/link";
 import Picker from "@emoji-mart/react";
@@ -35,7 +33,12 @@ import {
   searchTagUsers,
 } from "../../stores/user/UserActions";
 import { useCopyToClipboard } from "usehooks-ts";
-import { encodeQuery, getDiffTime, renderCommentText } from "../../utils";
+import {
+  encodeQuery,
+  getDiffTime,
+  renderCommentText,
+  renderUnauthComment,
+} from "../../utils";
 import { MentionsInput, Mention } from "react-mentions";
 import Linkify from "react-linkify";
 import { renderComment } from "../../utils";
@@ -595,13 +598,8 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   <div className="flex items-center space-x-1">
                     <Link
                       href={{
-                        pathname: "/dashboard/profile",
-                        query: { user_id: mainPost?.otherUser?.id },
+                        pathname: "/auth/signup",
                       }}
-                      as={`/dashboard/profile?${encodeQuery(
-                        mainPost?.otherUser?.id,
-                        "profile"
-                      )}`}
                     >
                       <p className="mr-1 font-semibold text-xs md:text-sm">
                         @{mainPost?.otherUser?.name}
@@ -643,7 +641,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   {mainPost?.content != null && (
                     <p className="text-sm whitespace-normal break-words w-fit max-w-full">
                       <Linkify componentDecorator={componentDecorator}>
-                        {renderHTML(renderComment(mainPost?.content))}
+                        {renderHTML(renderUnauthComment(mainPost?.content))}
                       </Linkify>
                     </p>
                   )}
@@ -770,7 +768,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     {sharedPost?.content != null && (
                       <p className="text-sm whitespace-normal break-words w-fit max-w-full">
                         <Linkify componentDecorator={componentDecorator}>
-                          {renderHTML(renderComment(sharedPost?.content))}
+                          {renderHTML(renderUnauthComment(sharedPost?.content))}
                         </Linkify>
                       </p>
                     )}
@@ -875,9 +873,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 src={image}
                 alt=""
               />
-              <div
-                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-              >
+              <div className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon className="w-5 h-5" />
               </div>
               <hr className="mt-4 mb-4"></hr>
@@ -891,9 +887,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 width="200px"
                 height="200px"
               />
-              <div
-                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-              >
+              <div className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray">
                 <XMarkIcon className="w-5 h-5" />
               </div>
               <hr className="mt-4 mb-4"></hr>
@@ -942,15 +936,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               Are you sure you want to delete this post ?
             </div>
             <div className="flex items-center justify-end space-x-3 p-4">
-              <p
-                className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
-              >
+              <p className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
                 Delete
               </p>
 
-              <p
-                className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
-              >
+              <p className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white">
                 Cancel
               </p>
             </div>
@@ -1121,14 +1111,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             )}
           </div>
           <div className="flex items-center justify-end space-x-3 p-2">
-            <p
-              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
-            >
+            <p className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white">
               Share
             </p>
-            <p
-              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
-            >
+            <p className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white">
               Cancel
             </p>
           </div>
