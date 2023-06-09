@@ -18,7 +18,6 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { isEmpty } from "lodash";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { useRouter } from "next/router";
-import { Carousel } from "flowbite";
 import Slider from "./Slider";
 
 interface Post {

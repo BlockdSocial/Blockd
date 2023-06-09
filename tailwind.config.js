@@ -6,7 +6,7 @@ module.exports = {
     "./components/**/*.{js,ts,jsx,tsx}",
     "./app/**/*.{js,ts,jsx,tsx}",
   ],
-  plugins: [require("@tailwindcss/forms"), require('flowbite/plugin')],
+  plugins: [require("@tailwindcss/forms")],
   theme: {
     extend: {
       keyframes: {
