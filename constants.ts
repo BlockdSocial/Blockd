@@ -17,9 +17,17 @@ const dev = {
   },
 };
 
-export const config = process.env.NODE_ENV === "development" ? prod : prod;
-export const GID =
-  process.env.NODE_ENV === "development" ? "" : "=G-QW4Q5G8G4K";
+const staging = {
+  url: {
+    API_URL: "https://staging.blockd.app/backend/api",
+    PUBLIC_URL: "https://d12obed56w9rwd.cloudfront.net",
+    DASHBOARD_URL: "https://staging.blockd.app/dashboard",
+    ALCHEMY_API_KEY: "MgmBBWoM_qBuALlxo8Y7rKm_eQ_28UB9",
+  },
+};
+
+export const config = process.env.NODE_ENV === "production" ? prod : staging;
+export const GID = process.env.NODE_ENV === "development" ? "" : "=G-QW4Q5G8G4K";
 
 export const contractABI = [
   {
