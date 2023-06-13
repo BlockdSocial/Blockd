@@ -26,7 +26,36 @@ const staging = {
   },
 };
 
-export const config = process.env.NODE_ENV === "production" ? prod : staging;
+const env = process.env.ENV || 'development';
+const config = {
+  development: {
+    url: {
+      API_URL: "http://127.0.0.1:8000/api",
+      PUBLIC_URL: "https://d12obed56w9rwd.cloudfront.net",
+      DASHBOARD_URL: "http://localhost:3000/dashboard",
+      ALCHEMY_API_KEY: "MgmBBWoM_qBuALlxo8Y7rKm_eQ_28UB9",
+    },
+  },
+  staging: {
+    url: {
+      API_URL: "https://staging.blockd.app/backend/api",
+      PUBLIC_URL: "https://d12obed56w9rwd.cloudfront.net",
+      DASHBOARD_URL: "https://staging.blockd.app/dashboard",
+      ALCHEMY_API_KEY: "MgmBBWoM_qBuALlxo8Y7rKm_eQ_28UB9",
+    },
+  },
+  production: {
+    url: {
+      API_URL: "https://blockd.app/backend/api",
+      PUBLIC_URL: "https://d12obed56w9rwd.cloudfront.net",
+      DASHBOARD_URL: "https://blockd.app/dashboard",
+      ALCHEMY_API_KEY: "MgmBBWoM_qBuALlxo8Y7rKm_eQ_28UB9",
+    },
+  },
+}[env];
+
+export default config;
+//export const config = process.env.NODE_ENV === "production" ? prod : staging;
 export const GID = process.env.NODE_ENV === "development" ? "" : "=G-QW4Q5G8G4K";
 
 export const contractABI = [

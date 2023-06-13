@@ -4,7 +4,8 @@
         "dev": "next dev",
         "build": "next build",
         "start": "next start",
-        "start:staging": "NODE_ENV=staging node server.js"
+        "start:staging": "NODE_ENV=production ENV=staging node server.js",
+        "start:production": "NODE_ENV=production ENV=production node server.js"
     },
     "resolutions": {
         "@types/react": "18.0.21"
