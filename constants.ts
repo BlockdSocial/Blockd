@@ -26,8 +26,8 @@ const staging = {
   },
 };
 
-const env = process.env.ENV || 'development';
-const config = {
+const envv = process.env.ENV || 'development';
+const configs = {
   development: {
     url: {
       API_URL: "http://127.0.0.1:8000/api",
@@ -52,10 +52,9 @@ const config = {
       ALCHEMY_API_KEY: "MgmBBWoM_qBuALlxo8Y7rKm_eQ_28UB9",
     },
   },
-}[env];
+};
 
-export default config;
-//export const config = process.env.NODE_ENV === "production" ? prod : staging;
+export const config = envv === 'staging' ? staging : prod;
 export const GID = process.env.NODE_ENV === "development" ? "" : "=G-QW4Q5G8G4K";
 
 export const contractABI = [
