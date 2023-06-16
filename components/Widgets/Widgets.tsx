@@ -28,7 +28,7 @@ type ETHARRAY = {
 
 function Widgets() {
   const dispatch = useAppDispatch();
-  const { user, authUser }: any = useAppSelector((state) => state.authUserReducer);
+  const { user, authUser }: any = useAppSelector((state:any) => state.authUserReducer);
   // const { trendingPosts } = useAppSelector((state) => state.postReducer);
   const TrendingChatrooms = dynamic(() => import("./TrendingChatrooms"), {
     ssr: false,
@@ -45,7 +45,7 @@ function Widgets() {
   })
 
   const fetchTrendings = useCallback(() => {
-    dispatch(fetchTrendingPosts()).then((res) => {
+    dispatch(fetchTrendingPosts()).then((res:any) => {
       setTrendingPosts(res);
     });
   }, []);
