@@ -54,7 +54,7 @@ const configs = {
   },
 };
 
-export const config = envv === 'staging' ? staging : prod;
+export const config = process.env.NEXT_PUBLIC_ENV === 'staging' ? staging : prod;
 export const GID = process.env.NODE_ENV === "development" ? "" : "=G-QW4Q5G8G4K";
 
 export const contractABI = [
