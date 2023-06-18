@@ -50,7 +50,7 @@ import renderHTML from "react-render-html";
 import darkMode from "../../styles/darkMode.module.scss";
 import lightMode from "../../styles/lightMode.module.scss";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
-import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 
 interface Pic {
@@ -72,6 +72,10 @@ interface Image {
   name: string;
 }
 
+interface Video {
+  name: string;
+}
+
 interface Post {
   id: number;
   content: string;
@@ -83,6 +87,7 @@ interface Post {
   gif: string;
   otherUser: User;
   postImage: Image;
+  postVideo: Video;
   profilePic: any;
   bannerPic: any;
   sharedPostId: number;
@@ -655,6 +660,13 @@ function PostID({ post, refetchComments, refetch }: Props) {
               onClick={() => setFullScreenImage(!fullScreenImage)}
             />
           ) : null}
+          {post?.postVideo != null ? (
+            <video
+              src={`${config.url.PUBLIC_URL}/${post?.postVideo?.name}`}
+              controls
+              className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[500px] shadow-sm cursor-pointer"
+            />
+          ) : null}
           {post?.gif != null ? (
             <img
               src={post?.gif}
@@ -775,6 +787,15 @@ function PostID({ post, refetchComments, refetch }: Props) {
                 <img
                   src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                   alt="Post"
+                  className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
+                />
+              ) : null}
+              {sharedPost?.postVideo != null ? (
+                <video
+                  src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
+                  width="100%"
+                  height={300}
+                  controls
                   className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
               ) : null}

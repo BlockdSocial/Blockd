@@ -5,6 +5,8 @@ import {
   FaceSmileIcon,
   MapPinIcon,
   PhotoIcon,
+  VideoCameraIcon,
+  ViewfinderCircleIcon,
   XMarkIcon,
 } from "@heroicons/react/24/outline";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
@@ -34,9 +36,16 @@ function TweetBox({ refetchFiltered }: Props) {
   let [image, setImage] = useState<string>("");
   const [uploadedImage, setUploadedImage] = useState<string>("");
   const [uploadedVideo, setUploadedVideo] = useState<string>("");
+
   const [data, setData] = useState<any>([]);
+  const [disabledPostBtn, setDisabledPostBtn] = useState<boolean>(false);
+
   const [hashData, setHashData] = useState<any>([]);
   const dispatch = useAppDispatch();
+
+  const inputRef = useRef<any>();
+
+  const [source, setSource] = useState<string>("");
 
   //************************** EMOJI Handeling **************************//
   //************************** EMOJI Handeling **************************//
@@ -85,22 +94,40 @@ function TweetBox({ refetchFiltered }: Props) {
 
   const inputPicture = useRef<HTMLInputElement | null>(null);
 
+  const inputVideo = useRef<HTMLInputElement | null>(null);
+
   const onUploadPictureClick = () => {
     // `current` points to the mounted file input element
     if (inputPicture.current) {
       inputPicture.current.click();
     }
   };
+  const onUploadVideoClick = () => {
+    // `current` points to the mounted file input element
+    if (inputVideo.current) {
+      inputVideo.current.click();
+    }
+  };
 
+  const handleUploadVideo = (e: any) => {
+    const file = e.target.files[0];
+    const url = URL.createObjectURL(file);
+    setSource(url);
+    setUploadedVideo(e.target.files[0]);
+    e.target.value == null
+  };
   const handleUploadPicture = (e: any) => {
     setImage(URL.createObjectURL(e.target.files[0]));
     setUploadedImage(e.target.files[0]);
+    e.target.value == null
+    
   };
 
   const closePicture = () => {
     image = "";
     setImage(image);
     setUploadedImage("");
+    setSource("");
     setUploadedVideo("");
   };
 
@@ -137,7 +164,6 @@ function TweetBox({ refetchFiltered }: Props) {
     }
     let gifUrl = gify.images.downsized.url;
     setGifUrl(gifUrl);
-    setUploadedVideo(gify.images.downsized);
   };
 
   const closeGif = () => {
@@ -151,19 +177,24 @@ function TweetBox({ refetchFiltered }: Props) {
   }, [isCreatingPost]);
 
   const showPostToast = async () => {
+    let refreshToast ;
     if (isCreatingPost) {
-      const refreshToast = toast.loading("Posting...");
-      await new Promise((f) => setTimeout(f, 500));
+      toast("Posting...", {
+        id: refreshToast,
+      });
+    
+    }else if(disabledPostBtn){
       toast.success("Posted!", {
         id: refreshToast,
       });
     }
   };
 
+
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
-
-   let clean_input = input.replace(/\#\#/g, "#")
+    setDisabledPostBtn(true)
+    let clean_input = input.replace(/\#\#/g, "#");
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
         createPost({
@@ -173,6 +204,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
+        setDisabledPostBtn(false)
         closePicture();
         setInput("");
       });
@@ -184,6 +216,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
+        setDisabledPostBtn(false)
         setInput("");
         closePicture();
       });
@@ -196,6 +229,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
+        setDisabledPostBtn(false)
         setInput("");
         closeGif();
       });
@@ -207,8 +241,34 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
+        setDisabledPostBtn(false)
         setInput("");
         closeGif();
+      });
+    } else if (source.length > 0 && !isEmpty(input)) {
+      await dispatch(
+        createPost({
+          content: clean_input,
+          public: 1,
+          video: uploadedVideo,
+        })
+      ).then(() => {
+        refetchFiltered();
+        setDisabledPostBtn(false)
+        closePicture();
+        setInput("");
+      });
+    } else if (source.length > 0 && isEmpty(input)) {
+      await dispatch(
+        createPost({
+          public: 1,
+          video: uploadedVideo,
+        })
+      ).then(() => {
+        refetchFiltered();
+        setDisabledPostBtn(false)
+        setInput("");
+        closePicture();
       });
     } else {
       await dispatch(
@@ -218,6 +278,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
+        setDisabledPostBtn(false)
         setInput("");
       });
     }
@@ -236,15 +297,15 @@ function TweetBox({ refetchFiltered }: Props) {
   console.log("hashData: ", hashData);
 
   const handleSearchHashTags = async (e: any) => {
-    console.log('hussein')
+    console.log("hussein");
     dispatch(
       searchHashTags({
         search: e,
       })
     ).then((res: any) => {
-      console.log(res,'husseinres')
+      console.log(res, "husseinres");
 
-      setHashData(res)
+      setHashData(res);
     });
   };
 
@@ -409,19 +470,48 @@ function TweetBox({ refetchFiltered }: Props) {
               <hr className="mt-4 mb-4 dark:border-darkgray dark:border-2"></hr>
             </div>
           )}
+          {source && (
+            <div className="relative w-full">
+              <video
+                className="VideoInput_video"
+                
+                height={300}
+                controls
+                src={source}
+              />
+              <div
+                onClick={() => closePicture()}
+                className="flex items-center justify-center absolute top-2 left-2 w-7 h-7 rounded-full p-1 cursor-pointer bg-white dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+              >
+                <XMarkIcon className="w-5 h-5" />
+              </div>
+              <hr className="mt-4 mb-4 dark:border-darkgray dark:border-2"></hr>
+            </div>
+          )}
 
           <div className="flex items-center">
             <div className="flex relative space-x-2 text-[#181c44] dark:text-white flex-1">
               {!gifUrl && (
-                <PhotoIcon
-                  data-te-toggle="tooltip"
-                  data-te-placement="top"
-                  data-te-ripple-init
-                  data-te-ripple-color="light"
-                  title="Attach a picture"
-                  onClick={() => onUploadPictureClick()}
-                  className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
-                />
+                <>
+                  <PhotoIcon
+                    data-te-toggle="tooltip"
+                    data-te-placement="top"
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
+                    title="Attach a picture"
+                    onClick={() => onUploadPictureClick()}
+                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                  />
+                  <VideoCameraIcon
+                    data-te-toggle="tooltip"
+                    data-te-placement="top"
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
+                    title="Attach a video"
+                    onClick={() => onUploadVideoClick()}
+                    className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+                  />
+                </>
               )}
               <FaceSmileIcon
                 data-te-toggle="tooltip"
@@ -478,7 +568,9 @@ function TweetBox({ refetchFiltered }: Props) {
               </div>
             </div>
             <button
-              disabled={!input && isEmpty(image) && isEmpty(gifUrl)}
+              disabled={
+                !input && isEmpty(image) && isEmpty(gifUrl) && isEmpty(source) ||  disabledPostBtn
+              }
               className="bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]"
               onClick={(e) => handleSubmitPost(e)}
             >
@@ -492,6 +584,14 @@ function TweetBox({ refetchFiltered }: Props) {
             className="hidden"
             accept="image/*"
             onChange={handleUploadPicture}
+          />
+          <input
+            type="file"
+            id="file"
+            ref={inputVideo}
+            className="hidden"
+            accept=".mov,.mp4"
+            onChange={handleUploadVideo}
           />
         </form>
       </div>

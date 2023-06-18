@@ -50,7 +50,7 @@ import renderHTML from "react-render-html";
 import darkMode from "../../styles/darkMode.module.scss";
 import lightMode from "../../styles/lightMode.module.scss";
 import HeartBrokenIcon from "@mui/icons-material/HeartBroken";
-import CommentOutlinedIcon from '@mui/icons-material/CommentOutlined';
+import CommentOutlinedIcon from "@mui/icons-material/CommentOutlined";
 import FavoriteIcon from "@mui/icons-material/Favorite";
 import ShareOutlinedIcon from "@mui/icons-material/ShareOutlined";
 
@@ -73,6 +73,9 @@ interface User {
 interface Image {
   name: string;
 }
+interface Video {
+  name: string;
+}
 
 interface Post {
   id: number;
@@ -85,6 +88,7 @@ interface Post {
   gif: string;
   otherUser: User;
   postImage: Image;
+  postVideo: Video;
   profilePic: any;
   bannerPic: any;
   sharedPostId: number;
@@ -105,6 +109,7 @@ interface Props {
 }
 
 export default function PostTest({ mainPost, refetch, search = false }: Props) {
+  console.log(mainPost, "mainPost hussein");
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -738,6 +743,13 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   <img
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postImage?.name}`}
                     alt="Post"
+                    className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                  />
+                ) : null}
+                {mainPost?.postVideo != null ? (
+                  <video
+                    src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
+                    controls
                     className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                   />
                 ) : null}
