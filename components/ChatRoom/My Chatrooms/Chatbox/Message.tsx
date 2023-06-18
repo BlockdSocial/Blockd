@@ -6,6 +6,7 @@ import {
   TrashIcon,
   EyeDropperIcon,
   DocumentDuplicateIcon,
+  FaceSmileIcon,
 } from "@heroicons/react/24/outline";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import moment from "moment";
@@ -94,7 +95,7 @@ export default function Message({
   return message?.userId == authUser?.id ? (
     <>
       <div className="flex flex-col w-full items-end justify-end mt-6 pr-4">
-        <div className="flex flex-col min-w-[30%] max-w-[70%] space-y-2">
+        <div className="flex flex-col min-w-[80%] max-w-[100%] lg:min-w-[40%] lg:max-w-[70%] space-y-2">
           <div className="flex w-full space-x-8 items-center justify-between">
             <p className="text-sm text-gray-600 dark:text-gray-400">
               {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
@@ -117,7 +118,7 @@ export default function Message({
               </Link>
             </div>
           </div>
-          <div className="flex flex-col w-full py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white group">
+          <div className="flex flex-col w-full py-2 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white group">
             {message?.repliedMessageId && (
               <div className="flex flex-col border-r-[3px] border-white mt-2 p-2 rounded-bl-3xl rounded-tl-3xl bg-gray-200/20">
                 {!isEmpty(message?.originMessage?.content) && (
@@ -202,15 +203,52 @@ export default function Message({
             )}
           </div>
           <div className="flex items-center justify-between">
-            <div></div>
+            <div className="flex items-center justify-center space-x-2 relative">
+              <div
+                onClick={() => setShowReaction(!showReaction)}
+                className="flex items-center justify-center p-1 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer"
+              >
+                <FaceSmileIcon className="w-4 h-4" />
+              </div>
+              {showReaction && (
+                <div className="absolute top-8 left-0 z-50">
+                  <Picker
+                    set="apple"
+                    onEmojiSelect={addReaction}
+                    theme="dark"
+                    icons="outline"
+                    previewPosition="none"
+                    size="1em"
+                    perLine="6"
+                    maxFrequentRows="2"
+                  />
+                </div>
+              )}
+              <div
+                onClick={() => removeReaction()}
+                className={`flex items-center justify-center px-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer ${
+                  reaction ? "inline" : "hidden"
+                }`}
+              >
+                <input
+                  value={reaction}
+                  onChange={(e: any) => setReaction(e.target.value)}
+                  className="bg-transparent cursor-pointer w-5 text-base"
+                  disabled
+                />
+                <p className="text-xs font-bold text-white">7</p>
+              </div>
+            </div>
             <div
               onClick={() => {
-                setReply(true), setReplyMessage(message);
+                setReply(true),
+                  setReplyMessage(message),
+                  setRepliedUser(receiver?.name);
               }}
-              className="flex items-center justify-center space-x-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 px-3 p-1 cursor-pointer"
+              className="flex items-center justify-center space-x-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 px-2 p-1 cursor-pointer"
             >
-              <ArrowUturnLeftIcon className="w-4 h-4" />
-              <p className="text-sm font-light">Reply</p>
+              <ArrowUturnLeftIcon className="w-3 h-3" />
+              <p className="text-xs font-light">Reply</p>
             </div>
           </div>
         </div>
@@ -218,7 +256,7 @@ export default function Message({
     </>
   ) : (
     <div className="flex flex-col w-full items-start justify-start mt-6 pl-4">
-      <div className="flex flex-col min-w-[30%] max-w-[70%] space-y-2">
+      <div className="flex flex-col min-w-[40%] max-w-[100%] lg:max-w-[70%] space-y-2">
         <div className="flex w-full items-center justify-between space-x-8">
           <div className="flex items-center justify-center space-x-2">
             <Link
@@ -256,7 +294,7 @@ export default function Message({
             {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
           </p>
         </div>
-        <div className="flex flex-col w-full py-2 px-2 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-bl-xl rounded-tr-3xl rounded-br-3xl text-white group">
+        <div className="flex flex-col w-full py-2 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-bl-xl rounded-tr-3xl rounded-br-3xl text-white group">
           {message?.repliedMessageId && (
             <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] rounded-tr-3xl rounded-br-3xl bg-gray-200/20">
               {!isEmpty(message?.originMessage?.content) && (
@@ -342,17 +380,52 @@ export default function Message({
           )}
         </div>
         <div className="flex items-center justify-between">
-          <div></div>
+          <div className="flex items-center justify-center space-x-2 relative">
+            <div
+              onClick={() => setShowReaction(!showReaction)}
+              className="flex items-center justify-center p-1 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer"
+            >
+              <FaceSmileIcon className="w-4 h-4" />
+            </div>
+            {showReaction && (
+              <div className="absolute top-8 left-0 z-50">
+                <Picker
+                  set="apple"
+                  onEmojiSelect={addReaction}
+                  theme="dark"
+                  icons="outline"
+                  previewPosition="none"
+                  size="1em"
+                  perLine="6"
+                  maxFrequentRows="2"
+                />
+              </div>
+            )}
+            <div
+              onClick={() => removeReaction()}
+              className={`flex items-center justify-center px-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer ${
+                reaction ? "inline" : "hidden"
+              }`}
+            >
+              <input
+                value={reaction}
+                onChange={(e: any) => setReaction(e.target.value)}
+                className="bg-transparent cursor-pointer w-5 text-base"
+                disabled
+              />
+              <p className="text-xs font-bold text-white">7</p>
+            </div>
+          </div>
           <div
             onClick={() => {
               setReply(true),
                 setReplyMessage(message),
                 setRepliedUser(receiver?.name);
             }}
-            className="flex items-center justify-center space-x-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 px-3 p-1 cursor-pointer"
+            className="flex items-center justify-center space-x-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 px-2 p-1 cursor-pointer"
           >
-            <ArrowUturnLeftIcon className="w-4 h-4" />
-            <p className="text-sm font-light">Reply</p>
+            <ArrowUturnLeftIcon className="w-3 h-3" />
+            <p className="text-xs font-light">Reply</p>
           </div>
         </div>
       </div>
