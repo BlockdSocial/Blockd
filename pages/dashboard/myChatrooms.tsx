@@ -12,7 +12,7 @@ import { isEmpty } from 'lodash'
 import { fetchUser } from '../../stores/user/UserActions'
 import { toast } from 'react-hot-toast'
 
-function chatroom() {
+function chatroom2() {
   const dispatch = useAppDispatch();
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const [chats, setChats] = useState<any>();
@@ -106,4 +106,4 @@ function chatroom() {
   )
 }
 
-export default chatroom
+export default chatroom2

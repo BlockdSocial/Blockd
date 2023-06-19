@@ -6,6 +6,7 @@ import {
   TrashIcon,
   EyeDropperIcon,
   DocumentDuplicateIcon,
+  FaceSmileIcon,
 } from "@heroicons/react/24/outline";
 import AddReactionIcon from "@mui/icons-material/AddReaction";
 import moment from "moment";
@@ -93,68 +94,35 @@ export default function Message({
 
   return message?.userId == authUser?.id ? (
     <>
-      <div
-        key={message?.id}
-        className={`relative flex flex-col ${isDropdownVisible ? "z-50" : ""} `}
-      >
-        <div className="grid grid-cols-10 md:grid-cols-12 mb-4 ml-10 mt-2">
-          <div className="flex flex-col place-self-end w-fit max-w-full whitespace-normal break-words col-span-9 md:col-span-11 mx-2 ml-10 py-2 px-2 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-xl rounded-tl-xl rounded-tr-xl text-white group">
-            <div className="flex space-x-24 relative z-0 items-center justify-between w-full text-xm font-semibold">
-              <div>
-                <Link
-                  href="/dashboard/profile"
-                  className="text-sm md:text-base"
-                >
-                  @{authUser?.name}
-                </Link>
-              </div>
-              <div className="relative z-2 flex items-center justify-end space-x-2 pl-2 text-sm md:text-base">
-                <div ref={dropdown} className="flex relative rounded-md">
-                  {isDropdownVisible && (
-                    <ul
-                      className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl z-[2]`}
-                    >
-                      <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-t-md">
-                        <TrashIcon className="w-5 h-5 mr-3" />
-                        Delete
-                      </div>
-                      {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
-                        <DocumentDuplicateIcon className="w-5 h-5 mr-3" />
-                        Copy
-                      </div> */}
-                      {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
-                        <EyeDropperIcon className="w-5 h-5 mr-3" />
-                        Pin
-                      </div> */}
-                      <div
-                        onClick={() => {
-                          setReply(true), setReplyMessage(message);
-                        }}
-                        className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md"
-                      >
-                        <ArrowUturnLeftIcon className="w-5 h-5 mr-3" />
-                        Reply
-                      </div>
-                      {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md">
-                        <ExclamationCircleIcon className="w-5 h-5 mr-3" />
-                        Report
-                      </div> */}
-                    </ul>
-                  )}
-                  <EllipsisVerticalIcon
-                    onClick={() => setIsDropdownVisible((b) => !b)}
-                    className="w-5 h-5 cursor-pointer"
-                  />
-                </div>
-              </div>
+      <div className="flex flex-col w-full items-end justify-end mt-6 pr-4">
+        <div className="flex flex-col min-w-[80%] max-w-[100%] lg:min-w-[40%] lg:max-w-[70%] space-y-2">
+          <div className="flex w-full space-x-8 items-center justify-between">
+            <p className="text-sm text-gray-600 dark:text-gray-400">
+              {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
+            </p>
+            <div className="flex items-center justify-center space-x-2">
+              <p className="text-sm dark:text-white font-normal">You</p>
+              <Link
+                href="/dashboard/profile"
+                className="flex items-end justify-start"
+              >
+                <img
+                  src={
+                    !isEmpty(authUser?.profilePic)
+                      ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
+                      : "/images/pfp/pfp1.jpg"
+                  }
+                  className="object-cover h-7 w-7 lg:h-10 lg:w-10 rounded-full"
+                  alt=""
+                />
+              </Link>
             </div>
+          </div>
+          <div className="flex flex-col w-full py-2 px-4 bg-gradient-to-r from-[#FF512F] to-[#F09819] dark:from-[#AA076B] dark:to-[#61045F] rounded-bl-3xl rounded-tl-3xl rounded-br-xl text-white group">
             {message?.repliedMessageId && (
-              <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-                {/* <p className="flex items-center justify-start text-sm">
-                  @{message?.originMessage?.otherUser?.name}
-                </p> */}
+              <div className="flex flex-col border-r-[3px] border-white mt-2 p-2 rounded-bl-3xl rounded-tl-3xl bg-gray-200/20">
                 {!isEmpty(message?.originMessage?.content) && (
-                  <p className=" pt-2 text-sm">
+                  <p className="py-1 text-sm">
                     <Linkify componentDecorator={componentDecorator}>
                       {renderHTML(
                         renderComment2(message?.originMessage?.content)
@@ -162,12 +130,12 @@ export default function Message({
                     </Linkify>
                   </p>
                 )}
-                <div className="flex items-center justify-start mt-2">
+                <div className="flex items-center justify-start">
                   {message?.originMessage?.imgName != null && (
                     <>
                       <img
                         src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
-                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer rounded-bl-3xl rounded-tl-3xl"
                         onClick={() => setFullScreenImage1(!fullScreenImage1)}
                       />
                       <Modal
@@ -181,7 +149,7 @@ export default function Message({
                     <>
                       <img
                         src={message?.originMessage?.gif}
-                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                        className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer rounded-bl-3xl rounded-tl-3xl"
                         onClick={() => setFullScreenImage2(!fullScreenImage2)}
                       />
                       <Modal
@@ -195,7 +163,7 @@ export default function Message({
               </div>
             )}
             {!isEmpty(message?.content) && (
-              <p className="py-2 text-sm md:text-base whitespace-normal break-words">
+              <p className="py-2 text-sm whitespace-normal break-words">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment2(message?.content))}
                 </Linkify>
@@ -233,254 +201,233 @@ export default function Message({
                 />
               </>
             )}
-            <div className="w-full flex items-end justify-between">
-              <div className="">
-                <div
-                  onClick={() => removeReaction()}
-                  className={`flex items-center place-self-end w-fit col-span-9 md:col-span-11 p-1 px-2 mr-2 bg-orange-400 hover:bg-orange-500 dark:bg-[#61045F] dark:hover:bg-[#AA076B] rounded-md cursor-pointer ${
-                    reaction ? "inline" : "hidden"
-                  }`}
-                >
-                  <input
-                    value={reaction}
-                    onChange={(e: any) => setReaction(e.target.value)}
-                    className="bg-transparent cursor-pointer w-6 text-sm"
-                    disabled
+          </div>
+          <div className="flex items-center justify-between">
+            {/* TODO HUSSEIN ADD TO BACKEDN */}
+            {/* <div className="flex items-center justify-center space-x-2 relative">
+              <div
+                onClick={() => setShowReaction(!showReaction)}
+                className="flex items-center justify-center p-1 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer"
+              >
+                <FaceSmileIcon className="w-4 h-4" />
+              </div>
+              {showReaction && (
+                <div className="absolute top-8 left-0 z-50">
+                  <Picker
+                    set="apple"
+                    onEmojiSelect={addReaction}
+                    theme="dark"
+                    icons="outline"
+                    previewPosition="none"
+                    size="1em"
+                    perLine="6"
+                    maxFrequentRows="2"
                   />
-                  <p className="text-xs font-bold text-white">4</p>
                 </div>
-                <div className="col-span-1 flex items-end justify-end"></div>
+              )}
+              <div
+                onClick={() => removeReaction()}
+                className={`flex items-center justify-center px-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer ${
+                  reaction ? "inline" : "hidden"
+                }`}
+              >
+                <input
+                  value={reaction}
+                  onChange={(e: any) => setReaction(e.target.value)}
+                  className="bg-transparent cursor-pointer w-5 text-base"
+                  disabled
+                />
+                <p className="text-xs font-bold text-white">7</p>
               </div>
-              <p className="font-semibold">
-                {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
-              </p>
-            </div>
-            <div className="relative flex items-center justify-start space-x-1 mt-1">
-              <div className="absolute -left-7 -top-1 hidden group-hover:flex items-start justify-start bg-transparent rounded-md">
-                <div className="flex rounded-full p-1 h-full bg-white dark:bg-darkgray">
-                  {/* <AddReactionIcon
-                    onClick={() => setShowReaction(!showReaction)}
-                    className="cursor-pointer text-orange-600 dark:text-yellow-400"
-                  /> */}
-                </div>
-                {showReaction && (
-                  <div className="absolute top-8 left-0 z-50">
-                    <Picker
-                      set="apple"
-                      onEmojiSelect={addReaction}
-                      theme="dark"
-                      icons="outline"
-                      previewPosition="none"
-                      size="1em"
-                      perLine="6"
-                      maxFrequentRows="2"
-                    />
-                  </div>
-                )}
-              </div>
+            </div> */}
+            <div
+              onClick={() => {
+                setReply(true),
+                  setReplyMessage(message),
+                  setRepliedUser(receiver?.name);
+              }}
+              className="flex items-center justify-center space-x-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 px-2 p-1 cursor-pointer"
+            >
+              <ArrowUturnLeftIcon className="w-3 h-3" />
+              <p className="text-xs font-light">Reply</p>
             </div>
           </div>
-          <Link
-            href="/dashboard/profile"
-            className="col-span-1 flex items-end justify-start"
-          >
-            <img
-              src={
-                !isEmpty(authUser?.profilePic)
-                  ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                  : "/images/pfp/pfp1.jpg"
-              }
-              className="object-cover h-10 w-10 rounded-full"
-              alt=""
-            />
-          </Link>
         </div>
       </div>
     </>
   ) : (
-    <div
-      key={message?.id}
-      className="grid grid-cols-10 md:grid-cols-12 mb-4 mr-10 mt-2"
-    >
-      <Link
-        className="col-span-1 flex items-end justify-end"
-        href={{
-          pathname: "/dashboard/profile",
-          query: {
-            user_id: !isEmpty(receiver) ? receiver?.id : message?.otherUser?.id,
-          },
-        }}
-        as={`/dashboard/profile?${encodeQuery(
-          !isEmpty(receiver) ? receiver?.id : message?.otherUser?.id,
-          "profile"
-        )}`}
-      >
-        <img
-          src={
-            !isEmpty(receiver?.profilePic)
-              ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
-              : !isEmpty(message?.otherUser?.profilePic)
-              ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-              : "/images/pfp/pfp1.jpg"
-          }
-          className="object-cover h-10 w-10 rounded-full flex"
-          alt=""
-        />
-      </Link>
-      <div className="flex flex-col place-self-start w-fit max-w-full whitespace-normal break-words col-span-9 md:col-span-11 mx-2 py-3 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-br-xl rounded-tr-xl rounded-tl-xl text-white">
-        <div className="flex items-center justify-between w-full text-xm font-semibold space-x-24">
-          <Link
-            href={{
-              pathname: "/dashboard/profile",
-              query: {
-                user_id: !isEmpty(receiver)
-                  ? receiver?.id
-                  : message?.otherUser?.id,
-              },
-            }}
-            as={`/dashboard/profile?${encodeQuery(
-              !isEmpty(receiver) ? receiver?.id : message?.otherUser?.id,
-              "profile"
-            )}`}
-            className="text-sm md:text-base"
-          >
-            @{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}
-          </Link>
-          <div className="relative z-2 flex items-center justify-end space-x-2 pl-2 text-sm md:text-base">
-            <div ref={dropdown} className="flex relative rounded-md">
-              {isDropdownVisible && (
-                <ul
-                  className={`absolute top-6 right-1 w-32 cursor-pointer rounded-md shadow-xl z-[2]`}
-                >
-                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-t-md">
-                    <TrashIcon className="w-5 h-5 mr-3" />
-                    Delete
-                  </div> */}
-                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
-                    <DocumentDuplicateIcon className="w-5 h-5 mr-3" />
-                    Copy
-                  </div> */}
-                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200">
-                    <EyeDropperIcon className="w-5 h-5 mr-3" />
-                    Pin
-                  </div> */}
-                  <div
-                    onClick={() => {
-                      setReply(true),
-                        setReplyMessage(message),
-                        setRepliedUser(receiver?.name);
-                    }}
-                    className="flex items-center justify-start text-black dark:text-white rounded-md bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200"
-                  >
-                    <ArrowUturnLeftIcon className="w-5 h-5 mr-3" />
-                    Reply
-                  </div>
-                  {/* <div className="flex items-center justify-start text-black dark:text-white bg-white dark:bg-lightgray dark:hover:bg-darkgray p-2 hover:bg-gray-200 rounded-b-md">
-                    <ExclamationCircleIcon className="w-5 h-5 mr-3" />
-                    Report
-                  </div> */}
-                </ul>
-              )}
-              <EllipsisVerticalIcon
-                onClick={() => setIsDropdownVisible((b) => !b)}
-                className="w-5 h-5 cursor-pointer"
+    <div className="flex flex-col w-full items-start justify-start mt-6 pl-4">
+      <div className="flex flex-col min-w-[40%] max-w-[100%] lg:max-w-[70%] space-y-2">
+        <div className="flex w-full items-center justify-between space-x-8">
+          <div className="flex items-center justify-center space-x-2">
+            <Link
+              className="col-span-1 flex items-end justify-end"
+              href={{
+                pathname: "/dashboard/profile",
+                query: {
+                  user_id: !isEmpty(receiver)
+                    ? receiver?.id
+                    : message?.otherUser?.id,
+                },
+              }}
+              as={`/dashboard/profile?${encodeQuery(
+                !isEmpty(receiver) ? receiver?.id : message?.otherUser?.id,
+                "profile"
+              )}`}
+            >
+              <img
+                src={
+                  !isEmpty(receiver?.profilePic)
+                    ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
+                    : !isEmpty(message?.otherUser?.profilePic)
+                    ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
+                    : "/images/pfp/pfp1.jpg"
+                }
+                className="object-cover w-7 h-7 lg:h-10 lg:w-10 rounded-full flex"
+                alt=""
               />
-            </div>
+            </Link>
+            <p className="text-sm dark:text-white font-normal">
+              @{!isEmpty(receiver) ? receiver?.name : message?.otherUser?.name}
+            </p>
           </div>
-          {/* <p className="pl-2 text-sm md:text-base">
+          <p className="text-sm text-gray-600 dark:text-gray-400">
             {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
-            
-          </p> */}
-          {/* <EllipsisVerticalIcon onClick={() => setIsDropdownVisible(b => !b)} className='w-5 h-5 cursor-pointer' /> */}
+          </p>
         </div>
-        {message?.repliedMessageId && (
-          <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] bg-gray-200/20">
-            {/* <p className="flex items-center justify-start text-sm">
-              @{message?.originMessage?.otherUser?.name}
-            </p> */}
-            {!isEmpty(message?.originMessage?.content) && (
-              <p className=" pt-2 text-sm">
-                <Linkify componentDecorator={componentDecorator}>
-                  {renderHTML(renderComment2(message?.originMessage?.content))}
-                </Linkify>
-              </p>
+        <div className="flex flex-col w-full py-2 px-4 bg-gradient-to-r from-darkblue to-[#363357] dark:from-[#606c88] dark:to-[#3f4c6b] rounded-bl-xl rounded-tr-3xl rounded-br-3xl text-white group">
+          {message?.repliedMessageId && (
+            <div className="flex flex-col border-l-[3px] border-white mt-2 p-2 rounded-[3px] rounded-tr-3xl rounded-br-3xl bg-gray-200/20">
+              {!isEmpty(message?.originMessage?.content) && (
+                <p className="py-1  text-sm">
+                  <Linkify componentDecorator={componentDecorator}>
+                    {renderHTML(
+                      renderComment2(message?.originMessage?.content)
+                    )}
+                  </Linkify>
+                </p>
+              )}
+              <div className="flex items-center justify-start">
+                {message?.originMessage?.imgName != null && (
+                  <>
+                    <img
+                      src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
+                      className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer rounded-tr-3xl rounded-br-3xl"
+                      onClick={() => setFullScreenImage5(!fullScreenImage5)}
+                    />
+                    <Modal
+                      fullScreenImage={fullScreenImage5}
+                      setFullScreenImage={setFullScreenImage5}
+                      src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
+                    />
+                  </>
+                )}
+                {message?.originMessage?.gif != null && (
+                  <>
+                    <img
+                      src={message?.originMessage?.gif}
+                      className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer rounded-tr-3xl rounded-br-3xl"
+                      onClick={() => setFullScreenImage6(!fullScreenImage6)}
+                    />
+                    <Modal
+                      fullScreenImage={fullScreenImage6}
+                      setFullScreenImage={setFullScreenImage6}
+                      src={message?.originMessage?.gif}
+                    />
+                  </>
+                )}
+              </div>
+            </div>
+          )}
+          {!isEmpty(message?.content) && (
+            <p className=" py-2 text-sm whitespace-normal break-words">
+              <Linkify componentDecorator={componentDecorator}>
+                {renderHTML(renderComment2(message?.content))}
+              </Linkify>
+            </p>
+          )}
+
+          {message?.imgName != null && (
+            <>
+              <div className="flex items-center justify-start my-2">
+                <img
+                  src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
+                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                  onClick={() => setFullScreenImage7(!fullScreenImage7)}
+                />
+              </div>
+              <Modal
+                fullScreenImage={fullScreenImage7}
+                setFullScreenImage={setFullScreenImage7}
+                src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
+              />
+            </>
+          )}
+          {message?.gif != null && (
+            <>
+              <div className="flex items-center justify-start my-2">
+                <img
+                  src={message?.gif}
+                  className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
+                  onClick={() => setFullScreenImage8(!fullScreenImage8)}
+                />
+              </div>
+              <Modal
+                fullScreenImage={fullScreenImage8}
+                setFullScreenImage={setFullScreenImage8}
+                src={message?.gif}
+              />
+            </>
+          )}
+        </div>
+        <div className="flex items-center justify-between">
+          <div className="flex items-center justify-center space-x-2 relative">
+            <div
+              onClick={() => setShowReaction(!showReaction)}
+              className="flex items-center justify-center p-1 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer"
+            >
+              <FaceSmileIcon className="w-4 h-4" />
+            </div>
+            {showReaction && (
+              <div className="absolute top-8 left-0 z-50">
+                <Picker
+                  set="apple"
+                  onEmojiSelect={addReaction}
+                  theme="dark"
+                  icons="outline"
+                  previewPosition="none"
+                  size="1em"
+                  perLine="6"
+                  maxFrequentRows="2"
+                />
+              </div>
             )}
-            <div className="flex items-center justify-start mt-2">
-              {message?.originMessage?.imgName != null && (
-                <>
-                  <img
-                    src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
-                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
-                    onClick={() => setFullScreenImage5(!fullScreenImage5)}
-                  />
-                  <Modal
-                    fullScreenImage={fullScreenImage5}
-                    setFullScreenImage={setFullScreenImage5}
-                    src={`${config.url.PUBLIC_URL}/${message?.originMessage?.imgName}`}
-                  />
-                </>
-              )}
-              {message?.originMessage?.gif != null && (
-                <>
-                  <img
-                    src={message?.originMessage?.gif}
-                    className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
-                    onClick={() => setFullScreenImage6(!fullScreenImage6)}
-                  />
-                  <Modal
-                    fullScreenImage={fullScreenImage6}
-                    setFullScreenImage={setFullScreenImage6}
-                    src={message?.originMessage?.gif}
-                  />
-                </>
-              )}
+            <div
+              onClick={() => removeReaction()}
+              className={`flex items-center justify-center px-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer ${
+                reaction ? "inline" : "hidden"
+              }`}
+            >
+              <input
+                value={reaction}
+                onChange={(e: any) => setReaction(e.target.value)}
+                className="bg-transparent cursor-pointer w-5 text-base"
+                disabled
+              />
+              <p className="text-xs font-bold text-white">7</p>
             </div>
           </div>
-        )}
-        {!isEmpty(message?.content) && (
-          <p className=" py-2 text-sm md:text-base whitespace-normal break-words">
-            <Linkify componentDecorator={componentDecorator}>
-              {renderHTML(renderComment2(message?.content))}
-            </Linkify>
-          </p>
-        )}
-
-        {message?.imgName != null && (
-          <>
-            <div className="flex items-center justify-start my-2">
-              <img
-                src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
-                className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
-                onClick={() => setFullScreenImage7(!fullScreenImage7)}
-              />
-            </div>
-            <Modal
-              fullScreenImage={fullScreenImage7}
-              setFullScreenImage={setFullScreenImage7}
-              src={`${config.url.PUBLIC_URL}/${message?.imgName}`}
-            />
-          </>
-        )}
-        {message?.gif != null && (
-          <>
-            <div className="flex items-center justify-start my-2">
-              <img
-                src={message?.gif}
-                className="object-contain md:max-h-[300px] md:max-w-[400px] rounded-md cursor-pointer"
-                onClick={() => setFullScreenImage8(!fullScreenImage8)}
-              />
-            </div>
-            <Modal
-              fullScreenImage={fullScreenImage8}
-              setFullScreenImage={setFullScreenImage8}
-              src={message?.gif}
-            />
-          </>
-        )}
-        <div className="w-full flex items-end justify-end">
-          <p className="font-semibold">
-            {moment(message?.createdAt).format("YY-MM-DD HH:mm")}
-          </p>
+          <div
+            onClick={() => {
+              setReply(true),
+                setReplyMessage(message),
+                setRepliedUser(receiver?.name);
+            }}
+            className="flex items-center justify-center space-x-2 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 px-2 p-1 cursor-pointer"
+          >
+            <ArrowUturnLeftIcon className="w-3 h-3" />
+            <p className="text-xs font-light">Reply</p>
+          </div>
         </div>
       </div>
     </div>

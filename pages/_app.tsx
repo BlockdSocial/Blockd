@@ -126,8 +126,7 @@ function MyApp({ Component, pageProps }: AppProps) {
                   {router.pathname === "/auth/signin" ||
                   router.pathname === "/auth/signup" ||
                   router.pathname === "/auth/infographic" ||
-                  router.pathname === "/dashboard/myChatrooms" ||
-                  router.pathname === "/dashboard/myChatrooms2" ? (
+                  router.pathname === "/dashboard/myChatrooms" ? (
                     <Component {...pageProps} />
                   ) : (
                     <Layout>

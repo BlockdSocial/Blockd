@@ -65,6 +65,9 @@ interface User {
 interface Image {
   name: string;
 }
+interface Video {
+  name: string;
+}
 
 interface Post {
   id: number;
@@ -76,6 +79,7 @@ interface Post {
   userId: number;
   gif: string;
   otherUser: User;
+  postVideo: Video;
   postImage: Image;
   profilePic: any;
   bannerPic: any;
@@ -652,6 +656,15 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                     />
                   ) : null}
+                   {mainPost?.postVideo != null ? (
+                      <video
+                        src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
+                        controls
+                        // autoPlay 
+                        // loop
+                        className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                      />
+                    ) : null}
                   {mainPost?.gif != null ? (
                     <img
                       src={mainPost?.gif}
@@ -671,8 +684,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         href={{
                           pathname: "/auth/signup",
                         }}
-                      >
                         className="relative flex flex-col w-fit h-fit group"
+                      >
+                       
                         <div className={`relative rounded-md`}>
                           <Image
                             src={
@@ -776,6 +790,15 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       <img
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                         alt="Post"
+                        className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                      />
+                    ) : null}
+                    {sharedPost?.postVideo != null ? (
+                      <video
+                        src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
+                        controls
+                        // autoPlay 
+                        // loop
                         className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}
@@ -1097,6 +1120,15 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />
             ) : null}
+            {mainPost?.postVideo != null ? (
+                      <video
+                        src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
+                        controls
+                        // autoPlay 
+                        // loop
+                        className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                      />
+                    ) : null}
             {mainPost?.gif != null ? (
               <img
                 src={mainPost?.gif}

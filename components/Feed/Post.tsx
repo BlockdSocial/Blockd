@@ -750,6 +750,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   <video
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
                     controls
+                    // autoPlay
+                    // loop
+                    // muted
                     className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                   />
                 ) : null}
@@ -897,6 +900,16 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       <img
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postImage?.name}`}
                         alt="Post"
+                        className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                      />
+                    ) : null}
+                     {sharedPost?.postVideo != null ? (
+                      <video
+                        src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
+                        controls
+                        // autoPlay 
+                        // loop
+                        // muted
                         className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}
@@ -1564,6 +1577,16 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />
             ) : null}
+            {mainPost?.postVideo != null ? (
+                  <video
+                    src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
+                    controls
+                    // autoPlay
+                    // muted
+                    className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+                  />
+                ) : null}
+            
             {mainPost?.gif != null ? (
               <img
                 src={mainPost?.gif}
