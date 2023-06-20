@@ -1,6 +1,3 @@
-import { Token } from "@mui/icons-material";
-import { getCookie, setCookie } from "cookies-next";
-import Link from "next/link";
 import { useEffect, useState } from "react";
 
 export const isEmpty = (variable: any) => {

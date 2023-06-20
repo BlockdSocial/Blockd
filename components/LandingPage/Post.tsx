@@ -797,8 +797,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       <video
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
                         controls
-                        // autoPlay 
-                        // loop
+                        autoPlay
+                     loop
+                     muted
                         className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}
@@ -1124,8 +1125,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       <video
                         src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
                         controls
-                        // autoPlay 
-                        // loop
+                        autoPlay
+                     loop
+                     muted
                         className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}

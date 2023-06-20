@@ -161,6 +161,10 @@ const handleApiResponse = async (apiName: any, response: any) => {
       console.log(`Successful ${apiName} empty result`);
       return "success";
     }
+    case status == 413: {
+      throw new Error('Entity Too Large');
+      return;
+    }
 
     // case status == 401:
     // case status == 403: {

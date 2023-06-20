@@ -55,15 +55,18 @@ function TweetBox({ refetchFiltered }: Props) {
 
   const emoji = useRef<any>(null);
 
-  // useEffect(() => {
-  //   if (!isEmpty(error)) {
-  //     toast.error(error);
-  //   }
-  // }, [error]);
+  useEffect(() => {
+    if (!isEmpty(error) && error == 'Entity Too Large') {
+      toast.error(error);
+    }
+  }, [error]);
 
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, []);
+
+
+  
 
   useEffect(() => {
     // only add the event listener when the emoji is opened
@@ -179,16 +182,19 @@ function TweetBox({ refetchFiltered }: Props) {
   const showPostToast = async () => {
     let refreshToast ;
     if (isCreatingPost) {
-      toast("Posting...", {
+      toast.loading("Posting...", {
         id: refreshToast,
       });
     
     }else if(disabledPostBtn){
+      toast.dismiss();
       toast.success("Posted!", {
         id: refreshToast,
       });
     }
   };
+
+  const [isPosting, setisPosting] = useState<boolean>();
 
 
   const handleSubmitPost = async (e: any) => {
@@ -477,6 +483,9 @@ function TweetBox({ refetchFiltered }: Props) {
                 
                 height={300}
                 controls
+                autoPlay
+                     
+                     muted
                 src={source}
               />
               <div

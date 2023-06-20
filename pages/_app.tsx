@@ -1,4 +1,4 @@
-import React, { useState } from "react";
+import React, { useEffect, useState } from "react";
 import "../styles/globals.css";
 import type { AppProps } from "next/app";
 import { ThemeProvider } from "next-themes";
@@ -63,7 +63,9 @@ function MyApp({ Component, pageProps }: AppProps) {
   const mounted = useIsMounted();
   console.log(process.env.NEXT_PUBLIC_ENV,'hussein');
 
-  if (process.env.NODE_ENV === "production") console.log = function () {};
+  if (process.env.NODE_ENV === "production" && process.env.NEXT_PUBLIC_ENV !== 'staging') console.log = function () {};
+
+
 
   const [queryClient] = React.useState(() => new QueryClient());
   if (!mounted) {
@@ -71,6 +73,7 @@ function MyApp({ Component, pageProps }: AppProps) {
    
     return null;
   }
+
   return (
     <html className="h-screen">
       <Head>

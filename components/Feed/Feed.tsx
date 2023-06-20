@@ -45,6 +45,7 @@ function Feed() {
   );
   const [showModal1, setShowModal1] = useState(true);
   const [showModal2, setShowModal2] = useState(false);
+  const [isPosting, setisPosting] = useState<boolean>();
   const [endCount, setEndCount] = useState<number>(4);
   const [endTotal, setEndTotal] = useState<number>(4);
   const [filtered, setFiltered] = useState<Filtered | any>([]);

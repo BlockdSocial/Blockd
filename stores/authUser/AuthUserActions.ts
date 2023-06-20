@@ -43,7 +43,7 @@ export function fetchAuthUser() {
       if (!isEmpty(result)) {
         localStorage.setItem("authUser", JSON.stringify(result));
         if (!getCookie("token")) {
-          setCookie("token", localStorage.getItem("token"));
+          setCookie("token", localStorage.getItem("token"),  { maxAge: 60 * 60 * 24 * 360 });
         }
       }
       return result;
@@ -71,7 +71,7 @@ export function loginUser(fields: any) {
 
       if (!isEmpty(result.token)) {
         localStorage.setItem("token", JSON.stringify(result.token));
-        setCookie("token", result.token);
+        setCookie("token", result.token,  { maxAge: 60 * 60 * 24 * 360 });
       }
 
       return result;
@@ -98,7 +98,7 @@ export function registerUser(fields: object) {
       });
       if (!isEmpty(result?.token)) {
         localStorage.setItem("token", JSON.stringify(result?.token));
-        setCookie("token", result.token);
+        setCookie("token", result.token,  { maxAge: 60 * 60 * 24 * 360 });
       }
       return result;
     } catch (error: any) {

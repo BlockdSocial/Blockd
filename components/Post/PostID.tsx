@@ -664,6 +664,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <video
               src={`${config.url.PUBLIC_URL}/${post?.postVideo?.name}`}
               controls
+              autoPlay
+                     loop
+                     muted
               className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[500px] shadow-sm cursor-pointer"
             />
           ) : null}
@@ -793,9 +796,11 @@ function PostID({ post, refetchComments, refetch }: Props) {
               {sharedPost?.postVideo != null ? (
                 <video
                   src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
-                  width="100%"
-                  height={300}
+                 
                   controls
+                  autoPlay
+                     loop
+                     muted
                   className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
               ) : null}
