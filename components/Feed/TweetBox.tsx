@@ -599,7 +599,7 @@ function TweetBox({ refetchFiltered }: Props) {
             id="file"
             ref={inputVideo}
             className="hidden"
-            accept=".mov,.mp4"
+            accept=".mov,.mp4,.ogg,.webm"
             onChange={handleUploadVideo}
           />
         </form>
