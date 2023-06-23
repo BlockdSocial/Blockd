@@ -43,8 +43,9 @@ export default function SignIn() {
   //   },
   // });
   useEffect(() => {
-    if (authError?.message && authError?.message !== "Unauthenticated") {
-      toast.error(authError?.message);
+    console.log({authError})
+    if (authError && authError?.message !== "Unauthenticated") {
+      toast.error(authError);
     }
   }, [authError]);
 
@@ -135,6 +136,7 @@ export default function SignIn() {
   }
   return (
     <section className="min-h-screen flex items-stretch scrollbar-hide overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+      <Toaster/>
       <CustomLoadingOverlay active={isLoggingIn} />
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">

@@ -320,7 +320,7 @@ export default function SignUp() {
   useEffect(() => {
     console.log("setNftData useEffect refetch");
     refetch();
-  }, []);
+  });
 
   const { writeAsync, isLoading: isMintLoading } = useContractWrite({
     ...config,
