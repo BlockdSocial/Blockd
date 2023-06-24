@@ -202,7 +202,7 @@ export default function Message({
               </>
             )}
           </div>
-          <div className="flex items-center justify-between">
+          <div className="flex items-center justify-end">
             {/* TODO HUSSEIN ADD TO BACKEDN */}
             {/* <div className="flex items-center justify-center space-x-2 relative">
               <div
@@ -380,14 +380,14 @@ export default function Message({
             </>
           )}
         </div>
-        <div className="flex items-center justify-between">
+        <div className="flex items-center justify-start">
           <div className="flex items-center justify-center space-x-2 relative">
-            <div
+            {/* <div
               onClick={() => setShowReaction(!showReaction)}
               className="flex items-center justify-center p-1 rounded-3xl bg-gray-200 hover:bg-gray-300 dark:bg-gray-500/40 dark:hover:bg-gray-500/80 cursor-pointer"
             >
               <FaceSmileIcon className="w-4 h-4" />
-            </div>
+            </div> */}
             {showReaction && (
               <div className="absolute top-8 left-0 z-50">
                 <Picker
