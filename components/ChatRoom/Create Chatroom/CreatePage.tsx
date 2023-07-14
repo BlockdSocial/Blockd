@@ -347,7 +347,7 @@ console.log(tokenNumber);
     <div className="min-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
       <div className="p-4">
         <div className="flex flex-col items-center justify-center space-y-3 border-2 border-orange-200 dark:border-lightgray rounded-xl w-full p-4 bg-white dark:bg-darkgray">
-          <p className="text-xl font-semibold text-center">Create a Chatroom</p>
+          <p className="text-xl font-semibold text-center">Create a Guild</p>
           <div className="flex flex-col p-3 items-start w-full space-y-3">
             <div className="w-full">
               <h3 className="text-sm font-semibold pb-1">Name</h3>
@@ -372,7 +372,7 @@ console.log(tokenNumber);
               />
             </div>
             <div className="w-full">
-              <h3 className="text-sm font-semibold pb-1">Chatroom Picture</h3>
+              <h3 className="text-sm font-semibold pb-1">Guild Picture</h3>
               <div
                 onClick={() => onUploadPictureClick()}
                 className="flex space-x-2 text-sm p-2 w-full rounded-lg outline-none text-black dark:text-white bg-gray-200 dark:bg-lightgray cursor-pointer"
@@ -436,10 +436,10 @@ console.log(tokenNumber);
                   required
                 >
                   <option value="public" className="outline-none p-2">
-                    Public Chatroom
+                    Public Guild
                   </option>
                   <option value="private" className="outline-none p-2">
-                    Private Chatroom
+                    Private Guild
                   </option>
                 </select>
               </div>

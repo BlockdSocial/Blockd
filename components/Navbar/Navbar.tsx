@@ -862,7 +862,7 @@ const Navbar = () => {
                     } group`}
                   >
                     <ChatBubbleLeftIcon className="w-5 h-5" />
-                    <span className="">My Chatroom</span>
+                    <span className="">My Guilds</span>
                   </div>
                 </Link>
                 <div
@@ -872,9 +872,9 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      The BLOCKd ChatRoom is unlike any other social media chat
+                      The BLOCKd guild is unlike any other social media chat
                       room on the web. In addition to creating a public
-                      chatroom, users can also create private chatrooms with set
+                      guild, users can also create private guilds with set
                       requirements enforced by the blockchain to grant access to
                       users.
                     </p>
@@ -910,7 +910,7 @@ const Navbar = () => {
                     } group`}
                   >
                     <PlusCircleIcon className="w-5 h-5" />
-                    <span className="">Create Chatroom</span>
+                    <span className="">Create Guild</span>
                   </div>
                 </Link>
                 <div
@@ -920,8 +920,8 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can visit the create chatrooms page to create either
-                      private or public chatrooms. You will also be able to set
+                      You can visit the create guilds page to create either
+                      private or public guilds. You will also be able to set
                       requirements and add plenty of details.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
@@ -956,7 +956,7 @@ const Navbar = () => {
                     } group`}
                   >
                     <ChatBubbleLeftRightIcon className="w-5 h-5" />
-                    <span className="">All Chatrooms</span>
+                    <span className="">All Guilds</span>
                   </div>
                 </Link>
                 <div
@@ -966,7 +966,7 @@ const Navbar = () => {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can visit the all chatrooms page and search for your
+                      You can visit the all guilds page and search for your
                       desired group.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
@@ -1097,7 +1097,7 @@ const Navbar = () => {
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>
-                  ChatRooms (Public & Private) and DMs.
+                  Guilds (Public & Private) and DMs.
                 </div>
                 <div className="flex w-full items-start justify-start">
                   <span className="text-orange-500 text-xl">•</span>

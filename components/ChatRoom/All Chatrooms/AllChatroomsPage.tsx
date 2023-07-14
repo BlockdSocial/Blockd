@@ -17,7 +17,7 @@ function AllChatroomsPage() {
           onClick={() => router.back()}
           className="h-8 w-8 cursor-pointer text-black dark:text-white transition-all duration-100 ease-out hover:scale-125"
         />
-        <p>All Chatrooms</p>
+        <p>All Guilds</p>
       </div>
 
       {/* <TrendingChatrooms /> */}

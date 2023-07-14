@@ -220,7 +220,7 @@ function Sidebar() {
           onMouseLeave={() => setOpen(false)}
           className="relative"
         >
-          <div className="relative flex items-center justify-center">
+          <div className="relative flex items-center justify-start">
             <Link
               href=""
               className={`flex mt-1 max-w-fit items-start md:items-center md:justify-center space-x-2 p-3 rounded-full hover:bg-gray-100 dark:hover:bg-lightgray
@@ -230,7 +230,7 @@ function Sidebar() {
               <p
                 className={`hidden md:inline-flex text-base lg:text-xl cursor-pointer`}
               >
-                ChatRooms
+                Guilds
               </p>
               <div className="hidden md:inline">
                 <ChevronRightIcon
@@ -254,7 +254,7 @@ function Sidebar() {
                     } group`}
                   >
                     <ChatBubbleLeftIcon className="w-5 h-5" />
-                    <span className="hidden md:inline">My Chatroom</span>
+                    <span className="hidden md:inline">My Guilds</span>
                   </div>
                 </Link>
                 <div
@@ -264,9 +264,9 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      The BLOCKd ChatRoom is unlike any other social media chat
+                      The BLOCKd Guilds is unlike any other social media chat
                       room on the web. In addition to creating a public
-                      chatroom, users can also create private chatrooms with set
+                      guild, users can also create private guilds with set
                       requirements enforced by the blockchain to grant access to
                       users.
                     </p>
@@ -302,7 +302,7 @@ function Sidebar() {
                     } group`}
                   >
                     <PlusCircleIcon className="w-5 h-5" />
-                    <span className="hidden md:inline">Create Chatroom</span>
+                    <span className="hidden md:inline">Create Guild</span>
                   </div>
                 </Link>
                 <div
@@ -312,8 +312,8 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can visit the create chatrooms page to create either
-                      private or public chatrooms. You will also be able to set
+                      You can visit the create guilds page to create either
+                      private or public guilds. You will also be able to set
                       requirements and add plenty of other details.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
@@ -348,7 +348,7 @@ function Sidebar() {
                     } group`}
                   >
                     <ChatBubbleLeftRightIcon className="w-5 h-5" />
-                    <span className="hidden md:inline">All Chatrooms</span>
+                    <span className="hidden md:inline">All Guilds</span>
                   </div>
                 </Link>
                 <div
@@ -358,7 +358,7 @@ function Sidebar() {
                 >
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
-                      You can visit the all chatrooms page and search for your
+                      You can visit the all guilds page and search for your
                       desired group.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
@@ -489,7 +489,7 @@ function Sidebar() {
               </div>
               <div className="flex w-full items-start justify-start">
                 <span className="text-orange-500 text-xl">•</span>
-                ChatRooms (Public & Private) and DMs.
+                Guilds (Public & Private) and DMs.
               </div>
               <div className="flex w-full items-start justify-start">
                 <span className="text-orange-500 text-xl">•</span>
