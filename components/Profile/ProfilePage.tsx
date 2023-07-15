@@ -187,7 +187,8 @@ function ProfilePage() {
       )}`;
       setText(referralLink);
     }
-  }, [authUser]);
+  }, []);
+
   useEffect(() => {
     if (authUser?.address) {
       let referralLink = `https://blockd.app/auth/signup?${encodeQuery(
@@ -196,7 +197,8 @@ function ProfilePage() {
       )}`;
       setText(referralLink);
     }
-  }, []);
+  }, [authUser]);
+  
   
 
   const handleScroll = async () => {
@@ -244,7 +246,7 @@ function ProfilePage() {
                 <input
                   className="text-sm md:text-base w-32 md:w-fit bg-transparent truncate"
                   value={text}
-                  onChange={(e) => setText(e.target.value)}
+                 // onChange={(e) => setText(e.target.value)}
                   disabled
                 />
                 <DocumentDuplicateIcon
