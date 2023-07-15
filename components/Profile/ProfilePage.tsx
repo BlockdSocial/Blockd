@@ -175,7 +175,9 @@ function ProfilePage() {
       setShowInteractions(showInteractions);
       setShowFollowers(showFollowers);
     }
-  };
+  };  
+  const [text, setText] = useState("");
+
 
   useEffect(() => {
     if (authUser?.address) {
@@ -186,8 +188,17 @@ function ProfilePage() {
       setText(referralLink);
     }
   }, [authUser]);
+  useEffect(() => {
+    if (authUser?.address) {
+      let referralLink = `https://blockd.app/auth/signup?${encodeQuery(
+        authUser?.address,
+        "referralLink"
+      )}`;
+      setText(referralLink);
+    }
+  }, []);
+  
 
-  const [text, setText] = useState("ReferralID ReferralID ReferralID");
   const handleScroll = async () => {
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
