@@ -175,7 +175,7 @@ function ProfilePage() {
       setShowInteractions(showInteractions);
       setShowFollowers(showFollowers);
     }
-  };  
+  };
   const [text, setText] = useState("");
 
 
@@ -187,19 +187,7 @@ function ProfilePage() {
       )}`;
       setText(referralLink);
     }
-  }, []);
-
-  useEffect(() => {
-    if (authUser?.address) {
-      let referralLink = `https://blockd.app/auth/signup?${encodeQuery(
-        authUser?.address,
-        "referralLink"
-      )}`;
-      setText(referralLink);
-    }
   }, [authUser]);
-  
-  
 
   const handleScroll = async () => {
     if (elementRef.current) {
@@ -242,17 +230,24 @@ function ProfilePage() {
             <p className="text-sm md:text-base font-semibold block">
               Referral Link :{" "}
             </p>
-           
+            {isMobile ? (
+              <>
+                <output className="text-sm md:text-base  md:w-fit bg-transparent overflow-auto">
+                  {text}
+                </output>
+              </>
+            ) : (
+              <>
                 <input
                   className="text-sm md:text-base w-32 md:w-fit bg-transparent truncate"
                   value={text}
-                 // onChange={(e) => setText(e.target.value)}
+                  onChange={(e) => setText(e.target.value)}
                   disabled
                 />
                 <DocumentDuplicateIcon
-                  onClick={() => {
+                  onClick={async () => {
                     if ("clipboard" in navigator) {
-                       navigator.clipboard.writeText(text);
+                      await navigator.clipboard.writeText(text);
                       toast.success("Copied to clipboard!");
                     } else {
                       document.execCommand("copy", true, text);
@@ -260,7 +255,8 @@ function ProfilePage() {
                   }}
                   className="w-5 h-5 cursor-pointer copy-button"
                 />
-             
+              </>
+            )}
           </div>
         </div>
       )}
