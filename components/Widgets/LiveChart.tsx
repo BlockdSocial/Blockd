@@ -20,6 +20,12 @@ function LiveChart() {
   let [BNBPrice, setBNBPrice] = useState<any>();
   let [BNBUrl, setBNBUrl] = useState<any>("");
   let [BNBPriceChange, setBNBPriceChange] = useState<any>();
+  let [SOLPrice, setSOLPrice] = useState<any>();
+  let [SOLUrl, setSOLUrl] = useState<any>("");
+  let [SOLPriceChange, setSOLPriceChange] = useState<any>();
+  let [AVAXPrice, setAVAXPrice] = useState<any>();
+  let [AVAXUrl, setAVAXUrl] = useState<any>("");
+  let [AVAXPriceChange, setAVAXPriceChange] = useState<any>();
 
   const MINUTE_MS = 100000;
 
@@ -49,6 +55,16 @@ function LiveChart() {
       "0x16b9a82891338f9ba80e2d6970fdda79d1eb0dae"
     );
 
+    const SOLResponse = await getPairInformationByChain(
+      "solana",
+      "83v8ipyzihdejddy8rdzddyznyutxngz69lgo9kt5d6d"
+    );
+
+    const AVAXResponse = await getPairInformationByChain(
+      "avalanche",
+      "0xfae3f424a0a47706811521e3ee268f00cfb5c45e"
+    );
+
     //Get pairs matching base token address
     //const tokensResponse = await getPairsMatchingBaseTokenAddress("0x1DF2C6DF4d4E7F3188487F4515587c5E8b75dbfa");
 
@@ -65,6 +81,12 @@ function LiveChart() {
     BNBUrl = await BNBResponse.pair.url;
     BNBPrice = await BNBResponse.pair.priceUsd;
     BNBPriceChange = await BNBResponse.pair.priceChange.h1;
+    SOLUrl = await SOLResponse.pair.url;
+    SOLPrice = await SOLResponse.pair.priceUsd;
+    SOLPriceChange = await SOLResponse.pair.priceChange.h1;
+    AVAXUrl = await AVAXResponse.pair.url;
+    AVAXPrice = await AVAXResponse.pair.priceUsd;
+    AVAXPriceChange = await AVAXResponse.pair.priceChange.h1;
 
     // priceChange = pairsResponse.pairs[0].priceChange.h24;
 
@@ -73,14 +95,20 @@ function LiveChart() {
       ETHPrice,
       MATICPrice,
       BNBPrice,
+      SOLPrice,
+      AVAXPrice,
       BTCPriceChange,
       ETHPriceChange,
       MATICPriceChange,
       BNBPriceChange,
+      SOLPriceChange,
+      AVAXPriceChange,
       BTCUrl,
       ETHUrl,
       MATICUrl,
       BNBUrl,
+      SOLUrl,
+      AVAXUrl,
     };
   };
 
@@ -111,6 +139,18 @@ function LiveChart() {
         setBNBPriceChange(BNBChange);
         const BnbUrl = BNBUrl;
         setBNBUrl(BnbUrl);
+        const SOL = SOLPrice;
+        setSOLPrice(SOL);
+        const SOLChange = SOLPriceChange;
+        setSOLPriceChange(SOLChange);
+        const SolUrl = SOLUrl;
+        setSOLUrl(SolUrl);
+        const AVAX = AVAXPrice;
+        setAVAXPrice(AVAX);
+        const AVAXChange = AVAXPriceChange;
+        setAVAXPriceChange(AVAXChange);
+        const AvaxUrl = AVAXUrl;
+        setAVAXUrl(AvaxUrl);
       });
     }, MINUTE_MS);
 
@@ -143,6 +183,18 @@ function LiveChart() {
       setBNBPriceChange(BNBChange);
       const BnbUrl = BNBUrl;
       setBNBUrl(BnbUrl);
+      const SOL = SOLPrice;
+      setSOLPrice(SOL);
+      const SOLChange = SOLPriceChange;
+      setSOLPriceChange(SOLChange);
+      const SolUrl = SOLUrl;
+      setSOLUrl(SolUrl);
+      const AVAX = AVAXPrice;
+      setAVAXPrice(AVAX);
+      const AVAXChange = AVAXPriceChange;
+      setAVAXPriceChange(AVAXChange);
+      const AvaxUrl = AVAXUrl;
+      setAVAXUrl(AvaxUrl);
     });
   }, []);
 
@@ -230,6 +282,48 @@ function LiveChart() {
             {MATICPrice}
           </p>
           {MATICPriceChange > 0 ? (
+            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+          ) : (
+            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+          )}
+        </Link>
+      )}
+      {SOLPrice && (
+        <Link
+          href={SOLUrl}
+          target="_blank"
+          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+        >
+          <img src="/images/logo/solana-logo.png" className="w-7 h-7" />
+          <p
+            className={`${
+              SOLPriceChange > 0 ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {SOLPrice}
+          </p>
+          {SOLPriceChange > 0 ? (
+            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+          ) : (
+            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+          )}
+        </Link>
+      )}
+      {AVAXPrice && (
+        <Link
+          href={AVAXUrl}
+          target="_blank"
+          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+        >
+          <img src="/images/logo/avax-logo.png" className="w-7 h-7" />
+          <p
+            className={`${
+              AVAXPriceChange > 0 ? "text-green-600" : "text-red-600"
+            }`}
+          >
+            {AVAXPrice}
+          </p>
+          {AVAXPriceChange > 0 ? (
             <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
           ) : (
             <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
