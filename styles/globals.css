@@ -101,7 +101,7 @@ em-emoji-picker {
     transform: translateX(0);
  }
   100% {
-    transform: translateX(calc(-200px * 7));
+    transform: translateX(calc(-200px * 6));
  }
 }
 
@@ -117,7 +117,7 @@ em-emoji-picker {
 .slider .slide-track {
   animation: scroll 30s linear infinite;
   display: flex;
-  width: calc(250px * 14);
+  width: calc(200px * 12);
 }
 .slider .slide {
   height: 100px;
