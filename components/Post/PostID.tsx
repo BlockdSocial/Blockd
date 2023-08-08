@@ -665,7 +665,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
               src={`${config.url.PUBLIC_URL}/${post?.postVideo?.name}`}
               controls
               autoPlay
-                     loop
                      muted
               className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[500px] shadow-sm cursor-pointer"
             />
@@ -799,7 +798,6 @@ function PostID({ post, refetchComments, refetch }: Props) {
                  
                   controls
                   autoPlay
-                     loop
                      muted
                   className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />

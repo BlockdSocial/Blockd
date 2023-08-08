@@ -2,6 +2,7 @@ import React, { useState, useEffect, useRef } from "react";
 import InfoContainer from "./InfoContainer";
 import Feed from "./Feed";
 import Interactions from "./Interactions";
+import { isMobile } from "react-device-detect";
 import Followers from "./Followers";
 import Following from "./Following";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
@@ -29,8 +30,8 @@ interface User {
   levelTotal: number;
   frameName: string;
   bio: string;
-  twitter:string;
-  lensProtocol:string;
+  twitter: string;
+  lensProtocol: string;
   facebook: string;
   instagram: string;
   linktree: string;
@@ -59,10 +60,10 @@ function ProfilePage() {
   );
 
   const router = useRouter();
-  
+
   const user_id =
-  router.query.user_id ||
-  parseQueryString(window.location.search.substring(1)).user_id;
+    router.query.user_id ||
+    parseQueryString(window.location.search.substring(1)).user_id;
 
   useEffect(() => {
     if (user_id == undefined || null) {
@@ -89,23 +90,27 @@ function ProfilePage() {
   };
 
   const fetchAuthUserPosts = async () => {
-    await dispatch(fetchUserPosts(authUser?.id, {
-      start: 0,
-      end: 8
-    })).then((res) => {
+    await dispatch(
+      fetchUserPosts(authUser?.id, {
+        start: 0,
+        end: 8,
+      })
+    ).then((res) => {
       setPosts(res?.posts);
     });
-  }
+  };
 
   const fetchPosts = async (thisUser: any = {}) => {
     if (!thisUser) {
       thisUser = user;
     }
     if (!isEmpty(thisUser)) {
-      await dispatch(fetchUserPosts(thisUser?.id, {
-        start: 0,
-        end: 8
-      })).then((res) => {
+      await dispatch(
+        fetchUserPosts(thisUser?.id, {
+          start: 0,
+          end: 8,
+        })
+      ).then((res) => {
         setPosts(res?.posts);
       });
     }
@@ -171,16 +176,19 @@ function ProfilePage() {
       setShowFollowers(showFollowers);
     }
   };
+  const [text, setText] = useState("");
+
 
   useEffect(() => {
-    if(authUser?.address) {
-      let referralLink = `https://blockd.app/auth/signup?${encodeQuery(authUser?.address, "referralLink")}`;
-      setText(referralLink)
+    if (authUser?.address) {
+      let referralLink = `https://blockd.app/auth/signup?${encodeQuery(
+        authUser?.address,
+        "referralLink"
+      )}`;
+      setText(referralLink);
     }
-  },[authUser])
-  
-  
-  const [text, setText] = useState("ReferralID ReferralID ReferralID");
+  }, [authUser]);
+
   const handleScroll = async () => {
     if (elementRef.current) {
       const { scrollTop, scrollHeight, clientHeight } = elementRef.current;
@@ -200,7 +208,6 @@ function ProfilePage() {
     }
   };
 
-
   return (
     <div
       className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
@@ -217,36 +224,48 @@ function ProfilePage() {
         userId={user_id as string}
       />
 
-      {
-        user?.id === authUser?.id &&
+      {user?.id === authUser?.id && (
         <div className="border-b dark:border-lightgray">
           <div className="flex items-center justify-start my-5 px-6 space-x-1">
-            <p className="text-sm md:text-base font-semibold">Referral Link : </p>
-            <input
-              className="text-sm md:text-base w-32 md:w-fit bg-transparent truncate"
-              value={text}
-              onChange={(e) => setText(e.target.value)}
-              disabled
-            />
-            <DocumentDuplicateIcon
-              onClick={async () => {
-                if ("clipboard" in navigator) {
-                  await navigator.clipboard.writeText(text);
-                  toast.success("Copied to clipboard!");
-                } else {
-                  document.execCommand("copy", true, text);
-                }
-              }}
-              className="w-5 h-5 cursor-pointer copy-button"
-            />
+            <p className="text-sm md:text-base font-semibold block">
+              Referral Link :{" "}
+            </p>
+            {isMobile ? (
+              <>
+                <output className="text-sm md:text-base  md:w-fit bg-transparent overflow-auto">
+                  {text}
+                </output>
+              </>
+            ) : (
+              <>
+                <input
+                  className="text-sm md:text-base w-32 md:w-fit bg-transparent truncate"
+                  value={text}
+                  onChange={(e) => setText(e.target.value)}
+                  disabled
+                />
+                <DocumentDuplicateIcon
+                  onClick={async () => {
+                    if ("clipboard" in navigator) {
+                      await navigator.clipboard.writeText(text);
+                      toast.success("Copied to clipboard!");
+                    } else {
+                      document.execCommand("copy", true, text);
+                    }
+                  }}
+                  className="w-5 h-5 cursor-pointer copy-button"
+                />
+              </>
+            )}
           </div>
         </div>
-      }
+      )}
       <div className="flex items-center justify-between p-5 w-full border-b dark:border-lightgray h-10 mt-8">
         <button
           onClick={() => handleToggle1()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFeed === true ? "border-b-2 border-blockd text-blockd :" : ""
-            }`}
+          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+            showFeed === true ? "border-b-2 border-blockd text-blockd :" : ""
+          }`}
         >
           Feed
         </button>
@@ -255,28 +274,27 @@ function ProfilePage() {
         </button> */}
         <button
           onClick={() => handleToggle3()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowers === true
-            ? "border-b-2 border-blockd text-blockd :"
-            : ""
-            }`}
+          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+            showFollowers === true
+              ? "border-b-2 border-blockd text-blockd :"
+              : ""
+          }`}
         >
           Followers
         </button>
         <button
           onClick={() => handleToggle4()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${showFollowing === true
-            ? "border-b-2 border-blockd text-blockd :"
-            : ""
-            }`}
+          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+            showFollowing === true
+              ? "border-b-2 border-blockd text-blockd :"
+              : ""
+          }`}
         >
           Following
         </button>
       </div>
 
-      {showFeed && <Feed
-        posts={posts}
-        refetch={fetchAuthUserPosts}
-      />}
+      {showFeed && <Feed posts={posts} refetch={fetchAuthUserPosts} />}
       {showInteractions && <Interactions />}
       {showFollowers && <Followers user={user} />}
       {showFollowing && <Following user={user} />}
