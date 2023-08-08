@@ -353,7 +353,7 @@ function Footer({
               <p className="text-sm">
                 @{isEmpty(repliedUser) ? authUser?.name : repliedUser}
               </p>
-              <p className="text-sm w-fit max-w-full whitespace-normal break-words">
+              <p className="text-sm w-fit max-w-full break-words whitespace-pre-line">
                 {renderCommentText(replyMessage?.content)}
               </p>
               {/* <div className="flex items-center justify-start mt-2">

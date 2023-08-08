@@ -163,7 +163,7 @@ export default function Message({
               </div>
             )}
             {!isEmpty(message?.content) && (
-              <p className="py-2 text-sm whitespace-normal break-words">
+              <p className="py-2 text-sm break-words whitespace-pre-line">
                 <Linkify componentDecorator={componentDecorator}>
                   {renderHTML(renderComment2(message?.content))}
                 </Linkify>
@@ -340,7 +340,7 @@ export default function Message({
             </div>
           )}
           {!isEmpty(message?.content) && (
-            <p className=" py-2 text-sm whitespace-normal break-words">
+            <p className=" py-2 text-sm break-words whitespace-pre-line">
               <Linkify componentDecorator={componentDecorator}>
                 {renderHTML(renderComment2(message?.content))}
               </Linkify>
