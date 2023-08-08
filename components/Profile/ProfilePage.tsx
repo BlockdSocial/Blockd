@@ -228,7 +228,7 @@ function ProfilePage() {
         <div className="border-b dark:border-lightgray">
           <div className="flex items-center justify-start my-5 px-6 space-x-1">
             <p className="text-sm md:text-base font-semibold block">
-              Referral Link :{" "}
+              Referral :{" "}
             </p>
             {isMobile ? (
               <>
