@@ -122,7 +122,7 @@ function SuggestionBody({ post }: any) {
           </div>
           <div className='flex flex-col items-start space-y-2'>
             {/* <p className='font-semibold text-sm'>Title of the suggestion</p> */}
-            <p className='text-sm'>{post?.content}</p>
+            <p className='text-sm break-words whitespace-pre-line'>{post?.content}</p>
           </div>
           <div className='flex items-start'>
             <p className='text-sm text-gray-500'>
