@@ -19,6 +19,7 @@ import { isEmpty } from "lodash";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { useRouter } from "next/router";
 import Slider from "./Slider";
+import { useInView } from "@react-spring/web";
 
 interface Post {
   id: number;
@@ -36,6 +37,7 @@ interface Filtered {
 }
 
 function Feed() {
+  const [ref, inView] = useInView()
   const dispatch = useAppDispatch();
   const router = useRouter();
   const { isRegistered } = router.query;
@@ -172,7 +174,7 @@ function Feed() {
 
       <div>
         <TweetBox refetchFiltered={fetchFiltered} />
-        <div className="p-4">
+        <div className="p-4" ref={ref}>
           {filtered &&
             filtered?.map((post: Post, index: number) => (
               // @ts-ignore
@@ -181,6 +183,7 @@ function Feed() {
                 // @ts-ignore
                 mainPost={post}
                 refetch={handleRefresh}
+                inView={inView}
               />
             ))}
           {isFetchingFilteredPosts && (

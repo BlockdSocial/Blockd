@@ -168,6 +168,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
   const fetchInfo = async () => {
     await dispatch(fetchPostInfo(post?.id)).then((result: any) => {
       setInfo(result);
+      console.log(result,"husssss")
     });
   };
 

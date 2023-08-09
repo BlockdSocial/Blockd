@@ -106,10 +106,13 @@ interface Props {
   mainPost: Post;
   refetch: () => void;
   search: boolean;
+  inView: boolean
 }
 
-export default function PostTest({ mainPost, refetch, search = false }: Props) {
+export default function PostTest({ mainPost, refetch, search = false ,inView}: Props) {
+  if(inView) {
   console.log(mainPost, "mainPost hussein");
+  }
   let [isDropdownVisible, setIsDropdownVisible] = useState(false);
 
   const dispatch = useAppDispatch();
@@ -541,9 +544,11 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
   };
 
   return (
-    <div className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
+    <div  className="relative w-full border dark:border-lightgray hover:bg-gray-100 dark:hover:bg-[#1F2022] rounded-lg p-1 py-2 mb-2">
       <div className="w-full flex">
+        {inView ? 'dsddd': 'sssssss'}
         <div className="flex flex-col px-4 w-full">
+          
           <Link
             href={{
               pathname: "/dashboard/post/",
@@ -596,6 +601,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         className={`absolute -bottom-3 -left-3 flex rounded-lg`}
                       >
                         <div className="relative">
+                          
                           <Image
                             src={
                               !isEmpty(mainPost?.otherUser?.frameName)
@@ -1577,6 +1583,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 className="max-w-full object-contain max-h-[400px] group-hover:opacity-50 rounded-lg"
               />
             ) : null}
+
             {mainPost?.postVideo != null ? (
                   <video
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
