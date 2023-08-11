@@ -178,7 +178,6 @@ function ProfilePage() {
   };
   const [text, setText] = useState("");
 
-
   useEffect(() => {
     if (authUser?.address) {
       let referralLink = `https://blockd.app/auth/signup?${encodeQuery(
@@ -227,36 +226,26 @@ function ProfilePage() {
       {user?.id === authUser?.id && (
         <div className="border-b dark:border-lightgray">
           <div className="flex items-center justify-start my-5 px-6 space-x-1">
-            <p className="text-sm md:text-base font-semibold block">
+            <p className="flex text-sm md:text-base font-semibold">
               Referral :{" "}
             </p>
-            {isMobile ? (
-              <>
-                <output className="text-sm md:text-base  md:w-fit bg-transparent overflow-auto">
-                  {text}
-                </output>
-              </>
-            ) : (
-              <>
-                <input
-                  className="text-sm md:text-base w-32 md:w-fit bg-transparent truncate"
-                  value={text}
-                  onChange={(e) => setText(e.target.value)}
-                  disabled
-                />
-                <DocumentDuplicateIcon
-                  onClick={async () => {
-                    if ("clipboard" in navigator) {
-                      await navigator.clipboard.writeText(text);
-                      toast.success("Copied to clipboard!");
-                    } else {
-                      document.execCommand("copy", true, text);
-                    }
-                  }}
-                  className="w-5 h-5 cursor-pointer copy-button"
-                />
-              </>
-            )}
+            <input
+              className="text-base h-4 w-40 md:w-fit bg-transparent truncate"
+              value={text}
+              onChange={(e) => setText(e.target.value)}
+              disabled
+            />
+            <DocumentDuplicateIcon
+              onClick={async () => {
+                if ("clipboard" in navigator) {
+                  await navigator.clipboard.writeText(text);
+                  toast.success("Copied to clipboard!");
+                } else {
+                  document.execCommand("copy", true, text);
+                }
+              }}
+              className="w-5 h-5 cursor-pointer copy-button"
+            />
           </div>
         </div>
       )}

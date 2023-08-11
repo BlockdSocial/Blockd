@@ -750,9 +750,9 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   <video
                     src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
                     controls
-                     autoPlay
-                     loop
-                     muted
+                    autoPlay
+                    loop
+                    muted
                     className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                   />
                 ) : null}
@@ -903,13 +903,13 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}
-                     {sharedPost?.postVideo != null ? (
+                    {sharedPost?.postVideo != null ? (
                       <video
                         src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
                         controls
-                         autoPlay 
-                         loop
-                         muted
+                        autoPlay
+                        loop
+                        muted
                         className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
                       />
                     ) : null}
@@ -1537,30 +1537,62 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               </div>
             </div>
             <div className="flex items-start justify-start border-t w-full py-2 space-x-3">
-              <div
-                className={`relative flex flex-col p-1 ${mainPost?.otherUser?.frameName} rounded-lg`}
+              <Link
+                href={{
+                  pathname: "/dashboard/profile",
+                  query: { user_id: sharedPost?.otherUser?.id },
+                }}
+                as={`/dashboard/profile?${encodeQuery(
+                  sharedPost?.otherUser?.id,
+                  "profile"
+                )}`}
+                className="relative flex flex-col w-fit h-fit group"
               >
-                <img
-                  src={
-                    !isEmpty(mainPost?.otherUser?.profilePic)
-                      ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
-                  }
-                  alt="pfp"
-                  className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm object-cover"
-                />
-                <div
-                  className={`absolute -bottom-3 -left-2 flex p-1 w-7 h-7 ${
-                    !isEmpty(mainPost?.otherUser?.frameName)
-                      ? mainPost?.otherUser?.frameName
-                      : "bg-blue-300"
-                  } rounded-lg`}
-                >
-                  <div className="flex items-center justify-center text-black font-semibold rounded-md w-full h-full text-xs bg-white ">
-                    {mainPost?.otherUser?.level}
+                <div className={`relative rounded-md`}>
+                  <Image
+                    src={
+                      !isEmpty(mainPost?.otherUser?.frameName)
+                        ? `/${mainPost?.otherUser?.frameName}`
+                        : "/images/frames/frame4.jpg"
+                    }
+                    alt="pfp"
+                    className="relative w-16 h-16 border-white"
+                    width={2000}
+                    height={2000}
+                  />
+                  <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[55px] h-[55px] bg-white dark:bg-darkgray">
+                    <Image
+                      src={
+                        !isEmpty(mainPost?.otherUser?.profilePic)
+                          ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
+                          : "/images/pfp/pfp1.jpg"
+                      }
+                      alt="pfp"
+                      className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
+                      width={2000}
+                      height={2000}
+                    />
+                  </div>
+                  <div className={`absolute -bottom-3 -left-3 flex rounded-lg`}>
+                    <div className="relative">
+                      <Image
+                        src={
+                          !isEmpty(mainPost?.otherUser?.frameName)
+                            ? `/${mainPost?.otherUser?.frameName}`
+                            : "/images/frames/frame4.jpg"
+                        }
+                        alt="pfp"
+                        className="relative w-7 h-7"
+                        width={2000}
+                        height={2000}
+                      />
+                      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[24px] h-[24px] z-[1] flex items-center justify-center text-black font-semibold text-sm bg-white">
+                        {mainPost?.otherUser?.level}
+                      </div>
+                    </div>
                   </div>
                 </div>
-              </div>
+              </Link>
               <div className="flex flex-col items-start justify-start h-full pt-1">
                 <p className="text-sm text-black">
                   @{mainPost?.otherUser?.name}
@@ -1578,15 +1610,15 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               />
             ) : null}
             {mainPost?.postVideo != null ? (
-                  <video
-                    src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
-                    controls
-                     autoPlay
-                     muted
-                    className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
-                  />
-                ) : null}
-            
+              <video
+                src={`${config.url.PUBLIC_URL}/${mainPost?.postVideo?.name}`}
+                controls
+                autoPlay
+                muted
+                className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[400px] shadow-sm"
+              />
+            ) : null}
+
             {mainPost?.gif != null ? (
               <img
                 src={mainPost?.gif}
