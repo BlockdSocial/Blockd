@@ -421,6 +421,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <p className="mr-1 text-sm lg:text-base group-hover:underline">
                 @{user?.name}
               </p>
+              {user?.level == 20 && (
+                <img
+                  src="/images/badges/verified.png"
+                  className="w-4 h-4 md:w-5 md:h-5"
+                />
+              )}
             </div>
             <div>
               <p className="mr-1 text-xs md:text-sm group-hover:underline mt-2">
@@ -573,7 +579,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       )}
       <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
         {user?.twitter && renderLink(user?.twitter, "twitter.png")}
-        {user?.lensProtocol && renderLink(user?.lensProtocol, "lensProtocol.jpeg")}
+        {user?.lensProtocol &&
+          renderLink(user?.lensProtocol, "lensProtocol.jpeg")}
         {user?.facebook && renderLink(user?.facebook, "facebook.png")}
         {user?.instagram && renderLink(user?.instagram, "instagram.png")}
         {user?.linktree && renderLink(user?.linktree, "linktree.png")}
