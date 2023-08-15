@@ -556,10 +556,17 @@ function PostID({ post, refetchComments, refetch }: Props) {
                     post?.otherUser?.id,
                     "profile"
                   )}`}
+                  className="flex items-center"
                 >
                   <p className="mr-1 font-semibold text-xs md:text-sm">
                     @{post?.otherUser?.name}
                   </p>
+                  {post?.otherUser?.level == 20 && (
+                    <img
+                      src="/images/badges/verified.png"
+                      className="w-4 h-4"
+                    />
+                  )}
                 </Link>
               </div>
               {/* <div>
@@ -665,7 +672,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               src={`${config.url.PUBLIC_URL}/${post?.postVideo?.name}`}
               controls
               autoPlay
-                     muted
+              muted
               className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[500px] shadow-sm cursor-pointer"
             />
           ) : null}
@@ -745,10 +752,17 @@ function PostID({ post, refetchComments, refetch }: Props) {
                       pathname: "/dashboard/profile",
                       query: { user_id: sharedPost?.otherUser?.id },
                     }}
+                    className="flex items-center justify-center"
                   >
                     <p className="mr-1 font-semibold text-xs md:text-base">
                       @{sharedPost?.otherUser?.name}
                     </p>
+                    {sharedPost?.otherUser?.level == 20 && (
+                      <img
+                        src="/images/badges/verified.png"
+                        className="w-4 h-4"
+                      />
+                    )}
                   </Link>
                 </div>
                 {/* <div>
@@ -795,10 +809,9 @@ function PostID({ post, refetchComments, refetch }: Props) {
               {sharedPost?.postVideo != null ? (
                 <video
                   src={`${config.url.PUBLIC_URL}/${sharedPost?.postVideo?.name}`}
-                 
                   controls
                   autoPlay
-                     muted
+                  muted
                   className="mt-2 mb-1 rounded-lg max-w-full object-contain max-h-[800px] shadow-sm"
                 />
               ) : null}

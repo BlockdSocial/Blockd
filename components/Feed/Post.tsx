@@ -626,10 +626,17 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                         mainPost?.otherUser?.id,
                         "profile"
                       )}`}
+                      className="flex items-center"
                     >
                       <p className="mr-1 font-semibold text-xs md:text-sm">
                         @{mainPost?.otherUser?.name}
                       </p>
+                      {mainPost?.otherUser?.level == 20 && (
+                        <img
+                          src="/images/badges/verified.png"
+                          className="w-4 h-4"
+                        />
+                      )}
                     </Link>
                   </div>
                   {/* <div>
@@ -840,10 +847,17 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                             sharedPost?.otherUser?.id,
                             "profile"
                           )}`}
+                          className="flex items-center"
                         >
                           <p className="mr-1 font-semibold text-xs md:text-base">
                             @{sharedPost?.otherUser?.name}
                           </p>
+                          {sharedPost?.otherUser?.level == 20 && (
+                            <img
+                              src="/images/badges/verified.png"
+                              className="w-4 h-4"
+                            />
+                          )}
                         </Link>
                       </div>
                       {/* <div>
@@ -1594,9 +1608,17 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 </div>
               </Link>
               <div className="flex flex-col items-start justify-start h-full pt-1">
-                <p className="text-sm text-black">
-                  @{mainPost?.otherUser?.name}
-                </p>
+                <div className="flex items-center space-x-1">
+                  <p className="text-sm text-black">
+                    @{mainPost?.otherUser?.name}
+                  </p>
+                  {mainPost?.otherUser?.level == 20 && (
+                    <img
+                      src="/images/badges/verified.png"
+                      className="w-4 h-4"
+                    />
+                  )}
+                </div>
                 <p className="text-xs text-black">
                   {moment(mainPost?.createdAt).fromNow()}
                 </p>

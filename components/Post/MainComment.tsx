@@ -397,10 +397,14 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                 comment?.otherUser?.id,
                 "profile"
               )}`}
+              className="flex items-center"
             >
               <p className="mr-1 text-xs md:text-sm font-semibold">
                 @{comment?.otherUser?.name}
               </p>
+              {comment?.otherUser?.level == 20 && (
+                <img src="/images/badges/verified.png" className="w-3 h-3 md:w-4 md:h-4" />
+              )}
             </Link>
           </div>
           <div className="flex flex-col items-start justify-start">
