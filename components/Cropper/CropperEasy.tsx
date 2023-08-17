@@ -8,7 +8,7 @@ import {
 } from "@mui/material";
 import Cropper from "react-easy-crop";
 import { Box } from "@mui/system";
-import { Cancel, Crop } from "@mui/icons-material";
+import { Cancel, Check } from "@mui/icons-material";
 import getCroppedImg from "./utils/cropImage";
 
 interface Props {
@@ -113,8 +113,8 @@ const CropperEasy = ({
           >
             Cancel
           </Button>
-          <Button variant="contained" startIcon={<Crop />} onClick={cropImage}>
-            Edit
+          <Button variant="contained" startIcon={<Check />} onClick={cropImage} color="success" >
+            Save
           </Button>
         </Box>
       </DialogActions>
