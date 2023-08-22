@@ -147,7 +147,7 @@ function Feed() {
     <div
       onScrollCapture={() => handleScroll()}
       ref={elementRef}
-      className="relative max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
+      className="relative max-h-screen scrollbar-hide overflow-scroll overflow-x-hidden col-span-9 md:col-span-5 pb-14"
     >
       <div id="top-page"></div>
 

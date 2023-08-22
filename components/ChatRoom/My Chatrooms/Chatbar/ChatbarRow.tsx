@@ -23,7 +23,7 @@ function ChatbarRow({ Picture, Notif, active, chatroom }: Props) {
         )}
         <img
           src={Picture}
-          className="h-8 w-8 md:h-10 md:w-10 lg:w-12 lg:h-12 rounded-full object-cover"
+          className="h-8 w-8 md:h-10 md:w-10 lg:w-12 lg:h-12 rounded-lg object-cover"
         />
         {/*<p className='inline md:hidden text-white dark:text-white font-semibold group-hover:text-gray-300 py-1 px-2'>{name}</p>*/}
       </strong>

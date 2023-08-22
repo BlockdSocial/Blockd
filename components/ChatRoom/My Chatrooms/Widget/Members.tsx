@@ -212,7 +212,7 @@ function Members({
                             ? `${config.url.PUBLIC_URL}/${result?.profilePic?.name}`
                             : "/images/placeholder.png"
                         }
-                        className="rounded-md w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
+                        className="rounded-lg w-8 h-8 lg:w-10 lg:h-10 bg-blockd"
                       />
                       <p className="font-semibold text-sm">@{result?.name}</p>
                     </div>
@@ -247,7 +247,7 @@ function Members({
                         ? `${config.url.PUBLIC_URL}/${member?.profilePic?.name}`
                         : "/images/pfp/pfp1.jpg"
                     }
-                    className="w-10 h-10 rounded-full object-cover"
+                    className="w-10 h-10 rounded-lg object-cover"
                   />
                 </div>
                 <div className="flex flex-col items-start justify-start ml-4 text-black">
