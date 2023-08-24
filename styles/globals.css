@@ -2,74 +2,77 @@
 @tailwind components;
 @tailwind utilities;
 .bg-image {
-  background-image: url("../public/images/bg.jpg");
-  background-size: cover;
+    background-image: url("../public/images/bg.jpg");
+    background-size: cover;
 }
 
 .bg-color {
-  background-color: rgba(216, 213, 213, 0.199);
+    background-color: rgba(216, 213, 213, 0.199);
 }
 
 input.sign-up {
-  background-color: rgba(230, 230, 230, 0.397);
-  border: none;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  outline: none;
+    background-color: rgba(230, 230, 230, 0.397);
+    border: none;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
 }
 
 input.sign-up::placeholder {
-  color: white;
+    color: white;
 }
 
 input.sign-up:focus {
-  border: white;
-  background-color: rgb(99, 97, 97);
+    border: white;
+    background-color: rgb(99, 97, 97);
 }
 
 input.sign-up,
 select,
 textarea {
-  color: white;
+    color: white;
 }
 
 .bg-button1 {
-  background-color: rgba(230, 230, 230, 0.397);
-  border: none;
-  color: white;
-  font-family: Arial, sans-serif;
+    background-color: rgba(230, 230, 230, 0.397);
+    border: none;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 .bg-button1:hover {
-  background-color: rgb(99, 97, 97);
+    background-color: rgb(99, 97, 97);
 }
 
 .bg-button2 {
-  background: #ff6c14;
-  font-family: Arial, sans-serif;
+    background: #ff6c14;
+    font-family: Arial, sans-serif;
 }
 
 .bg-button2:hover {
-  background: #f75a00;
+    background: #f75a00;
 }
 
 em-emoji-picker {
-  height: 30vh;
+    height: 30vh;
 }
+
 
 /* ============ flip hover styles ============ */
 
 .card:hover {
-  transform: rotateY(180deg);
-  transform-style: preserve-3d;
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
 }
 
 .card-back {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
+
 .css-e7nvmg-LoadingOverlayWrapperBase {
-  position: unset !important;
+    position: unset !important;
 }
+
 
 /*
 .min-h-screen{
@@ -78,48 +81,150 @@ em-emoji-picker {
 */
 
 .crop-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 80px;
 }
 
 .controls {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 50%;
-  transform: translateX(-50%);
-  height: 80px;
-  display: flex;
-  align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 50%;
+    transform: translateX(-50%);
+    height: 80px;
+    display: flex;
+    align-items: center;
 }
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
- }
-  100% {
-    transform: translateX(calc(-200px * 6));
- }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-200px * 6));
+    }
 }
 
 .slider::after {
-  right: 0;
-  top: 0;
-  transform: rotateZ(180deg);
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
 }
+
 .slider::before {
-  left: 0;
-  top: 0;
+    left: 0;
+    top: 0;
 }
+
 .slider .slide-track {
-  animation: scroll 30s linear infinite;
-  display: flex;
-  width: calc(200px * 12);
+    animation: scroll 30s linear infinite;
+    display: flex;
+    width: calc(200px * 12);
 }
+
 .slider .slide {
-  height: 100px;
-  width: 200px;
+    height: 100px;
+    width: 200px;
+}
+
+
+/* ======= video calls ======== */
+
+#videos {
+    display: grid;
+    grid-template-columns: 1fr;
+    height: 100vh;
+    overflow: hidden;
+}
+
+.video-player {
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+}
+
+#user-2 {
+    display: none;
+}
+
+.smallFrame {
+    position: fixed;
+    top: 20px;
+    left: 20px;
+    height: 170px;
+    width: 300px;
+    border-radius: 5px;
+    border: 2px solid #b366f9;
+    -webkit-box-shadow: 3px 3px 15px -1px rgba(0, 0, 0, 0.77);
+    box-shadow: 3px 3px 15px -1px rgba(0, 0, 0, 0.77);
+    z-index: 999;
+}
+
+#controls {
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1em;
+}
+
+.control-container {
+    background-color: rgb(179, 102, 249, .9);
+    padding: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
+}
+
+.control-container img {
+    height: 30px;
+    width: 30px;
+}
+
+#leave-btn {
+    background-color: rgb(255, 80, 80, 1);
+}
+
+@media screen and (max-width:600px) {
+    .smallFrame {
+        height: 80px;
+        width: 120px;
+    }
+    .control-container img {
+        height: 20px;
+        width: 20px;
+    }
+}
+
+#form-container {
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    background-color: #262625;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
+}
+
+#form__container__header {
+    border-radius: 10px 10px 0 0;
+    padding: 30px;
+    text-align: center;
+    background-color: #363739;
+    margin: 0;
+    font-size: 18px;
+    font-size: 300;
+    line-height: 0;
+}
+
+#form__content__wrapper {
+    padding: 20px;
 }
