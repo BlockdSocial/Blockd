@@ -13,7 +13,7 @@ function TrendingChatrooms() {
                     Trending Chatrooms
                 </p>
             </div>
-            <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
+            <Link href="#" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-1'>
                     <div className='rounded-full w-3 h-3 bg-blockd'>
                     </div>
@@ -27,7 +27,7 @@ function TrendingChatrooms() {
                     </p>
                 </div>
             </Link>
-            <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
+            <Link href="#" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-1'>
                     <div className='rounded-full w-3 h-3 bg-blockd'>
                     </div>
@@ -41,7 +41,7 @@ function TrendingChatrooms() {
                     </p>
                 </div>
             </Link>
-            <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
+            <Link href="#" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-1'>
                     <div className='rounded-full w-3 h-3 bg-blockd'>
                     </div>
@@ -55,7 +55,7 @@ function TrendingChatrooms() {
                     </p>
                 </div>
             </Link>
-            <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
+            <Link href="#" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-1'>
                     <div className='rounded-full w-3 h-3 bg-blockd'>
                     </div>
@@ -69,7 +69,7 @@ function TrendingChatrooms() {
                     </p>
                 </div>
             </Link>
-            <Link href="/chatroom" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
+            <Link href="#" className='grid grid-cols-8 bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md space-x-1 p-2 mt-1'>
                 <div className='flex items-center justify-start col-span-8 lg:col-span-5 space-x-1'>
                     <div className='rounded-full w-3 h-3 bg-blockd'>
                     </div>
@@ -84,9 +84,9 @@ function TrendingChatrooms() {
                 </div>
             </Link>
             <div className='flex items-center justify-start'>
-                <Link href="/trending" className='flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1'>
+                <Link href="#" className='flex items-center justify-start bg-gray-100 hover:bg-gray-200 dark:hover:bg-darkgray dark:bg-lightgray rounded-md w-fit p-2 mt-1'>
                     <p className='font-semibold text-sm'>
-                        Show more
+                        See all chatrooms
                     </p>
                 </Link>
             </div>

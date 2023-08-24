@@ -1,10 +1,11 @@
 import React from 'react'
-import Post from '../Feed/Post'
+import PostTest from '../Feed/Post'
 
 function Interactions() {
   return (
-    <div>
-      <Post />
+    <div className='p-4'>
+      {/** @ts-ignore */}
+      <PostTest />
     </div>
   )
 }

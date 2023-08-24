@@ -2,8 +2,8 @@ import React from 'react'
 
 function MsgDropDown() {
     return (
-        <div className="absolute max-h-[80vh] w-100 right-32 top-16 mt-2 bg-white dark:border dark:border-lightgray dark:bg-darkgray rounded-md shadow-lg scrollbar-hide overflow-scroll z-20">
-            <div className="relative">
+        <div className="absolute max-h-[80vh] w-100 z-30 right-32 top-16 mt-2 bg-white dark:border dark:border-lightgray dark:bg-darkgray rounded-md shadow-lg scrollbar-hide overflow-scroll">
+            <div>
                 <a href="#" className="flex items-center px-4 py-3 border-b hover:bg-gray-100 dark:hover:bg-lightgray dark:border-lightgray -mx-2">
                     <img className="h-8 w-8 rounded-full object-cover mx-1" src="https://images.unsplash.com/photo-1494790108377-be9c29b29330?ixlib=rb-1.2.1&ixid=eyJhcHBfaWQiOjEyMDd9&auto=format&fit=crop&w=334&q=80" alt="avatar" />
                     <p className="text-gray-600 dark:text-white text-sm mx-2">
@@ -28,7 +28,7 @@ function MsgDropDown() {
                         <span className="font-bold">Abigail Bennett</span> Sent you a picture. 3h
                     </p>
                 </a>
-                <a href="/messages" className="flex items-center justify-center px-4 py-3 hover:bg-gray-100 dark:hover:bg-lightgray dark:border-lightgray -mx-2">
+                <a href="/dashboard/messages" className="flex items-center justify-center px-4 py-3 hover:bg-gray-100 dark:hover:bg-lightgray dark:border-lightgray -mx-2">
                     <p className="text-gray-600 dark:text-white text-sm mx-2 text-center">
                         <span className="font-bold">View messages</span>
                     </p>

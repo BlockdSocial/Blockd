@@ -1,0 +1,67 @@
+.mentions {
+  width: 100%;
+  border-radius: 5px;
+  background-color: #d3d3d3;
+  color: black;
+  min-height: 100px;
+}
+
+.mentions--singleLine .mentions__control {
+  display: inline-block;
+  width: 130px;
+}
+.mentions--singleLine .mentions__highlighter {
+  padding: 1px;
+  border: 2px inset transparent;
+}
+.mentions--singleLine .mentions__input {
+  padding: 1px;
+  border: 2px inset;
+}
+
+.mentions--multiLine .mentions__control {
+  font-family: 'calibri', sans-serif;
+  font-size: 10pt;
+}
+.mentions--multiLine .mentions__highlighter {
+  border: 1px solid transparent;
+  padding: 9px;
+  min-height: 40px;
+}
+.mentions--multiLine .mentions__input {
+  padding: 9px;
+  outline: 0;
+  border-radius: 10px;
+  color: black;
+}
+
+.mentions--multiLine .mentions__input::placeholder {
+  color: gray;
+  font-size: 10pt;
+}
+
+.mentions__suggestions__list {
+  background-color: white;
+  color: black;
+  border: 1px solid rgba(0, 0, 0, 0.15);
+  font-size: 10pt;
+  overflow: auto;
+  max-height: 200px;
+  height: auto;
+  padding: 3px;
+  position: absolute;
+}
+
+.mentions__suggestions__item {
+  padding: 5px 15px;
+  border-bottom: 1px solid rgba(0, 0, 0, 0.15);
+}
+
+.mentions__suggestions__item--focused {
+  background-color: #fc6c14;
+  color: white;
+}
+
+.mentions__mention {
+  color: #90caf9 !important;
+}

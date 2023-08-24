@@ -1,9 +1,8 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
-
 .bg-image {
-  background-image: url('../public/images/bg.jpg');
+  background-image: url("../public/images/bg.jpg");
   background-size: cover;
 }
 
@@ -52,4 +51,75 @@ textarea {
 
 .bg-button2:hover {
   background: #f75a00;
+}
+
+em-emoji-picker {
+  height: 30vh;
+}
+
+/* ============ flip hover styles ============ */
+
+.card:hover {
+  transform: rotateY(180deg);
+  transform-style: preserve-3d;
+}
+
+.card-back {
+  transform: rotateY(180deg);
+}
+.css-e7nvmg-LoadingOverlayWrapperBase {
+  position: unset !important;
+}
+
+/*
+.min-h-screen{
+  min-height: 93vh;
+}
+*/
+
+.crop-container {
+  position: absolute;
+  top: 0;
+  left: 0;
+  right: 0;
+  bottom: 80px;
+}
+
+.controls {
+  position: absolute;
+  bottom: 0;
+  left: 50%;
+  width: 50%;
+  transform: translateX(-50%);
+  height: 80px;
+  display: flex;
+  align-items: center;
+}
+
+@keyframes scroll {
+  0% {
+    transform: translateX(0);
+ }
+  100% {
+    transform: translateX(calc(-200px * 6));
+ }
+}
+
+.slider::after {
+  right: 0;
+  top: 0;
+  transform: rotateZ(180deg);
+}
+.slider::before {
+  left: 0;
+  top: 0;
+}
+.slider .slide-track {
+  animation: scroll 30s linear infinite;
+  display: flex;
+  width: calc(200px * 12);
+}
+.slider .slide {
+  height: 100px;
+  width: 200px;
 }
