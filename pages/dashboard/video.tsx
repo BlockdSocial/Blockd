@@ -2,7 +2,7 @@ import VideoCall from "../../components/VideoCall";
 import Lobby from "../../components/VideoCall/Lobby";
 
 function Video() {
-  return <Lobby />;
+  return <VideoCall />;
 }
 
 export default Video;

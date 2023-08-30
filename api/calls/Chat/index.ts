@@ -6,12 +6,15 @@ const endpoints = {
   chat: 'chat',
   chats: 'chats',
   checkUserBalance: 'check/user/balance',
+  createCall: 'user/create/call',
 };
 
 async function createMessage(fields: any) {
   return apiCall('createMessage', 'POST', `${endpoints.message}`, fields);
 };
-
+async function createCall(fields: any) {
+  return apiCall('createCall', 'POST', `${endpoints.createCall}`, fields);
+};
 async function checkUserBalance(fields: any) {
   return apiCall('checkUserBalance', 'POST', `${endpoints.checkUserBalance}`, fields);
 };
@@ -98,6 +101,7 @@ async function leaveRoom(fields: any) {
 
 export default {
   createMessage,
+  createCall,
   fetchMessages,
   createChat,
   deleteChat,

@@ -7,6 +7,7 @@ import {
   EyeIcon,
   QuestionMarkCircleIcon,
   ChatBubbleLeftIcon,
+  PhoneIcon,
   UserPlusIcon,
   DocumentDuplicateIcon,
 } from "@heroicons/react/24/outline";
@@ -30,6 +31,9 @@ import { isEmpty } from "lodash";
 import { config } from "../../constants";
 import { toast } from "react-hot-toast";
 import CropImage from "../Cropper/CropperEasy";
+import { chatApi } from "../../api";
+import router from "next/router";
+import { encodeQuery } from "../../utils";
 
 interface User {
   id: string;
@@ -281,6 +285,20 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
     e.target.files = null;
     setOpenCrop(true);
   };
+  const createCall = async (authUserId: any = null) => {
+    let result = await chatApi.createCall({
+      receiver_id: authUserId,
+      inviteCode: authUser?.id,
+      call_type: "video",
+    })
+    localStorage.setItem("call", JSON.stringify(result?.call));
+
+    console.log({result})
+    router.push(`/dashboard/video?${encodeQuery(
+      result?.call?.room_id,
+      "call"
+    )}`);
+  };
 
   const renderLink = (tarea: any, type: any) => {
     if (tarea.indexOf("http://") == 0 || tarea.indexOf("https://") == 0) {
@@ -511,6 +529,14 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           ) : (
             <>
               <div className="hidden xl:flex items-center justify-center">
+              <div
+                 
+                  onClick={()=> createCall(user?.id)}
+                 
+                  className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <PhoneIcon className="w-5 h-5" />
+                </div>
                 <Link
                   type="button"
                   // href="/dashboard/myChatrooms"

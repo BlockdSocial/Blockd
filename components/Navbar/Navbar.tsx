@@ -48,6 +48,7 @@ import { fetchTrendingPosts } from "../../stores/post/PostActions";
 import { searchFilteredUsers } from "../../stores/user/UserActions";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import Result from "../Widgets/Result";
+import { encodeQuery } from "../../utils";
 
 interface Data {
   receiver_id: number;
@@ -55,12 +56,29 @@ interface Data {
   id: number;
 }
 
-configureAbly({
-  authUrl: `${config.url.API_URL}/subscribe/token/generate`,
-  authHeaders: {
-    Authorization: "Bearer " + getCookie("token"),
-  },
-});
+
+
+const call =
+typeof window !== "undefined"
+  ? JSON.parse(localStorage.getItem("call") as any)
+  : "";
+
+  if(call?.id) {
+    configureAbly({
+      authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,
+      authHeaders: {
+        Authorization: "Bearer " + getCookie("token"),
+      },
+    });
+  }
+  else {
+  configureAbly({
+    authUrl: `${config.url.API_URL}/subscribe/token/generate`,
+    authHeaders: {
+      Authorization: "Bearer " + getCookie("token"),
+    },
+  });
+}
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -89,6 +107,12 @@ const Navbar = () => {
   const [showModal7, setShowModal7] = useState(false);
   const [showModal8, setShowModal8] = useState(false);
   const [showModal9, setShowModal9] = useState(false);
+  const [showCallModal, setShowCallModal] = useState<boolean>(false);
+  
+  const [call, setCall] = useState<any>([]);
+  const [callerUser, setCallerUser] = useState<any>([]);
+
+
 
   //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
   const [searchResult, setSearchResult] = useState<any>();
@@ -143,16 +167,28 @@ const Navbar = () => {
   const handleFetchNotifications = async () => {
     await dispatch(fetchUserNotifications());
   };
-
+  
   // @ts-ignore
   const [channel, ably] = useChannel(
     // @ts-ignore
     `notifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
     (message) => {
-      setNotificationInfo("");
-      checkUserNotification(message.data);
+      if (message.data?.call) {
+        localStorage.setItem("call", JSON.stringify(message.data?.call));
+        setCall(message.data?.call);
+        showcaller(message.data?.call);
+       
+      }
+      else {
+        setNotificationInfo("");
+        checkUserNotification(message.data);
+      }
+     
+
     }
   );
+
+  
 
   const [message] = useChannel(
     // @ts-ignore
@@ -265,6 +301,7 @@ const Navbar = () => {
     });
   };
 
+  
   const handleMsg = async () => {
     await dispatch(resetMessages());
     await dispatch(fetchAuthUser());
@@ -339,7 +376,7 @@ const Navbar = () => {
     }
   };
 
-  console.log(searchInput);
+
 
   const sidebar = useRef<any>(null);
 
@@ -375,6 +412,26 @@ const Navbar = () => {
     return () => window.removeEventListener("click", handleClick);
   }, [dropDown]);
 
+
+  const goToLoby = () => {
+    setShowCallModal(false);
+    
+
+    router.push(`/dashboard/video?${encodeQuery(
+                  call?.room_id,
+                  "call"
+                )}`);
+  };
+
+  const showcaller =async (call:any) => {
+    await dispatch(fetchUser(call?.caller_id)).then((result: any) => {
+      console.log({result})
+      setCallerUser(result)
+      setShowCallModal(true);
+    });
+   
+  };
+
   const handleClick = () => {
     setOpen(!isOpen);
     setShowSidebar(true);
@@ -390,6 +447,60 @@ const Navbar = () => {
             : "xl:max-w-[80%]"
         } h-14 px-2`}
       >
+
+{showCallModal ? (
+        <>
+          <div
+            className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none"
+          >
+            <div className="relative w-auto my-6 mx-auto max-w-3xl">
+              {/*content*/}
+              <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                {/*header*/}
+                <div className="flex items-start justify-between p-5 border-b border-solid border-slate-200 rounded-t">
+                  <h3 className="text-3xl font-semibold">
+                    Modal Title
+                  </h3>
+                  <button
+                    className="p-1 ml-auto bg-transparent border-0 text-black opacity-5 float-right text-3xl leading-none font-semibold outline-none focus:outline-none"
+                    onClick={() => setShowCallModal(false)}
+                  >
+                    <span className="bg-transparent text-black opacity-5 h-6 w-6 text-2xl block outline-none focus:outline-none">
+                      ×
+                    </span>
+                  </button>
+                </div>
+                {/*body*/}
+                <div className="relative p-6 flex-auto">
+                  <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                   {callerUser?.name} calling you. 
+                  </p>
+                </div>
+                {/*footer*/}
+                <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                  <button
+                    className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => setShowCallModal(false)}
+                  >
+                    Close
+                  </button>
+                  <button
+                    className="bg-emerald-500 text-white active:bg-emerald-600 font-bold uppercase text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                    type="button"
+                    onClick={() => goToLoby()}
+                  >
+                   Accept Call
+                  </button>
+                </div>
+              </div>
+            </div>
+          </div>
+          <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+        </>
+      ) : null}
+
+
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
