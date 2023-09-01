@@ -640,7 +640,7 @@ const Navbar = () => {
         </div>
         {(showSidebar || isRegistered != undefined) && (
           <div
-            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-[92vh] scrollbar-hide overflow-scroll p-4 left-0 w-60 transition-all duration-300 ease-linear md:hidden`}
+            className={`flex flex-col bg-white dark:bg-darkgray fixed z-50 top-14 h-[92vh] scrollbar-hide overflow-scroll p-4 left-0 w-60 transition ease-in delay-1000 duration-1000 md:hidden`}
           >
             <div className="relative w-full">
               <Link href="/" className="active">
