@@ -159,8 +159,8 @@ function Feed() {
       >
         <div className="flex items-center justify-between w-full p-2 gradient">
           <img src="/images/logo/blockHeadz.png" className="w-10 h-10 rounded-full"/>
-          <p className="bg-transparent text-white">BLOCKd Headz MINT is live</p>
-          <Link href="https://app.komet.me/nfts/BLOCKd_Headz/352" target="_blank" className="p-1 px-2 text-white rounded-md border-white border-2 hover:bg-black/20 cursor-pointer text-md">Mint Now</Link>
+          <p className="bg-transparent text-white text-sm lg:text-xl glitch" data-text="BLOCKd Headz MINT is live">BLOCKd Headz MINT is live</p>
+          <Link href="https://app.komet.me/nfts/BLOCKd_Headz/352" target="_blank" className="p-1 px-2 text-white rounded-md border-white border-2 hover:bg-black/20 cursor-pointer text-sm md:text-lg">Mint Now</Link>
         </div>
         <div className={`flex items-center z-[30] ${
           atTop === false ? "justify-end" : "justify-between"
