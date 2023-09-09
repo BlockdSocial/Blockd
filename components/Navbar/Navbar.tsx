@@ -113,7 +113,6 @@ const Navbar = () => {
   const [callerUser, setCallerUser] = useState<any>([]);
 
 
-
   //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
   const [searchResult, setSearchResult] = useState<any>();
   const [input, setInput] = useState<string>("");
