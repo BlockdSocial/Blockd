@@ -156,7 +156,7 @@ function VideoCall() {
           }
           if (!candidateCreated && peerConnection.current?.addIceCandidate) {
             console.log("videocall", "enter candidate");
-            candidateCreated = true;
+          //  candidateCreated = true;
             await peerConnection.current.addIceCandidate(
               new RTCIceCandidate(data.candidate)
             );
@@ -203,7 +203,7 @@ function VideoCall() {
         if (!candidateCreated) {
           console.log("videocall", "enter candidate");
 
-          candidateCreated = true;
+          //candidateCreated = true;
           await peerConnection.current.addIceCandidate(
             new RTCIceCandidate(data.candidate)
           );
