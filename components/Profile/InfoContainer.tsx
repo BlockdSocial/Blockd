@@ -34,6 +34,8 @@ import CropImage from "../Cropper/CropperEasy";
 import { chatApi } from "../../api";
 import router from "next/router";
 import { encodeQuery } from "../../utils";
+import { configureAbly } from "@ably-labs/react-hooks";
+import { getCookie } from "cookies-next";
 
 interface User {
   id: string;
@@ -290,14 +292,19 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       receiver_id: authUserId,
       inviteCode: authUser?.id,
       call_type: "video",
-    })
+    });
     localStorage.setItem("call", JSON.stringify(result?.call));
+    
+    configureAbly({
+      authUrl: `${config.url.API_URL}/call/token/generate/${result?.call?.id}`,
+      authHeaders: {
+        Authorization: "Bearer " + getCookie("token"),
+      },
+    });
 
-    console.log({result})
-    router.push(`/dashboard/video?${encodeQuery(
-      result?.call?.room_id,
-      "call"
-    )}`);
+    router
+      .replace(`/dashboard/video?${encodeQuery(result?.call?.room_id, "call")}`)
+      .then(() => router.reload());
   };
 
   const renderLink = (tarea: any, type: any) => {
@@ -529,10 +536,8 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           ) : (
             <>
               <div className="hidden xl:flex items-center justify-center">
-              <div
-                 
-                  onClick={()=> createCall(user?.id)}
-                 
+                <div
+                  onClick={() => createCall(user?.id)}
                   className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                 >
                   <PhoneIcon className="w-5 h-5" />

@@ -412,14 +412,20 @@ const Navbar = () => {
   }, [dropDown]);
 
 
-  const goToLoby = () => {
+  const goToLoby = async() => {
     setShowCallModal(false);
-    
-
-    router.push(`/dashboard/video?${encodeQuery(
+    configureAbly({
+      authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,
+      authHeaders: {
+        Authorization: "Bearer " + getCookie("token"),
+      },
+    });
+  
+    router.replace(`/dashboard/video?${encodeQuery(
                   call?.room_id,
                   "call"
-                )}`);
+                )}`).then(() => router.reload());
+               // router.reload();
   };
 
   const showcaller =async (call:any) => {
