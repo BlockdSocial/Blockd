@@ -294,7 +294,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
       call_type: "video",
     });
     localStorage.setItem("call", JSON.stringify(result?.call));
-    
+
     configureAbly({
       authUrl: `${config.url.API_URL}/call/token/generate/${result?.call?.id}`,
       authHeaders: {
@@ -477,6 +477,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             {user?.id !== authUser?.id ? (
               <>
                 <div className="flex items-center justify-center xl:hidden">
+                <div
+                  onClick={() => createCall(user?.id)}
+                  className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                >
+                  <PhoneIcon className="w-5 h-5" />
+                </div>
                   <Link
                     type="button"
                     // href="/dashboard/myChatrooms"
@@ -510,6 +516,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       </p>
                     </div>
                   )}
+                  
                 </div>
               </>
             ) : (
