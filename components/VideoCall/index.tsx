@@ -13,7 +13,7 @@ import { getCookie, deleteCookie } from "cookies-next";
 
 import { useEffect, useRef, useState } from "react";
 import { fetchUser } from "../../stores/user/UserActions";
-import { forEach } from "lodash";
+import { forEach, isEmpty } from "lodash";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 
 function VideoCall() {
@@ -50,7 +50,7 @@ function VideoCall() {
   let answerAdded: boolean = false;
 
   const [otherUser, setOtherUser] = useState();
-  const [camera, setCamera] = useState<boolean>(true);
+  const [camera, setCamera] = useState<boolean>(false);
   const [mic, setMic] = useState<boolean>(true);
   const [localStream, setLocalStream] = useState<any>();
   const peerConnection = useRef<any>();
@@ -67,29 +67,29 @@ function VideoCall() {
     router.query.room_id ||
     parseQueryString(window.location.search.substring(1)).room_id;
 
-  // const servers = {
-  //   iceServers: [
-  //     {
-  //       urls: [
-  //         "stun:stun1.l.google.com:19302",
-  //         "stun:stun2.l.google.com:19302",
-  //       ],
-  //     },
-  //     //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
-  //   ],
-  // };
   const servers = {
     iceServers: [
       {
-        urls: "stun:143.244.152.126:3478",
+        urls: [
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
+        ],
       },
-      {
-        urls: "turn:143.244.152.126:3478",
-        username: "turnuser",
-        credential: "turn456",
-      },
+      //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
     ],
   };
+  // const servers = {
+  //   iceServers: [
+  //     {
+  //       urls: "stun:143.244.152.126:3478",
+  //     },
+  //     {
+  //       urls: "turn:143.244.152.126:3478",
+  //       username: "turnuser",
+  //       credential: "turn456",
+  //     },
+  //   ],
+  // };
   let constraints = {
     video: {
       width: { min: 640, ideal: 1920, max: 1920 },
@@ -227,7 +227,6 @@ function VideoCall() {
     `${room_id}`,
     (message) => {
       handleMessageFromPeer(message);
-      console.log("videocall", "videoCall room_id cannel", message);
     }
   );
 
@@ -252,6 +251,13 @@ function VideoCall() {
           peerConnection.current.addTrack(track, stream);
         });
       }
+      let videoTrack = stream
+        .getTracks()
+        .find((track: any) => track.kind === "video");
+
+      if (videoTrack?.enabled) {
+        videoTrack.enabled = false;
+      }
       return stream;
     } catch (error) {
       console.error("Error accessing media devices.", error);
@@ -275,8 +281,6 @@ function VideoCall() {
     }
   };
 
-  console.log({ authUser });
-
   let addAnswer = async (answer: any) => {
     if (!peerConnection.current.currentRemoteDescription) {
       peerConnection.current.setRemoteDescription(answer);
@@ -288,11 +292,10 @@ function VideoCall() {
     //  await client.close()
   };
 
-  const leaveCall =  async() => {
+  const leaveCall = async () => {
     localStorage.removeItem("call");
-    router.replace('/').then(() => router.reload());
-
-  }
+    router.replace("/").then(() => router.reload());
+  };
   let createOffer = async (MemberId: any) => {
     console.log("videocall createOffer");
     await createPeerConnection(MemberId);
@@ -300,7 +303,6 @@ function VideoCall() {
     let offer = await peerConnection.current.createOffer();
     await peerConnection.current.setLocalDescription(offer);
 
-    console.log("videocall", "ssss", peerConnection.current);
     try {
       channel.publish(`offer-${room_id}`, {
         type: "offer",
@@ -330,15 +332,16 @@ function VideoCall() {
         peerConnection.current.addTrack(track, localStream);
       });
     }
+    if (isEmpty(video2.current.srcObject)) {
+      peerConnection.current.ontrack = (event: any) => {
+        console.log("videocall peerConnection.current.ontrack", event);
+        event.streams[0].getTracks().forEach((track: any) => {
+          remoteStream.addTrack(track);
+        });
+      };
+      video2.current.srcObject = remoteStream;
+    }
 
-    peerConnection.current.ontrack = (event: any) => {
-      console.log("videocall peerConnection.current.ontrack", event);
-      event.streams[0].getTracks().forEach((track: any) => {
-        remoteStream.addTrack(track);
-        console.log("videocall", { remoteStream });
-      });
-    };
-    video2.current.srcObject = remoteStream;
     console.log("videocall", peerConnection.current, "peerConnection.current");
 
     //   peerConnection.current.addEventListener('track', async (event:any) => {
@@ -367,7 +370,6 @@ function VideoCall() {
   };
 
   const toggleCamera = async () => {
-    console.log("videocall", { camera });
     let videoTrack = localStream
       .getTracks()
       .find((track: any) => track.kind === "video");
@@ -458,29 +460,34 @@ function VideoCall() {
       )}
       <div id="controls">
         <div
-          onClick={toggleCamera}
+          onClick={() => toggleCamera()}
           className={
             camera
               ? "control-container bg-[#FF6666]"
-              : "control-container bg-[#B366F9]"
+              : "control-container bg-[#FF6666] opacity-80"
           }
           id="camera-btn"
         >
-          <VideoCameraIcon className="h-6 w-6" />
+          {camera ? (
+            <VideoCameraIcon className="h-6 w-6" />
+          ) : (
+            <VideoCameraSlashIcon className="h-6 w-6" />
+          )}
         </div>
 
         <div
+        onClick={() => toggleMic()}
           className={
             mic
               ? "control-container bg-[#FF6666]"
-              : "control-container bg-[#B366F9]"
+              : "control-container bg-[#FF6666] opacity-80"
           }
           id="mic-btn"
         >
-          <MicrophoneIcon className="h-6 w-6" onClick={() => toggleMic()} />
+          <MicrophoneIcon className="h-6 w-6"  />
         </div>
 
-        <a onClick={()=>leaveCall()}>
+        <a onClick={() => leaveCall()}>
           <div className="control-container" id="leave-btn">
             <PhoneIcon className="h-6 w-6" />
           </div>
