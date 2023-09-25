@@ -48,6 +48,7 @@ import { fetchTrendingPosts } from "../../stores/post/PostActions";
 import { searchFilteredUsers } from "../../stores/user/UserActions";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import Result from "../Widgets/Result";
+import { encodeQuery } from "../../utils";
 
 interface Data {
   receiver_id: number;
@@ -55,12 +56,26 @@ interface Data {
   id: number;
 }
 
-configureAbly({
-  authUrl: `${config.url.API_URL}/subscribe/token/generate`,
-  authHeaders: {
-    Authorization: "Bearer " + getCookie("token"),
-  },
-});
+const call =
+  typeof window !== "undefined"
+    ? JSON.parse(localStorage.getItem("call") as any)
+    : "";
+
+if (call?.id) {
+  configureAbly({
+    authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,
+    authHeaders: {
+      Authorization: "Bearer " + getCookie("token"),
+    },
+  });
+} else {
+  configureAbly({
+    authUrl: `${config.url.API_URL}/subscribe/token/generate`,
+    authHeaders: {
+      Authorization: "Bearer " + getCookie("token"),
+    },
+  });
+}
 
 const Navbar = () => {
   const dispatch = useAppDispatch();
@@ -89,6 +104,13 @@ const Navbar = () => {
   const [showModal7, setShowModal7] = useState(false);
   const [showModal8, setShowModal8] = useState(false);
   const [showModal9, setShowModal9] = useState(false);
+  const [showCallModal, setShowCallModal] = useState<boolean>(false);
+
+  const [call, setCall] = useState<any>([]);
+  const [callerUser, setCallerUser] = useState<any>([]);
+
+  const audioNotificationSound = useRef<any>({});
+  const ringtone = useRef<any>({});
 
   //const TrendingStreams = dynamic(() => import('./TrendingStreams'), { ssr: false })
   const [searchResult, setSearchResult] = useState<any>();
@@ -132,12 +154,14 @@ const Navbar = () => {
   useEffect(() => {
     if (notificationInfo) {
       handleShowNotification(notificationInfo);
+      audioNotificationSound.current.play();
+      ringtone.current.play();
     }
   }, [notificationInfo]);
 
   const handleShowNotification = async (notification: any) => {
     await new Promise((f) => setTimeout(f, 1000));
-    toast(notification);
+    toast(notification + "jhbajks:");
   };
 
   const handleFetchNotifications = async () => {
@@ -149,8 +173,14 @@ const Navbar = () => {
     // @ts-ignore
     `notifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
     (message) => {
-      setNotificationInfo("");
-      checkUserNotification(message.data);
+      if (message.data?.call) {
+        localStorage.setItem("call", JSON.stringify(message.data?.call));
+        setCall(message.data?.call);
+        showcaller(message.data?.call);
+      } else {
+        setNotificationInfo("");
+        checkUserNotification(message.data);
+      }
     }
   );
 
@@ -339,8 +369,6 @@ const Navbar = () => {
     }
   };
 
-  console.log(searchInput);
-
   const sidebar = useRef<any>(null);
 
   useEffect(() => {
@@ -375,6 +403,33 @@ const Navbar = () => {
     return () => window.removeEventListener("click", handleClick);
   }, [dropDown]);
 
+  const goToLoby = async () => {
+    setShowCallModal(false);
+    configureAbly({
+      authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,
+      authHeaders: {
+        Authorization: "Bearer " + getCookie("token"),
+      },
+    });
+    ringtone.current.pause();
+    router
+      .replace(`/dashboard/video?${encodeQuery(call?.room_id, "call")}`)
+      .then(() => router.reload());
+    // router.reload();
+  };
+
+  const showcaller = async (call: any) => {
+    await dispatch(fetchUser(call?.caller_id)).then((result: any) => {
+      console.log({ result });
+      setCallerUser(result);
+      setShowCallModal(true);
+      ringtone.current.play();
+      setTimeout(function () {
+        ringtone.current.pause();
+      }, 60000);
+    });
+  };
+
   const handleClick = () => {
     setOpen(!isOpen);
     setShowSidebar(true);
@@ -390,6 +445,47 @@ const Navbar = () => {
             : "xl:max-w-[80%]"
         } h-14 px-2`}
       >
+        {!showCallModal ? (
+          <>
+            <div className="justify-center items-center flex overflow-x-hidden overflow-y-auto fixed inset-0 z-50 outline-none focus:outline-none">
+              <div className="relative w-auto my-6 mx-auto max-w-3xl">
+                {/*content*/}
+                <div className="border-0 rounded-lg shadow-lg relative flex flex-col w-full bg-white outline-none focus:outline-none">
+                  {/*header*/}
+
+                  {/*body*/}
+                  <div className="relative p-6 flex-auto">
+                    <p className="my-4 text-slate-500 text-lg leading-relaxed">
+                      {callerUser?.name} calling you.
+                    </p>
+                  </div>
+                  {/*footer*/}
+                  <div className="flex items-center justify-end p-6 border-t border-solid border-slate-200 rounded-b">
+                    <button
+                      className="text-red-500 background-transparent font-bold uppercase px-6 py-2 text-sm outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => {
+                        setShowCallModal(false);
+                        ringtone.current.pause();
+                      }}
+                    >
+                      Close
+                    </button>
+                    <button
+                      className="bg-emerald-500 text-white active:bg-emerald-600 font-bold  text-sm px-6 py-3 rounded shadow hover:shadow-lg outline-none focus:outline-none mr-1 mb-1 ease-linear transition-all duration-150"
+                      type="button"
+                      onClick={() => goToLoby()}
+                    >
+                      Accept Call
+                    </button>
+                  </div>
+                </div>
+              </div>
+            </div>
+            <div className="opacity-25 fixed inset-0 z-40 bg-black"></div>
+          </>
+        ) : null}
+
         <div className="flex w-full col-span-9 md:col-span-4 place-self-start place-items-center h-14">
           <div className="relative flex items-center justify-between w-full">
             <Bars3Icon
@@ -873,10 +969,9 @@ const Navbar = () => {
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
                       The BLOCKd guild is unlike any other social media chat
-                      room on the web. In addition to creating a public
-                      guild, users can also create private guilds with set
-                      requirements enforced by the blockchain to grant access to
-                      users.
+                      room on the web. In addition to creating a public guild,
+                      users can also create private guilds with set requirements
+                      enforced by the blockchain to grant access to users.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -1247,6 +1342,11 @@ const Navbar = () => {
           </div>
         </div>
       </div>
+      <audio
+        ref={audioNotificationSound}
+        src="/sounds/notification-sound.mp3"
+      />
+      <audio ref={ringtone} src="/sounds/ringtone.mp3" loop />
     </div>
   );
 };
