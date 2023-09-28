@@ -476,13 +476,13 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div> */}
             {user?.id !== authUser?.id ? (
               <>
-                <div className="flex items-center justify-center xl:hidden">
-                <div
-                  onClick={() => createCall(user?.id)}
-                  className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                >
-                  <PhoneIcon className="w-5 h-5" />
-                </div>
+                <div className="flex items-center justify-center space-x-1 xl:hidden">
+                  <div
+                    onClick={() => createCall(user?.id)}
+                    className="flex items-center justify-center py-2 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                  >
+                    <PhoneIcon className="w-5 h-5" />
+                  </div>
                   <Link
                     type="button"
                     // href="/dashboard/myChatrooms"
@@ -491,14 +491,12 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       query: { chatReceiverId: user?.id },
                     }}
                     as="/dashboard/myChatrooms"
-                    className="flex items-center justify-center cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    className="flex items-center justify-center py-2 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                   >
-                    <p className="text-xs lg:text-base p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray">
-                      Message
-                    </p>
+                    <ChatBubbleLeftIcon className="w-5 h-5" />
                   </Link>
                   {isFollowed ? (
-                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
+                    <div className="w-fit h-fit flex items-center justify-center rounded-md">
                       <p
                         className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
                         onClick={() => handleFollowUser()}
@@ -507,7 +505,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       </p>
                     </div>
                   ) : (
-                    <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
+                    <div className="w-fit h-fit flex items-center justify-center rounded-md">
                       <p
                         className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
                         onClick={() => handleFollowUser()}
@@ -516,7 +514,6 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       </p>
                     </div>
                   )}
-                  
                 </div>
               </>
             ) : (
@@ -542,7 +539,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
             </div>
           ) : (
             <>
-              <div className="hidden xl:flex items-center justify-center">
+              <div className="hidden xl:flex items-center space-x-1 justify-center">
                 <div
                   onClick={() => createCall(user?.id)}
                   className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
@@ -562,7 +559,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   <ChatBubbleLeftIcon className="w-5 h-5" />
                 </Link>
                 {isFollowed ? (
-                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
+                  <div className="w-fit h-fit flex items-center justify-center rounded-md">
                     <p
                       className="text-xs lg:text-base p-2 cursor-pointer text-white rounded-md bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
                       onClick={() => handleFollowUser()}
@@ -571,7 +568,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                     </p>
                   </div>
                 ) : (
-                  <div className="w-fit h-fit p-2 flex items-center justify-center rounded-md">
+                  <div className="w-fit h-fit flex items-center justify-center rounded-md">
                     <p
                       className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
                       onClick={() => handleFollowUser()}
