@@ -465,7 +465,7 @@ export default function SignUp() {
     return null;
   }
   return (
-    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/halloween/halloween.jpg')] bg-no-repeat bg-cover">
       <Toaster />
       <CustomLoadingOverlay active={isRegisteringUser} />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
@@ -506,7 +506,7 @@ export default function SignUp() {
               <a
                 href="/auth/infographic"
                 target="_blank"
-                className="flex items-start justify-center w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
+                className="flex items-start justify-center w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
               >
                 Learn more
               </a>
@@ -697,7 +697,7 @@ export default function SignUp() {
                   )}
                 </>
               )}
-              <p className="text-orange-500  text font-bold mt-3">
+              <p className="text-white text font-bold mt-3">
                 Account Creation Requirement: 4 Matic + Gas Fees
               </p>
             </div>

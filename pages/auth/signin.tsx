@@ -135,7 +135,7 @@ export default function SignIn() {
     return null;
   }
   return (
-    <section className="min-h-screen flex items-stretch scrollbar-hide overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
+    <section className="min-h-screen flex items-stretch scrollbar-hide overflow-scroll text-white bg-[url('../public/images/halloween/halloween.jpg')] bg-no-repeat bg-cover">
       <Toaster/>
       <CustomLoadingOverlay active={isLoggingIn} />
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">

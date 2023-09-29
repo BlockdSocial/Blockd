@@ -56,7 +56,7 @@ function TweetBox({ refetchFiltered }: Props) {
   const emoji = useRef<any>(null);
 
   useEffect(() => {
-    if (!isEmpty(error) && error == 'Entity Too Large') {
+    if (!isEmpty(error) && error == "Entity Too Large") {
       toast.error(error);
     }
   }, [error]);
@@ -64,9 +64,6 @@ function TweetBox({ refetchFiltered }: Props) {
   useEffect(() => {
     dispatch(fetchAuthUser());
   }, []);
-
-
-  
 
   useEffect(() => {
     // only add the event listener when the emoji is opened
@@ -117,13 +114,12 @@ function TweetBox({ refetchFiltered }: Props) {
     const url = URL.createObjectURL(file);
     setSource(url);
     setUploadedVideo(e.target.files[0]);
-    e.target.value == null
+    e.target.value == null;
   };
   const handleUploadPicture = (e: any) => {
     setImage(URL.createObjectURL(e.target.files[0]));
     setUploadedImage(e.target.files[0]);
-    e.target.value == null
-    
+    e.target.value == null;
   };
 
   const closePicture = () => {
@@ -180,13 +176,12 @@ function TweetBox({ refetchFiltered }: Props) {
   }, [isCreatingPost]);
 
   const showPostToast = async () => {
-    let refreshToast ;
+    let refreshToast;
     if (isCreatingPost) {
       toast.loading("Posting...", {
         id: refreshToast,
       });
-    
-    }else if(disabledPostBtn){
+    } else if (disabledPostBtn) {
       toast.dismiss();
       toast.success("Posted!", {
         id: refreshToast,
@@ -196,10 +191,9 @@ function TweetBox({ refetchFiltered }: Props) {
 
   const [isPosting, setisPosting] = useState<boolean>();
 
-
   const handleSubmitPost = async (e: any) => {
     e.preventDefault();
-    setDisabledPostBtn(true)
+    setDisabledPostBtn(true);
     let clean_input = input.replace(/\#\#/g, "#");
     if (image.length > 0 && !isEmpty(input)) {
       await dispatch(
@@ -210,7 +204,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         closePicture();
         setInput("");
       });
@@ -222,7 +216,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         setInput("");
         closePicture();
       });
@@ -235,7 +229,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         setInput("");
         closeGif();
       });
@@ -247,7 +241,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         setInput("");
         closeGif();
       });
@@ -260,7 +254,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         closePicture();
         setInput("");
       });
@@ -272,7 +266,7 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         setInput("");
         closePicture();
       });
@@ -284,12 +278,11 @@ function TweetBox({ refetchFiltered }: Props) {
         })
       ).then(() => {
         refetchFiltered();
-        setDisabledPostBtn(false)
+        setDisabledPostBtn(false);
         setInput("");
       });
     }
   };
-
 
   const handleSearch = async (e: any) => {
     dispatch(
@@ -316,8 +309,8 @@ function TweetBox({ refetchFiltered }: Props) {
   };
 
   return (
-    <div className="flex items-start justify-center space-x-2 p-4 w-full dark:bg-lightgray border-y dark:border-lightgray">
-      <div className="flex items-start justify-center w-[20%]">
+    <div className="relative flex items-start justify-center space-x-2 p-4 w-full bg-[url('../public/images/halloween/halloween-bg.png')] bg-no-repeat bg-cover bg-[center_top_1rem] lg:bg-[center_top_-3rem] border-y dark:border-lightgray">
+      <div className="flex flex-col items-start justify-center w-[20%]">
         <Link
           href="/dashboard/profile"
           className="relative flex flex-col h-fit group"
@@ -480,12 +473,10 @@ function TweetBox({ refetchFiltered }: Props) {
             <div className="relative w-full">
               <video
                 className="VideoInput_video"
-                
                 height={300}
                 controls
                 autoPlay
-                     
-                     muted
+                muted
                 src={source}
               />
               <div
@@ -578,7 +569,11 @@ function TweetBox({ refetchFiltered }: Props) {
             </div>
             <button
               disabled={
-                !input && isEmpty(image) && isEmpty(gifUrl) && isEmpty(source) ||  disabledPostBtn
+                (!input &&
+                  isEmpty(image) &&
+                  isEmpty(gifUrl) &&
+                  isEmpty(source)) ||
+                disabledPostBtn
               }
               className="bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]"
               onClick={(e) => handleSubmitPost(e)}
@@ -604,6 +599,15 @@ function TweetBox({ refetchFiltered }: Props) {
           />
         </form>
       </div>
+      {/* <div className="absolute -bottom-[2px] -left-[5px]">
+        <Image
+          src={"/images/halloween/pumpkin.png"}
+          alt="pfp"
+          className="relative w-14 h-14 md:w-20 md:h-20 border-white"
+          width={2000}
+          height={2000}
+        />
+      </div> */}
     </div>
   );
 }

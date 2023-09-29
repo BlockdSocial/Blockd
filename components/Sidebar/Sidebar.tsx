@@ -36,7 +36,7 @@ function Sidebar() {
   const [showModal9, setShowModal9] = useState(false);
 
   return (
-    <div className="items-start justify-center lg:justify-start hidden md:flex md:col-span-2 px-2 scrollbar-hide overflow-scroll min-h-screen border-x dark:border-lightgray pb-14">
+    <div className="relative items-start justify-center lg:justify-start hidden md:flex md:col-span-2 px-2 scrollbar-hide overflow-hidden min-h-screen border-x dark:border-lightgray pb-14">
       <div className="relative flex flex-col items-start lg:p-2 mt-3 md:items-start w-fit">
         <div className="relative w-full">
           <Link id="dashboardLink" href="/" className="active">
@@ -265,10 +265,9 @@ function Sidebar() {
                   <div className="flex flex-col items-start justify-start space-y-2">
                     <p className="text-xs text-white text-justify">
                       The BLOCKd Guilds is unlike any other social media chat
-                      room on the web. In addition to creating a public
-                      guild, users can also create private guilds with set
-                      requirements enforced by the blockchain to grant access to
-                      users.
+                      room on the web. In addition to creating a public guild,
+                      users can also create private guilds with set requirements
+                      enforced by the blockchain to grant access to users.
                     </p>
                     <div className="flex items-end justify-end w-full space-x-2">
                       <p
@@ -450,6 +449,21 @@ function Sidebar() {
           <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
         </Link> */}
       </div>
+      <div className="flex absolute bottom-14 left-0 h-40 w-full invisible dark:visible">
+        <div className="relative w-full ml-2">
+          <div className="head">
+            <div className="left"></div>
+            <div className="middle"></div>
+            <div className="right"></div>
+            <div className="mouth"></div>
+          </div>
+          <div className="absolute top-0 left-28 flex items-center justify-center p-2 rounded-tr-xl rounded-tl-xl rounded-br-xl bg-white h-fit">
+            <h1 className="flex items-center justify-center text-black">
+              <span className="halloween"> </span>
+            </h1>
+          </div>
+        </div>
+      </div>
       {isRegistered !== undefined && (
         <div
           className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${
@@ -525,10 +539,10 @@ function Sidebar() {
           </div>
           <div className="flex flex-col items-center justify-start p-4 border-y text-black text-justify">
             We appreciate you taking your time to use our platform. Your
-            feedback is extremely important to us. 
+            feedback is extremely important to us.
             <br></br>
-            Kindly leave us a suggestion using the "Suggestions" tab so that
-            we can continue to facilitate the best user experience.
+            Kindly leave us a suggestion using the "Suggestions" tab so that we
+            can continue to facilitate the best user experience.
           </div>
           <div className="flex items-center justify-end space-x-3 p-4">
             <p
