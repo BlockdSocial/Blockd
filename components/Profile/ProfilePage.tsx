@@ -209,7 +209,7 @@ function ProfilePage() {
 
   return (
     <div
-      className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
+      className="relative min-h-screen scrollbar-hide overflow-scroll overflow-x-hidden col-span-9 md:col-span-5 pb-14"
       ref={elementRef}
       onScrollCapture={() => handleScroll()}
     >

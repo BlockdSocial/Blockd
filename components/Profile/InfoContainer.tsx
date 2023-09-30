@@ -365,7 +365,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           }}
         />
       </div>
-      <div className="flex flex-col w-full bg-[url('../public/images/halloween/halloween-bg.png')] bg-no-repeat bg-cover bg-[center_top_1rem] xl:bg-[center_top_-3rem]">
+      <div className="flex flex-col w-full bg-[url('../public/images/halloween/halloween-bg2.png')] bg-no-repeat bg-cover bg-[center_top_1rem] md:bg-[center_top_0rem] lg:bg-[center_top_-2rem] xl:bg-[center_top_-3rem]">
         <div className="flex items-start justify-between p-3 w-full bg-transparent">
           <div className="flex items-center justify-start ">
             <circle className="flex items-center justify-start p-3">
@@ -532,7 +532,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </div>
           <div ref={dropdown} className="hidden md:flex">
             {user?.id === authUser?.id ? (
-              <div className="w-fit h-fit p-4 flex items-center justify-center rounded-md bg-transparent">
+              <div className="w-fit h-fit p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
                 <Cog8ToothIcon
                   onClick={() => setIsDropdownVisible((b) => !b)}
                   className="h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale"
@@ -609,7 +609,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
 
         {/* TODO HASAN SAADO    */}
         {!isEmpty(user?.bio) && (
-          <div className="py-2 w-full md:w-3/4 px-6 pr-10">
+          <div className="py-2 w-fit md:max-w-3/4 px-2 ml-5 rounded-md dark:bg-darkgray bg-white">
             <p className="text-sm w-full">{user?.bio} </p>
           </div>
         )}

@@ -531,7 +531,7 @@ em-emoji-picker {
 }
 
 /*******************************    Halloween  *******************************/
-
+/* 
 .head {
   width: 99px;
   height: 100px;
@@ -545,9 +545,9 @@ em-emoji-picker {
   to {
     transform: translateY(20px);
   }
-}
+} */
 
-.head::after {
+/* .head::after {
   content: "O";
   height: 20px;
   width: 20px;
@@ -621,25 +621,140 @@ em-emoji-picker {
   border-radius: 50%;
   color: white;
   font-family: system-ui;
-}
-
+} */
 
 span.halloween::before {
   content: "NFTs are dead";
-  animation: animate infinite 10s;
+  animation: animate infinite 30s;
 }
 
 @keyframes animate {
-
   0% {
-      content: "NFTs are dead";
+    content: "NFTs are dead";
+  }
+
+  25% {
+    content: "Blockd is awesome";
   }
 
   50% {
-      content: "Test Test";
+    content: "BLOCKD Headz mint is live";
   }
 
   75% {
-      content: "Geeks";
+    content: "Fuck everyone !";
+  }
+}
+
+#spooky {
+  animation: floaty 2s infinite;
+}
+
+#spooky #body {
+  position: relative;
+  width: 100px;
+  height: 100px;
+  background: #edf1f2;
+  border-top-left-radius: 90px;
+  border-top-right-radius: 90px;
+}
+
+#spooky #body:before,
+#spooky #body:after {
+  content: "";
+  position: absolute;
+  top: 55px;
+  display: inline-block;
+  width: 30px;
+  height: 20px;
+  border-radius: 50%;
+  background: #edf1f2;
+  animation: floaty 0.9s infinite;
+}
+
+#spooky #body:before {
+  left: -10px;
+}
+
+#spooky #body:after {
+  right: -10px;
+}
+
+#spooky #body #eyes {
+  display: flex;
+  color: black;
+  margin: 0 auto;
+  width: 50px;
+  height: 20px;
+  justify-content: space-between;
+  padding: 30px 0 0;
+}
+
+#spooky #body #eyes:before,
+#spooky #body #eyes:after {
+  content: " ";
+  display: black;
+  width: 15px;
+  height: 15px;
+  background: black;
+  border-radius: 50%;
+}
+
+#spooky #body #mouth {
+  background: black;
+  margin: 25px auto 0;
+  width: 40px;
+  height: 20px;
+  border-radius: 50%;
+  animation: zoomy 2s infinite;
+}
+
+#spooky #body #feet {
+  position: absolute;
+  display: flex;
+  bottom: -18px;
+  width: 100px;
+  height: 36px;
+}
+
+#spooky #body #feet > *,
+#spooky #body #feet::before,
+#spooky #body #feet::after {
+  content: " ";
+  width: 36px;
+  height: 35px;
+  background: #edf1f2;
+  border-radius: 50%;
+  border-bottom: 10px solid #800000;
+}
+
+#shadow {
+  margin: -90px auto 0;
+  background: #252f33;
+  width: 100px;
+  height: 40px;
+  border-radius: 50%;
+  animation: zoomy 2s infinite;
+}
+
+@keyframes floaty {
+  0%,
+  100% {
+    transform: translateY(0);
+  }
+
+  50% {
+    transform: translateY(-20px);
+  }
+}
+
+@keyframes zoomy {
+  0%,
+  100% {
+    transform: scale(1);
+  }
+
+  50% {
+    transform: scale(0.8);
   }
 }

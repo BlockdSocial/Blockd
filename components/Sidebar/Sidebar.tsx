@@ -451,13 +451,20 @@ function Sidebar() {
       </div>
       <div className="flex absolute bottom-14 left-0 h-40 w-full invisible dark:visible">
         <div className="relative w-full ml-2">
-          <div className="head">
-            <div className="left"></div>
-            <div className="middle"></div>
-            <div className="right"></div>
-            <div className="mouth"></div>
+          <div id="container" className="absolute bottom-4 left-2">
+            <div id="spooky">
+              <div id="body">
+                <div id="eyes"></div>
+                <div id="mouth"></div>
+                <div id="feet">
+                  <div></div>
+                  <div></div>
+                  <div></div>
+                </div>
+              </div>
+            </div>
           </div>
-          <div className="absolute top-0 left-28 flex items-center justify-center p-2 rounded-tr-xl rounded-tl-xl rounded-br-xl bg-white h-fit">
+          <div className="absolute top-0 left-28 flex items-center justify-center p-2 rounded-tr-xl rounded-tl-xl rounded-br-xl bg-white h-fit invisible xl:dark:visible">
             <h1 className="flex items-center justify-center text-black">
               <span className="halloween"> </span>
             </h1>
