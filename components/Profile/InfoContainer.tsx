@@ -365,121 +365,185 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           }}
         />
       </div>
-      <div className="flex items-start justify-between p-3 w-full bg-white dark:bg-darkgray">
-        <div className="flex items-center justify-start ">
-          <circle className="flex items-center justify-start p-3">
-            <div className="z-0">
-              <div className={`relative rounded-md z-10`}>
-                <Image
-                  src={
-                    !isEmpty(user?.frameName)
-                      ? `/${user?.frameName}`
-                      : "/images/frames/frame4.jpg"
-                  }
-                  alt="pfp"
-                  className="relative w-24 h-24 z-0 border-white"
-                  width={2000}
-                  height={2000}
-                />
-                <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[83px] h-[83px] bg-white dark:bg-darkgray">
+      <div className="flex flex-col w-full bg-[url('../public/images/halloween/halloween-bg.png')] bg-no-repeat bg-cover bg-[center_top_1rem] xl:bg-[center_top_-3rem]">
+        <div className="flex items-start justify-between p-3 w-full bg-transparent">
+          <div className="flex items-center justify-start ">
+            <circle className="flex items-center justify-start p-3">
+              <div className="z-0">
+                <div className={`relative rounded-md z-10`}>
                   <Image
                     src={
-                      !isEmpty(profilePicture)
-                        ? `${config.url.PUBLIC_URL}/${profilePicture}`
-                        : "/images/pfp/pfp1.jpg"
+                      !isEmpty(user?.frameName)
+                        ? `/${user?.frameName}`
+                        : "/images/frames/frame4.jpg"
                     }
                     alt="pfp"
-                    className="absolute cursor-pointer top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
+                    className="relative w-24 h-24 z-0 border-white"
                     width={2000}
                     height={2000}
-                    onClick={() => setFullScreenImage(!fullScreenImage)}
                   />
-                </div>
-                <div
-                  className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}
-                >
-                  <div className="relative">
+                  <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[83px] h-[83px] bg-white dark:bg-darkgray">
                     <Image
                       src={
-                        !isEmpty(user?.frameName)
-                          ? `/${user?.frameName}`
-                          : "/images/frames/frame4.jpg"
+                        !isEmpty(profilePicture)
+                          ? `${config.url.PUBLIC_URL}/${profilePicture}`
+                          : "/images/pfp/pfp1.jpg"
                       }
                       alt="pfp"
-                      className="relative w-9 h-9"
+                      className="absolute cursor-pointer top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
                       width={2000}
                       height={2000}
+                      onClick={() => setFullScreenImage(!fullScreenImage)}
                     />
-                    <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[31px] h-[31px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
-                      {user?.level}
+                  </div>
+                  <div
+                    className={`absolute z-20 -bottom-3 -left-3 flex rounded-lg`}
+                  >
+                    <div className="relative">
+                      <Image
+                        src={
+                          !isEmpty(user?.frameName)
+                            ? `/${user?.frameName}`
+                            : "/images/frames/frame4.jpg"
+                        }
+                        alt="pfp"
+                        className="relative w-9 h-9"
+                        width={2000}
+                        height={2000}
+                      />
+                      <div className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto z-[1] w-[31px] h-[31px] flex items-center justify-center text-black dark:text-white font-semibold text-sm bg-white dark:bg-darkgray">
+                        {user?.level}
+                      </div>
                     </div>
                   </div>
-                </div>
-                {user?.id === authUser?.id && (
-                  <div
-                    onClick={() => onPfpClick()}
-                    className="flex items-center z-20 justify-center absolute -bottom-3 -right-3 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
-                  >
-                    <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
-                  </div>
-                )}
-                <input
-                  type="file"
-                  id="file"
-                  ref={inputFilePfp}
-                  className="hidden"
-                  accept="image/*"
-                  //onClick={(target) =>  {target = null;}}
+                  {user?.id === authUser?.id && (
+                    <div
+                      onClick={() => onPfpClick()}
+                      className="flex items-center z-20 justify-center absolute -bottom-3 -right-3 cursor-pointer w-8 h-8 md:w-10 md:h-10 p-[5px] bg-gray-900 hover:bg-gray-700 dark:bg-white dark:hover:bg-gray-300 border-4 border-white dark:border-darkgray rounded-full"
+                    >
+                      <CameraIcon className="w-6 h-6 md:w-8 md:h-8 text-white dark:text-darkgray" />
+                    </div>
+                  )}
+                  <input
+                    type="file"
+                    id="file"
+                    ref={inputFilePfp}
+                    className="hidden"
+                    accept="image/*"
+                    //onClick={(target) =>  {target = null;}}
 
-                  //onImageChange onChange={onImageChange}
-                  onChange={(e) => {
-                    onImageChange(e), (e.target.value = "");
-                    setOpenCropPfp(true);
-                    setOpenCropBanner(false);
-                  }}
-                />
+                    //onImageChange onChange={onImageChange}
+                    onChange={(e) => {
+                      onImageChange(e), (e.target.value = "");
+                      setOpenCropPfp(true);
+                      setOpenCropBanner(false);
+                    }}
+                  />
+                </div>
               </div>
-            </div>
-          </circle>
-          <div className="flex flex-col items-start justify-end rounded-md p-3">
-            <div className="flex items-center space-x-1">
-              <p className="mr-1 text-sm lg:text-base group-hover:underline">
-                @{user?.name}
-              </p>
-              {user?.level == 20 && (
-                <img
-                  src="/images/badges/verified.png"
-                  className="w-4 h-4 md:w-5 md:h-5"
-                />
-              )}
-            </div>
-            <div>
-              <p className="mr-1 text-xs md:text-sm group-hover:underline mt-2">
-                {followers.length} Followers
-              </p>
-            </div>
-            <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
-              <div
-                className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded"
-                style={{ width: `${scorePercentage}%` }}
-              >
-                <span className="text-xs font-semibold cursor-pointer text-white inline">
-                  {user?.score > 0 && user?.score + "XP"}
-                </span>
+            </circle>
+            <div className="flex flex-col items-start justify-end rounded-md p-3">
+              <div className="flex items-center space-x-1">
+                <p className="mr-1 text-sm lg:text-base group-hover:underline">
+                  @{user?.name}
+                </p>
+                {user?.level == 20 && (
+                  <img
+                    src="/images/badges/verified.png"
+                    className="w-4 h-4 md:w-5 md:h-5"
+                  />
+                )}
               </div>
-              {/* <div className="flex items-center justify-center w-1/4">
+              <div>
+                <p className="mr-1 text-xs md:text-sm group-hover:underline mt-2">
+                  {followers.length} Followers
+                </p>
+              </div>
+              <div className="flex items-center justify-start w-32 md:w-48 h-5 rounded bg-gray-200 mb-2 relative group">
+                <div
+                  className="flex items-center justify-center bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 p-1 h-5 rounded"
+                  style={{ width: `${scorePercentage}%` }}
+                >
+                  <span className="text-xs font-semibold cursor-pointer text-white inline">
+                    {user?.score > 0 && user?.score + "XP"}
+                  </span>
+                </div>
+                {/* <div className="flex items-center justify-center w-1/4">
                 <span className='text-xs font-semibold cursor-pointer text-black'>60 XP</span>
               </div> */}
-            </div>
-            {/* <div className='text-sm'>
+              </div>
+              {/* <div className='text-sm'>
               <span className='font-semibold'>Level 5 :</span> 75%
             </div> */}
-            {user?.id !== authUser?.id ? (
+              {user?.id !== authUser?.id ? (
+                <>
+                  <div className="flex items-center justify-center space-x-1 xl:hidden">
+                    <div
+                      onClick={() => createCall(user?.id)}
+                      className="flex items-center justify-center py-2 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    >
+                      <PhoneIcon className="w-5 h-5" />
+                    </div>
+                    <Link
+                      type="button"
+                      // href="/dashboard/myChatrooms"
+                      href={{
+                        pathname: "/dashboard/myChatrooms",
+                        query: { chatReceiverId: user?.id },
+                      }}
+                      as="/dashboard/myChatrooms"
+                      className="flex items-center justify-center py-2 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    >
+                      <ChatBubbleLeftIcon className="w-5 h-5" />
+                    </Link>
+                    {isFollowed ? (
+                      <div className="w-fit h-fit flex items-center justify-center rounded-md">
+                        <p
+                          className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
+                          onClick={() => handleFollowUser()}
+                        >
+                          Unfollow
+                        </p>
+                      </div>
+                    ) : (
+                      <div className="w-fit h-fit flex items-center justify-center rounded-md">
+                        <p
+                          className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
+                          onClick={() => handleFollowUser()}
+                        >
+                          Follow
+                        </p>
+                      </div>
+                    )}
+                  </div>
+                </>
+              ) : (
+                <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray md:hidden">
+                  <p
+                    className="flex items-center text-xs p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    onClick={() => setIsModalVisible(!isModalVisible)}
+                  >
+                    <PencilSquareIcon className="w-5 h-5 mr-2" />
+                    Edit Profile
+                  </p>
+                </div>
+              )}
+            </div>
+          </div>
+          <div ref={dropdown} className="hidden md:flex">
+            {user?.id === authUser?.id ? (
+              <div className="w-fit h-fit p-4 flex items-center justify-center rounded-md bg-transparent">
+                <Cog8ToothIcon
+                  onClick={() => setIsDropdownVisible((b) => !b)}
+                  className="h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale"
+                />
+              </div>
+            ) : (
               <>
-                <div className="flex items-center justify-center space-x-1 xl:hidden">
+                <div className="hidden xl:flex items-center space-x-1 justify-center">
                   <div
                     onClick={() => createCall(user?.id)}
-                    className="flex items-center justify-center py-2 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                   >
                     <PhoneIcon className="w-5 h-5" />
                   </div>
@@ -491,14 +555,14 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       query: { chatReceiverId: user?.id },
                     }}
                     as="/dashboard/myChatrooms"
-                    className="flex items-center justify-center py-2 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
+                    className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
                   >
                     <ChatBubbleLeftIcon className="w-5 h-5" />
                   </Link>
                   {isFollowed ? (
                     <div className="w-fit h-fit flex items-center justify-center rounded-md">
                       <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
+                        className="text-xs lg:text-base p-2 cursor-pointer text-white rounded-md bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
                         onClick={() => handleFollowUser()}
                       >
                         Unfollow
@@ -507,7 +571,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   ) : (
                     <div className="w-fit h-fit flex items-center justify-center rounded-md">
                       <p
-                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300"
+                        className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
                         onClick={() => handleFollowUser()}
                       >
                         Follow
@@ -516,85 +580,22 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                   )}
                 </div>
               </>
-            ) : (
-              <div className="flex items-center justify-center rounded-md bg-white dark:bg-darkgray md:hidden">
-                <p
-                  className="flex items-center text-xs p-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                  onClick={() => setIsModalVisible(!isModalVisible)}
-                >
-                  <PencilSquareIcon className="w-5 h-5 mr-2" />
-                  Edit Profile
-                </p>
-              </div>
             )}
-          </div>
-        </div>
-        <div ref={dropdown} className="hidden md:flex">
-          {user?.id === authUser?.id ? (
-            <div className="w-fit h-fit p-4 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-              <Cog8ToothIcon
-                onClick={() => setIsDropdownVisible((b) => !b)}
-                className="h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale"
-              />
-            </div>
-          ) : (
-            <>
-              <div className="hidden xl:flex items-center space-x-1 justify-center">
-                <div
-                  onClick={() => createCall(user?.id)}
-                  className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                >
-                  <PhoneIcon className="w-5 h-5" />
-                </div>
-                <Link
-                  type="button"
-                  // href="/dashboard/myChatrooms"
-                  href={{
-                    pathname: "/dashboard/myChatrooms",
-                    query: { chatReceiverId: user?.id },
-                  }}
-                  as="/dashboard/myChatrooms"
-                  className="flex items-center justify-center h-10 py-0 px-2 cursor-pointer rounded-md bg-gray-100 dark:bg-lightgray hover:bg-gray-200 dark:hover:bg-darkgray"
-                >
-                  <ChatBubbleLeftIcon className="w-5 h-5" />
-                </Link>
-                {isFollowed ? (
-                  <div className="w-fit h-fit flex items-center justify-center rounded-md">
-                    <p
-                      className="text-xs lg:text-base p-2 cursor-pointer text-white rounded-md bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
-                      onClick={() => handleFollowUser()}
-                    >
-                      Unfollow
-                    </p>
-                  </div>
-                ) : (
-                  <div className="w-fit h-fit flex items-center justify-center rounded-md">
-                    <p
-                      className="text-xs lg:text-base p-2 cursor-pointer rounded-md text-white bg-gradient-to-r from-blockd via-orange-400 to-orange-300 hover:from-orange-300 hover:via-orange-400 hover:to-blockd"
-                      onClick={() => handleFollowUser()}
-                    >
-                      Follow
-                    </p>
-                  </div>
-                )}
-              </div>
-            </>
-          )}
-          <ul
-            className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
-              isDropdownVisible ? "" : "hidden"
-            }`}
-          >
-            <Link
-              type="button"
-              onClick={() => setIsModalVisible(!isModalVisible)}
-              href=""
-              className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-lightgray/50"
+            <ul
+              className={`absolute right-3 cursor-pointer bg-white dark:bg-darkgray rounded-lg shadow-lg ${
+                isDropdownVisible ? "" : "hidden"
+              }`}
             >
-              <PencilSquareIcon className="w-5 h-5 mr-2" />
-              Edit Profile
-            </Link>
-            {/* <Link
+              <Link
+                type="button"
+                onClick={() => setIsModalVisible(!isModalVisible)}
+                href=""
+                className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-t-md dark:hover:bg-lightgray/50"
+              >
+                <PencilSquareIcon className="w-5 h-5 mr-2" />
+                Edit Profile
+              </Link>
+              {/* <Link
               type="button"
               href=""
               className="flex items-center justify-start p-3 hover:bg-gray-200 hover:rounded-b-md dark:hover:bg-lightgray/50"
@@ -602,25 +603,25 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               <QuestionMarkCircleIcon className="w-5 h-5 mr-2" />
               Help Center
             </Link> */}
-          </ul>
+            </ul>
+          </div>
+        </div>
+
+        {/* TODO HASAN SAADO    */}
+        {!isEmpty(user?.bio) && (
+          <div className="py-2 w-full md:w-3/4 px-6 pr-10">
+            <p className="text-sm w-full">{user?.bio} </p>
+          </div>
+        )}
+        <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
+          {user?.twitter && renderLink(user?.twitter, "twitter.png")}
+          {user?.lensProtocol &&
+            renderLink(user?.lensProtocol, "lensProtocol.jpeg")}
+          {user?.facebook && renderLink(user?.facebook, "facebook.png")}
+          {user?.instagram && renderLink(user?.instagram, "instagram.png")}
+          {user?.linktree && renderLink(user?.linktree, "linktree.png")}
         </div>
       </div>
-
-      {/* TODO HASAN SAADO    */}
-      {!isEmpty(user?.bio) && (
-        <div className="py-2 w-full md:w-3/4 px-6 pr-10">
-          <p className="text-sm w-full">{user?.bio} </p>
-        </div>
-      )}
-      <div className="flex items-end justify-start py-2 px-6 space-x-2 mb-2">
-        {user?.twitter && renderLink(user?.twitter, "twitter.png")}
-        {user?.lensProtocol &&
-          renderLink(user?.lensProtocol, "lensProtocol.jpeg")}
-        {user?.facebook && renderLink(user?.facebook, "facebook.png")}
-        {user?.instagram && renderLink(user?.instagram, "instagram.png")}
-        {user?.linktree && renderLink(user?.linktree, "linktree.png")}
-      </div>
-
       <div
         className={`fixed top-0 left-0 p-4 flex flex-col items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${
           openCrop ? "" : "hidden"
