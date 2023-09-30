@@ -464,9 +464,9 @@ function Sidebar() {
               </div>
             </div>
           </div>
-          <div className="absolute top-0 left-28 flex items-center justify-center p-2 rounded-tr-xl rounded-tl-xl rounded-br-xl bg-white h-fit invisible xl:dark:visible">
+          <div className="absolute -top-4 left-24 flex items-center justify-center p-2 rounded-tr-xl rounded-tl-xl rounded-br-xl bg-white w-[140px] invisible xl:dark:visible">
             <h1 className="flex items-center justify-center text-black">
-              <span className="halloween"> </span>
+              <span className="span-halloween"> </span>
             </h1>
           </div>
         </div>
