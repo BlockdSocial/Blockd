@@ -33,6 +33,7 @@ import CustomLoadingOverlay from "../../components/CustomLoadingOverlay";
 import { ArrowLeftCircleIcon } from "@heroicons/react/24/outline";
 import { checkAddress, checkEmail } from "../../stores/user/UserActions";
 import { nft_abi } from "../../abi/nft.abi";
+import ReactAudioPlayer from "react-audio-player";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 
@@ -468,6 +469,11 @@ export default function SignUp() {
     <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/halloween/halloween.jpg')] bg-no-repeat bg-cover">
       <Toaster />
       <CustomLoadingOverlay active={isRegisteringUser} />
+      <ReactAudioPlayer
+        src="/sounds/halloween.mp3"
+        autoPlay
+        loop
+      />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">

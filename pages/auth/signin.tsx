@@ -21,6 +21,7 @@ import {
   usePrepareContractWrite,
   useSignMessage,
 } from "wagmi";
+import ReactAudioPlayer from "react-audio-player";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 export default function SignIn() {
@@ -138,6 +139,11 @@ export default function SignIn() {
     <section className="min-h-screen flex items-stretch scrollbar-hide overflow-scroll text-white bg-[url('../public/images/halloween/halloween.jpg')] bg-no-repeat bg-cover">
       <Toaster/>
       <CustomLoadingOverlay active={isLoggingIn} />
+      <ReactAudioPlayer
+        src="/sounds/halloween.mp3"
+        autoPlay
+        loop
+      />
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
           <div className="flex flex-col items-start justify-center">
