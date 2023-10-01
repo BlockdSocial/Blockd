@@ -625,7 +625,7 @@ em-emoji-picker {
 
 span.span-halloween::before {
   content: "NFTs are dead";
-  animation: animate infinite 10s;
+  animation: animate infinite 30s;
 }
 
 @keyframes animate {
@@ -633,16 +633,12 @@ span.span-halloween::before {
     content: "NFTs are dead";
   }
 
-  25% {
-    content: "Blockd is SICK!";
-  }
-
   50% {
     content: "BLOCKD Headz mint is live";
   }
 
   75% {
-    content: "Fuck everyone!";
+    content: "It's Halloween!";
   }
 }
 
@@ -652,7 +648,7 @@ span.span-halloween::before {
 
 #spooky #body {
   position: relative;
-  width: 100px;
+  width: 80px;
   height: 100px;
   background: #edf1f2;
   border-top-left-radius: 90px;
@@ -684,7 +680,7 @@ span.span-halloween::before {
   display: flex;
   color: black;
   margin: 0 auto;
-  width: 50px;
+  width: 45px;
   height: 20px;
   justify-content: space-between;
   padding: 30px 0 0;
@@ -706,14 +702,14 @@ span.span-halloween::before {
   width: 40px;
   height: 20px;
   border-radius: 50%;
-  animation: zoomy 2s infinite;
+  animation: zoomy 3s infinite;
 }
 
 #spooky #body #feet {
   position: absolute;
   display: flex;
   bottom: -18px;
-  width: 100px;
+  width: 80px;
   height: 36px;
 }
 
@@ -726,15 +722,6 @@ span.span-halloween::before {
   background: #edf1f2;
   border-radius: 50%;
   border-bottom: 10px solid #800000;
-}
-
-#shadow {
-  margin: -90px auto 0;
-  background: #252f33;
-  width: 100px;
-  height: 40px;
-  border-radius: 50%;
-  animation: zoomy 2s infinite;
 }
 
 @keyframes floaty {
