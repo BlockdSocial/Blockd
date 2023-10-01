@@ -358,7 +358,7 @@ function MainComment({ comment, post, refetchReplies }: Props) {
                 src={
                   !isEmpty(comment?.otherUser?.profilePic)
                     ? `${config.url.PUBLIC_URL}/${comment?.otherUser?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                    : "/images/pfp/blockd.jpg"
                 }
                 alt="pfp"
                 className="absolute top-0 bottom-0 left-0 right-0 mx-auto object-cover my-auto w-[50px] h-[50px] z-0 rounded-sm"

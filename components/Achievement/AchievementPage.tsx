@@ -59,7 +59,7 @@ function AchievementPage() {
                 src={
                   !isEmpty(authUser?.profilePic)
                     ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                    : "/images/pfp/blockd.jpg"
                 }
                 alt="pfp"
                 className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[80px] h-[80px] z-0 rounded-sm"

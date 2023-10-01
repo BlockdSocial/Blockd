@@ -47,7 +47,7 @@ function Following({ user }: any) {
                 src={
                   !isEmpty(following?.otherUser?.profilePic)
                     ? `${config.url.PUBLIC_URL}/${following?.otherUser?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                    : "/images/pfp/blockd.jpg"
                 }
                 alt=""
               />

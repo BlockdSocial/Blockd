@@ -55,7 +55,7 @@ function Followers({ user }: any) {
                 src={
                   !isEmpty(follower?.otherUser2?.profilePic)
                     ? `${config.url.PUBLIC_URL}/${follower?.otherUser2?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                    : "/images/pfp/blockd.jpg"
                 }
                 alt=""
               />

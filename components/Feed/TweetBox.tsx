@@ -333,7 +333,7 @@ function TweetBox({ refetchFiltered }: Props) {
                   src={
                     !isEmpty(authUser?.profilePic)
                       ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
+                      : "/images/pfp/blockd.jpg"
                   }
                   alt="pfp"
                   className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[45px] h-[45px] md:w-[65px] md:h-[65px] object-cover z-0 rounded-sm"

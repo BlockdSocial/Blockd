@@ -124,7 +124,7 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom, fetchRooms, setMe
             src={
               !isEmpty(receiver?.profilePic)
                 ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
+                : "/images/pfp/blockd.jpg"
             }
             className='h-8 w-8 md:w-10 md:h-10 cursor-pointer object-cover rounded-lg'
           />

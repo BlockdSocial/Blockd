@@ -516,7 +516,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                       src={
                         !isEmpty(post?.otherUser?.profilePic)
                           ? `${config.url.PUBLIC_URL}/${post?.otherUser?.profilePic?.name}`
-                          : "/images/pfp/pfp1.jpg"
+                          : "/images/pfp/blockd.jpg"
                       }
                       alt="pfp"
                       className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
@@ -714,7 +714,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                         src={
                           !isEmpty(sharedPost?.otherUser?.profilePic)
                             ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
-                            : "/images/pfp/pfp1.jpg"
+                            : "/images/pfp/blockd.jpg"
                         }
                         alt="pfp"
                         className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 shadow-sm"

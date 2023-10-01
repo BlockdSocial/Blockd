@@ -505,12 +505,13 @@ export default function SignUp() {
             </h4>
             <br />
             <hr className="w-1/3"></hr>
-            <h4 className="text-white mt-6 ml-2 pb-3 text-m md:text-m lg:text-l">
-              Verified By Blockchain Technology
-            </h4>
+            <div className="flex items-center justify-start space-x-2 text-white mt-6 ml-2 pb-3 text-m md:text-m lg:text-xl">
+              <p>Verified By </p>
+              <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
+            </div>
             <div className="flex mt-4">
               <a
-                href="/auth/infographic"
+                href="https://linktr.ee/blockd"
                 target="_blank"
                 className="flex items-start justify-center w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
               >

@@ -57,7 +57,7 @@ function UserResult({ user, refetch }: any) {
             src={
               !isEmpty(user?.profilePic)
                 ? `${config.url.PUBLIC_URL}/${user?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
+                : "/images/pfp/blockd.jpg"
             }
             className="rounded-md w-12 h-12 bg-blockd object-cover"
           />

@@ -110,7 +110,7 @@ export default function Message({
                   src={
                     !isEmpty(authUser?.profilePic)
                       ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
+                      : "/images/pfp/blockd.jpg"
                   }
                   className="object-cover h-7 w-7 lg:h-10 lg:w-10 rounded-lg"
                   alt=""
@@ -281,7 +281,7 @@ export default function Message({
                     ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
                     : !isEmpty(message?.otherUser?.profilePic)
                     ? `${config.url.PUBLIC_URL}/${message?.otherUser?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                    : "/images/pfp/blockd.jpg"
                 }
                 className="object-cover w-7 h-7 lg:h-10 lg:w-10 rounded-lg flex"
                 alt=""

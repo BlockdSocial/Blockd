@@ -250,7 +250,7 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
               src={
                 !isEmpty(notification?.otherUser?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`
-                  : "/images/pfp/pfp1.jpg"
+                  : "/images/pfp/blockd.jpg"
               }
               width={50}
               height={50}

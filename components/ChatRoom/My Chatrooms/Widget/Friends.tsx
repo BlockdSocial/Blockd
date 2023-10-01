@@ -37,7 +37,7 @@ function Friends({ chats, setReceiver, setRoom, closeShowFriends, refetchChats }
                   src={
                     !isEmpty(chat?.otherUser?.profilePic)
                       ? `${config.url.PUBLIC_URL}/${chat?.otherUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
+                      : "/images/pfp/blockd.jpg"
                   }
                   className='w-10 h-10 rounded-md object-cover'
                 />

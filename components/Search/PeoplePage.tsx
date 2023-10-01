@@ -22,7 +22,7 @@ function PeoplePage() {
               className="flex items-center justify-center"
             >
               <img
-                src="/images/pfp/pfp1.jpg"
+                src="/images/pfp/blockd.jpg"
                 className="rounded-md w-16 h-16 bg-blockd"
               />
             </Link>

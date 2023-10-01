@@ -387,7 +387,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
                       src={
                         !isEmpty(profilePicture)
                           ? `${config.url.PUBLIC_URL}/${profilePicture}`
-                          : "/images/pfp/pfp1.jpg"
+                          : "/images/pfp/blockd.jpg"
                       }
                       alt="pfp"
                       className="absolute cursor-pointer top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[75px] h-[75px] object-cover rounded-sm"
@@ -958,7 +958,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
               src={
                 !isEmpty(profilePicture)
                   ? `${config.url.PUBLIC_URL}/${profilePicture}`
-                  : "/images/pfp/pfp1.jpg"
+                  : "/images/pfp/blockd.jpg"
               }
               alt="pfp"
               className="rounded-lg max-w-full object-contain max-h-[600px] shadow-sm cursor-pointer"

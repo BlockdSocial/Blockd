@@ -518,7 +518,7 @@ const Navbar = () => {
                 src={
                   authUser?.profilePic
                     ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                    : "/images/pfp/pfp1.jpg"
+                    : "/images/pfp/blockd.jpg"
                 }
                 onClick={() => setDropDown(!dropDown)}
                 alt="pfp"
@@ -714,7 +714,7 @@ const Navbar = () => {
                       src={
                         authUser?.profilePic
                           ? `${config.url.PUBLIC_URL}/${authUser?.profilePic?.name}`
-                          : "/images/pfp/pfp1.jpg"
+                          : "/images/pfp/blockd.jpg"
                       }
                       alt="pfp"
                       className="w-10 h-10 rounded-md shadow-sm cursor-pointer object-cover"

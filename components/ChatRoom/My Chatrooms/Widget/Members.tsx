@@ -245,7 +245,7 @@ function Members({
                     src={
                       !isEmpty(member?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${member?.profilePic?.name}`
-                        : "/images/pfp/pfp1.jpg"
+                        : "/images/pfp/blockd.jpg"
                     }
                     className="w-10 h-10 rounded-lg object-cover"
                   />
@@ -291,7 +291,7 @@ function Members({
                     src={
                       !isEmpty(member?.otherUser?.profilePic)
                         ? `${config.url.PUBLIC_URL}/${member?.otherUser?.profilePic?.name}`
-                        : "/images/pfp/pfp1.jpg"
+                        : "/images/pfp/blockd.jpg"
                     }
                     className="w-10 h-10 rounded-full object-cover"
                   />
