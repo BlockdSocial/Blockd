@@ -498,18 +498,18 @@ const Navbar = () => {
               className="h-full cursor-pointer flex items-center justify-center"
             >
               <Image
-                src="/images/logo/long-logo.png"
+                src="/images/halloween/halloween-logo.png"
                 alt="Blockd Logo"
-                className="w-26 h-10 md:ml-0 hidden md:inline"
-                width={140}
+                className="w-30 h-12 md:ml-0 hidden md:inline"
+                width={175}
                 height={50}
               />
               <Image
-                src="/images/logo/logo.png"
+                src="/images/halloween/halloween-logo2.png"
                 alt="Blockd Logo"
-                className="md:ml-0 w-10 h-7 md:w-12 md:h-8 md:hidden"
-                width={60}
-                height={40}
+                className="md:ml-0 w-20 h-14 md:w-12 md:h-8 md:hidden"
+                width={100}
+                height={80}
               />
             </Link>
             <div className="flex items-center space-x-4 relative">

@@ -476,11 +476,11 @@ export default function SignUp() {
       />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
-          <div className="flex flex-col items-start justify-center">
+          <div className="relative flex flex-col items-start justify-center">
             <img
-              src="/images/logo/long-logo.png"
+              src="/images/halloween/halloween-logo.png"
               alt="Blockd Logo"
-              className="w-80 lg:w-96"
+              className="w-80 lg:w-96 -top-14 -left-10 absolute"
             />
             <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-3xl">
               JOIN THE{" "}
