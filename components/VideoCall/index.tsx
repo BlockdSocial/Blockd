@@ -103,21 +103,21 @@ function VideoCall() {
       : "";
 
   useEffect(() => {
-    getOtherUser();
+    //getOtherUser();
   }, []);
 
-  const getOtherUser = async () => {
-    var otherUser_id = "";
-    if (authUser?.id == call?.caller_id) {
-      otherUser_id = call?.receiver_id;
-    } else {
-      otherUser_id = call?.caller_id;
-    }
-    await dispatch(fetchUser(call?.caller_id)).then((result: any) => {
-      console.log("videocall", { result });
-      setOtherUser(result);
-    });
-  };
+  // const getOtherUser = async () => {
+  //   var otherUser_id = "";
+  //   if (authUser?.id == call?.caller_id) {
+  //     otherUser_id = call?.receiver_id;
+  //   } else {
+  //     otherUser_id = call?.caller_id;
+  //   }
+  //   await dispatch(fetchUser(call?.caller_id)).then((result: any) => {
+  //     console.log("videocall", { result });
+  //     setOtherUser(result);
+  //   });
+  // };
 
   const handleMessageFromPeer = async (message: any) => {
     console.log("videocall", "videoCall  handleMessageFromPeer", message.data);
@@ -433,6 +433,7 @@ function VideoCall() {
     <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
       <div id="videos">
         <video
+         poster={'https://picsum.photos/200/300'}
           ref={video1}
           className="video-player"
           id="user-1"

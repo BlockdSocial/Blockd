@@ -74,6 +74,9 @@ function Feed() {
     return () => {
       elementRef?.current?.removeEventListener("scroll", handleScroll);
     };
+
+    localStorage.removeItem("call");
+
   }, []);
 
   useEffect(() => {

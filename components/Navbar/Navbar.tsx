@@ -49,9 +49,10 @@ import { searchFilteredUsers } from "../../stores/user/UserActions";
 import { ArrowTrendingUpIcon } from "@heroicons/react/24/outline";
 import Result from "../Widgets/Result";
 import { encodeQuery } from "../../utils";
+import { chatApi } from "../../api";
 
 interface Data {
-  receiver_id: number;
+ // receiver_id: number;
   notification: number;
   id: number;
 }
@@ -100,6 +101,7 @@ const Navbar = () => {
   const [showModal3, setShowModal3] = useState(false);
   const [showModal4, setShowModal4] = useState(false);
   const [showModal5, setShowModal5] = useState(false);
+
   const [showModal6, setShowModal6] = useState(false);
   const [showModal7, setShowModal7] = useState(false);
   const [showModal8, setShowModal8] = useState(false);
@@ -403,7 +405,15 @@ const Navbar = () => {
     return () => window.removeEventListener("click", handleClick);
   }, [dropDown]);
 
+  const addParticipant = async () => {
+    let result = await chatApi.addParticipant({
+      newParticipant: authUser?.id,
+      call_id: call?.id,
+    });
+  }
+
   const goToLoby = async () => {
+    await addParticipant();
     setShowCallModal(false);
     configureAbly({
       authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,
