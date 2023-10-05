@@ -113,10 +113,10 @@ function Slider({ trendingPosts }: Props) {
                     slides[currentIndex]?.id,
                     "post"
                   )}`}
-                  className="absolute bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full"
+                  className="absolute max-h-20 bg-gradient-to-r dark:from-lightgray from-indigo-500 text-white dark:bg-white text-sm font-semibold p-1 pl-2 rounded-b-md flex items-center justify-start bottom-0 w-full"
                 >
                   {!isEmpty(slides[currentIndex]?.title) &&
-                    renderHTML(renderCommentText(slides[currentIndex]?.title))}
+                    renderHTML(renderCommentText(slides[currentIndex]?.title.slice(0,90)))} ...
                 </Link>
               </div>
             </Link>
