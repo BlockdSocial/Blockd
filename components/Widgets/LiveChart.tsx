@@ -203,8 +203,8 @@ function LiveChart() {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
-      <div className="p-2 flex items-center justify-start space-x-2 w-full">
+    <div className="flex flex-col mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
+      <div className="p-2 flex items-center justify-start space-x-2 w-full border-b-[5px] border-white dark:border-darkgray">
         <ArrowTrendingUpIcon className="w-5 h-5" />
         <p>Live Chart</p>
       </div>
@@ -212,7 +212,7 @@ function LiveChart() {
         <Link
           href={BTCUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
           <p
@@ -249,7 +249,7 @@ function LiveChart() {
         <Link
           href={ETHUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
           <p
@@ -286,7 +286,7 @@ function LiveChart() {
         <Link
           href={BNBUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/bnb-logo.png" className="w-7 h-7" />
           <p
@@ -323,7 +323,7 @@ function LiveChart() {
         <Link
           href={MATICUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
           <p
@@ -360,7 +360,7 @@ function LiveChart() {
         <Link
           href={SOLUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/solana-logo.png" className="w-7 h-7" />
           <p
