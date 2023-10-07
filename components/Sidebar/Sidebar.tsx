@@ -449,28 +449,6 @@ function Sidebar() {
           <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
         </Link> */}
       </div>
-      <div className="flex absolute bottom-14 left-0 h-40 w-full invisible dark:visible">
-        <div className="relative w-full ml-2">
-          <div id="container" className="absolute bottom-4 left-2">
-            <div id="spooky">
-              <div id="body">
-                <div id="eyes"></div>
-                <div id="mouth"></div>
-                <div id="feet">
-                  <div></div>
-                  <div></div>
-                  <div></div>
-                </div>
-              </div>
-            </div>
-          </div>
-          <div className="absolute -top-4 left-24 flex items-center justify-center p-2 rounded-tr-xl rounded-tl-xl rounded-br-xl bg-white w-[140px] invisible xl:dark:visible">
-            <h1 className="flex items-center justify-center text-black">
-              <span className="span-halloween"> </span>
-            </h1>
-          </div>
-        </div>
-      </div>
       {isRegistered !== undefined && (
         <div
           className={`fixed top-0 left-0 flex p-4 items-center justify-center min-h-screen w-full h-full backdrop-blur-md bg-white/60 z-50 ${

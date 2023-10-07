@@ -309,7 +309,7 @@ function TweetBox({ refetchFiltered }: Props) {
   };
 
   return (
-    <div className="relative flex items-start justify-center space-x-2 p-4 w-full bg-[url('../public/images/halloween/halloween-bg.png')] bg-no-repeat bg-cover bg-[center_top_1rem] md:bg-[center_top_0rem] lg:bg-[center_top_-2rem] xl:bg-[center_top_-3rem] border-y dark:border-lightgray">
+    <div className="relative flex items-start justify-center space-x-2 p-4 w-full border-y dark:border-lightgray">
       <div className="flex flex-col items-start justify-center w-[20%]">
         <Link
           href="/dashboard/profile"

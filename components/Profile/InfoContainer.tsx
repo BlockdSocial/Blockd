@@ -365,7 +365,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           }}
         />
       </div>
-      <div className="flex flex-col w-full bg-[url('../public/images/halloween/halloween-bg2.png')] bg-no-repeat bg-cover bg-[center_top_1rem] md:bg-[center_top_0rem] lg:bg-[center_top_-2rem] xl:bg-[center_top_-3rem]">
+      <div className="flex flex-col w-full">
         <div className="flex items-start justify-between p-3 w-full bg-transparent">
           <div className="flex items-center justify-start ">
             <circle className="flex items-center justify-start p-3">

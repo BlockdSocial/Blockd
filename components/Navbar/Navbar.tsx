@@ -498,16 +498,16 @@ const Navbar = () => {
               className="h-full cursor-pointer flex items-center justify-center"
             >
               <Image
-                src="/images/halloween/halloween-logo.png"
+                src="/images/logo/long-logo.png"
                 alt="Blockd Logo"
-                className="w-30 h-12 md:ml-0 hidden md:inline"
-                width={175}
-                height={50}
+                className="w-26 h-10 md:ml-0 hidden md:inline"
+                width={150}
+                height={40}
               />
               <Image
-                src="/images/halloween/halloween-logo2.png"
+                src="/images/logo/logo.png"
                 alt="Blockd Logo"
-                className="md:ml-0 w-20 h-14 md:w-12 md:h-8 md:hidden"
+                className="md:ml-0 w-14 h-9 md:w-12 md:h-8 md:hidden"
                 width={100}
                 height={80}
               />

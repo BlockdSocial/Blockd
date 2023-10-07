@@ -466,21 +466,16 @@ export default function SignUp() {
     return null;
   }
   return (
-    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/halloween/halloween.jpg')] bg-no-repeat bg-cover">
+    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <Toaster />
       <CustomLoadingOverlay active={isRegisteringUser} />
-      <ReactAudioPlayer
-        src="/sounds/halloween.mp3"
-        autoPlay
-        loop
-      />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="relative flex flex-col items-start justify-center">
-            <img
-              src="/images/halloween/halloween-logo.png"
+          <img
+              src="/images/logo/long-logo.png"
               alt="Blockd Logo"
-              className="w-80 lg:w-96 -top-14 -left-10 absolute"
+              className="w-60"
             />
             <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-3xl">
               JOIN THE{" "}
