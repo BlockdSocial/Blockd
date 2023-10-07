@@ -1506,7 +1506,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             <button
               type="button"
               onClick={() => setSharePopUp(!sharePopUp)}
-              className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+              className="bg-gray-200 hover:bg-gray-300/70 text-black rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
             >
               <svg
                 aria-hidden="true"
