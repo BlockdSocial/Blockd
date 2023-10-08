@@ -702,7 +702,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           Report Post
                         </div> */}
                             <div
-                              className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
+                              className="flex items-center justify-start text-sm p-3 hover:rounded-md hover:bg-gray-200 dark:hover:bg-darkgray/50"
                               onClick={async (e) => {
                                 handleFollowUser();
                                 e.preventDefault();

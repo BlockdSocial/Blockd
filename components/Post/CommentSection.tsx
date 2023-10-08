@@ -656,7 +656,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
         </div>
       </Link>
       <div className="flex justify-between">
-        <div className="flex items-center justify-start w-full mt-3 p-3 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
+        <div className="flex items-center justify-start w-full mt-3 p-2 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
           <div className="flex items-center justify-between w-full space-x-4">
             <div
               className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group"
@@ -673,7 +673,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                   className={`h-4 w-4 cursor-pointer ${
                     isLiked ? "text-white" : "group-hover:text-green-600"
                   } `}
-                  sx={{ fontSize: 20 }}
+                  sx={{ fontSize: 16 }}
                 />
               </div>
               <p
@@ -699,7 +699,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                   className={`h-4 w-4 cursor-pointer ${
                     isDisliked ? "text-white" : "group-hover:text-red-600"
                   } `}
-                  sx={{ fontSize: 20 }}
+                  sx={{ fontSize: 16 }}
                 />
               </div>
               <p
@@ -716,7 +716,7 @@ function CommentSection({ comment, post, type, refetchComments }: Props) {
                   <CommentOutlinedIcon
                     onClick={() => handleComment()}
                     className="h-4 w-4 cursor-pointer"
-                    sx={{ fontSize: 20 }}
+                    sx={{ fontSize: 16 }}
                   />
                 </div>
                 <p className="text-xs">

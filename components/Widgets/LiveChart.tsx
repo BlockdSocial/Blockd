@@ -238,7 +238,7 @@ function LiveChart() {
                 <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
                 <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
                 <p className="text-red-600 hidden lg:inline">
-                  {BTCPriceChange}%
+                  {BTCPriceChange * -1}%
                 </p>
               </div>
             </>
@@ -275,7 +275,7 @@ function LiveChart() {
                 <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
                 <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
                 <p className="text-red-600 hidden lg:inline">
-                  {ETHPriceChange}%
+                  {ETHPriceChange * -1}%
                 </p>
               </div>
             </>
@@ -312,7 +312,7 @@ function LiveChart() {
                 <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
                 <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
                 <p className="text-red-600 hidden lg:inline">
-                  {BNBPriceChange}%
+                  {BNBPriceChange * -1}%
                 </p>
               </div>
             </>
@@ -349,7 +349,7 @@ function LiveChart() {
                 <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
                 <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
                 <p className="text-red-600 hidden lg:inline">
-                  {MATICPriceChange}%
+                  {MATICPriceChange * -1}%
                 </p>
               </div>
             </>
@@ -386,7 +386,7 @@ function LiveChart() {
                 <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
                 <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
                 <p className="text-red-600 hidden lg:inline">
-                  {SOLPriceChange}%
+                  {SOLPriceChange * -1}%
                 </p>
               </div>
             </>
@@ -423,7 +423,7 @@ function LiveChart() {
                 <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
                 <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
                 <p className="text-red-600 hidden lg:inline">
-                  {AVAXPriceChange}%
+                  {AVAXPriceChange * -1}%
                 </p>
               </div>
             </>
