@@ -125,7 +125,7 @@ function SearchPage() {
         ) : (
           <div
             onClick={loadMore2}
-            className="flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold"
+            className="flex items-center justify-center cursor-pointer p-2 w-full rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-transparent dark:border-blockd dark:border hover:dark:bg-gray-600/10 font-semibold"
           >
             View more
           </div>

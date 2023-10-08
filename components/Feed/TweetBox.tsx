@@ -575,7 +575,7 @@ function TweetBox({ refetchFiltered }: Props) {
                   isEmpty(source)) ||
                 disabledPostBtn
               }
-              className="bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]"
+              className="bg-gradient-to-r cursor-pointer disabled:cursor-default from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] px-5 py-2 font-bold text-white rounded-md disabled:opacity-40 disabled:z-[0]"
               onClick={(e) => handleSubmitPost(e)}
             >
               Post
