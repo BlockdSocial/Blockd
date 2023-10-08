@@ -204,7 +204,7 @@ export default function SignIn() {
 
               {nft_data && Number(nft_data) > 0 ? (
                 <button
-                  className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
+                  className="w-full mt-4 bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold py-3 px-4 rounded-md"
                   onClick={(e) => getSignMessage(e)}
                 >
                   login
