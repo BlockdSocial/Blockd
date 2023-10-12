@@ -1109,7 +1109,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <button
                   disabled={!input && !image && !gifUrl}
                   type="submit"
-                  className="text-white bg-gradient-to-r cursor-pointer default:cursor-default from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold disabled:opacity-40 disabled:z-[0] p-2 rounded-md "
+                  className="text-white bg-gradient-to-r cursor-pointer disabled:cursor-default from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold disabled:opacity-40 disabled:z-[0] p-2 rounded-md "
                 >
                   <span className="hidden md:inline">Comment</span>
                   <span className="flex md:hidden">
@@ -1256,7 +1256,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </div>
           )}
           {image && (
-            <div className="relative w-full mt-2">
+            <div className="relative w-full mt-2 mb-2">
               <img
                 className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
                 src={image}
@@ -1268,11 +1268,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               >
                 <XMarkIcon className="w-5 h-5" />
               </div>
-              <hr className="mt-4 mb-4"></hr>
             </div>
           )}
           {gifBoxIsOpen && (
-            <div className="relative w-full">
+            <div className="relative w-full mt-2 mb-2">
               <img
                 src={gifUrl}
                 className="rounded-lg max-w-full h-auto"
@@ -1285,7 +1284,6 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               >
                 <XMarkIcon className="w-5 h-5" />
               </div>
-              <hr className="mt-4 mb-4"></hr>
             </div>
           )}
         </div>
