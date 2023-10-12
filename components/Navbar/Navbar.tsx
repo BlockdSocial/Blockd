@@ -161,7 +161,7 @@ const Navbar = () => {
 
   const handleShowNotification = async (notification: any) => {
     await new Promise((f) => setTimeout(f, 1000));
-    toast(notification + "jhbajks:");
+    toast(notification);
   };
 
   const handleFetchNotifications = async () => {
@@ -1144,11 +1144,11 @@ const Navbar = () => {
               </div>
             </div>
             {/* <Link href="#" className="opacity-60">
-              
+
               <SidebarRow Icon={LockClosedIcon} title="Streams" active="" />
             </Link>
             <Link href="#" className="opacity-60">
-              
+
               <SidebarRow Icon={LockClosedIcon} title="Podcasts" active="" />
             </Link> */}
           </div>
