@@ -218,6 +218,8 @@ function Notifications({ notification, handleFetchNotifications }: Props) {
         break;
       case "reply":
         return "replied to your comment!";
+      case "call":
+        return "call you";
       default:
         break;
     }

@@ -206,6 +206,7 @@ const Navbar = () => {
   };
 
   const renderNotificationText = (notification: any) => {
+    
     switch (notification?.type) {
       case "like":
         if (
@@ -271,6 +272,8 @@ const Navbar = () => {
         break;
       case "reply":
         return "replied to your comment!";
+       case "call":
+        return "call you";
       default:
         break;
     }
