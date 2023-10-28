@@ -2,74 +2,78 @@
 @tailwind components;
 @tailwind utilities;
 .bg-image {
-  background-image: url("../public/images/bg.jpg");
-  background-size: cover;
+    background-image: url("../public/images/bg.jpg");
+    background-size: cover;
 }
 
 .bg-color {
-  background-color: rgba(216, 213, 213, 0.199);
+    background-color: rgba(216, 213, 213, 0.199);
 }
 
 input.sign-up {
-  background-color: rgba(230, 230, 230, 0.397);
-  border: none;
-  -webkit-transition: 0.5s;
-  transition: 0.5s;
-  outline: none;
+    background-color: rgba(230, 230, 230, 0.397);
+    border: none;
+    -webkit-transition: 0.5s;
+    transition: 0.5s;
+    outline: none;
 }
 
 input.sign-up::placeholder {
-  color: white;
+    color: white;
 }
 
 input.sign-up:focus {
-  border: white;
-  background-color: rgb(99, 97, 97);
+    border: white;
+    background-color: rgb(99, 97, 97);
 }
 
 input.sign-up,
 select,
 textarea {
-  color: white;
+    color: white;
 }
 
 .bg-button1 {
-  background-color: rgba(230, 230, 230, 0.397);
-  border: none;
-  color: white;
-  font-family: Arial, sans-serif;
+    background-color: rgba(230, 230, 230, 0.397);
+    border: none;
+    color: white;
+    font-family: Arial, sans-serif;
 }
 
 .bg-button1:hover {
-  background-color: rgb(99, 97, 97);
+    background-color: rgb(99, 97, 97);
 }
 
 .bg-button2 {
-  background: #ff6c14;
-  font-family: Arial, sans-serif;
+    background: #ff6c14;
+    font-family: Arial, sans-serif;
 }
 
 .bg-button2:hover {
-  background: #f75a00;
+    background: #f75a00;
 }
 
 em-emoji-picker {
-  height: 30vh;
+    height: 30vh;
 }
+
+
 /* ============ flip hover styles ============ */
 
 .card:hover {
-  transform: rotateY(180deg);
-  transform-style: preserve-3d;
+    transform: rotateY(180deg);
+    transform-style: preserve-3d;
 }
 
 .card-back {
-  transform: rotateY(180deg);
+    transform: rotateY(180deg);
 }
 
 .css-e7nvmg-LoadingOverlayWrapperBase {
-  position: unset !important;
+    position: unset !important;
 }
+
+
 /*
 .min-h-screen{
   min-height: 93vh;
@@ -77,460 +81,463 @@ em-emoji-picker {
 */
 
 .crop-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 80px;
 }
 
 .controls {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 50%;
-  transform: translateX(-50%);
-  height: 80px;
-  display: flex;
-  align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 50%;
+    transform: translateX(-50%);
+    height: 80px;
+    display: flex;
+    align-items: center;
 }
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-200px * 6));
-  }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-200px * 6));
+    }
 }
 
 .slider::after {
-  right: 0;
-  top: 0;
-  transform: rotateZ(180deg);
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
 }
 
 .slider::before {
-  left: 0;
-  top: 0;
+    left: 0;
+    top: 0;
 }
 
 .slider .slide-track {
-  animation: scroll 30s linear infinite;
-  display: flex;
-  width: calc(200px * 12);
+    animation: scroll 30s linear infinite;
+    display: flex;
+    width: calc(200px * 12);
 }
 
 .slider .slide {
-  height: 100px;
-  width: 200px;
+    height: 100px;
+    width: 200px;
 }
 
 .gradient {
-  background: linear-gradient(
-    -45deg,
-    #ee7752,
-    #e73c7e,
-    #23a6d5,
-    #23d5ab,
-    #ebe76c
-  );
-  background-size: 400% 400%;
-  animation: gradient 10s ease infinite;
+    background: linear-gradient( -45deg, #ee7752, #e73c7e, #23a6d5, #23d5ab, #ebe76c);
+    background-size: 400% 400%;
+    animation: gradient 10s ease infinite;
 }
 
 @keyframes gradient {
-  0% {
-    background-position: 0% 50%;
-  }
-  50% {
-    background-position: 100% 50%;
-  }
-  100% {
-    background-position: 0% 50%;
-  }
+    0% {
+        background-position: 0% 50%;
+    }
+    50% {
+        background-position: 100% 50%;
+    }
+    100% {
+        background-position: 0% 50%;
+    }
 }
 
 .glitch {
-  position: relative;
-  color: #fff;
-  animation: glitch-skew 1s infinite linear alternate-reverse;
+    position: relative;
+    color: #fff;
+    animation: glitch-skew 1s infinite linear alternate-reverse;
 }
 
 .glitch::before {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  left: 2px;
-  text-shadow: -2px 0 black;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim 10s infinite linear alternate-reverse;
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    left: 2px;
+    text-shadow: -2px 0 black;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim 10s infinite linear alternate-reverse;
 }
 
 .glitch::after {
-  content: attr(data-text);
-  position: absolute;
-  top: 0;
-  left: 0;
-  width: 100%;
-  height: 100%;
-  left: -2px;
-  text-shadow: -2px 0 black, 2px 2px black;
-  clip: rect(44px, 450px, 56px, 0);
-  animation: glitch-anim2 10s infinite linear alternate-reverse;
+    content: attr(data-text);
+    position: absolute;
+    top: 0;
+    left: 0;
+    width: 100%;
+    height: 100%;
+    left: -2px;
+    text-shadow: -2px 0 black, 2px 2px black;
+    clip: rect(44px, 450px, 56px, 0);
+    animation: glitch-anim2 10s infinite linear alternate-reverse;
 }
 
 @keyframes glitch-anim {
-  0% {
-    clip: rect(76px, 9999px, 42px, 0);
-    transform: skew(0.52deg);
-  }
-  5% {
-    clip: rect(62px, 9999px, 75px, 0);
-    transform: skew(0.68deg);
-  }
-  10% {
-    clip: rect(60px, 9999px, 63px, 0);
-    transform: skew(0.72deg);
-  }
-  15% {
-    clip: rect(19px, 9999px, 61px, 0);
-    transform: skew(0.15deg);
-  }
-  20% {
-    clip: rect(1px, 9999px, 87px, 0);
-    transform: skew(0.6deg);
-  }
-  25% {
-    clip: rect(26px, 9999px, 73px, 0);
-    transform: skew(0.61deg);
-  }
-  30% {
-    clip: rect(96px, 9999px, 6px, 0);
-    transform: skew(0.63deg);
-  }
-  35% {
-    clip: rect(39px, 9999px, 89px, 0);
-    transform: skew(0.14deg);
-  }
-  40% {
-    clip: rect(5px, 9999px, 3px, 0);
-    transform: skew(0.68deg);
-  }
-  45% {
-    clip: rect(5px, 9999px, 43px, 0);
-    transform: skew(0.98deg);
-  }
-  50% {
-    clip: rect(36px, 9999px, 70px, 0);
-    transform: skew(0.82deg);
-  }
-  55% {
-    clip: rect(61px, 9999px, 30px, 0);
-    transform: skew(0.63deg);
-  }
-  60% {
-    clip: rect(33px, 9999px, 15px, 0);
-    transform: skew(0.38deg);
-  }
-  65% {
-    clip: rect(83px, 9999px, 27px, 0);
-    transform: skew(0.53deg);
-  }
-  70% {
-    clip: rect(35px, 9999px, 66px, 0);
-    transform: skew(0.04deg);
-  }
-  75% {
-    clip: rect(73px, 9999px, 77px, 0);
-    transform: skew(0.09deg);
-  }
-  80% {
-    clip: rect(69px, 9999px, 64px, 0);
-    transform: skew(0.61deg);
-  }
-  85% {
-    clip: rect(87px, 9999px, 12px, 0);
-    transform: skew(0.7deg);
-  }
-  90% {
-    clip: rect(21px, 9999px, 65px, 0);
-    transform: skew(0.37deg);
-  }
-  95% {
-    clip: rect(10px, 9999px, 8px, 0);
-    transform: skew(0.04deg);
-  }
+    0% {
+        clip: rect(76px, 9999px, 42px, 0);
+        transform: skew(0.52deg);
+    }
+    5% {
+        clip: rect(62px, 9999px, 75px, 0);
+        transform: skew(0.68deg);
+    }
+    10% {
+        clip: rect(60px, 9999px, 63px, 0);
+        transform: skew(0.72deg);
+    }
+    15% {
+        clip: rect(19px, 9999px, 61px, 0);
+        transform: skew(0.15deg);
+    }
+    20% {
+        clip: rect(1px, 9999px, 87px, 0);
+        transform: skew(0.6deg);
+    }
+    25% {
+        clip: rect(26px, 9999px, 73px, 0);
+        transform: skew(0.61deg);
+    }
+    30% {
+        clip: rect(96px, 9999px, 6px, 0);
+        transform: skew(0.63deg);
+    }
+    35% {
+        clip: rect(39px, 9999px, 89px, 0);
+        transform: skew(0.14deg);
+    }
+    40% {
+        clip: rect(5px, 9999px, 3px, 0);
+        transform: skew(0.68deg);
+    }
+    45% {
+        clip: rect(5px, 9999px, 43px, 0);
+        transform: skew(0.98deg);
+    }
+    50% {
+        clip: rect(36px, 9999px, 70px, 0);
+        transform: skew(0.82deg);
+    }
+    55% {
+        clip: rect(61px, 9999px, 30px, 0);
+        transform: skew(0.63deg);
+    }
+    60% {
+        clip: rect(33px, 9999px, 15px, 0);
+        transform: skew(0.38deg);
+    }
+    65% {
+        clip: rect(83px, 9999px, 27px, 0);
+        transform: skew(0.53deg);
+    }
+    70% {
+        clip: rect(35px, 9999px, 66px, 0);
+        transform: skew(0.04deg);
+    }
+    75% {
+        clip: rect(73px, 9999px, 77px, 0);
+        transform: skew(0.09deg);
+    }
+    80% {
+        clip: rect(69px, 9999px, 64px, 0);
+        transform: skew(0.61deg);
+    }
+    85% {
+        clip: rect(87px, 9999px, 12px, 0);
+        transform: skew(0.7deg);
+    }
+    90% {
+        clip: rect(21px, 9999px, 65px, 0);
+        transform: skew(0.37deg);
+    }
+    95% {
+        clip: rect(10px, 9999px, 8px, 0);
+        transform: skew(0.04deg);
+    }
 }
 
 @keyframes glitch-anim2 {
-  0% {
-    clip: rect(21px, 9999px, 61px, 0);
-    transform: skew(1deg);
-  }
-  5% {
-    clip: rect(61px, 9999px, 57px, 0);
-    transform: skew(0.63deg);
-  }
-  10% {
-    clip: rect(46px, 9999px, 58px, 0);
-    transform: skew(0.32deg);
-  }
-  15% {
-    clip: rect(12px, 9999px, 13px, 0);
-    transform: skew(0.61deg);
-  }
-  20% {
-    clip: rect(100px, 9999px, 1px, 0);
-    transform: skew(0.67deg);
-  }
-  25% {
-    clip: rect(51px, 9999px, 1px, 0);
-    transform: skew(0.34deg);
-  }
-  30% {
-    clip: rect(1px, 9999px, 61px, 0);
-    transform: skew(0.09deg);
-  }
-  35% {
-    clip: rect(78px, 9999px, 95px, 0);
-    transform: skew(0.81deg);
-  }
-  40% {
-    clip: rect(19px, 9999px, 16px, 0);
-    transform: skew(0.1deg);
-  }
-  45% {
-    clip: rect(17px, 9999px, 91px, 0);
-    transform: skew(0.77deg);
-  }
-  50% {
-    clip: rect(65px, 9999px, 2px, 0);
-    transform: skew(0.78deg);
-  }
-  55% {
-    clip: rect(100px, 9999px, 64px, 0);
-    transform: skew(0.48deg);
-  }
-  60% {
-    clip: rect(56px, 9999px, 2px, 0);
-    transform: skew(0.44deg);
-  }
-  65% {
-    clip: rect(54px, 9999px, 12px, 0);
-    transform: skew(0.33deg);
-  }
-  70% {
-    clip: rect(35px, 9999px, 35px, 0);
-    transform: skew(0.19deg);
-  }
-  75% {
-    clip: rect(19px, 9999px, 48px, 0);
-    transform: skew(0.57deg);
-  }
-  80% {
-    clip: rect(87px, 9999px, 72px, 0);
-    transform: skew(0.12deg);
-  }
-  85% {
-    clip: rect(47px, 9999px, 25px, 0);
-    transform: skew(0.59deg);
-  }
-  90% {
-    clip: rect(7px, 9999px, 24px, 0);
-    transform: skew(0.14deg);
-  }
-  95% {
-    clip: rect(47px, 9999px, 30px, 0);
-    transform: skew(0.54deg);
-  }
+    0% {
+        clip: rect(21px, 9999px, 61px, 0);
+        transform: skew(1deg);
+    }
+    5% {
+        clip: rect(61px, 9999px, 57px, 0);
+        transform: skew(0.63deg);
+    }
+    10% {
+        clip: rect(46px, 9999px, 58px, 0);
+        transform: skew(0.32deg);
+    }
+    15% {
+        clip: rect(12px, 9999px, 13px, 0);
+        transform: skew(0.61deg);
+    }
+    20% {
+        clip: rect(100px, 9999px, 1px, 0);
+        transform: skew(0.67deg);
+    }
+    25% {
+        clip: rect(51px, 9999px, 1px, 0);
+        transform: skew(0.34deg);
+    }
+    30% {
+        clip: rect(1px, 9999px, 61px, 0);
+        transform: skew(0.09deg);
+    }
+    35% {
+        clip: rect(78px, 9999px, 95px, 0);
+        transform: skew(0.81deg);
+    }
+    40% {
+        clip: rect(19px, 9999px, 16px, 0);
+        transform: skew(0.1deg);
+    }
+    45% {
+        clip: rect(17px, 9999px, 91px, 0);
+        transform: skew(0.77deg);
+    }
+    50% {
+        clip: rect(65px, 9999px, 2px, 0);
+        transform: skew(0.78deg);
+    }
+    55% {
+        clip: rect(100px, 9999px, 64px, 0);
+        transform: skew(0.48deg);
+    }
+    60% {
+        clip: rect(56px, 9999px, 2px, 0);
+        transform: skew(0.44deg);
+    }
+    65% {
+        clip: rect(54px, 9999px, 12px, 0);
+        transform: skew(0.33deg);
+    }
+    70% {
+        clip: rect(35px, 9999px, 35px, 0);
+        transform: skew(0.19deg);
+    }
+    75% {
+        clip: rect(19px, 9999px, 48px, 0);
+        transform: skew(0.57deg);
+    }
+    80% {
+        clip: rect(87px, 9999px, 72px, 0);
+        transform: skew(0.12deg);
+    }
+    85% {
+        clip: rect(47px, 9999px, 25px, 0);
+        transform: skew(0.59deg);
+    }
+    90% {
+        clip: rect(7px, 9999px, 24px, 0);
+        transform: skew(0.14deg);
+    }
+    95% {
+        clip: rect(47px, 9999px, 30px, 0);
+        transform: skew(0.54deg);
+    }
 }
 
 @keyframes glitch-skew {
-  0% {
-    transform: skew(4deg);
-  }
-  10% {
-    transform: skew(1deg);
-  }
-  20% {
-    transform: skew(5deg);
-  }
-  30% {
-    transform: skew(1deg);
-  }
-  40% {
-    transform: skew(1deg);
-  }
-  50% {
-    transform: skew(-2deg);
-  }
-  60% {
-    transform: skew(5deg);
-  }
-  70% {
-    transform: skew(-1deg);
-  }
-  80% {
-    transform: skew(-4deg);
-  }
-  90% {
-    transform: skew(5deg);
-  }
+    0% {
+        transform: skew(4deg);
+    }
+    10% {
+        transform: skew(1deg);
+    }
+    20% {
+        transform: skew(5deg);
+    }
+    30% {
+        transform: skew(1deg);
+    }
+    40% {
+        transform: skew(1deg);
+    }
+    50% {
+        transform: skew(-2deg);
+    }
+    60% {
+        transform: skew(5deg);
+    }
+    70% {
+        transform: skew(-1deg);
+    }
+    80% {
+        transform: skew(-4deg);
+    }
+    90% {
+        transform: skew(5deg);
+    }
 }
 
 .crop-container {
-  position: absolute;
-  top: 0;
-  left: 0;
-  right: 0;
-  bottom: 80px;
+    position: absolute;
+    top: 0;
+    left: 0;
+    right: 0;
+    bottom: 80px;
 }
 
 .controls {
-  position: absolute;
-  bottom: 0;
-  left: 50%;
-  width: 50%;
-  transform: translateX(-50%);
-  height: 80px;
-  display: flex;
-  align-items: center;
+    position: absolute;
+    bottom: 0;
+    left: 50%;
+    width: 50%;
+    transform: translateX(-50%);
+    height: 80px;
+    display: flex;
+    align-items: center;
 }
 
 @keyframes scroll {
-  0% {
-    transform: translateX(0);
-  }
-  100% {
-    transform: translateX(calc(-200px * 6));
-  }
+    0% {
+        transform: translateX(0);
+    }
+    100% {
+        transform: translateX(calc(-200px * 6));
+    }
 }
 
 .slider::after {
-  right: 0;
-  top: 0;
-  transform: rotateZ(180deg);
+    right: 0;
+    top: 0;
+    transform: rotateZ(180deg);
 }
 
 .slider::before {
-  left: 0;
-  top: 0;
+    left: 0;
+    top: 0;
 }
 
 .slider .slide-track {
-  animation: scroll 30s linear infinite;
-  display: flex;
-  width: calc(200px * 12);
+    animation: scroll 30s linear infinite;
+    display: flex;
+    width: calc(200px * 12);
 }
 
 .slider .slide {
-  height: 100px;
-  width: 200px;
+    height: 100px;
+    width: 200px;
 }
+
+
 /* ======= video calls ======== */
 
 #videos {
-  display: grid;
-  grid-template-columns: 1fr;
-  height: 100vh;
-  overflow: hidden;
-  position: relative;
+    display: grid;
+    gap: 20px;
+    height: 100vh;
+    overflow: hidden;
+    position: relative;
+    position: absolute;
+    right: 10%;
+    top: 150px;
+    /* grid-template-rows: 0fr; */
 }
 
 .video-player {
-  background-color: black;
-  width: 100%;
-  height: 100%;
-  object-fit: cover;
+    background-color: black;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
 }
 
 #user-2 {
-  display: none;
+    display: none;
 }
 
 .smallFrame {
-  position: absolute;
-  /* bottom: 177px; */
-  right: 0px;
-  top: 0;
-  /* left: 0px; */
-  height: 150px;
-  width: 250px;
-  border-radius: 5px;
-  border: 2px solid #fff;
-  box-shadow: 3px 3px 15px -1px rgba(0, 0, 0, 0.77);
-  z-index: 999;
+    /* position: absolute; */
+    /* bottom: 177px; */
+    /* right: 0px;
+  top: 0; */
+    /* left: 0px; */
+    height: 150px;
+    width: 250px;
+    border-radius: 5px;
+    border: 2px solid #fff;
+    box-shadow: 3px 3px 15px -1px rgba(0, 0, 0, 0.77);
+    z-index: 999;
+    ;
 }
 
 #controls {
-  position: fixed;
-  bottom: 20px;
-  left: 50%;
-  transform: translateX(-50%);
-  display: flex;
-  gap: 1em;
+    position: fixed;
+    bottom: 20px;
+    left: 50%;
+    transform: translateX(-50%);
+    display: flex;
+    gap: 1em;
 }
 
 .control-container {
-  padding: 20px;
-  border-radius: 50%;
-  display: flex;
-  justify-content: center;
-  align-items: center;
-  cursor: pointer;
+    padding: 20px;
+    border-radius: 50%;
+    display: flex;
+    justify-content: center;
+    align-items: center;
+    cursor: pointer;
 }
 
 .control-container img {
-  height: 30px;
-  width: 30px;
+    height: 30px;
+    width: 30px;
 }
 
 #leave-btn {
-  background-color: rgb(255, 80, 80, 1);
+    background-color: rgb(255, 80, 80, 1);
 }
 
 @media screen and (max-width: 600px) {
-  .smallFrame {
-    height: 80px;
-    width: 120px;
-  }
-  .control-container img {
-    height: 20px;
-    width: 20px;
-  }
+    .smallFrame {
+        height: 80px;
+        width: 120px;
+    }
+    .control-container img {
+        height: 20px;
+        width: 20px;
+    }
 }
 
 #form-container {
-  width: 90%;
-  max-width: 600px;
-  border-radius: 10px;
-  background-color: #262625;
-  position: fixed;
-  top: 50%;
-  left: 50%;
-  transform: translate(-50%, -50%);
+    width: 90%;
+    max-width: 600px;
+    border-radius: 10px;
+    background-color: #262625;
+    position: fixed;
+    top: 50%;
+    left: 50%;
+    transform: translate(-50%, -50%);
 }
 
 #form__container__header {
-  border-radius: 10px 10px 0 0;
-  padding: 30px;
-  text-align: center;
-  background-color: #363739;
-  margin: 0;
-  font-size: 18px;
-  font-size: 300;
-  line-height: 0;
+    border-radius: 10px 10px 0 0;
+    padding: 30px;
+    text-align: center;
+    background-color: #363739;
+    margin: 0;
+    font-size: 18px;
+    font-size: 300;
+    line-height: 0;
 }
 
 #form__content__wrapper {
-  padding: 20px;
+    padding: 20px;
 }
 
+
 /*******************************    Halloween  *******************************/
+
+
 /* 
 .head {
   width: 99px;
@@ -546,6 +553,7 @@ em-emoji-picker {
     transform: translateY(20px);
   }
 } */
+
 
 /* .head::after {
   content: "O";
@@ -624,346 +632,381 @@ em-emoji-picker {
 } */
 
 span.span-halloween::before {
-  content: "NFTs are dead";
-  animation: animate infinite 30s;
+    content: "NFTs are dead";
+    animation: animate infinite 30s;
 }
 
 @keyframes animate {
-  0% {
-    content: "NFTs are dead";
-  }
-
-  50% {
-    content: "BLOCKD Headz mint is live";
-  }
-
-  75% {
-    content: "Fuck everyone!";
-  }
+    0% {
+        content: "NFTs are dead";
+    }
+    50% {
+        content: "BLOCKD Headz mint is live";
+    }
+    75% {
+        content: "Fuck everyone!";
+    }
 }
 
 #spooky {
-  animation: floaty 3s infinite;
+    animation: floaty 3s infinite;
 }
 
 #spooky #body {
-  position: relative;
-  width: 80px;
-  height: 100px;
-  background: #edf1f2;
-  border-top-left-radius: 90px;
-  border-top-right-radius: 90px;
+    position: relative;
+    width: 80px;
+    height: 100px;
+    background: #edf1f2;
+    border-top-left-radius: 90px;
+    border-top-right-radius: 90px;
 }
 
 #spooky #body:before,
 #spooky #body:after {
-  content: "";
-  position: absolute;
-  top: 55px;
-  display: inline-block;
-  width: 30px;
-  height: 20px;
-  border-radius: 50%;
-  background: #edf1f2;
-  animation: floaty2 1s infinite;
+    content: "";
+    position: absolute;
+    top: 55px;
+    display: inline-block;
+    width: 30px;
+    height: 20px;
+    border-radius: 50%;
+    background: #edf1f2;
+    animation: floaty2 1s infinite;
 }
 
 #spooky #body:before {
-  left: -10px;
+    left: -10px;
 }
 
 #spooky #body:after {
-  right: -10px;
+    right: -10px;
 }
 
 #spooky #body #eyes {
-  display: flex;
-  color: black;
-  margin: 0 auto;
-  width: 45px;
-  height: 20px;
-  justify-content: space-between;
-  padding: 30px 0 0;
+    display: flex;
+    color: black;
+    margin: 0 auto;
+    width: 45px;
+    height: 20px;
+    justify-content: space-between;
+    padding: 30px 0 0;
 }
 
 #spooky #body #eyes:before,
 #spooky #body #eyes:after {
-  content: " ";
-  display: black;
-  width: 15px;
-  height: 15px;
-  background: black;
-  border-radius: 50%;
+    content: " ";
+    display: black;
+    width: 15px;
+    height: 15px;
+    background: black;
+    border-radius: 50%;
 }
 
 #spooky #body #mouth {
-  background: black;
-  margin: 25px auto 0;
-  width: 40px;
-  height: 20px;
-  border-radius: 50%;
-  animation: zoomy 3s infinite;
+    background: black;
+    margin: 25px auto 0;
+    width: 40px;
+    height: 20px;
+    border-radius: 50%;
+    animation: zoomy 3s infinite;
 }
 
 #spooky #body #feet {
-  position: absolute;
-  display: flex;
-  bottom: -18px;
-  width: 80px;
-  height: 36px;
+    position: absolute;
+    display: flex;
+    bottom: -18px;
+    width: 80px;
+    height: 36px;
 }
 
-#spooky #body #feet > *,
+#spooky #body #feet>*,
 #spooky #body #feet::before,
 #spooky #body #feet::after {
-  content: " ";
-  width: 36px;
-  height: 35px;
-  background: #edf1f2;
-  border-radius: 50%;
-  border-bottom: 10px solid #800000;
+    content: " ";
+    width: 36px;
+    height: 35px;
+    background: #edf1f2;
+    border-radius: 50%;
+    border-bottom: 10px solid #800000;
 }
 
 @keyframes floaty {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-20px);
-  }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-20px);
+    }
 }
 
 @keyframes floaty2 {
-  0%,
-  100% {
-    transform: translateY(0);
-  }
-
-  50% {
-    transform: translateY(-10px);
-  }
+    0%,
+    100% {
+        transform: translateY(0);
+    }
+    50% {
+        transform: translateY(-10px);
+    }
 }
 
 @keyframes zoomy {
-  0%,
-  100% {
-    transform: scale(1);
-  }
-
-  50% {
-    transform: scale(0.8);
-  }
+    0%,
+    100% {
+        transform: scale(1);
+    }
+    50% {
+        transform: scale(0.8);
+    }
 }
 
-*,:after,:before{box-sizing:border-box}
-.pull-left{float:left}
-.pull-right{float:right}
-.clearfix:after,.clearfix:before{content:'';display:table}
-.clearfix:after{clear:both;display:block}
+*,
+:after,
+:before {
+    box-sizing: border-box
+}
+
+.pull-left {
+    float: left
+}
+
+.pull-right {
+    float: right
+}
+
+.clearfix:after,
+.clearfix:before {
+    content: '';
+    display: table
+}
+
+.clearfix:after {
+    clear: both;
+    display: block
+}
 
 .halloween .head .skull:before,
 .halloween .head .skull:after,
 .halloween .eyes .eye:before,
 .halloween .body:before,
 .halloween .body:after,
-.halloween .legs:before{
-	content:'';
-	position:absolute;
+.halloween .legs:before {
+    content: '';
+    position: absolute;
 }
-.halloween{
-	width:30px;
-	height:44px;
-	animation:move 3s infinite;
+
+.halloween {
+    width: 30px;
+    height: 44px;
+    animation: move 3s infinite;
 }
-.halloween .head{
-	z-index:1;
-	width:25px;
-	height:25px;
-	background:#444;
-	border-radius:50%;
-	position:relative;
+
+.halloween .head {
+    z-index: 1;
+    width: 25px;
+    height: 25px;
+    background: #444;
+    border-radius: 50%;
+    position: relative;
 }
-.halloween .head .skull{
-	left:2px;
-	bottom:2px;
-	width:16px;
-	height:16px;
-	color:#f9f9f9;
-	border-radius:50%;
-	background:#f9f9f9;
-	position:absolute;
-	animation:skull 3s infinite;
+
+.halloween .head .skull {
+    left: 2px;
+    bottom: 2px;
+    width: 16px;
+    height: 16px;
+    color: #f9f9f9;
+    border-radius: 50%;
+    background: #f9f9f9;
+    position: absolute;
+    animation: skull 3s infinite;
 }
-.halloween .head .skull:before{
-	top:9px;
-	width:0;
-	left:50%;
-	height:0;
-	z-index:1;
-	margin-left:-2px;
-	border:2px solid transparent;
-	border-bottom:2px solid #444;
+
+.halloween .head .skull:before {
+    top: 9px;
+    width: 0;
+    left: 50%;
+    height: 0;
+    z-index: 1;
+    margin-left: -2px;
+    border: 2px solid transparent;
+    border-bottom: 2px solid #444;
 }
-.halloween .head .skull:after{
-	top:14px;
-	left:50%;
-	width:1px;
-	height:4px;
-	margin-left:-1px;
-	background:#f9f9f9;
-	box-shadow: 2px 0,-2px 0,4px 0,-4px 0,
-				-3px -2px,-1px -2px,1px -2px,3px -2px
+
+.halloween .head .skull:after {
+    top: 14px;
+    left: 50%;
+    width: 1px;
+    height: 4px;
+    margin-left: -1px;
+    background: #f9f9f9;
+    box-shadow: 2px 0, -2px 0, 4px 0, -4px 0, -3px -2px, -1px -2px, 1px -2px, 3px -2px
 }
-.halloween .eyes{
-	width:inherit;
-	height:inherit;
-	overflow:hidden;
-	border-radius:50%;
-	position:relative;
+
+.halloween .eyes {
+    width: inherit;
+    height: inherit;
+    overflow: hidden;
+    border-radius: 50%;
+    position: relative;
 }
-.halloween .eyes .eye{
-	top:5px;
-	width:5px;
-	height:5px;
-	position:absolute;
-	border-radius:50%;
-	background:#f8cd22;
-	border:1px solid #444;
-	border-right:2px solid #444;
+
+.halloween .eyes .eye {
+    top: 5px;
+    width: 5px;
+    height: 5px;
+    position: absolute;
+    border-radius: 50%;
+    background: #f8cd22;
+    border: 1px solid #444;
+    border-right: 2px solid #444;
 }
-.halloween .eyes .eye:before{
-	top:-1px;
-	left:-1px;
-	width:5px;
-	height:3px;
-	background:#f9f9f9;
-	border-radius:5px 5px 0 0;
-	animation:eyes 3s infinite;
+
+.halloween .eyes .eye:before {
+    top: -1px;
+    left: -1px;
+    width: 5px;
+    height: 3px;
+    background: #f9f9f9;
+    border-radius: 5px 5px 0 0;
+    animation: eyes 3s infinite;
 }
-.halloween .eyes .eye.eye-left{
-	left:1px;
+
+.halloween .eyes .eye.eye-left {
+    left: 1px;
 }
-.halloween .eyes .eye.eye-right{
-	right:1px;
+
+.halloween .eyes .eye.eye-right {
+    right: 1px;
 }
-.halloween .body{
-	top:-3px;
-	width:24px;
-	height:17px;
-	background:#444;
-	position:relative;
-	border-radius:10px 10px 2px 2px;
+
+.halloween .body {
+    top: -3px;
+    width: 24px;
+    height: 17px;
+    background: #444;
+    position: relative;
+    border-radius: 10px 10px 2px 2px;
 }
+
 .halloween .body:before,
-.halloween .body:after{
-	top:3px;
-	width:4px;
-	height:12px;
-	background:#444;
+.halloween .body:after {
+    top: 3px;
+    width: 4px;
+    height: 12px;
+    background: #444;
 }
-.halloween .body:before{
-	left:-1px;
-	border-radius:100% 0 0 2px;
-	transform:rotate(10deg);
-	animation:hand-left 3s infinite;
+
+.halloween .body:before {
+    left: -1px;
+    border-radius: 100% 0 0 2px;
+    transform: rotate(10deg);
+    animation: hand-left 3s infinite;
 }
-.halloween .body:after{
-	right:-1px;
-	border-radius:0 100% 2px 0;
-	transform:rotate(-10deg);
-	animation:hand-right 3s infinite;
+
+.halloween .body:after {
+    right: -1px;
+    border-radius: 0 100% 2px 0;
+    transform: rotate(-10deg);
+    animation: hand-right 3s infinite;
 }
-.halloween .legs{
-	top:-3px;
-	left:50%;
-	width:21px;
-	height:10px;
-	overflow:hidden;
-	margin-left:-13px;
-	position:relative;
-	border-bottom:1px solid rgba(0,0,0,.2);
+
+.halloween .legs {
+    top: -3px;
+    left: 50%;
+    width: 21px;
+    height: 10px;
+    overflow: hidden;
+    margin-left: -13px;
+    position: relative;
+    border-bottom: 1px solid rgba(0, 0, 0, .2);
 }
-.halloween .legs:before{
-	top:0;
-	left:-7px;
-	width:60px;
-	height:10px;
-	background-image:linear-gradient(-495deg, #444 4px,transparent 0), linear-gradient(-45deg, transparent 4px, #444 0);
-	background-size:4px 8px;
-	background-repeat:repeat-x;
-	animation:legs 3s infinite;
+
+.halloween .legs:before {
+    top: 0;
+    left: -7px;
+    width: 60px;
+    height: 10px;
+    background-image: linear-gradient(-495deg, #444 4px, transparent 0), linear-gradient(-45deg, transparent 4px, #444 0);
+    background-size: 4px 8px;
+    background-repeat: repeat-x;
+    animation: legs 3s infinite;
 }
-@keyframes move{
-	0%{
-		transform:translateX(0)
-	}
-	50%{
-		transform:translateX(15px)
-	}
-	100%{
-		transform:translateX(0)
-	}
+
+@keyframes move {
+    0% {
+        transform: translateX(0)
+    }
+    50% {
+        transform: translateX(15px)
+    }
+    100% {
+        transform: translateX(0)
+    }
 }
-@keyframes skull{
-	0%{
-		transform:translate(0,0)
-	}
-	25%{
-		transform:translate(2px,1px)
-	}
-	75%{
-		transform:translate(3px,-1px)
-	}
-	100%{
-		transform:translate(0,0)
-	}
+
+@keyframes skull {
+    0% {
+        transform: translate(0, 0)
+    }
+    25% {
+        transform: translate(2px, 1px)
+    }
+    75% {
+        transform: translate(3px, -1px)
+    }
+    100% {
+        transform: translate(0, 0)
+    }
 }
-@keyframes eyes{
-	0%{
-		top:-5px;
-		border-radius:50%;
-	}
-	50%{
-		top:-1px;
-		border-radius:5px 5px 0 0;
-	}
-	100%{
-		top:-5px;
-		border-radius:50%;
-	}
+
+@keyframes eyes {
+    0% {
+        top: -5px;
+        border-radius: 50%;
+    }
+    50% {
+        top: -1px;
+        border-radius: 5px 5px 0 0;
+    }
+    100% {
+        top: -5px;
+        border-radius: 50%;
+    }
 }
-@keyframes legs{
-	0%{
-		left:-7px;
-	}
-	50%{
-		left:-25px;
-	}
-	100%{
-		left:-7px;
-	}
+
+@keyframes legs {
+    0% {
+        left: -7px;
+    }
+    50% {
+        left: -25px;
+    }
+    100% {
+        left: -7px;
+    }
 }
-@keyframes hand-left{
-	0%{
-		left:1px;
-	}
-	50%{
-		left:-2px;
-	}
-	100%{
-		left:1px;
-	}
+
+@keyframes hand-left {
+    0% {
+        left: 1px;
+    }
+    50% {
+        left: -2px;
+    }
+    100% {
+        left: 1px;
+    }
 }
-@keyframes hand-right{
-	0%{
-		right:1px;
-	}
-	50%{
-		right:-2px;
-	}
-	100%{
-		right:1px;
-	}
+
+@keyframes hand-right {
+    0% {
+        right: 1px;
+    }
+    50% {
+        right: -2px;
+    }
+    100% {
+        right: 1px;
+    }
 }

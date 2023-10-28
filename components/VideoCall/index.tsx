@@ -14,6 +14,8 @@ import { getCookie, deleteCookie } from "cookies-next";
 import { useEffect, useRef, useState } from "react";
 import { fetchUser } from "../../stores/user/UserActions";
 import { forEach, isEmpty } from "lodash";
+import toast, { Toaster } from "react-hot-toast";
+
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 
 function VideoCall() {
@@ -48,12 +50,17 @@ function VideoCall() {
   let candidateCreated: boolean = false;
   let answerCreated: boolean = false;
   let answerAdded: boolean = false;
+  let originalpresenceData: any = [];
 
   const [otherUser, setOtherUser] = useState();
   const [camera, setCamera] = useState<boolean>(false);
   const [mic, setMic] = useState<boolean>(true);
   const [localStream, setLocalStream] = useState<any>();
   const peerConnection = useRef<any>();
+  const createPeerConnectionMembersId = useRef<any>([]);
+
+  const video1 =useRef<any>();
+  const video2 = useRef<any>();
 
   //let peerConnection.current: any;
   let old_candidate: any;
@@ -105,7 +112,13 @@ function VideoCall() {
   useEffect(() => {
     //getOtherUser();
   }, []);
-
+  const setNewUserJoined = async (user_id: any) => {
+    await dispatch(fetchUser(user_id)).then((result: any) => {
+      console.log("videocall", { result });
+      //  await new Promise((f) => setTimeout(f, 1000));
+      toast(result?.name + " join the call");
+    });
+  };
   // const getOtherUser = async () => {
   //   var otherUser_id = "";
   //   if (authUser?.id == call?.caller_id) {
@@ -266,15 +279,34 @@ function VideoCall() {
   console.log("videocall", { localStream });
   useEffect(() => {
     presenceData.map((msg, index) => handleUserJoined(msg.clientId));
+
+    //handleUserJoined()
   }, [presenceData]);
 
   let handleUserJoined = async (clientId: String) => {
+    if (isEmpty(originalpresenceData)) {
+      await originalpresenceData.push(clientId);
+    } else if (originalpresenceData.includes(clientId) === false) {
+      console.log(
+        originalpresenceData.includes(clientId),
+        clientId,
+        "setNewUserJoined",
+        originalpresenceData
+      );
+
+      await originalpresenceData.push(clientId);
+      var user_id = clientId.split("-")[2];
+      if (user_id != authUser.id && user_id != call?.caller_id) {
+        await setNewUserJoined(user_id);
+      }
+    }
     console.log("videocall", "handleUserJoined", clientId, call);
     if (`user-id-${authUser.id}` !== `user-id-${call?.caller_id}`) {
       console.log("videocall", "A new user joined the channel:", clientId);
 
       return;
     }
+
     if (!offerCreated) {
       offerCreated = true;
       createOffer(clientId);
@@ -315,11 +347,29 @@ function VideoCall() {
   };
 
   const createPeerConnection = async (MemberId: any) => {
-    console.log("enter createPeerConnection");
+    var new_member = false;
+    var new_video: any = "";
+    const videos = document.getElementById("videos");
+    console.log("enter createPeerConnection", MemberId);
     peerConnection.current = new RTCPeerConnection(servers);
+    if (!createPeerConnectionMembersId.current.includes(MemberId)) {
+      console.log(
+        createPeerConnectionMembersId,
+        MemberId,
+        "createPeerConnectionMembersId"
+        ,authUser.id
+      );
+      createPeerConnectionMembersId.current.push(MemberId);
+    }
+    new_member = true;
+    new_video = document.createElement("video");
+    new_video.autoplay = true;
+    new_video.playsInline = true;
+    new_video.muted = true;
+    new_video.className="video-player smallFrame";
 
     video1.current.classList.add("smallFrame");
-    //video2.current.classList.add("smallFrame");
+    video2.current.classList.add("smallFrame");
 
     if (!localStream) {
       var new_stream: MediaStream | undefined = await getMedia();
@@ -339,6 +389,7 @@ function VideoCall() {
           remoteStream.addTrack(track);
         });
       };
+      new_video.srcObject = remoteStream;
       video2.current.srcObject = remoteStream;
     }
 
@@ -365,7 +416,7 @@ function VideoCall() {
     console.log("videocall", { remoteStream });
 
     video2.current.style.display = "block";
-
+    videos?.append(new_video);
     return peerConnection.current;
   };
 
@@ -401,8 +452,7 @@ function VideoCall() {
 
   console.log("videocall", localStream, "localStream");
 
-  const video1 = useRef<any>();
-  const video2 = useRef<any>();
+ 
 
   const members = presenceData.map((msg, index) => (
     <li key={index}>{/* {msg.clientId}: {msg.data} */}</li>
@@ -410,48 +460,30 @@ function VideoCall() {
   //video1.srcObject =localStream
   // document.getElementById('user-1').srcObject = localStream
 
-  let createAnswer = async (MemberId: any, offer: any) => {
-    console.log("videocall", "createAnswer", offer);
-    await createPeerConnection(MemberId);
+  // let createAnswer = async (MemberId: any, offer: any) => {
+  //   console.log("videocall", "createAnswer", offer);
+  //   await createPeerConnection(MemberId);
 
-    await peerConnection.current.setRemoteDescription(offer);
+  //   await peerConnection.current.setRemoteDescription(offer);
 
-    let answer = await peerConnection.current.createAnswer();
-    await peerConnection.current.setLocalDescription(answer);
+  //   let answer = await peerConnection.current.createAnswer();
+  //   await peerConnection.current.setLocalDescription(answer);
 
-    channel.publish(`answer-${room_id}`, {
-      type: "answer",
-      answer: answer,
-      userId: MemberId,
-    });
-  };
+  //   channel.publish(`answer-${room_id}`, {
+  //     type: "answer",
+  //     answer: answer,
+  //     userId: MemberId,
+  //   });
+  // };
   // useEffect(() => {
   //   console.log(remoteStream.getVideoTracks(), 'VideoCall remoteStream.getVideoTracks()[0]');
   // },[remoteStream.getTracks()])
 
   return (
+    <>
     <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
-      <div id="videos">
-        <video
-         poster={'https://picsum.photos/200/300'}
-          ref={video1}
-          className="video-player"
-          id="user-1"
-          autoPlay
-          playsInline
-          muted
-        />
-        {/* <img src="https://picsum.photos/200/300" className="video-player -z-1" /> */}
-
-        <video
-          ref={video2}
-          className="video-player"
-          id="user-2"
-          autoPlay
-          playsInline
-        />
-      </div>
-      {video1?.current?.srcObject?.id ? (
+      
+      {video1.current?.srcObject?.id ? (
         <>
           video1: {video1.current?.srcObject?.id} <br />
           video2: {video2.current?.srcObject?.id}
@@ -477,7 +509,7 @@ function VideoCall() {
         </div>
 
         <div
-        onClick={() => toggleMic()}
+          onClick={() => toggleMic()}
           className={
             mic
               ? "control-container bg-[#FF6666]"
@@ -485,7 +517,7 @@ function VideoCall() {
           }
           id="mic-btn"
         >
-          <MicrophoneIcon className="h-6 w-6"  />
+          <MicrophoneIcon className="h-6 w-6" />
         </div>
 
         <a onClick={() => leaveCall()}>
@@ -495,6 +527,27 @@ function VideoCall() {
         </a>
       </div>
     </div>
+      <div id="videos">
+      <video
+        //poster={'https://picsum.photos/200/300'}
+        ref={video1}
+        className="video-player"
+        id="video1"
+        autoPlay
+        playsInline
+        muted
+      />
+      {/* <img src="https://picsum.photos/200/300" className="video-player -z-1" /> */}
+
+      <video
+        ref={video2}
+        className="video-player"
+        id="video2"
+        autoPlay
+        playsInline
+      />
+    </div>
+    </>
   );
 }
 export default VideoCall;

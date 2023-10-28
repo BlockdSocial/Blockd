@@ -413,7 +413,7 @@ const Navbar = () => {
   }
 
   const goToLoby = async () => {
-    await addParticipant();
+    //await addParticipant();
     setShowCallModal(false);
     configureAbly({
       authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,

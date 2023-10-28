@@ -8,6 +8,7 @@ const endpoints = {
   checkUserBalance: 'check/user/balance',
   createCall: 'user/create/call',
   addParticipant: 'call/add/participant',
+  getParticipants: 'call/participants',
 };
 
 async function createMessage(fields: any) {
@@ -18,6 +19,9 @@ async function createCall(fields: any) {
 };
 async function addParticipant(fields: any) {
   return apiCall('addParticipant', 'POST', `${endpoints.addParticipant}`, fields);
+};
+async function getParticipants(call_id: any) {
+  return apiCall('addParticipant', 'GET', `${endpoints.getParticipants}/${call_id}`);
 };
 async function checkUserBalance(fields: any) {
   return apiCall('checkUserBalance', 'POST', `${endpoints.checkUserBalance}`, fields);
@@ -126,6 +130,7 @@ export default {
   fetchMessage,
   fetchRoomMessage,
   addParticipant,
+  getParticipants,
   leaveRoom,
   checkUserBalance
 };
