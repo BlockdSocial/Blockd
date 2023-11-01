@@ -153,7 +153,7 @@ function VideoCall() {
             console.error("Invalid state for setting remote answer");
             return;
           }
-          //answerAdded = true;
+          answerAdded = true;
           await peerConnection.current.setRemoteDescription(
             new RTCSessionDescription(data.answer)
           );
@@ -171,8 +171,8 @@ function VideoCall() {
           );
           return;
         }
-        if (!candidateCreated && peerConnection.current?.addIceCandidate) {
-          console.log("videocall", "enter candidate");
+        if (!candidateCreated && !peerConnection.current?.addIceCandidate) {
+          console.log("videocall", "enter candidate", data.candidate);
           //  candidateCreated = true;
           await peerConnection.current.addIceCandidate(
             new RTCIceCandidate(data.candidate)
@@ -194,12 +194,13 @@ function VideoCall() {
         //hussein
         //peerConnection.current = data.peerConnection.current;
         console.log("videoCall data.peerConnection.current", data);
-        await peerConnection.current.setRemoteDescription(
-          new RTCSessionDescription(data.offer)
-        );
+
         let answer = await peerConnection.current.createAnswer();
         console.log("videocall", "answer", answer);
         await peerConnection.current.setLocalDescription(answer);
+        await peerConnection.current.setRemoteDescription(
+          new RTCSessionDescription(data.offer)
+        );
         channel.publish(`answer-${room_id}`, {
           type: "answer",
           answer: answer,
@@ -309,7 +310,7 @@ function VideoCall() {
           call?.caller_id
         );
 
-        await createOffer(clientId);
+        createOffer(clientId);
       }
     }
     console.log("videocall", "handleUserJoined", clientId, is_new_user);
@@ -368,11 +369,9 @@ function VideoCall() {
 
     if (!localStream) {
       var new_stream: MediaStream | undefined = await getMedia();
-      console.log("videocall", "aaaaaaa", new_stream);
       if (new_stream) {
       }
     } else {
-      console.log("videocall", "bbbbb", localStream);
       localStream.getTracks().forEach((track: any) => {
         peerConnection.current.addTrack(track, localStream);
       });
@@ -388,8 +387,8 @@ function VideoCall() {
       );
       createPeerConnectionMembersId.current.push(MemberId);
       if (
-        MemberId == `user-id-${authUser?.id}` &&
-        `${authUser.id}` === `${call?.caller_id}`
+        `${authUser.id}` === `${call?.caller_id}` &&
+        MemberId === `user-id-${authUser.id}`
       ) {
       } else {
         new_member = true;
@@ -400,11 +399,11 @@ function VideoCall() {
         new_video.className = "video-player smallFrame";
 
         peerConnection.current.ontrack = (event: any) => {
-          console.log("videocall peerConnection.current.ontrack", event);
           event.streams[0].getTracks().forEach((track: any) => {
             remoteStream.addTrack(track);
           });
         };
+        console.log("videocall peerConnection.current.ontrack", remoteStream);
         new_video.srcObject = remoteStream;
         videos?.append(new_video);
       }
@@ -412,15 +411,15 @@ function VideoCall() {
 
     //video2.current.classList.add("smallFrame");
 
-   // if (isEmpty(video2.current.srcObject)) {
-      // peerConnection.current.ontrack = (event: any) => {
-      //   console.log("videocall peerConnection.current.ontrack", event);
-      //   event.streams[0].getTracks().forEach((track: any) => {
-      //     remoteStream.addTrack(track);
-      //   });
-      // };
-      // new_video.srcObject = remoteStream;
-      // video2.current.srcObject = remoteStream;
+    // if (isEmpty(video2.current.srcObject)) {
+    // peerConnection.current.ontrack = (event: any) => {
+    //   console.log("videocall peerConnection.current.ontrack", event);
+    //   event.streams[0].getTracks().forEach((track: any) => {
+    //     remoteStream.addTrack(track);
+    //   });
+    // };
+    // new_video.srcObject = remoteStream;
+    // video2.current.srcObject = remoteStream;
     //}
 
     //   peerConnection.current.addEventListener('track', async (event:any) => {
