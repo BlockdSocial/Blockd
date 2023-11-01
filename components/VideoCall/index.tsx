@@ -59,9 +59,8 @@ function VideoCall() {
   const createPeerConnectionMembersId = useRef<any>([]);
   const originalpresenceData = useRef<any>([]);
 
-
-  const video1 =useRef<any>();
-  const video2 = useRef<any>();
+  const video1 = useRef<any>();
+  //const video2 = useRef<any>();
 
   //let peerConnection.current: any;
   let old_candidate: any;
@@ -75,29 +74,29 @@ function VideoCall() {
     router.query.room_id ||
     parseQueryString(window.location.search.substring(1)).room_id;
 
-  const servers = {
-    iceServers: [
-      {
-        urls: [
-          "stun:stun1.l.google.com:19302",
-          "stun:stun2.l.google.com:19302",
-        ],
-      },
-      //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
-    ],
-  };
   // const servers = {
   //   iceServers: [
   //     {
-  //       urls: "stun:143.244.152.126:3478",
+  //       urls: [
+  //         "stun:stun1.l.google.com:19302",
+  //         "stun:stun2.l.google.com:19302",
+  //       ],
   //     },
-  //     {
-  //       urls: "turn:143.244.152.126:3478",
-  //       username: "turnuser",
-  //       credential: "turn456",
-  //     },
+  //     //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
   //   ],
   // };
+  const servers = {
+    iceServers: [
+      {
+        urls: "stun:143.244.152.126:3478",
+      },
+      {
+        urls: "turn:143.244.152.126:3478",
+        username: "turnuser",
+        credential: "turn456",
+      },
+    ],
+  };
   let constraints = {
     video: {
       width: { min: 640, ideal: 1920, max: 1920 },
@@ -147,7 +146,7 @@ function VideoCall() {
 
       if (data.type === "answer") {
         if (!answerAdded) {
-          console.log("videocall", "enter answer", answerAdded);
+          console.log("videocall", "enter answer", data.answer);
           //setAnswerAdded(true);
 
           if (peerConnection.current?.signalingState !== "have-local-offer") {
@@ -189,23 +188,23 @@ function VideoCall() {
       if (data.type === "offer") {
         // if (!answerCreated ) {
         //  answerCreated = true;
-          console.log("videocall", "enter offer", answerCreated);
-  
-          await createPeerConnection(data.userId);
-          //hussein
-          //peerConnection.current = data.peerConnection.current;
-          console.log("videoCall data.peerConnection.current", data);
-          await peerConnection.current.setRemoteDescription(
-            new RTCSessionDescription(data.offer)
-          );
-          let answer = await peerConnection.current.createAnswer();
-          console.log("videocall", "answer", answer);
-          await peerConnection.current.setLocalDescription(answer);
-          channel.publish(`answer-${room_id}`, {
-            type: "answer",
-            answer: answer,
-            userId: data.userId,
-          });
+        console.log("videocall", "enter offer", answerCreated);
+
+        await createPeerConnection(data.userId);
+        //hussein
+        //peerConnection.current = data.peerConnection.current;
+        console.log("videoCall data.peerConnection.current", data);
+        await peerConnection.current.setRemoteDescription(
+          new RTCSessionDescription(data.offer)
+        );
+        let answer = await peerConnection.current.createAnswer();
+        console.log("videocall", "answer", answer);
+        await peerConnection.current.setLocalDescription(answer);
+        channel.publish(`answer-${room_id}`, {
+          type: "answer",
+          answer: answer,
+          userId: data.userId,
+        });
         // }
       }
 
@@ -285,8 +284,8 @@ function VideoCall() {
   let handleUserJoined = async (clientId: String) => {
     // if (isEmpty(originalpresenceData.current)) {
     //   await originalpresenceData.current.push(clientId);
-    // } else 
-    var is_new_user:boolean = false;
+    // } else
+    var is_new_user: boolean = false;
     if (!originalpresenceData.current.includes(clientId)) {
       is_new_user = true;
       console.log(
@@ -299,13 +298,18 @@ function VideoCall() {
       originalpresenceData.current.push(clientId);
       var user_id = clientId.split("-")[2];
       if (user_id != authUser.id && user_id != call?.caller_id) {
-      
         await setNewUserJoined(user_id);
       }
-      if( authUser.id ===  call?.caller_id) {
-        console.log("videocall", "createOffer", clientId, authUser.id, call?.caller_id);
+      if (authUser.id === call?.caller_id) {
+        console.log(
+          "videocall",
+          "createOffer",
+          clientId,
+          authUser.id,
+          call?.caller_id
+        );
 
-        createOffer(clientId);
+        await createOffer(clientId);
       }
     }
     console.log("videocall", "handleUserJoined", clientId, is_new_user);
@@ -360,9 +364,6 @@ function VideoCall() {
     const videos = document.getElementById("videos");
     console.log("enter createPeerConnection", MemberId);
 
-
-
-
     peerConnection.current = new RTCPeerConnection(servers);
 
     if (!localStream) {
@@ -382,32 +383,36 @@ function VideoCall() {
       console.log(
         createPeerConnectionMembersId,
         MemberId,
-        "createPeerConnectionMembersId"
-        ,authUser.id
+        "createPeerConnectionMembersId",
+        authUser.id
       );
       createPeerConnectionMembersId.current.push(MemberId);
-      new_member = true;
-      new_video = document.createElement("video");
-      new_video.autoplay = true;
-      new_video.playsInline = true;
-      new_video.muted = true;
-      new_video.className="video-player smallFrame";
+      if (
+        MemberId == `user-id-${authUser?.id}` &&
+        `${authUser.id}` === `${call?.caller_id}`
+      ) {
+      } else {
+        new_member = true;
+        new_video = document.createElement("video");
+        new_video.autoplay = true;
+        new_video.playsInline = true;
+        new_video.muted = true;
+        new_video.className = "video-player smallFrame";
 
-      peerConnection.current.ontrack = (event: any) => {
-        console.log("videocall peerConnection.current.ontrack", event);
-        event.streams[0].getTracks().forEach((track: any) => {
-          remoteStream.addTrack(track);
-        });
-      };
-      new_video.srcObject = remoteStream;
-      videos?.append(new_video);
+        peerConnection.current.ontrack = (event: any) => {
+          console.log("videocall peerConnection.current.ontrack", event);
+          event.streams[0].getTracks().forEach((track: any) => {
+            remoteStream.addTrack(track);
+          });
+        };
+        new_video.srcObject = remoteStream;
+        videos?.append(new_video);
+      }
     }
-  
 
     //video2.current.classList.add("smallFrame");
 
-    
-    if (isEmpty(video2.current.srcObject)) {
+   // if (isEmpty(video2.current.srcObject)) {
       // peerConnection.current.ontrack = (event: any) => {
       //   console.log("videocall peerConnection.current.ontrack", event);
       //   event.streams[0].getTracks().forEach((track: any) => {
@@ -415,10 +420,8 @@ function VideoCall() {
       //   });
       // };
       // new_video.srcObject = remoteStream;
-     // video2.current.srcObject = remoteStream;
-    }
-
-    console.log("videocall", peerConnection.current, "peerConnection.current");
+      // video2.current.srcObject = remoteStream;
+    //}
 
     //   peerConnection.current.addEventListener('track', async (event:any) => {
     //     console.log("videocall",{event})
@@ -440,7 +443,7 @@ function VideoCall() {
     };
     //console.log("videocall", { remoteStream });
 
-   // video2.current.style.display = "block";
+    // video2.current.style.display = "block";
 
     return peerConnection.current;
   };
@@ -477,8 +480,6 @@ function VideoCall() {
 
   console.log("videocall", localStream, "localStream");
 
- 
-
   const members = presenceData.map((msg, index) => (
     <li key={index}>{/* {msg.clientId}: {msg.data} */}</li>
   ));
@@ -506,72 +507,71 @@ function VideoCall() {
 
   return (
     <>
-    <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
-      
-      {video1.current?.srcObject?.id ? (
-        <>
-          video1: {video1.current?.srcObject?.id} <br />
-          video2: {video2.current?.srcObject?.id}
-        </>
-      ) : (
-        <></>
-      )}
-      <div id="controls">
-        <div
-          onClick={() => toggleCamera()}
-          className={
-            camera
-              ? "control-container bg-[#FF6666]"
-              : "control-container bg-[#FF6666] opacity-80"
-          }
-          id="camera-btn"
-        >
-          {camera ? (
-            <VideoCameraIcon className="h-6 w-6" />
-          ) : (
-            <VideoCameraSlashIcon className="h-6 w-6" />
-          )}
-        </div>
-
-        <div
-          onClick={() => toggleMic()}
-          className={
-            mic
-              ? "control-container bg-[#FF6666]"
-              : "control-container bg-[#FF6666] opacity-80"
-          }
-          id="mic-btn"
-        >
-          <MicrophoneIcon className="h-6 w-6" />
-        </div>
-
-        <a onClick={() => leaveCall()}>
-          <div className="control-container" id="leave-btn">
-            <PhoneIcon className="h-6 w-6" />
+      <div className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14">
+        {video1.current?.srcObject?.id ? (
+          <>
+            video1: {video1.current?.srcObject?.id} <br />
+            {/* video2: {video2.current?.srcObject?.id} */}
+          </>
+        ) : (
+          <></>
+        )}
+        <div id="controls">
+          <div
+            onClick={() => toggleCamera()}
+            className={
+              camera
+                ? "control-container bg-[#FF6666]"
+                : "control-container bg-[#FF6666] opacity-80"
+            }
+            id="camera-btn"
+          >
+            {camera ? (
+              <VideoCameraIcon className="h-6 w-6" />
+            ) : (
+              <VideoCameraSlashIcon className="h-6 w-6" />
+            )}
           </div>
-        </a>
-      </div>
-    </div>
-      <div id="videos">
-      <video
-        //poster={'https://picsum.photos/200/300'}
-        ref={video1}
-        className="video-player"
-        id="video1"
-        autoPlay
-        playsInline
-        muted
-      />
-      {/* <img src="https://picsum.photos/200/300" className="video-player -z-1" /> */}
 
-      <video
-        ref={video2}
-        className="video-player"
-        id="video2"
-        autoPlay
-        playsInline
-      />
-    </div>
+          <div
+            onClick={() => toggleMic()}
+            className={
+              mic
+                ? "control-container bg-[#FF6666]"
+                : "control-container bg-[#FF6666] opacity-80"
+            }
+            id="mic-btn"
+          >
+            <MicrophoneIcon className="h-6 w-6" />
+          </div>
+
+          <a onClick={() => leaveCall()}>
+            <div className="control-container" id="leave-btn">
+              <PhoneIcon className="h-6 w-6" />
+            </div>
+          </a>
+        </div>
+      </div>
+      <div id="videos">
+        <video
+          //poster={'https://picsum.photos/200/300'}
+          ref={video1}
+          className="video-player"
+          id="video1"
+          autoPlay
+          playsInline
+          muted
+        />
+        {/* <img src="https://picsum.photos/200/300" className="video-player -z-1" /> */}
+
+        {/* <video
+          ref={video2}
+          className="video-player"
+          id="video2"
+          autoPlay
+          playsInline
+        /> */}
+      </div>
     </>
   );
 }
