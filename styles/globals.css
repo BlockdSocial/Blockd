@@ -436,7 +436,7 @@ em-emoji-picker {
     display: grid;
     gap: 20px;
     height: 100vh;
-    overflow: hidden;
+    overflow-y: auto;
     position: relative;
     position: absolute;
     right: 10%;

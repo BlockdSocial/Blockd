@@ -97,7 +97,7 @@ function Widgets() {
   }, [input]);
 
   const handleBlur = (e: any) => {
-    //return;
+    return;
     console.log(e, 'addParticipant')
     if (!isEmpty(e.relatedTarget)) {
       console.log(e.relatedTarget.className, 'addParticipant')

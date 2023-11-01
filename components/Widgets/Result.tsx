@@ -72,7 +72,7 @@ function Result({
           <div
             //onClick={() => setSearchInput(searchInput)}
             key={result?.id}
-            className="flex items-center justify-start space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full"
+            className="flex items-center justify-start search-result space-x-2 hover:rounded-t-md hover:bg-gray-200 dark:hover:bg-lightgray p-2 w-full"
           >
             <Image
               src={
