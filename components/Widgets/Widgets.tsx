@@ -126,7 +126,7 @@ console.log('hussein',user,authUser);
                     onClick={() => setInput("")}
                   >
                     <div className="rounded-full bg-blockd p-2">
-                      <MagnifyingGlassIcon className="w-7 h-7 text-white" />
+                      <MagnifyingGlassIcon className="w-5 h-5 text-white" />
                     </div>
                     <p className="font-semibold text-sm">Search {input}</p>
                   </Link>

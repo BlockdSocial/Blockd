@@ -702,7 +702,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           Report Post
                         </div> */}
                             <div
-                              className="flex items-center justify-start text-sm p-3 hover:bg-gray-200 dark:hover:bg-darkgray/50"
+                              className="flex items-center justify-start text-sm p-3 hover:rounded-md hover:bg-gray-200 dark:hover:bg-darkgray/50"
                               onClick={async (e) => {
                                 handleFollowUser();
                                 e.preventDefault();
@@ -944,7 +944,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               commentBoxVisible ? "hidden" : ""
             }`}
           > */}
-          <div className="flex items-center justify-start mt-4 mb-2 p-3 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
+          <div className="flex items-center justify-start mt-4 mb-2 p-2 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
             <div className="flex items-center justify-between w-full space-x-2">
               <div
                 className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group"
@@ -961,7 +961,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     className={`h-4 w-4 cursor-pointer ${
                       isLiked ? "text-white" : "group-hover:text-green-600"
                     } `}
-                    sx={{ fontSize: 20 }}
+                    sx={{ fontSize: 16 }}
                   />
                 </div>
                 <p
@@ -987,7 +987,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                     className={`h-4 w-4 cursor-pointer ${
                       isDisliked ? "text-white" : "group-hover:text-red-600"
                     } `}
-                    sx={{ fontSize: 20 }}
+                    sx={{ fontSize: 16 }}
                   />
                 </div>
                 <p
@@ -1005,7 +1005,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <div className="flex items-center justify-center p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
                   <CommentOutlinedIcon
                     className="h-5 w-5 cursor-pointer"
-                    sx={{ fontSize: 20 }}
+                    sx={{ fontSize: 16 }}
                   />
                 </div>
                 <p className="text-xs">
@@ -1019,7 +1019,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                       ref={share}
                       onClick={() => setShareBoxVisible(!shareBoxVisible)}
                       className="h-5 w-5 cursor-pointer"
-                      sx={{ fontSize: 20 }}
+                      sx={{ fontSize: 16 }}
                     />
                   </div>
                   <p className="text-xs">
@@ -1109,7 +1109,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                 <button
                   disabled={!input && !image && !gifUrl}
                   type="submit"
-                  className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-gray-700 p-2 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+                  className="text-white bg-gradient-to-r cursor-pointer disabled:cursor-default from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold disabled:opacity-40 disabled:z-[0] p-2 rounded-md "
                 >
                   <span className="hidden md:inline">Comment</span>
                   <span className="flex md:hidden">
@@ -1256,7 +1256,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             </div>
           )}
           {image && (
-            <div className="relative w-full mt-2">
+            <div className="relative w-full mt-2 mb-2">
               <img
                 className="max-w-full max-h-[300px] h-auto object-contain rounded-md"
                 src={image}
@@ -1268,11 +1268,10 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               >
                 <XMarkIcon className="w-5 h-5" />
               </div>
-              <hr className="mt-4 mb-4"></hr>
             </div>
           )}
           {gifBoxIsOpen && (
-            <div className="relative w-full">
+            <div className="relative w-full mt-2 mb-2">
               <img
                 src={gifUrl}
                 className="rounded-lg max-w-full h-auto"
@@ -1285,7 +1284,6 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
               >
                 <XMarkIcon className="w-5 h-5" />
               </div>
-              <hr className="mt-4 mb-4"></hr>
             </div>
           )}
         </div>
@@ -1327,14 +1325,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           <div className="flex items-center justify-end space-x-3 p-4">
             <p
               onClick={() => handleDeletePost()}
-              className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              className="p-2 px-4 rounded-md bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] text-white"
             >
               Delete
             </p>
 
             <p
               onClick={() => setDeletePopUp(!deletePopUp)}
-              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+              className="p-2 cursor-pointer rounded-md bg-gradient-to-r from-[#8B939A] to-[#5B6467] hover:from-[#5B6467] hover:to-[#8B939A] text-white"
             >
               Cancel
             </p>
@@ -1479,14 +1477,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           </div>
           <div className="sticky bottom-0 flex items-center justify-end space-x-3 p-2 bg-white">
             <p
-              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              className="p-2 px-4 rounded-md bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] text-white"
               onClick={() => handleEditPost()}
             >
               Save
             </p>
             <p
               onClick={() => setEditPopUp(!editPopUp)}
-              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+              className="p-2 cursor-pointer rounded-md bg-gradient-to-r from-[#8B939A] to-[#5B6467] hover:from-[#5B6467] hover:to-[#8B939A] text-white"
             >
               Cancel
             </p>
@@ -1506,7 +1504,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
             <button
               type="button"
               onClick={() => setSharePopUp(!sharePopUp)}
-              className="bg-white rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
+              className="bg-gray-200 hover:bg-gray-300/70 text-black rounded-full text-sm p-1.5 ml-auto inline-flex items-center"
             >
               <svg
                 aria-hidden="true"
@@ -1656,14 +1654,14 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
           </div>
           <div className="flex items-center justify-end space-x-3 p-2">
             <p
-              className="p-2 px-4 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+              className="p-2 px-4 rounded-md bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] text-white"
               onClick={() => handleSharePost()}
             >
               Share
             </p>
             <p
               onClick={() => setSharePopUp(!sharePopUp)}
-              className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+              className="p-2 cursor-pointer rounded-md bg-gradient-to-r from-[#8B939A] to-[#5B6467] hover:from-[#5B6467] hover:to-[#8B939A] text-white"
             >
               Cancel
             </p>

@@ -365,7 +365,7 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           }}
         />
       </div>
-      <div className="flex flex-col w-full bg-[url('../public/images/halloween/halloween-bg2.png')] bg-no-repeat bg-cover bg-[center_top_1rem] md:bg-[center_top_0rem] lg:bg-[center_top_-2rem] xl:bg-[center_top_-3rem]">
+      <div className="flex flex-col w-full">
         <div className="flex items-start justify-between p-3 w-full bg-transparent">
           <div className="flex items-center justify-start ">
             <circle className="flex items-center justify-start p-3">
@@ -532,10 +532,10 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
           </div>
           <div ref={dropdown} className="hidden md:flex">
             {user?.id === authUser?.id ? (
-              <div className="w-fit h-fit p-1 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
-                <Cog8ToothIcon
-                  onClick={() => setIsDropdownVisible((b) => !b)}
-                  className="h-6 w-6 text-black dark:fill-white cursor-pointer transition-transform duration-500 ease-out hover:rotate-180 active-scale"
+              <div className="w-fit h-fit p-1 hover:bg-gray-100 dark:hover:bg-gray-200/10 flex items-center justify-center rounded-md bg-white dark:bg-darkgray">
+                <PencilSquareIcon
+                  onClick={() => setIsModalVisible(!isModalVisible)}
+                  className="h-6 w-6 cursor-pointer"
                 />
               </div>
             ) : (

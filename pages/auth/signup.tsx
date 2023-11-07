@@ -466,21 +466,16 @@ export default function SignUp() {
     return null;
   }
   return (
-    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/halloween/halloween.jpg')] bg-no-repeat bg-cover">
+    <section className="min-h-screen flex items-stretch md-overflow-hidden overflow-scroll text-white bg-[url('../public/images/bg.jpg')] bg-no-repeat bg-cover">
       <Toaster />
       <CustomLoadingOverlay active={isRegisteringUser} />
-      <ReactAudioPlayer
-        src="/sounds/halloween.mp3"
-        autoPlay
-        loop
-      />
       <div className="md:flex w-1/2 hidden h-screen relative items-center">
         <div className="flex items-center justify-center w-full">
           <div className="relative flex flex-col items-start justify-center">
             <img
-              src="/images/halloween/halloween-logo.png"
+              src="/images/logo/long-logo.png"
               alt="Blockd Logo"
-              className="w-80 lg:w-96 -top-14 -left-10 absolute"
+              className="w-60"
             />
             <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-3xl">
               JOIN THE{" "}
@@ -513,7 +508,7 @@ export default function SignUp() {
               <a
                 href="https://linktr.ee/blockd"
                 target="_blank"
-                className="flex items-start justify-center w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
+                className="flex items-start justify-center w-32 bg-gradient-to-r from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold py-2 px-4 rounded-md"
               >
                 Learn more
               </a>
@@ -524,7 +519,7 @@ export default function SignUp() {
       <div className="md:w-1/2 w-full  flex items-center justify-center text-center p-10 z-0">
         <div className="flex items-center w-[500px] bg-color relative rounded-md">
           <div className="relative flex flex-col items-center justify-center w-full h-full">
-            <div className="flex justify-center items-center p-4 space-x-4 border-b border-gray-500 w-full">
+            <div className="flex justify-center items-center p-4 border-b border-gray-500 w-full">
               <Image
                 src="/images/logo/logo.png"
                 alt="Blockd Logo"
@@ -532,34 +527,31 @@ export default function SignUp() {
                 width={70}
                 height={50}
               />
-              <h2 className="text-center font-bold text-white text-4xl lg:text-5xl pb-3">
+              <h2 className="text-center hidden md:inline font-bold text-white text-4xl lg:text-5xl pb-3">
                 Sign Up
               </h2>
             </div>
 
-            <div className="flex flex-col items-center justify-center w-full h-full px-10 py-5">
+            <div className="flex flex-col items-center justify-center w-full h-full px-5 md:px-10 py-5">
               {1 === step && (
                 <>
                   <div className="flex flex-col items-start justify-center space-y-1 w-full mb-2">
-                    <p className="text-white font-semibold text-l">
-                      Display Name
-                    </p>
+                    <p className="text-white font-semibold text-l"></p>
                     <input
-                      className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
+                      className="p-2 rounded-md text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
                       type="text"
                       name="name"
-                      placeholder="@"
+                      placeholder="Display Name"
                       value={displayName}
                       onChange={(e) => setName(e.target.value)}
                     />
                   </div>
                   <div className="flex flex-col items-start justify-center space-y-1 w-full">
-                    <p className="text-white font-semibold text-l">Email</p>
                     <input
-                      className="p-2 rounded-xl text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
+                      className="p-2 rounded-md text-white placeholder:text-white w-full bg-gray-300/30 outline-none border-none"
                       type="email"
                       name="email"
-                      placeholder="example@gmail.com"
+                      placeholder="Email"
                       onChange={(e) => setEmail(e.target.value)}
                       value={email}
                       onBlur={() => {
@@ -663,14 +655,19 @@ export default function SignUp() {
                 ></ConnectButton>
               </div>
               {validateAddress && (
-                <p className="text-red-600  text-xs font-bold mt-3">
-                  This address is already used.
+                <p className="text-white p-2 rounded-md bg-red-600 text-xs font-bold mt-3">
+                  This address is already used
                 </p>
               )}
               {nftData ? (
                 <div className="w-full flex items-center justify-center">
                   <button
-                    className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
+                    data-te-toggle="tooltip"
+                    data-te-placement="top"
+                    data-te-ripple-init
+                    data-te-ripple-color="light"
+                    title="Account Creation Requirement: 4 Matic + Gas Fees"
+                    className="w-full mt-4 bg-gradient-to-r text-white cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold py-3 px-4 rounded-md"
                     onClick={(e) => getSignMessage(e)}
                     disabled={validated || validateAddress}
                   >
@@ -681,12 +678,17 @@ export default function SignUp() {
                 <>
                   <div className="w-full flex items-center justify-center">
                     <button
+                      data-te-toggle="tooltip"
+                      data-te-placement="top"
+                      data-te-ripple-init
+                      data-te-ripple-color="light"
+                      title="Account Creation Requirement: 4 Matic + Gas Fees"
                       className={`w-full mt-4 text-white  font-semibold py-3 px-4 rounded-md ${
                         isMintLoading && "loading"
                       } ${
                         error
                           ? "bg-orange-300"
-                          : "cursor-pointer bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 hover:from-blockd hover:to-blockd"
+                          : "cursor-pointer bg-gradient-to-r from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858]"
                       }`}
                       disabled={isMintError || isMintFetching}
                       onClick={() => writeAsync && writeAsync()}
@@ -696,7 +698,7 @@ export default function SignUp() {
                   </div>
 
                   {error && (
-                    <div className="mt-4 w-full max-h-20 bg-red-500 rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
+                    <div className="mt-4 w-full max-h-20 bg-red-600 text-white rounded-md p-2 break-normal overflow-scroll scrollbar-hide">
                       An error occurred preparing the transaction:<br></br>
                       {/* @ts-ignore */}
                       {error?.reason ? error?.reason : error?.message}
@@ -704,9 +706,9 @@ export default function SignUp() {
                   )}
                 </>
               )}
-              <p className="text-white text font-bold mt-3">
+              {/* <p className="text-white text-sm w-full font-bold mt-3">
                 Account Creation Requirement: 4 Matic + Gas Fees
-              </p>
+              </p> */}
             </div>
 
             <div className="w-full flex items-center justify-center md:hidden p-3 border-t border-gray-500">

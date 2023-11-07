@@ -309,7 +309,7 @@ function TweetBox({ refetchFiltered }: Props) {
   };
 console.log(authUser,'12212')
   return (
-    <div className="relative flex items-start justify-center space-x-2 p-4 w-full bg-[url('../public/images/halloween/halloween-bg.png')] bg-no-repeat bg-cover bg-[center_top_1rem] md:bg-[center_top_0rem] lg:bg-[center_top_-2rem] xl:bg-[center_top_-3rem] border-y dark:border-lightgray">
+    <div className="relative flex items-start justify-center space-x-2 p-4 w-full border-y dark:border-lightgray">
       <div className="flex flex-col items-start justify-center w-[20%]">
         <Link
           href="/dashboard/profile"
@@ -575,7 +575,7 @@ console.log(authUser,'12212')
                   isEmpty(source)) ||
                 disabledPostBtn
               }
-              className="bg-blockd px-5 py-2 font-bold text-white rounded-full disabled:opacity-40 disabled:z-[0]"
+              className="bg-gradient-to-r cursor-pointer disabled:cursor-default from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] px-5 py-2 font-bold text-white rounded-md disabled:opacity-40 disabled:z-[0]"
               onClick={(e) => handleSubmitPost(e)}
             >
               Post

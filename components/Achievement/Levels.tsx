@@ -14,10 +14,10 @@ function Levels({ rewards }: any) {
       <div className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 1
         ? "bg-gray-100 dark:bg-lightgray"
         : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-        } rounded-lg shadow-lg`}>
+        } rounded-md shadow-lg`}>
         <div className="flex items-center justify-center w-1/4">
           <img
-            src="/images/badges/badge1.png"
+            src="/images/badges/badge3.png"
             className="flex w-14 max-w-full h-auto"
           />
         </div>
@@ -27,7 +27,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 1 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -41,11 +41,11 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 2
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
-            src="/images/badges/badge2.png"
+            src="/images/badges/badge3.png"
             className="flex w-14 max-w-full h-auto"
           />
         </div>
@@ -57,7 +57,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 2 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -70,7 +70,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 3
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -84,7 +84,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 3 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -97,7 +97,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 4
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -113,7 +113,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 4 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -126,7 +126,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 5
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -140,7 +140,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 5 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -153,7 +153,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 6
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -167,7 +167,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 6 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -180,7 +180,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 7
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -194,7 +194,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 7 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -207,7 +207,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 8
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -221,7 +221,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 8 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -234,7 +234,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 9
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -248,7 +248,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 9 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -261,7 +261,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 10
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -275,7 +275,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 10 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -288,7 +288,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 11
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -302,7 +302,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 11 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -315,7 +315,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 12
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -329,7 +329,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 12 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -342,7 +342,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 13
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -356,7 +356,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 13 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -369,7 +369,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 14
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -383,7 +383,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 14 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -396,7 +396,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 15
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -410,7 +410,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 15 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -423,7 +423,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 16
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -437,7 +437,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 16 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -450,7 +450,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 17
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -464,7 +464,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 17 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -477,7 +477,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 18
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -491,7 +491,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 18 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -504,7 +504,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 19
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -518,7 +518,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 19 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -531,7 +531,7 @@ function Levels({ rewards }: any) {
         className={`flex items-center justify-center space-x-4 w-72 p-4 px-2 border dark:border-lightgray ${rewards.length >= 20
           ? "bg-gray-100 dark:bg-lightgray"
           : "cursor-pointer hover:bg-gray-100 dark:hover:bg-lightgray opacity-60"
-          } rounded-lg shadow-lg`}
+          } rounded-md shadow-lg`}
       >
         <div className="flex items-center justify-center w-1/4">
           <img
@@ -545,7 +545,7 @@ function Levels({ rewards }: any) {
           {rewards.length >= 20 && (
             <button
               type="button"
-              className="text-white bg-gradient-to-r from-orange-300 to-orange-300 hover:bg-gradient-to-br font-medium rounded-lg text-sm px-4 py-1 text-center"
+              className="text-white bg-gradient-to-r  from-[#ff5858] to-[#f09819] font-medium rounded-md text-sm px-4 py-1 text-center"
               disabled
             >
               Reward Claimed
@@ -558,17 +558,17 @@ function Levels({ rewards }: any) {
         className={`fixed top-0 left-0 flex items-center justify-center w-full h-full backdrop-blur-md bg-white/60 z-50 overflow-scroll scrollbar-hide ${isDisplayModal ? "" : "hidden"
           }`}
       >
-        <div className="relative flex flex-col w-full rounded-lg max-w-md h-96">
+        <div className="relative flex flex-col w-full rounded-md max-w-md h-96">
           <img
             src="/images/badges/badge4.png"
             className="absolute -top-20 left-0 right-0 ml-auto mr-auto w-60 h-68 flex justify-center align-center"
           />
-          <div className="flex rounded-lg bg-gradient-to-r from-[#EC9F05] to-[#FF4E00] h-full">
+          <div className="flex rounded-md bg-gradient-to-r from-[#EC9F05] to-[#FF4E00] h-full">
             <div className="flex items-center justify-end">
               <button
                 type="button"
                 onClick={() => setIsDisplayModal(!isDisplayModal)}
-                className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-orange-400 rounded-lg text-sm p-1.5 ml-auto inline-flex items-center"
+                className="absolute top-3 right-2.5 text-white bg-transparent hover:bg-orange-400 rounded-md text-sm p-1.5 ml-auto inline-flex items-center"
               >
                 <svg
                   aria-hidden="true"

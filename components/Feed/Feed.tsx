@@ -156,18 +156,7 @@ function Feed() {
 
       <div className="flex flex-col items-center z-[30] sticky -top-[2px]">
         <div className="flex items-center justify-between w-full p-2 gradient">
-          <div className="halloween">
-            <div className="head">
-              <div className="skull">
-                <div className="eyes">
-                  <div className="eye eye-left"></div>
-                  <div className="eye eye-right"></div>
-                </div>
-              </div>
-            </div>
-            <div className="body"></div>
-            <div className="legs"></div>
-          </div>
+          <img className="w-10 h-10 rounded-full" src="/images/logo/blockHeadz.png" />
           <p
             className="bg-transparent text-white text-sm lg:text-xl glitch"
             data-text="BLOCKd Headz MINT is live"

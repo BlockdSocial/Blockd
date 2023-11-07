@@ -827,7 +827,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
         </div>
       )}
       <div className="flex justify-between w-full">
-        <div className="flex items-center justify-start w-full mt-4 mb-2 p-3 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
+        <div className="flex items-center justify-start w-full mt-4 mb-2 p-2 border border-gray-50 bg-gray-50 dark:bg-lightgray dark:border-lightgray rounded-md">
           <div className="flex items-center justify-between w-full space-x-4">
             <div
               className="flex cursor-pointer items-center space-x-2 text-gray-400 hover:text-green-600 group"
@@ -844,7 +844,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   className={`h-4 w-4 cursor-pointer ${
                     isLiked ? "text-white" : "group-hover:text-green-600"
                   } `}
-                  sx={{ fontSize: 20 }}
+                  sx={{ fontSize: 16 }}
                 />
               </div>
               <p
@@ -870,7 +870,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
                   className={`h-4 w-4 cursor-pointer ${
                     isDisliked ? "text-white" : "group-hover:text-red-600"
                   } `}
-                  sx={{ fontSize: 20 }}
+                  sx={{ fontSize: 16 }}
                 />
               </div>
               <p
@@ -885,7 +885,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
               <div className="flex items-center justify-center p-1 border rounded-md group-hover:border-black dark:border-gray-400 dark:group-hover:border-white">
                 <CommentOutlinedIcon
                   className="h-4 w-4 cursor-pointer"
-                  sx={{ fontSize: 20 }}
+                  sx={{ fontSize: 16 }}
                 />
               </div>
               <p className="text-xs">
@@ -971,14 +971,14 @@ function PostID({ post, refetchComments, refetch }: Props) {
             <div className="flex items-center justify-end space-x-3 p-4">
               <p
                 onClick={() => handleDeletePost()}
-                className="p-2 cursor-pointer rounded-2xl bg-blockd hover:bg-orange-600 text-white"
+                className="p-2 px-4 rounded-md bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] text-white"
               >
                 Delete
               </p>
 
               <p
                 onClick={() => setDeletePopUp(!deletePopUp)}
-                className="p-2 cursor-pointer rounded-2xl bg-gray-400 hover:bg-gray-500 text-white"
+                className="p-2 cursor-pointer rounded-md bg-gradient-to-r from-[#8B939A] to-[#5B6467] hover:from-[#5B6467] hover:to-[#8B939A] text-white"
               >
                 Cancel
               </p>
@@ -1305,7 +1305,7 @@ function PostID({ post, refetchComments, refetch }: Props) {
         <button
           disabled={!input && !image && !gifUrl}
           type="submit"
-          className="text-blockd font-semibold disabled:text-gray-200 dark:disabled:text-lightgray p-2 mb-8 rounded-full disabled:hover:bg-transparent hover:bg-orange-500 hover:text-white"
+          className="text-white bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold disabled:opacity-40 disabled:z-[0] disabled:cursor-default p-2 rounded-md "
         >
           <span className="hidden md:inline">Comment</span>
           <span className="flex md:hidden">
