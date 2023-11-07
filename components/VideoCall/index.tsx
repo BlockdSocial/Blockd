@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { config } from "../../constants";
 import { getCookie, deleteCookie } from "cookies-next";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchUser } from "../../stores/user/UserActions";
 import { forEach, isEmpty } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
@@ -74,29 +74,29 @@ function VideoCall() {
     router.query.room_id ||
     parseQueryString(window.location.search.substring(1)).room_id;
 
-  // const servers = {
-  //   iceServers: [
-  //     {
-  //       urls: [
-  //         "stun:stun1.l.google.com:19302",
-  //         "stun:stun2.l.google.com:19302",
-  //       ],
-  //     },
-  //     //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
-  //   ],
-  // };
   const servers = {
     iceServers: [
       {
-        urls: "stun:143.244.152.126:3478",
+        urls: [
+          "stun:stun1.l.google.com:19302",
+          "stun:stun2.l.google.com:19302",
+        ],
       },
-      {
-        urls: "turn:143.244.152.126:3478",
-        username: "turnuser",
-        credential: "turn456",
-      },
+      //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
     ],
   };
+  // const servers = {
+  //   iceServers: [
+  //     {
+  //       urls: "stun:143.244.152.126:3478",
+  //     },
+  //     {
+  //       urls: "turn:143.244.152.126:3478",
+  //       username: "turnuser",
+  //       credential: "turn456",
+  //     },
+  //   ],
+  // };
   let constraints = {
     video: {
       width: { min: 640, ideal: 1920, max: 1920 },
@@ -109,28 +109,13 @@ function VideoCall() {
       ? JSON.parse(localStorage.getItem("token") as any)
       : "";
 
-  useEffect(() => {
-    //getOtherUser();
-  }, []);
+
   const setNewUserJoined = async (user_id: any) => {
     await dispatch(fetchUser(user_id)).then((result: any) => {
       console.log("videocall", { result });
-      //  await new Promise((f) => setTimeout(f, 1000));
       toast(result?.name + " join the call");
     });
   };
-  // const getOtherUser = async () => {
-  //   var otherUser_id = "";
-  //   if (authUser?.id == call?.caller_id) {
-  //     otherUser_id = call?.receiver_id;
-  //   } else {
-  //     otherUser_id = call?.caller_id;
-  //   }
-  //   await dispatch(fetchUser(call?.caller_id)).then((result: any) => {
-  //     console.log("videocall", { result });
-  //     setOtherUser(result);
-  //   });
-  // };
 
   const handleMessageFromPeer = async (message: any) => {
     console.log("videocall", "videoCall  handleMessageFromPeer", message.data);
@@ -153,7 +138,7 @@ function VideoCall() {
             console.error("Invalid state for setting remote answer");
             return;
           }
-          answerAdded = true;
+          //answerAdded = true;
           await peerConnection.current.setRemoteDescription(
             new RTCSessionDescription(data.answer)
           );
@@ -173,7 +158,6 @@ function VideoCall() {
         }
         if (!candidateCreated && !peerConnection.current?.addIceCandidate) {
           console.log("videocall", "enter candidate", data.candidate);
-          //  candidateCreated = true;
           await peerConnection.current.addIceCandidate(
             new RTCIceCandidate(data.candidate)
           );
@@ -186,27 +170,27 @@ function VideoCall() {
 
     try {
       if (data.type === "offer") {
-        // if (!answerCreated ) {
-        //  answerCreated = true;
+         if (!answerCreated ) {
+          answerCreated = true;
         console.log("videocall", "enter offer", answerCreated);
 
         await createPeerConnection(data.userId);
         //hussein
         //peerConnection.current = data.peerConnection.current;
-        console.log("videoCall data.peerConnection.current", data);
+        console.log("videoCall data.peerConnection.current", data, peerConnection.current);
 
         let answer = await peerConnection.current.createAnswer();
-        console.log("videocall", "answer", answer);
-        await peerConnection.current.setLocalDescription(answer);
         await peerConnection.current.setRemoteDescription(
           new RTCSessionDescription(data.offer)
         );
+        await peerConnection.current.setLocalDescription(answer);
+        
         channel.publish(`answer-${room_id}`, {
           type: "answer",
           answer: answer,
           userId: data.userId,
         });
-        // }
+         }
       }
 
       if (data.type === "candidate" && data.sendBy != authUser.id) {
@@ -221,14 +205,9 @@ function VideoCall() {
           );
           return;
         }
-        if (!candidateCreated) {
-          console.log("videocall", "enter candidate");
-
-          //candidateCreated = true;
-          await peerConnection.current.addIceCandidate(
-            new RTCIceCandidate(data.candidate)
-          );
-        }
+        await peerConnection.current.addIceCandidate(
+          new RTCIceCandidate(data.candidate)
+        );
       }
     } catch (error) {
       console.error("Error handling message from peer:", error);
@@ -249,9 +228,12 @@ function VideoCall() {
     // @ts-ignore
     `${room_id}`
   );
-  useEffect(() => {
-    getMedia();
-  }, []);
+  useLayoutEffect(() => {
+    
+      //getMedia();
+    
+   
+  },[]);
 
   async function getMedia() {
     try {
@@ -261,6 +243,7 @@ function VideoCall() {
       setLocalStream(stream);
       video1.current.srcObject = stream;
       if (peerConnection.current) {
+        console.log('getMedia')
         stream.getTracks().forEach((track: any) => {
           peerConnection.current.addTrack(track, stream);
         });
@@ -277,7 +260,6 @@ function VideoCall() {
       console.error("Error accessing media devices.", error);
     }
   }
-  console.log("videocall", { localStream });
   useEffect(() => {
     presenceData.map((msg, index) => handleUserJoined(msg.clientId));
   }, [presenceData]);
@@ -310,20 +292,10 @@ function VideoCall() {
           call?.caller_id
         );
 
-        createOffer(clientId);
+        await createOffer(clientId);
       }
     }
     console.log("videocall", "handleUserJoined", clientId, is_new_user);
-    if (`${authUser.id}` !== `${call?.caller_id}`) {
-      console.log("videocall", "A new user joined the channel:", clientId);
-
-      return;
-    }
-
-    // if (!offerCreated) {
-    //  // offerCreated = true;
-    //  // createOffer(clientId);
-    // }
   };
 
   let addAnswer = async (answer: any) => {
@@ -363,22 +335,40 @@ function VideoCall() {
     var new_member = false;
     var new_video: any = "";
     const videos = document.getElementById("videos");
-    console.log("enter createPeerConnection", MemberId);
 
     peerConnection.current = new RTCPeerConnection(servers);
 
     if (!localStream) {
-      var new_stream: MediaStream | undefined = await getMedia();
-      if (new_stream) {
+      //var new_stream: MediaStream | undefined = await getMedia();
+      const stream = await navigator.mediaDevices.getUserMedia(constraints);
+      console.log("videocall", { stream });
+      setLocalStream(stream);
+      video1.current.srcObject = stream;
+      if (peerConnection.current) {
+        console.log('getMedia')
+        stream.getTracks().forEach((track: any) => {
+          peerConnection.current.addTrack(track, stream);
+        });
       }
+      let videoTrack = stream
+        .getTracks()
+        .find((track: any) => track.kind === "video");
+
+      if (videoTrack?.enabled) {
+        videoTrack.enabled = false;
+      }
+      
     } else {
       localStream.getTracks().forEach((track: any) => {
         peerConnection.current.addTrack(track, localStream);
       });
     }
+    console.log("enter createPeerConnection", MemberId, localStream, peerConnection.current);
+
     video1.current.classList.add("smallFrame");
 
     if (!createPeerConnectionMembersId.current.includes(MemberId)) {
+    
       console.log(
         createPeerConnectionMembersId,
         MemberId,
@@ -394,6 +384,7 @@ function VideoCall() {
         new_member = true;
         new_video = document.createElement("video");
         new_video.autoplay = true;
+        new_video.id = MemberId
         new_video.playsInline = true;
         new_video.muted = true;
         new_video.className = "video-player smallFrame";
@@ -403,11 +394,31 @@ function VideoCall() {
             remoteStream.addTrack(track);
           });
         };
+       new_video.srcObject = remoteStream;
+        //   peerConnection.current.addEventListener('track', async (event:any) => {
+        //     console.log("videocall",{event})
+        //     const [remoteStream] = event.streams;
+
+        //    new_video.srcObject = remoteStream;
+        // });
         console.log("videocall peerConnection.current.ontrack", remoteStream);
-        new_video.srcObject = remoteStream;
+
         videos?.append(new_video);
       }
-    }
+
+  console.log('onicecandidate',  peerConnection.current)
+    peerConnection.current.onicecandidate = async (event: any) => {
+      console.log("videocall", event, "onicecandidate");
+      if (event.candidate) {
+        channel.publish(`candidate-${room_id}`, {
+          type: "candidate",
+          candidate: event.candidate,
+          userId: MemberId,
+          sendBy: authUser.id,
+        });
+      }
+    };
+     }
 
     //video2.current.classList.add("smallFrame");
 
@@ -422,27 +433,6 @@ function VideoCall() {
     // video2.current.srcObject = remoteStream;
     //}
 
-    //   peerConnection.current.addEventListener('track', async (event:any) => {
-    //     console.log("videocall",{event})
-    //     const [remoteStream1] = event.streams;
-    //
-    //  //   video2.current.srcObject = remoteStream1;
-    // });
-
-    peerConnection.current.onicecandidate = async (event: any) => {
-      console.log("videocall", event, "onicecandidate");
-      if (event.candidate) {
-        channel.publish(`candidate-${room_id}`, {
-          type: "candidate",
-          candidate: event.candidate,
-          userId: MemberId,
-          sendBy: authUser.id,
-        });
-      }
-    };
-    //console.log("videocall", { remoteStream });
-
-    // video2.current.style.display = "block";
 
     return peerConnection.current;
   };
@@ -475,34 +465,9 @@ function VideoCall() {
     }
   };
 
-  console.log("videocall", "videoCall presenceData", presenceData);
-
-  console.log("videocall", localStream, "localStream");
-
   const members = presenceData.map((msg, index) => (
     <li key={index}>{/* {msg.clientId}: {msg.data} */}</li>
   ));
-  //video1.srcObject =localStream
-  // document.getElementById('user-1').srcObject = localStream
-
-  // let createAnswer = async (MemberId: any, offer: any) => {
-  //   console.log("videocall", "createAnswer", offer);
-  //   await createPeerConnection(MemberId);
-
-  //   await peerConnection.current.setRemoteDescription(offer);
-
-  //   let answer = await peerConnection.current.createAnswer();
-  //   await peerConnection.current.setLocalDescription(answer);
-
-  //   channel.publish(`answer-${room_id}`, {
-  //     type: "answer",
-  //     answer: answer,
-  //     userId: MemberId,
-  //   });
-  // };
-  // useEffect(() => {
-  //   console.log(remoteStream.getVideoTracks(), 'VideoCall remoteStream.getVideoTracks()[0]');
-  // },[remoteStream.getTracks()])
 
   return (
     <>
