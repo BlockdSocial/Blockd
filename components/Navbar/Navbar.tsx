@@ -52,7 +52,7 @@ import { encodeQuery } from "../../utils";
 import { chatApi } from "../../api";
 
 interface Data {
- // receiver_id: number;
+  // receiver_id: number;
   notification: number;
   id: number;
 }
@@ -410,7 +410,7 @@ const Navbar = () => {
       newParticipant: authUser?.id,
       call_id: call?.id,
     });
-  }
+  };
 
   const goToLoby = async () => {
     //await addParticipant();
@@ -422,10 +422,17 @@ const Navbar = () => {
       },
     });
     ringtone.current.pause();
-    router
-      .replace(`/dashboard/video?${encodeQuery(call?.room_id, "call")}`)
-      .then(() => router.reload());
-    // router.reload();
+    let constraints = {
+      video: true,
+      audio: true,
+      screen: false,
+    };
+    await navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+      router
+        .replace(`/dashboard/video?${encodeQuery(call?.room_id, "call")}`)
+        .then(() => router.reload());
+      // router.reload();
+    });
   };
 
   const showcaller = async (call: any) => {

@@ -1,0 +1,543 @@
+import React, { useEffect, useState, useRef } from "react";
+import * as Ably from "ably/promises";
+import VideoComponent from "../VideoComponent";
+import { useChannel, configureAbly, usePresence } from "@ably-labs/react-hooks";
+import { parseQueryString } from "../../utils";
+import { useRouter } from "next/router";
+import { config } from "../../constants";
+
+//import { addParticipant } from '@/hooks/backend';
+
+function VideoCall() {
+  const [ably, setAbly] = useState<any>(null);
+  const peerConnectionsRef = useRef<any>({});
+  const localStream = useRef<any>(null);
+  const [streamReady, setStreamReady] = useState<any>(false);
+  const [remoteStreams, setRemoteStreams] = useState<any>({});
+  const [newParticipantId, setNewParticipantId] = useState<any>();
+
+  const call =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("call") as any)
+      : "";
+  const authUser =
+    typeof window !== "undefined"
+      ? JSON.parse(localStorage.getItem("authUser") as any)
+      : "";
+  const router = useRouter();
+  const room_id =
+    router.query.room_id ||
+    parseQueryString(window.location.search.substring(1)).room_id;
+
+  const initial_receiver = localStorage.getItem("receiver");
+  const token = localStorage.getItem("token");
+
+  let otherUser: any;
+  if (call.caller_id === authUser.id) {
+    otherUser = call.receiver_id;
+  } else {
+    otherUser = call.caller_id;
+  }
+  // @ts-ignore
+  const [presenceData] = usePresence(
+    // @ts-ignore
+    `${room_id}`
+  );
+
+  useEffect(() => {
+    const peerConnections = peerConnectionsRef.current;
+    Object.keys(peerConnections).forEach((participantId) => {
+      const peerConnection = peerConnections[participantId];
+
+      // Setup ontrack event handler for each peer connection
+      peerConnection.ontrack = (event: any) => {
+        console.log(
+          `Track event received from participant ${participantId}:`,
+          event.track
+        );
+        setRemoteStreams((prevStreams: any) => {
+          // Create a new MediaStream for the participant if it doesn't exist
+          const existingStream =
+            prevStreams[participantId] || new MediaStream();
+          // Add the track to the existing MediaStream for this participant
+          existingStream.addTrack(event.track);
+          // Update the state with the new stream
+          return { ...prevStreams, [participantId]: existingStream };
+        });
+      };
+    });
+    // Cleanup function to remove event listeners when component unmounts or dependencies change
+    return () => {
+      Object.values(peerConnections).forEach((peerConnection: any) => {
+        peerConnection.ontrack = null;
+      });
+    };
+  }, []); // Ensure this runs only once when component mounts
+
+  useEffect(() => {
+    const initializeCall = async () => {
+      if (call) {
+        await reinitializeAblyForCall();
+        await setupLocalStream();
+        console.log("set up local stream", initial_receiver);
+       // createPeerConnection(initial_receiver);
+      } else {
+        console.log("couldn't find call object", call);
+      }
+    };
+
+    initializeCall();
+  }, []); // Ensure this runs only once on component mount
+
+  useEffect(() => {
+    if (!ably) return;
+    console.log('ably hussein', ably)
+    // Subscribe to a specific channel
+    const channel = ably?.channels.get(call.room_id);
+
+    //  Subscribe to messages
+    const messageHandler = (message: any) => {
+      console.log(
+        "message data useEffect scope",
+        JSON.stringify(message),
+        JSON.stringify(message.data.from),
+        message.data.from,
+        authUser.id
+      );
+      if (
+        (message.data.type === "offer" ||
+          message.data.type === "answer" ||
+          message.data.type === "candidate") &&
+        message.data.from != authUser.id &&
+        message.data.to === authUser.id
+      ) {
+        handleSignalingData(message);
+      }
+    };
+    channel.subscribe(messageHandler);
+
+   // Subscribe to presence updates
+    const presenceHandler = (presenceMessage:any) => {
+        console.log(`Presence update: ${presenceMessage.clientId} is ${presenceMessage.action}, ${presenceMessage.action}, ${authUser.id}`);
+        if ((presenceMessage.action === 'enter' || presenceMessage.action === 'present') && presenceMessage.clientId != `user-id-${authUser.id}`) {
+            handleUserJoined(Number(presenceMessage.clientId.match(/\d+$/)[0]));
+        }
+    };
+    channel.presence.subscribe(presenceHandler);
+
+    /// Hussein replace  presenceHandler with
+
+    // Cleanup on unmount
+    return () => {
+      channel.unsubscribe(messageHandler);
+      // channel.presence.unsubscribe(presenceHandler);
+    };
+  }, [ably, call.room_id]);
+
+//  // @ts-ignore
+//  const [channel] = useChannel(
+//     // @ts-ignore
+//     `${room_id}`,
+//     (message) => {
+//         messageHandler(message);
+//     }
+//   );
+//    // Subscribe to messages
+//    const messageHandler = (message: any) => {
+//     console.log(
+//       "message data useEffect scope",
+//       JSON.stringify(message),
+//       JSON.stringify(message.data.from),
+//       message.data.from,
+//       authUser.id
+//     );
+//     if (
+//       (message.data.type === "offer" ||
+//         message.data.type === "answer" ||
+//         message.data.type === "candidate") &&
+//       message.data.from != authUser.id &&
+//       message.data.to === authUser.id
+//     ) {
+
+//       handleSignalingData(message);
+//     }
+//   };
+
+
+
+  useEffect(() => {
+    presenceData.map((msg: any, index) => {
+        console.log('Presence update1 ',msg,room_id)
+      if (
+        (msg.action === "enter" || msg.action === "present") &&
+        msg.clientId != `user-id-${authUser.id}`
+      ) {
+        console.log('Presence update2')
+        handleUserJoined(Number(msg?.clientId.match(/\d+$/)[0]));
+      }
+    });
+  }, [presenceData]);
+
+  const handleSignalingData = async (message: any) => {
+    const participantId = await message.data.from; // Assuming 'from' field contains sender's ID
+    const peerConnection = peerConnectionsRef.current[participantId];
+    console.log("peer connections", peerConnectionsRef);
+
+    console.log(
+      "Received signaling data from:",
+      participantId,
+      "Type:",
+      message.data.type
+    );
+
+    if (!peerConnection) {
+      console.error("No peer connection found for participant:", participantId);
+      return;
+    }
+
+    console.log(
+      "message data handle signaling scope",
+      JSON.stringify(message.data)
+    );
+    if (message.data.type === "offer") {
+      await peerConnection.setRemoteDescription(
+        new RTCSessionDescription(message.data.data)
+      );
+      const answer = await peerConnection.createAnswer();
+      await peerConnection.setLocalDescription(answer);
+      dispatchEvent(answer, "answer", participantId);
+    } else if (message.data.type === "answer") {
+      await peerConnection.setRemoteDescription(
+        new RTCSessionDescription(message.data.data)
+      );
+    } else if (message.data.type === "candidate") {
+      const candidateData = await message.data;
+      console.log(
+        "successfully received candidate",
+        JSON.stringify(candidateData),
+        candidateData.data.candidate,
+        candidateData.data.sdpMid,
+        candidateData.data.sdpMLineIndex
+      );
+      const candidate = new RTCIceCandidate({
+        candidate: candidateData.data.candidate,
+        sdpMid: candidateData.data.sdpMid || "",
+        sdpMLineIndex: candidateData.data.sdpMLineIndex || 0,
+      });
+      await peerConnection.addIceCandidate(candidate);
+      console.log("successfully added candidate :", candidate);
+    }
+  };
+
+  const handleUserJoined = async (receiver: any) => {
+    console.log('handleUserJoined',receiver )
+    if (receiver != authUser.id) {
+      const peerConnection = peerConnectionsRef.current[receiver];
+      if (!peerConnection) {
+        createPeerConnection(receiver);
+      }
+      createOffer(receiver);
+      const channel = ably.channels.get(call.room_id);
+      try {
+        // Get the list of current channel members
+        const members:any = await channel.presence.get();
+        console.log('members', members)
+
+        members.forEach((member: any) => {
+          const participantId = Number(member.clientId.match(/\d+$/)[0]);
+          console.log(participantId,'participantId')
+          if (
+            participantId !== authUser.id &&
+            !(participantId in peerConnectionsRef.current)
+          ) {
+            createPeerConnection(participantId);
+            createOffer(participantId);
+          }
+        });
+      } catch (error) {
+        console.error("Error fetching channel members:", error);
+      }
+    }
+  };
+
+  const reinitializeAblyForCall = async () => {
+    if (ably) return;
+    // Reinitialize Ably with the new token
+    const newClient = new Ably.Realtime({
+      authUrl: `https://staging.blockd.app/backend/api/call/token/generate/${call.id}`,
+      authHeaders: { Authorization: `Bearer ${token}` },
+      clientId: `user-id-${authUser.id}`, // Ensure clientId is set for presence functionality
+    });
+    if(newClient) {
+      setAbly(newClient); // Update state with the new client
+      console.log("Successfully re-initialized Ably",call.id, newClient);
+
+    }
+  };
+
+  const setupLocalStream = async () => {
+    try {
+      console.log("Setting up local stream");
+      const stream = await navigator.mediaDevices.getUserMedia({
+        video: true,
+        audio: true,
+      });
+      localStream.current = stream;
+      setStreamReady(true); // trigger re-render
+      return stream;
+    } catch (error) {
+      console.log("Error faced setting up local stream", error);
+    }
+  };
+
+  const createPeerConnection = (participantId: any) => {
+    console.log("Creating peer connection for participant:", participantId);
+    const configuration = {
+      iceServers: [
+        {
+          urls: "stun:stun.l.google.com:19302",
+        },
+        {
+          urls: "turn:143.244.152.126:3478",
+          username: "turnuser",
+          credential: "turn456",
+        },
+      ],
+    };
+
+    const newPeerConnection = new RTCPeerConnection(configuration);
+
+    // Add the ontrack event listener
+    newPeerConnection.ontrack = (event) => {
+      console.log(
+        `Track event received from participant ${participantId}:`,
+        event.track
+      );
+      //  Update remoteStreams state to include the new stream associated with the participantId
+      setRemoteStreams((prevStreams: any) => ({
+        ...prevStreams,
+        [participantId]: new MediaStream([event.track]),
+      }));
+    };
+
+    newPeerConnection.onicecandidate = (event) => {
+      if (event.candidate) {
+        console.log(
+          `ICE candidate event for ${participantId}:`,
+          JSON.stringify(event.candidate)
+        );
+        // Construct the message with the participantId so we know who to send it to
+        const message = {
+          type: "candidate",
+          candidate: event.candidate,
+          sdpMid: event.candidate.sdpMid,
+          sdpMLineIndex: event.candidate.sdpMLineIndex,
+          to: participantId, // Send to the specific participant
+          from: authUser.id,
+          // other necessary identifying information
+        };
+        console.log(
+          " candidate's receiver (createPeerConnection scope):",
+          JSON.stringify(participantId)
+        );
+        dispatchEvent(message, "candidate", participantId);
+      }
+    };
+
+    newPeerConnection.oniceconnectionstatechange = () => {
+      console.log(
+        `ICE connection state change for ${participantId}:`,
+        newPeerConnection.iceConnectionState
+      );
+    };
+
+    // Add local stream to the new peer connection
+    if (localStream.current) {
+      localStream.current.getTracks().forEach((track: any) => {
+        newPeerConnection.addTrack(track, localStream.current);
+      });
+    }
+
+    // Store the new peer connection in the reference map
+    peerConnectionsRef.current[participantId] = newPeerConnection;
+
+    return newPeerConnection;
+  };
+
+  const createOffer = async (receiver: any) => {
+    try {
+      console.log("creating offer");
+      if (!localStream.current) {
+        console.log("no local stream, can't create offer");
+        return;
+      }
+
+      const peerConnection = peerConnectionsRef.current[receiver];
+      if (!peerConnection) {
+        console.error("Peer connection not found for receiver:", receiver);
+        return;
+      }
+
+      const offer = await peerConnection.createOffer({
+        offerToReceiveAudio: true,
+        offerToReceiveVideo: true,
+      });
+      console.log("created offer:", offer);
+
+      await peerConnection
+        .setLocalDescription(offer)
+        .then(() => {
+          console.log(
+            "Local description set:",
+            peerConnection.localDescription
+          );
+        })
+        .catch((error: any) => {
+          console.error(" Failed to set local description:", error);
+        });
+
+      peerConnection.onicecandidate = (event: any) => {
+        console.log("on ice candidate event triggered");
+        if (event.candidate) {
+          console.log("ICE candidate event:", JSON.stringify(event.candidate));
+          // Send the candidate to the other peer via your signaling channel
+          const message = {
+            type: "candidate",
+            candidate: event.candidate.candidate,
+            sdpMid: event.candidate.sdpMid,
+            sdpMLineIndex: event.candidate.sdpMLineIndex,
+            usernameFragment: event.candidate.candidate.usernameFragment,
+            to: receiver,
+            from: authUser.id,
+          };
+          console.log(
+            "candidate's receiver (create offer scope):",
+            JSON.stringify(receiver)
+          );
+          dispatchEvent(message, "candidate", receiver);
+        }
+      };
+
+      peerConnection.oniceconnectionstatechange = (event: any) => {
+        console.log(
+          "ICE state is checking - connectivity checks have started",
+          peerConnection.iceConnectionState
+        );
+      };
+
+      dispatchEvent(offer, "offer", receiver);
+    } catch (error) {
+      console.error("Error creating offer:", error);
+    }
+  };
+
+  const createAnswer = async (offer: any, receiver: any) => {
+    try {
+      console.log("creating answer");
+
+      const peerConnection = peerConnectionsRef.current[receiver];
+      if (!peerConnection) {
+        console.error("Peer connection not found for sender:", receiver);
+        return;
+      }
+
+      await peerConnection
+        .setRemoteDescription(new RTCSessionDescription(offer.data))
+        .then(() => {
+          console.log(
+            "Remote description set:",
+            peerConnection.remoteDescription
+          );
+        })
+        .catch((error: any) => {
+          console.error("Failed to set remote description:", error);
+        });
+
+      const answer = await peerConnection.createAnswer();
+      await peerConnection
+        .setLocalDescription(answer)
+        .then(() => {
+          console.log(
+            "Local description set:",
+            peerConnection.localDescription
+          );
+        })
+        .catch((error: any) => {
+          console.error("Failed to set local description:", error);
+        });
+
+      peerConnection.onicecandidate = (event: any) => {
+        console.log("on ice candidate event triggered");
+        if (event.candidate) {
+          console.log("ICE candidate event:", JSON.stringify(event.candidate));
+          // Send the candidate to the other peer via your signaling channel
+          const message = {
+            type: "candidate",
+            candidate: event.candidate.candidate,
+            sdpMid: event.candidate.sdpMid,
+            sdpMLineIndex: event.candidate.sdpMLineIndex,
+            usernameFragment: event.candidate.candidate.usernameFragment,
+            to: receiver,
+            from: authUser.id,
+            // other necessary identifying information
+          };
+          console.log(
+            "candidate's receiver (create answer scope):",
+            JSON.stringify(receiver)
+          );
+          dispatchEvent(message, "candidate", receiver);
+        }
+      };
+
+      peerConnection.oniceconnectionstatechange = () => {
+        console.log(
+          "ICE connection state change:",
+          peerConnection.iceConnectionState
+        );
+      };
+
+      dispatchEvent(answer, "answer", receiver);
+    } catch (error) {
+      console.error("Error creating answer:", error);
+    }
+  };
+
+  const dispatchEvent = async (response: any, type: any, receiver: any) => {
+    console.log(`sending ${type} to ${otherUser}, ${type}`);
+    console.log(response);
+    const signalingChannel = ably.channels.get(call.room_id);
+    try {
+      // Constructing the message to be sent
+      const message = {
+        type: type, // 'offer', 'answer', or 'candidate'
+        clientId: otherUser, // ID of the client you're sending the signal to
+        data: response, // The signaling data (offer, answer, or ICE candidate)
+        from: authUser.id, // ID of the sender (optional, for identification)
+        to: receiver,
+      };
+
+      // Publishing the message to the signaling channel
+      await signalingChannel.publish("signal", message);
+    } catch (error) {
+      console.error("Error sending signal to client:", error);
+    }
+  };
+
+  return (
+    <div>
+      <div className={`d-flex align-items-center justify-content-center`}>
+        {streamReady && (
+          <VideoComponent id={`local`} stream={localStream.current} />
+        )}
+        {Object.entries(remoteStreams).map(([participantId, stream]) => (
+          <VideoComponent
+            key={participantId}
+            id={participantId}
+            stream={stream}
+          />
+        ))}
+      </div>
+    </div>
+  );
+}
+export default VideoCall;

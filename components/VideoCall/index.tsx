@@ -15,6 +15,8 @@ import { useEffect, useRef, useState } from "react";
 import { fetchUser } from "../../stores/user/UserActions";
 import { forEach, isEmpty } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
+import Participants from "../Participants/Participants.component";
+
 
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 
@@ -52,10 +54,15 @@ function VideoCall() {
   let answerAdded: boolean = false;
 
   const [otherUser, setOtherUser] = useState();
+  const [participants, setParticipants] = useState();
   const [camera, setCamera] = useState<boolean>(false);
   const [mic, setMic] = useState<boolean>(true);
-  const [localStream, setLocalStream] = useState<any>();
+  const localStream = useRef<any>();
   const peerConnection = useRef<any>();
+  const participantsRef = useRef<any>({});
+  const queue = useRef<any>({});
+
+  
   const createPeerConnectionMembersId = useRef<any>([]);
   const originalpresenceData = useRef<any>([]);
 
@@ -85,10 +92,23 @@ function VideoCall() {
   //     //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
   //   ],
   // };
+  // const servers = {
+  //   iceServers: [
+  //     {
+  //       urls: "stun:143.244.152.126:3478",
+  //     },
+  //     {
+  //       urls: "turn:143.244.152.126:3478",
+  //       username: "turnuser",
+  //       credential: "turn456",
+  //     },
+  //   ],
+  // };
+
   const servers = {
     iceServers: [
       {
-        urls: "stun:143.244.152.126:3478",
+        urls: "stun:stun.l.google.com:19302",
       },
       {
         urls: "turn:143.244.152.126:3478",
@@ -98,11 +118,9 @@ function VideoCall() {
     ],
   };
   let constraints = {
-    video: {
-      width: { min: 640, ideal: 1920, max: 1920 },
-      height: { min: 480, ideal: 1080, max: 1080 },
-    },
+    video: true,
     audio: true,
+    screen: false,
   };
   const authToken =
     typeof window !== "undefined"
@@ -119,119 +137,146 @@ function VideoCall() {
       toast(result?.name + " join the call");
     });
   };
-  // const getOtherUser = async () => {
-  //   var otherUser_id = "";
-  //   if (authUser?.id == call?.caller_id) {
-  //     otherUser_id = call?.receiver_id;
-  //   } else {
-  //     otherUser_id = call?.caller_id;
-  //   }
-  //   await dispatch(fetchUser(call?.caller_id)).then((result: any) => {
-  //     console.log("videocall", { result });
-  //     setOtherUser(result);
-  //   });
-  // };
 
   const handleMessageFromPeer = async (message: any) => {
-    console.log("videocall", "videoCall  handleMessageFromPeer", message.data);
+    let data =   message.data;
+    let userId = await data?.userId;
+ 
+    console.log("functiuon  handleMessageFromPeer", data);
     console.log(
-      "videoCall  handleMessageFromPeer",
-      authUser.id,
-      call?.caller_id,
-      peerConnection.current
+      participantsRef.current,
+      "participantsRef handleMessageFromPeer"
     );
-    let data = message.data;
-    if (`user-id-${authUser.id}` === `user-id-${call?.caller_id}`) {
-      console.log("videocall messageclientId", message);
 
-      if (data.type === "answer") {
-        if (!answerAdded) {
-          console.log("videocall", "enter answer", data.answer);
-          //setAnswerAdded(true);
+    let peerConnection = participantsRef.current[userId]?.["peerConnection"];
+    if (!peerConnection) return;
+    console.log(
+      participantsRef.current[userId],
+      "participantsRef handleMessageFromPeer"
+    );
 
-          if (peerConnection.current?.signalingState !== "have-local-offer") {
-            console.error("Invalid state for setting remote answer");
-            return;
-          }
-          //answerAdded = true;
-          await peerConnection.current.setRemoteDescription(
-            new RTCSessionDescription(data.answer)
-          );
-        }
-      }
-      if (data.type === "candidate" && data.sendBy != authUser.id) {
-        console.log(
-          "videocall",
-          "enter should candidate",
-          peerConnection.current
-        );
-        if (peerConnection.current?.remoteDescription?.type === "") {
-          console.error(
-            "Remote description not set. Cannot add ICE candidate."
-          );
+ 
+  
+      if (data.type === "answer"  && call?.caller_id === authUser.id) {
+        console.log("videocall", "enter answer", data);
+        if (peerConnection?.signalingState !== "have-local-offer") {
+          console.log("Invalid state for setting remote answer");
           return;
         }
-        if (!candidateCreated && peerConnection.current?.addIceCandidate) {
-          console.log("videocall", "enter candidate");
-          //  candidateCreated = true;
-          await peerConnection.current.addIceCandidate(
-            new RTCIceCandidate(data.candidate)
-          );
+        if (!peerConnection.currentRemoteDescription) {
+          peerConnection.setRemoteDescription(data?.answer);
+          console.log(`addIceCandidate setRemoteDescription for ${userId}:`)
+         
+      // peerConnection.onicecandidate = async (event: any) => {
+      //     console.log(`ICE candidate event for offer send to  befor event ${userId}`);
+      //     if (event.candidate) {
+      //       console.log(`ICE candidate event for offer send to  ${userId}:`, JSON.stringify(event.candidate));
+
+      //       channel.publish(`candidate-${room_id}`, {
+      //         type: "candidate",
+      //         candidate: event.candidate,
+      //         //sdpMid: event.candidate.sdpMid,
+      //        // sdpMLineIndex: event.candidate.sdpMLineIndex,
+      //         userId: authUser.id,
+      //         sendBy: authUser.id,
+      //       });
+      //     }
+      //   };
+        participantsRef.current[userId]["peerConnection"] =
+        peerConnection;
+        setParticipants(participantsRef.current);
+       
+
         }
+  
       }
 
-      return;
-    }
-    // Directly access the data object.
-
-    try {
-      if (data.type === "offer") {
-        // if (!answerCreated ) {
-        //  answerCreated = true;
-        console.log("videocall", "enter offer", answerCreated);
-
-        await createPeerConnection(data.userId);
-        //hussein
-        //peerConnection.current = data.peerConnection.current;
-        console.log("videoCall data.peerConnection.current", data);
-        await peerConnection.current.setRemoteDescription(
+      if (data.type === "offer" && !peerConnection.remoteDescription && call?.caller_id !== authUser.id) {
+        console.log("videocall", "enter offer", data, peerConnection.currentRemoteDescription);
+        await peerConnection.setRemoteDescription(
           new RTCSessionDescription(data.offer)
         );
-        let answer = await peerConnection.current.createAnswer();
-        console.log("videocall", "answer", answer);
-        await peerConnection.current.setLocalDescription(answer);
+        console.log(`addIceCandidate setRemoteDescription for ${userId}:`)
+
+        peerConnection.onicecandidate = async (event: any) => {
+          console.log(`ICE candidate event for offer send to  befor event ${userId}`);
+          if (event.candidate) {
+            console.log(`ICE candidate event for offer send to  ${userId}:`, JSON.stringify(event.candidate));
+
+            channel.publish(`candidate-${room_id}`, {
+              type: "candidate",
+              candidate: event.candidate,
+              //sdpMid: event.candidate.sdpMid,
+             // sdpMLineIndex: event.candidate.sdpMLineIndex,
+              userId: authUser.id,
+              sendBy: authUser.id,
+            });
+          }
+        };
+
+        let answer = await peerConnection.createAnswer();
+        await peerConnection.setLocalDescription(answer);
         channel.publish(`answer-${room_id}`, {
           type: "answer",
           answer: answer,
-          userId: data.userId,
+          userId: authUser.id,
+          sendBy: authUser?.id,
         });
-        // }
+        participantsRef.current[userId]["peerConnection"] =
+          peerConnection;
+          setParticipants(participantsRef.current);
       }
 
-      if (data.type === "candidate" && data.sendBy != authUser.id) {
-        console.log(
-          "videocall",
-          "enter should candidate",
-          peerConnection.current
-        );
-        if (peerConnection.current.remoteDescription?.type === "") {
+      if (data.type === "candidate") {
+        console.log("videocall", "enter should candidate", data);
+        const candidate = data.candidate;
+      
+        if(!peerConnection || !peerConnection.remoteDescription){
           console.log(
             "videocall Remote description not set. Cannot add ICE candidate."
           );
+
+          /// add addIceCandidate to queue
+          console.log(' queue push ',userId,candidate)
+          queue.current[userId] =[...queue.current[userId], candidate]
           return;
         }
-        if (!candidateCreated) {
-          console.log("videocall", "enter candidate");
+        console.log(`addIceCandidate for ${userId}:`)
+        console.log("videocall", "enter candidate");
+        console.log(`ICE candidate event for enter candidate ${userId}:`, JSON.stringify(data.candidate));
 
-          //candidateCreated = true;
-          await peerConnection.current.addIceCandidate(
-            new RTCIceCandidate(data.candidate)
-          );
-        }
-      }
-    } catch (error) {
-      console.error("Error handling message from peer:", error);
+        //candidateCreated = true;
+        // await peerConnection.addIceCandidate(
+        //   new RTCIceCandidate(await data.candidate)
+        // );
+
+      try{
+            await peerConnection.addIceCandidate(
+          new RTCIceCandidate({candidate: data.candidate})
+        );
+        console.log("successfully added candidate :", candidate);
+
+      } catch (error) {
+      console.error("Error handling message from candidate:", error);
+      console.log(' queue push ',userId,candidate)
+      queue.current[userId] =[...queue.current[userId], candidate]
+
     }
+
+      peerConnection.oniceconnectionstatechange = () => {
+        console.log(
+          `ICE connection state change for ${userId}:`,
+          peerConnection.iceConnectionState
+        );
+      };
+  
+
+        participantsRef.current[data?.userId]["peerConnection"] = peerConnection;
+          setParticipants(participantsRef.current);
+      }
+      console.log(participantsRef.current, "participantsRef");
+     
+    
   };
 
   // @ts-ignore
@@ -251,84 +296,170 @@ function VideoCall() {
   useEffect(() => {
     getMedia();
   }, []);
+  useEffect(() => {
+    console.log(participants, "participants");
+  }, [participants]);
 
   async function getMedia() {
-    try {
-      // const constraints = { video: true, audio: true };
-      const stream = await navigator.mediaDevices.getUserMedia(constraints);
-      console.log("videocall", { stream });
-      setLocalStream(stream);
-      video1.current.srcObject = stream;
-      if (peerConnection.current) {
-        stream.getTracks().forEach((track: any) => {
-          peerConnection.current.addTrack(track, stream);
-        });
-      }
-      let videoTrack = stream
-        .getTracks()
-        .find((track: any) => track.kind === "video");
+    console.log("functiuon getMedia");
 
-      if (videoTrack?.enabled) {
-        videoTrack.enabled = false;
-      }
-      return stream;
-    } catch (error) {
-      console.error("Error accessing media devices.", error);
-    }
+    const stream = await navigator.mediaDevices.getUserMedia(constraints);
+    localStream.current = stream
+
+    return stream;
   }
-  console.log("videocall", { localStream });
+
+  useEffect(() => {
+    
+  })
+
+
+  useEffect(() => {
+    const interval = setInterval(() => {
+     checkQueue();
+    }, 1000);
+    return () => clearInterval(interval);
+  }, []);
+
+
+  const checkQueue = async () => {
+    if(!queue.current) return;
+    let queueKey = Object.keys(queue.current);
+    queueKey.map(async (userId, index) => {
+      if(!isEmpty(queue.current[userId])) {
+        console.log('queue', userId, queue.current[userId][0] )
+        let array = queue.current[userId];
+        let pc = participantsRef.current[userId]["peerConnection"];
+        for (let index = 0; index < array.length; index++) {
+          let candidate =array[index];
+
+          if(pc && pc.remoteDescription && candidate){
+            await pc.addIceCandidate(
+              new RTCIceCandidate(candidate)
+            );
+            console.log("successfully added candidate from que:", candidate);
+            participantsRef.current[userId]["peerConnection"] = pc
+            setParticipants( participantsRef.current)
+            queue.current[userId][index] = null;
+          }
+         
+          
+        }
+      }
+    })
+  }
+
+  function delay(milliseconds:any){
+    return new Promise(resolve => {
+        setTimeout(resolve, milliseconds);
+    });
+}
+
   useEffect(() => {
     presenceData.map((msg, index) => handleUserJoined(msg.clientId));
   }, [presenceData]);
 
   let handleUserJoined = async (clientId: String) => {
-    // if (isEmpty(originalpresenceData.current)) {
-    //   await originalpresenceData.current.push(clientId);
-    // } else
-    var is_new_user: boolean = false;
+    console.log("functiuon handleUserJoined", originalpresenceData);
     if (!originalpresenceData.current.includes(clientId)) {
-      is_new_user = true;
-      console.log(
-        originalpresenceData.current.includes(clientId),
-        clientId,
-        "setNewUserJoined",
-        originalpresenceData.current
-      );
-
-      originalpresenceData.current.push(clientId);
+      await originalpresenceData.current.push(clientId);
+     
+      addParticipant(clientId);
       var user_id = clientId.split("-")[2];
+
       if (user_id != authUser.id && user_id != call?.caller_id) {
         await setNewUserJoined(user_id);
       }
-      if (authUser.id === call?.caller_id) {
-        console.log(
-          "videocall",
-          "createOffer",
-          clientId,
-          authUser.id,
-          call?.caller_id
-        );
-
-        await createOffer(clientId);
-      }
     }
-    console.log("videocall", "handleUserJoined", clientId, is_new_user);
-    if (`${authUser.id}` !== `${call?.caller_id}`) {
-      console.log("videocall", "A new user joined the channel:", clientId);
-
-      return;
-    }
-
-    // if (!offerCreated) {
-    //  // offerCreated = true;
-    //  // createOffer(clientId);
-    // }
   };
 
-  let addAnswer = async (answer: any) => {
-    if (!peerConnection.current.currentRemoteDescription) {
-      peerConnection.current.setRemoteDescription(answer);
+  const addParticipant = async (clientId: any) => {
+    var user_id = clientId.split("-")[2];
+    var name;
+    if (authUser.id === user_id) {
+      name = authUser.name;
+    } else {
+      await dispatch(fetchUser(user_id)).then((result: any) => {
+        name = result.name;
+      });
     }
+    var newUser: any = {};
+    newUser.id = user_id;
+    newUser.name = name;
+    participantsRef.current[user_id] = newUser;
+    queue.current[user_id] = [];
+    if (authUser.id != user_id) {
+      
+      if (!localStream.current) {
+        let stream = await getMedia();
+        addConnection(newUser, authUser, stream);
+      } else {
+        console.log('add new localStream.current')
+        addConnection(newUser, authUser, localStream.current);
+      }
+    } else {
+      participantsRef.current[user_id]['video'] = 'false';
+      console.log("hussein not handleMessageFromPeer ", authUser.id, user_id);
+    }
+  };
+  const addConnection = (newUser: any, currentUser: any, stream: any) => {
+    const peerConnection = new RTCPeerConnection(servers);
+    stream.getTracks().forEach((track: any) => {
+      peerConnection.addTrack(track, stream);
+    });
+    const newUserId = newUser.id;
+    const currentUserId = currentUser.id;
+
+    const offerIds: any = [newUserId, currentUserId].sort((a, b) => a - b);
+    participantsRef.current[newUserId]["peerConnection"] = peerConnection;
+    if (call?.caller_id === currentUserId) {
+      createOffer(peerConnection, currentUserId, newUserId);
+    }
+  };
+
+  const createOffer = async (
+    peerConnection: any,
+    createdID: any,
+    receiverId: any
+  ) => {
+ 
+
+    const offerDescription = await peerConnection.createOffer({
+      offerToReceiveAudio: true,
+                offerToReceiveVideo: true,
+    });
+    await peerConnection.setLocalDescription(offerDescription);
+
+    channel.publish(`offer-${room_id}`, {
+      type: "offer",
+      offer: offerDescription,
+      userId: createdID,
+    });
+    console.log(
+      "hussein enter handleMessageFromPeer createdID",
+      createdID,
+      receiverId
+    );
+   // await delay(3000);
+
+    peerConnection.onicecandidate = async (event: any) => {
+      if (event.candidate) {
+        console.log(`ICE candidate event for createOffer send to  ${createdID}:`, JSON.stringify(event.candidate));
+
+
+        channel.publish(`candidate-${room_id}`, {
+          type: "candidate",
+          candidate: event.candidate,
+          //sdpMid: event.candidate.sdpMid,
+         // sdpMLineIndex: event.candidate.sdpMLineIndex,
+          userId: createdID,
+          sendBy: authUser.id,
+        });
+      }
+    };
+
+    //participantsRef.current[receiverId]["peerConnection"] = peerConnection;
+    //setParticipants(participantsRef.current);
   };
 
   let leaveChannel = async () => {
@@ -340,130 +471,27 @@ function VideoCall() {
     localStorage.removeItem("call");
     router.replace("/").then(() => router.reload());
   };
-  let createOffer = async (MemberId: any) => {
-    console.log("videocall createOffer", MemberId);
-    await createPeerConnection(MemberId);
-
-    let offer = await peerConnection.current.createOffer();
-    await peerConnection.current.setLocalDescription(offer);
-
-    try {
-      channel.publish(`offer-${room_id}`, {
-        type: "offer",
-        offer: offer,
-        userId: MemberId,
-      });
-    } catch (error) {
-      console.log("videocall", "hhhhh", error);
-    }
-  };
-
-  const createPeerConnection = async (MemberId: any) => {
-    var new_member = false;
-    var new_video: any = "";
-    const videos = document.getElementById("videos");
-    console.log("enter createPeerConnection", MemberId);
-
-    peerConnection.current = new RTCPeerConnection(servers);
-
-    if (!localStream) {
-      var new_stream: MediaStream | undefined = await getMedia();
-      console.log("videocall", "aaaaaaa", new_stream);
-      if (new_stream) {
-      }
-    } else {
-      console.log("videocall", "bbbbb", localStream);
-      localStream.getTracks().forEach((track: any) => {
-        peerConnection.current.addTrack(track, localStream);
-      });
-    }
-    video1.current.classList.add("smallFrame");
-
-    if (!createPeerConnectionMembersId.current.includes(MemberId)) {
-      console.log(
-        createPeerConnectionMembersId,
-        MemberId,
-        "createPeerConnectionMembersId",
-        authUser.id
-      );
-      createPeerConnectionMembersId.current.push(MemberId);
-      if (
-        MemberId == `user-id-${authUser?.id}` &&
-        `${authUser.id}` === `${call?.caller_id}`
-      ) {
-      } else {
-        new_member = true;
-        new_video = document.createElement("video");
-        new_video.autoplay = true;
-        new_video.playsInline = true;
-        new_video.muted = true;
-        new_video.className = "video-player smallFrame";
-
-        peerConnection.current.ontrack = (event: any) => {
-          console.log("videocall peerConnection.current.ontrack", event);
-          event.streams[0].getTracks().forEach((track: any) => {
-            remoteStream.addTrack(track);
-          });
-        };
-        new_video.srcObject = remoteStream;
-        videos?.append(new_video);
-      }
-    }
-
-    //video2.current.classList.add("smallFrame");
-
-   // if (isEmpty(video2.current.srcObject)) {
-      // peerConnection.current.ontrack = (event: any) => {
-      //   console.log("videocall peerConnection.current.ontrack", event);
-      //   event.streams[0].getTracks().forEach((track: any) => {
-      //     remoteStream.addTrack(track);
-      //   });
-      // };
-      // new_video.srcObject = remoteStream;
-      // video2.current.srcObject = remoteStream;
-    //}
-
-    //   peerConnection.current.addEventListener('track', async (event:any) => {
-    //     console.log("videocall",{event})
-    //     const [remoteStream1] = event.streams;
-    //
-    //  //   video2.current.srcObject = remoteStream1;
-    // });
-
-    peerConnection.current.onicecandidate = async (event: any) => {
-      console.log("videocall", event, "onicecandidate");
-      if (event.candidate) {
-        channel.publish(`candidate-${room_id}`, {
-          type: "candidate",
-          candidate: event.candidate,
-          userId: MemberId,
-          sendBy: authUser.id,
-        });
-      }
-    };
-    //console.log("videocall", { remoteStream });
-
-    // video2.current.style.display = "block";
-
-    return peerConnection.current;
-  };
 
   const toggleCamera = async () => {
-    let videoTrack = localStream
+    let videoTrack = localStream.current
       .getTracks()
       .find((track: any) => track.kind === "video");
 
     if (videoTrack.enabled) {
       videoTrack.enabled = false;
+      participantsRef.current[authUser?.id]['video'] = false;
       setCamera(false);
     } else {
       videoTrack.enabled = true;
+      participantsRef.current[authUser?.id]['video'] = true;
       setCamera(true);
     }
+    console.log('toggleCamera',participantsRef)
+    setParticipants(participantsRef.current);
   };
 
   let toggleMic = async () => {
-    let audioTrack = localStream
+    let audioTrack = localStream.current
       .getTracks()
       .find((track: any) => track.kind === "audio");
 
@@ -474,36 +502,8 @@ function VideoCall() {
       audioTrack.enabled = true;
       setMic(true);
     }
+    setParticipants(participantsRef.current);
   };
-
-  console.log("videocall", "videoCall presenceData", presenceData);
-
-  console.log("videocall", localStream, "localStream");
-
-  const members = presenceData.map((msg, index) => (
-    <li key={index}>{/* {msg.clientId}: {msg.data} */}</li>
-  ));
-  //video1.srcObject =localStream
-  // document.getElementById('user-1').srcObject = localStream
-
-  // let createAnswer = async (MemberId: any, offer: any) => {
-  //   console.log("videocall", "createAnswer", offer);
-  //   await createPeerConnection(MemberId);
-
-  //   await peerConnection.current.setRemoteDescription(offer);
-
-  //   let answer = await peerConnection.current.createAnswer();
-  //   await peerConnection.current.setLocalDescription(answer);
-
-  //   channel.publish(`answer-${room_id}`, {
-  //     type: "answer",
-  //     answer: answer,
-  //     userId: MemberId,
-  //   });
-  // };
-  // useEffect(() => {
-  //   console.log(remoteStream.getVideoTracks(), 'VideoCall remoteStream.getVideoTracks()[0]');
-  // },[remoteStream.getTracks()])
 
   return (
     <>
@@ -553,7 +553,18 @@ function VideoCall() {
         </div>
       </div>
       <div id="videos">
-        <video
+        {!isEmpty(participants) &&  (
+          <>
+          <>sds</>
+ <Participants 
+ participants ={participants}
+ currentUser = {authUser}
+ stream = {localStream.current}
+/>
+</>
+        )}
+     
+        {/* <video
           //poster={'https://picsum.photos/200/300'}
           ref={video1}
           className="video-player"
@@ -561,7 +572,7 @@ function VideoCall() {
           autoPlay
           playsInline
           muted
-        />
+        /> */}
         {/* <img src="https://picsum.photos/200/300" className="video-player -z-1" /> */}
 
         {/* <video

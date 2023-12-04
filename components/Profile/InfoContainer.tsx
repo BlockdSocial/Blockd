@@ -301,10 +301,16 @@ function InfoContainer({ user, refetchUser, userId }: Props) {
         Authorization: "Bearer " + getCookie("token"),
       },
     });
-
+    let constraints = {
+      video: true,
+      audio: true,
+      screen: false,
+    };
+    await navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
     router
       .replace(`/dashboard/video?${encodeQuery(result?.call?.room_id, "call")}`)
       .then(() => router.reload());
+    })
   };
 
   const renderLink = (tarea: any, type: any) => {

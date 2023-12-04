@@ -207,18 +207,19 @@ export default function SignIn() {
                 ></ConnectButton>
               </div>
 
-              {nft_data && Number(nft_data) > 0 ? (
+              {nft_data && Number(nft_data) != 0 ? (
                 <button
                   className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
                   onClick={(e) => getSignMessage(e)}
                 >
                   login
+                  
                 </button>
               ) : (
                 <>
                   {
                     <>
-                      {address && (
+                      {!address && (
                         <p className="text-red-600 mt-3 text-base font-bold">
                           Please create an account to proceed{" "}
                           <Link
