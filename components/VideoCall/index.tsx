@@ -11,7 +11,7 @@ import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { config } from "../../constants";
 import { getCookie, deleteCookie } from "cookies-next";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useLayoutEffect, useRef, useState } from "react";
 import { fetchUser } from "../../stores/user/UserActions";
 import { forEach, isEmpty } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
@@ -115,8 +115,21 @@ function VideoCall() {
         username: "turnuser",
         credential: "turn456",
       },
+      //{urls:"turn:numb.viagenie.ca", username:"webrtc@live.com", credential:"muazkh"}
     ],
   };
+  // const servers = {
+  //   iceServers: [
+  //     {
+  //       urls: "stun:143.244.152.126:3478",
+  //     },
+  //     {
+  //       urls: "turn:143.244.152.126:3478",
+  //       username: "turnuser",
+  //       credential: "turn456",
+  //     },
+  //   ],
+  // };
   let constraints = {
     video: true,
     audio: true,
@@ -127,13 +140,10 @@ function VideoCall() {
       ? JSON.parse(localStorage.getItem("token") as any)
       : "";
 
-  useEffect(() => {
-    //getOtherUser();
-  }, []);
+
   const setNewUserJoined = async (user_id: any) => {
     await dispatch(fetchUser(user_id)).then((result: any) => {
       console.log("videocall", { result });
-      //  await new Promise((f) => setTimeout(f, 1000));
       toast(result?.name + " join the call");
     });
   };
