@@ -667,7 +667,6 @@ function VideoCall() {
       <div id="videos">
         {!isEmpty(participants) && (
           <>
-            <>sds</>
             <Participants
               participants={participants}
               currentUser={authUser}
@@ -675,11 +674,7 @@ function VideoCall() {
             />
           </>
         )}
-        {stream &&(
-          <>sds</>
-        )
-
-        }
+       
 
         {/* <video
           //poster={'https://picsum.photos/200/300'}
