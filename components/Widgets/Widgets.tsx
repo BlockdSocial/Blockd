@@ -72,6 +72,8 @@ function Widgets() {
       newParticipant: newParticipantId,
       call_id: call?.id,
     });
+     setInput("");
+     getParticipants();
   };
 
   const fetchTrendings = useCallback(() => {
@@ -97,10 +99,11 @@ function Widgets() {
   }, [input]);
 
   const handleBlur = (e: any) => {
-    return;
-    console.log(e, 'addParticipant')
+    if(callMode)
+    {return}
+     console.log(e?.relatedTarget, 'handleBlur')
     if (!isEmpty(e.relatedTarget)) {
-      console.log(e.relatedTarget.className, 'addParticipant')
+      console.log(e.relatedTarget.className, 'handleBlur')
       if (
         e.relatedTarget.className !== "w-full search-result" &&
         e.relatedTarget.className !==

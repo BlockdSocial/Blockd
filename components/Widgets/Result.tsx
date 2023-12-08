@@ -46,7 +46,7 @@ function Result({
           }}
           as={`/dashboard/profile?${encodeQuery(result?.id, "profile")}`}
           className="w-full search-result"
-          onClick={() => setInput("")}
+         // onClick={() => setInput("")}
         >
           <div
             onClick={() => setSearchInput(searchInput)}
