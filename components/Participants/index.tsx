@@ -22,7 +22,7 @@ function Participants ({ participants, currentUser, stream }:Props )  {
   useEffect(() => {
     if (videoRef.current) {
       videoRef.current.srcObject = stream;
-      videoRef.current.muted = true;
+      // videoRef.current.muted = true;
     }
   }, [currentUser, stream]);
 
@@ -64,7 +64,14 @@ function Participants ({ participants, currentUser, stream }:Props )  {
       );
       if (videElement) {
         console.log("hussein2", pc, `${index}`);
+     
+        var tmpremoteStream: any;
+        // remoteStream.getTracks().forEach((track:any) => {
+
+        //   tmpremoteStream.addTrack(track);
+        // });
         videElement.srcObject = remoteStream;
+        // videElement.muted = true;
       }
     }
 

@@ -58,7 +58,7 @@ function VideoCall() {
   const [otherUser, setOtherUser] = useState();
   const [participants, setParticipants] = useState();
   const [camera, setCamera] = useState<boolean>(false);
-  const [mic, setMic] = useState<boolean>(false);
+  const [mic, setMic] = useState<boolean>(true);
   const localStream = useRef<any>();
   const peerConnection = useRef<any>();
   const participantsRef = useRef<any>({});
@@ -184,13 +184,13 @@ function VideoCall() {
     );
 
     let peerConnection = participantsRef.current[userId]?.["peerConnection"];
-    if (!peerConnection) {
-      if (userId != authUser.id) {
-        console.log("handleMessageFromPeer will create new peer for ", userId);
-        await addParticipant(userId);
-        peerConnection = participantsRef.current[userId]?.["peerConnection"];
-      }
-    }
+    // if (!peerConnection) {
+    //   if (userId != authUser.id) {
+    //     console.log("handleMessageFromPeer will create new peer for ", userId);
+    //     await addParticipant(userId);
+    //     peerConnection = participantsRef.current[userId]?.["peerConnection"];
+    //   }
+    // }
     if (!peerConnection) {
       console.log("handleMessageFromPeer can't create new peer for ", userId);
       return;
@@ -432,7 +432,7 @@ function VideoCall() {
     participantsRef.current[user_id] = newUser;
     queue.current[user_id] = [];
     participantsRef.current[user_id]["video"] = false;
-    participantsRef.current[user_id]["audio"] = false;
+    participantsRef.current[user_id]["audio"] = true;
 
     if (authUser.id != user_id) {
       if (!localStream.current) {
@@ -454,14 +454,18 @@ function VideoCall() {
     }
     const peerConnection = new RTCPeerConnection(servers);
 
-    peerConnection.ontrack = (event) => {
+    peerConnection.ontrack = (event:any) => {
       console.log(
         `Track event received from participant ${newUser}:`,
-        event.track
+        event
       );
-      participantsRef.current[newUserId]["remoteStream"] = new MediaStream([
-        event.track,
-      ]);
+      let rs:any = new MediaStream(
+        event.streams[0]
+      );
+     // rs.getTracks().find((track: any) => track.kind === "audio").enabled = false
+      participantsRef.current[newUserId]["remoteStream"] = new MediaStream(
+        rs
+      );
     };
 
     stream.getTracks().forEach((track: any) => {
