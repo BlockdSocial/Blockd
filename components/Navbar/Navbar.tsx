@@ -157,13 +157,13 @@ const Navbar = () => {
     if (notificationInfo) {
       handleShowNotification(notificationInfo);
       audioNotificationSound.current.play();
-      ringtone.current.play();
+      //ringtone.current.play();
     }
   }, [notificationInfo]);
 
   const handleShowNotification = async (notification: any) => {
     await new Promise((f) => setTimeout(f, 1000));
-    toast(notification + "jhbajks:");
+    toast(notification);
   };
 
   const handleFetchNotifications = async () => {

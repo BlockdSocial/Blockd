@@ -18,7 +18,7 @@ import { useAppSelector } from "../../../../stores/hooks";
 import { isEmpty } from "lodash";
 import Linkify from "react-linkify";
 import Link from "next/link";
-import { encodeQuery, renderComment2 } from "../../../../utils";
+import { encodeQuery, getLocationOrigin, renderComment2 } from "../../../../utils";
 // @ts-ignore
 import renderHTML from "react-render-html";
 import Modal from "./Modal";
@@ -76,6 +76,22 @@ export default function Message({
   };
 
   const componentDecorator = (href: string, text: string, key: number) => {
+    if(href.includes(getLocationOrigin()))
+    {
+      return (
+        <a
+          onClick={async (e) => {
+            e.stopPropagation();
+          }}
+          href={href}
+          key={key}
+          className="hover:underline"
+        >
+          {text}
+        </a>
+      );
+    }
+
     return (
       <a
         onClick={async (e) => {

@@ -6,6 +6,7 @@ import {
   PaperAirplaneIcon,
   GifIcon,
   XMarkIcon,
+  PhoneIcon,
 } from "@heroicons/react/24/outline";
 import ReactGiphySearchbox from "react-giphy-searchbox";
 import { useAppDispatch, useAppSelector } from "../../../../stores/hooks";
@@ -23,7 +24,11 @@ import lightMode from "../../../../styles/lightMode.module.scss";
 import { MentionsInput, Mention } from "react-mentions";
 import { searchTagUsers } from "../../../../stores/user/UserActions";
 import { searchTagParticipants } from "../../../../stores/user/UserActions";
-import { renderCommentText } from "../../../../utils";
+import { encodeQuery, renderCommentText, getLocationOrigin } from "../../../../utils";
+import { chatApi } from "../../../../api";
+import { configureAbly } from "@ably-labs/react-hooks";
+import { getCookie } from "cookies-next";
+import router from "next/router";
 
 function Footer({
   setReply,
@@ -44,6 +49,7 @@ function Footer({
   //************************** EMOJI Handeling **************************//
 
   let [showEmojis, setShowEmojis] = useState<boolean>(false);
+  
   const { authUser } = useAppSelector((state) => state.authUserReducer);
   const { error } = useAppSelector((state) => state.chatReducer);
   const [input, setInput] = useState<string>("");
@@ -344,6 +350,45 @@ function Footer({
     ).then((res: any) => setData(res));
   };
 
+  const createGroupCall = async () => {
+    let result = await chatApi.createGroupCall({
+      room_id: room?.roomId,
+      call_type: "video",
+    });
+    localStorage.setItem("call", JSON.stringify(result?.call));
+
+    configureAbly({
+      authUrl: `${config.url.API_URL}/call/token/generate/${result?.call?.id}`,
+      authHeaders: {
+        Authorization: "Bearer " + getCookie("token"),
+      },
+    });
+    let constraints = {
+      video: true,
+      audio: true,
+      screen: false,
+    };
+    var link =`${getLocationOrigin()}/dashboard/video?${encodeQuery(result?.call?.room_id, "call")}`;
+
+    await dispatch(
+      createChatroomMessage(room?.roomId, {
+        content: link,
+        user_id: authUser?.id,
+      })
+    ).then(() => {
+      setInput("");
+      fetchRoomMessages();
+    });
+      console.log("send");
+      await navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        router
+          .replace(
+            `/dashboard/video?${encodeQuery(result?.call?.room_id, "call")}`
+          )
+          .then(() => router.reload());
+      });
+   
+  };
   return (
     <>
       {reply && (
@@ -488,6 +533,11 @@ function Footer({
             )}
             <PaperAirplaneIcon
               onClick={() => handleSendMessage()}
+              className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
+            />
+
+            <PhoneIcon
+              onClick={() => createGroupCall()}
               className="h-5 w-5 cursor-pointer transition-transform duration-150 ease-out hover:scale-150"
             />
             <PhotoIcon

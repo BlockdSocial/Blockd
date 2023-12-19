@@ -1,4 +1,6 @@
+import { GetServerSidePropsContext } from "next";
 import { useEffect, useState } from "react";
+import { useLocation, useParams } from 'react-router-dom';
 
 export const isEmpty = (variable: any) => {
   if (variable === false) {
@@ -313,6 +315,12 @@ export default function useWindowDimensions() {
   }, []);
 
   return windowDimensions;
+}
+
+
+export function getLocationOrigin () {
+  const { protocol, hostname, port } = window.location
+  return `${protocol}//${hostname}${port ? ':' + port : ''}`
 }
 
 

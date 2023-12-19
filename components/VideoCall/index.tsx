@@ -7,13 +7,19 @@ import {
 import { useRouter } from "next/router";
 import VideoComponent from "../VideoComponent";
 
-import { parseQueryString } from "../../utils";
+import { encodeQuery, parseQueryString } from "../../utils";
 import { useChannel, configureAbly, usePresence } from "@ably-labs/react-hooks";
 import { useAppDispatch, useAppSelector } from "../../stores/hooks";
 import { config } from "../../constants";
 import { getCookie, deleteCookie } from "cookies-next";
 
-import { useCallback, useEffect, useLayoutEffect, useRef, useState } from "react";
+import {
+  useCallback,
+  useEffect,
+  useLayoutEffect,
+  useRef,
+  useState,
+} from "react";
 import { fetchUser } from "../../stores/user/UserActions";
 import { forEach, isEmpty } from "lodash";
 import toast, { Toaster } from "react-hot-toast";
@@ -21,8 +27,13 @@ import Participants from "../Participants";
 
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { CiMicrophoneOff } from "react-icons/ci";
+import { chatApi } from "../../api";
 
 function VideoCall() {
+  const router = useRouter();
+  const room_id =
+    router.query.room_id ||
+    parseQueryString(window.location.search.substring(1)).room_id;
   const call =
     typeof window !== "undefined"
       ? JSON.parse(localStorage.getItem("call") as any)
@@ -32,6 +43,22 @@ function VideoCall() {
       ? JSON.parse(localStorage.getItem("authUser") as any)
       : "";
 
+  const getCallByRoomId = async () => {
+    let result = await chatApi.getCallByRoomId(room_id);
+    if(result.call){
+      let call = result.call
+      localStorage.setItem("call", JSON.stringify(call));
+      await navigator.mediaDevices.getUserMedia(constraints).then((stream) => {
+        router
+          .replace(`/dashboard/video?${encodeQuery(call?.room_id, "call")}`)
+          .then(() => router.reload());
+        // router.reload();
+      });
+
+    }
+    console.log({ result });
+  };
+
   if (call?.id) {
     configureAbly({
       authUrl: `${config.url.API_URL}/call/token/generate/${call?.id}`,
@@ -40,6 +67,8 @@ function VideoCall() {
       },
     });
   } else {
+    getCallByRoomId();
+
     configureAbly({
       authUrl: `${config.url.API_URL}/subscribe/token/generate`,
       authHeaders: {
@@ -47,6 +76,8 @@ function VideoCall() {
       },
     });
   }
+  console.log(room_id);
+
   const dispatch = useAppDispatch();
   //const { authUser }: any = useAppSelector((state) => state.authUserReducer);
   const [stream, setStream] = useState<boolean>(false);
@@ -69,7 +100,7 @@ function VideoCall() {
 
   const video1 = useRef<any>();
   const [, updateState] = useState<any>();
- const forceUpdate = useCallback(() => updateState({}), []);
+  const forceUpdate = useCallback(() => updateState({}), []);
   //const video2 = useRef<any>();
 
   //let peerConnection.current: any;
@@ -81,10 +112,6 @@ function VideoCall() {
   let mediaRecorder = null;
   let recordedChunks: Blob[] = [];
   //remoteStream = new MediaStream();
-  const router = useRouter();
-  const room_id =
-    router.query.room_id ||
-    parseQueryString(window.location.search.substring(1)).room_id;
 
   // const servers = {
   //   iceServers: [
@@ -161,17 +188,14 @@ function VideoCall() {
       if (data.type === "camera") {
         console.log("enter camera ", data, userId);
         participantsRef.current[userId]["video"] = data.video;
-       
       }
       if (data.type === "audio") {
         console.log("enter audio ", data, userId);
         participantsRef.current[userId]["audio"] = data.audio;
-       
       }
       if (data.type === "leaveCall") {
         console.log("enter leaveCall ", data, userId);
         delete participantsRef.current[userId];
-       
       }
       setParticipants(participantsRef.current);
       forceUpdate();
@@ -335,7 +359,6 @@ function VideoCall() {
     `${room_id}`,
     (message) => {
       handleMessageFromPeer(message);
-    
     }
   );
 
@@ -454,18 +477,11 @@ function VideoCall() {
     }
     const peerConnection = new RTCPeerConnection(servers);
 
-    peerConnection.ontrack = (event:any) => {
-      console.log(
-        `Track event received from participant ${newUser}:`,
-        event
-      );
-      let rs:any = new MediaStream(
-        event.streams[0]
-      );
-     // rs.getTracks().find((track: any) => track.kind === "audio").enabled = false
-      participantsRef.current[newUserId]["remoteStream"] = new MediaStream(
-        rs
-      );
+    peerConnection.ontrack = (event: any) => {
+      console.log(`Track event received from participant ${newUser}:`, event);
+      let rs: any = new MediaStream(event.streams[0]);
+      // rs.getTracks().find((track: any) => track.kind === "audio").enabled = false
+      participantsRef.current[newUserId]["remoteStream"] = new MediaStream(rs);
     };
 
     stream.getTracks().forEach((track: any) => {
@@ -595,10 +611,10 @@ function VideoCall() {
       setCamera(true);
     }
     channel.publish(`camera-${room_id}`, {
-        type: "camera",
-        video: participantsRef.current[authUser?.id]["video"],
-        userId: authUser.id,
-      });
+      type: "camera",
+      video: participantsRef.current[authUser?.id]["video"],
+      userId: authUser.id,
+    });
     console.log("toggleCamera", participantsRef);
     setParticipants(participantsRef.current);
   };
@@ -678,7 +694,6 @@ function VideoCall() {
             />
           </>
         )}
-       
 
         {/* <video
           //poster={'https://picsum.photos/200/300'}

@@ -105,7 +105,8 @@ export default function Chat({
   }, [receiver, room]);
 
   const [message] = useChannel(
-    `messageNotifications-${authUser.id}`,
+    // @ts-ignore
+    `messageNotifications-${JSON.parse(localStorage.getItem("authUser"))?.id}`,
     (message) => {
       console.log('MESSAGE: ', message);
       if ('room' === message?.data?.type) {

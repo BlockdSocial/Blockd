@@ -9,6 +9,8 @@ const endpoints = {
   createCall: 'user/create/call',
   addParticipant: 'call/add/participant',
   getParticipants: 'call/participants',
+  createGroupCall: 'call/room/participants',
+  getCallByRoomId: 'call',
 };
 
 async function createMessage(fields: any) {
@@ -17,11 +19,17 @@ async function createMessage(fields: any) {
 async function createCall(fields: any) {
   return apiCall('createCall', 'POST', `${endpoints.createCall}`, fields);
 };
+async function createGroupCall(fields: any) {
+  return apiCall('createGroupCall', 'POST', `${endpoints.createGroupCall}`, fields);
+};
 async function addParticipant(fields: any) {
   return apiCall('addParticipant', 'POST', `${endpoints.addParticipant}`, fields);
 };
 async function getParticipants(call_id: any) {
   return apiCall('addParticipant', 'GET', `${endpoints.getParticipants}/${call_id}`);
+};
+async function getCallByRoomId(room_id: any) {
+  return apiCall('getCallByRoomId', 'GET', `${endpoints.getCallByRoomId}/${room_id}`);
 };
 async function checkUserBalance(fields: any) {
   return apiCall('checkUserBalance', 'POST', `${endpoints.checkUserBalance}`, fields);
@@ -110,6 +118,8 @@ async function leaveRoom(fields: any) {
 export default {
   createMessage,
   createCall,
+  createGroupCall,
+  getCallByRoomId,
   fetchMessages,
   createChat,
   deleteChat,
