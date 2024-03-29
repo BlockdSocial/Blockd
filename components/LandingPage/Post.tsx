@@ -566,7 +566,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                           src={
                             !isEmpty(mainPost?.otherUser?.profilePic)
                               ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
-                              : "/images/pfp/pfp1.jpg"
+                              : "/images/pfp/blockd.jpg"
                           }
                           alt="pfp"
                           className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
@@ -703,7 +703,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                               src={
                                 !isEmpty(sharedPost?.otherUser?.profilePic)
                                   ? `${config.url.PUBLIC_URL}/${sharedPost?.otherUser?.profilePic?.name}`
-                                  : "/images/pfp/pfp1.jpg"
+                                  : "/images/pfp/blockd.jpg"
                               }
                               alt="pfp"
                               className="absolute top-0 bottom-0 left-0 right-0 mx-auto my-auto w-[50px] h-[50px] object-cover z-0 rounded-sm"
@@ -1086,7 +1086,7 @@ export default function PostTest({ mainPost, refetch, search = false }: Props) {
                   src={
                     !isEmpty(mainPost?.otherUser?.profilePic)
                       ? `${config.url.PUBLIC_URL}/${mainPost?.otherUser?.profilePic?.name}`
-                      : "/images/pfp/pfp1.jpg"
+                      : "/images/pfp/blockd.jpg"
                   }
                   alt="pfp"
                   className="w-12 h-12 md:w-16 md:h-16 rounded-md shadow-sm object-cover"

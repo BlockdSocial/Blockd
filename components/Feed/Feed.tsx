@@ -19,6 +19,7 @@ import { isEmpty } from "lodash";
 import { fetchAuthUser } from "../../stores/authUser/AuthUserActions";
 import { useRouter } from "next/router";
 import Slider from "./Slider";
+import Link from "next/link";
 
 interface Post {
   id: number;
@@ -147,27 +148,45 @@ function Feed() {
     <div
       onScrollCapture={() => handleScroll()}
       ref={elementRef}
-      className="relative max-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
+      className="relative max-h-screen scrollbar-hide overflow-scroll overflow-x-hidden col-span-9 md:col-span-5 pb-14"
     >
       <div id="top-page"></div>
 
       <Slider />
-      
-      <div
-        className={`flex items-center z-[30] ${
-          atTop === false ? "justify-end" : "justify-between"
-        } sticky top-0 p-3 md:p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}
-      >
-        {atTop && (
-          <ChevronDoubleUpIcon
-            onClick={() => goToTopOfPage()}
-            className="w-6 h-6 cursor-pointer"
+
+      <div className="flex flex-col items-center z-[30] sticky -top-[2px]">
+        <div className="flex items-center justify-between w-full p-2 gradient">
+          <img className="w-10 h-10 rounded-full" src="/images/logo/blockHeadz.png" />
+          <p
+            className="bg-transparent text-white text-sm lg:text-xl glitch"
+            data-text="BLOCKd Headz MINT is live"
+          >
+            BLOCKd Headz MINT is live
+          </p>
+          <Link
+            href="https://app.komet.me/nfts/BLOCKd_Headz/352"
+            target="_blank"
+            className="p-1 px-2 text-white rounded-md border-white border-2 hover:bg-black/20 cursor-pointer text-sm md:text-lg"
+          >
+            Mint Now
+          </Link>
+        </div>
+        <div
+          className={`flex items-center z-[30] ${
+            atTop === false ? "justify-end" : "justify-between"
+          } w-full p-3 md:p-4 backdrop-blur-md bg-white/30 dark:bg-darkgray/30`}
+        >
+          {atTop && (
+            <ChevronDoubleUpIcon
+              onClick={() => goToTopOfPage()}
+              className="w-6 h-6 cursor-pointer"
+            />
+          )}
+          <ArrowPathIcon
+            onClick={handleRefresh}
+            className="flex items-center justify-end w-6 h-6 cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
           />
-        )}
-        <ArrowPathIcon
-          onClick={handleRefresh}
-          className="flex items-center justify-end w-6 h-6 cursor-pointer text-black dark:text-white transition-all duration-500 ease-out hover:rotate-180 active-scale"
-        />
+        </div>
       </div>
 
       <div>

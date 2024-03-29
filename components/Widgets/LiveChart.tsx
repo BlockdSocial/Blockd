@@ -2,6 +2,8 @@ import {
   ArrowDownRightIcon,
   ArrowTrendingUpIcon,
   ArrowUpRightIcon,
+  ArrowSmallDownIcon,
+  ArrowSmallUpIcon,
 } from "@heroicons/react/24/outline";
 import { getPairInformationByChain } from "dexscreener-api";
 import Link from "next/link";
@@ -40,6 +42,8 @@ function LiveChart() {
       "0x46cf1cf8c69595804ba91dfdd8d6b960c9b0a7c4"
     );
 
+    console.log(BTCResponse, "testIsmail");
+
     const ETHResponse = await getPairInformationByChain(
       "ethereum",
       "0x88e6A0c2dDD26FEEb64F039a2c41296FcB3f5640"
@@ -70,23 +74,23 @@ function LiveChart() {
 
     BTCPrice = await BTCResponse.pair.priceUsd;
     BTCUrl = await BTCResponse.pair.url;
-    BTCPriceChange = await BTCResponse.pair.priceChange.h1;
+    BTCPriceChange = await BTCResponse.pair.priceChange.h24;
     ETHUrl = await ETHResponse.pair.url;
     ETHPrice = await ETHResponse.pair.priceUsd;
-    ETHPriceChange = await ETHResponse.pair.priceChange.h1;
+    ETHPriceChange = await ETHResponse.pair.priceChange.h24;
     MATICUrl = await MATICResponse.pair.url;
     MATICPrice = await MATICResponse.pair.priceUsd;
-    MATICPriceChange = await MATICResponse.pair.priceChange.h1;
-    MATICPriceChange = await MATICResponse.pair.priceChange.h1;
+    MATICPriceChange = await MATICResponse.pair.priceChange.h24;
+    MATICPriceChange = await MATICResponse.pair.priceChange.h24;
     BNBUrl = await BNBResponse.pair.url;
     BNBPrice = await BNBResponse.pair.priceUsd;
-    BNBPriceChange = await BNBResponse.pair.priceChange.h1;
+    BNBPriceChange = await BNBResponse.pair.priceChange.h24;
     SOLUrl = await SOLResponse.pair.url;
     SOLPrice = await SOLResponse.pair.priceUsd;
-    SOLPriceChange = await SOLResponse.pair.priceChange.h1;
+    SOLPriceChange = await SOLResponse.pair.priceChange.h24;
     AVAXUrl = await AVAXResponse.pair.url;
     AVAXPrice = await AVAXResponse.pair.priceUsd;
-    AVAXPriceChange = await AVAXResponse.pair.priceChange.h1;
+    AVAXPriceChange = await AVAXResponse.pair.priceChange.h24;
 
     // priceChange = pairsResponse.pairs[0].priceChange.h24;
 
@@ -199,8 +203,8 @@ function LiveChart() {
   }, []);
 
   return (
-    <div className="flex flex-col space-y-2 mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
-      <div className="p-2 flex items-center justify-start space-x-2 w-full">
+    <div className="flex flex-col mt-8 bg-gray-100 dark:bg-lightgray m-2 rounded-md">
+      <div className="p-2 flex items-center justify-start space-x-2 w-full border-b-[5px] border-white dark:border-darkgray">
         <ArrowTrendingUpIcon className="w-5 h-5" />
         <p>Live Chart</p>
       </div>
@@ -208,20 +212,36 @@ function LiveChart() {
         <Link
           href={BTCUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/btc-logo.png" className="w-7 h-7" />
           <p
             className={`${
-              BTCPriceChange > 0 ? "text-green-600" : "text-red-600"
+              BTCPriceChange > 0 ? "text-green-600 lg:w-[40%]" : "text-red-600 lg:w-[40%]"
             }`}
           >
-            {BTCPrice}
+            ${BTCPrice}
           </p>
           {BTCPriceChange > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600 visible lg:hidden" />
+                <ArrowSmallUpIcon className="w-3 h-3 stroke-[3px] text-green-600 hidden lg:inline" />
+                <p className="text-green-600 hidden lg:inline">
+                  {BTCPriceChange}%
+                </p>
+              </div>
+            </>
           ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
+                <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
+                <p className="text-red-600 hidden lg:inline">
+                  {BTCPriceChange * -1}%
+                </p>
+              </div>
+            </>
           )}
         </Link>
       )}
@@ -229,20 +249,36 @@ function LiveChart() {
         <Link
           href={ETHUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/eth-logo-2.png" className="w-7 h-7" />
           <p
             className={`${
-              ETHPriceChange > 0 ? "text-green-600" : "text-red-600"
+              ETHPriceChange > 0 ? "text-green-600 lg:w-[40%]" : "text-red-600 lg:w-[40%]"
             }`}
           >
-            {ETHPrice}
+            ${ETHPrice}
           </p>
           {ETHPriceChange > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600 visible lg:hidden" />
+                <ArrowSmallUpIcon className="w-3 h-3 stroke-[3px] text-green-600 hidden lg:inline" />
+                <p className="text-green-600 hidden lg:inline">
+                  {ETHPriceChange}%
+                </p>
+              </div>
+            </>
           ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
+                <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
+                <p className="text-red-600 hidden lg:inline">
+                  {ETHPriceChange * -1}%
+                </p>
+              </div>
+            </>
           )}
         </Link>
       )}
@@ -250,20 +286,36 @@ function LiveChart() {
         <Link
           href={BNBUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/bnb-logo.png" className="w-7 h-7" />
           <p
             className={`${
-              BNBPriceChange > 0 ? "text-green-600" : "text-red-600"
+              BNBPriceChange > 0 ? "text-green-600 lg:w-[40%]" : "text-red-600 lg:w-[40%]"
             }`}
           >
-            {BNBPrice}
+            ${BNBPrice}
           </p>
           {BNBPriceChange > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600 visible lg:hidden" />
+                <ArrowSmallUpIcon className="w-3 h-3 stroke-[3px] text-green-600 hidden lg:inline" />
+                <p className="text-green-600 hidden lg:inline">
+                  {BNBPriceChange}%
+                </p>
+              </div>
+            </>
           ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
+                <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
+                <p className="text-red-600 hidden lg:inline">
+                  {BNBPriceChange * -1}%
+                </p>
+              </div>
+            </>
           )}
         </Link>
       )}
@@ -271,20 +323,36 @@ function LiveChart() {
         <Link
           href={MATICUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
           <p
             className={`${
-              MATICPriceChange > 0 ? "text-green-600" : "text-red-600"
+              MATICPriceChange > 0 ? "text-green-600 lg:w-[40%]" : "text-red-600 lg:w-[40%]"
             }`}
           >
-            {MATICPrice}
+            ${MATICPrice}
           </p>
           {MATICPriceChange > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600 visible lg:hidden" />
+                <ArrowSmallUpIcon className="w-3 h-3 stroke-[3px] text-green-600 hidden lg:inline" />
+                <p className="text-green-600 hidden lg:inline">
+                  {MATICPriceChange}%
+                </p>
+              </div>
+            </>
           ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
+                <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
+                <p className="text-red-600 hidden lg:inline">
+                  {MATICPriceChange * -1}%
+                </p>
+              </div>
+            </>
           )}
         </Link>
       )}
@@ -292,20 +360,36 @@ function LiveChart() {
         <Link
           href={SOLUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 mb-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/solana-logo.png" className="w-7 h-7" />
           <p
             className={`${
-              SOLPriceChange > 0 ? "text-green-600" : "text-red-600"
+              SOLPriceChange > 0 ? "text-green-600 lg:w-[40%]" : "text-red-600 lg:w-[40%]"
             }`}
           >
-            {SOLPrice}
+            ${SOLPrice}
           </p>
           {SOLPriceChange > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600 visible lg:hidden" />
+                <ArrowSmallUpIcon className="w-3 h-3 stroke-[3px] text-green-600 hidden lg:inline" />
+                <p className="text-green-600 hidden lg:inline">
+                  {SOLPriceChange}%
+                </p>
+              </div>
+            </>
           ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
+                <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
+                <p className="text-red-600 hidden lg:inline">
+                  {SOLPriceChange * -1}%
+                </p>
+              </div>
+            </>
           )}
         </Link>
       )}
@@ -313,20 +397,36 @@ function LiveChart() {
         <Link
           href={AVAXUrl}
           target="_blank"
-          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:dark:bg-[#1F2022]"
+          className="flex items-center justify-between space-x-2 w-full p-2 hover:bg-gray-200 hover:rounded-b-md hover:dark:bg-[#1F2022]"
         >
           <img src="/images/logo/avax-logo.png" className="w-7 h-7" />
           <p
             className={`${
-              AVAXPriceChange > 0 ? "text-green-600" : "text-red-600"
+              AVAXPriceChange > 0 ? "text-green-600 lg:w-[40%]" : "text-red-600 lg:w-[40%]"
             }`}
           >
-            {AVAXPrice}
+            ${AVAXPrice}
           </p>
           {AVAXPriceChange > 0 ? (
-            <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowUpRightIcon className="w-4 h-4 stroke-[3px] text-green-600 visible lg:hidden" />
+                <ArrowSmallUpIcon className="w-3 h-3 stroke-[3px] text-green-600 hidden lg:inline" />
+                <p className="text-green-600 hidden lg:inline">
+                  {AVAXPriceChange}%
+                </p>
+              </div>
+            </>
           ) : (
-            <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600" />
+            <>
+              <div className="flex items-center justify-center lg:justify-end space-x-1 lg:w-[40%]">
+                <ArrowDownRightIcon className="w-4 h-4 stroke-[3px] text-red-600 visible lg:hidden" />
+                <ArrowSmallDownIcon className="w-3 h-3 stroke-[3px] text-red-600 hidden lg:inline" />
+                <p className="text-red-600 hidden lg:inline">
+                  {AVAXPriceChange * -1}%
+                </p>
+              </div>
+            </>
           )}
         </Link>
       )}

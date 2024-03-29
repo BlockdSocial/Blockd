@@ -68,7 +68,7 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom, fetchRooms, setMe
                 ? `${config.url.PUBLIC_URL}/${room?.room?.imgName}`
                 : "/images/placeholder.png"
             }
-            className='w-10 h-10 cursor-pointer rounded-full object-cover'
+            className='w-10 h-10 cursor-pointer rounded-lg object-cover'
           />
           <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center min-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
             <div className="relative w-full h-fit shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">
@@ -124,9 +124,9 @@ function Navbar({ receiver, room, chats, setReceiver, setRoom, fetchRooms, setMe
             src={
               !isEmpty(receiver?.profilePic)
                 ? `${config.url.PUBLIC_URL}/${receiver?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
+                : "/images/pfp/blockd.jpg"
             }
-            className='h-8 w-8 md:w-10 md:h-10 cursor-pointer object-cover rounded-full'
+            className='h-8 w-8 md:w-10 md:h-10 cursor-pointer object-cover rounded-lg'
           />
           <div className={`fixed top-0 -left-2 p-4 flex items-center justify-center max-h-screen w-full h-full scrollbar-hide overflow-scroll backdrop-blur-md bg-white/60 z-50 py-4 ${isModalVisible ? '' : 'hidden'}`}>
             <div className="relative w-full h-fit max-h-full shadow-xl rounded-lg max-w-md bg-white scrollbar-hide overflow-scroll">

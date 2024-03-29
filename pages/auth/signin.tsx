@@ -21,6 +21,7 @@ import {
   usePrepareContractWrite,
   useSignMessage,
 } from "wagmi";
+import ReactAudioPlayer from "react-audio-player";
 
 const messageUrl = `${configUrl.url.API_URL}/user/generate/message`;
 export default function SignIn() {
@@ -140,11 +141,11 @@ export default function SignIn() {
       <CustomLoadingOverlay active={isLoggingIn} />
       <div className="h-screen hidden md:flex items-center justify-center w-1/2 mx-auto">
         <div className="flex items-center justify-center w-full">
-          <div className="flex flex-col items-start justify-center">
+          <div className="relative flex flex-col items-start justify-center">
             <img
               src="/images/logo/long-logo.png"
               alt="Blockd Logo"
-              className="w-80 lg:w-96"
+              className="w-60"
             />
             <h2 className="font-bold text-white mt-10 ml-2 pb-3 md:text-2xl lg:text-3xl">
               JOIN THE{" "}
@@ -169,12 +170,13 @@ export default function SignIn() {
             </h4>
             <br />
             <hr className="w-1/3"></hr>
-            <h4 className="text-white mt-6 ml-2 pb-3 text-m md:text-m lg:text-l">
-              Verified By Blockchain Technology
-            </h4>
+            <div className="flex items-center justify-start space-x-2 text-white mt-6 ml-2 pb-3 text-m md:text-m lg:text-xl">
+              <p>Verified By </p>
+              <img src="/images/logo/matic-logo.png" className="w-7 h-7" />
+            </div>
             <div className="flex mt-4">
               <a
-                href="/auth/infographic"
+                href="https://linktr.ee/blockd"
                 target="_blank"
                 className="flex items-center justify-center w-32 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-2 px-4 rounded-md"
               >
@@ -202,7 +204,7 @@ export default function SignIn() {
 
               {nft_data && Number(nft_data) > 0 ? (
                 <button
-                  className="w-full mt-4 bg-gradient-to-r from-orange-700 via-orange-500 to-orange-300 text-white hover:from-blockd hover:to-blockd font-semibold py-3 px-4 rounded-md"
+                  className="w-full mt-4 bg-gradient-to-r cursor-pointer from-[#ff5858] to-[#f09819] hover:from-[#f09819] hover:to-[#ff5858] font-semibold py-3 px-4 rounded-md"
                   onClick={(e) => getSignMessage(e)}
                 >
                   login

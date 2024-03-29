@@ -12,7 +12,7 @@ import moment from 'moment';
 import { encodeQuery } from '../../utils';
 import { toast } from 'react-hot-toast';
 
-function Messages({ notification, handleFetchNotifications }: any) {
+function Messages({ notification, handleFetchMessageNotifications }: any) {
   const dispatch = useAppDispatch();
   const { error } = useAppSelector((state) => state.notificationReducer)
 
@@ -24,7 +24,7 @@ function Messages({ notification, handleFetchNotifications }: any) {
 
   const handleReadNotification = async () => {
     await dispatch(readNotification(notification?.id)).then(() => {
-      handleFetchNotifications();
+      handleFetchMessageNotifications();
     });
   };
 
@@ -55,7 +55,7 @@ function Messages({ notification, handleFetchNotifications }: any) {
               src={
                 !isEmpty(notification?.otherUser?.profilePic)
                   ? `${config.url.PUBLIC_URL}/${notification?.otherUser?.profilePic?.name}`
-                  : "/images/pfp/pfp1.jpg"
+                  : "/images/pfp/blockd.jpg"
               }
               alt=""
               width={2000}

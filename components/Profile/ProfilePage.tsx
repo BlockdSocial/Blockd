@@ -209,7 +209,7 @@ function ProfilePage() {
 
   return (
     <div
-      className="relative min-h-screen scrollbar-hide overflow-scroll col-span-9 md:col-span-5 pb-14"
+      className="relative min-h-screen scrollbar-hide overflow-scroll overflow-x-hidden col-span-9 md:col-span-5 pb-14"
       ref={elementRef}
       onScrollCapture={() => handleScroll()}
     >
@@ -252,18 +252,18 @@ function ProfilePage() {
       <div className="flex items-center justify-between p-5 w-full border-b dark:border-lightgray h-10 mt-8">
         <button
           onClick={() => handleToggle1()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+          className={`text-sm lg:text-base focus:outline-none ${
             showFeed === true ? "border-b-2 border-blockd text-blockd :" : ""
           }`}
         >
           Feed
         </button>
-        {/* <button onClick={() => handleToggle2()} className={`text-xs md:text-sm lg:text-base focus:outline-none ${showInteractions === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
+        {/* <button onClick={() => handleToggle2()} className={`text-sm lg:text-base focus:outline-none ${showInteractions === true ? 'border-b-2 border-blockd text-blockd :' : ''}`}>
           Interactions
         </button> */}
         <button
           onClick={() => handleToggle3()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+          className={`text-sm lg:text-base focus:outline-none ${
             showFollowers === true
               ? "border-b-2 border-blockd text-blockd :"
               : ""
@@ -273,7 +273,7 @@ function ProfilePage() {
         </button>
         <button
           onClick={() => handleToggle4()}
-          className={`text-xs md:text-sm lg:text-base focus:outline-none ${
+          className={`text-sm lg:text-base focus:outline-none ${
             showFollowing === true
               ? "border-b-2 border-blockd text-blockd :"
               : ""

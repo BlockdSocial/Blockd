@@ -159,6 +159,11 @@ const handleApiResponse = async (apiName: any, response: any) => {
     }
     case status == 201: {
       console.log(`Successful ${apiName} empty result`);
+      response = await response.json();
+      console.log(response);
+            if(response?.call) {
+        return response;
+      }
       return "success";
     }
     case status == 413: {

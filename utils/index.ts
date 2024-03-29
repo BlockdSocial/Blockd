@@ -31,6 +31,11 @@ export const encodeQuery = (query: any, type: any) => {
         "base64"
       );
     }
+    if ("call" === type) {
+      return Buffer.from("room_id=" + query.toString(), "utf-8").toString(
+        "base64"
+      );
+    }
     if ("post" === type) {
       return Buffer.from("postId=" + query.toString(), "utf-8").toString(
         "base64"

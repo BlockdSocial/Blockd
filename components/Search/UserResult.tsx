@@ -57,7 +57,7 @@ function UserResult({ user, refetch }: any) {
             src={
               !isEmpty(user?.profilePic)
                 ? `${config.url.PUBLIC_URL}/${user?.profilePic?.name}`
-                : "/images/pfp/pfp1.jpg"
+                : "/images/pfp/blockd.jpg"
             }
             className="rounded-md w-12 h-12 bg-blockd object-cover"
           />
@@ -82,7 +82,7 @@ function UserResult({ user, refetch }: any) {
       {authUser?.id !== user?.id && (
         <div className="flex items-center justify-center">
           <p
-            className="cursor-pointer text-sm p-2 px-6 rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-orange-500 hover:dark:bg-orange-600 dark:text-white font-semibold"
+            className="cursor-pointer text-sm p-2 px-6 rounded-md bg-orange-100 hover:bg-orange-200 text-orange-600 dark:bg-transparent hover:dark:bg-gray-600/10 dark:border-blockd dark:border dark:text-white font-semibold"
             onClick={() => handleFollowUser(user?.id)}
           >
             {isFollowed ? "Unfollow" : "Follow"}
